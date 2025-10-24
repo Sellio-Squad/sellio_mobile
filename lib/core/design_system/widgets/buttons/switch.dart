@@ -54,51 +54,50 @@ class _DesignSwitchState extends State<DesignSwitch>
       onTap: widget.enabled
           ? () => widget.onChanged(!widget.value)
           : null,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 52,
-        height: 32,
-        decoration: BoxDecoration(
-          color: widget.enabled
-              ? (widget.value ? onColor : offColor)
-              : disabledColor,
-          borderRadius: BorderRadius.circular(100),
-          border: widget.enabled
-              ? null
-              : Border.all(color: disabledColor, width: 2),
-        ),
-        child: Stack(
-          children: [
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, child) {
-                final left = widget.enabled
-                    ? (widget.value ? 28.0 : 4.0)
-                    : 4.0; // thumb movement
-                final thumbSize = widget.enabled
-                    ? (widget.value ? 24.0 : 16.0)
-                    : 16.0;
-                final thumbColor = widget.enabled
-                    ? (widget.value ? thumbOn : thumbOff)
-                    : thumbDisabled;
-
-                return Positioned(
-                  top: (32 - thumbSize) / 2,
-                  left: left,
+      child: AnimatedBuilder(
+        animation: _animation,
+        builder: (context, child) {
+          return Container(
+            width: 52,
+            height: 32,
+            decoration: BoxDecoration(
+              color: widget.enabled
+                  ? (widget.value ? onColor : offColor)
+                  : disabledColor,
+              borderRadius: BorderRadius.circular(100),
+              border: !widget.enabled || !widget.value
+                  ? Border.all(
+                color: widget.enabled
+                    ? const Color(0xFF8C8C8C)
+                    : disabledColor,
+                width: 2,
+              )
+                  : null,
+            ),
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                  top: widget.value ? 4.0 : 8.0,
+                  left: widget.value ? 28.0 : 8.0,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    width: thumbSize,
-                    height: thumbSize,
+                    curve: Curves.easeInOut,
+                    width: widget.value ? 24.0 : 16.0,
+                    height: widget.value ? 24.0 : 16.0,
                     decoration: BoxDecoration(
-                      color: thumbColor,
+                      color: widget.enabled
+                          ? (widget.value ? thumbOn : thumbOff)
+                          : thumbDisabled,
                       shape: BoxShape.circle,
                     ),
                   ),
-                );
-              },
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
