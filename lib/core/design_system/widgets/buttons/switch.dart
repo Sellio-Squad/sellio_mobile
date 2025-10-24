@@ -79,8 +79,8 @@ class _DesignSwitchState extends State<DesignSwitch>
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
-                  top: widget.value ? 4.0 : 8.0,
-                  left: widget.value ? 28.0 : 8.0,
+                  top: widget.value ? 4.0 : 4.0,
+                  left: widget.value ? 24.0 : 8.0,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
