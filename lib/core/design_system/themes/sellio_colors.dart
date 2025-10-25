@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
 
-
 class SellioColors {
   SellioColors._();
 
   static const light = SellioColorScheme(
-      primary: Color(0xFF520826),
-      primaryVariant: Color(0xFFFEF5F9),
-      secondary: Color(0xFFF5A623),
-      secondaryVariant: Color(0xFFFEF3E1),
-      surfaceLow: Color(0xFFFFFFFF),
-      surface: Color(0xFFF8F8F8),
-      surfaceHigh: Color(0xFFE6E6E6),
-      title: Color(0xDE1F1F1F),
-      body: Color(0xA801F1F1),
-      hint: Color(0x611F1F1F),
-      stroke: Color(0x1F1F1F1F),
-      onPrimary: Color(0xDEFFFFFF),
-      disabled: Color(0xFFE8EBED),
-      red: Color(0xFFE54F40),
-      errorVariant: Color(0xFFFEEDEC),
-      green: Color(0xFF0D6620),
-      greenVariant: Color(0xFFE0F5E5)
+    primary: Color(0xFF520826),
+    primaryVariant: Color(0xFFFEF5F9),
+    secondary: Color(0xFFF5A623),
+    secondaryVariant: Color(0xFFFEF3E1),
+    surfaceLow: Color(0xFFFFFFFF),
+    surface: Color(0xFFF8F8F8),
+    surfaceHigh: Color(0xFFE6E6E6),
+    title: Color(0xDE1F1F1F),
+    body: Color(0xa81f1f1f),
+    hint: Color(0x611F1F1F),
+    stroke: Color(0x1F1F1F1F),
+    onPrimary: Color(0xDEFFFFFF),
+    disabled: Color(0xFFE8EBED),
+    red: Color(0xFFE54F40),
+    errorVariant: Color(0xFFFEEDEC),
+    green: Color(0xFF0D6620),
+    greenVariant: Color(0xFFE0F5E5),
   );
 
   static const dark = SellioColorScheme(
-      primary: Color(0xFF520826),
-      primaryVariant: Color(0xFFFEF5F9),
-      secondary: Color(0xFFF5A623),
-      secondaryVariant: Color(0xFFFEF3E1),
-      surfaceLow: Color(0xFFFFFFFF),
-      surface: Color(0xFFF8F8F8),
-      surfaceHigh: Color(0xFFE6E6E6),
-      title: Color(0xDE1F1F1F),
-      body: Color(0xA801F1F1),
-      hint: Color(0x611F1F1F),
-      stroke: Color(0x1F1F1F1F),
-      onPrimary: Color(0xDEFFFFFF),
-      disabled: Color(0xFFE8EBED),
-      red: Color(0xFFE54F40),
-      errorVariant: Color(0xFFFEEDEC),
-      green: Color(0xFF0D6620),
-      greenVariant: Color(0xFFE0F5E5)
+    primary: Color(0xFF520826),
+    primaryVariant: Color(0xFFFEF5F9),
+    secondary: Color(0xFFF5A623),
+    secondaryVariant: Color(0xFFFEF3E1),
+    surfaceLow: Color(0xFFFFFFFF),
+    surface: Color(0xFFF8F8F8),
+    surfaceHigh: Color(0xFFE6E6E6),
+    title: Color(0xDE1F1F1F),
+    body: Color(0xa81f1f1f),
+    hint: Color(0x611F1F1F),
+    stroke: Color(0x1F1F1F1F),
+    onPrimary: Color(0xDEFFFFFF),
+    disabled: Color(0xFFE8EBED),
+    red: Color(0xFFE54F40),
+    errorVariant: Color(0xFFFEEDEC),
+    green: Color(0xFF0D6620),
+    greenVariant: Color(0xFFE0F5E5),
   );
 }
 
