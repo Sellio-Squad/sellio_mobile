@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
+import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../FavoritesScreen.dart';
 import '../HomeScreen.dart';
 import '../ProfileScreen.dart';
@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: SellioBottomNavBar(
+      bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

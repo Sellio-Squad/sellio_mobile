@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../constants/app_icons.dart';
 import '../constants/app_strings.dart';
 
-class SellioBottomNavBar extends StatelessWidget {
+class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onCenterButtonTap;
 
-  const SellioBottomNavBar({
+  const BottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
@@ -24,9 +25,10 @@ class SellioBottomNavBar extends StatelessWidget {
         color: context.theme.colors.surfaceLow,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
+            color: const Color(0xFF1F1F1F).withOpacity(0.08),
             offset: const Offset(0, -2),
+            blurRadius: 8,
+            spreadRadius: 0,
           ),
         ],
       ),
@@ -50,7 +52,6 @@ class SellioBottomNavBar extends StatelessWidget {
                 isSelected: currentIndex == 1,
                 onTap: () => onTap(1),
               ),
-              // Spacer for center button
               const Expanded(child: SizedBox()),
               _NavBarItem(
                 iconPath: AppIcons.thrift,
@@ -68,13 +69,11 @@ class SellioBottomNavBar extends StatelessWidget {
               ),
             ],
           ),
-          // Center Floating Button with 12px space from bottom
+          // Center Floating Button
           Positioned(
-            left: MediaQuery.of(context).size.width / 2 - 35,
-            bottom: 12, // 12px space from bottom as per Figma
-            child: _CenterButton(
-              onTap: onCenterButtonTap,
-            ),
+            left: MediaQuery.of(context).size.width / 2 - 25,
+            bottom: 32,
+            child: _CenterButton(onTap: onCenterButtonTap),
           ),
         ],
       ),
@@ -99,6 +98,10 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final color = isSelected
+        ? context.theme.colors.primary
+        : context.theme.colors.hint;
+
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -113,21 +116,12 @@ class _NavBarItem extends StatelessWidget {
                 isSelected ? selectedIconPath : iconPath,
                 width: 24,
                 height: 24,
-                colorFilter: ColorFilter.mode(
-                  isSelected
-                      ? context.theme.colors.primary
-                      : context.theme.colors.hint,
-                  BlendMode.srcIn,
-                ),
               ),
               const SizedBox(height: 4),
               Text(
                 label,
-                style: context.theme.typography.textTheme.labelXSmall.copyWith(
-                  color: isSelected
-                      ? context.theme.colors.primary
-                      : context.theme.colors.hint,
-                ),
+                style: context.theme.typography.textTheme.labelXSmall
+                    .copyWith(color: color),
               ),
             ],
           ),
@@ -140,9 +134,7 @@ class _NavBarItem extends StatelessWidget {
 class _CenterButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const _CenterButton({
-    required this.onTap,
-  });
+  const _CenterButton({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -155,36 +147,22 @@ class _CenterButton extends StatelessWidget {
           shape: BoxShape.circle,
           color: context.theme.colors.primary,
           border: Border.all(
-            color: context.theme.colors.onPrimary,
+            color: const Color(0xFFFFFFFF),
             width: 4,
           ),
           boxShadow: [
             BoxShadow(
-              color: context.theme.colors.primary.withOpacity(0.3),
+              color: const Color(0xFF000000).withOpacity(0.04),
+              offset: const Offset(0, -4),
               blurRadius: 12,
-              spreadRadius: 2,
             ),
           ],
         ),
         child: Center(
-          child: Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.theme.colors.primary,
-            ),
-            child: Center(
-              child: SvgPicture.asset(
-                AppIcons.magicStick,
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(
-                  context.theme.colors.onPrimary,
-                  BlendMode.srcIn,
-                ),
-              ),
-            ),
+          child: SvgPicture.asset(
+            AppIcons.magicStick,
+            width: 24,
+            height: 24,
           ),
         ),
       ),
