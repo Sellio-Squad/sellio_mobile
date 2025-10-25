@@ -37,8 +37,8 @@ class BottomNavBar extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            left: 0,
-            right: 0,
+            left: 12,
+            right: 12,
             bottom: bottomPadding,
             height: 58,
             child: Row(
