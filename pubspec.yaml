@@ -60,6 +60,17 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
      - images/
+     - assets/fonts/
+  
+  fonts:
+    - family: Rubik
+      fonts:
+        - asset: assets/fonts/rubik_regular.ttf
+          weight: 400
+        - asset: assets/fonts/rubik_medium.ttf
+          weight: 500
+        - asset: assets/fonts/rubik_semi_bold.ttf
+          weight: 600
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
