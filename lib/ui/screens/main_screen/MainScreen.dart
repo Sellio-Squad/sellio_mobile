@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
-import '../FavoritesScreen.dart';
+import '../CartScreen.dart';
 import '../HomeScreen.dart';
-import '../ProfileScreen.dart';
-import '../SearchScreen.dart';
+import '../AccountScreen.dart';
+import '../ThriftScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,16 +17,13 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const FavoritesScreen(),
-    const SearchScreen(),
-    const ProfileScreen(),
+    const CartScreen(),
+    const ThriftScreen(),
+    const AccountScreen(),
   ];
 
   void _onCenterButtonTapped() {
-    // Handle center button action (e.g., create new post, add item, etc.)
-    print('Center button tapped!');
-    // You can navigate to a new screen or show a dialog
-    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen()));
+    // Handle center button action
   }
 
   @override
