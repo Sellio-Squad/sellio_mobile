@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
+import '../../constants/assets.dart';
 
 
 enum OrderStatus { processing, completed, cancelled }
@@ -52,6 +56,29 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor;
+    Color textColor;
+    String statusText;
 
+    return Container(
+        padding: const EdgeInsets.all(12),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color: context.theme.colors.surface,
+        ),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+        Row(
+        children: [
+        SvgPicture.asset(Assets.orderIcon, width: 20, height: 20),
+        const SizedBox(width: 4),
+        Text(
+          "Order #${widget.orderId}",
+          style: context.theme.typography.textTheme.labelMedium.copyWith(
+            color: context.theme.colors.title,
+          ),
+        ),
   }
 }
