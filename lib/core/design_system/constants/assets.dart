@@ -14,5 +14,7 @@ class Assets {
   static const String add = '$iconsPath/add.svg';
   static const String remove = '$iconsPath/remove.svg';
   static const String favorite = '$iconsPath/favourite.svg';
+  static const String cart = '$iconsPath/small_cart.svg';
+
 
 }
