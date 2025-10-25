@@ -262,6 +262,28 @@ class _OrderDetailsState extends State<OrderDetails> {
     ),
     ],
     )
+    else
+    SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    backgroundColor: context.theme.colors.primary,
+    foregroundColor: context.theme.colors.onPrimary,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8),
+    ),
+    padding: const EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 12,
+    ),
+    ),
+    onPressed: widget.onOrderAgainClick,
+    child: Text(
+    "Order again",
+    style: context.theme.typography.textTheme.labelSmall,
+    ),
+    ),
+    ),
 
 
   }
