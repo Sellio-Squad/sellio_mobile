@@ -19,8 +19,10 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Container(
-      height: 58,
+      height: 58 + bottomPadding,
       decoration: BoxDecoration(
         color: context.theme.colors.surfaceLow,
         boxShadow: [
@@ -34,44 +36,48 @@ class BottomNavBar extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Bottom Navigation Items
-          Row(
-            children: [
-              _NavBarItem(
-                iconPath: AppIcons.home,
-                selectedIconPath: AppIcons.homeSelected,
-                label: AppStrings.home,
-                isSelected: currentIndex == 0,
-                onTap: () => onTap(0),
-              ),
-              _NavBarItem(
-                iconPath: AppIcons.cart,
-                selectedIconPath: AppIcons.cartSelected,
-                label: AppStrings.cart,
-                isSelected: currentIndex == 1,
-                onTap: () => onTap(1),
-              ),
-              const Expanded(child: SizedBox()),
-              _NavBarItem(
-                iconPath: AppIcons.thrift,
-                selectedIconPath: AppIcons.thriftSelected,
-                label: AppStrings.thrift,
-                isSelected: currentIndex == 2,
-                onTap: () => onTap(2),
-              ),
-              _NavBarItem(
-                iconPath: AppIcons.account,
-                selectedIconPath: AppIcons.accountSelected,
-                label: AppStrings.account,
-                isSelected: currentIndex == 3,
-                onTap: () => onTap(3),
-              ),
-            ],
-          ),
-          // Center Floating Button
           Positioned(
-            left: MediaQuery.of(context).size.width / 2 - 25,
-            bottom: 12,
+            left: 0,
+            right: 0,
+            bottom: bottomPadding,
+            height: 58,
+            child: Row(
+              children: [
+                _NavBarItem(
+                  iconPath: AppIcons.home,
+                  selectedIconPath: AppIcons.homeSelected,
+                  label: AppStrings.home,
+                  isSelected: currentIndex == 0,
+                  onTap: () => onTap(0),
+                ),
+                _NavBarItem(
+                  iconPath: AppIcons.cart,
+                  selectedIconPath: AppIcons.cartSelected,
+                  label: AppStrings.cart,
+                  isSelected: currentIndex == 1,
+                  onTap: () => onTap(1),
+                ),
+                const Expanded(child: SizedBox()),
+                _NavBarItem(
+                  iconPath: AppIcons.thrift,
+                  selectedIconPath: AppIcons.thriftSelected,
+                  label: AppStrings.thrift,
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2),
+                ),
+                _NavBarItem(
+                  iconPath: AppIcons.account,
+                  selectedIconPath: AppIcons.accountSelected,
+                  label: AppStrings.account,
+                  isSelected: currentIndex == 3,
+                  onTap: () => onTap(3),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 2 - 35,
+            bottom: 12 + bottomPadding,
             child: _CenterButton(onTap: onCenterButtonTap),
           ),
         ],
@@ -99,7 +105,10 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = isSelected
         ? context.theme.colors.primary
-        : context.theme.colors.hint;
+        : context
+              .theme
+              .colors
+              .title; // todo: body color not in the design system
 
     return Expanded(
       child: InkWell(
@@ -107,7 +116,7 @@ class _NavBarItem extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         child: SizedBox(
-          height: 58,
+          height: 42,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -119,8 +128,9 @@ class _NavBarItem extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 label,
-                style: context.theme.typography.textTheme.labelXSmall
-                    .copyWith(color: color),
+                style: context.theme.typography.textTheme.labelXSmall.copyWith(
+                  color: color,
+                ),
               ),
             ],
           ),
@@ -140,29 +150,27 @@ class _CenterButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 70,
+        width: 67.2,
         height: 70,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: context.theme.colors.primary,
-          border: Border.all(
-            color: context.theme.colors.surfaceLow,
-            width: 4,
-          ),
+          border: Border.all(color: context.theme.colors.surfaceLow, width: 4),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF000000).withOpacity(0.04),
+              color: Color(0xFF000000).withOpacity(0.04),
+              offset: const Offset(0, -4),
+              blurRadius: 12,
+            ),
+            BoxShadow(
+              color: Color(0xFF000000).withOpacity(0.04),
               offset: const Offset(0, -4),
               blurRadius: 12,
             ),
           ],
         ),
         child: Center(
-          child: SvgPicture.asset(
-            AppIcons.magicStick,
-            width: 24,
-            height: 24,
-          ),
+          child: SvgPicture.asset(AppIcons.magicStick, width: 24, height: 24),
         ),
       ),
     );
