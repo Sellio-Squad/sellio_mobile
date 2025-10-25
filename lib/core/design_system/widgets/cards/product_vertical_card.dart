@@ -1,4 +1,4 @@
-import 'dart:ui'; // Needed for ImageFilter.blur
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,11 +31,9 @@ class ProductVerticalCard extends StatelessWidget {
     final colors = theme.colors;
     final textTheme = theme.typography.textTheme;
 
-    // *** Replaced Container with Material for ripple effect ***
     return Material(
       color: colors.surface,
       borderRadius: BorderRadius.circular(8),
-      // *** Use default clipBehavior, SizedBox will be clipped by Material ***
       child: SizedBox(
         width: 160,
         height: 272,
@@ -90,7 +88,6 @@ class ProductVerticalCard extends StatelessWidget {
                             color: Color(0x99FFFFFF),
                             shape: BoxShape.circle,
                           ),
-                          // *** WRAPPED InkWell in Material for ripple ***
                           child: Material(
                             type: MaterialType.transparency,
                             child: InkWell(
@@ -161,7 +158,6 @@ class ProductVerticalCard extends StatelessWidget {
 
   Widget _buildSingleAddButton(BuildContext context) {
     final colors = SellioTheme.of(context).colors;
-    // *** UPDATED Structure: Container is parent, InkWell is child ***
     return Container(
       width: double.infinity,
       height: 32,
@@ -169,8 +165,7 @@ class ProductVerticalCard extends StatelessWidget {
         color: colors.surfaceLow,
         borderRadius: BorderRadius.circular(4),
       ),
-      clipBehavior: Clip.antiAlias, // Clips the InkWell
-      // *** WRAPPED InkWell in Material for ripple ***
+      clipBehavior: Clip.antiAlias,
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
@@ -206,7 +201,6 @@ class ProductVerticalCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // *** UPDATED Structure: Wrapped InkWell in Material ***
           Container(
             width: 32,
             height: 32,
@@ -214,7 +208,7 @@ class ProductVerticalCard extends StatelessWidget {
               color: colors.surface,
               borderRadius: BorderRadius.circular(4),
             ),
-            clipBehavior: Clip.antiAlias, // Clips the InkWell
+            clipBehavior: Clip.antiAlias,
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
@@ -238,7 +232,6 @@ class ProductVerticalCard extends StatelessWidget {
               color: colors.title,
             ),
           ),
-          // *** UPDATED Structure: Wrapped InkWell in Material ***
           Container(
             width: 32,
             height: 32,
@@ -246,7 +239,7 @@ class ProductVerticalCard extends StatelessWidget {
               color: colors.primaryVariant,
               borderRadius: BorderRadius.circular(4),
             ),
-            clipBehavior: Clip.antiAlias, // Clips the InkWell
+            clipBehavior: Clip.antiAlias,
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
