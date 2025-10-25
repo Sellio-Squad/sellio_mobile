@@ -114,6 +114,16 @@ class _OrderDetailsState extends State<OrderDetails> {
       ],
     ),
     const SizedBox(height: 8),
+    Align(
+    alignment: Alignment.centerLeft,
+    child: Text(
+    "Placed on ${widget.orderDate}",
+    style: context.theme.typography.textTheme.labelXSmall.copyWith(
+    color: context.theme.colors.body,
+    ),
+    ),
+    ),
+    const SizedBox(height: 12),
 
 
   }
