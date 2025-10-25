@@ -44,7 +44,14 @@ class OrderDetails extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() {
-    throw UnimplementedError();
+  State<OrderDetails> createState() => _OrderDetailsState();
+}
+
+class _OrderDetailsState extends State<OrderDetails> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+
   }
 }
