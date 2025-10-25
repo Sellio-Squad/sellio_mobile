@@ -173,7 +173,47 @@ class _OrderDetailsState extends State<OrderDetails> {
     ),
     ),
     ),
+    AnimatedCrossFade(
+    firstChild: const SizedBox.shrink(),
+    secondChild: Container(
+    margin: const EdgeInsets.only(top: 8),
+    child: Column(
+    children: widget.orderItems.map((item) {
+    return Container(
+    padding: const EdgeInsets.fromLTRB(24, 5, 12, 5),
+    child: Row(
+    children: [
+    Text(
+    "${item.quantity}X",
+    style: context.theme.typography.textTheme.labelSmall
+        .copyWith(color: context.theme.colors.body),
+    ),
+    const SizedBox(width: 8),
+    Expanded(
+    child: Text(
+    item.productName,
+    style: context.theme.typography.textTheme.labelSmall
+        .copyWith(color: context.theme.colors.body),
+    ),
+    ),
+    Text(
+    "\$${item.price.toStringAsFixed(2)}",
+    style: context.theme.typography.textTheme.labelSmall
+        .copyWith(color: context.theme.colors.primary),
+    ),
+    ],
+    ),
+    );
+    }).toList(),
+    ),
+    ),
+    crossFadeState: _isExpanded
+    ? CrossFadeState.showSecond
+        : CrossFadeState.showFirst,
+    duration: const Duration(milliseconds: 200),
+    ),
 
+    const SizedBox(height: 16),
 
 
   }
