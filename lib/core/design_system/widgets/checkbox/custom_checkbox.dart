@@ -84,7 +84,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
       case CheckboxState.checked:
         return colorScheme.primary;
       case CheckboxState.indeterminate:
-        return colorScheme.surfaceLow;
+        return colorScheme.primary;
       case CheckboxState.disabledChecked:
         return colorScheme.disabled;
     }
@@ -122,7 +122,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         return SvgPicture.asset(
           Assets.indeterminate,
           colorFilter: ColorFilter.mode(
-            colorScheme.primary,
+            colorScheme.onPrimary,
             BlendMode.srcIn,
           ),
           width: 10.0,
