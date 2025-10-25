@@ -214,6 +214,54 @@ class _OrderDetailsState extends State<OrderDetails> {
     ),
 
     const SizedBox(height: 16),
+    if (widget.status == OrderStatus.processing)
+    Row(
+    children: [
+    Expanded(
+    flex: 3,
+    child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    backgroundColor: context.theme.colors.primary,
+    foregroundColor: context.theme.colors.onPrimary,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8),
+    ),
+    padding: const EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 12,
+    ),
+    ),
+    onPressed: widget.onViewDetailsClick,
+    child: Text(
+    "View details",
+    style: context.theme.typography.textTheme.labelSmall,
+    ),
+    ),
+    ),
+    const SizedBox(width: 8),
+    Expanded(
+    flex: 2,
+    child: ElevatedButton(
+    style: ElevatedButton.styleFrom(
+    backgroundColor: context.theme.colors.errorVariant,
+    foregroundColor: context.theme.colors.red,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8),
+    ),
+    padding: const EdgeInsets.symmetric(
+    horizontal: 24,
+    vertical: 12,
+    ),
+    ),
+    onPressed: widget.onCancelClick,
+    child: Text(
+    "Cancel Order",
+    style: context.theme.typography.textTheme.labelSmall,
+    ),
+    ),
+    ),
+    ],
+    )
 
 
   }
