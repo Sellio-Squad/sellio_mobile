@@ -3,6 +3,20 @@ import 'package:flutter/material.dart';
 
 enum OrderStatus { processing, completed, cancelled }
 
+class OrderItem {
+  final String productId;
+  final String productName;
+  final int quantity;
+  final double price;
+
+  const OrderItem({
+    required this.productId,
+    required this.productName,
+    required this.quantity,
+    required this.price,
+  });
+}
+
 class OrderDetails extends StatefulWidget {
   final String orderId;
   final String orderDate;
