@@ -20,15 +20,14 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      height: 58,
       decoration: BoxDecoration(
         color: context.theme.colors.surfaceLow,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1F1F1F).withOpacity(0.08),
-            offset: const Offset(0, -2),
-            blurRadius: 8,
-            spreadRadius: 0,
+            color: const Color(0xFF000000).withOpacity(0.04),
+            offset: const Offset(0, -4),
+            blurRadius: 12,
           ),
         ],
       ),
@@ -72,7 +71,7 @@ class BottomNavBar extends StatelessWidget {
           // Center Floating Button
           Positioned(
             left: MediaQuery.of(context).size.width / 2 - 25,
-            bottom: 32,
+            bottom: 12,
             child: _CenterButton(onTap: onCenterButtonTap),
           ),
         ],
@@ -147,7 +146,7 @@ class _CenterButton extends StatelessWidget {
           shape: BoxShape.circle,
           color: context.theme.colors.primary,
           border: Border.all(
-            color: const Color(0xFFFFFFFF),
+            color: context.theme.colors.surfaceLow,
             width: 4,
           ),
           boxShadow: [
