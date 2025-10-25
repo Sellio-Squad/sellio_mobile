@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
 import '../FavoritesScreen.dart';
 import '../HomeScreen.dart';
@@ -18,27 +17,22 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const SearchScreen(),
     const FavoritesScreen(),
+    const SearchScreen(),
     const ProfileScreen(),
   ];
+
+  void _onCenterButtonTapped() {
+    // Handle center button action (e.g., create new post, add item, etc.)
+    print('Center button tapped!');
+    // You can navigate to a new screen or show a dialog
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddItemScreen()));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add action
-          print('Add button pressed');
-        },
-        backgroundColor: context.theme.colors.primary,
-        child: Icon(
-          Icons.add,
-          color: context.theme.colors.onPrimary,
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: SellioBottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
@@ -46,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
+        onCenterButtonTap: _onCenterButtonTapped,
       ),
     );
   }
