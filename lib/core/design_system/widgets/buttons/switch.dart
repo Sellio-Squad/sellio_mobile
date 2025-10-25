@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../themes/sellio_colors.dart';
 
 class DesignSwitch extends StatefulWidget {
   final bool value;
@@ -42,18 +43,19 @@ class _DesignSwitchState extends State<DesignSwitch>
 
   @override
   Widget build(BuildContext context) {
-    const onColor = Color(0xFF520826);
-    const offColor = Color(0xFFFFFFFF);
-    const disabledColor = Color(0xFFE8EBED);
+    final colors = SellioColors.light;
 
-    const thumbOn = Color(0xFFEAE0E5);
-    const thumbOff = Color(0x611F1F1F); // 38% opacity
-    const thumbDisabled = Color(0x611F1F1F);
+    final onColor = colors.primary;
+    final offColor = colors.surfaceLow;
+    final disabledColor = colors.disabled;
+
+    final thumbOn = colors.primaryVariant;
+    final thumbOff = colors.hint;
+    final thumbDisabled = colors.hint;
+    final borderColor = colors.surfaceHigh;
 
     return GestureDetector(
-      onTap: widget.enabled
-          ? () => widget.onChanged(!widget.value)
-          : null,
+      onTap: widget.enabled ? () => widget.onChanged(!widget.value) : null,
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
@@ -68,7 +70,7 @@ class _DesignSwitchState extends State<DesignSwitch>
               border: !widget.enabled || !widget.value
                   ? Border.all(
                 color: widget.enabled
-                    ? const Color(0xFF8C8C8C)
+                    ? borderColor
                     : disabledColor,
                 width: 2,
               )
@@ -79,13 +81,19 @@ class _DesignSwitchState extends State<DesignSwitch>
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
-                  top: widget.value ? 4.0 : 4.0,
-                  left: widget.value ? 24.0 : 8.0,
+                  top: widget.enabled
+                      ? 4.0
+                      : 8.0,
+                  left: widget.enabled
+                      ? (widget.value ? 24.0 : 4.0)
+                      : 8.0,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
-                    width: widget.value ? 24.0 : 16.0,
-                    height: widget.value ? 24.0 : 16.0,
+                    width: widget.enabled ? 24.0 : 16.0,
+                    height: widget.enabled
+                        ? (widget.value ? 24.0 : 20.0)
+                        : 16.0,
                     decoration: BoxDecoration(
                       color: widget.enabled
                           ? (widget.value ? thumbOn : thumbOff)
