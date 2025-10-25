@@ -124,6 +124,56 @@ class _OrderDetailsState extends State<OrderDetails> {
     ),
     ),
     const SizedBox(height: 12),
+    GestureDetector(
+    onTap: () {
+    setState(() {
+    _isExpanded = !_isExpanded;
+    });
+    },
+    child: Container(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: Row(
+    children: [
+    AnimatedRotation(
+    turns: _isExpanded ? 0.5 : 0,
+    duration: const Duration(milliseconds: 200),
+    child: Icon(
+    Icons.keyboard_arrow_down,
+    color: context.theme.colors.body,
+    size: 20,
+    ),
+    ),
+    const SizedBox(width: 8),
+
+    CircleAvatar(
+    radius: 28,
+    backgroundImage: AssetImage(widget.marketImage),
+    ),
+    const SizedBox(width: 8),
+
+    Expanded(
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+    Text(
+    widget.marketName,
+    style: context.theme.typography.textTheme.labelSmall
+        .copyWith(color: context.theme.colors.body),
+    ),
+    const SizedBox(height: 2),
+    Text(
+    "${widget.orderTotal} items",
+    style: context.theme.typography.textTheme.labelXSmall
+        .copyWith(color: context.theme.colors.body),
+    ),
+    ],
+    ),
+    ),
+    ],
+    ),
+    ),
+    ),
+
 
 
   }
