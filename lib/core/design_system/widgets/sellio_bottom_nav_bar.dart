@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import '../constants/app_icons.dart';
+import '../constants/app_strings.dart';
 
 class SellioBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -35,32 +37,32 @@ class SellioBottomNavBar extends StatelessWidget {
           Row(
             children: [
               _NavBarItem(
-                iconPath: 'assets/icons/home.svg',
-                selectedIconPath: 'assets/icons/home_selected.svg',
-                label: 'Home',
+                iconPath: AppIcons.home,
+                selectedIconPath: AppIcons.homeSelected,
+                label: AppStrings.home,
                 isSelected: currentIndex == 0,
                 onTap: () => onTap(0),
               ),
               _NavBarItem(
-                iconPath: 'assets/icons/cart.svg',
-                selectedIconPath: 'assets/icons/cart_selected.svg',
-                label: 'Cart',
+                iconPath: AppIcons.cart,
+                selectedIconPath: AppIcons.cartSelected,
+                label: AppStrings.cart,
                 isSelected: currentIndex == 1,
                 onTap: () => onTap(1),
               ),
               // Spacer for center button
               const Expanded(child: SizedBox()),
               _NavBarItem(
-                iconPath: 'assets/icons/thrift.svg',
-                selectedIconPath: 'assets/icons/thrift_selected.svg',
-                label: 'Thrift',
+                iconPath: AppIcons.thrift,
+                selectedIconPath: AppIcons.thriftSelected,
+                label: AppStrings.thrift,
                 isSelected: currentIndex == 2,
                 onTap: () => onTap(2),
               ),
               _NavBarItem(
-                iconPath: 'assets/icons/account.svg',
-                selectedIconPath: 'assets/icons/account_selected.svg',
-                label: 'Account',
+                iconPath: AppIcons.account,
+                selectedIconPath: AppIcons.accountSelected,
+                label: AppStrings.account,
                 isSelected: currentIndex == 3,
                 onTap: () => onTap(3),
               ),
@@ -102,7 +104,7 @@ class _NavBarItem extends StatelessWidget {
         onTap: onTap,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        child: Container(
+        child: SizedBox(
           height: 58,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +176,7 @@ class _CenterButton extends StatelessWidget {
             ),
             child: Center(
               child: SvgPicture.asset(
-                'assets/icons/magic_stick.svg',
+                AppIcons.magicStick,
                 width: 24,
                 height: 24,
                 colorFilter: ColorFilter.mode(
