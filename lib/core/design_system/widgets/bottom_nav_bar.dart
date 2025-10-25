@@ -116,7 +116,6 @@ class _NavBarItem extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         child: SizedBox(
-          height: 42,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
