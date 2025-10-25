@@ -52,7 +52,7 @@ class _DesignSwitchState extends State<DesignSwitch>
     final thumbOn = colors.primaryVariant;
     final thumbOff = colors.hint;
     final thumbDisabled = colors.hint;
-    final borderColor = colors.surfaceHigh;
+    final borderColor = colors.hint;
 
     return GestureDetector(
       onTap: widget.enabled ? () => widget.onChanged(!widget.value) : null,
