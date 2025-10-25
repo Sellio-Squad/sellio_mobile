@@ -98,6 +98,23 @@ class _OrderDetailsState extends State<OrderDetails> {
             color: context.theme.colors.title,
           ),
         ),
+      const Spacer(),
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100),
+          color: bgColor,
+        ),
+        child: Text(
+          statusText,
+          style: context.theme.typography.textTheme.labelXSmall
+              .copyWith(color: textColor),
+        ),
+      ),
+      ],
+    ),
+    const SizedBox(height: 8),
+
 
   }
 }
