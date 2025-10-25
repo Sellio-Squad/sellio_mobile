@@ -8,11 +8,13 @@ class SellioSnackBar extends StatelessWidget {
   final bool isError;
   final String message;
   final String? title;
+  final VoidCallback onCancelTap;
 
   const SellioSnackBar({
     super.key,
     required this.isError,
     required this.message,
+    required this.onCancelTap,
     this.title,
   });
 
@@ -50,7 +52,10 @@ class SellioSnackBar extends StatelessWidget {
           const SizedBox(width: 8),
           snackBarText(context, snackBarTitle, message),
           const Spacer(),
-          SvgPicture.asset(Assets.cancelCircle, width: 20, height: 20),
+          GestureDetector(
+            child: SvgPicture.asset(Assets.cancelCircle, width: 20, height: 20),
+            onTap: () => onCancelTap(),
+          ),
         ],
       ),
     );
