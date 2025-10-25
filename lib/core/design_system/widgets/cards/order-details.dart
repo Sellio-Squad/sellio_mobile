@@ -60,6 +60,24 @@ class _OrderDetailsState extends State<OrderDetails> {
     Color textColor;
     String statusText;
 
+    switch (widget.status) {
+      case OrderStatus.processing:
+        bgColor = context.theme.colors.secondaryVariant;
+        textColor = context.theme.colors.secondary;
+        statusText = 'Processing';
+        break;
+      case OrderStatus.completed:
+        bgColor = context.theme.colors.greenVariant;
+        textColor = context.theme.colors.green;
+        statusText = 'Completed';
+        break;
+      case OrderStatus.cancelled:
+        bgColor = context.theme.colors.errorVariant;
+        textColor = context.theme.colors.red;
+        statusText = 'Cancelled';
+        break;
+    }
+
     return Container(
         padding: const EdgeInsets.all(12),
         width: double.infinity,
@@ -80,5 +98,6 @@ class _OrderDetailsState extends State<OrderDetails> {
             color: context.theme.colors.title,
           ),
         ),
+
   }
 }
