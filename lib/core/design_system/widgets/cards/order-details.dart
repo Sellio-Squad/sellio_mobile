@@ -20,12 +20,14 @@ class OrderItem {
 class OrderDetails extends StatefulWidget {
   final String orderId;
   final String orderDate;
-  final String status;
+  final OrderStatus status;
   final int orderTotal;
   final String marketName;
   final String marketImage;
+  final List<OrderItem> orderItems;
   final VoidCallback onCancelClick;
   final VoidCallback onViewDetailsClick;
+  final VoidCallback onOrderAgainClick;
 
   const OrderDetails({
     super.key,
@@ -35,8 +37,10 @@ class OrderDetails extends StatefulWidget {
     required this.orderTotal,
     required this.marketName,
     required this.marketImage,
+    required this.orderItems,
     required this.onCancelClick,
     required this.onViewDetailsClick,
+    required this.onOrderAgainClick,
   });
 
   @override
