@@ -37,7 +37,7 @@ class SellioSnackBar extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: shadowColor,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             blurRadius: 24,
             spreadRadius: 0,
           ),
