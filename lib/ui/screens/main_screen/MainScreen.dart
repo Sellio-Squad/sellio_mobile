@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
 import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
+import '../FavoritesScreen.dart';
+import '../HomeScreen.dart';
+import '../ProfileScreen.dart';
+import '../SearchScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -43,73 +46,6 @@ class _MainScreenState extends State<MainScreen> {
             _currentIndex = index;
           });
         },
-      ),
-    );
-  }
-}
-
-
-
-// Example screens - replace these with your actual screens
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Home Screen',
-        style: context.theme.typography.textTheme.headlineLarge.copyWith(
-          color: context.theme.colors.primary,
-        ),
-      ),
-    );
-  }
-}
-
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Search Screen',
-        style: context.theme.typography.textTheme.headlineLarge.copyWith(
-          color: context.theme.colors.primary,
-        ),
-      ),
-    );
-  }
-}
-
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Favorites Screen',
-        style: context.theme.typography.textTheme.headlineLarge.copyWith(
-          color: context.theme.colors.primary,
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile Screen',
-        style: context.theme.typography.textTheme.headlineLarge.copyWith(
-          color: context.theme.colors.primary,
-        ),
       ),
     );
   }
