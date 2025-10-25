@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import '../screens/main_screen/MainScreen.dart';
 
 void main() {
   runApp(
       SellioThemeProvider(
-          brightness: Brightness.light,
-          child: MyApp(),
+        brightness: Brightness.light,
+        child: MyApp(),
       )
   );
-
 }
 
 class MyApp extends StatelessWidget {
@@ -22,17 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            'Welcome to Sellio!',
-            style: context.theme.typography.textTheme.headlineLarge.copyWith(
-              color: context.theme.colors.primary,
-            ),
-          ),
-        ),
-      ),
+      home: const MainScreen(), // Changed to MainScreen
     );
   }
 }
-
