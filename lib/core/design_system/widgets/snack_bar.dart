@@ -53,8 +53,8 @@ class SellioSnackBar extends StatelessWidget {
           snackBarText(context, snackBarTitle, message),
           const Spacer(),
           GestureDetector(
+            onTap: onCancelTap,
             child: SvgPicture.asset(Assets.cancelCircle, width: 20, height: 20),
-            onTap: () => onCancelTap(),
           ),
         ],
       ),
