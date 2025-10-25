@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 
-class OrderDetails extends StatelessWidget {
+enum OrderStatus { processing, completed, cancelled }
+
+class OrderDetails extends StatefulWidget {
   final String orderId;
   final String orderDate;
   final String status;
@@ -24,7 +26,7 @@ class OrderDetails extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  State<StatefulWidget> createState() {
     throw UnimplementedError();
   }
 }
