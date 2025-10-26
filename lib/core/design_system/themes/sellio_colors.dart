@@ -21,6 +21,16 @@ class SellioColors {
     errorVariant: Color(0xFFFEEDEC),
     green: Color(0xFF0D6620),
     greenVariant: Color(0xFFE0F5E5),
+    loadingDarkColors: [
+      Color(0x1F520826),
+      Color(0x80520826),
+      Color(0xFF520826),
+    ],
+    loadingLightColors: [
+      Color(0x1FFFFFFF),
+      Color(0x80FFFFFF),
+      Color(0xDEFFFFFF),
+    ],
   );
 
   static const dark = SellioColorScheme(
@@ -41,6 +51,16 @@ class SellioColors {
     errorVariant: Color(0xFFFEEDEC),
     green: Color(0xFF0D6620),
     greenVariant: Color(0xFFE0F5E5),
+    loadingDarkColors: [
+      Color(0x1F520826),
+      Color(0x80520826),
+      Color(0xFF520826),
+    ],
+    loadingLightColors: [
+      Color(0x1FFFFFFF),
+      Color(0x80FFFFFF),
+      Color(0xDEFFFFFF),
+    ],
   );
 }
 
@@ -62,6 +82,8 @@ class SellioColorScheme {
   final Color errorVariant;
   final Color green;
   final Color greenVariant;
+  final List<Color> loadingDarkColors;
+  final List<Color> loadingLightColors;
 
   const SellioColorScheme({
     required this.primary,
@@ -81,5 +103,7 @@ class SellioColorScheme {
     required this.errorVariant,
     required this.green,
     required this.greenVariant,
+    required this.loadingDarkColors,
+    required this.loadingLightColors,
   });
 }
