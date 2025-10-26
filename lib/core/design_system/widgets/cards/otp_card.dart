@@ -11,12 +11,12 @@ class OTPInputCard extends StatefulWidget {
   final FocusNode? nextFocusNode;
 
   const OTPInputCard({
-    Key? key,
+    super.key,
     this.onChanged,
     this.onCompleted,
     this.focusNode,
     this.nextFocusNode,
-  }) : super(key: key);
+  });
 
   @override
   State<OTPInputCard> createState() => _OTPInputCardState();
@@ -198,11 +198,11 @@ class OTPInputField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
 
   const OTPInputField({
-    Key? key,
+    super.key,
     this.length = 4,
     this.onCompleted,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<OTPInputField> createState() => OTPInputFieldState();
