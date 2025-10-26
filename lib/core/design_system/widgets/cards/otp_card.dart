@@ -67,7 +67,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
       });
       widget.onChanged?.call(value);
       widget.onCompleted?.call(value);
-
       if (widget.nextFocusNode != null) {
         widget.nextFocusNode!.requestFocus();
       } else {
@@ -126,6 +125,15 @@ class _OTPInputCardState extends State<OTPInputCard> {
             color: _getBorderColor(context),
             width: _getBorderWidth(),
           ),
+          boxShadow: _currentState == OTPInputState.focused
+              ? [
+            BoxShadow(
+              color: colors.primary.withOpacity(0.15),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ]
+              : null,
         ),
         child: Stack(
           children: [
@@ -161,21 +169,22 @@ class _OTPInputCardState extends State<OTPInputCard> {
                   ),
                 ),
               ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  width: 29,
-                  height: 3,
-                  decoration: BoxDecoration(
-                    color: colors.stroke,
-                    borderRadius: BorderRadius.circular(4),
+            if (_value.isEmpty)
+              Positioned(
+                bottom: 16,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    width: 29,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: colors.stroke,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
