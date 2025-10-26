@@ -9,6 +9,8 @@ class Assets {
   static const String alertDiamond = '$iconsPath/alert-diamond.svg';
   static const String checkmarkBadge = '$iconsPath/checkmark-badge-02.svg';
   static const String cancelCircle = '$iconsPath/cancel-circle.svg';
+  static const String check = '$iconsPath/check.svg';
+  static const String indeterminate = '$iconsPath/indeterminate.svg';
   // app bar icons
   static const String bell = '$iconsPath/bell.svg';
   static const String location = '$iconsPath/location.svg';
