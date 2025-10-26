@@ -9,13 +9,13 @@ class Assets {
   static const String alertDiamond = '$iconsPath/alert-diamond.svg';
   static const String checkmarkBadge = '$iconsPath/checkmark-badge-02.svg';
   static const String cancelCircle = '$iconsPath/cancel-circle.svg';
-
-  // Product Card Icons
-  static const String add = '$iconsPath/add.svg';
-  static const String remove = '$iconsPath/remove.svg';
-  static const String favorite = '$iconsPath/favourite.svg';
-  static const String cart = '$iconsPath/small_cart.svg';
-
+  // app bar icons
+  static const String bell = '$iconsPath/bell.svg';
+  static const String location = '$iconsPath/location.svg';
+  static const String arrowLeft = '$iconsPath/arrow-left.svg';
+  static const String sellio = '$imagesPath/sellio.png';
+  //section title icons
+  static const String arrowRight = '$iconsPath/arrow-right.svg';
 
   static const String orderIcon = '$iconsPath/order-icon.svg';
 
