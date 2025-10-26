@@ -1,8 +1,8 @@
 class AppIcons {
-  AppIcons._(); // Private constructor to prevent instantiation
+  AppIcons._();
 
   // Base path
-  static const String _basePath = 'assets/icons';
+  static const String _basePath = 'assets/svg';
 
   // Home icons
   static const String home = '$_basePath/home.svg';
