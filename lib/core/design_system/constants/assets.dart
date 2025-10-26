@@ -17,4 +17,8 @@ class Assets {
   static const String cart = '$iconsPath/small_cart.svg';
 
 
+  static const String orderIcon = '$iconsPath/order-icon.svg';
+
+  //images
+  static const String cakeHouseLogo = '$imagesPath/cake-house.png';
 }
