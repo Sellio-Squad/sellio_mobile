@@ -88,7 +88,7 @@ class _OTPInputCardState extends State<OTPInputCard> {
   }
 
   double _getBorderWidth() {
-    return _currentState == OTPInputState.focused ? 2.0 : 0.5;
+    return _currentState == OTPInputState.focused ? 1.0 : 0.5;
   }
 
   Color _getBackgroundColor(BuildContext context) {
