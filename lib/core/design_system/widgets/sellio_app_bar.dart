@@ -12,14 +12,14 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showGreeting;
 
   const SellioAppBar({
-    Key? key,
+    super.key,
     this.showBack = false,
     this.title,
     this.userName,
     this.location,
     this.onNotificationTap,
     this.showGreeting = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

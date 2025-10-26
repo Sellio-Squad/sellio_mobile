@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/widgets/indicator.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offer_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 
 class SpecialOffersSection extends StatefulWidget {
   final List<SpecialOfferModel> offers;
   final Function(String offerId)? onOfferTap;
+  final VoidCallback? onSeeAllTap;
 
   const SpecialOffersSection({
     super.key,
     required this.offers,
     this.onOfferTap,
+    this.onSeeAllTap,
   });
 
   @override
@@ -43,43 +45,21 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final colors = theme.colors;
-    final textTheme = theme.typography.textTheme;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Section Header
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Special Offers',
-                style: textTheme.titleLarge.copyWith(
-                  color: colors.title,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigate to all offers
-                },
-                child: Text(
-                  'See All',
-                  style: textTheme.labelMedium.copyWith(
-                    color: colors.primary,
-                  ),
-                ),
-              ),
-            ],
+        SectionHeader(
+          title: 'Special Offers',
+          onTap: widget.onSeeAllTap,
+          trailing: Indicator(
+            pages: widget.offers.length,
+            currentPage: _currentPage,
           ),
         ),
+
         const SizedBox(height: 12),
 
         // Offers PageView
@@ -100,14 +80,6 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
           ),
         ),
         const SizedBox(height: 12),
-
-        // Page Indicator
-        Center(
-          child: Indicator(
-            pages: widget.offers.length,
-            currentPage: _currentPage,
-          ),
-        ),
       ],
     );
   }
