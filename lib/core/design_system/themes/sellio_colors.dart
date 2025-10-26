@@ -21,6 +21,8 @@ class SellioColors {
     errorVariant: Color(0xFFFEEDEC),
     green: Color(0xFF0D6620),
     greenVariant: Color(0xFFE0F5E5),
+    semanticError: Color(0xCF3E30),
+    neutralsHint: Color(0xBBBBBB),
     loadingDarkColors: [
       Color(0x1F520826),
       Color(0x80520826),
@@ -51,6 +53,8 @@ class SellioColors {
     errorVariant: Color(0xFFFEEDEC),
     green: Color(0xFF0D6620),
     greenVariant: Color(0xFFE0F5E5),
+    semanticError: Color(0xFFCF3E30),
+    neutralsHint: Color(0xFFBBBBBB),
     loadingDarkColors: [
       Color(0x1F520826),
       Color(0x80520826),
@@ -82,6 +86,8 @@ class SellioColorScheme {
   final Color errorVariant;
   final Color green;
   final Color greenVariant;
+  final Color semanticError;
+  final Color neutralsHint;
   final List<Color> loadingDarkColors;
   final List<Color> loadingLightColors;
 
@@ -103,6 +109,8 @@ class SellioColorScheme {
     required this.errorVariant,
     required this.green,
     required this.greenVariant,
+    required this.semanticError,
+    required this.neutralsHint,
     required this.loadingDarkColors,
     required this.loadingLightColors,
   });
