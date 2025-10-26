@@ -168,8 +168,8 @@ class _OTPInputCardState extends State<OTPInputCard> {
                     color: colors.title,
                   ),
                 ),
-              ),
-            if (_value.isEmpty)
+              )
+            else
               Positioned(
                 bottom: 16,
                 left: 0,
