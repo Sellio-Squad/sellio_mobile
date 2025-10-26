@@ -68,7 +68,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
       widget.onChanged?.call(value);
       widget.onCompleted?.call(value);
 
-      // Move to next field if available
       if (widget.nextFocusNode != null) {
         widget.nextFocusNode!.requestFocus();
       } else {
@@ -130,7 +129,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
         ),
         child: Stack(
           children: [
-            // Hidden TextField for input handling
             Positioned.fill(
               child: Opacity(
                 opacity: 0.0,
@@ -152,7 +150,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
                 ),
               ),
             ),
-            // Display value when filled
             if (_value.isNotEmpty)
               Center(
                 child: Text(
@@ -164,7 +161,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
                   ),
                 ),
               ),
-            // Bottom indicator
             Positioned(
               bottom: 16,
               left: 0,
@@ -187,7 +183,6 @@ class _OTPInputCardState extends State<OTPInputCard> {
   }
 }
 
-// Complete OTP Field with multiple cards
 class OTPInputField extends StatefulWidget {
   final int length;
   final ValueChanged<String>? onCompleted;
