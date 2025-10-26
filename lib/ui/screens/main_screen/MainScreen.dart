@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../CartScreen.dart';
-import '../HomeScreen.dart';
+import '../home/home_screen.dart';
 import '../AccountScreen.dart';
 import '../ThriftScreen.dart';
 
