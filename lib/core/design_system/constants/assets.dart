@@ -11,4 +11,12 @@ class Assets {
   static const String cancelCircle = '$iconsPath/cancel-circle.svg';
   static const String check = '$iconsPath/check.svg';
   static const String indeterminate = '$iconsPath/indeterminate.svg';
+
+  // Product Card Icons
+  static const String add = '$iconsPath/add.svg';
+  static const String remove = '$iconsPath/remove.svg';
+  static const String favorite = '$iconsPath/favourite.svg';
+  static const String cart = '$iconsPath/small_cart.svg';
+
+
 }
