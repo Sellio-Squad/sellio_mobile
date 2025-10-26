@@ -17,4 +17,8 @@ class Assets {
   //section title icons
   static const String arrowRight = '$iconsPath/arrow-right.svg';
 
+  static const String orderIcon = '$iconsPath/order-icon.svg';
+
+  //images
+  static const String cakeHouseLogo = '$imagesPath/cake-house.png';
 }
