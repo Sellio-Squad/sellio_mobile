@@ -20,6 +20,10 @@ class Assets {
   static const String arrowRight = '$iconsPath/arrow-right.svg';
 
   static const String orderIcon = '$iconsPath/order-icon.svg';
+  static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
+  static const String discountIcon = '$iconsPath/discount_icon.svg';
+  static const String discountFrame = '$iconsPath/discount_frame.svg';
+
 
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.png';
@@ -36,4 +40,9 @@ class Assets {
   static const String food = '$iconsPath/food.svg';
   static const String drinks = '$iconsPath/drinks.svg';
   static const String clothes = '$iconsPath/clothes.svg';
+
+  // text field icons
+  static const String user= '$iconsPath/user.svg';
+  static const String openEye = '$iconsPath/opened_eye.svg';
+  static const String closeEye = '$iconsPath/closed_eye.svg';
 }

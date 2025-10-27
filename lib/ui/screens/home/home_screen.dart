@@ -5,6 +5,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/header_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/products_list.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/section_header.dart';
@@ -40,38 +41,25 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  // Mock data for top stores
-  final List<Map<String, dynamic>> _topStores = [
-    {
-      'name': 'Nike',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '2.5M',
-      'rating': 4.8,
-    },
-    {
-      'name': 'Adidas',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.8M',
-      'rating': 4.7,
-    },
-    {
-      'name': 'Apple',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '5.2M',
-      'rating': 4.9,
-    },
-    {
-      'name': 'Samsung',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '3.1M',
-      'rating': 4.6,
-    },
-    {
-      'name': 'Zara',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.5M',
-      'rating': 4.5,
-    },
+  // Mock product counters
+  final Map<int, int> _productCounts = {};
+
+  final List<Store> _topStores = [
+    Store(
+      name: 'Gold Gallery Accessories',
+      imageUrl: 'assets/images/store_accessories.png',
+      discount: '25',
+    ),
+    Store(
+      name: 'Sweet cake sweet',
+      imageUrl: 'assets/images/store_sweet.png',
+      discount: '30',
+    ),
+    Store(
+      name: 'Techno store',
+      imageUrl: 'assets/images/store_techno.png',
+      discount: null,
+    ),
   ];
 
   @override
@@ -94,14 +82,36 @@ class _HomeScreenState extends State<HomeScreen> {
             // Category Tabs
             CategoryTabs(),
 
-            // Featured Banner/Carousel
+            //  Special Offers Section
             _buildSpecialOffersSection(),
 
             // Products Grid
             ProductsList(),
 
-            // Top Stores Section
-            _buildTopStoresSection(colors, textTheme),
+            // Top Stores Section - Using TopStoresSection widget
+            SliverToBoxAdapter(
+              child: TopStoresSection(
+                topStores: _topStores,
+                onLikePressed: () {
+                  // Handle like action
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Store added to favorites'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+                onCardPressed: () {
+                  // Handle store card tap
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Store pressed'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
