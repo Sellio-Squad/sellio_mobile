@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
-import 'dart:async';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -61,14 +62,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       _otpValue = '';
       _isOtpComplete = false;
     });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Code resent successfully!'),
-        backgroundColor: context.theme.colors.green,
-        duration: const Duration(seconds: 2),
-      ),
-    );
     _startResendCountdown();
 
     // TODO: Call API to resend OTP
@@ -113,57 +106,54 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 40),
-                  child: Column(
-                    children: [
-                      _buildLockIcon(colors),
-                      const SizedBox(height: 40),
-                      SizedBox(
-                        width: 328,
-                        child: Text(
-                          'Enter code',
-                          style: TextStyle(
-                            fontFamily: 'Rubik',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            height: 28 / 18,
-                            color: colors.title,
-                          ),
+                child: Column(
+                  children: [
+                    _buildLockIcon(colors),
+                    const SizedBox(height: 40),
+                    SizedBox(
+                      width: 328,
+                      child: Text(
+                        'Enter code',
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          height: 28 / 18,
+                          color: colors.title,
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: 328,
-                        child: Text(
-                          'Please enter the 4-digit code sent to your phone number.',
-                          style: TextStyle(
-                            fontFamily: 'Rubik',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            height: 22 / 14,
-                            color: colors.body,
-                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: 328,
+                      child: Text(
+                        'Please enter the 4-digit code sent to your phone number.',
+                        style: TextStyle(
+                          fontFamily: 'Rubik',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          height: 22 / 14,
+                          color: colors.body,
                         ),
                       ),
-                      const SizedBox(height: 32),
-                      OTPInputField(
-                        key: _otpKey,
-                        length: 4,
-                        onChanged: (value) {
-                          setState(() {
-                            _otpValue = value;
-                            _isOtpComplete = value.length == 4;
-                          });
-                        },
-                        onCompleted: (value) {
-                          _handleOTPComplete(value);
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      _buildResendSection(colors),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 32),
+                    OTPInputField(
+                      key: _otpKey,
+                      length: 4,
+                      onChanged: (value) {
+                        setState(() {
+                          _otpValue = value;
+                          _isOtpComplete = value.length == 4;
+                        });
+                      },
+                      onCompleted: (value) {
+                        _handleOTPComplete(value);
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    _buildResendSection(colors),
+                  ],
                 ),
               ),
             ),
@@ -175,13 +165,18 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 child: ElevatedButton(
                   onPressed: _isOtpComplete ? _handleConfirm : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isOtpComplete ? colors.primary : colors.disabled,
+                    backgroundColor: _isOtpComplete
+                        ? colors.primary
+                        : colors.disabled,
                     disabledBackgroundColor: colors.disabled,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                     elevation: 0,
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 24,
+                    ),
                   ),
                   child: Text(
                     'Confirm',
@@ -203,13 +198,19 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   }
 
   Widget _buildLockIcon(dynamic colors) {
-    return SizedBox(
+    return Container(
       width: 88,
       height: 88,
-      child: SvgPicture.asset(
-        'assets/svg/ic_circle_lock_remove.svg',
-        width: 88,
-        height: 88,
+      decoration: BoxDecoration(
+        color: colors.primaryVariant,
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          'assets/svg/ic_circle_lock_remove.svg',
+          width: 48,
+          height: 48,
+        ),
       ),
     );
   }
