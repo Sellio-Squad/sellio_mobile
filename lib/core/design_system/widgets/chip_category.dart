@@ -50,8 +50,8 @@ class ChipCategory extends StatelessWidget {
                   child: Center(
                     child: SvgPicture.asset(
                       assetIcon!,
-                      width: 18,
-                      height: 18,
+                      width: 20,
+                      height: 20,
                       colorFilter: ColorFilter.mode(
                         contentColor,
                         BlendMode.srcIn,

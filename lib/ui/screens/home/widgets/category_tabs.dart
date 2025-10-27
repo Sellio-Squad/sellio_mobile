@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/ChipCategory.dart';
+import '../../../../core/design_system/widgets/chip_category.dart';
 
 class CategoryTabs extends StatefulWidget {
   const CategoryTabs({super.key});
@@ -30,7 +30,7 @@ class _CategoryTabsState extends State<CategoryTabs> {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Container(
+      child: SizedBox(
         height: 40,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,

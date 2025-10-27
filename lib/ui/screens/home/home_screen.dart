@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/header_section.dart';
@@ -7,8 +6,6 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_list.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 
-import '../../../core/design_system/constants/assets.dart';
-import '../../../core/design_system/widgets/section_header.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  // In your HomeScreen class, add mock data:
   final List<SpecialOfferModel> _specialOffers = [
     SpecialOfferModel(
       id: '1',
@@ -41,8 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  // Mock product counters
-  final Map<int, int> _productCounts = {};
 
   final List<Store> _topStores = [
     Store(
@@ -93,22 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TopStoresSection(
                 topStores: _topStores,
                 onLikePressed: () {
-                  // Handle like action
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Store added to favorites'),
-                      duration: Duration(seconds: 1),
-                    ),
-                  );
+                  // todo: Handle like action
                 },
                 onCardPressed: () {
-                  // Handle store card tap
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Store pressed'),
-                      duration: Duration(seconds: 1),
-                    ),
-                  );
+                  // todo: Handle store card tap
                 },
               ),
             ),
@@ -160,101 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
               Icon(Icons.filter_list, color: colors.body, size: 20),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  SliverToBoxAdapter _buildTopStoresSection(colors, textTheme) {
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SectionHeader(
-              title: 'Top Stores',
-              trailing: SvgPicture.asset(
-                Assets.arrowRight,
-                width: 20,
-                height: 20,
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _topStores.length,
-              separatorBuilder: (_, __) => SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final store = _topStores[index];
-                return _buildStoreCard(store, colors, textTheme);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStoreCard(store, colors, textTheme) {
-    final hasDiscount = store['discount'] != null;
-
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        width: 80,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    store['logo'],
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                if (hasDiscount)
-                  Positioned(
-                    top: 4,
-                    left: 4,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        "${store['discount']}% OFF",
-                        style: textTheme.labelSmall.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Icon(Icons.favorite_border, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Text(
-              store['name'],
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.labelMedium.copyWith(color: colors.title),
-            ),
-          ],
         ),
       ),
     );

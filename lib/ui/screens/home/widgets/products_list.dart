@@ -16,7 +16,7 @@ class _ProductsListState extends State<ProductsList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> _products = List.generate(
+    final List<Map<String, dynamic>> products = List.generate(
       4,
           (index) => {
         'id': index,
@@ -26,13 +26,13 @@ class _ProductsListState extends State<ProductsList> {
       },
     );
 
-    void _incrementProduct(int productId) {
+    void incrementProduct(int productId) {
       setState(() {
         _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
       });
     }
 
-    void _decrementProduct(int productId) {
+    void decrementProduct(int productId) {
       setState(() {
         final count = _productCounts[productId] ?? 0;
         if (count > 0) {
@@ -61,10 +61,10 @@ class _ProductsListState extends State<ProductsList> {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _products.length,
+              itemCount: products.length,
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
-                final product = _products[index];
+                final product = products[index];
                 final productId = product['id'] as int;
                 final count = _productCounts[productId] ?? 0;
 
@@ -75,8 +75,8 @@ class _ProductsListState extends State<ProductsList> {
                     title: product['title'],
                     price: product['price'],
                     count: count,
-                    onIncrement: () => _incrementProduct(productId),
-                    onDecrement: () => _decrementProduct(productId),
+                    onIncrement: () => incrementProduct(productId),
+                    onDecrement: () => decrementProduct(productId),
                     onFavorite: () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
