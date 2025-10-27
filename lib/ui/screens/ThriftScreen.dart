@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 
 class ThriftScreen extends StatefulWidget {
@@ -12,6 +11,6 @@ class ThriftScreen extends StatefulWidget {
 class _ThriftScreenState extends State<ThriftScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: SellioAppBar(title: 'Thrift Items'));
+    return Scaffold(appBar: SellioAppBar(title: 'Thrift'));
   }
 }
