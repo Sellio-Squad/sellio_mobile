@@ -152,7 +152,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
           TextInputFormatter.withFunction((oldValue, newValue) {
             final lineCount = '\n'.allMatches(newValue.text).length + 1;
             if (lineCount > 5) {
-              // If user exceeds 5 lines, keep old text
               return oldValue;
             }
             return newValue;
