@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
 
@@ -61,27 +62,26 @@ class _ThriftScreenState extends State<ThriftScreen> {
         showNotificationIcon: false,
         showLeading: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: GridView.builder(
-          itemCount: thriftItems.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 0.7,
-          ),
-          itemBuilder: (context, index) {
-            final item = thriftItems[index];
-            return ProductVerticalCard(
-              imageUrl: item.imageUrl,
-              title: item.title,
-              price: item.price,
-              onIncrement: () {},
-              onDecrement: () {},
-            );
-          },
+      backgroundColor: context.theme.colors.surfaceLow,
+      body: GridView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: thriftItems.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.7,
         ),
+        itemBuilder: (context, index) {
+          final item = thriftItems[index];
+          return ProductVerticalCard(
+            imageUrl: item.imageUrl,
+            title: item.title,
+            price: item.price,
+            onIncrement: () {},
+            onDecrement: () {},
+          );
+        },
       ),
     );
   }
