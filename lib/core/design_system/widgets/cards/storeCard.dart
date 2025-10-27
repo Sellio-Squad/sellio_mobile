@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../../../ui/screens/home/widgets/discount_tag.dart';
 import '../../constants/assets.dart';
 
 class StoreCard extends StatelessWidget {
@@ -33,6 +34,11 @@ class StoreCard extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               Image.network(imageUrl, fit: BoxFit.cover),
+              const Positioned(
+                top: 8,
+                left: 8,
+                child: DiscountTag(discountText: '40%'),
+              ),
               Container(
                 width: double.infinity,
                 height: double.infinity,
@@ -60,16 +66,18 @@ class StoreCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: IconButton(
-                  icon: SvgPicture.asset(
-                    Assets.likeIcon,
-                    width: 32,
-                    height: 32,
+              Align(
+                alignment: AlignmentGeometry.topRight,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  child: IconButton(
+                    icon: SvgPicture.asset(
+                      Assets.likeIcon,
+                      width: 32,
+                      height: 32,
+                    ),
+                    onPressed: onLikePressed,
                   ),
-                  onPressed: onLikePressed,
                 ),
               ),
             ],
