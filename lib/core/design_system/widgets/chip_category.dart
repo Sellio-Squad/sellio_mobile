@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
 class ChipCategory extends StatelessWidget {
   final String label;
-  final IconData? icon;
+  final String? assetIcon;
   final bool selected;
   final VoidCallback onTap;
   final ShapeBorder shape;
@@ -11,7 +12,7 @@ class ChipCategory extends StatelessWidget {
   const ChipCategory({
     super.key,
     required this.label,
-    this.icon,
+    this.assetIcon,
     required this.selected,
     required this.onTap,
     this.shape = const RoundedRectangleBorder(
@@ -21,8 +22,11 @@ class ChipCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = selected ? context.theme.colors.primary  : context.theme.colors.surfaceLow;
-    final contentColor = selected ? context.theme.colors.onPrimary : context.theme.colors.body;
+    final backgroundColor = selected
+        ? context.theme.colors.primary
+        : context.theme.colors.surfaceLow;
+    final contentColor =
+    selected ? context.theme.colors.onPrimary : context.theme.colors.body;
 
     return Material(
       color: backgroundColor,
@@ -35,7 +39,7 @@ class ChipCategory extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (icon != null) ...[
+              if (assetIcon != null) ...[
                 Container(
                   width: 30,
                   height: 30,
@@ -43,7 +47,17 @@ class ChipCategory extends StatelessWidget {
                     color: Color(0x1FFFFFFF),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, size: 20, color: contentColor),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      assetIcon!,
+                      width: 20,
+                      height: 20,
+                      colorFilter: ColorFilter.mode(
+                        contentColor,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 8),
               ],
