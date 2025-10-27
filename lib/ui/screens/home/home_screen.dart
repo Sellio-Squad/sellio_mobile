@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/header_section.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
+
+import '../../../core/design_system/widgets/sellio_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -112,32 +114,47 @@ class _HomeScreenState extends State<HomeScreen> {
     final colors = theme.colors;
     final textTheme = theme.typography.textTheme;
 
-    return Scaffold(
-      backgroundColor: colors.surface,
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // Header/AppBar
-            HeaderSection(),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: SellioAppBar(
+          location: "Cairo,Egypt",
+          userName: "Israa",
+          showGreeting: true,
+          backgroundColor: theme.colors.primaryVariant,
+        ),
+        backgroundColor: colors.surface,
+        body: SafeArea(
+          child: CustomScrollView(
+            slivers: [
+              // Search Bar
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SearchBarWithFilter(
+                    onFilterIconClicked: () {/** Todo */},
+                    onTextSubmitted: (text) {/** Todo */},
+                  ),
+                ),
+              ),
+              // Category Tabs
+              _buildCategoryTabs(colors, textTheme),
 
-            // Search Bar
-            _buildSearchBar(colors, textTheme),
+              // Featured Banner/Carousel
+              _buildSpecialOffersSection(),
 
-            // Category Tabs
-            _buildCategoryTabs(colors, textTheme),
+              // Section Header for Products
+              _buildSectionHeader(colors, textTheme),
 
-            // Featured Banner/Carousel
-            _buildSpecialOffersSection(),
+              // Products Grid
+              _buildProductsHorizontalList(),
 
-            // Section Header for Products
-            _buildSectionHeader(colors, textTheme),
-
-            // Products Grid
-            _buildProductsHorizontalList(),
-
-            // Top Stores Section
-            _buildTopStoresSection(colors, textTheme),
-          ],
+              // Top Stores Section
+              _buildTopStoresSection(colors, textTheme),
+            ],
+          ),
         ),
       ),
     );
@@ -150,42 +167,6 @@ class _HomeScreenState extends State<HomeScreen> {
         onOfferTap: (offerId) {
           // todo: Handle offer tap
         },
-      ),
-    );
-  }
-
-  // Search Bar
-  SliverToBoxAdapter _buildSearchBar(colors, textTheme) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Container(
-          height: 48,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: BoxDecoration(
-            color: colors.surfaceLow,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            children: [
-              Icon(Icons.search, color: colors.body, size: 20),
-              const SizedBox(width: 12),
-              Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search products...',
-                    hintStyle: textTheme.bodyMedium.copyWith(
-                      color: colors.body,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                  style: textTheme.bodyMedium.copyWith(color: colors.title),
-                ),
-              ),
-              Icon(Icons.filter_list, color: colors.body, size: 20),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -233,7 +214,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   SliverToBoxAdapter _buildTopStoresSection(colors, textTheme) {
     return SliverToBoxAdapter(
@@ -407,5 +387,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

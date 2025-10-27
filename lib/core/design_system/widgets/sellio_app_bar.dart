@@ -10,6 +10,8 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? location;
   final VoidCallback? onNotificationTap;
   final bool showGreeting;
+  final Color? backgroundColor;
+
 
   const SellioAppBar({
     super.key,
@@ -19,13 +21,14 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.location,
     this.onNotificationTap,
     this.showGreeting = false,
+    this.backgroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: context.theme.colors.surfaceLow,
+      backgroundColor: backgroundColor ?? context.theme.colors.surfaceLow,
       elevation: 0,
       flexibleSpace: SafeArea(
         child: Padding(
