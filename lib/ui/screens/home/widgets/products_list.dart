@@ -16,15 +16,26 @@ class _ProductsListState extends State<ProductsList> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> products = List.generate(
-      4,
-          (index) => {
-        'id': index,
-        'imageUrl': 'https://picsum.photos/152/145?random=$index',
-        'title': 'Product Name ${index + 1}',
-        'price': '\$${(index + 1) * 10}.99',
+    final List<Map<String, dynamic>> products = [
+      {
+        'id': 0,
+        'imageUrl': 'assets/images/product_1.png',
+        'title': 'Gold Stainless Steel Sun Charm Necklace',
+        'price': '\$5.00',
       },
-    );
+      {
+        'id': 1,
+        'imageUrl': 'assets/images/product_2.png',
+        'title': 'Birthday cake with bows',
+        'price': '\$12.99',
+      },
+      {
+        'id': 2,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+      },
+    ];
 
     void incrementProduct(int productId) {
       setState(() {
@@ -50,9 +61,9 @@ class _ProductsListState extends State<ProductsList> {
             child: SectionHeader(
               title: 'Trending Products',
               trailing: SvgPicture.asset(
-                Assets.arrowRight,
-                width: 20,
-                height: 20
+                  Assets.arrowRight,
+                  width: 20,
+                  height: 20
               ),
             ),
           ),
@@ -78,12 +89,7 @@ class _ProductsListState extends State<ProductsList> {
                     onIncrement: () => incrementProduct(productId),
                     onDecrement: () => decrementProduct(productId),
                     onFavorite: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Added ${product['title']} to favorites'),
-                          duration: const Duration(seconds: 1),
-                        ),
-                      );
+                      // todo:  Handle favorite action
                     },
                   ),
                 );

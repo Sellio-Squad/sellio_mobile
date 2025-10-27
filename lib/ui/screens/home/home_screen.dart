@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // Products Grid
             ProductsList(),
 
-            // Top Stores Section - Using TopStoresSection widget
+            // Top Stores Section
             SliverToBoxAdapter(
               child: TopStoresSection(
                 topStores: _topStores,

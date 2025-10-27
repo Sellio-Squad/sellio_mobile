@@ -65,35 +65,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      widget.imageUrl,
-                      width: 152,
-                      height: 145,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, progress) {
-                        return progress == null
-                            ? child
-                            : Container(
-                          width: 152,
-                          height: 145,
-                          color: colors.surface,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 152,
-                          height: 145,
-                          color: colors.surface,
-                          child: const Icon(Icons.broken_image),
-                        );
-                      },
-                    ),
-                  ),
+                  child: _buildImage(colors),
                 ),
                 if (widget.onFavorite != null)
                   Positioned(
@@ -144,9 +116,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   widget.title,
-                  style: textTheme.labelMedium.copyWith(
-                    color: colors.title,
-                  ),
+                  style: textTheme.labelMedium.copyWith(color: colors.title),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -157,9 +127,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
                 widget.price,
-                style: textTheme.titleSmall.copyWith(
-                  color: colors.primary,
-                ),
+                style: textTheme.titleSmall.copyWith(color: colors.primary),
                 maxLines: 1,
               ),
             ),
@@ -195,10 +163,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
           onTap: widget.onIncrement,
           child: SvgPicture.asset(
             Assets.add,
-            colorFilter: ColorFilter.mode(
-              colors.primary,
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
             width: 16,
             height: 16,
             fit: BoxFit.scaleDown,
@@ -238,10 +203,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                 onTap: widget.onDecrement,
                 child: SvgPicture.asset(
                   Assets.remove,
-                  colorFilter: ColorFilter.mode(
-                    colors.body,
-                    BlendMode.srcIn,
-                  ),
+                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
                   fit: BoxFit.scaleDown,
@@ -251,9 +213,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
           ),
           Text(
             widget.count.toString().padLeft(2, '0'),
-            style: textTheme.labelSmall.copyWith(
-              color: colors.title,
-            ),
+            style: textTheme.labelSmall.copyWith(color: colors.title),
           ),
           Container(
             width: 32,
@@ -281,6 +241,44 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImage(colors) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.asset(
+        widget.imageUrl,
+        width: 152,
+        height: 145,
+        fit: BoxFit.cover,
+        /*child: Image.network(
+        widget.imageUrl,
+        width: 152,
+        height: 145,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, progress) {
+          return progress == null
+              ? child
+              : Container(
+                  width: 152,
+                  height: 145,
+                  color: colors.surface,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 152,
+            height: 145,
+            color: colors.surface,
+            child: const Icon(Icons.broken_image),
+          );
+        },
+      ),*/
       ),
     );
   }
