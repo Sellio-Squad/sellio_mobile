@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 
-class ThriftScreen extends StatelessWidget {
+class ThriftScreen extends StatefulWidget {
   const ThriftScreen({super.key});
 
   @override
+  State<ThriftScreen> createState() => _ThriftScreenState();
+}
+
+class _ThriftScreenState extends State<ThriftScreen> {
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Thrift',
-          style: context.theme.typography.textTheme.titleMedium.copyWith(
-            color: context.theme.colors.title,
-          ),
-        ),
-      ),
-    );
+    return Scaffold(appBar: SellioAppBar(title: 'Thrift Items'));
   }
 }
