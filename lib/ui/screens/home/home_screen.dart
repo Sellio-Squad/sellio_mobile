@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/products_list.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+
 
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
 
@@ -14,16 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedCategoryIndex = 0;
-  final List<String> _categories = [
-    'All',
-    'Electronics',
-    'Fashion',
-    'Home',
-    'Sports',
-  ];
 
-  // In your HomeScreen class, add mock data:
   final List<SpecialOfferModel> _specialOffers = [
     SpecialOfferModel(
       id: '1',
@@ -45,68 +40,24 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  // Mock product counters
-  final Map<int, int> _productCounts = {};
 
-  // Mock data for top stores
-  final List<Map<String, dynamic>> _topStores = [
-    {
-      'name': 'Nike',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '2.5M',
-      'rating': 4.8,
-    },
-    {
-      'name': 'Adidas',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.8M',
-      'rating': 4.7,
-    },
-    {
-      'name': 'Apple',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '5.2M',
-      'rating': 4.9,
-    },
-    {
-      'name': 'Samsung',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '3.1M',
-      'rating': 4.6,
-    },
-    {
-      'name': 'Zara',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.5M',
-      'rating': 4.5,
-    },
+  final List<Store> _topStores = [
+    Store(
+      name: 'Gold Gallery Accessories',
+      imageUrl: 'assets/images/store_accessories.png',
+      discount: '25',
+    ),
+    Store(
+      name: 'Sweet cake sweet',
+      imageUrl: 'assets/images/store_sweet.png',
+      discount: '30',
+    ),
+    Store(
+      name: 'Techno store',
+      imageUrl: 'assets/images/store_techno.png',
+      discount: null,
+    ),
   ];
-
-  // Mock product data
-  final List<Map<String, dynamic>> _products = List.generate(
-    4,
-    (index) => {
-      'id': index,
-      'imageUrl': 'https://picsum.photos/152/145?random=$index',
-      'title': 'Product Name ${index + 1}',
-      'price': '\$${(index + 1) * 10}.99',
-    },
-  );
-
-  void _incrementProduct(int productId) {
-    setState(() {
-      _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
-    });
-  }
-
-  void _decrementProduct(int productId) {
-    setState(() {
-      final count = _productCounts[productId] ?? 0;
-      if (count > 0) {
-        _productCounts[productId] = count - 1;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,46 +66,53 @@ class _HomeScreenState extends State<HomeScreen> {
     final textTheme = theme.typography.textTheme;
 
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        appBar: SellioAppBar(
-          location: "Cairo,Egypt",
-          userName: "Israa",
-          showGreeting: true,
-          backgroundColor: theme.colors.primaryVariant,
-        ),
-        backgroundColor: colors.surface,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              // Search Bar
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SearchBarWithFilter(
-                    onFilterIconClicked: () {/** Todo */},
-                    onTextSubmitted: (text) {/** Todo */},
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          appBar: SellioAppBar(
+            location: "Cairo,Egypt",
+            userName: "Israa",
+            showGreeting: true,
+            backgroundColor: theme.colors.primaryVariant,
+          ),
+          backgroundColor: colors.surface,
+          body: SafeArea(
+            child: CustomScrollView(
+              slivers: [
+                // Search Bar
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SearchBarWithFilter(
+                      onFilterIconClicked: () {/** Todo */},
+                      onTextSubmitted: (text) {/** Todo */},
+                    ),
                   ),
                 ),
+
+            // Category Tabs
+            CategoryTabs(),
+
+            //  Special Offers Section
+            _buildSpecialOffersSection(),
+
+            // Products Grid
+            ProductsList(),
+
+            // Top Stores Section
+            SliverToBoxAdapter(
+              child: TopStoresSection(
+                topStores: _topStores,
+                onLikePressed: () {
+                  // todo: Handle like action
+                },
+                onCardPressed: () {
+                  // todo: Handle store card tap
+                },
               ),
-              // Category Tabs
-              _buildCategoryTabs(colors, textTheme),
-
-              // Featured Banner/Carousel
-              _buildSpecialOffersSection(),
-
-              // Section Header for Products
-              _buildSectionHeader(colors, textTheme),
-
-              // Products Grid
-              _buildProductsHorizontalList(),
-
-              // Top Stores Section
-              _buildTopStoresSection(colors, textTheme),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -167,6 +125,42 @@ class _HomeScreenState extends State<HomeScreen> {
         onOfferTap: (offerId) {
           // todo: Handle offer tap
         },
+      ),
+    );
+  }
+
+  // Search Bar
+  SliverToBoxAdapter _buildSearchBar(colors, textTheme) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Container(
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          decoration: BoxDecoration(
+            color: colors.surfaceLow,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.search, color: colors.body, size: 20),
+              const SizedBox(width: 12),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search products...',
+                    hintStyle: textTheme.bodyMedium.copyWith(
+                      color: colors.body,
+                    ),
+                    border: InputBorder.none,
+                  ),
+                  style: textTheme.bodyMedium.copyWith(color: colors.title),
+                ),
+              ),
+              Icon(Icons.filter_list, color: colors.body, size: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -214,6 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 
   SliverToBoxAdapter _buildTopStoresSection(colors, textTheme) {
     return SliverToBoxAdapter(
@@ -387,4 +382,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
 }
