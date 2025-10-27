@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/services.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,6 +23,7 @@ class SellioTextField extends StatefulWidget {
   final double errorBorderRadius;
   final double focusedErrorBorderRadius;
   final TextStyle? errorStyle;
+  final TextEditingController? controller;
 
   const SellioTextField({
     super.key,
@@ -44,15 +45,15 @@ class SellioTextField extends StatefulWidget {
     this.errorBorderRadius = 8.0,
     this.focusedErrorBorderRadius = 8.0,
     this.errorStyle,
+    this.controller,
   });
-
   @override
   State<SellioTextField> createState() => _SellioTextFieldState();
 }
 
 class _SellioTextFieldState extends State<SellioTextField> {
   final FocusNode _focusNode = FocusNode();
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _controller;
 
   bool isError = false;
   bool isObscured = false;
@@ -60,7 +61,14 @@ class _SellioTextFieldState extends State<SellioTextField> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(() => setState(() {}));
+    _controller = TextEditingController();
+    _focusNode.addListener(() {
+      if (!_focusNode.hasFocus) {
+        setState(() {
+          isError = _controller.text.isEmpty;
+        });
+      }
+    });
   }
 
   @override
@@ -92,42 +100,43 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
     final List<BoxShadow> textFieldShadow = isFocused && !isError
         ? [
-            BoxShadow(
-              color: widget.shadowColor,
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            ),
-          ]
+      BoxShadow(
+        color: widget.shadowColor,
+        blurRadius: 8,
+        offset: Offset(0, 4),
+      ),
+    ]
         : [];
 
     final textFieldStyle =
         widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(
-          color: isFocused
-              ? context.theme.colors.title
-              : context.theme.colors.body,
-        );
+            context.theme.typography.textTheme.bodyMedium.copyWith(
+              color: isFocused
+                  ? context.theme.colors.title
+                  : context.theme.colors.body,
+            );
 
-    final maxline = widget.isParagraph
-        ? (widget.maxLine ?? null)
+    final maxLines = widget.isParagraph
+        ? (widget.maxLine ?? 5)
         : (widget.maxLine ?? 1);
 
     final filledColor = widget.fillColor ?? context.theme.colors.surface;
 
     final hintTextStyle =
         widget.hintStyle ??
-        context.theme.typography.textTheme.labelMedium.copyWith(
-          color: hintColor,
-        );
+            context.theme.typography.textTheme.labelMedium.copyWith(
+              color: hintColor,
+            );
 
     final String? errorText = widget.isParagraph
         ? null
         : (isError ? 'Error message!' : null);
 
     final errorStyle =
-        widget.errorStyle ?? context.theme.typography.textTheme.labelSmall.copyWith(
-          color: context.theme.colors.semanticError,
-        );
+        widget.errorStyle ??
+            context.theme.typography.textTheme.labelSmall.copyWith(
+              color: context.theme.colors.semanticError,
+            );
 
 
     return Container(
@@ -138,7 +147,18 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: TextField(
         keyboardType: widget.inputType ?? TextInputType.text,
         focusNode: _focusNode,
-        controller: _controller,
+        controller: widget.controller ?? _controller,
+        inputFormatters: [
+          TextInputFormatter.withFunction((oldValue, newValue) {
+            final lineCount = '\n'.allMatches(newValue.text).length + 1;
+            if (lineCount > 5) {
+              // If user exceeds 5 lines, keep old text
+              return oldValue;
+            }
+            return newValue;
+          }),
+        ],
+
         onChanged: (value) {
           setState(() {
             isError = value.isEmpty;
@@ -146,7 +166,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
         },
         obscureText: isObscured,
         style: textFieldStyle,
-        maxLines: maxline,
+        maxLines: maxLines,
         decoration: InputDecoration(
           filled: widget.isTextFieldFilled,
           fillColor: filledColor,
@@ -205,21 +225,23 @@ class _SellioTextFieldState extends State<SellioTextField> {
       ),
     );
   }
+
   Widget? _buildSuffixIcon(Color iconColor) {
     if (widget.isParagraph) return null;
 
-    if (widget.suffixIcon != null) return widget.suffixIcon;
-
-    return IconButton(
-      icon: SvgPicture.asset(
-        isObscured ? Assets.closeEye : Assets.openEye,
-        colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-      ),
-      onPressed: () {
-        setState(() {
-          isObscured = !isObscured;
-        });
-      },
-    );
+    if (widget.inputType == TextInputType.visiblePassword) {
+      return IconButton(
+        icon: SvgPicture.asset(
+          isObscured ? Assets.closeEye : Assets.openEye,
+          colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+        ),
+        onPressed: () {
+          setState(() {
+            isObscured = !isObscured;
+          });
+        },
+      );
+    }
+    return null;
   }
 }
