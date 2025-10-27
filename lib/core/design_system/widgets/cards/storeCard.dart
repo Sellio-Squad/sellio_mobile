@@ -24,64 +24,88 @@ class StoreCard extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: 133,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          clipBehavior: Clip.antiAlias,
-          elevation: 0,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.network(imageUrl, fit: BoxFit.cover),
-              const Positioned(
-                top: 8,
-                left: 8,
-                child: DiscountTag(discountText: '40%'),
-              ),
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Color(0x00000000),
-                      Color(0xFF000000),
-                    ],
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Align(
-                    alignment: AlignmentGeometry.bottomCenter,
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: context.theme.typography.textTheme.titleSmall
-                          .copyWith(color: context.theme.colors.onPrimary),
+                ],
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-              ),
-              Align(
-                alignment: AlignmentGeometry.topRight,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      Assets.favouriteIcon,
-                      width: 32,
-                      height: 32,
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Color(0x00000000),
+                              Color(0xFF000000),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    onPressed: onLikePressed,
                   ),
-                ),
+
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 8),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: context.theme.typography.textTheme.titleSmall
+                            .copyWith(color: context.theme.colors.onPrimary),
+                      ),
+                    ),
+                  ),
+
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: IconButton(
+                      icon: SvgPicture.asset(
+                        Assets.favouriteIcon,
+                        width: 32,
+                        height: 32,
+                      ),
+                      onPressed: onLikePressed,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            const Positioned(
+              top: 8,
+              left: 0,
+              child: DiscountTag(discountText: '40%'),
+            ),
+          ],
         ),
       ),
     );
