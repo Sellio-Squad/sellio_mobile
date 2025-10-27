@@ -4,14 +4,14 @@ import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
 
-class ProductsList extends StatefulWidget {
-  const ProductsList({super.key});
+class ProductsSection extends StatefulWidget {
+  const ProductsSection({super.key});
 
   @override
-  State<ProductsList> createState() => _ProductsListState();
+  State<ProductsSection> createState() => _ProductsSectionState();
 }
 
-class _ProductsListState extends State<ProductsList> {
+class _ProductsSectionState extends State<ProductsSection> {
   final Map<int, int> _productCounts = {};
 
   @override
