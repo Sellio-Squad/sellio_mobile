@@ -15,7 +15,10 @@ class Store{
 
 class TopStoresSection extends StatelessWidget {
   final List<Store> topStores;
-  const TopStoresSection({super.key, required this.topStores});
+  final VoidCallback onLikePressed;
+  final VoidCallback onCardPressed;
+
+  const TopStoresSection({super.key, required this.topStores, required this.onLikePressed, required this.onCardPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +42,10 @@ class TopStoresSection extends StatelessWidget {
               title: store.name,
               discountText: store.discount,
               onLikePressed: () {
-                // Handle like action
+                onLikePressed();
               },
               onCardPressed: () {
-                // Handle card tap action
+                onCardPressed();
               },
             );
           },
