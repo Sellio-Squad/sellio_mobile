@@ -15,6 +15,7 @@ class _ThriftScreenState extends State<ThriftScreen> {
         appBar: SellioAppBar(
             title: 'Thrift',
           showNotificationIcon: false,
+          showLeading: false,
         ),
 
     );
