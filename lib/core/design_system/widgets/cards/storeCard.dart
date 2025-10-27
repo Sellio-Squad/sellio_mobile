@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../constants/assets.dart';
+
 class StoreCard extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -58,18 +60,16 @@ class StoreCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
-                alignment: AlignmentGeometry.topRight,
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  child: IconButton(
-                    icon: SvgPicture.asset(
-                      'assets/images/like_icon.svg',
-                      width: 32,
-                      height: 32,
-                    ),
-                    onPressed: onLikePressed,
+              Positioned(
+                top: 8,
+                right: 8,
+                child: IconButton(
+                  icon: SvgPicture.asset(
+                    Assets.likeIcon,
+                    width: 32,
+                    height: 32,
                   ),
+                  onPressed: onLikePressed,
                 ),
               ),
             ],
