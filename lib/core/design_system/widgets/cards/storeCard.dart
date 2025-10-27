@@ -73,8 +73,8 @@ class StoreCard extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        top: 0,
-                        right: 0,
+                        top: -4,
+                        right: -4,
                         child: IconButton(
                           icon: SvgPicture.asset(
                             Assets.favouriteIcon,
