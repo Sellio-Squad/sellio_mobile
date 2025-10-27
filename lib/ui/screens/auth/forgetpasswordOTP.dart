@@ -68,16 +68,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     // await authService.resendOTP();
   }
 
-  Future<void> _handleConfirm() async {
-    if (!_isOtpComplete) return;
-
-    // TODO: Call API to verify OTP
-    // final result = await authService.verifyOTP(_otpValue);
-
-    // Mock verification
-    await Future.delayed(const Duration(seconds: 1));
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
@@ -85,9 +75,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     return Scaffold(
       backgroundColor: colors.surfaceLow,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: colors.title),
-          onPressed: () => Navigator.of(context).pop(),
+        toolbarHeight: 68,
+        leadingWidth: 40,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: colors.surfaceLow,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              icon: Icon(Icons.arrow_back, color: colors.title, size: 24),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
         ),
         title: Text(
           'Forget password',
@@ -98,6 +102,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             color: colors.title,
           ),
         ),
+        centerTitle: false,
+        titleSpacing: 8,
         backgroundColor: colors.surfaceLow,
         elevation: 0,
       ),
@@ -108,6 +114,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    const SizedBox(height: 24),
                     _buildLockIcon(colors),
                     const SizedBox(height: 40),
                     SizedBox(
@@ -163,7 +170,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 width: 328,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: _isOtpComplete ? _handleConfirm : null,
+                  onPressed: _isOtpComplete ? () {} : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isOtpComplete
                         ? colors.primary
