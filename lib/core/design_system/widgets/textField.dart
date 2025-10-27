@@ -53,7 +53,8 @@ class SellioTextField extends StatefulWidget {
 
 class _SellioTextFieldState extends State<SellioTextField> {
   final FocusNode _focusNode = FocusNode();
-  late final TextEditingController _controller;
+  // *** FIX 1: This will store the *actual* controller being used. ***
+  late final TextEditingController _effectiveController;
 
   bool isError = false;
   bool isObscured = false;
@@ -61,20 +62,30 @@ class _SellioTextFieldState extends State<SellioTextField> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+
+    // *** This is the FIX ***
+    // It runs right at the start and gives _effectiveController a value.
+    _effectiveController = widget.controller ?? TextEditingController();
+
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          isError = _controller.text.isEmpty;
+          // This now safely uses the initialized controller
+          isError = _effectiveController.text.isEmpty;
         });
       }
     });
+
+    isObscured = widget.inputType == TextInputType.visiblePassword;
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
-    _controller.dispose();
+    // *** FIX 4: Only dispose the controller if this widget created it. ***
+    if (widget.controller == null) {
+      _effectiveController.dispose();
+    }
     super.dispose();
   }
 
@@ -108,36 +119,30 @@ class _SellioTextFieldState extends State<SellioTextField> {
     ]
         : [];
 
-    final textFieldStyle =
-        widget.textStyle ??
-            context.theme.typography.textTheme.bodyMedium.copyWith(
-              color: isFocused
-                  ? context.theme.colors.title
-                  : context.theme.colors.body,
-            );
+    final textFieldStyle = widget.textStyle ??
+        context.theme.typography.textTheme.bodyMedium.copyWith(
+          color: isFocused
+              ? context.theme.colors.title
+              : context.theme.colors.body,
+        );
 
-    final maxLines = widget.isParagraph
-        ? (widget.maxLine ?? 5)
-        : (widget.maxLine ?? 1);
+    final maxLines =
+    widget.isParagraph ? (widget.maxLine ?? 5) : (widget.maxLine ?? 1);
 
     final filledColor = widget.fillColor ?? context.theme.colors.surface;
 
-    final hintTextStyle =
-        widget.hintStyle ??
-            context.theme.typography.textTheme.labelMedium.copyWith(
-              color: hintColor,
-            );
+    final hintTextStyle = widget.hintStyle ??
+        context.theme.typography.textTheme.labelMedium.copyWith(
+          color: hintColor,
+        );
 
-    final String? errorText = widget.isParagraph
-        ? null
-        : (isError ? 'Error message!' : null);
+    final String? errorText =
+    widget.isParagraph ? null : (isError ? 'Error message!' : null);
 
-    final errorStyle =
-        widget.errorStyle ??
-            context.theme.typography.textTheme.labelSmall.copyWith(
-              color: context.theme.colors.semanticError,
-            );
-
+    final errorStyle = widget.errorStyle ??
+        context.theme.typography.textTheme.labelSmall.copyWith(
+          color: context.theme.colors.semanticError,
+        );
 
     return Container(
       decoration: BoxDecoration(
@@ -147,7 +152,8 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: TextField(
         keyboardType: widget.inputType ?? TextInputType.text,
         focusNode: _focusNode,
-        controller: widget.controller ?? _controller,
+        // *** FIX 5: Use the *effective* controller. ***
+        controller: _effectiveController,
         inputFormatters: [
           TextInputFormatter.withFunction((oldValue, newValue) {
             final lineCount = '\n'.allMatches(newValue.text).length + 1;
@@ -160,10 +166,12 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
         onChanged: (value) {
           setState(() {
+            // *** This check is also important ***
             isError = value.isEmpty;
           });
         },
         obscureText: isObscured,
+        obscuringCharacter: '●',
         style: textFieldStyle,
         maxLines: maxLines,
         decoration: InputDecoration(

@@ -18,11 +18,19 @@ class Assets {
   static const String sellio = '$imagesPath/sellio.png';
   //section title icons
   static const String arrowRight = '$iconsPath/arrow-right.svg';
-
   static const String orderIcon = '$iconsPath/order-icon.svg';
   static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
   static const String discountIcon = '$iconsPath/discount_icon.svg';
   static const String discountFrame = '$iconsPath/discount_frame.svg';
+
+
+  //login
+  static const String sellioWhite = '$imagesPath/sellio_white.png';
+  static const String stars = '$iconsPath/stars.svg';
+  static const String loginTopSection = '$imagesPath/login_top_section.png';
+
+
+
 
 
   //images
@@ -45,4 +53,11 @@ class Assets {
   static const String user= '$iconsPath/user.svg';
   static const String openEye = '$iconsPath/opened_eye.svg';
   static const String closeEye = '$iconsPath/closed_eye.svg';
+  static const String flagIraq = '$iconsPath/flag_iraq.svg';
+  static const String phone = '$iconsPath/phone.svg';
+  static const String arrowDown = '$iconsPath/arrow_down.svg';
+  static const String password = '$iconsPath/password.svg';
+
+
+
 }
