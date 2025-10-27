@@ -21,6 +21,18 @@ class DataProvider {
       title: 'Get 10% off on your first order',
       discount: '20% OFF',
     ),
+    SpecialOfferModel(
+      id: '4',
+      imageUrl: 'assets/images/special_offer_1.png',
+      title: 'Get 10% off on your first order',
+      discount: '15% OFF',
+    ),
+    SpecialOfferModel(
+      id: '5',
+      imageUrl: 'assets/images/special_offer_1.png',
+      title: 'Get 10% off on your first order',
+      discount: '35% OFF',
+    ),
   ];
 
   static final List<Store> topStores = [
