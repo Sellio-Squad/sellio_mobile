@@ -72,7 +72,7 @@ class StoreCard extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: IconButton(
                     icon: SvgPicture.asset(
-                      Assets.likeIcon,
+                      Assets.favouriteIcon,
                       width: 32,
                       height: 32,
                     ),
