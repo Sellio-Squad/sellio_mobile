@@ -8,12 +8,14 @@ import '../../constants/assets.dart';
 class StoreCard extends StatelessWidget {
   final String imageUrl;
   final String title;
+  final String? discountText;
   final VoidCallback onLikePressed;
 
   const StoreCard({
     super.key,
     required this.imageUrl,
     required this.title,
+    this.discountText,
     required this.onLikePressed,
   });
 
@@ -82,10 +84,11 @@ class StoreCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            if (discountText != null)
+              Positioned(
               top: 8,
               left: 0,
-              child: DiscountTag(discountText: '40%'),
+              child: DiscountTag(discountText: discountText!),
             ),
           ],
         ),
