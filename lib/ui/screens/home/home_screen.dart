@@ -3,6 +3,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/header_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,44 +47,28 @@ class _HomeScreenState extends State<HomeScreen> {
   // Mock product counters
   final Map<int, int> _productCounts = {};
 
-  // Mock data for top stores
-  final List<Map<String, dynamic>> _topStores = [
-    {
-      'name': 'Nike',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '2.5M',
-      'rating': 4.8,
-    },
-    {
-      'name': 'Adidas',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.8M',
-      'rating': 4.7,
-    },
-    {
-      'name': 'Apple',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '5.2M',
-      'rating': 4.9,
-    },
-    {
-      'name': 'Samsung',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '3.1M',
-      'rating': 4.6,
-    },
-    {
-      'name': 'Zara',
-      'logo': 'https://via.placeholder.com/60',
-      'followers': '1.5M',
-      'rating': 4.5,
-    },
+  final List<Store> _topStores = [
+    Store(
+      name: 'Gold Gallery Accessories',
+      imageUrl: 'assets/images/store_accessories.png',
+      discount: '25',
+    ),
+    Store(
+      name: 'Sweet cake sweet',
+      imageUrl: 'assets/images/store_sweet.png',
+      discount: '30',
+    ),
+    Store(
+      name: 'Techno store',
+      imageUrl: 'assets/images/store_techno.png',
+      discount: null,
+    ),
   ];
 
   // Mock product data
   final List<Map<String, dynamic>> _products = List.generate(
     4,
-    (index) => {
+        (index) => {
       'id': index,
       'imageUrl': 'https://picsum.photos/152/145?random=$index',
       'title': 'Product Name ${index + 1}',
@@ -126,17 +111,39 @@ class _HomeScreenState extends State<HomeScreen> {
             // Category Tabs
             _buildCategoryTabs(colors, textTheme),
 
-            // Featured Banner/Carousel
+            //  Special Offers Section
             _buildSpecialOffersSection(),
 
-            // Section Header for Products
+        /*    // Section Header for Products
             _buildSectionHeader(colors, textTheme),
 
             // Products Grid
-            _buildProductsHorizontalList(),
+            _buildProductsHorizontalList(),*/
 
-            // Top Stores Section
-            _buildTopStoresSection(colors, textTheme),
+            // Top Stores Section - Using TopStoresSection widget
+            SliverToBoxAdapter(
+              child: TopStoresSection(
+                topStores: _topStores,
+                onLikePressed: () {
+                  // Handle like action
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Store added to favorites'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+                onCardPressed: () {
+                  // Handle store card tap
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Store pressed'),
+                      duration: Duration(seconds: 1),
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -234,113 +241,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  SliverToBoxAdapter _buildTopStoresSection(colors, textTheme) {
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Top Stores',
-                  style: textTheme.titleLarge.copyWith(
-                    color: colors.title,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'See All',
-                    style: TextStyle(color: colors.primary),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _topStores.length,
-              separatorBuilder: (_, __) => SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final store = _topStores[index];
-                return _buildStoreCard(store, colors, textTheme);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStoreCard(store, colors, textTheme) {
-    final hasDiscount = store['discount'] != null;
-
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        width: 80,
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(
-                    store['logo'],
-                    width: 80,
-                    height: 80,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                if (hasDiscount)
-                  Positioned(
-                    top: 4,
-                    left: 4,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        "${store['discount']}% OFF",
-                        style: textTheme.labelSmall.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Icon(Icons.favorite_border, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Text(
-              store['name'],
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: textTheme.labelMedium.copyWith(color: colors.title),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   // Section Header for Products
   SliverToBoxAdapter _buildSectionHeader(colors, textTheme) {
     return SliverToBoxAdapter(
@@ -384,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
             final count = _productCounts[productId] ?? 0;
 
             return SizedBox(
-              width: 160, // عرض ثابت للكارت
+              width: 160,
               child: ProductVerticalCard(
                 imageUrl: product['imageUrl'],
                 title: product['title'],
@@ -407,5 +307,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import '../../../../ui/screens/home/widgets/discount_tag.dart';
+import '../../../../ui/screens/home/widgets/top_stores/discount_tag.dart';
 import '../../constants/assets.dart';
 
 class StoreCard extends StatelessWidget {
@@ -25,7 +25,7 @@ class StoreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: 133,
         child: Stack(
@@ -45,7 +45,10 @@ class StoreCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(imageUrl, fit: BoxFit.cover),
+                      if (imageUrl.startsWith('assets/'))
+                        Image.asset(imageUrl, fit: BoxFit.cover)
+                      else
+                        Image.network(imageUrl, fit: BoxFit.cover),
                       Container(
                         width: double.infinity,
                         height: double.infinity,
@@ -67,8 +70,14 @@ class StoreCard extends StatelessWidget {
                             child: Text(
                               title,
                               textAlign: TextAlign.center,
-                              style: context.theme.typography.textTheme.titleSmall
-                                  .copyWith(color: context.theme.colors.onPrimary),
+                              style: context
+                                  .theme
+                                  .typography
+                                  .textTheme
+                                  .titleSmall
+                                  .copyWith(
+                                    color: context.theme.colors.onPrimary,
+                                  ),
                             ),
                           ),
                         ),
@@ -101,4 +110,4 @@ class StoreCard extends StatelessWidget {
       ),
     );
   }
-  }
+}

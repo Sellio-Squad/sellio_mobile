@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
-import '../../../../core/design_system/constants/assets.dart';
+import '../../../../../core/design_system/constants/assets.dart';
 
 class DiscountTag extends StatelessWidget {
   final String discountText;
