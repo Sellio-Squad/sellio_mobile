@@ -24,18 +24,19 @@ class StoreCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SizedBox(
+      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+      child: Container(
         width: double.infinity,
         height: 133,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
             Positioned.fill(
-              left: 4.0,
+              left: 8,
               child: GestureDetector(
                 onTap: onCardPressed,
                 child: Card(
+                  margin: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -100,4 +101,4 @@ class StoreCard extends StatelessWidget {
       ),
     );
   }
-}
+  }
