@@ -10,6 +10,7 @@ class StoreCard extends StatelessWidget {
   final String title;
   final String? discountText;
   final VoidCallback onLikePressed;
+  final VoidCallback onCardPressed;
 
   const StoreCard({
     super.key,
@@ -17,6 +18,7 @@ class StoreCard extends StatelessWidget {
     required this.title,
     this.discountText,
     required this.onLikePressed,
+    required this.onCardPressed,
   });
 
   @override
@@ -27,71 +29,75 @@ class StoreCard extends StatelessWidget {
         width: double.infinity,
         height: 133,
         child: Stack(
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: Clip.none,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 4.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                clipBehavior: Clip.antiAlias,
-                elevation: 0,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.network(imageUrl, fit: BoxFit.cover),
-                    Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Color(0x00000000),
-                            Color(0xFF000000),
-                          ],
+            Positioned.fill(
+              left: 4.0,
+              child: GestureDetector(
+                onTap: onCardPressed,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  elevation: 0,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.network(imageUrl, fit: BoxFit.cover),
+                      Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Color(0x00000000),
+                              Color(0xFF000000),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text(
-                            title,
-                            textAlign: TextAlign.center,
-                            style: context.theme.typography.textTheme.titleSmall
-                                .copyWith(color: context.theme.colors.onPrimary),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              title,
+                              textAlign: TextAlign.center,
+                              style: context.theme.typography.textTheme.titleSmall
+                                  .copyWith(color: context.theme.colors.onPrimary),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                          Assets.favouriteIcon,
-                          width: 32,
-                          height: 32,
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                            Assets.favouriteIcon,
+                            width: 32,
+                            height: 32,
+                          ),
+                          onPressed: onLikePressed,
                         ),
-                        onPressed: onLikePressed,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
             if (discountText != null)
               Positioned(
-              top: 8,
-              left: 0,
-              child: DiscountTag(discountText: discountText!),
-            ),
+                top: 8,
+                left: 0,
+                child: DiscountTag(discountText: discountText!),
+              ),
           ],
         ),
       ),
     );
-  }}
+  }
+}
