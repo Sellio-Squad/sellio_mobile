@@ -25,10 +25,10 @@ class StoreCard extends StatelessWidget {
         width: double.infinity,
         height: 133,
         child: Stack(
-          clipBehavior: Clip.none,
+          clipBehavior: Clip.antiAlias,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 4.0),
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -67,18 +67,15 @@ class StoreCard extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        padding: const EdgeInsets.all(4),
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            Assets.favouriteIcon,
-                            width: 32,
-                            height: 32,
-                          ),
-                          onPressed: onLikePressed,
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          Assets.favouriteIcon,
+                          width: 32,
+                          height: 32,
                         ),
+                        onPressed: onLikePressed,
                       ),
                     ),
                   ],
