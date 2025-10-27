@@ -33,4 +33,8 @@ class Assets {
   static const String favorite = '$iconsPath/favourite.svg';
   static const String cart = '$iconsPath/small_cart.svg';
 
+  // text field icons
+  static const String user= '$iconsPath/user.svg';
+  static const String openEye = '$iconsPath/opened_eye.svg';
+  static const String closeEye = '$iconsPath/closed_eye.svg';
 }
