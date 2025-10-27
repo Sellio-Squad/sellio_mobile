@@ -19,7 +19,7 @@ class DiscountTag extends StatelessWidget {
         ),
         Positioned.fill(
           child: Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12 ,bottom: 2),
+            padding: const EdgeInsets.only(left: 12, right: 12 ,bottom: 6),
             child: Align(
               alignment: Alignment.center,
               child: Row(
@@ -27,14 +27,14 @@ class DiscountTag extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     Assets.discountIcon,
-                    width: 20,
-                    height: 20,
+                    width: 16,
+                    height: 16,
                     colorFilter: ColorFilter.mode(
                      context.theme.colors.secondary,
                       BlendMode.srcIn,
                     ),
                   ),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 4),
                   Text(
                     discountText,
                     style: context.theme.typography.textTheme.labelSmall
