@@ -11,6 +11,12 @@ class ThriftScreen extends StatefulWidget {
 class _ThriftScreenState extends State<ThriftScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: SellioAppBar(title: 'Thrift'));
+    return Scaffold(
+        appBar: SellioAppBar(
+            title: 'Thrift',
+          showNotificationIcon: false,
+        ),
+
+    );
   }
 }
