@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/header_section.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,6 +19,28 @@ class _HomeScreenState extends State<HomeScreen> {
     'Fashion',
     'Home',
     'Sports',
+  ];
+
+  // In your HomeScreen class, add mock data:
+  final List<SpecialOfferModel> _specialOffers = [
+    SpecialOfferModel(
+      id: '1',
+      imageUrl: 'assets/images/special_offer_1.png',
+      title: 'Get 10% off on your first order',
+      discount: '25% OFF',
+    ),
+    SpecialOfferModel(
+      id: '2',
+      imageUrl: 'assets/images/special_offer_1.png',
+      title: 'Get 10% off on your first order',
+      discount: '30% OFF',
+    ),
+    SpecialOfferModel(
+      id: '3',
+      imageUrl: 'assets/images/special_offer_1.png',
+      title: 'Get 10% off on your first order',
+      discount: '20% OFF',
+    ),
   ];
 
   // Mock product counters
@@ -104,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildCategoryTabs(colors, textTheme),
 
             // Featured Banner/Carousel
-            _buildFeaturedSection(colors, textTheme),
+            _buildSpecialOffersSection(),
 
             // Section Header for Products
             _buildSectionHeader(colors, textTheme),
@@ -116,6 +139,17 @@ class _HomeScreenState extends State<HomeScreen> {
             _buildTopStoresSection(colors, textTheme),
           ],
         ),
+      ),
+    );
+  }
+
+  SliverToBoxAdapter _buildSpecialOffersSection() {
+    return SliverToBoxAdapter(
+      child: SpecialOffersSection(
+        offers: _specialOffers,
+        onOfferTap: (offerId) {
+          // todo: Handle offer tap
+        },
       ),
     );
   }
@@ -200,58 +234,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Featured Banner Section
-  SliverToBoxAdapter _buildFeaturedSection(colors, textTheme) {
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 180,
-        margin: const EdgeInsets.all(16),
-        child: PageView.builder(
-          itemCount: 3,
-          itemBuilder: (context, index) {
-            return Container(
-              margin: const EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  colors: [colors.primary, colors.primary.withOpacity(0.7)],
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black.withOpacity(0.5)],
-                  ),
-                ),
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Special Offer',
-                      style: textTheme.headlineSmall.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Up to 50% off',
-                      style: textTheme.bodyLarge.copyWith(color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
 
   SliverToBoxAdapter _buildTopStoresSection(colors, textTheme) {
     return SliverToBoxAdapter(
