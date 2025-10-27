@@ -129,41 +129,47 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
       child: Column(
         children: [
           const SizedBox(height: 40),
-
-          // Title
-          SizedBox(
-            child: Text(
-              'Confirm your account',
-              style: TextStyle(
-                fontFamily: 'Rubik',
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
-                height: 28 / 18,
-                color: colors.title,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              width: 328,
+              height: 48,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Confirm your account',
+                  style: TextStyle(
+                    fontFamily: 'Rubik',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    height: 28 / 18,
+                    color: colors.title,
+                  ),
+                ),
               ),
             ),
           ),
 
-          const SizedBox(height: 8),
-
-          // Subtitle
-          SizedBox(
-            width: 328,
-            child: Text(
-              'Please enter the 4-digit code sent to your phone number.',
-              style: TextStyle(
-                fontFamily: 'Rubik',
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                height: 22 / 14,
-                color: colors.body,
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
+            child: SizedBox(
+              width: 328,
+              height: 30,
+              child: Text(
+                'Please enter the 4-digit code sent to your phone number.',
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 22 / 14,
+                  color: colors.body,
+                ),
               ),
             ),
           ),
 
           const SizedBox(height: 32),
 
-          // OTP Input Field
           OTPInputField(
             key: _otpKey,
             length: 4,
@@ -179,13 +185,9 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
           ),
 
           const SizedBox(height: 24),
-
-          // Resend Section
           _buildResendSection(colors),
 
-          const SizedBox(height: 120), // Spacer to push button down
-
-          // Confirm Button
+          const SizedBox(height: 288),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: SizedBox(
