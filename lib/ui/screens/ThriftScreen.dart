@@ -6,11 +6,13 @@ class ThriftScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Thrift Screen',
-        style: context.theme.typography.textTheme.headlineLarge.copyWith(
-          color: context.theme.colors.primary,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Thrift',
+          style: context.theme.typography.textTheme.titleMedium.copyWith(
+            color: context.theme.colors.title,
+          ),
         ),
       ),
     );
