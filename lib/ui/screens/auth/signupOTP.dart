@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
+import '../../../core/design_system/widgets/snack_bar.dart';
 
 
 class ConfirmAccountScreen extends StatefulWidget {
@@ -72,54 +73,6 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     print('Resend OTP requested');
   }
 
-  Future<void> _handleConfirm() async {
-    if (!_isOtpComplete || _isLoading) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      // TODO: Call API to verify OTP and create account
-      // POST /auth/verify-otp
-      // Payload: { phone_number: user.phoneNumber, otp: _otpValue }
-      // Response: { success: true, token: 'jwt_token', user: {...} }
-
-      // Mock verification
-      await Future.delayed(const Duration(seconds: 1));
-
-      // TODO: On success:
-      // 1. Save auth token
-      // 2. Save user data
-      // 3. Navigate to main app home screen
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (context) => const HomeScreen()),
-      // );
-
-      print('OTP Verified: $_otpValue');
-      print('Account created successfully');
-    } catch (error) {
-      // TODO: Show error message to user
-      print('OTP verification failed: $error');
-
-      // Show error dialog or snackbar
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Invalid code. Please try again.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
@@ -154,15 +107,16 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
             padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
             child: SizedBox(
               width: 328,
-              height: 30,
+              height: 50,
               child: Text(
                 'Please enter the 4-digit code sent to your phone number.',
                 style: TextStyle(
                   fontFamily: 'Rubik',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  height: 22 / 14,
+                  height: 24 / 16,
                   color: colors.body,
+                  letterSpacing: 0,
                 ),
               ),
             ),
@@ -194,9 +148,9 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
               width: 328,
               height: 48,
               child: ElevatedButton(
-                onPressed: (_isOtpComplete && !_isLoading) ? _handleConfirm : null,
+                onPressed: _isOtpComplete ? () {} : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: (_isOtpComplete && !_isLoading)
+                  backgroundColor: _isOtpComplete
                       ? colors.primary
                       : colors.disabled,
                   disabledBackgroundColor: colors.disabled,
@@ -209,25 +163,14 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
                     horizontal: 24,
                   ),
                 ),
-                child: _isLoading
-                    ? SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      colors.onPrimary,
-                    ),
-                  ),
-                )
-                    : Text(
+                child: Text(
                   'Confirm',
                   style: TextStyle(
                     fontFamily: 'Rubik',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     height: 22 / 14,
-                    color: (_isOtpComplete && !_isLoading)
+                    color: _isOtpComplete
                         ? colors.onPrimary
                         : colors.hint,
                   ),
