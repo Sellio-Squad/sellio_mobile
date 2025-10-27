@@ -22,4 +22,8 @@ class AppIcons {
 
   // Center button icon
   static const String magicStick = '$_basePath/magic_stick.svg';
+
+  static const String search = '$_basePath/search.svg';
+  static const String filter = '$_basePath/filter.svg';
+
 }

@@ -19,6 +19,19 @@ class Assets {
   //section title icons
   static const String arrowRight = '$iconsPath/arrow-right.svg';
   static const String orderIcon = '$iconsPath/order-icon.svg';
+  static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
+  static const String discountIcon = '$iconsPath/discount_icon.svg';
+  static const String discountFrame = '$iconsPath/discount_frame.svg';
+
+
+  //login
+  static const String sellioWhite = '$imagesPath/sellio_white.png';
+  static const String stars = '$iconsPath/stars.svg';
+  static const String loginTopSection = '$imagesPath/login_top_section.png';
+
+
+
+
 
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.png';
@@ -36,6 +49,14 @@ class Assets {
   static const String remove = '$iconsPath/remove.svg';
   static const String favorite = '$iconsPath/favourite.svg';
   static const String cart = '$iconsPath/small_cart.svg';
+  static const String unselectedFavorite =
+      '$iconsPath/unselected-favourite.svg';
+
+  // Category Icons
+  static const String allCategories = '$iconsPath/all.svg';
+  static const String food = '$iconsPath/food.svg';
+  static const String drinks = '$iconsPath/drinks.svg';
+  static const String clothes = '$iconsPath/clothes.svg';
 
   // text field icons
   static const String user= '$iconsPath/user.svg';
