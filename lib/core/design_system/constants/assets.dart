@@ -20,6 +20,10 @@ class Assets {
   static const String arrowRight = '$iconsPath/arrow-right.svg';
 
   static const String orderIcon = '$iconsPath/order-icon.svg';
+  static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
+  static const String discountIcon = '$iconsPath/discount_icon.svg';
+  static const String discountFrame = '$iconsPath/discount_frame.svg';
+
 
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.png';
