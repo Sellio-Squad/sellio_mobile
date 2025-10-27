@@ -29,8 +29,6 @@ class TopStoresSection extends StatelessWidget {
           onTap: () {},
           trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
         ),
-        const SizedBox(height: 8),
-
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -49,8 +47,7 @@ class TopStoresSection extends StatelessWidget {
               },
             );
           },
-        ),
-      ],
+        )      ],
     );
   }
 }
