@@ -28,5 +28,12 @@ class Assets {
   static const String remove = '$iconsPath/remove.svg';
   static const String favorite = '$iconsPath/favourite.svg';
   static const String cart = '$iconsPath/small_cart.svg';
+  static const String unselectedFavorite =
+      '$iconsPath/unselected-favourite.svg';
 
+  // Category Icons
+  static const String allCategories = '$iconsPath/all.svg';
+  static const String food = '$iconsPath/food.svg';
+  static const String drinks = '$iconsPath/drinks.svg';
+  static const String clothes = '$iconsPath/clothes.svg';
 }
