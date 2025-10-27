@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
@@ -77,13 +76,13 @@ class SellioButton extends StatelessWidget {
                       .copyWith(color: finalTextColor),
             ),
             if (isLoading) ...[
-              Gap(SellioDimensions.buttonIconSpacing),
+              const SizedBox(width: SellioDimensions.buttonIconSpacing),
               AnimatedLoadingDots(
                 colors:
                     loadingColors ?? context.theme.colors.loadingLightColors,
               ),
             ] else if (suffixSvgPath != null) ...[
-              Gap(SellioDimensions.buttonIconSpacing),
+              const SizedBox(width: SellioDimensions.buttonIconSpacing),
               SvgPicture.asset(
                 suffixSvgPath!,
                 width: SellioDimensions.buttonIconWidth,
