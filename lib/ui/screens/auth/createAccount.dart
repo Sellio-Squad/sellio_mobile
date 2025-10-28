@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/auth/signupOTP.dart';
-
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
@@ -27,11 +26,44 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final confirmPasswordController = TextEditingController();
   final List<Country> _countries = mockCountries;
   late Country _selectedCountry;
+  bool _isFormValid = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
     _selectedCountry = _countries.firstWhere((c) => c.code == '+964');
+    phoneController.addListener(_validateForm);
+    nameController.addListener(_validateForm);
+    countryController.addListener(_validateForm);
+    cityController.addListener(_validateForm);
+    passwordController.addListener(_validateForm);
+    confirmPasswordController.addListener(_validateForm);
+  }
+
+  void _validateForm() {
+    setState(() {
+      _isFormValid =
+          phoneController.text.isNotEmpty &&
+          nameController.text.isNotEmpty &&
+          countryController.text.isNotEmpty &&
+          cityController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty &&
+          passwordController.text == confirmPasswordController.text;
+    });
+  }
+
+  void _handleCreateAccount() async {
+    setState(() => _isLoading = true);
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() => _isLoading = false);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const ConfirmAccountScreen()),
+    );
   }
 
   @override
@@ -319,17 +351,21 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   SellioButton(
                     text: 'Create account',
                     textStyle: context.theme.typography.textTheme.labelMedium,
-                    isEnabled: true,
+                    isEnabled: _isFormValid && !_isLoading,
+                    isLoading: _isLoading,
                     suffixSvgPath: Assets.outlineArrow,
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ConfirmAccountScreen(),
-                        ),
-                      );
-                    },
+                    iconWidth: 10,
+                    iconHeight: 10,
+                    suffixIconColor: _isFormValid
+                        ? context.theme.colors.onPrimary
+                        : context.theme.colors.hint,
+                    loadingColors: context.theme.colors.loadingLightColors,
+                    backgroundColor: _isFormValid
+                        ? context.theme.colors.primary
+                        : context.theme.colors.disabled,
+                    onTap: _isFormValid ? _handleCreateAccount : null,
                   ),
+
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -347,7 +383,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             MaterialPageRoute(
                               builder: (context) => const LoginScreen(),
                             ),
-                          );                        },
+                          );
+                        },
                         child: Text(
                           'Login',
                           style: context.theme.typography.textTheme.labelMedium
