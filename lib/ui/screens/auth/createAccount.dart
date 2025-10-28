@@ -6,7 +6,9 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
+import '../main_screen/MainScreen.dart';
 import 'country.dart';
+import 'login.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -318,7 +320,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     textStyle: context.theme.typography.textTheme.labelMedium,
                     isEnabled: true,
                     suffixSvgPath: Assets.outlineArrow,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainScreen(screenIndex: 0),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 12),
                   Row(
@@ -331,7 +340,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                       const SizedBox(width: 4),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );                        },
                         child: Text(
                           'Login',
                           style: context.theme.typography.textTheme.labelMedium
