@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import '../screens/main_screen/MainScreen.dart';
+import 'screens/main_screen/main_screen.dart';
 
 void main() {
   runApp(
