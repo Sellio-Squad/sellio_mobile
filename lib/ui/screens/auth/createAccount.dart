@@ -50,7 +50,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title
             Text(
               'Create account',
               style: context.theme.typography.textTheme.headlineSmall,
@@ -61,8 +60,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               style: context.theme.typography.textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
-
-            // Phone number
             SellioTextField(
               controller: phoneController,
               hintText: 'Phone number',
@@ -180,7 +177,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            // Country + City
             Row(
               children: [
                 Expanded(
@@ -324,7 +320,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     suffixSvgPath: Assets.outlineArrow,
                     onTap: () {},
                   ),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
