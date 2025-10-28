@@ -12,8 +12,6 @@ import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'country.dart';
 
-// make sure the splash screen then login then home
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
