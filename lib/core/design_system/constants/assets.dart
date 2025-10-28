@@ -22,16 +22,14 @@ class Assets {
   static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
   static const String discountIcon = '$iconsPath/discount_icon.svg';
   static const String discountFrame = '$iconsPath/discount_frame.svg';
-
+  //create account icons
+  static const String imageUpload = '$iconsPath/image-upload.svg';
+  static const String outlineArrow = '$iconsPath/outline-arrow.svg';
 
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.png';
   static const String stars = '$iconsPath/stars.svg';
   static const String loginTopSection = '$imagesPath/login_top_section.png';
-
-
-
-
 
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.png';
@@ -40,8 +38,7 @@ class Assets {
   static const String remove = '$iconsPath/remove.svg';
   static const String favorite = '$iconsPath/favourite.svg';
   static const String cart = '$iconsPath/small_cart.svg';
-  static const String unselectedFavorite =
-      '$iconsPath/unselected-favourite.svg';
+  static const String unselectedFavorite = '$iconsPath/unselected-favourite.svg';
 
   // Category Icons
   static const String allCategories = '$iconsPath/all.svg';
@@ -57,7 +54,6 @@ class Assets {
   static const String phone = '$iconsPath/phone.svg';
   static const String arrowDown = '$iconsPath/arrow_down.svg';
   static const String password = '$iconsPath/password.svg';
-
-
+  static const String account = '$iconsPath/account.svg';
 
 }
