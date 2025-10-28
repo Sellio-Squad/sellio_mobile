@@ -1,11 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
-class ProductVerticalCard extends StatelessWidget {
+class ProductVerticalCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String price;
@@ -13,6 +12,7 @@ class ProductVerticalCard extends StatelessWidget {
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
   final VoidCallback? onFavorite;
+  final bool isFavorite;
 
   const ProductVerticalCard({
     super.key,
@@ -23,7 +23,28 @@ class ProductVerticalCard extends StatelessWidget {
     required this.onIncrement,
     required this.onDecrement,
     this.onFavorite,
+    this.isFavorite = false,
   });
+
+  @override
+  State<ProductVerticalCard> createState() => _ProductVerticalCardState();
+}
+
+class _ProductVerticalCardState extends State<ProductVerticalCard> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    widget.onFavorite?.call();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,37 +65,9 @@ class ProductVerticalCard extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      imageUrl,
-                      width: 152,
-                      height: 145,
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, progress) {
-                        return progress == null
-                            ? child
-                            : Container(
-                          width: 152,
-                          height: 145,
-                          color: colors.surface,
-                          child: const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          width: 152,
-                          height: 145,
-                          color: colors.surface,
-                          child: const Icon(Icons.broken_image),
-                        );
-                      },
-                    ),
-                  ),
+                  child: _buildImage(colors),
                 ),
-                if (onFavorite != null)
+                if (widget.onFavorite != null)
                   Positioned(
                     top: 8,
                     right: 8,
@@ -92,10 +85,12 @@ class ProductVerticalCard extends StatelessWidget {
                             type: MaterialType.transparency,
                             child: InkWell(
                               customBorder: const CircleBorder(),
-                              onTap: onFavorite,
+                              onTap: _toggleFavorite,
                               child: Center(
                                 child: SvgPicture.asset(
-                                  Assets.favorite,
+                                  _isFavorite
+                                      ? Assets.favorite
+                                      : Assets.unselectedFavorite,
                                   colorFilter: ColorFilter.mode(
                                     colors.primary,
                                     BlendMode.srcIn,
@@ -120,10 +115,8 @@ class ProductVerticalCard extends StatelessWidget {
                 height: 44.0,
                 alignment: Alignment.topLeft,
                 child: Text(
-                  title,
-                  style: textTheme.labelMedium.copyWith(
-                    color: colors.title,
-                  ),
+                  widget.title,
+                  style: textTheme.labelMedium.copyWith(color: colors.title),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -133,10 +126,8 @@ class ProductVerticalCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Text(
-                price,
-                style: textTheme.titleSmall.copyWith(
-                  color: colors.primary,
-                ),
+                widget.price,
+                style: textTheme.titleSmall.copyWith(color: colors.primary),
                 maxLines: 1,
               ),
             ),
@@ -145,7 +136,7 @@ class ProductVerticalCard extends StatelessWidget {
               padding: const EdgeInsets.all(4),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: count == 0
+                child: widget.count == 0
                     ? _buildSingleAddButton(context)
                     : _buildCounter(context),
               ),
@@ -169,13 +160,10 @@ class ProductVerticalCard extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          onTap: onIncrement,
+          onTap: widget.onIncrement,
           child: SvgPicture.asset(
             Assets.add,
-            colorFilter: ColorFilter.mode(
-              colors.primary,
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
             width: 16,
             height: 16,
             fit: BoxFit.scaleDown,
@@ -212,13 +200,10 @@ class ProductVerticalCard extends StatelessWidget {
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
-                onTap: onDecrement,
+                onTap: widget.onDecrement,
                 child: SvgPicture.asset(
                   Assets.remove,
-                  colorFilter: ColorFilter.mode(
-                    colors.body,
-                    BlendMode.srcIn,
-                  ),
+                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
                   fit: BoxFit.scaleDown,
@@ -227,10 +212,8 @@ class ProductVerticalCard extends StatelessWidget {
             ),
           ),
           Text(
-            count.toString().padLeft(2, '0'),
-            style: textTheme.labelSmall.copyWith(
-              color: colors.title,
-            ),
+            widget.count.toString().padLeft(2, '0'),
+            style: textTheme.labelSmall.copyWith(color: colors.title),
           ),
           Container(
             width: 32,
@@ -243,7 +226,7 @@ class ProductVerticalCard extends StatelessWidget {
             child: Material(
               type: MaterialType.transparency,
               child: InkWell(
-                onTap: onIncrement,
+                onTap: widget.onIncrement,
                 child: SvgPicture.asset(
                   Assets.add,
                   colorFilter: ColorFilter.mode(
@@ -258,6 +241,44 @@ class ProductVerticalCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImage(colors) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.asset(
+        widget.imageUrl,
+        width: 152,
+        height: 145,
+        fit: BoxFit.cover,
+        /*child: Image.network(
+        widget.imageUrl,
+        width: 152,
+        height: 145,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, progress) {
+          return progress == null
+              ? child
+              : Container(
+                  width: 152,
+                  height: 145,
+                  color: colors.surface,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 152,
+            height: 145,
+            color: colors.surface,
+            child: const Icon(Icons.broken_image),
+          );
+        },
+      ),*/
       ),
     );
   }
