@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
+import 'DataProvider.dart';
+import 'widgets/category_tabs.dart';
+import 'widgets/products_section.dart';
+import 'widgets/search_bar/search_widget.dart';
+import 'widgets/special_offer/special_offers_section.dart';
+import 'widgets/top_stores/top_stores_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

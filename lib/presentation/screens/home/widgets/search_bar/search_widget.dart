@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_filter_widget.dart';
 import 'filter_widget.dart';
+import 'search_filter_widget.dart';
 
 class SearchBarWithFilter extends StatelessWidget {
   final Function() onFilterIconClicked;
