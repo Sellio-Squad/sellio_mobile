@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
+import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 
 
@@ -75,6 +76,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
+    final textTheme = context.theme.typography.textTheme;
 
     return AuthBackgroundWrapper(
       showLogo: true,
@@ -87,11 +89,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
               alignment: Alignment.centerLeft,
               child: Text(
                 'Confirm your account',
-                style: TextStyle(
-                  fontFamily: 'Rubik',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  height: 28 / 18,
+                style: textTheme.titleMedium.copyWith(
                   color: colors.title,
                 ),
               ),
@@ -105,13 +103,8 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
               height: 50,
               child: Text(
                 'Please enter the 4-digit code sent to your phone number.',
-                style: TextStyle(
-                  fontFamily: 'Rubik',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  height: 24 / 16,
+                style: textTheme.bodyMedium.copyWith(
                   color: colors.body,
-                  letterSpacing: 0,
                 ),
               ),
             ),
@@ -134,7 +127,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
           ),
 
           const SizedBox(height: 24),
-          _buildResendSection(colors),
+          _buildResendSection(colors, textTheme),
 
           const SizedBox(height: 345),
           SizedBox(
@@ -157,11 +150,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
               ),
               child: Text(
                 'Confirm',
-                style: TextStyle(
-                  fontFamily: 'Rubik',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  height: 22 / 14,
+                style: textTheme.labelMedium.copyWith(
                   color: _isOtpComplete
                       ? colors.onPrimary
                       : colors.hint,
@@ -174,7 +163,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
     );
   }
 
-  Widget _buildResendSection(dynamic colors) {
+  Widget _buildResendSection(dynamic colors, SellioTextTheme textTheme) {
     final canResend = _resendCountdown == 0;
 
     return Row(
@@ -182,11 +171,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
       children: [
         Text(
           'Don\'t received code?',
-          style: TextStyle(
-            fontFamily: 'Rubik',
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            height: 22 / 14,
+          style: textTheme.labelMedium.copyWith(
             color: colors.body,
           ),
         ),
@@ -195,11 +180,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
           onTap: canResend ? _handleResendCode : null,
           child: Text(
             canResend ? 'Re-Send' : 'Re-Send in $_resendCountdown Sec',
-            style: TextStyle(
-              fontFamily: 'Rubik',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              height: 22 / 14,
+            style: textTheme.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.body,
               decoration: canResend ? TextDecoration.underline : null,
             ),

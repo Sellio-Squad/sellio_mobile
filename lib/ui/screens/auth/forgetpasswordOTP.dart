@@ -5,6 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 
+import '../../../core/design_system/themes/sellio_typography.dart';
+
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
 
@@ -71,6 +73,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
+    final typography = context.theme.typography.textTheme;
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
@@ -95,10 +98,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         ),
         title: Text(
           'Forget password',
-          style: TextStyle(
-            fontFamily: 'Rubik',
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
+          style: typography.titleMedium.copyWith(
             color: colors.title,
           ),
         ),
@@ -121,11 +121,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       width: 328,
                       child: Text(
                         'Enter code',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          height: 28 / 18,
+                        style: typography.titleMedium.copyWith(
                           color: colors.title,
                         ),
                       ),
@@ -135,11 +131,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       width: 328,
                       child: Text(
                         'Please enter the 4-digit code sent to your phone number.',
-                        style: TextStyle(
-                          fontFamily: 'Rubik',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          height: 22 / 14,
+                        style: typography.bodySmall.copyWith(
                           color: colors.body,
                         ),
                       ),
@@ -159,7 +151,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       },
                     ),
                     const SizedBox(height: 24),
-                    _buildResendSection(colors),
+                    _buildResendSection(colors, typography),
                   ],
                 ),
               ),
@@ -187,11 +179,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   ),
                   child: Text(
                     'Confirm',
-                    style: TextStyle(
-                      fontFamily: 'Rubik',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      height: 22 / 14,
+                    style: typography.labelMedium.copyWith(
                       color: _isOtpComplete ? colors.onPrimary : colors.hint,
                     ),
                   ),
@@ -222,7 +210,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     );
   }
 
-  Widget _buildResendSection(dynamic colors) {
+  Widget _buildResendSection(dynamic colors, SellioTextTheme typography) {
     final canResend = _resendCountdown == 0;
 
     return Row(
@@ -230,11 +218,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       children: [
         Text(
           'Don\'t received code?',
-          style: TextStyle(
-            fontFamily: 'Rubik',
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            height: 22 / 14,
+          style: typography.labelMedium.copyWith(
             color: colors.body,
           ),
         ),
@@ -243,11 +227,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           onTap: canResend ? _handleResendCode : null,
           child: Text(
             canResend ? 'Re-Send' : 'Re-Send in $_resendCountdown Sec',
-            style: TextStyle(
-              fontFamily: 'Rubik',
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              height: 22 / 14,
+            style: typography.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.body,
               decoration: canResend ? TextDecoration.underline : null,
             ),
