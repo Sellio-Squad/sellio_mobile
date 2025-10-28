@@ -12,6 +12,8 @@ import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'country.dart';
 
+// make sure the splash screen then login then home
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -98,6 +100,82 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  List<Widget> _buildLoginHeader(
+    SellioTextTheme textTheme,
+    SellioColorScheme colors,
+  ) {
+    return [
+      const Gap(24),
+      Text(
+        'Welcome Back!',
+        style: textTheme.headlineSmall.copyWith(
+          color: colors.title,
+        ),
+      ),
+      const Gap(8),
+      Text(
+        'Enter your information to login',
+        style: textTheme.bodyMedium.copyWith(
+          color: colors.body,
+        ),
+      ),
+      const Gap(40),
+    ];
+  }
+
+  Widget _buildCountryDropdown(
+    SellioTextTheme textTheme,
+    SellioColorScheme colors,
+  ) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<Country>(
+        value: _selectedCountry,
+        isDense: true,
+        icon: const SizedBox.shrink(),
+        onChanged: (Country? newValue) {
+          if (newValue != null) {
+            setState(() {
+              _selectedCountry = newValue;
+            });
+          }
+        },
+        selectedItemBuilder: (BuildContext context) {
+          return _countries.map<Widget>((Country country) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(Assets.arrowDown, width: 16, height: 16),
+                const Gap(8),
+                SvgPicture.asset(country.flagAsset, width: 24, height: 24),
+                const Gap(8),
+                Text(
+                  country.code,
+                  style: textTheme.bodyMedium.copyWith(color: colors.body),
+                ),
+              ],
+            );
+          }).toList();
+        },
+        items: _countries.map((Country country) {
+          return DropdownMenuItem<Country>(
+            value: country,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(country.flagAsset, width: 24, height: 24),
+                const Gap(8),
+                Text(
+                  country.code,
+                  style: textTheme.bodyMedium.copyWith(color: colors.body),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _phoneController.dispose();
@@ -148,7 +226,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // *** Just the logo, in a SafeArea ***
   Widget _buildTopLogo(BuildContext context) {
     return SafeArea(
       bottom: false,
@@ -162,7 +239,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /// Bottom section with the white rounded form container
   Widget _buildBottomSection(
     BuildContext context,
     SellioColorScheme colors,
@@ -186,17 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Gap(24),
-              Text(
-                'Welcome Back!',
-                style: textTheme.headlineSmall.copyWith(color: colors.title),
-              ),
-              const Gap(8),
-              Text(
-                'Enter your information to login',
-                style: textTheme.bodyMedium.copyWith(color: colors.body),
-              ),
-              const Gap(40),
+              ..._buildLoginHeader(textTheme,colors),
 
               SellioTextField(
                 controller: _phoneController,
@@ -209,69 +275,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       SvgPicture.asset(Assets.phone, width: 24, height: 24),
                       const Gap(8),
-                      DropdownButtonHideUnderline(
-                        child: DropdownButton<Country>(
-                          value: _selectedCountry,
-                          isDense: true,
-                          icon: const SizedBox.shrink(),
-                          onChanged: (Country? newValue) {
-                            if (newValue != null) {
-                              setState(() {
-                                _selectedCountry = newValue;
-                              });
-                            }
-                          },
-                          selectedItemBuilder: (BuildContext context) {
-                            return _countries.map<Widget>((Country country) {
-                              return Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(
-                                    Assets.arrowDown,
-                                    width: 16,
-                                    height: 16,
-                                  ),
-                                  const Gap(8),
-                                  SvgPicture.asset(
-                                    country.flagAsset,
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                  const Gap(8),
-                                  Text(
-                                    country.code,
-                                    style: textTheme.bodyMedium.copyWith(
-                                      color: colors.title,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }).toList();
-                          },
-                          items: _countries.map((Country country) {
-                            return DropdownMenuItem<Country>(
-                              value: country,
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(
-                                    country.flagAsset,
-                                    width: 24,
-                                    height: 24,
-                                  ),
-                                  const Gap(8),
-                                  Text(
-                                    country.code,
-                                    style: textTheme.bodyMedium.copyWith(
-                                      color: colors.title,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
+                      _buildCountryDropdown(textTheme, colors),
                       const Gap(8),
                       Container(width: 1, height: 24, color: colors.stroke),
                     ],
@@ -293,9 +297,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              // const Gap(12),
 
-              // Forgot Password
               Align(
                 alignment: Alignment.centerRight,
                 child: SellioButton(
@@ -311,8 +313,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
               SizedBox(height: MediaQuery.of(context).size.height * 0.25),
 
-              // --- Bottom Section (Guest/Create) ---
-              // Login Button
               SellioButton(
                 text: 'Login',
                 onTap: _handleLogin,
@@ -322,7 +322,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     : colors.disabled,
                 isLoading: _isLoading,
                 suffixSvgPath: Assets.arrowRight,
-                suffixIconColor: _isLoginValid ? colors.onPrimary: colors.hint,
+                suffixIconColor: _isLoginValid ? colors.onPrimary : colors.hint,
               ),
 
               const Gap(12),
@@ -354,7 +354,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const Gap(16),
 
-                  // Continue as Guest Button
                   Expanded(
                     child: SellioButton(
                       text: 'Continue as guest',
