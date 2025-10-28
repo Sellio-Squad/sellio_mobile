@@ -113,6 +113,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Container(
                 height: 44.0,
+                width: 160,
                 alignment: Alignment.topLeft,
                 child: Text(
                   widget.title,
