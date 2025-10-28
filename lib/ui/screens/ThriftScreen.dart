@@ -11,49 +11,6 @@ class ThriftScreen extends StatefulWidget {
 }
 
 class _ThriftScreenState extends State<ThriftScreen> {
-  final List<ThriftItem> thriftItems = [
-    ThriftItem(
-      imageUrl: 'https://example.com/image1.jpg',
-      title: 'Vintage Jacket',
-      price: '\$45.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image2.jpg',
-      title: 'Retro Sneakers',
-      price: '\$60.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image3.jpg',
-      title: 'Classic Hat',
-      price: '\$20.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image4.jpg',
-      title: 'Denim Jeans',
-      price: '\$35.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image5.jpg',
-      title: 'Leather Belt',
-      price: '\$25.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image6.jpg',
-      title: 'Floral Dress',
-      price: '\$50.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image7.jpg',
-      title: 'Wool Sweater',
-      price: '\$40.00',
-    ),
-    ThriftItem(
-      imageUrl: 'https://example.com/image8.jpg',
-      title: 'Canvas Bag',
-      price: '\$30.00',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,26 +19,9 @@ class _ThriftScreenState extends State<ThriftScreen> {
         showNotificationIcon: false,
         showLeading: false,
       ),
-      body:  CustomScrollView(
-            slivers: [
-              CategoryTabs(),
-              GridProductsSection(),
-          ]
-      ),
+      body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
     );
   }
-}
-
-class ThriftItem {
-  final String imageUrl;
-  final String title;
-  final String price;
-
-  ThriftItem({
-    required this.imageUrl,
-    required this.title,
-    required this.price,
-  });
 }
 
 class GridProductsSection extends StatefulWidget {
@@ -93,7 +33,7 @@ class GridProductsSection extends StatefulWidget {
 
 class _GridProductsSectionState extends State<GridProductsSection> {
   final Map<int, int> _productCounts = {};
-   bool _isFavourite = false;
+  bool _isFavourite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -103,48 +43,56 @@ class _GridProductsSectionState extends State<GridProductsSection> {
         'imageUrl': 'assets/images/product_1.png',
         'title': 'Gold Stainless Steel Sun Charm Necklace',
         'price': '\$5.00',
+        'isFavourite': _isFavourite,
       },
       {
         'id': 1,
         'imageUrl': 'assets/images/product_2.png',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
+        'isFavourite': _isFavourite,
       },
       {
-        'id': 2,
+        'id': 3,
         'imageUrl': 'assets/images/product_3.png',
         'title': 'Product Name 3',
         'price': '\$30.99',
-      },
-    {
-    'id': 1,
-    'imageUrl': 'assets/images/product_2.png',
-    'title': 'Birthday cake with bows',
-    'price': '\$12.99',
-    },
-    {
-    'id': 2,
-    'imageUrl': 'assets/images/product_3.png',
-    'title': 'Product Name 3',
-    'price': '\$30.99',
-    },
-      {
-        'id': 2,
-        'imageUrl': 'assets/images/product_3.png',
-        'title': 'Product Name 3',
-        'price': '\$30.99',
+        'isFavourite': _isFavourite,
       },
       {
-        'id': 1,
+        'id': 4,
         'imageUrl': 'assets/images/product_2.png',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
+        'isFavourite': _isFavourite,
       },
       {
-        'id': 2,
+        'id': 5,
         'imageUrl': 'assets/images/product_3.png',
         'title': 'Product Name 3',
         'price': '\$30.99',
+        'isFavourite': _isFavourite,
+      },
+      {
+        'id': 6,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+        'isFavourite': _isFavourite,
+      },
+      {
+        'id': 7,
+        'imageUrl': 'assets/images/product_2.png',
+        'title': 'Birthday cake with bows',
+        'price': '\$12.99',
+        'isFavourite': _isFavourite,
+      },
+      {
+        'id': 8,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+        'isFavourite': _isFavourite,
       },
     ];
 
@@ -163,7 +111,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
       });
     }
 
-    void toggleFavourite(int productId){
+    void toggleFavourite(int productId) {
       setState(() {
         _isFavourite = !_isFavourite;
       });
@@ -182,7 +130,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
               crossAxisCount: 2,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 180/272,
+              childAspectRatio: 180 / 272,
             ),
             itemBuilder: (context, index) {
               final product = products[index];
@@ -194,6 +142,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
                 title: product['title'],
                 price: product['price'],
                 count: count,
+                isFavorite: product['isFavourite'],
                 onIncrement: () => incrementProduct(productId),
                 onDecrement: () => decrementProduct(productId),
                 onFavorite: () => toggleFavourite(productId),
