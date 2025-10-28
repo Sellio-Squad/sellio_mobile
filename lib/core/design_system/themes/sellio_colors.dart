@@ -69,6 +69,7 @@ class SellioColors {
 }
 
 class SellioColorScheme {
+  final Color AuthBackground = const Color(0xFF2C0113);
   final Color primary;
   final Color primaryVariant;
   final Color secondary;
