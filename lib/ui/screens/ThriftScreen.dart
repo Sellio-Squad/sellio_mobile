@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
 
 class ThriftScreen extends StatefulWidget {
@@ -64,7 +62,12 @@ class _ThriftScreenState extends State<ThriftScreen> {
         showNotificationIcon: false,
         showLeading: false,
       ),
-      body: SafeArea(child: CustomScrollView(slivers: [CategoryTabs(), ProductsSection()])),
+      body:  CustomScrollView(
+            slivers: [
+              CategoryTabs(),
+              GridProductsSection(),
+          ]
+      ),
     );
   }
 }
@@ -81,24 +84,117 @@ class ThriftItem {
   });
 }
 
-// backgroundColor: context.theme.colors.surfaceLow,
-// body: GridView.builder(
-//   padding: const EdgeInsets.all(16),
-//   itemCount: thriftItems.length,
-//   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//     crossAxisCount: 2,
-//     crossAxisSpacing: 16,
-//     mainAxisSpacing: 12,
-//     childAspectRatio: 0.7,
-//   ),
-//   itemBuilder: (context, index) {
-//     final item = thriftItems[index];
-//     return ProductVerticalCard(
-//       imageUrl: item.imageUrl,
-//       title: item.title,
-//       price: item.price,
-//       onIncrement: () {},
-//       onDecrement: () {},
-//     );
-//   },
-// ),
+class GridProductsSection extends StatefulWidget {
+  const GridProductsSection({super.key});
+
+  @override
+  State<GridProductsSection> createState() => _GridProductsSectionState();
+}
+
+class _GridProductsSectionState extends State<GridProductsSection> {
+  final Map<int, int> _productCounts = {};
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> products = [
+      {
+        'id': 0,
+        'imageUrl': 'assets/images/product_1.png',
+        'title': 'Gold Stainless Steel Sun Charm Necklace',
+        'price': '\$5.00',
+      },
+      {
+        'id': 1,
+        'imageUrl': 'assets/images/product_2.png',
+        'title': 'Birthday cake with bows',
+        'price': '\$12.99',
+      },
+      {
+        'id': 2,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+      },
+    {
+    'id': 1,
+    'imageUrl': 'assets/images/product_2.png',
+    'title': 'Birthday cake with bows',
+    'price': '\$12.99',
+    },
+    {
+    'id': 2,
+    'imageUrl': 'assets/images/product_3.png',
+    'title': 'Product Name 3',
+    'price': '\$30.99',
+    },
+      {
+        'id': 2,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+      },
+      {
+        'id': 1,
+        'imageUrl': 'assets/images/product_2.png',
+        'title': 'Birthday cake with bows',
+        'price': '\$12.99',
+      },
+      {
+        'id': 2,
+        'imageUrl': 'assets/images/product_3.png',
+        'title': 'Product Name 3',
+        'price': '\$30.99',
+      },
+    ];
+
+    void incrementProduct(int productId) {
+      setState(() {
+        _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
+      });
+    }
+
+    void decrementProduct(int productId) {
+      setState(() {
+        final count = _productCounts[productId] ?? 0;
+        if (count > 0) {
+          _productCounts[productId] = count - 1;
+        }
+      });
+    }
+
+    return SliverToBoxAdapter(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            itemCount: products.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 12,
+              childAspectRatio: 180/272,
+            ),
+            itemBuilder: (context, index) {
+              final product = products[index];
+              final productId = product['id'] as int;
+              final count = _productCounts[productId] ?? 0;
+
+              return ProductVerticalCard(
+                imageUrl: product['imageUrl'],
+                title: product['title'],
+                price: product['price'],
+                count: count,
+                onIncrement: () => incrementProduct(productId),
+                onDecrement: () => decrementProduct(productId),
+                onFavorite: () {},
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
