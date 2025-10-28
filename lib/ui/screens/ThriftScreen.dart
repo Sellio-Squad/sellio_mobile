@@ -93,6 +93,7 @@ class GridProductsSection extends StatefulWidget {
 
 class _GridProductsSectionState extends State<GridProductsSection> {
   final Map<int, int> _productCounts = {};
+   bool _isFavourite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +163,12 @@ class _GridProductsSectionState extends State<GridProductsSection> {
       });
     }
 
+    void toggleFavourite(int productId){
+      setState(() {
+        _isFavourite = !_isFavourite;
+      });
+    }
+
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +196,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
                 count: count,
                 onIncrement: () => incrementProduct(productId),
                 onDecrement: () => decrementProduct(productId),
-                onFavorite: () {},
+                onFavorite: () => toggleFavourite(productId),
               );
             },
           ),
