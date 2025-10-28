@@ -367,24 +367,26 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SellioButton(
-                    text: 'Create account',
-                    textStyle: context.theme.typography.textTheme.labelMedium,
-                    isEnabled: _isFormValid && !_isLoading,
-                    isLoading: _isLoading,
-                    suffixSvgPath: Assets.outlineArrow,
-                    iconWidth: 10,
-                    iconHeight: 10,
-                    suffixIconColor: _isFormValid
-                        ? context.theme.colors.onPrimary
-                        : context.theme.colors.hint,
-                    loadingColors: context.theme.colors.loadingLightColors,
-                    backgroundColor: _isFormValid
-                        ? context.theme.colors.primary
-                        : context.theme.colors.disabled,
-                    onTap: _isFormValid ? _handleCreateAccount : null,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: SellioButton(
+                      text: 'Create account',
+                      textStyle: context.theme.typography.textTheme.labelMedium,
+                      isEnabled: _isFormValid && !_isLoading,
+                      isLoading: _isLoading,
+                      suffixSvgPath: Assets.outlineArrow,
+                      iconWidth: 10,
+                      iconHeight: 10,
+                      suffixIconColor: _isFormValid
+                          ? context.theme.colors.onPrimary
+                          : context.theme.colors.hint,
+                      loadingColors: context.theme.colors.loadingLightColors,
+                      backgroundColor: _isFormValid
+                          ? context.theme.colors.primary
+                          : context.theme.colors.disabled,
+                      onTap: _isFormValid ? _handleCreateAccount : null,
+                    ),
                   ),
-
                   const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
