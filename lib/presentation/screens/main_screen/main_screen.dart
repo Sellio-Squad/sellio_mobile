@@ -6,14 +6,23 @@ import '../ThriftScreen.dart';
 import '../home/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int screenIndex;
+
+  const MainScreen({super.key, this.screenIndex = 0});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
+  late int _currentIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = widget.screenIndex;
+  }
+
 
   final List<Widget> _screens = [
     const HomeScreen(),
