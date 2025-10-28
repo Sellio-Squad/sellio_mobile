@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
-import '../../../core/design_system/widgets/snack_bar.dart';
 
 
 class ConfirmAccountScreen extends StatefulWidget {
@@ -81,30 +80,26 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
       showLogo: true,
       child: Column(
         children: [
-          const SizedBox(height: 40),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SizedBox(
-              width: 328,
-              height: 48,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Confirm your account',
-                  style: TextStyle(
-                    fontFamily: 'Rubik',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    height: 28 / 18,
-                    color: colors.title,
-                  ),
+          SizedBox(
+            width: 328,
+            height: 48,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Confirm your account',
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  height: 28 / 18,
+                  color: colors.title,
                 ),
               ),
             ),
           ),
 
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
+            padding: const EdgeInsets.only(top: 4),
             child: SizedBox(
               width: 328,
               height: 50,
@@ -141,39 +136,35 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
           const SizedBox(height: 24),
           _buildResendSection(colors),
 
-          const SizedBox(height: 288),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: 328,
-              height: 48,
-              child: ElevatedButton(
-                onPressed: _isOtpComplete ? () {} : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _isOtpComplete
-                      ? colors.primary
-                      : colors.disabled,
-                  disabledBackgroundColor: colors.disabled,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  elevation: 0,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 24,
-                  ),
+          const SizedBox(height: 345),
+          SizedBox(
+            width: 350,
+            height: 48,
+            child: ElevatedButton(
+              onPressed: _isOtpComplete ? () {} : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _isOtpComplete
+                    ? colors.primary
+                    : colors.disabled,
+                disabledBackgroundColor: colors.disabled,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(
-                  'Confirm',
-                  style: TextStyle(
-                    fontFamily: 'Rubik',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    height: 22 / 14,
-                    color: _isOtpComplete
-                        ? colors.onPrimary
-                        : colors.hint,
-                  ),
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8,
+                ),
+              ),
+              child: Text(
+                'Confirm',
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  height: 22 / 14,
+                  color: _isOtpComplete
+                      ? colors.onPrimary
+                      : colors.hint,
                 ),
               ),
             ),
