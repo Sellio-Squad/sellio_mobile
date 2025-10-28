@@ -32,6 +32,7 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
       backgroundColor: backgroundColor ?? context.theme.colors.surfaceLow,
       elevation: 0,
