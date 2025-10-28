@@ -3,10 +3,11 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/ui/screens/auth/signupOTP.dart';
+
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
-import '../main_screen/MainScreen.dart';
 import 'country.dart';
 import 'login.dart';
 
@@ -324,7 +325,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MainScreen(screenIndex: 0),
+                          builder: (context) => const ConfirmAccountScreen(),
                         ),
                       );
                     },
