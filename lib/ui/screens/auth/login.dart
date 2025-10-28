@@ -73,7 +73,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(24),
 
-          // Phone Number Field
           SellioTextField(
             controller: _phoneController,
             hintText: 'Phone number',
@@ -145,7 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(16),
 
-          // Password Field
           SellioTextField(
             controller: _passwordController,
             hintText: 'Password',
@@ -161,7 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(12),
 
-          // Forgot Password
           Align(
             alignment: Alignment.centerRight,
             child: Text(
@@ -171,7 +168,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(24),
 
-          // Login Button
           SellioButton(
             text: 'Login',
             onTap: _handleLogin,
@@ -180,7 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(24),
 
-          // OR Divider
           Row(
             children: [
               Expanded(child: Divider(color: colors.stroke)),
@@ -196,7 +191,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Gap(24),
 
-          // Create Account and Guest Buttons
           Row(
             children: [
               Expanded(
