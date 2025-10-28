@@ -251,7 +251,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
       borderRadius: BorderRadius.circular(8),
       child: Image.asset(
         widget.imageUrl,
-        width: 152,
+        width: double.infinity,
         height: 145,
         fit: BoxFit.cover,
         /*child: Image.network(
