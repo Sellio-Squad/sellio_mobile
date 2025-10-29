@@ -3,7 +3,7 @@ import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../CartScreen.dart';
 import '../home/home_screen.dart';
 import '../AccountScreen.dart';
-import '../ThriftScreen.dart';
+import '../thriftScreen.dart';
 
 class MainScreen extends StatefulWidget {
   final int screenIndex;
