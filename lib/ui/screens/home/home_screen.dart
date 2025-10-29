@@ -32,26 +32,43 @@ class _HomeScreenState extends State<HomeScreen> {
           showGreeting: true,
           backgroundColor: theme.colors.surfaceLow,
         ),
+        extendBodyBehindAppBar: true,
         backgroundColor: colors.surface,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              // Search Bar
-              _buildSearchBarSection(),
+        body: Stack(
+          children: [
+            Container(
+              decoration:  BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color.fromRGBO(82, 8, 38, 1),
+                    Color.fromRGBO(82, 8, 38, 0),
+                  ],
+                ),
+              ),
+            ),
+            SafeArea(
+              child: CustomScrollView(
+                slivers: [
+                  // Search Bar
+                  _buildSearchBarSection(),
 
-              // Category Tabs
-              CategoryTabs(),
+                  // Category Tabs
+                  CategoryTabs(),
 
-              //  Special Offers Section
-              _buildSpecialOffersSection(),
+                  //  Special Offers Section
+                  _buildSpecialOffersSection(),
 
-              // Products Grid
-              ProductsSection(),
+                  // Products Grid
+                  ProductsSection(),
 
-              // Top Stores Section
-              _buildTopStoresSection(),
-            ],
-          ),
+                  // Top Stores Section
+                  _buildTopStoresSection(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
