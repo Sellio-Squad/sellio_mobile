@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_managment/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/auth/login.dart';
 
@@ -17,10 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig:  RouteGenerator.router,
       debugShowCheckedModeBanner: false,
       title: 'Sellio app',
-      home: const LoginScreen(),
     );
   }
 }
