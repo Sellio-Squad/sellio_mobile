@@ -6,7 +6,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
-import 'package:sellio_mobile/ui/screens/auth/forgetpasswordOTP.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetPassword/forgetpasswordOTP.dart';
 import 'package:sellio_mobile/ui/screens/main_screen/MainScreen.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
