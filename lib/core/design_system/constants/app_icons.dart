@@ -26,4 +26,7 @@ class AppIcons {
   static const String search = '$_basePath/search.svg';
   static const String filter = '$_basePath/filter.svg';
 
+  //forget password
+  static const String lock = '$_basePath/ic_circle_lock_remove.svg';
+
 }

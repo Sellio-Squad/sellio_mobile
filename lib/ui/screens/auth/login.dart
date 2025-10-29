@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
@@ -13,7 +14,7 @@ import 'package:flutter/services.dart';
 import '../main/main_screen.dart';
 import 'country.dart';
 import 'createAccount.dart';
-import 'forgetpasswordOTP.dart';
+import 'forgetPassword/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
