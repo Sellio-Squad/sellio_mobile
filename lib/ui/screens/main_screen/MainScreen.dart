@@ -4,6 +4,7 @@ import '../CartScreen.dart';
 import '../home/home_screen.dart';
 import '../AccountScreen.dart';
 import '../ThriftScreen.dart';
+import '../CustomYourProductScreen.dart';
 
 class MainScreen extends StatefulWidget {
   final int screenIndex;
@@ -23,16 +24,18 @@ class _MainScreenState extends State<MainScreen> {
     _currentIndex = widget.screenIndex;
   }
 
-
   final List<Widget> _screens = [
     const HomeScreen(),
     const CartScreen(),
     const ThriftScreen(),
     const AccountScreen(),
+    const CustomYourProductScreen(),
   ];
 
   void _onCenterButtonTapped() {
-    // Handle center button action
+    setState(() {
+      _currentIndex = 4;
+    });
   }
 
   @override
