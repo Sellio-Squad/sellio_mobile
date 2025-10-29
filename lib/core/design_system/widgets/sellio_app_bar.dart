@@ -47,92 +47,13 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       flexibleSpace: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16 , bottom: 12,top: 8),
+          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (showLeading)
-                if (showBack)
-                  IconButton(
-                    icon: SvgPicture.asset(Assets.arrowLeft),
-                    onPressed: () => Navigator.of(context).pop(),
-                  )
-                else
-                  Image.asset(Assets.sellio, height: 58, width: 61),
-              Expanded(
-                child: showGreeting
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Welcome, $userName',
-                            style: context.theme.typography.textTheme.labelSmall
-                                .copyWith(color: context.theme.colors.title),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                Assets.location,
-                                width: 20,
-                                height: 20,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                location ?? '',
-                                style: context
-                                    .theme
-                                    .typography
-                                    .textTheme
-                                    .labelXSmall
-                                    .copyWith(color: context.theme.colors.body),
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title ?? '',
-                            style: context
-                                .theme
-                                .typography
-                                .textTheme
-                                .titleMedium
-                                .copyWith(color: context.theme.colors.title),
-                            textAlign: TextAlign.start,
-                          ),
-
-                          Text(
-                            subtitle ?? '',
-                            style: context
-                                .theme
-                                .typography
-                                .textTheme
-                                .labelSmall
-                                .copyWith(color: context.theme.colors.body),
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      ),
-              ),
-              if (showActionIcon)
-                IconButton(
-                  icon: SvgPicture.asset(actionIcon!),
-                  onPressed: onNotificationTap,
-                ),
-            ],
-          ),
-        ),
-      ),
-              _buildLeading(context),
-              Expanded(
-                child: _buildCenter(context),
-              ),
-              _buildTrailing(context),
+              if (showLeading) _buildLeading(context),
+              Expanded(child: _buildCenter(context)),
+              if (showActionIcon) _buildTrailing(context),
             ],
           ),
         ),
@@ -141,27 +62,20 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildLeading(BuildContext context) {
-    if (leading != null) {
-      return leading!;
-    }
+    if (leading != null) return leading!;
     if (showBack) {
       return IconButton(
         icon: SvgPicture.asset(Assets.arrowLeft),
         onPressed: () => Navigator.of(context).pop(),
       );
     } else {
-      return Image.asset(
-        Assets.sellio,
-        height: 58,
-        width: 61,
-      );
+      return Image.asset(Assets.sellio, height: 58, width: 61);
     }
   }
 
   Widget _buildCenter(BuildContext context) {
-    if (centerWidget != null) {
-      return centerWidget!;
-    }
+    if (centerWidget != null) return centerWidget!;
+
     if (showGreeting) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,11 +90,7 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                Assets.location,
-                width: 20,
-                height: 20,
-              ),
+              SvgPicture.asset(Assets.location, width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
                 location ?? '',
@@ -193,22 +103,32 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       );
     } else {
-      return Text(
-        title ?? '',
-        style: context.theme.typography.textTheme.titleMedium.copyWith(
-          color: context.theme.colors.title,
-        ),
-        textAlign: TextAlign.start,
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title ?? '',
+            style: context.theme.typography.textTheme.titleMedium.copyWith(
+              color: context.theme.colors.title,
+            ),
+          ),
+          if (subtitle != null && subtitle!.isNotEmpty)
+            Text(
+              subtitle!,
+              style: context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+        ],
       );
     }
   }
 
   Widget _buildTrailing(BuildContext context) {
-    if (trailing != null) {
-      return trailing!;
-    }
+    if (trailing != null) return trailing!;
     return IconButton(
-      icon: SvgPicture.asset(Assets.bell),
+      icon: SvgPicture.asset(actionIcon!),
       onPressed: onNotificationTap,
     );
   }
