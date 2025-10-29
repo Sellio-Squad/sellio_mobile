@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
-        backgroundColor: colors.surface,
+        backgroundColor: colors.surfaceLow,
         body: Stack(
           children: [
             Container(
