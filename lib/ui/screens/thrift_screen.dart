@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
@@ -13,7 +14,11 @@ class ThriftScreen extends StatefulWidget {
 class _ThriftScreenState extends State<ThriftScreen> {
   @override
   Widget build(BuildContext context) {
+    final colors = context.theme.colors;
+
     return Scaffold(
+      backgroundColor: colors.surfaceLow,
+
       appBar: const SellioAppBar(
         title: 'Thrift',
         showNotificationIcon: false,
@@ -21,9 +26,10 @@ class _ThriftScreenState extends State<ThriftScreen> {
       ),
       body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
     );
-  }
-}
 
+  }
+
+}
 class GridProductsSection extends StatefulWidget {
   const GridProductsSection({super.key});
 
@@ -130,7 +136,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
               crossAxisCount: 2,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 180 / 272,
+              childAspectRatio: 170 / 272,
             ),
             itemBuilder: (context, index) {
               final product = products[index];
