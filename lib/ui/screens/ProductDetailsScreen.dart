@@ -55,6 +55,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool _isFavorite = false;
   late int productCount = widget.productCount;
+  String noteText = '';
 
   void _toggleFavorite() {
     setState(() {
@@ -73,6 +74,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       if (productCount > 0) {
         productCount--;
       }
+    });
+  }
+
+  void productNote(){
+    setState(() {
+      noteText = '';
     });
   }
 
@@ -279,17 +286,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text(
-                        widget.productDescription,
-                        style: context.theme.typography.textTheme.bodyMedium
-                            .copyWith(color: context.theme.colors.body),
-                      ),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text(
+                    widget.productDescription,
+                    style: context.theme.typography.textTheme.bodyMedium
+                        .copyWith(color: context.theme.colors.body),
+                  ),
                 ),
               ],
             ),
