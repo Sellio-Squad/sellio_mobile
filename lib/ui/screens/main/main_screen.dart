@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
-import '../CartScreen.dart';
+import '../cart_screen.dart';
 import '../home/home_screen.dart';
-import '../AccountScreen.dart';
-import '../ThriftScreen.dart';
 import '../customize_your_product_screen/CustomizeYourProductScreen.dart';
+import '../account_screen.dart';
+import '../thrift_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final int screenIndex;
@@ -23,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _currentIndex = widget.screenIndex;
   }
+
 
   final List<Widget> _screens = [
     const HomeScreen(),
