@@ -14,7 +14,7 @@ import '../../../core/design_system/widgets/textField.dart';
 import 'package:flutter/services.dart';
 import 'country.dart';
 import 'createAccount.dart';
-import 'forgetPassword/forgetPasswordScreen.dart';
+import 'forgetPassword/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

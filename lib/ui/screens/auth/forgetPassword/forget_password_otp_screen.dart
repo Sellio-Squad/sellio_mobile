@@ -6,7 +6,7 @@ import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
-import 'confirmPasswordScreen.dart';
+import 'confirm_password_screen.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {
   const ForgetPasswordOTPScreen({super.key});
@@ -115,7 +115,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
-                    buildLockIcon(colors),
+                    Center(child: buildLockIcon(colors)),
                     const SizedBox(height: 40),
                     SizedBox(
                       width: 328,

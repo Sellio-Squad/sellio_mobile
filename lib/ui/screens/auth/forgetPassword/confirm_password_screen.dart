@@ -67,53 +67,57 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
       backgroundColor: colors.surfaceLow,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 24),
-            buildLockIcon(colors),
-            const SizedBox(height: 40),
-            Text(
-              AppStrings.setNewPassword,
-              style: textTheme.headlineSmall.copyWith(color: colors.title),
-            ),
-            const Gap(8),
-            Text(
-              AppStrings.subtitleSetNewPassword,
-              style: textTheme.bodyMedium.copyWith(color: colors.body),
-            ),
-            const Gap(32),
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
+                Center(child: buildLockIcon(colors)),
+                const SizedBox(height: 40),
+                Text(
+                  AppStrings.setNewPassword,
+                  style: textTheme.headlineSmall.copyWith(color: colors.title),
+                ),
+                const Gap(8),
+                Text(
+                  AppStrings.subtitleSetNewPassword,
+                  style: textTheme.bodyMedium.copyWith(color: colors.body),
+                ),
+                const Gap(32),
 
-            // Use the new reusable PasswordField
-            SellioTextField(
-              controller: _passwordController,
-              hintText: AppStrings.password,
-              inputType: TextInputType.visiblePassword,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(Assets.password, width: 24, height: 24),
-              ),
-            ),
-            const Gap(16),
+                // Use the new reusable PasswordField
+                SellioTextField(
+                  controller: _passwordController,
+                  hintText: AppStrings.password,
+                  inputType: TextInputType.visiblePassword,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(Assets.password, width: 24, height: 24),
+                  ),
+                ),
+                const Gap(16),
 
-            SellioTextField(
-              controller: _confirmPasswordController,
-              hintText: 'Confirm Password',
-              inputType: TextInputType.visiblePassword,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(Assets.password, width: 24, height: 24),
-              ),
-            ),
+                SellioTextField(
+                  controller: _confirmPasswordController,
+                  hintText: 'Confirm Password',
+                  inputType: TextInputType.visiblePassword,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(Assets.password, width: 24, height: 24),
+                  ),
+                ),
 
-            const Spacer(),
-            SellioButton(
-              text: AppStrings.send,
-              onTap: _isFormValid ? _handleSave : null,
-              isEnabled: _isFormValid,
+                const Spacer(),
+                SellioButton(
+                  text: AppStrings.send,
+                  onTap: _isFormValid ? _handleSave : null,
+                  isEnabled: _isFormValid,
+                ),
+                const Gap(16),
+              ],
             ),
-            const Gap(16),
-          ],
+          ),
         ),
       ),
     );
