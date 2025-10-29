@@ -35,9 +35,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool _isFavorite = false;
   int productCount = 1;
 
+
   void _toggleFavorite() {
     setState(() {
       _isFavorite = !_isFavorite;
+    });
+  }
+  void incrementProduct() {
+    setState(() {
+      productCount++;
+    });
+  }
+
+  void decrementProduct() {
+    setState(() {
+      if (productCount > 0) {
+        productCount--;
+      }
     });
   }
 
@@ -180,7 +194,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                     const Expanded(child: Spacer()),
                     GestureDetector(
-                      onTap: null,
+                      onTap: decrementProduct,
                       child: Container(
                         width: 28,
                         height: 28,
@@ -211,13 +225,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         horizontal: 8,
                       ),
                       child: Text(
-                        '01',
+                        productCount < 10 ? '0$productCount' : '$productCount',
                         style: context.theme.typography.textTheme.labelMedium
                             .copyWith(color: context.theme.colors.title),
                       ),
                     ),
                     GestureDetector(
-                      onTap: null,
+                      onTap: incrementProduct,
                       child: Container(
                         width: 28,
                         height: 28,
