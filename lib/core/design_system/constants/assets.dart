@@ -22,6 +22,10 @@ class Assets {
   static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
   static const String discountIcon = '$iconsPath/discount_icon.svg';
   static const String discountFrame = '$iconsPath/discount_frame.svg';
+  //create account icons
+  static const String imageUpload = '$iconsPath/image-upload.svg';
+  static const String outlineArrow = '$iconsPath/outline-arrow.svg';
+
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.png';
   static const String stars = '$iconsPath/stars.svg';
@@ -48,4 +52,5 @@ class Assets {
   static const String phone = '$iconsPath/phone.svg';
   static const String arrowDown = '$iconsPath/arrow_down.svg';
   static const String password = '$iconsPath/password.svg';
+  static const String account = '$iconsPath/account.svg';
 }

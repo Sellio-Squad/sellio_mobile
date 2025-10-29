@@ -11,6 +11,7 @@ import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'country.dart';
+import 'createAccount.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -72,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleCreateAccount() {
-    _navigateWithAnimation(MainScreen(screenIndex: 3));
+    _navigateWithAnimation(CreateAccountScreen());
   }
 
   void _navigateWithAnimation(Widget screenDestination) {
