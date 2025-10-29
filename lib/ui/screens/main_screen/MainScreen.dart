@@ -4,7 +4,7 @@ import '../CartScreen.dart';
 import '../home/home_screen.dart';
 import '../AccountScreen.dart';
 import '../ThriftScreen.dart';
-import '../CustomYourProductScreen.dart';
+import '../CustomizeYourProductScreen.dart';
 
 class MainScreen extends StatefulWidget {
   final int screenIndex;
