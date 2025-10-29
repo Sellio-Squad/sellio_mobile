@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           location: "Cairo,Egypt",
           userName: "Israa",
           showGreeting: true,
-          backgroundColor: theme.colors.surfaceLow,
+          backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surface,
