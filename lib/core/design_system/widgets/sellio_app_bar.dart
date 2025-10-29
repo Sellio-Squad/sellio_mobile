@@ -12,9 +12,10 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool showGreeting;
   final Color? backgroundColor;
 
-  final bool showNotificationIcon;
+  final bool showActionIcon;
   final bool showLeading;
   final String? subtitle;
+  final String? actionIcon;
 
   const SellioAppBar({
     super.key,
@@ -25,9 +26,10 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onNotificationTap,
     this.showGreeting = false,
     this.backgroundColor,
-    this.showNotificationIcon = true,
+    this.showActionIcon = true,
     this.showLeading = true,
     this.subtitle,
+    this.actionIcon = Assets.bell,
   });
 
   @override
@@ -111,9 +113,9 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ],
                       ),
               ),
-              if (showNotificationIcon)
+              if (showActionIcon)
                 IconButton(
-                  icon: SvgPicture.asset(Assets.bell),
+                  icon: SvgPicture.asset(actionIcon!),
                   onPressed: onNotificationTap,
                 ),
             ],

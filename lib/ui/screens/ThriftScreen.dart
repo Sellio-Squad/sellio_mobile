@@ -16,7 +16,7 @@ class _ThriftScreenState extends State<ThriftScreen> {
     return Scaffold(
       appBar: const SellioAppBar(
         title: 'Thrift',
-        showNotificationIcon: false,
+        showActionIcon: false,
         showLeading: false,
       ),
       body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
