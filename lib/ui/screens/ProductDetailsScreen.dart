@@ -6,34 +6,6 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 
-void main() {
-  runApp(
-    SellioThemeProvider(brightness: Brightness.light, child: MyPreviewApp()),
-  );
-}
-
-class MyPreviewApp extends StatelessWidget {
-  const MyPreviewApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const ProductDetailsScreen(
-        productCount: 1,
-        productDescription:
-            'A soft, fluffy cake with a refreshing lemon flavor, baked '
-            'daily using 100% natural ingredients and premium butter '
-            'for a rich, balanced flavor.\n It\'s topped with a light'
-            ' layer of whipped lemon cream, combining sweetness with '
-            'refreshing tartness in every bite.',
-        productPrice: 12.99,
-        productPriceBeforeDiscount: 16.99,
-      ),
-    );
-  }
-}
-
 class ProductDetailsScreen extends StatefulWidget {
   final int productCount;
   final String productDescription;
