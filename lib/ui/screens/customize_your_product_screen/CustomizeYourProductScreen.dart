@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/ui/screens/customize_your_product_screen/GridProduct.dart';
 import '../../../core/design_system/constants/assets.dart';
 import 'category.dart';
 
@@ -23,8 +23,12 @@ class _CustomizeYourProductScreenState
         subtitle: "Choose a product to customize it ",
         actionIcon: Assets.orderIcon,
       ),
-      body: CustomScrollView(slivers: [CategoryWidget()]),
+      body: CustomScrollView(
+          slivers: [
+            CategoryWidget(),
+            GridProduct()
+          ]
+      ),
     );
   }
 }
-
