@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
+import 'confirmPasswordScreen.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {
   const ForgetPasswordOTPScreen({super.key});
 
   @override
-  State<ForgetPasswordOTPScreen> createState() => _ForgetPasswordOTPScreenState();
+  State<ForgetPasswordOTPScreen> createState() =>
+      _ForgetPasswordOTPScreenState();
 }
 
 class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
@@ -98,9 +100,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
         ),
         title: Text(
           'Forget password',
-          style: typography.titleMedium.copyWith(
-            color: colors.title,
-          ),
+          style: typography.titleMedium.copyWith(color: colors.title),
         ),
         centerTitle: false,
         titleSpacing: 8,
@@ -115,7 +115,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
-                    _buildLockIcon(colors),
+                    buildLockIcon(colors),
                     const SizedBox(height: 40),
                     SizedBox(
                       width: 328,
@@ -162,7 +162,15 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                 width: 328,
                 height: 48,
                 child: ElevatedButton(
-                  onPressed: _isOtpComplete ? () {} : null,
+                  onPressed: _isOtpComplete
+                      ? () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const SetNewPasswordScreen(),
+                            ),
+                          );
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _isOtpComplete
                         ? colors.primary
@@ -192,24 +200,6 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
     );
   }
 
-  Widget _buildLockIcon(dynamic colors) {
-    return Container(
-      width: 88,
-      height: 88,
-      decoration: BoxDecoration(
-        color: colors.primaryVariant,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: SvgPicture.asset(
-          'assets/svg/ic_circle_lock_remove.svg',
-          width: 48,
-          height: 48,
-        ),
-      ),
-    );
-  }
-
   Widget _buildResendSection(dynamic colors, SellioTextTheme typography) {
     final canResend = _resendCountdown == 0;
 
@@ -218,9 +208,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
       children: [
         Text(
           'Don\'t received code?',
-          style: typography.labelMedium.copyWith(
-            color: colors.body,
-          ),
+          style: typography.labelMedium.copyWith(color: colors.body),
         ),
         const SizedBox(width: 8),
         GestureDetector(

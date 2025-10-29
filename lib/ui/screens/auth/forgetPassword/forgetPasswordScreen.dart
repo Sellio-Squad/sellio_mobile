@@ -6,7 +6,9 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetPassword/forgetpasswordOTPScreen.dart';
 import 'package:sellio_mobile/ui/screens/auth/country.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 
 import '../../../../core/design_system/constants/app_icons.dart';
 import '../../../../core/design_system/widgets/sellio_back_app_bar.dart';
@@ -54,8 +56,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(child: SvgPicture.asset(AppIcons.lock, height: 150)),
-            const Gap(40),
+            const SizedBox(height: 24),
+            buildLockIcon(colors),
+            const SizedBox(height: 40),
             Text(
               AppStrings.titleForgetPassword,
               style: textTheme.headlineSmall.copyWith(color: colors.title),
@@ -78,7 +81,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             const Spacer(),
             SellioButton(
               text: AppStrings.send,
-              onTap: _isPhoneFilled ? () {} : null,
+              onTap: _isPhoneFilled
+                  ? () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const ForgetPasswordOTPScreen(),
+                        ),
+                      );
+                    }
+                  : null,
               backgroundColor: _isPhoneFilled
                   ? colors.primary
                   : colors.disabled,
