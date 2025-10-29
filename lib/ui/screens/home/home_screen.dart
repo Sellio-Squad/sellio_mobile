@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           children: [
             Container(
+              height: 256,
               decoration:  BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
