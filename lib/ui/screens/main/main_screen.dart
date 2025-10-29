@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
-import '../CartScreen.dart';
+import '../cart_screen.dart';
 import '../home/home_screen.dart';
-import '../AccountScreen.dart';
-import '../thriftScreen.dart';
+import '../account_screen.dart';
+import '../thrift_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final int screenIndex;
