@@ -7,14 +7,14 @@ import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
 
-class ForgetPasswordScreen extends StatefulWidget {
-  const ForgetPasswordScreen({super.key});
+class ForgetPasswordOTPScreen extends StatefulWidget {
+  const ForgetPasswordOTPScreen({super.key});
 
   @override
-  State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
+  State<ForgetPasswordOTPScreen> createState() => _ForgetPasswordOTPScreenState();
 }
 
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
   final GlobalKey<OTPInputFieldState> _otpKey = GlobalKey<OTPInputFieldState>();
   String _otpValue = '';
   bool _isOtpComplete = false;
