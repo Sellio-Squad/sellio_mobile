@@ -89,15 +89,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-      child: TopStoresSection(
-        topStores: DataProvider.topStores,
-        onLikePressed: () {
-          // todo: Handle like action
-        },
-        onCardPressed: () {
-          // todo: Handle store card tap
-        },
-      ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: TopStoresSection(
+            topStores: DataProvider.topStores,
+            onLikePressed: () {
+              // todo: Handle like action
+            },
+            onCardPressed: () {
+              // todo: Handle store card tap
+            },
+          ),
+        )
     );
   }
 }
