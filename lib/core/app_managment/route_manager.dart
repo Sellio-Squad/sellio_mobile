@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/ui/screens/AccountScreen.dart';
 import 'package:sellio_mobile/ui/screens/CartScreen.dart';
 import 'package:sellio_mobile/ui/screens/CustomDesignScreen.dart';
-import 'package:sellio_mobile/ui/screens/SplashScreen.dart';
 import 'package:sellio_mobile/ui/screens/ThriftScreen.dart';
 import 'package:sellio_mobile/ui/screens/auth/login.dart';
 import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
