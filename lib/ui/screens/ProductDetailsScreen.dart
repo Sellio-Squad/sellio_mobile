@@ -281,7 +281,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
         child: SellioButton(
           text: "Add to cart",
           onTap: () {},
