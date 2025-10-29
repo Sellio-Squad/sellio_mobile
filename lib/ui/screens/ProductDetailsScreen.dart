@@ -27,20 +27,26 @@ class MyPreviewApp extends StatelessWidget {
             'for a rich, balanced flavor.\n It\'s topped with a light'
             ' layer of whipped lemon cream, combining sweetness with '
             'refreshing tartness in every bite.',
+        productPrice: 12.99,
+        productPriceBeforeDiscount: 16.99,
       ),
     );
   }
 }
 
 class ProductDetailsScreen extends StatefulWidget {
+  final int productCount;
+  final String productDescription;
+  final double productPrice ;
+  final double?  productPriceBeforeDiscount ;
+
   const ProductDetailsScreen({
     super.key,
     required this.productCount,
     required this.productDescription,
+    required this.productPrice,
+    this.productPriceBeforeDiscount ,
   });
-
-  final int productCount;
-  final String productDescription;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -190,7 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      '\$16.99',
+                      widget.productPriceBeforeDiscount == null ? '' : '\$${widget.productPriceBeforeDiscount}',
                       style: context.theme.typography.textTheme.titleSmall
                           .copyWith(
                             color: context.theme.colors.hint,
@@ -202,7 +208,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 3),
                       child: Text(
-                        '\$12.99',
+                        '\$${widget.productPrice}',
                         style: context.theme.typography.textTheme.titleSmall
                             .copyWith(color: context.theme.colors.primary),
                       ),
