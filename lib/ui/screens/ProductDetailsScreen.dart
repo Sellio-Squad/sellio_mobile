@@ -19,13 +19,28 @@ class MyPreviewApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const ProductDetailsScreen(),
+      home: const ProductDetailsScreen(
+        productCount: 1,
+        productDescription:
+            'A soft, fluffy cake with a refreshing lemon flavor, baked '
+            'daily using 100% natural ingredients and premium butter '
+            'for a rich, balanced flavor.\n It\'s topped with a light'
+            ' layer of whipped lemon cream, combining sweetness with '
+            'refreshing tartness in every bite.',
+      ),
     );
   }
 }
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({
+    super.key,
+    required this.productCount,
+    required this.productDescription,
+  });
+
+  final int productCount;
+  final String productDescription;
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -33,14 +48,14 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool _isFavorite = false;
-  int productCount = 1;
-
+  late int productCount = widget.productCount;
 
   void _toggleFavorite() {
     setState(() {
       _isFavorite = !_isFavorite;
     });
   }
+
   void incrementProduct() {
     setState(() {
       productCount++;
@@ -263,16 +278,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 16),
                       child: Text(
-                        'A soft, fluffy cake with a refreshing lemon flavor, baked '
-                            'daily using 100% natural ingredients and premium butter '
-                            'for a rich, balanced flavor.\n It\'s topped with a light'
-                            ' layer of whipped lemon cream, combining sweetness with '
-                            'refreshing tartness in every bite.',
+                        widget.productDescription,
                         style: context.theme.typography.textTheme.bodyMedium
                             .copyWith(color: context.theme.colors.body),
                       ),
                     ),
-                  ]
+                  ],
                 ),
               ],
             ),
