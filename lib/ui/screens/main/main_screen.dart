@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../cart_screen.dart';
 import '../home/home_screen.dart';
+import '../customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../account_screen.dart';
 import '../thrift_screen.dart';
 
@@ -29,10 +30,13 @@ class _MainScreenState extends State<MainScreen> {
     const CartScreen(),
     const ThriftScreen(),
     const AccountScreen(),
+    const CustomizeYourProductScreen(),
   ];
 
   void _onCenterButtonTapped() {
-    // Handle center button action
+    setState(() {
+      _currentIndex = 4;
+    });
   }
 
   @override
