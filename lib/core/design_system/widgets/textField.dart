@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
   final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatter;
   final BorderRadiusGeometry cornerRadius;
   final Color shadowColor;
   final TextStyle? textStyle;
@@ -29,6 +30,7 @@ class SellioTextField extends StatefulWidget {
     super.key,
     this.isParagraph = false,
     this.inputType,
+    this.inputFormatter,
     this.cornerRadius = const BorderRadius.all(Radius.circular(8)),
     this.shadowColor = const Color(0x1F520826),
     this.textStyle,
@@ -53,7 +55,6 @@ class SellioTextField extends StatefulWidget {
 
 class _SellioTextFieldState extends State<SellioTextField> {
   final FocusNode _focusNode = FocusNode();
-  // *** FIX 1: This will store the *actual* controller being used. ***
   late final TextEditingController _effectiveController;
 
   bool isError = false;
@@ -63,14 +64,11 @@ class _SellioTextFieldState extends State<SellioTextField> {
   void initState() {
     super.initState();
 
-    // *** This is the FIX ***
-    // It runs right at the start and gives _effectiveController a value.
     _effectiveController = widget.controller ?? TextEditingController();
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          // This now safely uses the initialized controller
           isError = _effectiveController.text.isEmpty;
         });
       }
@@ -82,7 +80,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
   @override
   void dispose() {
     _focusNode.dispose();
-    // *** FIX 4: Only dispose the controller if this widget created it. ***
     if (widget.controller == null) {
       _effectiveController.dispose();
     }
@@ -152,9 +149,8 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: TextField(
         keyboardType: widget.inputType ?? TextInputType.text,
         focusNode: _focusNode,
-        // *** FIX 5: Use the *effective* controller. ***
         controller: _effectiveController,
-        inputFormatters: [
+        inputFormatters: widget.inputFormatter ?? [
           TextInputFormatter.withFunction((oldValue, newValue) {
             final lineCount = '\n'.allMatches(newValue.text).length + 1;
             if (lineCount > 5) {
@@ -166,7 +162,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
         onChanged: (value) {
           setState(() {
-            // *** This check is also important ***
             isError = value.isEmpty;
           });
         },
