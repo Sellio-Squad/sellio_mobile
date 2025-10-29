@@ -33,6 +33,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   bool _isFavorite = false;
+  int productCount = 1;
 
   void _toggleFavorite() {
     setState(() {
@@ -153,6 +154,116 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '\$16.99',
+                      style: context.theme.typography.textTheme.titleSmall
+                          .copyWith(
+                            color: context.theme.colors.hint,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: context.theme.colors.hint,
+                          ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 3),
+                      child: Text(
+                        '\$12.99',
+                        style: context.theme.typography.textTheme.titleSmall
+                            .copyWith(color: context.theme.colors.primary),
+                      ),
+                    ),
+                    const Expanded(child: Spacer()),
+                    GestureDetector(
+                      onTap: null,
+                      child: Container(
+                        width: 28,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: context.theme.colors.surface,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.remove,
+                              width: 16,
+                              height: 16,
+                              colorFilter: ColorFilter.mode(
+                                context.theme.colors.body,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 3,
+                        horizontal: 8,
+                      ),
+                      child: Text(
+                        '01',
+                        style: context.theme.typography.textTheme.labelMedium
+                            .copyWith(color: context.theme.colors.title),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: null,
+                      child: Container(
+                        width: 28,
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: context.theme.colors.primaryVariant,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.add,
+                              width: 16,
+                              height: 16,
+                              colorFilter: ColorFilter.mode(
+                                context.theme.colors.primary,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Text(
+                        'A soft, fluffy cake with a refreshing lemon flavor, baked '
+                            'daily using 100% natural ingredients and premium butter '
+                            'for a rich, balanced flavor.\n It\'s topped with a light'
+                            ' layer of whipped lemon cream, combining sweetness with '
+                            'refreshing tartness in every bite.',
+                        style: context.theme.typography.textTheme.bodyMedium
+                            .copyWith(color: context.theme.colors.body),
+                      ),
+                    ),
+                  ]
+                ),
+              ],
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(16),
             child: SellioTextField(
               isParagraph: true,
@@ -168,7 +279,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           onTap: () {},
           suffixSvgPath: Assets.cart,
         ),
-      )
+      ),
     );
   }
 }
