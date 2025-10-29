@@ -6,6 +6,7 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 
+
 class ProductDetailsScreen extends StatefulWidget {
   final int productCount;
   final String productDescription;
@@ -58,6 +59,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.colors.surfaceLow,
       appBar: SellioAppBar(
         leading: IconButton(
           icon: SvgPicture.asset(Assets.arrowLeft),
