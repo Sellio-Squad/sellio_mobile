@@ -9,7 +9,8 @@ import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.da
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/sellio_back_app_bar.dart';
 import '../../../../core/design_system/widgets/textField.dart';
-import '../../main_screen/MainScreen.dart';
+import '../../main/main_screen.dart';
+
 
 class SetNewPasswordScreen extends StatefulWidget {
   const SetNewPasswordScreen({super.key});
