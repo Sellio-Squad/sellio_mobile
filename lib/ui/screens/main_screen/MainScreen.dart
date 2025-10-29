@@ -29,7 +29,7 @@ class _MainScreenState extends State<MainScreen> {
     const CartScreen(),
     const ThriftScreen(),
     const AccountScreen(),
-    const CustomYourProductScreen(),
+    const CustomizeYourProductScreen(),
   ];
 
   void _onCenterButtonTapped() {

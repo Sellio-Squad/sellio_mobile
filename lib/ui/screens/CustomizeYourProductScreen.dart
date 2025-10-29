@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-class CostumYourProductScreen extends StatefulWidget {
-  const CostumYourProductScreen({super.key});
+class CustomizeYourProductScreen extends StatefulWidget {
+  const CustomizeYourProductScreen({super.key});
 
   @override
-  State<CostumYourProductScreen> createState() =>
-      _CostumYourProductScreenState();
+  State<CustomizeYourProductScreen> createState() =>
+      _CustomizeYourProductScreenState();
 }
 
-class _CostumYourProductScreenState extends State<CostumYourProductScreen> {
+class _CustomizeYourProductScreenState
+    extends State<CustomizeYourProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Center(
