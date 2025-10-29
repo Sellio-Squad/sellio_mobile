@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/auth/forgetpassword.dart';
+import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetpasswordOTP.dart';
 import 'package:sellio_mobile/ui/screens/main_screen/MainScreen.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
+import 'package:flutter/services.dart';
 import 'country.dart';
+import 'createAccount.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -68,11 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleForgotPassword() {
-    _navigateWithAnimation(ForgetpasswordScreen());
+    _navigateWithAnimation(ForgetPasswordScreen());
   }
 
   void _handleCreateAccount() {
-    _navigateWithAnimation(MainScreen(screenIndex: 3));
+    _navigateWithAnimation(CreateAccountScreen());
   }
 
   void _navigateWithAnimation(Widget screenDestination) {
@@ -101,77 +105,16 @@ class _LoginScreenState extends State<LoginScreen> {
   List<Widget> _buildLoginHeader(
     SellioTextTheme textTheme,
     SellioColorScheme colors,
+    String title,
+    String subtitle,
   ) {
     return [
       const Gap(24),
-      Text(
-        'Welcome Back!',
-        style: textTheme.headlineSmall.copyWith(
-          color: colors.title,
-        ),
-      ),
+      Text(title, style: textTheme.headlineSmall.copyWith(color: colors.title)),
       const Gap(8),
-      Text(
-        'Enter your information to login',
-        style: textTheme.bodyMedium.copyWith(
-          color: colors.body,
-        ),
-      ),
+      Text(subtitle, style: textTheme.bodyMedium.copyWith(color: colors.body)),
       const Gap(40),
     ];
-  }
-
-  Widget _buildCountryDropdown(
-    SellioTextTheme textTheme,
-    SellioColorScheme colors,
-  ) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<Country>(
-        value: _selectedCountry,
-        isDense: true,
-        icon: const SizedBox.shrink(),
-        onChanged: (Country? newValue) {
-          if (newValue != null) {
-            setState(() {
-              _selectedCountry = newValue;
-            });
-          }
-        },
-        selectedItemBuilder: (BuildContext context) {
-          return _countries.map<Widget>((Country country) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(Assets.arrowDown, width: 16, height: 16),
-                const Gap(8),
-                SvgPicture.asset(country.flagAsset, width: 24, height: 24),
-                const Gap(8),
-                Text(
-                  country.code,
-                  style: textTheme.bodyMedium.copyWith(color: colors.body),
-                ),
-              ],
-            );
-          }).toList();
-        },
-        items: _countries.map((Country country) {
-          return DropdownMenuItem<Country>(
-            value: country,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(country.flagAsset, width: 24, height: 24),
-                const Gap(8),
-                Text(
-                  country.code,
-                  style: textTheme.bodyMedium.copyWith(color: colors.body),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ),
-    );
   }
 
   @override
@@ -260,26 +203,23 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ..._buildLoginHeader(textTheme,colors),
-
-              SellioTextField(
-                controller: _phoneController,
-                hintText: 'Phone number',
-                inputType: TextInputType.phone,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 12),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(Assets.phone, width: 24, height: 24),
-                      const Gap(8),
-                      _buildCountryDropdown(textTheme, colors),
-                      const Gap(8),
-                      Container(width: 1, height: 24, color: colors.stroke),
-                    ],
-                  ),
-                ),
+              ..._buildLoginHeader(
+                textTheme = textTheme,
+                colors = colors,
+                AppStrings.titleLogin,
+                AppStrings.subtitleLogin,
               ),
+
+              Phonefield(
+                phoneController: _phoneController,
+                selectedCountry: _selectedCountry,
+                countries: _countries,
+                onChanged: (c) => setState(() => _selectedCountry = c),
+                textTheme: textTheme,
+                colors: colors,
+                flag: Assets.flagIraq,
+              ),
+
               const Gap(16),
 
               SellioTextField(
@@ -312,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.25),
 
               SellioButton(
-                text: 'Login',
+                text: AppStrings.login,
                 onTap: _handleLogin,
                 textColor: _isLoginValid ? colors.onPrimary : colors.hint,
                 backgroundColor: _isLoginValid
@@ -331,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      'OR',
+                      AppStrings.or,
                       style: textTheme.labelSmall.copyWith(color: colors.body),
                     ),
                   ),
@@ -344,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Expanded(
                     child: SellioButton(
-                      text: 'Create Account',
+                      text: AppStrings.createAccount,
                       backgroundColor: colors.primaryVariant,
                       textColor: colors.primary,
                       onTap: _handleCreateAccount,
@@ -354,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   Expanded(
                     child: SellioButton(
-                      text: 'Continue as guest',
+                      text: AppStrings.continueAsGuest,
                       backgroundColor: colors.primaryVariant,
                       textColor: colors.primary,
                       onTap: _handleGuestLogin,
