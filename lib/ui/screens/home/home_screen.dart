@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color.fromRGBO(82, 8, 38, 1),
+                    Color.fromRGBO(82, 8, 38, 1).withOpacity(0.16),
                     Color.fromRGBO(82, 8, 38, 0),
                   ],
                 ),
