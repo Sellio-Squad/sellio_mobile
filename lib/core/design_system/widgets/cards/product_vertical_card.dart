@@ -113,6 +113,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: Container(
                 height: 44.0,
+                width: 160,
                 alignment: Alignment.topLeft,
                 child: Text(
                   widget.title,
@@ -250,7 +251,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
       borderRadius: BorderRadius.circular(8),
       child: Image.asset(
         widget.imageUrl,
-        width: 152,
+        width: double.infinity,
         height: 145,
         fit: BoxFit.cover,
         /*child: Image.network(

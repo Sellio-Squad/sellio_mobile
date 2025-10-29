@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
-import '../screens/main_screen/MainScreen.dart';
+import 'package:sellio_mobile/ui/screens/auth/login.dart';
+import '../screens/main/main_screen.dart';
+
+import '../screens/auth/forgetPassword/forget_password_screen.dart';
+
 
 void main() {
   runApp(
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sellio app',
-      home: const MainScreen(),
+      home: const LoginScreen(),
     );
   }
 }
