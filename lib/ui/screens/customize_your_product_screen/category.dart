@@ -34,14 +34,17 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           itemBuilder: (BuildContext context, int index) {
             final isSelected = _selectedCategoryIndex == index;
-            return ChipCategory(
-              label: categories[index],
-              selected: isSelected,
-              onTap: () {
-                setState(() {
-                  _selectedCategoryIndex = index;
-                });
-              },
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ChipCategory(
+                label: categories[index],
+                selected: isSelected,
+                onTap: () {
+                  setState(() {
+                    _selectedCategoryIndex = index;
+                  });
+                },
+              ),
             );
           },
         ),
