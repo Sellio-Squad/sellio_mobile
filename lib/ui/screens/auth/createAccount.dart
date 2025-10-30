@@ -132,7 +132,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   controller: nameController,
                   hintText: AppStrings.fullName,
                   inputFormatter: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
                   prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                   prefixIcon: SvgPicture.asset(Assets.account,
@@ -151,7 +151,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         controller: countryController,
                         hintText: AppStrings.country,
                         inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                         ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon:SvgPicture.asset(
@@ -171,7 +171,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         controller: cityController,
                         hintText: AppStrings.city,
                         inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                         ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon: SvgPicture.asset(
