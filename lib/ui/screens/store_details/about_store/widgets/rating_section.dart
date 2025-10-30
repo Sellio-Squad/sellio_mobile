@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/rating_bar_item.dart';
+import 'rating_bar_item.dart';
 
 class RatingSection extends StatelessWidget {
   final double averageRating;

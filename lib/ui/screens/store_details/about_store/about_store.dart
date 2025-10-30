@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/address_item.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/contact_info_item.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/horizontal_driver.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/rating_section.dart';
-import 'package:sellio_mobile/ui/screens/about_store/widgets/store_map_view.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../core/design_system/constants/app_icons.dart';
+import '../../../../core/design_system/constants/app_icons.dart';
 import 'models/ContactInfo.dart';
+import 'widgets/address_item.dart';
+import 'widgets/contact_info_item.dart';
+import 'widgets/horizontal_driver.dart';
+import 'widgets/rating_section.dart';
+import 'widgets/store_map_view.dart';
 
 class AboutStore extends StatelessWidget {
   const AboutStore({super.key});
