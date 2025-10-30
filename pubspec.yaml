@@ -5,35 +5,40 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.8.1
+  sdk: '>=3.5.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
+  # UI Dependencies
   cupertino_icons: ^1.0.8
-  flutter_svg: ^2.2.1
-  flutter_gap: ^1.2.0
-  flutter_native_splash: ^2.4.0
-  url_launcher: ^6.2.1
-  google_maps_flutter: ^2.5.0
+  flutter_svg: ^2.0.10+1
+  flutter_gap: ^1.0.2
+
+  # Functionality
+  url_launcher: ^6.3.1
+  google_maps_flutter: ^2.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  # Linting and tooling
   flutter_lints: ^5.0.0
-  flutter_launcher_icons: ^0.14.4
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
-
   uses-material-design: true
 
+  # Assets
   assets:
     - assets/images/
     - assets/svg/
     - assets/fonts/
 
+  # Fonts
   fonts:
     - family: Rubik
       fonts:
@@ -44,6 +49,7 @@ flutter:
         - asset: assets/fonts/rubik_semi_bold.ttf
           weight: 600
 
+# Native splash screen configuration
 flutter_native_splash:
   color: "#F8F8F8"
   color_dark: "#1F1F1F"
@@ -53,17 +59,27 @@ flutter_native_splash:
 
   ios_content_mode: center
 
-  # For Android 12+
+  # Android 12+ configuration
   android_12:
     image: assets/images/sellio.png
     image_dark: assets/images/sellio.png
     color: "#F8F8F8"
     color_dark: "#1F1F1F"
 
-# ---- flutter_launcher_icons ----
-flutter_icons:
+  # Web configuration (optional)
+  web: false
+
+  # Remove full screen for better compatibility
+  fullscreen: false
+
+# App launcher icons configuration
+flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/sellio.png"
 
+  adaptive_icon_background: "#F8F8F8"
+  adaptive_icon_foreground: "assets/images/sellio.png"
 
+  # Remove background for transparency (optional)
+  # remove_alpha_ios: true
