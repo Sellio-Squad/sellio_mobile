@@ -26,7 +26,6 @@ class Assets {
   static const String imageUpload = '$iconsPath/image-upload.svg';
   static const String outlineArrow = '$iconsPath/outline-arrow.svg';
   static const String profile= '$iconsPath/profile';
-
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.png';
   static const String stars = '$iconsPath/stars.svg';
@@ -54,4 +53,6 @@ class Assets {
   static const String arrowDown = '$iconsPath/arrow_down.svg';
   static const String password = '$iconsPath/password.svg';
   static const String account = '$iconsPath/account.svg';
+  // order history screen
+  static const String noOrderHistory= '$imagesPath/no_order_history.png';
 }
