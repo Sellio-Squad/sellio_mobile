@@ -4,7 +4,6 @@ import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_header.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_info_card.dart';
-
 import 'about_store/about_store.dart';
 import 'store_data_provider.dart';
 import 'widgets/featured_items_section.dart';
@@ -147,10 +146,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  // ============================================================================
-  // UI COMPONENTS - APP BAR
-  // ============================================================================
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final theme = context.theme;
     final colors = theme.colors;
@@ -209,9 +204,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  // ============================================================================
-  // EVENT HANDLERS
-  // ============================================================================
 
   /// Handles back button press
   void _handleBackPress() {
