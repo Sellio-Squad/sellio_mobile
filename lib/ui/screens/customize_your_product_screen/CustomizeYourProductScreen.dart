@@ -31,6 +31,7 @@ class _CustomizeYourProductScreenState
         preferredSize: const Size.fromHeight(150),
         child: AppBar(
           automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
           flexibleSpace: SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(top: 8),
@@ -38,7 +39,6 @@ class _CustomizeYourProductScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Original AppBar content
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
