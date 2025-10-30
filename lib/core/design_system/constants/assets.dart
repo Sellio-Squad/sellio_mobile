@@ -25,6 +25,7 @@ class Assets {
   //create account icons
   static const String imageUpload = '$iconsPath/image-upload.svg';
   static const String outlineArrow = '$iconsPath/outline-arrow.svg';
+  static const String profile= '$iconsPath/profile';
 
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.png';

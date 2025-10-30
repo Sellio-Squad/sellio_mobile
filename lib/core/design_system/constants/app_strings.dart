@@ -25,4 +25,13 @@ class AppStrings {
   static const String setNewPassword = 'Set new password';
   static const String subtitleSetNewPassword = 'Please enter your new password and make sure to remember it in next time';
 
+  // create account screen
+  static const String enterYourInformationToCreateAccount='Enter your information to create account';
+  static const String fullName = 'Full name';
+  static const String country= 'Country';
+  static const String city = 'City';
+  static const String confirmPassword= 'Confirm password';
+  static const String profilePhoto = 'Profile photo (optional)';
+  static const String upload = 'Upload';
+  static const String alreadyHaveAccount = 'Already have account?';
 }
