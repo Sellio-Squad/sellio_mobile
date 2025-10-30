@@ -75,10 +75,13 @@ class SellioButton extends StatelessWidget {
           mainAxisAlignment:
           fullWidth ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: [
-            Text(
-              text,
-              style: (textStyle ?? context.theme.typography.textTheme.labelMedium)
-                  .copyWith(color: finalTextColor),
+            Flexible(
+              child: Text(
+                text,
+                style: (textStyle ?? context.theme.typography.textTheme.labelMedium)
+                    .copyWith(color: finalTextColor),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             if (isLoading) ...[
               const SizedBox(width: SellioDimensions.buttonIconSpacing),
