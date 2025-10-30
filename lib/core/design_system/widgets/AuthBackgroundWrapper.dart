@@ -62,7 +62,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.only(top: 33 ,bottom: bottomPadding),
+        padding: EdgeInsets.only(top: 100 ,bottom: bottomPadding),
         child: Align(
           alignment: Alignment.topCenter,
           child: Image.asset(Assets.sellioWhite, width: 120),

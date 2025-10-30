@@ -131,6 +131,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 SellioTextField(
                   controller: nameController,
                   hintText: AppStrings.fullName,
+                  inputFormatter: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                  ],
                   prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                   prefixIcon: SvgPicture.asset(Assets.account,
                     width: 24,
@@ -147,6 +150,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: SellioTextField(
                         controller: countryController,
                         hintText: AppStrings.country,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                        ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon:SvgPicture.asset(
                             Assets.location,
@@ -164,6 +170,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: SellioTextField(
                         controller: cityController,
                         hintText: AppStrings.city,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                        ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon: SvgPicture.asset(
                             Assets.location,
