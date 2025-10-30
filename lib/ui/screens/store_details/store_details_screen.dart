@@ -3,22 +3,29 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/about_store/about_store.dart';
-import 'widgets/store_header.dart';
-import 'widgets/store_info_card.dart';
+import 'package:sellio_mobile/ui/screens/store_details/widgets/store_header.dart';
+import 'package:sellio_mobile/ui/screens/store_details/widgets/store_info_card.dart';
+
 import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
 import 'widgets/store_products_list.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String storeId;
+  final String coverImage;
+  final String profileImage;
   final String storeName;
-  final String storeImageUrl;
+  final String discount;
+  final double rating;
 
   const StoreDetailsScreen({
     super.key,
     required this.storeId,
+    required this.coverImage,
+    required this.profileImage,
     required this.storeName,
-    required this.storeImageUrl,
+    required this.discount,
+    required this.rating,
   });
 
   @override
@@ -30,8 +37,12 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   bool _isFavorite = false;
 
   final List<String> _categories = ['All', 'Cakes', 'Cupcakes', 'Donuts'];
-  final String _openingHours = '11:00 AM - 12:00 PM';
-  final bool _isOpen = true;
+
+  // Example details to feed StoreInfoOverview
+  final String _location = 'Baghdad, Iraq';
+  final List<String> _tags = ['Cake', 'Donut', 'Dessert'];
+  final String _description =
+      'Luxurious flavors, enchanting designs, and cakes made with love 💕\nOrder your favorite cake from Cake by Heart now and enjoy your sweet moments 🍰';
 
   @override
   Widget build(BuildContext context) {
@@ -43,32 +54,34 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       appBar: _buildAppBar(context),
       body: CustomScrollView(
         slivers: [
-          // Store Header (Banner)
+          // Store Header (Banner) with required parameters
           SliverToBoxAdapter(
             child: StoreHeader(
-              imageUrl: widget.storeImageUrl,
+              coverImage: widget.coverImage,
+              profileImage: widget.profileImage,
               storeName: widget.storeName,
+              discount: widget.discount,
             ),
           ),
 
-          // Store Info Card (Opening Hours)
+          // Store Info Card with required parameters
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: StoreInfoCard(
-                openingHours: _openingHours,
-                isOpen: _isOpen,
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: StoreInfoOverview(
+                location: _location,
+                rating: widget.rating,
+                tags: _tags,
+                description: _description,
               ),
             ),
           ),
 
-          // Featured Items Section - ADD THIS
+          // Featured Items Section
           const FeaturedItemsSection(),
 
           // Spacing
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 8),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 8)),
 
           // Category Tabs
           StoreCategoryTabs(
@@ -82,9 +95,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           ),
 
           // Products List
-          StoreProductsList(
-            categoryIndex: _selectedCategoryIndex,
-          ),
+          StoreProductsList(categoryIndex: _selectedCategoryIndex),
         ],
       ),
     );
@@ -125,9 +136,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => AboutStore(),
-              ),
+              MaterialPageRoute(builder: (context) => AboutStore()),
             );
           },
         ),
