@@ -54,15 +54,15 @@ flutter_native_splash:
   color: "#F8F8F8"
   color_dark: "#1F1F1F"
 
-  image: assets/images/sellio.png
-  image_dark: assets/images/sellio.png
+  image: assets/images/sellio.webp
+  image_dark: assets/images/sellio.webp
 
   ios_content_mode: center
 
   # Android 12+ configuration
   android_12:
-    image: assets/images/sellio.png
-    image_dark: assets/images/sellio.png
+    image: assets/images/sellio.webp
+    image_dark: assets/images/sellio.webp
     color: "#F8F8F8"
     color_dark: "#1F1F1F"
 
@@ -76,10 +76,10 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/sellio.png"
+  image_path: "assets/images/sellio.webp"
 
   adaptive_icon_background: "#F8F8F8"
-  adaptive_icon_foreground: "assets/images/sellio.png"
+  adaptive_icon_foreground: "assets/images/sellio.webp"
 
   # Remove background for transparency (optional)
   # remove_alpha_ios: true

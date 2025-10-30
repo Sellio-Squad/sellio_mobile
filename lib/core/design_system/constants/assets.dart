@@ -15,7 +15,7 @@ class Assets {
   static const String bell = '$iconsPath/ic_bell.svg';
   static const String location = '$iconsPath/ic_location.svg';
   static const String arrowLeft = '$iconsPath/ic_arrow-left.svg';
-  static const String sellio = '$imagesPath/sellio.png';
+  static const String sellio = '$imagesPath/sellio.webp';
   //section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
   static const String orderIcon = '$iconsPath/ic_order-icon.svg';
@@ -28,10 +28,10 @@ class Assets {
   static const String profile= '$iconsPath/profile';
 
   //login
-  static const String sellioWhite = '$imagesPath/sellio_white.png';
-  static const String loginTopSection = '$imagesPath/login_top_section.png';
+  static const String sellioWhite = '$imagesPath/sellio_white.webp';
+  static const String loginTopSection = '$imagesPath/login_top_section.webp';
   //images
-  static const String cakeHouseLogo = '$imagesPath/cake-house.png';
+  static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
   // Product Card Icons
   static const String add = '$iconsPath/ic_add.svg';
   static const String remove = '$iconsPath/ic_minus.svg';

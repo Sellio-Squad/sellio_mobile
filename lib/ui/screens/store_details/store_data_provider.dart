@@ -75,7 +75,7 @@ class StoreDataProvider {
       ),
       ProductData(
         id: 2,
-        imageUrl: 'assets/images/product_3.png',
+        imageUrl: 'assets/images/product_3.webp',
         title: 'Chocolate Donut',
         description: 'Classic chocolate donut with sprinkles',
         price: '\$3.50',

@@ -122,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(
                   builder: (context) => StoreDetailsScreen(
                     storeId: '123',
-                    coverImage: 'assets/images/product_2.png',
-                    profileImage: 'assets/images/product_3.png',
+                    coverImage: 'assets/images/product_3.webp',
+                    profileImage: 'assets/images/product_3.webp',
                     storeName: "Sweet Lovers - Pasteleria",
                     rating: 3.8,
                     discount: '40',

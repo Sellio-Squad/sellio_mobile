@@ -36,7 +36,7 @@ class AppIcons {
   static const String facebook = '$_basePath/ic_facebook.svg';
   static const String pinLocation = '$_basePath/ic_pin_location.svg';
 
-  static const String marker = '$_imagesPath/ic_marker.png';
+  static const String marker = '$_imagesPath/ic_marker.webp';
 
   static const String alertCircle = '$_basePath/ic_alert_circle.svg';
 
