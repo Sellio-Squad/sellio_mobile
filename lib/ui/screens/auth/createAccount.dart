@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
@@ -320,6 +321,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ],
             ),
           ),
+          Gap(16),
         ],
       ),
     );
