@@ -15,6 +15,8 @@ dependencies:
   flutter_svg: ^2.2.1
   flutter_gap: ^1.2.0
   flutter_native_splash: ^2.4.0
+  url_launcher: ^6.2.1
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:
@@ -57,3 +59,4 @@ flutter_native_splash:
     image_dark: assets/images/sellio_splash.png
     color: "#F8F8F8"
     color_dark: "#1F1F1F"
+

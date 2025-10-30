@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/ui/screens/about_store/about_store.dart';
 import 'widgets/store_header.dart';
 import 'widgets/store_info_card.dart';
 import 'widgets/featured_items_section.dart'; // Add this import
@@ -116,6 +118,17 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             setState(() {
               _isFavorite = !_isFavorite;
             });
+          },
+        ),
+        IconButton(
+          icon: SvgPicture.asset(AppIcons.alertCircle, width: 24, height: 24),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AboutStore(),
+              ),
+            );
           },
         ),
       ],
