@@ -5,7 +5,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/ui/screens/about_store/about_store.dart';
 import 'widgets/store_header.dart';
 import 'widgets/store_info_card.dart';
-import 'widgets/featured_items_section.dart'; // Add this import
+import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
 import 'widgets/store_products_list.dart';
 
