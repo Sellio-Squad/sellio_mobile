@@ -35,10 +35,8 @@ jobs:
         uses: slackapi/slack-github-action@v1.25.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: |
-            :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
-            PR created by: ${{ github.event.pull_request.user.login || github.actor }}
-            Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
+          message: |
+            Pull Request *${{ github.event_name == 'pull_request' && github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref || github.ref_name }}`.
             Starting Android build...
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -65,7 +63,7 @@ jobs:
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           file: build/app/outputs/flutter-apk/app-release.apk
-          initial_comment: ':white_check_mark: Build successful! The new APK is ready.'
+          initial_comment: 'Build successful! The new APK is ready.'
           thread_ts: ${{ steps.slack.outputs.ts }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
