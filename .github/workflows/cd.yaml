@@ -6,10 +6,11 @@ on:
     branches:
       - develop
       - main
+  workflow_dispatch:
 
 jobs:
   build-and-distribute:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
 
     steps:
@@ -35,9 +36,9 @@ jobs:
         with:
           channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
           message: |
-            :rocket: Pull Request *${{ github.event.pull_request.title }}* merged into `${{ github.base_ref }}`.
-            PR created by: `${{ github.event.pull_request.user.login }}`
-            Merged by: `${{ github.event.pull_request.merged_by.login }}`
+            :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || 'manual-run' }}`.
+            PR created by: `${{ github.event.pull_request.user.login || github.actor }}`
+            Merged by: `${{ github.event.pull_request.merged_by.login || github.actor }}`
             Starting Android build...
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
