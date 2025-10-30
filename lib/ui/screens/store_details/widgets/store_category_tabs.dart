@@ -15,26 +15,24 @@ class StoreCategoryTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 52,
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: categories.length,
-          itemBuilder: (context, index) {
-            final isSelected = selectedIndex == index;
-            return Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: ChipCategory(
-                label: categories[index],
-                selected: isSelected,
-                onTap: () => onCategorySelected(index),
-              ),
-            );
-          },
-        ),
+    return Container(
+      height: 52,
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final isSelected = selectedIndex == index;
+          return Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: ChipCategory(
+              label: categories[index],
+              selected: isSelected,
+              onTap: () => onCategorySelected(index),
+            ),
+          );
+        },
       ),
     );
   }

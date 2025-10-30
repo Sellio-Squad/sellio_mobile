@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
+import '../store_data_provider.dart';
 
 class StoreProductsList extends StatefulWidget {
   final int categoryIndex;
@@ -15,79 +15,101 @@ class StoreProductsList extends StatefulWidget {
 }
 
 class _StoreProductsListState extends State<StoreProductsList> {
+
+  static const double _itemSpacing = 12.0;
+
   final Map<int, int> _productCounts = {};
+  late final StoreDataProvider _dataProvider;
+  late List<ProductData> _products;
 
-  // Sample data - replace with actual data from API
-  final List<Map<String, dynamic>> _products = [
-    {
-      'id': 0,
-      'imageUrl': 'assets/images/product_1.png',
-      'title': 'Birthday cake with bows',
-      'description': 'Chocolate cake with vanilla frosting and decorative bows',
-      'price': '\$12.99',
-      'originalPrice': '\$15.99',
-    },
-    {
-      'id': 1,
-      'imageUrl': 'assets/images/product_2.png',
-      'title': 'Strawberry Cupcake',
-      'description': 'Fresh strawberry cupcake with cream cheese frosting',
-      'price': '\$5.00',
-      'originalPrice': null,
-    },
-    {
-      'id': 2,
-      'imageUrl': 'assets/images/product_3.png',
-      'title': 'Chocolate Donut',
-      'description': 'Classic chocolate donut with sprinkles',
-      'price': '\$3.50',
-      'originalPrice': '\$4.00',
-    },
-  ];
-
-  void _incrementProduct(int productId) {
-    setState(() {
-      _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _dataProvider = StoreDataProvider();
+    _loadProducts();
   }
 
-  void _decrementProduct(int productId) {
+  @override
+  void didUpdateWidget(StoreProductsList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.categoryIndex != widget.categoryIndex) {
+      _loadProducts();
+    }
+  }
+
+  void _loadProducts() {
     setState(() {
-      final count = _productCounts[productId] ?? 0;
-      if (count > 0) {
-        _productCounts[productId] = count - 1;
-      }
+      _products = _dataProvider.getProductsByCategory(widget.categoryIndex);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: const EdgeInsets.all(16),
-      sliver: SliverList(
-        delegate: SliverChildBuilderDelegate(
-              (context, index) {
-            final product = _products[index];
-            final productId = product['id'] as int;
-            final count = _productCounts[productId] ?? 0;
+    if (_products.isEmpty) {
+      return _buildEmptyState();
+    }
 
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: ProductHorizontalCard(
-                imageUrl: product['imageUrl'],
-                title: product['title'],
-                description: product['description'],
-                price: product['price'],
-                originalPrice: product['originalPrice'],
-                count: count,
-                onIncrement: () => _incrementProduct(productId),
-                onDecrement: () => _decrementProduct(productId),
-              ),
-            );
-          },
-          childCount: _products.length,
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        _buildProductItem,
+        childCount: _products.length,
+      ),
+    );
+  }
+
+  /// Builds empty state when no products are available
+  Widget _buildEmptyState() {
+    return const SliverToBoxAdapter(
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.all(32.0),
+          child: Text('No products available'),
         ),
       ),
     );
+  }
+
+  /// Builds a single product item
+  Widget _buildProductItem(BuildContext context, int index) {
+    final product = _products[index];
+    final count = _getProductCount(product.id);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: _itemSpacing),
+      child: ProductHorizontalCard(
+        imageUrl: product.imageUrl,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        count: count,
+        onIncrement: () => _handleIncrement(product.id),
+        onDecrement: () => _handleDecrement(product.id),
+      ),
+    );
+  }
+
+
+  /// Gets the current count for a product
+  int _getProductCount(int productId) {
+    return _productCounts[productId] ?? 0;
+  }
+
+
+  /// Handles increment action for a product
+  void _handleIncrement(int productId) {
+    setState(() {
+      _productCounts[productId] = _getProductCount(productId) + 1;
+    });
+  }
+
+  /// Handles decrement action for a product
+  void _handleDecrement(int productId) {
+    setState(() {
+      final count = _getProductCount(productId);
+      if (count > 0) {
+        _productCounts[productId] = count - 1;
+      }
+    });
   }
 }

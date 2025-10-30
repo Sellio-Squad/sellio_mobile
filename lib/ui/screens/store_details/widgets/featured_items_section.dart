@@ -59,52 +59,50 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SectionHeader(
-              title: 'Featured Items',
-              trailing: SvgPicture.asset(
-                Assets.arrowRight,
-                width: 20,
-                height: 20,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: SectionHeader(
+            title: 'Featured Items',
+            trailing: SvgPicture.asset(
+              Assets.arrowRight,
+              width: 20,
+              height: 20,
             ),
           ),
-          SizedBox(
-            height: 272,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: _featuredProducts.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final product = _featuredProducts[index];
-                final productId = product['id'] as int;
-                final count = _productCounts[productId] ?? 0;
+        ),
+        SizedBox(
+          height: 272,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            itemCount: _featuredProducts.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              final product = _featuredProducts[index];
+              final productId = product['id'] as int;
+              final count = _productCounts[productId] ?? 0;
 
-                return SizedBox(
-                  width: 160,
-                  child: ProductVerticalCard(
-                    imageUrl: product['imageUrl'],
-                    title: product['title'],
-                    price: product['price'],
-                    count: count,
-                    onIncrement: () => _incrementProduct(productId),
-                    onDecrement: () => _decrementProduct(productId),
-                    onFavorite: () {
-                      // todo: Handle favorite action
-                    },
-                  ),
-                );
-              },
-            ),
+              return SizedBox(
+                width: 160,
+                child: ProductVerticalCard(
+                  imageUrl: product['imageUrl'],
+                  title: product['title'],
+                  price: product['price'],
+                  count: count,
+                  onIncrement: () => _incrementProduct(productId),
+                  onDecrement: () => _decrementProduct(productId),
+                  onFavorite: () {
+                    // todo: Handle favorite action
+                  },
+                ),
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
