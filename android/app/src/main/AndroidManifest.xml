@@ -3,6 +3,9 @@
         android:label="Sellio"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBobBnSnq9iuD7KC3P-yKYSe-PR0c18tiU"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
