@@ -35,7 +35,7 @@ class ChipCategory extends StatelessWidget {
         onTap: onTap,
         customBorder: shape,
         child: Container(
-          padding: const EdgeInsets.fromLTRB(4, 5, 16, 5),
+          padding:  EdgeInsets.fromLTRB(assetIcon == null ? 16 : 4, 5, 16, 5),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
