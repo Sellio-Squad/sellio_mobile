@@ -74,79 +74,68 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
-    return AuthBackgroundWrapper(
-      showLogo: true,
-      child: Column(
-        children: [
-          SizedBox(
-            width: 328,
-            height: 48,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
+    return Scaffold(
+      body: AuthBackgroundWrapper(
+        showLogo: true,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
                 'Confirm your account',
-                style: textTheme.titleMedium.copyWith(
-                  color: colors.title,
-                ),
+                style: textTheme.titleMedium.copyWith(color: colors.title),
               ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: SizedBox(
-              width: 328,
-              height: 50,
-              child: Text(
+              const SizedBox(height: 4),
+              Text(
                 'Please enter the 4-digit code sent to your phone number.',
-                style: textTheme.bodyMedium.copyWith(
-                  color: colors.body,
-                ),
+                style: textTheme.bodyMedium.copyWith(color: colors.body),
               ),
-            ),
+              const SizedBox(height: 32),
+
+              OTPInputField(
+                key: _otpKey,
+                length: 4,
+                onChanged: (value) {
+                  setState(() {
+                    _otpValue = value;
+                    _isOtpComplete = value.length == 4;
+                  });
+                },
+                onCompleted: _handleOTPComplete,
+              ),
+
+              const SizedBox(height: 24),
+              _buildResendSection(colors, textTheme),
+              const SizedBox(height: 120),
+            ],
           ),
-
-          const SizedBox(height: 32),
-
-          OTPInputField(
-            key: _otpKey,
-            length: 4,
-            onChanged: (value) {
-              setState(() {
-                _otpValue = value;
-                _isOtpComplete = value.length == 4;
-              });
-            },
-            onCompleted: (value) {
-              _handleOTPComplete(value);
-            },
-          ),
-
-          const SizedBox(height: 24),
-          _buildResendSection(colors, textTheme),
-
-          const SizedBox(height: 345),
-          SizedBox(
-            width: 350,
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: context.theme.colors.surfaceLow,
+        ),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+        child: SafeArea(
+          child: SizedBox(
+            width: double.infinity,
             height: 48,
             child: ElevatedButton(
               onPressed: _isOtpComplete ? () {} : null,
               style: ElevatedButton.styleFrom(
-                backgroundColor: _isOtpComplete
-                    ? colors.primary
-                    : colors.disabled,
+                backgroundColor:
+                _isOtpComplete ? colors.primary : colors.disabled,
                 disabledBackgroundColor: colors.disabled,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                ),
               ),
               child: Text(
                 'Confirm',
@@ -158,8 +147,9 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
               ),
             ),
           ),
-        ],
+        ),
       ),
+
     );
   }
 
