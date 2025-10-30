@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/design_system/widgets/chip_category.dart';
+import '../../../../core/design_system/widgets/chip_category.dart';
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
