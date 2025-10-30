@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
+import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 import 'package:sellio_mobile/ui/screens/auth/country.dart';
 import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 
@@ -73,14 +75,30 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         style: textTheme.bodyMedium.copyWith(color: colors.body),
                       ),
                       const Gap(24),
-                      Phonefield(
-                        phoneController: _phoneController,
+                      SellioTextField(
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 4),
+                          child: SvgPicture.asset(
+                            Assets.phone,
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(
+                              colors.body,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                        hintText: AppStrings.phoneNumber,
+                        inputType: TextInputType.phone,
+                        isPhoneNumber: true,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
+                          LengthLimitingTextInputFormatter(11),
+                        ],
+                        controller: _phoneController,
                         selectedCountry: _selectedCountry,
                         countries: _countries,
-                        onChanged: (c) => setState(() => _selectedCountry = c),
-                        textTheme: textTheme,
-                        colors: colors,
-                        flag: Assets.flagIraq,
+                        onChangeCountry: (c) => setState(() => _selectedCountry = c),
                       ),
                     ],
                   ),
