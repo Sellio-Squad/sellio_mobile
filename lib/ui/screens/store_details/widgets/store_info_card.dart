@@ -1,69 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class StoreInfoCard extends StatelessWidget {
-  final String openingHours;
-  final bool isOpen;
+import '../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/themes/sellio_theme.dart';
 
-  const StoreInfoCard({
+class StoreInfoOverview extends StatelessWidget {
+  final String location;
+  final double rating;
+  final List<String> tags;
+  final String description;
+
+  const StoreInfoOverview({
     super.key,
-    required this.openingHours,
-    required this.isOpen,
+    required this.location,
+    required this.rating,
+    required this.tags,
+    required this.description,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
+    final theme = SellioTheme.of(context);
     final colors = theme.colors;
     final textTheme = theme.typography.textTheme;
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          // Clock Icon
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isOpen ? colors.greenVariant : colors.errorVariant,
-              borderRadius: BorderRadius.circular(8),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            SvgPicture.asset(Assets.locationPin, width: 20, height: 20),
+            SizedBox(width: 4),
+            Text(
+              location,
+              style: textTheme.labelSmall.copyWith(color: colors.body),
             ),
-            child: Icon(
-              Icons.access_time,
-              color: isOpen ? colors.green : colors.red,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
-
-          // Opening Hours Info
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ],
+        ),
+        SizedBox(height: 4),
+        Row(
+          children: [
+            Row(
               children: [
                 Text(
-                  isOpen ? 'Open' : 'Closed',
-                  style: textTheme.labelMedium.copyWith(
-                    color: isOpen ? colors.green : colors.red,
-                  ),
+                  rating.toString(),
+                  style: textTheme.labelSmall.copyWith(color: colors.body),
                 ),
-                const SizedBox(height: 2),
-                Text(
-                  openingHours,
-                  style: textTheme.bodySmall.copyWith(
-                    color: colors.body,
-                  ),
-                ),
+                const SizedBox(width: 4),
+                SvgPicture.asset(Assets.rate, width: 12, height: 12),
               ],
             ),
-          ),
-        ],
-      ),
+
+            const SizedBox(width: 8),
+
+            ...tags.asMap().entries.map((entry) {
+              final index = entry.key;
+              final tag = entry.value;
+              return Row(
+                children: [
+                  Text(
+                    tag,
+                    style: textTheme.labelSmall.copyWith(color: colors.body),
+                  ),
+                  if (index != tags.length - 1)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: Text(
+                        "•",
+                        style: textTheme.labelSmall.copyWith(
+                          color: colors.stroke,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            }),
+          ],
+        ),
+
+        SizedBox(height: 8),
+        Text(
+          description,
+          style: textTheme.bodyMedium.copyWith(color: colors.body),
+        ),
+      ],
     );
   }
 }
