@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/ui/screens/customize_your_product_screen/CustomProductCard.dart';
+import 'package:sellio_mobile/ui/screens/customize_your_product_screen/widgets/CustomProductCard.dart';
 
 class GridProduct extends StatefulWidget {
   const GridProduct({super.key});

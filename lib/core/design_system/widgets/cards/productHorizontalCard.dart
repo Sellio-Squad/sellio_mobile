@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
@@ -99,35 +98,7 @@ class ProductHorizontalCard extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 12),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  imageUrl,
-                  width: 88,
-                  height: 88,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) {
-                    return progress == null
-                        ? child
-                        : Container(
-                      width: 104,
-                      height: 104,
-                      color: colors.surface,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 104,
-                      height: 104,
-                      color: colors.surface,
-                      child: const Icon(Icons.broken_image),
-                    );
-                  },
-                ),
-              ),
+              child: _buildImage(colors),
             ),
           ],
         ),
@@ -136,7 +107,9 @@ class ProductHorizontalCard extends StatelessWidget {
   }
 
   Widget _buildSingleCartButton(BuildContext context) {
-    final colors = SellioTheme.of(context).colors;
+    final colors = SellioTheme
+        .of(context)
+        .colors;
     return Container(
       width: 30,
       height: 30,
@@ -238,6 +211,45 @@ class ProductHorizontalCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildImage(colors) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Image.asset(
+        imageUrl,
+        width: 88,
+        height: 88,
+        fit: BoxFit.cover,
+      ),
+
+      /*Image.network(
+        imageUrl,
+        width: 88,
+        height: 88,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, progress) {
+          return progress == null
+              ? child
+              : Container(
+            width: 104,
+            height: 104,
+            color: colors.surface,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 104,
+            height: 104,
+            color: colors.surface,
+            child: const Icon(Icons.broken_image),
+          );
+        },
+      ),*/
     );
   }
 }
