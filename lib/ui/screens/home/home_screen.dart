@@ -6,6 +6,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../store_details/store_details_screen.dart';
 
@@ -121,8 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(
                   builder: (context) => StoreDetailsScreen(
                     storeId: '123',
-                    storeName: 'Cake House',
-                    storeImageUrl: 'assets/images/cake-house.png',
+                    coverImage: 'assets/images/product_2.png',
+                    profileImage: 'assets/images/product_3.png',
+                    storeName: "Sweet Lovers - Pasteleria",
+                    rating: 3.8,
+                    discount: '40',
                   ),
                 ),
               );
