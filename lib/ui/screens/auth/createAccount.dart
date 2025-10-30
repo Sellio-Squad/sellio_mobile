@@ -92,12 +92,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Create account',
+                  AppStrings.createAccount,
                   style: context.theme.typography.textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Enter your information to create account',
+                  AppStrings.enterYourInformationToCreateAccount,
                   style: context.theme.typography.textTheme.bodyMedium,
                 ),
                 const SizedBox(height: 24),
@@ -129,8 +129,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 12),
                 SellioTextField(
                   controller: nameController,
-                  hintText: 'Full name',
-                  prefixIcon: SvgPicture.asset(Assets.profile,
+                  hintText: AppStrings.fullName,
+                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
+                  prefixIcon: SvgPicture.asset(Assets.account,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
@@ -144,7 +145,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     Expanded(
                       child: SellioTextField(
                         controller: countryController,
-                        hintText: 'Country',
+                        hintText: AppStrings.country,
+                        prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon:SvgPicture.asset(
                             Assets.location,
                             width: 24,
@@ -160,7 +162,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     Expanded(
                       child: SellioTextField(
                         controller: cityController,
-                        hintText: 'City',
+                        hintText: AppStrings.city,
+                        prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon: SvgPicture.asset(
                             Assets.location,
                             width: 24,
@@ -177,7 +180,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 12),
                 SellioTextField(
                   controller: passwordController,
-                  hintText: 'Password',
+                  hintText: AppStrings.password,
+                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                   inputType: TextInputType.visiblePassword,
                   prefixIcon:  SvgPicture.asset(
                       Assets.password,
@@ -192,7 +196,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 const SizedBox(height: 12),
                 SellioTextField(
                   controller: confirmPasswordController,
-                  hintText: 'Confirm password',
+                  hintText: AppStrings.confirmPassword,
+                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                   inputType: TextInputType.visiblePassword,
                   prefixIcon:SvgPicture.asset(
                       Assets.password,
@@ -206,7 +211,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Profile photo (optional)',
+                  AppStrings.profilePhoto,
                   style: context.theme.typography.textTheme.titleSmall
                       .copyWith(color: context.theme.colors.title),
                 ),
@@ -239,7 +244,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Upload',
+                          AppStrings.upload,
                           style: context.theme.typography.textTheme.bodyMedium,
                         ),
                       ],
@@ -268,7 +273,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SellioButton(
-                    text: 'Create account',
+                    text: AppStrings.createAccount,
                     textStyle: context.theme.typography.textTheme.labelMedium,
                     isEnabled: _isFormValid && !_isLoading,
                     isLoading: _isLoading,
@@ -290,7 +295,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have account?',
+                      AppStrings.alreadyHaveAccount,
                       style: context.theme.typography.textTheme.labelMedium
                           .copyWith(color: context.theme.colors.body),
                     ),
@@ -305,7 +310,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         );
                       },
                       child: Text(
-                        'Login',
+                        AppStrings.login,
                         style: context.theme.typography.textTheme.labelMedium
                             .copyWith(color: context.theme.colors.primary),
                       ),
