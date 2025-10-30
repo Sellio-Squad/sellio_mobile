@@ -31,28 +31,46 @@ class _HomeScreenState extends State<HomeScreen> {
           location: "Cairo,Egypt",
           userName: "Israa",
           showGreeting: true,
-          backgroundColor: theme.colors.primaryVariant,
+          backgroundColor: Colors.transparent,
         ),
-        backgroundColor: colors.surface,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              // Search Bar
-              _buildSearchBarSection(),
+        extendBodyBehindAppBar: true,
+        backgroundColor: colors.surfaceLow,
+        body: Stack(
+          children: [
+            Container(
+              height: 256,
+              decoration:  BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    colors.primary.withOpacity(0.16),
+                    colors.primary.withOpacity(0),
+                  ],
+                ),
+              ),
+            ),
+            SafeArea(
+              child: CustomScrollView(
+                slivers: [
+                  // Search Bar
+                  _buildSearchBarSection(),
 
-              // Category Tabs
-              CategoryTabs(),
+                  // Category Tabs
+                  CategoryTabs(),
 
-              //  Special Offers Section
-              _buildSpecialOffersSection(),
+                  //  Special Offers Section
+                  _buildSpecialOffersSection(),
 
-              // Products Grid
-              ProductsSection(),
+                  // Products Grid
+                  ProductsSection(),
 
-              // Top Stores Section
-              _buildTopStoresSection(),
-            ],
-          ),
+                  // Top Stores Section
+                  _buildTopStoresSection(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -76,35 +94,41 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildSpecialOffersSection() {
     return SliverToBoxAdapter(
-      child: SpecialOffersSection(
-        offers: DataProvider.specialOffers,
-        onOfferTap: (offerId) {
-          // todo: Handle offer tap
-        },
-      ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: SpecialOffersSection(
+            offers: DataProvider.specialOffers,
+            onOfferTap: (offerId) {
+              // todo: Handle offer tap
+            },
+          ),
+        )
     );
   }
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-      child: TopStoresSection(
-        topStores: DataProvider.topStores,
-        onLikePressed: () {
-          // todo: Handle like action
-        },
-        onCardPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => StoreDetailsScreen(
-                storeId: '123',
-                storeName: 'Cake House',
-                storeImageUrl: 'assets/images/cake-house.png',
-              ),
-            ),
-          );
-        },
-      ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: TopStoresSection(
+            topStores: DataProvider.topStores,
+            onLikePressed: () {
+              // todo: Handle like action
+            },
+            onCardPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreDetailsScreen(
+                    storeId: '123',
+                    storeName: 'Cake House',
+                    storeImageUrl: 'assets/images/cake-house.png',
+                  ),
+                ),
+              );
+            },
+          ),
+        )
     );
   }
 }

@@ -6,15 +6,15 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
-import 'package:sellio_mobile/ui/screens/auth/forgetpasswordOTP.dart';
-import 'package:sellio_mobile/ui/screens/main_screen/MainScreen.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'package:flutter/services.dart';
+import '../main/main_screen.dart';
 import 'country.dart';
 import 'createAccount.dart';
+import 'forgetPassword/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
