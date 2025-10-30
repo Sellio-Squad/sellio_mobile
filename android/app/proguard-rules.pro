@@ -9,3 +9,10 @@
 }
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
+-keep class com.google.android.play.core.** { *; }
+-keep interface com.google.android.play.core.** { *; }
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.splitcompat.** { *; }
+-keep class com.google.android.play.core.splitinstall.** { *; }
+-keep class com.google.android.play.core.tasks.** { *; }
+-keep class io.flutter.embedding.engine.deferredcomponents.** { *; }

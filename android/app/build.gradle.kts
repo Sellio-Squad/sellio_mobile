@@ -45,23 +45,36 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Enable multi-dex if needed
+        multiDexEnabled = true
     }
 
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
+
+            // Enable all optimizations
             isMinifyEnabled = true
             isShrinkResources = true
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            // Additional optimizations
+            isDebuggable = false
+            isJniDebuggable = false
         }
+
         getByName("debug") {
             isMinifyEnabled = false
             isShrinkResources = false
         }
     }
+
+    // Exclude duplicate and unnecessary files
     packagingOptions {
         resources {
             excludes += setOf(
@@ -73,7 +86,8 @@ android {
                 "META-INF/NOTICE.txt",
                 "META-INF/notice.txt",
                 "META-INF/ASL2.0",
-                "META-INF/*.kotlin_module"
+                "META-INF/*.kotlin_module",
+                "META-INF/INDEX.LIST"
             )
         }
     }
@@ -81,4 +95,10 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Add Google Play Core for deferred components support
+    implementation("com.google.android.play:core:1.10.3")
+    implementation("com.google.android.play:core-ktx:1.8.1")
 }

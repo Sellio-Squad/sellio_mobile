@@ -59,7 +59,7 @@ class StoreDataProvider {
     return [
       ProductData(
         id: 0,
-        imageUrl: 'assets/images/product_1.png',
+        imageUrl: 'assets/images/product_3.png',
         title: 'Birthday cake with bows',
         description: 'Chocolate cake with vanilla frosting and decorative bows',
         price: '\$12.99',
@@ -67,7 +67,7 @@ class StoreDataProvider {
       ),
       ProductData(
         id: 1,
-        imageUrl: 'assets/images/product_2.png',
+        imageUrl: 'assets/images/product_3.png',
         title: 'Strawberry Cupcake',
         description: 'Fresh strawberry cupcake with cream cheese frosting',
         price: '\$5.00',
