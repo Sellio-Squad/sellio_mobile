@@ -46,15 +46,15 @@ flutter_native_splash:
   color: "#F8F8F8"
   color_dark: "#1F1F1F"
 
-  image: assets/images/sellio_splash.png
-  image_dark: assets/images/sellio_splash.png
+  image: assets/images/sellio.png
+  image_dark: assets/images/sellio.png
 
   ios_content_mode: center
 
   # For Android 12+
   android_12:
-    image: assets/images/sellio_splash.png
-    image_dark: assets/images/sellio_splash.png
+    image: assets/images/sellio.png
+    image_dark: assets/images/sellio.png
     color: "#F8F8F8"
     color_dark: "#1F1F1F"
 
