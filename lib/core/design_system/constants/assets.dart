@@ -54,4 +54,10 @@ class Assets {
   static const String arrowDown = '$iconsPath/arrow_down.svg';
   static const String password = '$iconsPath/password.svg';
   static const String account = '$iconsPath/account.svg';
+
+  //store details
+  static const String rate = '$iconsPath/rate.svg';
+  static const String locationPin = '$iconsPath/location-pin.svg';
+  static const String storeDiscountFrame =
+      '$iconsPath/store-discount-frame.svg';
 }
