@@ -7,6 +7,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.d
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../store_details/store_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -107,18 +108,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: TopStoresSection(
-            topStores: DataProvider.topStores,
-            onLikePressed: () {
-              // todo: Handle like action
-            },
-            onCardPressed: () {
-              // todo: Handle store card tap
-            },
-          ),
-        )
+      child: TopStoresSection(
+        topStores: DataProvider.topStores,
+        onLikePressed: () {
+          // todo: Handle like action
+        },
+        onCardPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StoreDetailsScreen(
+                storeId: '123',
+                storeName: 'Cake House',
+                storeImageUrl: 'assets/images/cake-house.png',
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
