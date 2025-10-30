@@ -3,6 +3,7 @@ class AppIcons {
 
   // Base path
   static const String _basePath = 'assets/svg';
+  static const String _imagesPath = 'assets/images';
 
   // Home icons
   static const String home = '$_basePath/home.svg';
@@ -28,5 +29,13 @@ class AppIcons {
 
   //forget password
   static const String lock = '$_basePath/ic_circle_lock_remove.svg';
+
+  //About store
+  static const String email = '$_basePath/ic_mailbox.svg';
+  static const String phone = '$_basePath/ic_calling.svg';
+  static const String facebook = '$_basePath/ic_facebook.svg';
+  static const String pinLocation = '$_basePath/ic_pin_location.svg';
+
+  static const String marker = '$_imagesPath/ic_marker.png';
 
 }
