@@ -1,90 +1,92 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/ui/screens/store_details/widgets/store_discount_frame.dart';
+
+import '../../../../core/design_system/themes/sellio_theme.dart';
 
 class StoreHeader extends StatelessWidget {
-  final String imageUrl;
+  final String coverImage;
+  final String profileImage;
   final String storeName;
+  final String discount;
 
   const StoreHeader({
     super.key,
-    required this.imageUrl,
+    required this.coverImage,
+    required this.profileImage,
     required this.storeName,
+    required this.discount,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
+    final theme = SellioTheme.of(context);
     final colors = theme.colors;
+    final textTheme = theme.typography.textTheme;
 
-    return SizedBox(
-      height: 200,
-      width: double.infinity,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Store Image
-          _buildImage(),
-
-          // Gradient Overlay
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.transparent,
-                  Color(0x00000000),
-                  Color(0xFF000000),
-                ],
-                stops: [0.0, 0.5, 1.0],
+    return Column(
+      children: [
+        Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Container(
+                height: 190,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: AssetImage(coverImage),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
-          ),
 
-          // Store Name
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
+            // Floating Profile Image
+            Positioned(
+              bottom: -35,
+              left: 32,
+              child: Container(
+                padding: const EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  radius: 48,
+                  backgroundImage: AssetImage(profileImage),
+                ),
+              ),
+            ),
+
+            Positioned(
+              bottom: 16,
+              right: 24,
+              child: Transform.scale(
+                scale: 1.25,
+                child: StoreDiscountTag(discount: discount),
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 44),
+
+        // Store Name
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Align(
+            alignment: Alignment.centerLeft,
             child: Text(
               storeName,
-              textAlign: TextAlign.center,
-              style: theme.typography.textTheme.headlineSmall.copyWith(
-                color: colors.onPrimary,
+              style: textTheme.titleMedium.copyWith(
+                color: colors.title,
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
-  }
-
-  Widget _buildImage() {
-    if (imageUrl.startsWith('assets/')) {
-      return Image.asset(
-        imageUrl,
-        fit: BoxFit.cover,
-      );
-    } else {
-      return Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          if (progress == null) return child;
-          return Container(
-            color: const Color(0xFFE6E6E6),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            color: const Color(0xFFE6E6E6),
-            child: const Icon(Icons.broken_image, size: 48),
-          );
-        },
-      );
-    }
   }
 }
