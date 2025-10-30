@@ -38,4 +38,7 @@ class AppIcons {
 
   static const String marker = '$_imagesPath/ic_marker.png';
 
+  static const String alertCircle = '$_basePath/ic_alert_circle.svg';
+
+
 }
