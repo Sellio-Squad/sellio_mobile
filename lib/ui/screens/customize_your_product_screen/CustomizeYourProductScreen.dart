@@ -28,7 +28,7 @@ class _CustomizeYourProductScreenState
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(150),
+        preferredSize: const Size.fromHeight(138),
         child: AppBar(
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
