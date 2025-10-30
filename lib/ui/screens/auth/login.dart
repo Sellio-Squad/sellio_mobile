@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/AuthBackgroundWrapper.dart';
-import 'package:sellio_mobile/ui/screens/auth/component/phoneField.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
@@ -142,14 +140,30 @@ class _LoginScreenState extends State<LoginScreen> {
             AppStrings.subtitleLogin,
           ),
 
-          Phonefield(
-            phoneController: _phoneController,
-            selectedCountry: _selectedCountry,
-            countries: _countries,
-            onChanged: (c) => setState(() => _selectedCountry = c),
-            textTheme: textTheme,
-            colors: colors,
-            flag: Assets.flagIraq,
+          SellioTextField(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: SvgPicture.asset(
+                Assets.phone,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(
+                  colors.body,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+            hintText: AppStrings.phoneNumber,
+            inputType: TextInputType.phone,
+            isPhoneNumber: true,
+            inputFormatter: [
+              FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
+              LengthLimitingTextInputFormatter(11),
+            ],
+            controller: _phoneController,
+              selectedCountry: _selectedCountry,
+              countries: _countries,
+              onChangeCountry: (c) => setState(() => _selectedCountry = c),
           ),
 
           const Gap(16),
@@ -159,16 +173,13 @@ class _LoginScreenState extends State<LoginScreen> {
             hintText: 'Password',
             hintStyle: textTheme.labelMedium.copyWith(color: colors.body),
             inputType: TextInputType.visiblePassword,
-            prefixIcon: Padding(
-              padding: const EdgeInsets.only(left: 16, right: 12),
-              child: SvgPicture.asset(
-                Assets.password,
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(
-                  colors.body,
-                  BlendMode.srcIn,
-                ),
+            prefixIcon: SvgPicture.asset(
+              Assets.password,
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(
+                colors.body,
+                BlendMode.srcIn,
               ),
             ),
           ),
@@ -196,7 +207,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ? colors.primary
                 : colors.disabled,
             isLoading: _isLoading,
-            suffixSvgPath: Assets.arrowRight,
+            suffixSvgPath: Assets.outlineArrow,
+            iconWidth: 10,
+            iconHeight: 10,
             suffixIconColor: _isLoginValid ? colors.onPrimary : colors.hint,
           ),
 

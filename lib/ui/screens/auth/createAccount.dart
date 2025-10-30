@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gap/flutter_gap.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/ui/screens/auth/signupOTP.dart';
@@ -101,92 +102,42 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 const SizedBox(height: 24),
                 SellioTextField(
-                  controller: phoneController,
-                  hintText: 'Phone number',
                   prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(Assets.phone, width: 24, height: 24),
-                        const Gap(8),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton<Country>(
-                            value: _selectedCountry,
-                            isDense: true,
-                            icon: const SizedBox.shrink(),
-                            onChanged: (Country? newValue) {
-                              if (newValue != null) {
-                                setState(() {
-                                  _selectedCountry = newValue;
-                                });
-                              }
-                            },
-                            selectedItemBuilder: (BuildContext context) {
-                              return _countries.map<Widget>((Country country) {
-                                return Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      Assets.arrowDown,
-                                      width: 16,
-                                      height: 16,
-                                    ),
-                                    const Gap(8),
-                                    SvgPicture.asset(
-                                      country.flagAsset,
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    const Gap(8),
-                                    Text(
-                                      country.code,
-                                      style: context.theme.typography.textTheme.bodyMedium
-                                          .copyWith(color: context.theme.colors.title),
-                                    ),
-                                  ],
-                                );
-                              }).toList();
-                            },
-                            items: _countries.map((Country country) {
-                              return DropdownMenuItem<Country>(
-                                value: country,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SvgPicture.asset(
-                                      country.flagAsset,
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    const Gap(8),
-                                    Text(
-                                      country.code,
-                                      style: context.theme.typography.textTheme.bodyMedium
-                                          .copyWith(color: context.theme.colors.title),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        const Gap(8),
-                        Container(
-                          width: 1,
-                          height: 24,
-                          color: context.theme.colors.stroke,
-                        ),
-                      ],
+                    padding: const EdgeInsets.only(right: 4),
+                    child: SvgPicture.asset(
+                      Assets.phone,
+                      width: 24,
+                      height: 24,
+                      colorFilter: ColorFilter.mode(
+                        context.theme.colors.body,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
+                  hintText: AppStrings.phoneNumber,
                   inputType: TextInputType.phone,
+                  isPhoneNumber: true,
+                  inputFormatter: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
+                    LengthLimitingTextInputFormatter(11),
+                  ],
+                  controller: phoneController,
+                  selectedCountry: _selectedCountry,
+                  countries: _countries,
+                  onChangeCountry: (c) => setState(() => _selectedCountry = c),
                 ),
                 const SizedBox(height: 12),
                 SellioTextField(
                   controller: nameController,
                   hintText: 'Full name',
-                ),
+                  prefixIcon: SvgPicture.asset(Assets.profile,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.colors.body,
+                      BlendMode.srcIn,
+                    ),
+                ),),
                 const SizedBox(height: 12),
                 Row(
                   children: [
@@ -194,9 +145,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: SellioTextField(
                         controller: countryController,
                         hintText: 'Country',
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 8),
-                          child: SvgPicture.asset(
+                        prefixIcon:SvgPicture.asset(
                             Assets.location,
                             width: 24,
                             height: 24,
@@ -205,7 +154,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               BlendMode.srcIn,
                             ),
                           ),
-                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -213,9 +161,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: SellioTextField(
                         controller: cityController,
                         hintText: 'City',
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 8),
-                          child: SvgPicture.asset(
+                        prefixIcon: SvgPicture.asset(
                             Assets.location,
                             width: 24,
                             height: 24,
@@ -224,7 +170,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                               BlendMode.srcIn,
                             ),
                           ),
-                        ),
                       ),
                     ),
                   ],
@@ -234,9 +179,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   controller: passwordController,
                   hintText: 'Password',
                   inputType: TextInputType.visiblePassword,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8),
-                    child: SvgPicture.asset(
+                  prefixIcon:  SvgPicture.asset(
                       Assets.password,
                       width: 24,
                       height: 24,
@@ -245,16 +188,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         BlendMode.srcIn,
                       ),
                     ),
-                  ),
                 ),
                 const SizedBox(height: 12),
                 SellioTextField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm password',
                   inputType: TextInputType.visiblePassword,
-                  prefixIcon: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8),
-                    child: SvgPicture.asset(
+                  prefixIcon:SvgPicture.asset(
                       Assets.password,
                       width: 24,
                       height: 24,
@@ -262,7 +202,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         context.theme.colors.body,
                         BlendMode.srcIn,
                       ),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
