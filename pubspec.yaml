@@ -21,16 +21,16 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^5.0.0
-
+  flutter_launcher_icons: ^0.14.4
 
 flutter:
 
   uses-material-design: true
 
   assets:
-     - assets/images/
-     - assets/svg/
-     - assets/fonts/
+    - assets/images/
+    - assets/svg/
+    - assets/fonts/
 
   fonts:
     - family: Rubik
@@ -57,3 +57,9 @@ flutter_native_splash:
     image_dark: assets/images/sellio_splash.png
     color: "#F8F8F8"
     color_dark: "#1F1F1F"
+
+# ---- flutter_launcher_icons ----
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/sellio.png"
