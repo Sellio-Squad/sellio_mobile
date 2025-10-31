@@ -19,6 +19,26 @@ class OrderItem {
     required this.price,
   });
 }
+class OrderModel {
+  final String id;
+  final String date;
+  final OrderStatus status;
+  final int totalItems;
+  final String marketName;
+  final String marketImage;
+  final List<OrderItem> orderItems;
+
+  const OrderModel({
+    required this.id,
+    required this.date,
+    required this.status,
+    required this.totalItems,
+    required this.marketName,
+    required this.marketImage,
+    required this.orderItems,
+  });
+}
+
 
 class OrderDetails extends StatefulWidget {
   final String orderId;

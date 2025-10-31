@@ -16,12 +16,31 @@ class OrderHistoryScreen extends StatefulWidget {
 }
 
 class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
+  int selectedTabIndex = 0;
+
+  List<OrderModel> get filteredOrders {
+    switch (selectedTabIndex) {
+      case 1:
+        return mockOrders
+            .where((order) => order.status == OrderStatus.processing)
+            .toList();
+      case 2:
+        return mockOrders
+            .where((order) => order.status == OrderStatus.completed)
+            .toList();
+      case 3:
+        return mockOrders
+            .where((order) => order.status == OrderStatus.cancelled)
+            .toList();
+      default:
+        return mockOrders;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
+      onTap: () => FocusScope.of(context).unfocus(),
       child: SafeArea(
         child: Scaffold(
           appBar: SellioAppBar(
@@ -29,69 +48,63 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
             title: AppStrings.orderHistory,
             showActionIcon: false,
           ),
-          body: CustomScrollView(slivers: [OrderHistoryTabs(), OrderSection()]),
+          body: CustomScrollView(
+            slivers: [
+              OrderHistoryTabs(
+                onTabSelected: (index) {
+                  setState(() {
+                    selectedTabIndex = index;
+                  });
+                },
+              ),
+              OrderSection(orders: filteredOrders),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class OrderSection extends StatefulWidget {
-  const OrderSection({super.key});
+class OrderSection extends StatelessWidget {
+  final List<OrderModel> orders;
 
-  @override
-  State<OrderSection> createState() => _OrderSectionState();
-}
-
-class _OrderSectionState extends State<OrderSection> {
-  bool isOrderVisible = true;
-  bool isViewDetailsVisible = false;
-
-  void _handleCancelClick() {
-    setState(() {
-      isOrderVisible = false;
-    });
-  }
-
-  void _handleViewDetailsClick() {
-    setState(() {
-      isViewDetailsVisible = true;
-    });
-  }
-
-  void _handleOrderAgainClick() {
-    // Navigator.pushReplacement(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => StoreScreen(),),);
-  }
+  const OrderSection({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: isOrderVisible && mockOrderItems.isNotEmpty
-          ? OrderDetails(
-              orderId: 'Order #2002124',
-              orderDate: 'Placed on 12 Jun 2025',
-              status: OrderStatus.processing,
-              orderTotal: 4,
-              marketName: 'Sweet Lovers - Pasteleria',
-              marketImage: Assets.password,
-              orderItems: mockOrderItems,
-              onCancelClick: _handleCancelClick,
-              onViewDetailsClick: _handleViewDetailsClick,
-              onOrderAgainClick: _handleOrderAgainClick,
-            )
-          : emptyOrderHistory(context),
+    if (orders.isEmpty) {
+      return SliverToBoxAdapter(child: emptyOrderHistory(context));
+    }
+
+    return SliverList(
+      delegate: SliverChildBuilderDelegate((context, index) {
+        final order = orders[index];
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: OrderDetails(
+            orderId: order.id,
+            orderDate: order.date,
+            status: order.status,
+            orderTotal: order.totalItems,
+            marketName: order.marketName,
+            marketImage: order.marketImage,
+            orderItems: order.orderItems,
+            onCancelClick: () {},
+            onViewDetailsClick: () {},
+            onOrderAgainClick: () {},
+          ),
+        );
+      }, childCount: orders.length),
     );
   }
 }
 
-Widget? emptyOrderHistory(BuildContext context) {
+Widget emptyOrderHistory(BuildContext context) {
   return SizedBox(
     height: MediaQuery.of(context).size.height * 0.6,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(Assets.noOrderHistory, width: 112, height: 112),
         Text(
@@ -101,19 +114,40 @@ Widget? emptyOrderHistory(BuildContext context) {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 24, left: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
             'Start exploring and purchasing your favorite items',
             style: context.theme.typography.textTheme.bodySmall.copyWith(
               color: context.theme.colors.body,
             ),
+            textAlign: TextAlign.center,
           ),
         ),
-        Gap(12),
+        const Gap(12),
         SellioButton(text: 'Start Exploring', fullWidth: false, onTap: () {}),
       ],
     ),
   );
+}
+
+class OrderModel {
+  final String id;
+  final String date;
+  final OrderStatus status;
+  final int totalItems;
+  final String marketName;
+  final String marketImage;
+  final List<OrderItem> orderItems;
+
+  const OrderModel({
+    required this.id,
+    required this.date,
+    required this.status,
+    required this.totalItems,
+    required this.marketName,
+    required this.marketImage,
+    required this.orderItems,
+  });
 }
 
 final List<OrderItem> mockOrderItems = [
@@ -146,5 +180,35 @@ final List<OrderItem> mockOrderItems = [
     productName: 'Laptop Stand',
     quantity: 2,
     price: 45.00,
+  ),
+];
+
+final List<OrderModel> mockOrders = [
+  OrderModel(
+    id: '2002124',
+    date: '12 Jun 2025',
+    status: OrderStatus.processing,
+    totalItems: 4,
+    marketName: 'Sweet Lovers - Pasteleria',
+    marketImage: Assets.password,
+    orderItems: mockOrderItems,
+  ),
+  OrderModel(
+    id: '2002125',
+    date: '10 Jun 2025',
+    status: OrderStatus.completed,
+    totalItems: 3,
+    marketName: 'Coffee Beans House',
+    marketImage: Assets.password,
+    orderItems: mockOrderItems,
+  ),
+  OrderModel(
+    id: '2002126',
+    date: '8 Jun 2025',
+    status: OrderStatus.cancelled,
+    totalItems: 2,
+    marketName: 'Tech World Store',
+    marketImage: Assets.password,
+    orderItems: mockOrderItems,
   ),
 ];

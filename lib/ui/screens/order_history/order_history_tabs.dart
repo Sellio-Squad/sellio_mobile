@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../../core/design_system/widgets/chip_category.dart';
-
 class OrderHistoryTabs extends StatefulWidget {
-  const OrderHistoryTabs({super.key});
+  final ValueChanged<int> onTabSelected;
+  const OrderHistoryTabs({super.key, required this.onTabSelected});
 
   @override
   State<OrderHistoryTabs> createState() => _OrderHistoryTabsState();
@@ -38,6 +38,7 @@ class _OrderHistoryTabsState extends State<OrderHistoryTabs> {
                   setState(() {
                     _selectedOrderHistoryIndex = index;
                   });
+                  widget.onTabSelected(index);
                 },
               ),
             );
