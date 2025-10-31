@@ -58,14 +58,6 @@ class Assets {
   static const String locationPin = '$iconsPath/location-pin.svg';
   static const String storeDiscountFrame =
       '$iconsPath/store-discount-frame.svg';
-  static const String user= '$iconsPath/user.svg';
-  static const String openEye = '$iconsPath/opened_eye.svg';
-  static const String closeEye = '$iconsPath/closed_eye.svg';
-  static const String flagIraq = '$iconsPath/flag_iraq.svg';
-  static const String phone = '$iconsPath/phone.svg';
-  static const String arrowDown = '$iconsPath/arrow_down.svg';
-  static const String password = '$iconsPath/password.svg';
-  static const String account = '$iconsPath/account.svg';
   // order history screen
   static const String noOrderHistory= '$imagesPath/no_order_history.png';
 }
