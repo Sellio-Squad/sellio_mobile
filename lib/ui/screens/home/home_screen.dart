@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/CustomAppBar.dart';
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
@@ -10,9 +7,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.d
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 
-import '../../../core/design_system/constants/assets.dart';
-import '../../../core/design_system/widgets/sellio_app_bar.dart'
-    hide SellioAppBar;
+import '../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../store_details/store_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,12 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: SellioAppBar.withGreeting(
-          userName: 'Abdo',
-          location: 'Cairo, Egypt',
-          onNotificationTap: () {
-            // Handle notification
-          },
+        appBar: SellioAppBar(
+          location: "Cairo,Egypt",
+          userName: "Israa",
+          showGreeting: true,
+          backgroundColor: Colors.transparent,
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surfaceLow,
@@ -115,30 +109,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-        child: TopStoresSection(
-          topStores: DataProvider.topStores,
-          onLikePressed: () {
-            // todo: Handle like action
-          },
-          onCardPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => StoreDetailsScreen(
-                  storeId: '123',
-                  coverImage: 'assets/images/product_2.png',
-                  profileImage: 'assets/images/product_3.png',
-                  storeName: "Sweet Lovers - Pasteleria",
-                  rating: 3.8,
-                  discount: '40',
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: TopStoresSection(
+            topStores: DataProvider.topStores,
+            onLikePressed: () {
+              // todo: Handle like action
+            },
+            onCardPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreDetailsScreen(
+                    storeId: '123',
+                    coverImage: 'assets/images/product_3.webp',
+                    profileImage: 'assets/images/product_3.webp',
+                    storeName: "Sweet Lovers - Pasteleria",
+                    rating: 3.8,
+                    discount: '40',
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-      ),
+              );
+            },
+          ),
+        )
     );
   }
 }

@@ -100,7 +100,7 @@ class SpecialOfferCard extends StatelessWidget {
                       // Product Image
                       Positioned.fill(
                         child: Image.asset(
-                          "assets/images/special_offer_1.png",
+                          "assets/images/special_offer_1.webp",
                           fit: BoxFit.contain,
                         ),
                       ),

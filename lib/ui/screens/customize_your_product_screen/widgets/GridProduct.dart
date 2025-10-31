@@ -10,16 +10,16 @@ class GridProduct extends StatefulWidget {
 
 class _GridProductState extends State<GridProduct> {
   final List<Map<String, dynamic>> _products = [
-    {'imageUrl': 'assets/images/product_1.png', 'label': 'Product 1'},
-    {'imageUrl': 'assets/images/product_2.png', 'label': 'Product 2'},
-    {'imageUrl': 'assets/images/product_3.png', 'label': 'Product 3'},
-    {'imageUrl': 'assets/images/product_1.png', 'label': 'Product 4'},
-    {'imageUrl': 'assets/images/product_2.png', 'label': 'Product 5'},
-    {'imageUrl': 'assets/images/product_3.png', 'label': 'Product 6'},
-    {'imageUrl': 'assets/images/product_1.png', 'label': 'Product 7'},
-    {'imageUrl': 'assets/images/product_2.png', 'label': 'Product 8'},
-    {'imageUrl': 'assets/images/product_3.png', 'label': 'Product 9'},
-    {'imageUrl': 'assets/images/product_1.png', 'label': 'Product 10'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 1'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 2'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 3'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 4'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 5'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 6'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 7'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 8'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 9'},
+    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 10'},
   ];
 
   @override
