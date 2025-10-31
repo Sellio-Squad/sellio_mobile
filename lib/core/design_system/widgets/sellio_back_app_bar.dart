@@ -26,7 +26,7 @@ class SellioBackAppBar extends StatelessWidget implements PreferredSizeWidget {
       leadingWidth: 56,
       leading: Padding(
         padding: const EdgeInsets.only(left: 16, top: 14, bottom: 14),
-        child: Container(
+        child: SizedBox(
           width: 40,
           height: 40,
           child: IconButton(

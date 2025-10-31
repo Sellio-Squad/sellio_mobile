@@ -11,17 +11,20 @@ class Assets {
   static const String cancelCircle = '$iconsPath/cancel-circle.svg';
   static const String check = '$iconsPath/check.svg';
   static const String indeterminate = '$iconsPath/indeterminate.svg';
+
   // app bar icons
   static const String bell = '$iconsPath/bell.svg';
   static const String location = '$iconsPath/location.svg';
   static const String arrowLeft = '$iconsPath/arrow-left.svg';
   static const String sellio = '$imagesPath/sellio.png';
+
   //section title icons
   static const String arrowRight = '$iconsPath/arrow-right.svg';
   static const String orderIcon = '$iconsPath/order-icon.svg';
   static const String favouriteIcon = '$iconsPath/favourite_icon.svg';
   static const String discountIcon = '$iconsPath/discount_icon.svg';
   static const String discountFrame = '$iconsPath/discount_frame.svg';
+
   //create account icons
   static const String imageUpload = '$iconsPath/image-upload.svg';
   static const String outlineArrow = '$iconsPath/outline-arrow.svg';
@@ -31,6 +34,7 @@ class Assets {
   static const String sellioWhite = '$imagesPath/sellio_white.png';
   static const String stars = '$iconsPath/stars.svg';
   static const String loginTopSection = '$imagesPath/login_top_section.png';
+
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.png';
   // Product Card Icons
@@ -40,11 +44,13 @@ class Assets {
   static const String cart = '$iconsPath/small_cart.svg';
   static const String unselectedFavorite =
       '$iconsPath/unselected-favourite.svg';
+
   // Category Icons
   static const String allCategories = '$iconsPath/all.svg';
   static const String food = '$iconsPath/food.svg';
   static const String drinks = '$iconsPath/drinks.svg';
   static const String clothes = '$iconsPath/clothes.svg';
+
   // text field icons
   static const String user= '$iconsPath/user.svg';
   static const String openEye = '$iconsPath/opened_eye.svg';
@@ -58,6 +64,9 @@ class Assets {
   //store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
-  static const String storeDiscountFrame =
-      '$iconsPath/store-discount-frame.svg';
+  static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
+  static const String alertCircle = '$iconsPath/alert-circle.svg';
+
+  // product customization
+  static const String packageProcess = '$iconsPath/package-process.svg';
 }
