@@ -19,7 +19,7 @@ class Assets {
   //section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
   static const String orderIcon = '$iconsPath/ic_order-icon.svg';
-  static const String favouriteIcon = '$iconsPath/ic_favourite_icon.svg';
+  static const String favouriteIcon = '$iconsPath/ic_unselected-favourite.svg';
   static const String discountIcon = '$iconsPath/ic_discount_icon.svg';
   static const String discountFrame = '$iconsPath/ic_discount_frame.svg';
   //create account icons
@@ -38,7 +38,7 @@ class Assets {
   static const String favorite = '$iconsPath/ic_favourite.svg';
   static const String cart = '$iconsPath/ic_small_cart.svg';
   static const String unselectedFavorite =
-      '$iconsPath/unselected-ic_favourite.svg';
+      '$iconsPath/ic_unselected-favourite.svg';
   // Category Icons
   static const String allCategories = '$iconsPath/ic_all.svg';
   static const String food = '$iconsPath/ic_food.svg';
