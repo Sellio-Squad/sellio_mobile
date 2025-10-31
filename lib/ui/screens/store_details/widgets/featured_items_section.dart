@@ -14,29 +14,28 @@ class FeaturedItemsSection extends StatefulWidget {
 class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
   final Map<int, int> _productCounts = {};
 
-  // Sample featured products - replace with actual data from API
   final List<Map<String, dynamic>> _featuredProducts = [
     {
       'id': 0,
-      'imageUrl': 'assets/images/product_1.png',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
     },
     {
       'id': 1,
-      'imageUrl': 'assets/images/product_2.png',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Strawberry Cupcake',
       'price': '\$5.00',
     },
     {
       'id': 2,
-      'imageUrl': 'assets/images/product_3.png',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Chocolate Donut',
       'price': '\$3.50',
     },
     {
       'id': 3,
-      'imageUrl': 'assets/images/product_1.png',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Vanilla Birthday Cake',
       'price': '\$15.99',
     },
