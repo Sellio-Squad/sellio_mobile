@@ -6,7 +6,9 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../store_details/store_details_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -115,7 +117,19 @@ class _HomeScreenState extends State<HomeScreen> {
               // todo: Handle like action
             },
             onCardPressed: () {
-              // todo: Handle store card tap
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreDetailsScreen(
+                    storeId: '123',
+                    coverImage: 'assets/images/product_3.webp',
+                    profileImage: 'assets/images/product_3.webp',
+                    storeName: "Sweet Lovers - Pasteleria",
+                    rating: 3.8,
+                    discount: '40',
+                  ),
+                ),
+              );
             },
           ),
         )
