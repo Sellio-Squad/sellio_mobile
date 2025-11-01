@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -20,7 +21,7 @@ class _CartScreenState extends State<CartScreen> {
     {
       'title': 'Lemon Chantilly Cake',
       'description':
-      'A soft, fluffy cake with a refreshing lemon flavor, baked daily using 100% natural ingredients ...',
+          'A soft, fluffy cake with a refreshing lemon flavor, baked daily using 100% natural ingredients ...',
       'price': '\$12.99',
       'originalPrice': '\$16.99',
       'image': Assets.cakeHouseLogo,
@@ -29,7 +30,7 @@ class _CartScreenState extends State<CartScreen> {
     {
       'title': 'Moist Chocolate Cake',
       'description':
-      'Rich, moist chocolate cake baked fresh daily with top-quality ingredients ...',
+          'Rich, moist chocolate cake baked fresh daily with top-quality ingredients ...',
       'price': '\$15.99',
       'originalPrice': null,
       'image': Assets.cakeHouseLogo,
@@ -38,7 +39,7 @@ class _CartScreenState extends State<CartScreen> {
     {
       'title': 'Red Velvet Strawberry Cheesecake',
       'description':
-      'A rich red velvet base topped with creamy cheesecake and fresh strawberries ...',
+          'A rich red velvet base topped with creamy cheesecake and fresh strawberries ...',
       'price': '\$15.99',
       'originalPrice': null,
       'image': Assets.cakeHouseLogo,
@@ -67,7 +68,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(68),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+          padding: const EdgeInsets.symmetric(vertical: 24),
           child: AppBar(
             backgroundColor: colors.surfaceLow,
             title: Text(
@@ -76,10 +77,13 @@ class _CartScreenState extends State<CartScreen> {
                   .copyWith(color: context.theme.colors.title),
             ),
             actions: [
-              Center(
-                child: Text(
-                  AppStrings.addMoreItems,
-                  style: textTheme.labelMedium.copyWith(color: colors.primary),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Center(
+                  child: Text(
+                    AppStrings.addMoreItems,
+                    style: textTheme.labelMedium.copyWith(color: colors.primary),
+                  ),
                 ),
               ),
             ],
@@ -89,9 +93,7 @@ class _CartScreenState extends State<CartScreen> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Gap(8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -101,17 +103,16 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 Text(
                   AppStrings.select,
-                  style:
-                  textTheme.labelMedium.copyWith(color: colors.primary),
+                  style: textTheme.labelMedium.copyWith(color: colors.primary),
                 ),
               ],
             ),
-            const Gap(8),
+            const Gap(12),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: _items.length,
-              separatorBuilder: (_, __) => const Gap(8),
+              separatorBuilder: (_, __) => const Gap(12),
               itemBuilder: (context, index) {
                 final item = _items[index];
                 return ProductHorizontalCard(
@@ -132,29 +133,27 @@ class _CartScreenState extends State<CartScreen> {
                 );
               },
             ),
-            const Gap(8),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: colors.stroke),
-              ),
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.noteAboutOrder,
-                    style:
-                    textTheme.titleMedium.copyWith(color: colors.title),
-                  ),
-                  SellioTextField(
-                    controller: _noteController,
-                    isParagraph: true,
-                    hintText: AppStrings.writeHere,
-                    maxLine: 1,
-                  ),
-                ],
-              ),
+            const Gap(12),
+            Divider(
+              color: colors.stroke,
+              thickness: 1,
+            ),
+            const Gap(12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppStrings.noteAboutOrder,
+                  style: textTheme.titleMedium.copyWith(color: colors.title),
+                ),
+                const Gap(8),
+                SellioTextField(
+                  controller: _noteController,
+                  isParagraph: true,
+                  hintText: AppStrings.writeHere,
+                  maxLine: 1,
+                ),
+              ],
             ),
           ],
         ),
@@ -176,27 +175,31 @@ class _CartScreenState extends State<CartScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                SvgPicture.asset(
+                  Assets.discountTag,
+                  ),
+                const Gap(1),
                 Text(
                   AppStrings.totalPrice,
-                  style:
-                  textTheme.titleSmall.copyWith(color: colors.title),
+                  style: textTheme.titleSmall.copyWith(color: colors.title),
                 ),
+                const Spacer(),
                 Text(
                   '\$${totalPrice.toStringAsFixed(2)}',
-                  style:
-                  textTheme.titleSmall.copyWith(color: colors.primary),
+                  style: textTheme.titleSmall.copyWith(color: colors.primary),
                 ),
               ],
             ),
             const Gap(12),
             SellioButton(
-              text: '${AppStrings.confirmOrder}${_items.length}',
+              text: '${AppStrings.confirmOrder} (${_items.length})',
               onTap: () {},
               backgroundColor: colors.primary,
               isEnabled: true,
               fullWidth: true,
+             suffixSvgPath: Assets.packageAdd,
             ),
           ],
         ),
