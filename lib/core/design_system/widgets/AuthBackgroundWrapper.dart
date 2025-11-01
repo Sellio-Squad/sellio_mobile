@@ -28,18 +28,20 @@ class AuthBackgroundWrapper extends StatelessWidget {
       value: SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.transparent,
       ),
-      child: Scaffold(
-        backgroundColor: colors.AuthBackground,
-        body: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Stack(
-            children: [
-              _buildTopBackground(context),
-              _buildBottomSection(context, colors),
-              if (showLogo) _buildTopLogo(context),
-            ],
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: colors.AuthBackground,
+          body: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+            },
+            child: Stack(
+              children: [
+                _buildTopBackground(context),
+                _buildBottomSection(context, colors),
+                if (showLogo) _buildTopLogo(context),
+              ],
+            ),
           ),
         ),
       ),

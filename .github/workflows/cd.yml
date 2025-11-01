@@ -6,7 +6,7 @@ on:
     branches:
       - develop
       - main
-  workflow_dispatch:  # Enables manual runs
+  workflow_dispatch:
 
 jobs:
   build-and-distribute:
@@ -14,49 +14,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Step 2: Set up JDK 11
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '11'
+          java-version: '17'
 
-      # Step 3: Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      # Step 4: Notify Slack (start thread)
       - name: Notify Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.25.0
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          slack-message: |
-            :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
-            PR created by: ${{ github.event.pull_request.user.login || github.actor }}
-            Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
-            Starting Android build...
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
+            text: |
+              :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
+              PR created by: ${{ github.event.pull_request.user.login || github.actor }}
+              Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
+              Starting Android build...
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      # Step 5: Install Flutter dependencies
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      # Step 6: Decode Keystore
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
 
-      # Step 7: Create key.properties
       - name: Create key.properties
         run: |
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
@@ -64,17 +60,20 @@ jobs:
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=upload-keystore.jks" >> android/key.properties
 
-      # Step 8: Build release APK
       - name: Build release APK
         run: flutter build apk --release -t lib/ui/main/main.dart
 
-      # Step 9: Upload APK to Slack in the same thread
-      - name: Upload APK to Slack
-        uses: slackapi/slack-github-action@v1.25.0
+
+      - name: Upload APK to latest Slack thread
+        uses: slackapi/slack-github-action@v2.1.1
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
-          file: build/app/outputs/flutter-apk/app-release.apk
-          initial_comment: ':white_check_mark: Build successful! The new APK is ready.'
-          thread_ts: ${{ steps.slack.outputs.ts }}
+          method: files.uploadV2
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+            initial_comment: ":white_check_mark: Build successful for commit `${{ github.sha }}` on `${{ github.ref_name }}`."
+            file: "build/app/outputs/flutter-apk/app-release.apk"
+            filename: "sellio-${{ github.sha }}.apk"
+            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

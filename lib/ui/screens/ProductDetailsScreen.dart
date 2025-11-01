@@ -3,22 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 
+import '../../core/design_system/widgets/sellio_app_bar.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int productCount;
   final String productDescription;
-  final double productPrice ;
-  final double?  productPriceBeforeDiscount ;
+  final double productPrice;
+
+  final double? productPriceBeforeDiscount;
 
   const ProductDetailsScreen({
     super.key,
     required this.productCount,
     required this.productDescription,
     required this.productPrice,
-    this.productPriceBeforeDiscount ,
+    this.productPriceBeforeDiscount,
   });
 
   @override
@@ -50,7 +51,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
   }
 
-  void productNote(){
+  void productNote() {
     setState(() {
       noteText = '';
     });
@@ -61,30 +62,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       backgroundColor: context.theme.colors.surfaceLow,
       appBar: SellioAppBar(
-        leading: IconButton(
-          icon: SvgPicture.asset(Assets.arrowLeft),
-          onPressed: () => Navigator.of(context).pop(),
-          padding: EdgeInsets.zero,
-        ),
-        centerWidget: Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Fresh Lemon Cake',
-            style: context.theme.typography.textTheme.titleMedium.copyWith(
-              color: context.theme.colors.title,
+        showBackButton: true,
+        title: 'Fresh Lemon Cake',
+        actions: [
+          IconButton(
+            icon: SvgPicture.asset(
+              _isFavorite ? Assets.favorite : Assets.unselectedFavorite,
+              width: 28,
+              height: 28,
             ),
+            onPressed: _toggleFavorite,
+            padding: EdgeInsets.zero,
           ),
-        ),
-        trailing: IconButton(
-          icon: SvgPicture.asset(
-            _isFavorite ? Assets.favorite : Assets.unselectedFavorite,
-            width: 28,
-            height: 28,
-          ),
-          onPressed: _toggleFavorite,
-          padding: EdgeInsets.zero,
-        ),
+        ],
       ),
+
       body: Column(
         children: [
           Padding(
@@ -177,7 +169,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 Row(
                   children: [
                     Text(
-                      widget.productPriceBeforeDiscount == null ? '' : '\$${widget.productPriceBeforeDiscount}',
+                      widget.productPriceBeforeDiscount == null
+                          ? ''
+                          : '\$${widget.productPriceBeforeDiscount}',
                       style: context.theme.typography.textTheme.titleSmall
                           .copyWith(
                             color: context.theme.colors.hint,

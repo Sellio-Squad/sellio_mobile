@@ -19,17 +19,12 @@ class _ThriftScreenState extends State<ThriftScreen> {
     return Scaffold(
       backgroundColor: colors.surfaceLow,
 
-      appBar: const SellioAppBar(
-        title: 'Thrift',
-        showActionIcon: false,
-        showLeading: false,
-      ),
+      appBar: const SellioAppBar(title: 'Thrift'),
       body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
     );
-
   }
-
 }
+
 class GridProductsSection extends StatefulWidget {
   const GridProductsSection({super.key});
 
@@ -46,56 +41,56 @@ class _GridProductsSectionState extends State<GridProductsSection> {
     final List<Map<String, dynamic>> products = [
       {
         'id': 0,
-        'imageUrl': 'assets/images/product_1.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Gold Stainless Steel Sun Charm Necklace',
         'price': '\$5.00',
         'isFavourite': _isFavourite,
       },
       {
         'id': 1,
-        'imageUrl': 'assets/images/product_2.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 3,
-        'imageUrl': 'assets/images/product_3.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 4,
-        'imageUrl': 'assets/images/product_2.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 5,
-        'imageUrl': 'assets/images/product_3.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 6,
-        'imageUrl': 'assets/images/product_3.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 7,
-        'imageUrl': 'assets/images/product_2.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 8,
-        'imageUrl': 'assets/images/product_3.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
