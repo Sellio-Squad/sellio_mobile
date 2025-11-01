@@ -220,47 +220,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Text(
-                  AppStrings.profilePhoto,
-                  style: context.theme.typography.textTheme.titleSmall
-                      .copyWith(color: context.theme.colors.title),
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: Container(
-                    width: 144,
-                    height: 112,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: context.theme.colors.stroke,
-                        width: 0.5,
-                      ),
-                      color: context.theme.colors.surface,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.imageUpload,
-                          height: 48,
-                          width: 48,
-                          colorFilter: ColorFilter.mode(
-                            context.theme.colors.body,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          AppStrings.upload,
-                          style: context.theme.typography.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
