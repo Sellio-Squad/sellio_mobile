@@ -29,6 +29,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
         statusBarColor: Colors.transparent,
       ),
       child: SafeArea(
+        top: false,
         child: Scaffold(
           backgroundColor: colors.AuthBackground,
           body: GestureDetector(
@@ -64,7 +65,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.only(top: 100 ,bottom: bottomPadding),
+        padding: EdgeInsets.only(top: 70 ,bottom: bottomPadding),
         child: Align(
           alignment: Alignment.topCenter,
           child: Image.asset(Assets.sellioWhite, width: 120),
