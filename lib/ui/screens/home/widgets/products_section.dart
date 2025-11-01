@@ -19,19 +19,19 @@ class _ProductsSectionState extends State<ProductsSection> {
     final List<Map<String, dynamic>> products = [
       {
         'id': 0,
-        'imageUrl': 'assets/images/product_1.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Gold Stainless Steel Sun Charm Necklace',
         'price': '\$5.00',
       },
       {
         'id': 1,
-        'imageUrl': 'assets/images/product_2.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
       },
       {
         'id': 2,
-        'imageUrl': 'assets/images/product_3.png',
+        'imageUrl': 'assets/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
       },

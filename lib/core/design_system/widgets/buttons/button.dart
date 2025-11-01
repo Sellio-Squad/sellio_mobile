@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
 import '../../themes/dimentions.dart';
 import 'AnimatedLoadingDots.dart';
 
@@ -22,6 +21,8 @@ class SellioButton extends StatelessWidget {
     this.isEnabled = true,
     this.suffixSvgPath,
     this.suffixIconColor,
+    this.iconWidth = SellioDimensions.buttonIconWidth,
+    this.iconHeight = SellioDimensions.buttonIconHeight,
   });
 
   final String text;
@@ -38,6 +39,8 @@ class SellioButton extends StatelessWidget {
   final bool isEnabled;
   final String? suffixSvgPath;
   final Color? suffixIconColor;
+  final double iconWidth;
+  final double iconHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,10 @@ class SellioButton extends StatelessWidget {
     final finalBackgroundColor = !isEnabled
         ? (context.theme.colors.disabled)
         : (backgroundColor ?? context.theme.colors.primary);
+
+    final finalIconColor = !isEnabled
+        ? context.theme.colors.hint
+        : (suffixIconColor ?? context.theme.colors.onPrimary);
 
     return GestureDetector(
       onTap: isInteractive ? onTap : null,
@@ -65,32 +72,29 @@ class SellioButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: fullWidth
-              ? MainAxisAlignment.center
-              : MainAxisAlignment.start,
+          mainAxisAlignment:
+          fullWidth ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: [
-            Text(
-              text,
-              style:
-                  (textStyle ?? context.theme.typography.textTheme.labelMedium)
-                      .copyWith(color: finalTextColor),
+            Flexible(
+              child: Text(
+                text,
+                style: (textStyle ?? context.theme.typography.textTheme.labelMedium)
+                    .copyWith(color: finalTextColor),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
             if (isLoading) ...[
               const SizedBox(width: SellioDimensions.buttonIconSpacing),
               AnimatedLoadingDots(
-                colors:
-                    loadingColors ?? context.theme.colors.loadingLightColors,
+                colors: loadingColors ?? context.theme.colors.loadingLightColors,
               ),
             ] else if (suffixSvgPath != null) ...[
               const SizedBox(width: SellioDimensions.buttonIconSpacing),
               SvgPicture.asset(
                 suffixSvgPath!,
-                width: SellioDimensions.buttonIconWidth,
-                height: SellioDimensions.buttonIconHeight,
-                colorFilter: ColorFilter.mode(
-                  suffixIconColor ?? context.theme.colors.onPrimary,
-                  BlendMode.srcIn,
-                ),
+                width: iconWidth,
+                height: iconHeight,
+                colorFilter: ColorFilter.mode(finalIconColor, BlendMode.srcIn),
               ),
             ],
           ],

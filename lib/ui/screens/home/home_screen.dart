@@ -6,7 +6,8 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
-import '../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../store_details/store_details_screen.dart';
+import 'home_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,32 +27,51 @@ class _HomeScreenState extends State<HomeScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: SellioAppBar(
-          location: "Cairo,Egypt",
-          userName: "Israa",
-          showGreeting: true,
-          backgroundColor: theme.colors.primaryVariant,
+        appBar: HomeAppBar(
+          userName: 'John Doe',
+          location: 'New York, USA',
+          onNotificationTap: () {
+            // TODO: Handle notification
+          },
         ),
-        backgroundColor: colors.surface,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              // Search Bar
-              _buildSearchBarSection(),
+        extendBodyBehindAppBar: true,
+        backgroundColor: colors.surfaceLow,
+        body: Stack(
+          children: [
+            Container(
+              height: 256,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    colors.primary.withOpacity(0.16),
+                    colors.primary.withOpacity(0),
+                  ],
+                ),
+              ),
+            ),
+            SafeArea(
+              child: CustomScrollView(
+                slivers: [
+                  // Search Bar
+                  _buildSearchBarSection(),
 
-              // Category Tabs
-              CategoryTabs(),
+                  // Category Tabs
+                  CategoryTabs(),
 
-              //  Special Offers Section
-              _buildSpecialOffersSection(),
+                  //  Special Offers Section
+                  _buildSpecialOffersSection(),
 
-              // Products Grid
-              ProductsSection(),
+                  // Products Grid
+                  ProductsSection(),
 
-              // Top Stores Section
-              _buildTopStoresSection(),
-            ],
-          ),
+                  // Top Stores Section
+                  _buildTopStoresSection(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -60,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
   SliverToBoxAdapter _buildSearchBarSection() {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: SearchBarWithFilter(
           onFilterIconClicked: () {
             // todo: Handle filter icon click
@@ -75,26 +95,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildSpecialOffersSection() {
     return SliverToBoxAdapter(
-      child: SpecialOffersSection(
-        offers: DataProvider.specialOffers,
-        onOfferTap: (offerId) {
-          // todo: Handle offer tap
-        },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+        child: SpecialOffersSection(
+          offers: DataProvider.specialOffers,
+          onOfferTap: (offerId) {
+            // todo: Handle offer tap
+          },
+        ),
       ),
     );
   }
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-      child: TopStoresSection(
-        topStores: DataProvider.topStores,
-        onLikePressed: () {
-          // todo: Handle like action
-        },
-        onCardPressed: () {
-          // todo: Handle store card tap
-        },
-      ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: TopStoresSection(
+            topStores: DataProvider.topStores,
+            onLikePressed: () {
+              // todo: Handle like action
+            },
+            onCardPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StoreDetailsScreen(
+                    storeId: '123',
+                    coverImage: 'assets/images/product_3.webp',
+                    profileImage: 'assets/images/product_3.webp',
+                    storeName: "Sweet Lovers - Pasteleria",
+                    rating: 3.8,
+                    discount: '40',
+                  ),
+                ),
+              );
+            },
+          ),
+        )
     );
   }
 }

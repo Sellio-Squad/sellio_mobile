@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/ui/screens/auth/country.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
   final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatter;
   final BorderRadiusGeometry cornerRadius;
   final Color shadowColor;
   final TextStyle? textStyle;
@@ -24,11 +27,17 @@ class SellioTextField extends StatefulWidget {
   final double focusedErrorBorderRadius;
   final TextStyle? errorStyle;
   final TextEditingController? controller;
+  final bool isPhoneNumber;
+  final String? countryFlag;
+  final Country? selectedCountry;
+  final List<Country>? countries;
+  final ValueChanged<Country>? onChangeCountry;
 
   const SellioTextField({
     super.key,
     this.isParagraph = false,
     this.inputType,
+    this.inputFormatter,
     this.cornerRadius = const BorderRadius.all(Radius.circular(8)),
     this.shadowColor = const Color(0x1F520826),
     this.textStyle,
@@ -46,14 +55,19 @@ class SellioTextField extends StatefulWidget {
     this.focusedErrorBorderRadius = 8.0,
     this.errorStyle,
     this.controller,
+    this.isPhoneNumber = false,
+    this.countryFlag = Assets.flagIraq,
+    this.selectedCountry,
+    this.countries,
+    this.onChangeCountry,
   });
+
   @override
   State<SellioTextField> createState() => _SellioTextFieldState();
 }
 
 class _SellioTextFieldState extends State<SellioTextField> {
   final FocusNode _focusNode = FocusNode();
-  // *** FIX 1: This will store the *actual* controller being used. ***
   late final TextEditingController _effectiveController;
 
   bool isError = false;
@@ -63,14 +77,11 @@ class _SellioTextFieldState extends State<SellioTextField> {
   void initState() {
     super.initState();
 
-    // *** This is the FIX ***
-    // It runs right at the start and gives _effectiveController a value.
     _effectiveController = widget.controller ?? TextEditingController();
 
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          // This now safely uses the initialized controller
           isError = _effectiveController.text.isEmpty;
         });
       }
@@ -82,7 +93,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
   @override
   void dispose() {
     _focusNode.dispose();
-    // *** FIX 4: Only dispose the controller if this widget created it. ***
     if (widget.controller == null) {
       _effectiveController.dispose();
     }
@@ -111,35 +121,40 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
     final List<BoxShadow> textFieldShadow = isFocused && !isError
         ? [
-      BoxShadow(
-        color: widget.shadowColor,
-        blurRadius: 8,
-        offset: Offset(0, 4),
-      ),
-    ]
+            BoxShadow(
+              color: widget.shadowColor,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ]
         : [];
 
-    final textFieldStyle = widget.textStyle ??
+    final textFieldStyle =
+        widget.textStyle ??
         context.theme.typography.textTheme.bodyMedium.copyWith(
           color: isFocused
               ? context.theme.colors.title
               : context.theme.colors.body,
         );
 
-    final maxLines =
-    widget.isParagraph ? (widget.maxLine ?? 5) : (widget.maxLine ?? 1);
+    final maxLines = widget.isParagraph
+        ? (widget.maxLine ?? 5)
+        : (widget.maxLine ?? 1);
 
     final filledColor = widget.fillColor ?? context.theme.colors.surface;
 
-    final hintTextStyle = widget.hintStyle ??
+    final hintTextStyle =
+        widget.hintStyle ??
         context.theme.typography.textTheme.labelMedium.copyWith(
           color: hintColor,
         );
 
-    final String? errorText =
-    widget.isParagraph ? null : (isError ? 'Error message!' : null);
+    final String? errorText = widget.isParagraph
+        ? null
+        : (isError ? 'Error message!' : null);
 
-    final errorStyle = widget.errorStyle ??
+    final errorStyle =
+        widget.errorStyle ??
         context.theme.typography.textTheme.labelSmall.copyWith(
           color: context.theme.colors.semanticError,
         );
@@ -149,70 +164,79 @@ class _SellioTextFieldState extends State<SellioTextField> {
         borderRadius: widget.cornerRadius,
         boxShadow: textFieldShadow,
       ),
-      child: TextField(
-        keyboardType: widget.inputType ?? TextInputType.text,
-        focusNode: _focusNode,
-        // *** FIX 5: Use the *effective* controller. ***
-        controller: _effectiveController,
-        inputFormatters: [
-          TextInputFormatter.withFunction((oldValue, newValue) {
-            final lineCount = '\n'.allMatches(newValue.text).length + 1;
-            if (lineCount > 5) {
-              return oldValue;
-            }
-            return newValue;
-          }),
-        ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextField(
+            keyboardType: widget.inputType ?? TextInputType.text,
+            focusNode: _focusNode,
+            controller: _effectiveController,
+            inputFormatters:
+            widget.inputFormatter ??
+                [
+                  TextInputFormatter.withFunction((oldValue, newValue) {
+                    final lineCount = '\n'.allMatches(newValue.text).length + 1;
+                    if (lineCount > 5) {
+                      return oldValue;
+                    }
+                    return newValue;
+                  }),
+                ],
 
-        onChanged: (value) {
-          setState(() {
-            // *** This check is also important ***
-            isError = value.isEmpty;
-          });
-        },
-        obscureText: isObscured,
-        obscuringCharacter: '●',
-        style: textFieldStyle,
-        maxLines: maxLines,
-        decoration: InputDecoration(
-          filled: widget.isTextFieldFilled,
-          fillColor: filledColor,
-          hintText: widget.hintText,
-          hintStyle: hintTextStyle,
-          prefixIcon: widget.isParagraph
-              ? null
-              : widget.prefixIcon ?? _buildPrefixIcon(iconColor),
-          prefixIconConstraints: const BoxConstraints(
-            minWidth: 24,
-            minHeight: 24,
-          ),
-          suffixIcon: _buildSuffixIcon(iconColor),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
-            borderSide: BorderSide(color: borderColor, width: 0.5),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
-            borderSide: BorderSide(color: borderColor),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-            borderSide: BorderSide(color: context.theme.colors.semanticError),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(
-              widget.focusedErrorBorderRadius,
+            onChanged: (value) {
+              setState(() {
+                isError = value.isEmpty;
+              });
+            },
+            obscureText: isObscured,
+            obscuringCharacter: '●',
+            style: textFieldStyle,
+            maxLines: maxLines,
+            decoration: InputDecoration(
+              filled: widget.isTextFieldFilled,
+              fillColor: filledColor,
+              hintText: widget.hintText,
+              hintStyle: hintTextStyle,
+              prefixIcon: widget.isParagraph
+                  ? null
+                  : _buildPrefixIcon(iconColor, Assets.iconsPath),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 24,
+                minHeight: 24,
+              ),
+              suffixIcon: _buildSuffixIcon(iconColor),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
+                borderSide: BorderSide(color: borderColor, width: 0.5),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
+                borderSide: BorderSide(color: borderColor),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.errorBorderRadius),
+                borderSide: BorderSide(color: context.theme.colors.semanticError),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(
+                  widget.focusedErrorBorderRadius,
+                ),
+                borderSide: BorderSide(color: context.theme.colors.semanticError),
+              ),
+              errorStyle: errorStyle,
             ),
-            borderSide: BorderSide(color: context.theme.colors.semanticError),
           ),
-          errorText: errorText,
-          errorStyle: errorStyle,
-        ),
-      ),
+          Text(
+             isError ? errorText.toString() : '',
+            style: errorStyle,
+          )
+        ]
+      )
+
     );
   }
 
-  Widget? _buildPrefixIcon(Color iconColor) {
+  Widget? _buildPrefixIcon(Color iconColor, String icon) {
     if (widget.isParagraph) return null;
 
     return Padding(
@@ -220,14 +244,18 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            Assets.user,
-            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-          ),
-          if (isError) ...[
-            const SizedBox(width: 12),
-            Container(width: 1, height: 30, color: context.theme.colors.stroke),
-          ],
+          if (widget.prefixIcon != null) ...[widget.prefixIcon!],
+          if (widget.isPhoneNumber &&
+              widget.selectedCountry != null &&
+              widget.countries != null &&
+              widget.onChangeCountry != null)
+            _buildCountryDropdown(
+              context: context,
+              selectedCountry: widget.selectedCountry!,
+              countries: widget.countries!,
+              onChanged: widget.onChangeCountry!,
+              countryFlag: widget.countryFlag ?? Assets.flagIraq,
+            ),
         ],
       ),
     );
@@ -251,4 +279,60 @@ class _SellioTextFieldState extends State<SellioTextField> {
     }
     return null;
   }
+}
+
+Widget _buildCountryDropdown({
+  required Country selectedCountry,
+  required List<Country> countries,
+  required ValueChanged<Country> onChanged,
+  required String countryFlag,
+  required BuildContext context,
+}) {
+  return DropdownButtonHideUnderline(
+    child: DropdownButton<Country>(
+      value: selectedCountry,
+      isDense: true,
+      icon: const SizedBox.shrink(),
+      onChanged: (Country? newValue) {
+        if (newValue != null) onChanged(newValue);
+      },
+      selectedItemBuilder: (context) {
+        return countries.map((country) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(Assets.arrowDown, width: 16, height: 16),
+              const Gap(8),
+              SvgPicture.asset(countryFlag, width: 24, height: 24),
+              const Gap(8),
+              Text(
+                country.code,
+                style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                  color: context.theme.colors.title,
+                ),
+              ),
+            ],
+          );
+        }).toList();
+      },
+      items: countries.map((country) {
+        return DropdownMenuItem<Country>(
+          value: country,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
+              const Gap(8),
+              Text(
+                country.code,
+                style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                  color: context.theme.colors.body,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    ),
+  );
 }
