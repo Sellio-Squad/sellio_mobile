@@ -34,4 +34,13 @@ class AppStrings {
   static const String profilePhoto = 'Profile photo (optional)';
   static const String upload = 'Upload';
   static const String alreadyHaveAccount = 'Already have account?';
+
+  //cart screen
+  static const String addMoreItems = 'Add more items';
+  static const String noteAboutOrder = 'Note about order';
+  static const String writeHere ='Write here';
+  static const String confirmOrder = 'Confirm Order';
+  static const String totalPrice = 'Total price';
+  static const String items = 'items';
+  static const String select = 'Select';
 }

@@ -3,6 +3,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import '../../core/design_system/constants/app_strings.dart';
 import '../../core/design_system/widgets/buttons/button.dart';
 import '../../core/design_system/widgets/cards/productHorizontalCard.dart';
 import '../../core/design_system/widgets/textField.dart';
@@ -63,23 +64,30 @@ class _CartScreenState extends State<CartScreen> {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-      appBar: AppBar(
-        title: const Text('Cart'),
-        backgroundColor: colors.surfaceLow,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Center(
-              child: Text(
-                'Add more items',
-                style: textTheme.labelMedium.copyWith(color: colors.primary),
-              ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(68),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+          child: AppBar(
+            backgroundColor: colors.surfaceLow,
+            title: Text(
+              AppStrings.cart,
+              style: context.theme.typography.textTheme.titleMedium
+                  .copyWith(color: context.theme.colors.title),
             ),
+            actions: [
+              Center(
+                child: Text(
+                  AppStrings.addMoreItems,
+                  style: textTheme.labelMedium.copyWith(color: colors.primary),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -88,11 +96,11 @@ class _CartScreenState extends State<CartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${_items.length} items',
+                  '${_items.length} ${AppStrings.items}',
                   style: textTheme.labelMedium.copyWith(color: colors.body),
                 ),
                 Text(
-                  'Select',
+                  AppStrings.select,
                   style:
                   textTheme.labelMedium.copyWith(color: colors.primary),
                 ),
@@ -135,14 +143,15 @@ class _CartScreenState extends State<CartScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Note about order',
+                    AppStrings.noteAboutOrder,
                     style:
-                    textTheme.labelMedium.copyWith(color: colors.title),
+                    textTheme.titleMedium.copyWith(color: colors.title),
                   ),
                   SellioTextField(
                     controller: _noteController,
                     isParagraph: true,
-                    hintText: 'Write here',
+                    hintText: AppStrings.writeHere,
+                    maxLine: 1,
                   ),
                 ],
               ),
@@ -170,7 +179,7 @@ class _CartScreenState extends State<CartScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Total price',
+                  AppStrings.totalPrice,
                   style:
                   textTheme.titleSmall.copyWith(color: colors.title),
                 ),
@@ -183,7 +192,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             const Gap(12),
             SellioButton(
-              text: 'Confirm Order (${_items.length})',
+              text: '${AppStrings.confirmOrder}${_items.length}',
               onTap: () {},
               backgroundColor: colors.primary,
               isEnabled: true,
