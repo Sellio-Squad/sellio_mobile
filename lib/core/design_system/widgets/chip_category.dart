@@ -23,10 +23,11 @@ class ChipCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = selected
-        ? context.theme.colors.primary
-        : context.theme.colors.surfaceLow;
+        ? context.theme.colors.primary : context.theme.colors.surface;
     final contentColor =
     selected ? context.theme.colors.onPrimary : context.theme.colors.body;
+    final containerColor =
+        selected ? Color(0x1FFFFFFF) : context.theme.colors.surfaceLow;
 
     return Material(
       color: backgroundColor,
@@ -43,8 +44,8 @@ class ChipCategory extends StatelessWidget {
                 Container(
                   width: 30,
                   height: 30,
-                  decoration: const BoxDecoration(
-                    color: Color(0x1FFFFFFF),
+                  decoration: BoxDecoration(
+                    color: containerColor,
                     shape: BoxShape.circle,
                   ),
                   child: Center(
