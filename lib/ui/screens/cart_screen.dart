@@ -62,8 +62,10 @@ class _CartScreenState extends State<CartScreen> {
     final textTheme = theme.typography.textTheme;
 
     return Scaffold(
+      backgroundColor: colors.surfaceLow,
       appBar: AppBar(
         title: const Text('Cart'),
+        backgroundColor: colors.surfaceLow,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 16.0),
@@ -76,8 +78,6 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ],
       ),
-
-      // Scrollable body content
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
