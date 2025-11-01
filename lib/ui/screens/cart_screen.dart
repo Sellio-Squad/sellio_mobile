@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
 import '../../core/design_system/constants/app_strings.dart';
 import '../../core/design_system/widgets/buttons/button.dart';
 import '../../core/design_system/widgets/cards/productHorizontalCard.dart';
@@ -195,11 +196,74 @@ class _CartScreenState extends State<CartScreen> {
             const Gap(12),
             SellioButton(
               text: '${AppStrings.confirmOrder} (${_items.length})',
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                  ),
+                  builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(24),
+                            width: 112,
+                            height: 112,
+                            decoration: BoxDecoration(
+                              color: context.theme.colors.primaryVariant,
+                              shape: BoxShape.circle,
+                            ),
+                            child: SvgPicture.asset(
+                              Assets.packageDelivered,
+                              colorFilter: ColorFilter.mode(
+                                context.theme.colors.primary,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            '${AppStrings.order} #2002124',
+                            style: context.theme.typography.textTheme.labelMedium
+                                .copyWith(color: context.theme.colors.title),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            AppStrings.orderReceived,
+                            style: context.theme.typography.textTheme.titleSmall
+                                .copyWith(color: context.theme.colors.body),
+                          ),
+                          const SizedBox(height: 24),
+                          SellioButton(
+                            text: AppStrings.backToShopping,
+                            backgroundColor: context.theme.colors.primaryVariant,
+                            textStyle: context.theme.typography.textTheme.labelMedium
+                                .copyWith(color: context.theme.colors.primary),
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeScreen(),
+                                ),
+                              );
+                            },
+                            fullWidth: true,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
               backgroundColor: colors.primary,
               isEnabled: true,
               fullWidth: true,
-             suffixSvgPath: Assets.packageAdd,
+              suffixSvgPath: Assets.packageAdd,
             ),
           ],
         ),
