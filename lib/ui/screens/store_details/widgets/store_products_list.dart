@@ -57,7 +57,6 @@ class _StoreProductsListState extends State<StoreProductsList> {
     );
   }
 
-  /// Builds empty state when no products are available
   Widget _buildEmptyState() {
     return const SliverToBoxAdapter(
       child: Center(
@@ -69,7 +68,6 @@ class _StoreProductsListState extends State<StoreProductsList> {
     );
   }
 
-  /// Builds a single product item
   Widget _buildProductItem(BuildContext context, int index) {
     final product = _products[index];
     final count = _getProductCount(product.id);
@@ -90,20 +88,17 @@ class _StoreProductsListState extends State<StoreProductsList> {
   }
 
 
-  /// Gets the current count for a product
   int _getProductCount(int productId) {
     return _productCounts[productId] ?? 0;
   }
 
 
-  /// Handles increment action for a product
   void _handleIncrement(int productId) {
     setState(() {
       _productCounts[productId] = _getProductCount(productId) + 1;
     });
   }
 
-  /// Handles decrement action for a product
   void _handleDecrement(int productId) {
     setState(() {
       final count = _getProductCount(productId);

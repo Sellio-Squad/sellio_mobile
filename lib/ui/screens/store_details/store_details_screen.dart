@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_header.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_info_card.dart';
+import '../../../core/design_system/constants/assets.dart';
 import 'about_store/about_store.dart';
 import 'store_data_provider.dart';
 import 'widgets/featured_items_section.dart';
@@ -33,7 +35,6 @@ class StoreDetailsScreen extends StatefulWidget {
 }
 
 class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
-
   static const double _horizontalPadding = 16.0;
   static const double _verticalPadding = 8.0;
   static const double _sectionSpacing = 8.0;
@@ -41,7 +42,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
 
   int _selectedCategoryIndex = 0;
   bool _isFavorite = false;
-
 
   late final StoreDataProvider _dataProvider;
   late final StoreDetailsData _storeData;
@@ -65,7 +65,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  /// Builds the main scrollable body
   Widget _buildBody() {
     return CustomScrollView(
       slivers: [
@@ -79,7 +78,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  /// Builds the store header with cover and profile images
   Widget _buildStoreHeader() {
     return SliverToBoxAdapter(
       child: StoreHeader(
@@ -91,7 +89,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  /// Builds the store information card
   Widget _buildStoreInfoCard() {
     return SliverToBoxAdapter(
       child: Padding(
@@ -111,21 +108,18 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  /// Builds the featured items section
   Widget _buildFeaturedItemsSection() {
     return const SliverToBoxAdapter(
       child: FeaturedItemsSection(),
     );
   }
 
-  /// Builds spacing between sections
   Widget _buildSectionSpacing() {
     return const SliverToBoxAdapter(
       child: SizedBox(height: _sectionSpacing),
     );
   }
 
-  /// Builds the category tabs
   Widget _buildCategoryTabs() {
     return SliverToBoxAdapter(
       child: StoreCategoryTabs(
@@ -136,7 +130,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  /// Builds the products list based on selected category
   Widget _buildProductsList() {
     return SliverPadding(
       padding: const EdgeInsets.all(_horizontalPadding),
@@ -150,49 +143,28 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     final theme = context.theme;
     final colors = theme.colors;
 
-    return AppBar(
-      backgroundColor: colors.surfaceLow,
-      elevation: 0,
-      leading: _buildBackButton(colors),
-      title: _buildAppBarTitle(theme, colors),
-      centerTitle: true,
+    return SellioAppBar(
+      showBackButton: true,
+      title: widget.storeName,
       actions: [
         _buildFavoriteButton(colors),
         _buildInfoButton(),
       ],
     );
+
   }
 
-  /// Builds the back button
-  Widget _buildBackButton(dynamic colors) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back, color: colors.title),
-      onPressed: _handleBackPress,
-    );
-  }
-
-  /// Builds the app bar title
-  Widget _buildAppBarTitle(dynamic theme, dynamic colors) {
-    return Text(
-      widget.storeName,
-      style: theme.typography.textTheme.titleMedium.copyWith(
-        color: colors.title,
-      ),
-    );
-  }
-
-  /// Builds the favorite button
   Widget _buildFavoriteButton(dynamic colors) {
     return IconButton(
-      icon: Icon(
-        _isFavorite ? Icons.favorite : Icons.favorite_border,
-        color: _isFavorite ? colors.red : colors.title,
+      icon: SvgPicture.asset(
+        _isFavorite ? Assets.favorite : Assets.unselectedFavorite,
+        width: _iconSize,
+        height: _iconSize,
       ),
       onPressed: _toggleFavorite,
     );
   }
 
-  /// Builds the info button
   Widget _buildInfoButton() {
     return IconButton(
       icon: SvgPicture.asset(
@@ -205,26 +177,18 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
 
-  /// Handles back button press
-  void _handleBackPress() {
-    Navigator.of(context).pop();
-  }
-
-  /// Handles category selection
   void _onCategorySelected(int index) {
     setState(() {
       _selectedCategoryIndex = index;
     });
   }
 
-  /// Toggles favorite state
   void _toggleFavorite() {
     setState(() {
       _isFavorite = !_isFavorite;
     });
   }
 
-  /// Navigates to about store screen
   void _navigateToAboutStore() {
     Navigator.push(
       context,

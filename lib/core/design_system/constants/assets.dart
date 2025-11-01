@@ -56,8 +56,11 @@ class Assets {
   //store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
-  static const String storeDiscountFrame =
-      '$iconsPath/store-discount-frame.svg';
   // order history screen
   static const String noOrderHistory= '$imagesPath/no_order_history.png';
+  static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
+  static const String alertCircle = '$iconsPath/alert-circle.svg';
+
+  // product customization
+  static const String packageProcess = '$iconsPath/package-process.svg';
 }

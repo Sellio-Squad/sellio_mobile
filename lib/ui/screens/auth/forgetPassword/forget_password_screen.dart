@@ -9,8 +9,7 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 import 'package:sellio_mobile/ui/screens/auth/country.dart';
 import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
-
-import '../../../../core/design_system/widgets/sellio_back_app_bar.dart';
+import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import 'forget_password_otp_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -49,7 +48,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioBackAppBar(title: AppStrings.titleParForgetPassword),
+      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(

@@ -4,135 +4,94 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import '../constants/assets.dart';
 
 class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool showBack;
-  final String? title;
-  final String? userName;
-  final String? location;
-  final VoidCallback? onNotificationTap;
-  final bool showGreeting;
-  final Color? backgroundColor;
-
   final Widget? leading;
-  final Widget? centerWidget;
-  final Widget? trailing;
-  final bool showActionIcon;
-  final bool showLeading;
+  final bool showBackButton;
+  final String? title;
   final String? subtitle;
-  final String? actionIcon;
+  final bool centerTitle;
+  final List<Widget>? actions;
+  final Widget? customTitle;
+
+  static const double _backIconSize = 24;
+  static const double _leadingPadding = 16;
 
   const SellioAppBar({
     super.key,
-    this.showBack = false,
-    this.title,
-    this.userName,
-    this.location,
-    this.onNotificationTap,
-    this.showGreeting = false,
-    this.backgroundColor,
     this.leading,
-    this.centerWidget,
-    this.trailing,
-    this.showActionIcon = true,
-    this.showLeading = true,
+    this.showBackButton = false,
+    this.title,
     this.subtitle,
-    this.actionIcon = Assets.bell,
+    this.centerTitle = false,
+    this.actions,
+    this.customTitle,
   });
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.theme.colors;
+    final textTheme = context.theme.typography.textTheme;
+
     return AppBar(
-      scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
-      backgroundColor: backgroundColor ?? context.theme.colors.surfaceLow,
-      elevation: 0,
-      flexibleSpace: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12, top: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (showLeading) _buildLeading(context),
-              Expanded(child: _buildCenter(context)),
-              if (showActionIcon) _buildTrailing(context),
-            ],
-          ),
-        ),
-      ),
+      backgroundColor: Colors.transparent,
+      scrolledUnderElevation: 0,
+      centerTitle: centerTitle,
+      leadingWidth: showBackButton ? 56 : 77,
+      leading: _buildLeading(context),
+      title: customTitle ?? _buildTitle(context, colors, textTheme),
+      titleSpacing: 12,
+      actions: actions,
     );
   }
 
-  Widget _buildLeading(BuildContext context) {
-    if (leading != null) return leading!;
-    if (showBack) {
-      return IconButton(
-        icon: SvgPicture.asset(Assets.arrowLeft),
-        onPressed: () => Navigator.of(context).pop(),
-      );
-    } else {
-      return Image.asset(Assets.sellio, height: 58, width: 61);
-    }
-  }
-
-  Widget _buildCenter(BuildContext context) {
-    if (centerWidget != null) return centerWidget!;
-
-    if (showGreeting) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Welcome, $userName',
-            style: context.theme.typography.textTheme.labelSmall.copyWith(
-              color: context.theme.colors.title,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(Assets.location, width: 20, height: 20),
-              const SizedBox(width: 4),
-              Text(
-                location ?? '',
-                style: context.theme.typography.textTheme.labelXSmall.copyWith(
-                  color: context.theme.colors.body,
-                ),
-              ),
-            ],
-          ),
-        ],
-      );
-    } else {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            title ?? '',
-            style: context.theme.typography.textTheme.titleMedium.copyWith(
-              color: context.theme.colors.title,
-            ),
-          ),
-          if (subtitle != null && subtitle!.isNotEmpty)
-            Text(
-              subtitle!,
-              style: context.theme.typography.textTheme.labelSmall.copyWith(
-                color: context.theme.colors.body,
-              ),
-            ),
-        ],
+  Widget? _buildLeading(BuildContext context) {
+    if (leading != null) {
+      return Padding(
+        padding: const EdgeInsets.only(left: _leadingPadding),
+        child: leading,
       );
     }
+
+    if (showBackButton) {
+      return Padding(
+        padding: const EdgeInsets.only(left: _leadingPadding),
+        child: IconButton(
+          icon: SvgPicture.asset(Assets.arrowLeft),
+          onPressed: () => Navigator.of(context).pop(),
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          iconSize: _backIconSize,
+        ),
+      );
+    }
+
+    return null;
   }
 
-  Widget _buildTrailing(BuildContext context) {
-    if (trailing != null) return trailing!;
-    return IconButton(
-      icon: SvgPicture.asset(actionIcon!),
-      onPressed: onNotificationTap,
+  Widget? _buildTitle(BuildContext context, dynamic colors, dynamic textTheme) {
+    if (title == null) return null;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: centerTitle
+          ? CrossAxisAlignment.center
+          : CrossAxisAlignment.start,
+      children: [
+        Text(
+          title!,
+          style: textTheme.titleMedium.copyWith(color: colors.title),
+        ),
+        if (subtitle != null) ...[
+          const SizedBox(height: 2),
+          Text(
+            subtitle!,
+            style: textTheme.labelSmall.copyWith(color: colors.body),
+          ),
+        ],
+      ],
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 10);
+  Size get preferredSize => const Size.fromHeight(68.0);
 }

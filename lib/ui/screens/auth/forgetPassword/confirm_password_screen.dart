@@ -5,12 +5,10 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
-
 import '../../../../core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/sellio_back_app_bar.dart';
+import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/textField.dart';
 import '../../main/main_screen.dart';
-
 
 class SetNewPasswordScreen extends StatefulWidget {
   const SetNewPasswordScreen({super.key});
@@ -64,7 +62,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioBackAppBar(title: AppStrings.titleParForgetPassword),
+      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -82,12 +80,16 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                       const SizedBox(height: 40),
                       Text(
                         AppStrings.setNewPassword,
-                        style: textTheme.headlineSmall.copyWith(color: colors.title),
+                        style: textTheme.headlineSmall.copyWith(
+                          color: colors.title,
+                        ),
                       ),
                       const Gap(8),
                       Text(
                         AppStrings.subtitleSetNewPassword,
-                        style: textTheme.bodyMedium.copyWith(color: colors.body),
+                        style: textTheme.bodyMedium.copyWith(
+                          color: colors.body,
+                        ),
                       ),
                       const Gap(32),
 
@@ -98,7 +100,11 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                         inputType: TextInputType.visiblePassword,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),
-                          child: SvgPicture.asset(Assets.password, width: 24, height: 24),
+                          child: SvgPicture.asset(
+                            Assets.password,
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                       ),
                       const Gap(16),
@@ -109,7 +115,11 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                         inputType: TextInputType.visiblePassword,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),
-                          child: SvgPicture.asset(Assets.password, width: 24, height: 24),
+                          child: SvgPicture.asset(
+                            Assets.password,
+                            width: 24,
+                            height: 24,
+                          ),
                         ),
                       ),
                     ],
