@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
+
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
 
 class ThriftScreen extends StatefulWidget {
@@ -18,7 +19,6 @@ class _ThriftScreenState extends State<ThriftScreen> {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-
       appBar: const SellioAppBar(title: 'Thrift'),
       body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
     );
@@ -131,25 +131,27 @@ class _GridProductsSectionState extends State<GridProductsSection> {
               crossAxisCount: 2,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 170 / 272,
+              childAspectRatio: 0.65,
             ),
             itemBuilder: (context, index) {
               final product = products[index];
               final productId = product['id'] as int;
               final count = _productCounts[productId] ?? 0;
 
-              return ProductVerticalCard(
-                imageUrl: product['imageUrl'],
-                title: product['title'],
-                price: product['price'],
-                count: count,
-                isFavorite: product['isFavourite'],
-                onIncrement: () => incrementProduct(productId),
-                onDecrement: () => decrementProduct(productId),
-                onFavorite: () => toggleFavourite(productId),
+              return SizedBox(
+                child: ProductVerticalCard(
+                  imageUrl: product['imageUrl'],
+                  title: product['title'],
+                  price: product['price'],
+                  count: count,
+                  isFavorite: product['isFavourite'],
+                  onIncrement: () => incrementProduct(productId),
+                  onDecrement: () => decrementProduct(productId),
+                  onFavorite: () => toggleFavourite(productId),
+                ),
               );
             },
-          ),
+          )
         ],
       ),
     );

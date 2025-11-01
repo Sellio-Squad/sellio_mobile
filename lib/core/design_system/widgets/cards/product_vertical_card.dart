@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
@@ -55,49 +56,55 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
     return Material(
       color: colors.surface,
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        width: 160,
-        height: 272,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                  child: _buildImage(colors),
-                ),
-                if (widget.onFavorite != null)
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: ClipOval(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
-                        child: Container(
-                          width: 32,
-                          height: 32,
-                          decoration: const BoxDecoration(
-                            color: Color(0x99FFFFFF),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Material(
-                            type: MaterialType.transparency,
-                            child: InkWell(
-                              customBorder: const CircleBorder(),
-                              onTap: _toggleFavorite,
-                              child: Center(
-                                child: SvgPicture.asset(
-                                  _isFavorite
-                                      ? Assets.favorite
-                                      : Assets.unselectedFavorite,
-                                  colorFilter: ColorFilter.mode(
-                                    colors.primary,
-                                    BlendMode.srcIn,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        widget.imageUrl,
+                        width: constraints.maxWidth,
+                        height: constraints.maxHeight * 0.50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  if (widget.onFavorite != null)
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: ClipOval(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: const BoxDecoration(
+                              color: Color(0x99FFFFFF),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Material(
+                              type: MaterialType.transparency,
+                              child: InkWell(
+                                customBorder: const CircleBorder(),
+                                onTap: _toggleFavorite,
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    _isFavorite
+                                        ? Assets.favorite
+                                        : Assets.unselectedFavorite,
+                                    colorFilter: ColorFilter.mode(
+                                        colors.primary, BlendMode.srcIn),
+                                    width: 20,
+                                    height: 20,
+                                    fit: BoxFit.scaleDown,
                                   ),
-                                  width: 20,
-                                  height: 20,
-                                  fit: BoxFit.scaleDown,
                                 ),
                               ),
                             ),
@@ -105,16 +112,11 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                         ),
                       ),
                     ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Container(
-                height: 44.0,
-                width: 160,
-                alignment: Alignment.topLeft,
+                ],
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Text(
                   widget.title,
                   style: textTheme.labelMedium.copyWith(color: colors.title),
@@ -122,44 +124,41 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4),
-              child: Text(
-                widget.price,
-                style: textTheme.titleSmall.copyWith(color: colors.primary),
-                maxLines: 1,
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Text(
+                  widget.price,
+                  style: textTheme.titleSmall.copyWith(color: colors.primary),
+                  maxLines: 1,
+                ),
               ),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(4),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: widget.count == 0
-                    ? _buildSingleAddButton(context)
-                    : _buildCounter(context),
+              Flexible(child: SizedBox()),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: widget.count == 0
+                      ? _buildSingleAddButton(context)
+                      : _buildCounter(context),
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _buildSingleAddButton(BuildContext context) {
     final colors = SellioTheme.of(context).colors;
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 32,
-      decoration: BoxDecoration(
+      child: Material(
         color: colors.surfaceLow,
         borderRadius: BorderRadius.circular(4),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
+        clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: widget.onIncrement,
           child: SvgPicture.asset(
@@ -179,14 +178,9 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
     final colors = theme.colors;
     final textTheme = theme.typography.textTheme;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -242,44 +236,6 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildImage(colors) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.asset(
-        widget.imageUrl,
-        width: double.infinity,
-        height: 145,
-        fit: BoxFit.cover,
-        /*child: Image.network(
-        widget.imageUrl,
-        width: 152,
-        height: 145,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          return progress == null
-              ? child
-              : Container(
-                  width: 152,
-                  height: 145,
-                  color: colors.surface,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            width: 152,
-            height: 145,
-            color: colors.surface,
-            child: const Icon(Icons.broken_image),
-          );
-        },
-      ),*/
       ),
     );
   }
