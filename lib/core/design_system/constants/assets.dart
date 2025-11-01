@@ -66,4 +66,5 @@ class Assets {
   // cart screen icons
   static const String discountTag = '$iconsPath/discount-tag-02.svg';
   static const String packageAdd = '$iconsPath/package-add.svg';
+  static const String packageDelivered = '$iconsPath/package-delivered.svg';
 }
