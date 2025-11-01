@@ -127,7 +127,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   countries: _countries,
                   onChangeCountry: (c) => setState(() => _selectedCountry = c),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: nameController,
                   hintText: AppStrings.fullName,
@@ -143,7 +143,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       BlendMode.srcIn,
                     ),
                 ),),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 Row(
                   children: [
                     Expanded(
@@ -187,7 +187,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: passwordController,
                   hintText: AppStrings.password,
@@ -203,7 +203,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: confirmPasswordController,
                   hintText: AppStrings.confirmPassword,
