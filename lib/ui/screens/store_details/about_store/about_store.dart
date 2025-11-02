@@ -31,13 +31,13 @@ class AboutStore extends StatelessWidget {
       provider: "https://www.facebook.com/share/1BpmS6Amet/",
       icon: AppIcons.facebook,
       type: ContactType.facebook,
-    )
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SellioAppBar(showBack: true, title: "About Store"),
+      appBar: const SellioAppBar(showBackButton: true, title: "About Store"),
       backgroundColor: context.theme.colors.surfaceLow,
       body: SingleChildScrollView(
         child: Padding(
@@ -168,4 +168,3 @@ class AboutStore extends StatelessWidget {
     }
   }
 }
-

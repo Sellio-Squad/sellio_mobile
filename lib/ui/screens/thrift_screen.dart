@@ -19,17 +19,12 @@ class _ThriftScreenState extends State<ThriftScreen> {
     return Scaffold(
       backgroundColor: colors.surfaceLow,
 
-      appBar: const SellioAppBar(
-        title: 'Thrift',
-        showActionIcon: false,
-        showLeading: false,
-      ),
+      appBar: const SellioAppBar(title: 'Thrift'),
       body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
     );
-
   }
-
 }
+
 class GridProductsSection extends StatefulWidget {
   const GridProductsSection({super.key});
 

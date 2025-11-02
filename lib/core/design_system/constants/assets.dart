@@ -26,7 +26,6 @@ class Assets {
   static const String imageUpload = '$iconsPath/ic_image-upload.svg';
   static const String outlineArrow = '$iconsPath/ic_outline-arrow.svg';
   static const String profile= '$iconsPath/profile';
-
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.webp';
   static const String loginTopSection = '$imagesPath/login_top_section.webp';
@@ -53,12 +52,13 @@ class Assets {
   static const String arrowDown = '$iconsPath/ic_arrow_down.svg';
   static const String password = '$iconsPath/ic_lock_password.svg';
   static const String account = '$iconsPath/ic_account.svg';
-
   //store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
-  static const String storeDiscountFrame =
-      '$iconsPath/store-discount-frame.svg';
+  static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
+  static const String alertCircle = '$iconsPath/alert-circle.svg';
+  // product customization
+  static const String packageProcess = '$iconsPath/package-process.svg';
   // Account Screen
   static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';
   static const String package= '$iconsPath/ic_package.svg';

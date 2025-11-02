@@ -1,36 +1,22 @@
 class StoreDataProvider {
-  // ============================================================================
-  // SINGLETON PATTERN
-  // ============================================================================
 
   StoreDataProvider._();
   static final StoreDataProvider instance = StoreDataProvider._();
   factory StoreDataProvider() => instance;
 
-  // ============================================================================
-  // STORE CATEGORIES
-  // ============================================================================
-
   List<String> getStoreCategories() {
     return ['All', 'Cakes', 'Cupcakes', 'Donuts'];
   }
 
-  // ============================================================================
-  // STORE DETAILS
-  // ============================================================================
-
   String getStoreLocation(String storeId) {
-    // TODO: Replace with actual API call
     return 'Baghdad, Iraq';
   }
 
   List<String> getStoreTags(String storeId) {
-    // TODO: Replace with actual API call
     return ['Cake', 'Donut', 'Dessert'];
   }
 
   String getStoreDescription(String storeId) {
-    // TODO: Replace with actual API call
     return 'Luxurious flavors, enchanting designs, and cakes made with love 💕\n'
         'Order your favorite cake from Cake by Heart now and enjoy your sweet moments 🍰';
   }
@@ -44,22 +30,16 @@ class StoreDataProvider {
     );
   }
 
-  // ============================================================================
-  // PRODUCT DATA
-  // ============================================================================
 
-  /// Gets products by category index
   List<ProductData> getProductsByCategory(int categoryIndex) {
-    // TODO: Replace with actual API call based on category
     return _getMockProducts();
   }
 
-  /// Gets mock products data
   List<ProductData> _getMockProducts() {
     return [
       ProductData(
         id: 0,
-        imageUrl: 'assets/images/product_3.png',
+        imageUrl: 'assets/images/product_3.webp',
         title: 'Birthday cake with bows',
         description: 'Chocolate cake with vanilla frosting and decorative bows',
         price: '\$12.99',
@@ -67,7 +47,7 @@ class StoreDataProvider {
       ),
       ProductData(
         id: 1,
-        imageUrl: 'assets/images/product_3.png',
+        imageUrl: 'assets/images/product_3.webp',
         title: 'Strawberry Cupcake',
         description: 'Fresh strawberry cupcake with cream cheese frosting',
         price: '\$5.00',
@@ -84,10 +64,6 @@ class StoreDataProvider {
     ];
   }
 }
-
-// ============================================================================
-// DATA MODELS
-// ============================================================================
 
 class StoreDetailsData {
   final String location;
@@ -119,28 +95,4 @@ class ProductData {
     required this.price,
     this.originalPrice,
   });
-
-  // Factory constructor for JSON parsing (for future API integration)
-  factory ProductData.fromJson(Map<String, dynamic> json) {
-    return ProductData(
-      id: json['id'] as int,
-      imageUrl: json['imageUrl'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      price: json['price'] as String,
-      originalPrice: json['originalPrice'] as String?,
-    );
-  }
-
-  // Convert to JSON (for future API integration)
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'imageUrl': imageUrl,
-      'title': title,
-      'description': description,
-      'price': price,
-      'originalPrice': originalPrice,
-    };
-  }
 }
