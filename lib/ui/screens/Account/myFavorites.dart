@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
-
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_theme.dart';
 
@@ -24,13 +22,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   final List<Map<String, dynamic>> _favoriteProducts = [
     {
       'id': 0,
-      'imageUrl': 'assets/images/product_1.webp',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
     },
     {
       'id': 1,
-      'imageUrl': 'assets/images/product_2.webp',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Berry Cake',
       'price': '\$12.99',
     },
@@ -42,7 +40,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     },
     {
       'id': 3,
-      'imageUrl': 'assets/images/product_4.webp',
+      'imageUrl': 'assets/images/product_3.webp',
       'title': 'Tropical Coconut Cloud Cake',
       'price': '\$12.99',
     },
@@ -62,17 +60,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         appBar: const SellioAppBar(
           title: 'Favorites',
           showBackButton: true,
-          centerTitle: true,
         ),
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              // Tabs
               SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(_tabs.length, (index) {
                       final bool isSelected = _selectedTabIndex == index;
                       return Padding(
@@ -90,10 +83,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       );
                     }),
                   ),
-                ),
               ),
-
-              // Products
               if (_selectedTabIndex == 0)
                 _buildFavoriteProductsGrid(context)
               else
@@ -153,7 +143,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  /// EMPTY STATE (Stores tab)
   Widget _buildEmptyStoresState(SellioColorScheme colorScheme) {
     return SliverToBoxAdapter(
       child: Padding(
@@ -161,9 +150,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         child: Center(
           child: Column(
             children: [
-              // if you don’t have Assets.empty, replace with any valid asset or remove
               SvgPicture.asset(
-                Assets.add, // <-- replace with any available empty-state SVG
+                Assets.add,
                 height: 120,
                 width: 120,
                 colorFilter: ColorFilter.mode(
