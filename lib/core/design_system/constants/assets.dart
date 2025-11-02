@@ -19,6 +19,7 @@ class Assets {
   //section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
   static const String orderIcon = '$iconsPath/ic_order-icon.svg';
+  static const String storeIcon = '$iconsPath/ic_store.svg';
   static const String favouriteIcon = '$iconsPath/ic_unselected-favourite.svg';
   static const String discountIcon = '$iconsPath/ic_discount_icon.svg';
   static const String discountFrame = '$iconsPath/ic_discount_frame.svg';
