@@ -59,4 +59,16 @@ class Assets {
   static const String locationPin = '$iconsPath/location-pin.svg';
   static const String storeDiscountFrame =
       '$iconsPath/store-discount-frame.svg';
+  // Account Screen
+  static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';
+  static const String package= '$iconsPath/ic_package.svg';
+  static const String heartCheck= '$iconsPath/ic_heart_check.svg';
+  static const String circleLockAdd= '$iconsPath/ic_circle_lock_add.svg';
+  static const String languageCircle= '$iconsPath/ic_language_circle.svg';
+  static const String mobileProgramming= '$iconsPath/ic_mobile_programming.svg';
+  static const String notification= '$iconsPath/ic_notification.svg';
+  static const String repair= '$iconsPath/ic_repair.svg';
+  static const String arrowRightCustom = '$iconsPath/ic_arrow_right_custom.svg';
+  static const String pencilEdit= '$iconsPath/ic_pencil_edit.svg';
+  static const String cat= '$imagesPath/cat.webp';
 }
