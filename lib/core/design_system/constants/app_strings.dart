@@ -34,4 +34,6 @@ class AppStrings {
   static const String profilePhoto = 'Profile photo (optional)';
   static const String upload = 'Upload';
   static const String alreadyHaveAccount = 'Already have account?';
+
+  static const String search = 'Search';
 }
