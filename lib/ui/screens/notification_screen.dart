@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import '../../core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(SellioThemeProvider(
@@ -48,7 +49,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: Column(
         children: [
           DateHeader(
-            date: "12/10/2024",
+            date: "2025-11-03",
           ),
           NotificationItem(
             state: 0,
@@ -61,6 +62,36 @@ class _NotificationScreenState extends State<NotificationScreen> {
             orderId: "1x23456",
             storeName: "Sweet Lovers - Pasteleria",
             time: "11:12 PM",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
+          DateHeader(
+            date: "2025-11-02",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
+          DateHeader(
+            date: "2025-11-01",
           ),
           NotificationItem(
             state: 0,
@@ -191,25 +222,41 @@ class DateHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final parsedDate = DateTime.tryParse(date);
+    String displayText = date;
+
+    if (parsedDate != null) {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final yesterday = today.subtract(const Duration(days: 1));
+      final dateOnly = DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+
+      if (dateOnly == today) {
+        displayText = "Today";
+      } else if (dateOnly == yesterday) {
+        displayText = "Yesterday";
+      } else {
+        displayText = DateFormat('MMM dd, yyyy').format(parsedDate);
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
       child: Row(
         children: [
           Text(
-            "Today",
+            displayText,
             style: context.theme.typography.textTheme.labelSmall.copyWith(
               color: context.theme.colors.body,
-            )
+            ),
           ),
+          const SizedBox(width: 8),
           Expanded(
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                child: Divider(
-                  color: context.theme.colors.stroke,
-                  thickness: 1,
-                )
-              )
-          )
+            child: Divider(
+              color: context.theme.colors.stroke,
+              thickness: 1,
+            ),
+          ),
         ],
       ),
     );
