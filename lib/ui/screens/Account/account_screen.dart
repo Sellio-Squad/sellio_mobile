@@ -32,7 +32,6 @@ class _AccountScreenState extends State<AccountScreen> {
         backgroundColor: colors.surfaceLow,
         appBar: SellioAppBar(
           title: 'Account',
-          showBackButton: true,
           actions: [
             SvgPicture.asset(
               Assets.moreHorizontalSquare,
