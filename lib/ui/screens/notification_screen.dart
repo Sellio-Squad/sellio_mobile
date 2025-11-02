@@ -47,6 +47,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
       body: Column(
         children: [
+          DateHeader(
+            date: "12/10/2024",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
+          NotificationItem(
+            state: 0,
+            orderId: "1x23456",
+            storeName: "Sweet Lovers - Pasteleria",
+            time: "11:12 PM",
+          ),
           NotificationItem(
             state: 0,
             orderId: "1x23456",
@@ -162,6 +177,41 @@ class NotificationItem extends StatelessWidget {
               thickness: 1,
             ))
       ],
+    );
+  }
+}
+
+class DateHeader extends StatelessWidget {
+  final String date;
+
+  const DateHeader({
+    super.key,
+    required this.date,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
+      child: Row(
+        children: [
+          Text(
+            "Today",
+            style: context.theme.typography.textTheme.labelSmall.copyWith(
+              color: context.theme.colors.body,
+            )
+          ),
+          Expanded(
+              child: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                child: Divider(
+                  color: context.theme.colors.stroke,
+                  thickness: 1,
+                )
+              )
+          )
+        ],
+      ),
     );
   }
 }
