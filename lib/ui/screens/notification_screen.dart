@@ -167,17 +167,11 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final icon = switch (state) {
-      0 => Assets.packageDelivered,
-      1 => Assets.packageDelivery,
-      2 => Assets.packageRemove,
-      _ => Assets.packageRemove,
-    };
-    final orderState = switch (state) {
-      0 => "has been placed successfully",
-      1 => "has been delivered successfully",
-      2 => "has been cancelled",
-      _ => "has been cancelled",
+    final (icon, orderState) = switch (state) {
+      0 => (Assets.packageDelivered, "has been placed successfully"),
+      1 => (Assets.packageDelivery, "has been delivered successfully"),
+      2 => (Assets.packageRemove, "has been cancelled"),
+      _ => (Assets.packageRemove, "has been cancelled"),
     };
 
     return Column(
