@@ -5,29 +5,6 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 
-void main() {
-  runApp(SellioThemeProvider(
-    brightness: Brightness.light,
-    child: const MyApp(),
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sellio Preview',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const NotificationScreen(),
-    );
-  }
-}
-
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
