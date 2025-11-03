@@ -21,7 +21,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   int _selectedTabIndex = 0;
 
   final List<String> _tabs = ['Products', 'Stores'];
-
   final Map<int, int> _productCounts = {};
 
   final List<Map<String, dynamic>> _favoriteProducts = [
@@ -147,9 +146,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _buildProductsGrid() {
-    final favoriteItems = _favoriteProducts
-        .where((item) => item['isFavorite'] == true)
-        .toList();
+    final favoriteItems =
+    _favoriteProducts.where((item) => item['isFavorite'] == true).toList();
 
     if (favoriteItems.isEmpty) {
       return _buildEmptyStoresState();
@@ -197,6 +195,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         child: TopStoresSection(
           topStores: DataProvider.topStores,
           onLikePressed: () {
+            // Handle like action
           },
           onCardPressed: () {
             Navigator.push(
@@ -217,6 +216,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       ),
     );
   }
+
   Widget _buildEmptyStoresState() {
     return SliverToBoxAdapter(
       child: Padding(
@@ -225,18 +225,21 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 112,
-                height: 112,
-                decoration: BoxDecoration(
-                  color: SellioColors.light.primaryVariant,
-                  borderRadius: BorderRadius.circular(1000),
-                ),
-                child: Center(
-                  child: SvgPicture.asset(
-                    Assets.heartRemove,
-                    width: 64,
-                    height: 64,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  width: 112,
+                  height: 112,
+                  decoration: BoxDecoration(
+                    color: SellioColors.light.primaryVariant,
+                    borderRadius: BorderRadius.circular(1000),
+                  ),
+                  child: Center(
+                    child: SvgPicture.asset(
+                      Assets.heartRemove,
+                      width: 64,
+                      height: 64,
+                    ),
                   ),
                 ),
               ),
@@ -267,7 +270,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               const SizedBox(height: 12),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:SellioColors.light.primary,
+                  backgroundColor: SellioColors.light.primary,
                   fixedSize: const Size(160, 48),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
