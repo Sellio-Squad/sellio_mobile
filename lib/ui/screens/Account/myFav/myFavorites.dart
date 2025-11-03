@@ -5,7 +5,6 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import 'models/favorite_product_model.dart';
-import 'models/favorite_store_model.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
 
@@ -80,7 +79,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: ChipCategory(
                         label: _tabs[index],
-                        assetIcon: index == 0 ? Assets.food : Assets.clothes,
+                        assetIcon: index == 0 ? Assets.product : Assets.store,
                         selected: isSelected,
                         onTap: () => setState(() => _selectedTabIndex = index),
                       ),

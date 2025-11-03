@@ -23,6 +23,9 @@ class Assets {
   static const String favouriteIcon = '$iconsPath/ic_unselected-favourite.svg';
   static const String discountIcon = '$iconsPath/ic_discount_icon.svg';
   static const String discountFrame = '$iconsPath/ic_discount_frame.svg';
+  static const String product = '$iconsPath/ic_product.svg';
+  static const String store = '$iconsPath/ic_store.svg';
+
   //create account icons
   static const String imageUpload = '$iconsPath/ic_image-upload.svg';
   static const String outlineArrow = '$iconsPath/ic_outline-arrow.svg';
