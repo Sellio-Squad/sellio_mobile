@@ -152,7 +152,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         .toList();
 
     if (favoriteItems.isEmpty) {
-      // ✅ Reuse the same empty state widget here
       return _buildEmptyStoresState();
     }
 
@@ -189,7 +188,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   Widget _buildTopStoresSection() {
     if (DataProvider.topStores.isEmpty) {
-      // ✅ Use same empty state widget for empty stores too
       return _buildEmptyStoresState();
     }
 
@@ -219,11 +217,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       ),
     );
   }
-
   Widget _buildEmptyStoresState() {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.only(top: 64),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 200),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +229,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 width: 112,
                 height: 112,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFEF5F9),
+                  color: SellioColors.light.primaryVariant,
                   borderRadius: BorderRadius.circular(1000),
                 ),
                 child: Center(
@@ -264,16 +261,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
                   height: 1.57,
-                  color: Color(0xA61F1F1F),
+                  color: Color.fromARGB(255, 102, 102, 102),
                 ),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF520826),
-                  padding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
-                  fixedSize: const Size(151, 48),
+                  backgroundColor:SellioColors.light.primary,
+                  fixedSize: const Size(160, 48),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
@@ -290,7 +285,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     fontWeight: FontWeight.w500,
                     fontSize: 14,
                     height: 1.57,
-                    color: Color(0xDEFFFFFF),
+                    color: Colors.white,
                   ),
                 ),
               ),
