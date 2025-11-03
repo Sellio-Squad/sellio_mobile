@@ -42,8 +42,6 @@ class EmptyFavoritesWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-
-          // Subtitle text
           const Text(
             'Start exploring and saving your favorite items here.',
             textAlign: TextAlign.center,
@@ -56,11 +54,9 @@ class EmptyFavoritesWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-
-          // Start Exploring Button
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF520826),
+              backgroundColor: SellioColors.light.primary,
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 24,
