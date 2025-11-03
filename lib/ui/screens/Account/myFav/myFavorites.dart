@@ -7,8 +7,8 @@ import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 import 'package:sellio_mobile/ui/screens/store_details/store_details_screen.dart';
-import '../../../core/design_system/themes/sellio_colors.dart';
-import '../../../core/design_system/themes/sellio_theme.dart';
+import '../../../../core/design_system/themes/sellio_colors.dart';
+import '../../../../core/design_system/themes/sellio_theme.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -30,36 +30,42 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
+      'isFavorite': true,
     },
     {
       'id': 1,
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Berry Cake',
       'price': '\$12.99',
+      'isFavorite': true,
     },
     {
       'id': 2,
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Dark Chocolate Blackberry Cake',
       'price': '\$12.99',
+      'isFavorite': false,
     },
     {
       'id': 3,
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Tropical Coconut Cloud Cake',
       'price': '\$12.99',
+      'isFavorite': false,
     },
     {
       'id': 4,
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Vanilla Dream Cake',
       'price': '\$12.99',
+      'isFavorite': false,
     },
     {
       'id': 5,
       'imageUrl': 'assets/images/product_3.webp',
       'title': 'Strawberry Delight',
       'price': '\$12.99',
+      'isFavorite': false,
     },
   ];
 
@@ -74,6 +80,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       final count = _productCounts[productId] ?? 0;
       if (count > 0) {
         _productCounts[productId] = count - 1;
+      }
+    });
+  }
+
+  void _toggleFavorite(int productId) {
+    setState(() {
+      final index = _favoriteProducts.indexWhere((p) => p['id'] == productId);
+      if (index != -1) {
+        _favoriteProducts[index]['isFavorite'] =
+        !_favoriteProducts[index]['isFavorite'];
       }
     });
   }
@@ -96,7 +112,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Row(
                     children: List.generate(_tabs.length, (index) {
                       final bool isSelected = _selectedTabIndex == index;
@@ -104,7 +121,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 6),
                         child: ChipCategory(
                           label: _tabs[index],
-                          assetIcon: index == 0 ? Assets.food : Assets.clothes,
+                          assetIcon:
+                          index == 0 ? Assets.food : Assets.clothes,
                           selected: isSelected,
                           onTap: () {
                             setState(() {
@@ -129,6 +147,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _buildProductsGrid() {
+    final favoriteItems = _favoriteProducts
+        .where((item) => item['isFavorite'] == true)
+        .toList();
+
+    if (favoriteItems.isEmpty) {
+      // ✅ Reuse the same empty state widget here
+      return _buildEmptyStoresState();
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverGrid(
@@ -140,7 +167,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ),
         delegate: SliverChildBuilderDelegate(
               (context, index) {
-            final product = _favoriteProducts[index];
+            final product = favoriteItems[index];
             final productId = product['id'] as int;
             final count = _productCounts[productId] ?? 0;
 
@@ -151,12 +178,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               count: count,
               onIncrement: () => _incrementProduct(productId),
               onDecrement: () => _decrementProduct(productId),
-              onFavorite: () {
-                // todo: Handle favorite action
-              },
+              onFavorite: () => _toggleFavorite(productId),
             );
           },
-          childCount: _favoriteProducts.length,
+          childCount: favoriteItems.length,
         ),
       ),
     );
@@ -164,6 +189,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   Widget _buildTopStoresSection() {
     if (DataProvider.topStores.isEmpty) {
+      // ✅ Use same empty state widget for empty stores too
       return _buildEmptyStoresState();
     }
 
@@ -173,7 +199,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         child: TopStoresSection(
           topStores: DataProvider.topStores,
           onLikePressed: () {
-            // todo: Handle like action
           },
           onCardPressed: () {
             Navigator.push(
@@ -196,31 +221,77 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget _buildEmptyStoresState() {
-    final theme = SellioTheme.of(context);
-    final colorScheme = theme.colors;
-
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(top: 64),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                Assets.add,
-                height: 120,
-                width: 120,
-                colorFilter: ColorFilter.mode(
-                  colorScheme.primary.withOpacity(0.4),
-                  BlendMode.srcIn,
+              Container(
+                width: 112,
+                height: 112,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFEF5F9),
+                  borderRadius: BorderRadius.circular(1000),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    Assets.heartRemove,
+                    width: 64,
+                    height: 64,
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                'No favorite stores yet',
+              const SizedBox(height: 12),
+              const Text(
+                'No favourite items!',
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: colorScheme.green,
-                  fontSize: 16,
+                  fontFamily: 'Rubik',
                   fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  height: 1.5,
+                  color: Color(0xE01F1F1F),
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Start exploring and saving your favorite items here.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  height: 1.57,
+                  color: Color(0xA61F1F1F),
+                ),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF520826),
+                  padding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+                  fixedSize: const Size(151, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  shadowColor: Colors.black.withOpacity(0.1),
+                  elevation: 4,
+                ),
+                onPressed: () {
+                  // TODO: Navigate to Explore/Home section
+                },
+                child: const Text(
+                  'Start Exploring',
+                  style: TextStyle(
+                    fontFamily: 'Rubik',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    height: 1.57,
+                    color: Color(0xDEFFFFFF),
+                  ),
                 ),
               ),
             ],

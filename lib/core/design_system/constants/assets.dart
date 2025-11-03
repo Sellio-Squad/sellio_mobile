@@ -6,6 +6,7 @@ class Assets {
 
   // icons:
   // Snack bar icons
+  static const String heartRemove = '$iconsPath/ic_heart_remove.svg';
   static const String alertDiamond = '$iconsPath/ic_alert-diamond.svg';
   static const String checkmarkBadge = '$iconsPath/ic_checkmark-badge-02.svg';
   static const String cancelCircle = '$iconsPath/ic_cancel-circle.svg';
