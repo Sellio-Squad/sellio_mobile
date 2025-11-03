@@ -191,10 +191,10 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = switch (state) {
-      0 => Assets.cart,
-      1 => Assets.cart,
-      2 => Assets.cart,
-      _ => Assets.cart,
+      0 => Assets.packageDelivered,
+      1 => Assets.packageDelivery,
+      2 => Assets.packageRemove,
+      _ => Assets.packageRemove,
     };
     final orderState = switch (state) {
       0 => "has been placed successfully",
