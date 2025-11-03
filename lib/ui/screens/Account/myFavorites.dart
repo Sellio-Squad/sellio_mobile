@@ -19,6 +19,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   final List<String> _tabs = ['Products', 'Stores'];
 
+  final Map<int, int> _productCounts = {};
+
   final List<Map<String, dynamic>> _favoriteProducts = [
     {
       'id': 0,
@@ -44,14 +46,39 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       'title': 'Tropical Coconut Cloud Cake',
       'price': '\$12.99',
     },
+    {
+      'id': 4,
+      'imageUrl': 'assets/images/product_3.webp',
+      'title': 'Vanilla Dream Cake',
+      'price': '\$12.99',
+    },
+    {
+      'id': 5,
+      'imageUrl': 'assets/images/product_3.webp',
+      'title': 'Strawberry Delight',
+      'price': '\$12.99',
+    },
   ];
 
-  final Map<int, int> _productCounts = {};
+  void _incrementProduct(int productId) {
+    setState(() {
+      _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
+    });
+  }
+
+  void _decrementProduct(int productId) {
+    setState(() {
+      final count = _productCounts[productId] ?? 0;
+      if (count > 0) {
+        _productCounts[productId] = count - 1;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
-    final colorScheme = theme.colors; // this is SellioColorScheme in your project
+    final colorScheme = theme.colors;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -65,6 +92,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   child: Row(
                     children: List.generate(_tabs.length, (index) {
                       final bool isSelected = _selectedTabIndex == index;
@@ -83,9 +112,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       );
                     }),
                   ),
+                ),
               ),
               if (_selectedTabIndex == 0)
-                _buildFavoriteProductsGrid(context)
+                _buildProductsGrid()
               else
                 _buildEmptyStoresState(colorScheme),
             ],
@@ -95,19 +125,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  /// PRODUCTS GRID
-  Widget _buildFavoriteProductsGrid(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final colorScheme = theme.colors;
-
+  Widget _buildProductsGrid() {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
       sliver: SliverGrid(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+          childAspectRatio: 0.68,
           crossAxisSpacing: 12,
-          mainAxisSpacing: 16,
-          childAspectRatio: 0.8,
+          mainAxisSpacing: 12,
         ),
         delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -120,20 +146,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               title: product['title'],
               price: product['price'],
               count: count,
-              onIncrement: () {
-                setState(() {
-                  _productCounts[productId] = count + 1;
-                });
-              },
-              onDecrement: () {
-                setState(() {
-                  if (count > 0) _productCounts[productId] = count - 1;
-                });
-              },
+              onIncrement: () => _incrementProduct(productId),
+              onDecrement: () => _decrementProduct(productId),
               onFavorite: () {
-                setState(() {
-                  _favoriteProducts.removeAt(index);
-                });
+                // todo: Handle favorite action
               },
             );
           },
