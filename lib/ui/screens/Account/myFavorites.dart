@@ -4,6 +4,9 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
+import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
+import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+import 'package:sellio_mobile/ui/screens/store_details/store_details_screen.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_theme.dart';
 
@@ -117,7 +120,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               if (_selectedTabIndex == 0)
                 _buildProductsGrid()
               else
-                _buildEmptyStoresState(colorScheme),
+                _buildTopStoresSection(),
             ],
           ),
         ),
@@ -159,7 +162,43 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
   }
 
-  Widget _buildEmptyStoresState(SellioColorScheme colorScheme) {
+  Widget _buildTopStoresSection() {
+    if (DataProvider.topStores.isEmpty) {
+      return _buildEmptyStoresState();
+    }
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+        child: TopStoresSection(
+          topStores: DataProvider.topStores,
+          onLikePressed: () {
+            // todo: Handle like action
+          },
+          onCardPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StoreDetailsScreen(
+                  storeId: '123',
+                  coverImage: 'assets/images/product_3.webp',
+                  profileImage: 'assets/images/product_3.webp',
+                  storeName: "Sweet Lovers - Pasteleria",
+                  rating: 3.8,
+                  discount: '40',
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyStoresState() {
+    final theme = SellioTheme.of(context);
+    final colorScheme = theme.colors;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.only(top: 64),
