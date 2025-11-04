@@ -63,4 +63,9 @@ class Assets {
 
   // product customization
   static const String packageProcess = '$iconsPath/package-process.svg';
+
+  // product status
+  static const String packageDelivered = '$iconsPath/ic_package_delivered.svg';
+  static const String packageRemove = '$iconsPath/ic_package_remove.svg';
+  static const String packageDelivery = '$iconsPath/ic_delivery_truck.svg';
 }
