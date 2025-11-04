@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 
 class EmptyFavoritesWidget extends StatelessWidget {
   const EmptyFavoritesWidget({super.key});
@@ -10,14 +9,13 @@ class EmptyFavoritesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 112,
             height: 112,
             decoration: BoxDecoration(
-              color: SellioColors.light.primaryVariant,
+              color: const Color(0xFFFEF5F9),
               borderRadius: BorderRadius.circular(1000),
             ),
             child: Center(
@@ -56,12 +54,12 @@ class EmptyFavoritesWidget extends StatelessWidget {
           const SizedBox(height: 12),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: SellioColors.light.primary,
+              backgroundColor: const Color(0xFF520826),
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 24,
               ),
-              fixedSize: const Size(151, 48),
+              fixedSize: const Size(180, 48),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -69,7 +67,6 @@ class EmptyFavoritesWidget extends StatelessWidget {
               elevation: 4,
             ),
             onPressed: () {
-              // TODO: Navigate to Explore/Home section
             },
             child: const Text(
               'Start Exploring',
@@ -78,7 +75,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
                 height: 1.57,
-                color: Colors.white, // 87% opacity white
+                color: Color(0xDEFFFFFF), // 87% opacity white
               ),
             ),
           ),
