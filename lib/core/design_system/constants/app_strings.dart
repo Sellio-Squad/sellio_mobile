@@ -37,4 +37,18 @@ class AppStrings {
 
   // order history screen
   static const String orderHistory= 'Orders History';
+
+  //cart screen
+  static const String addMoreItems = 'Add more items';
+  static const String noteAboutOrder = 'Note about order';
+  static const String writeHere ='Write here';
+  static const String confirmOrder = 'Confirm Order';
+  static const String totalPrice = 'Total price';
+  static const String items = 'items';
+  static const String select = 'Select';
+
+  // cart screen bottom sheet
+  static const String backToShopping ='Back to shopping';
+  static const String order ='Order';
+  static const String orderReceived = 'Your order has been received successfully.';
 }
