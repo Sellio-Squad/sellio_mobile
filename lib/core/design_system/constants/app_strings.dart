@@ -34,4 +34,7 @@ class AppStrings {
   static const String profilePhoto = 'Profile photo (optional)';
   static const String upload = 'Upload';
   static const String alreadyHaveAccount = 'Already have account?';
+
+  // order history screen
+  static const String orderHistory= 'Orders History';
 }
