@@ -2,20 +2,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/store_card.dart';
 
 class Store {
+  final String id;
   final String name;
   final String imageUrl;
   final String? discount;
+  final String? coverImage;
+  final String? profileImage;
+  final double? rating;
+  bool isFavorite;
 
   Store({
+    required this.id,
     required this.name,
     required this.imageUrl,
     this.discount,
+    this.coverImage,
+    this.profileImage,
+    this.rating,
+    this.isFavorite = false,
   });
 }
+
 class TopStoresSection extends StatelessWidget {
   final List<Store> topStores;
-  final VoidCallback onLikePressed;
-  final VoidCallback onCardPressed;
+  final void Function(String)? onLikePressed;
+  final void Function(String)? onCardPressed;
 
   final String? sectionTitle;
   final bool showHeader;
@@ -23,8 +34,8 @@ class TopStoresSection extends StatelessWidget {
   const TopStoresSection({
     super.key,
     required this.topStores,
-    required this.onLikePressed,
-    required this.onCardPressed,
+    this.onLikePressed,
+    this.onCardPressed,
     this.sectionTitle,
     this.showHeader = false,
   });
@@ -56,8 +67,12 @@ class TopStoresSection extends StatelessWidget {
               imageUrl: store.imageUrl,
               title: store.name,
               discountText: store.discount,
-              onLikePressed: onLikePressed,
-              onCardPressed: onCardPressed,
+              onLikePressed: onLikePressed != null
+                  ? () => onLikePressed!(store.id)
+                  : null,
+              onCardPressed: onCardPressed != null
+                  ? () => onCardPressed!(store.id)
+                  : null,
             );
           },
         ),

@@ -21,11 +21,13 @@ class ProductsGridSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = favoriteProducts.where((p) => p.isFavorite).toList();
-    if (items.isEmpty) {
-      return const SliverToBoxAdapter(child: EmptyFavoritesWidget());
-    }
+    final favoriteItems = favoriteProducts.where((p) => p.isFavorite).toList();
 
+    if (favoriteItems.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: EmptyFavoritesWidget(),
+      );
+    }
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverGrid(
@@ -37,8 +39,9 @@ class ProductsGridSection extends StatelessWidget {
         ),
         delegate: SliverChildBuilderDelegate(
               (context, index) {
-            final product = items[index];
+            final product = favoriteItems[index];
             final count = productCounts[product.id] ?? 0;
+
             return ProductVerticalCard(
               imageUrl: product.imageUrl,
               title: product.title,
@@ -49,7 +52,7 @@ class ProductsGridSection extends StatelessWidget {
               onFavorite: () => onToggleFavorite(product.id),
             );
           },
-          childCount: items.length,
+          childCount: favoriteItems.length,
         ),
       ),
     );

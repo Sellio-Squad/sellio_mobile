@@ -109,30 +109,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverToBoxAdapter _buildTopStoresSection() {
     return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: TopStoresSection(
-            topStores: DataProvider.topStores,
-            onLikePressed: () {
-              // todo: Handle like action
-            },
-            onCardPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StoreDetailsScreen(
-                    storeId: '123',
-                    coverImage: 'assets/images/product_3.webp',
-                    profileImage: 'assets/images/product_3.webp',
-                    storeName: "Sweet Lovers - Pasteleria",
-                    rating: 3.8,
-                    discount: '40',
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+        child: TopStoresSection(
+          topStores: DataProvider.topStores,
+          onLikePressed: (String storeId) {
+            // todo: Handle like action for store with id: storeId
+            print('Liked store: $storeId');
+          },
+          onCardPressed: (String storeId) {
+            // Find the store by ID
+            final store = DataProvider.topStores.firstWhere(
+                  (s) => s.id == storeId,
+              orElse: () => DataProvider.topStores.first,
+            );
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StoreDetailsScreen(
+                  storeId: store.id,
+                  coverImage: store.coverImage ?? 'assets/images/product_3.webp',
+                  profileImage: store.profileImage ?? 'assets/images/product_3.webp',
+                  storeName: store.name,
+                  rating: store.rating ?? 3.8,
+                  discount: store.discount ?? '0',
                 ),
-              );
-            },
-          ),
-        )
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

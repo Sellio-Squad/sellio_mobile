@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
+import '../../../../core/design_system/themes/sellio_theme.dart';
 import 'models/favorite_product_model.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
@@ -23,9 +23,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     FavoriteProduct(
       id: 0,
       imageUrl: 'assets/images/product_3.webp',
-      title: 'Birthday cake with bows',
+      title: 'Birthday Cake with Bows',
       price: '\$12.99',
-      isFavorite: true,
+      isFavorite: false,
     ),
     FavoriteProduct(
       id: 1,
@@ -49,7 +49,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 
-  void _toggleFavorite(int productId) {
+  void _toggleFavoriteProduct(int productId) {
     setState(() {
       final index = _favoriteProducts.indexWhere((p) => p.id == productId);
       if (index != -1) {
@@ -58,6 +58,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     });
   }
 
+  void _toggleFavoriteStore(int storeId) {
+    setState(() {
+      final index = DataProvider.topStores.indexWhere((store) => store.id == storeId);
+      if (index != -1) {
+        DataProvider.topStores[index].isFavorite = !DataProvider.topStores[index].isFavorite;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
@@ -94,10 +102,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 productCounts: _productCounts,
                 onIncrement: _incrementProduct,
                 onDecrement: _decrementProduct,
-                onToggleFavorite: _toggleFavorite,
+                onToggleFavorite: _toggleFavoriteProduct,
               )
             else
-              StoresSection(stores: DataProvider.topStores),
+              StoresSection(
+                stores: DataProvider.topStores,
+                onToggleFavorite: _toggleFavoriteStore,
+              ),
           ],
         ),
       ),

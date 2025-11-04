@@ -17,7 +17,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
             width: 112,
             height: 112,
             decoration: BoxDecoration(
-              color: const Color(0xFFFEF5F9),
+              color: SellioColors.light.primaryVariant,
               borderRadius: BorderRadius.circular(1000),
             ),
             child: Center(
@@ -78,7 +78,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
                 height: 1.57,
-                color: Color(0xDEFFFFFF), // 87% opacity white
+                color: Colors.white, // 87% opacity white
               ),
             ),
           ),
