@@ -219,7 +219,7 @@ class _CartScreenState extends State<CartScreen> {
                               shape: BoxShape.circle,
                             ),
                             child: SvgPicture.asset(
-                              Assets.packageDelivered,
+                              Assets.cartPackageDelivered,
                               colorFilter: ColorFilter.mode(
                                 context.theme.colors.primary,
                                 BlendMode.srcIn,
