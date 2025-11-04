@@ -35,6 +35,9 @@ class AppStrings {
   static const String upload = 'Upload';
   static const String alreadyHaveAccount = 'Already have account?';
 
+  // order history screen
+  static const String orderHistory= 'Orders History';
+
   //cart screen
   static const String addMoreItems = 'Add more items';
   static const String noteAboutOrder = 'Note about order';
