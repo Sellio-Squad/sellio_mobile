@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 
 import '../../constants/assets.dart';
 
@@ -19,6 +20,7 @@ class OrderItem {
     required this.price,
   });
 }
+
 class OrderModel {
   final String id;
   final String date;
@@ -38,7 +40,6 @@ class OrderModel {
     required this.orderItems,
   });
 }
-
 
 class OrderDetails extends StatefulWidget {
   final String orderId;
@@ -156,20 +157,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                   AnimatedRotation(
                     turns: _isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
-                    child: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: context.theme.colors.body,
-                      size: 20,
+                    child: SvgPicture.asset(
+                      Assets.arrowDown,
+                      width: 16,
+                      height: 16,
+                      colorFilter: ColorFilter.mode(
+                          context.theme.colors.body, BlendMode.srcIn),
                     ),
                   ),
                   const SizedBox(width: 8),
-
                   CircleAvatar(
-                    radius: 28,
+                    radius: 16,
                     backgroundImage: AssetImage(widget.marketImage),
                   ),
                   const SizedBox(width: 8),
-
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,52 +232,27 @@ class _OrderDetailsState extends State<OrderDetails> {
                 : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 200),
           ),
-
           const SizedBox(height: 16),
           if (widget.status == OrderStatus.processing)
             Row(
               children: [
                 Expanded(
                   flex: 3,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.theme.colors.primary,
-                      foregroundColor: context.theme.colors.onPrimary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    onPressed: widget.onViewDetailsClick,
-                    child: Text(
-                      "View details",
-                      style: context.theme.typography.textTheme.labelSmall,
-                    ),
+                  child: SellioButton(
+                    text: "View details",
+                    onTap: widget.onViewDetailsClick,
+                    textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   flex: 2,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: context.theme.colors.errorVariant,
-                      foregroundColor: context.theme.colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                    ),
-                    onPressed: widget.onCancelClick,
-                    child: Text(
-                      "Cancel Order",
-                      style: context.theme.typography.textTheme.labelSmall,
-                    ),
+                  child: SellioButton(
+                    text: "Cancel Order",
+                    backgroundColor: context.theme.colors.errorVariant,
+                    textColor: context.theme.colors.red,
+                    onTap: widget.onCancelClick,
+                    textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
                 ),
               ],

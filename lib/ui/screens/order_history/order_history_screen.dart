@@ -44,9 +44,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: SellioAppBar(
-            showBack: true,
+            showBackButton: true,
             title: AppStrings.orderHistory,
-            showActionIcon: false,
           ),
           body: CustomScrollView(
             slivers: [
