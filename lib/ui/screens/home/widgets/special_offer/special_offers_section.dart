@@ -20,7 +20,7 @@ class SpecialOffersSection extends StatefulWidget {
 }
 
 class _SpecialOffersSectionState extends State<SpecialOffersSection> {
-  final PageController _pageController = PageController(viewportFraction: 0.9);
+  final PageController _pageController = PageController(viewportFraction: 1.0);
   int _currentPage = 0;
 
   @override
@@ -65,17 +65,21 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
         // Offers PageView
         SizedBox(
           height: 144,
+          width: double.infinity,
           child: PageView.builder(
+            pageSnapping: true,
             controller: _pageController,
             itemCount: widget.offers.length,
             itemBuilder: (context, index) {
               final offer = widget.offers[index];
-              return SpecialOfferCard(
-                imageUrl: offer.imageUrl,
-                title: offer.title,
-                discount: offer.discount,
-                onTap: () => widget.onOfferTap?.call(offer.id),
-              );
+              return
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: SpecialOfferCard(
+                  imageUrl: offer.imageUrl,
+                  onTap: () => widget.onOfferTap?.call(offer.id),
+                                ),
+                );
             },
           ),
         ),
