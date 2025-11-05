@@ -197,8 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-
+          const Gap(175),
           SellioButton(
             text: AppStrings.login,
             onTap: _handleLogin,
