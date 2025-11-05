@@ -27,76 +27,71 @@ class _SearchScreenState extends State<SearchScreen> {
     'Cat accessories',
     'عباية خليجي',
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: context.theme.colors.surfaceLow,
         appBar: SellioAppBar(
-        title: AppStrings.search,
-        showBackButton: true,
-      ),
-      body: CustomScrollView(
-          slivers:[
-            _buildSearchBarSection(context),
-            _buildSearchBodySection(context),
-          ]
-      )
-
-    );
+          title: AppStrings.search,
+          showBackButton: true,
+        ),
+        body: CustomScrollView(slivers: [
+          _buildSearchBarSection(context),
+          _buildSearchBodySection(context),
+        ]));
   }
 
   SliverToBoxAdapter _buildSearchBarSection(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16,),
-        child: SearchBarWithFilter(
-            onFilterIconClicked: (){},
-            onTextSubmitted: (String text){}
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
         ),
+        child: SearchBarWithFilter(
+            onFilterIconClicked: () {}, onTextSubmitted: (String text) {}),
       ),
-
     );
   }
 
-  SliverToBoxAdapter _buildSearchBodySection(BuildContext context){
-    SearchState _state = SearchState.initial;
+  SliverToBoxAdapter _buildSearchBodySection(BuildContext context) {
+    SearchState _state = SearchState.noResult;
     return SliverToBoxAdapter(
-      child: switch(_state){
-        SearchState.initial => _buildInitialSearch(context),
-
-        SearchState.recent => _buildRecentSearch(context),
-
-        SearchState.success => _buildSuccessSearch(context),
-
-        SearchState.noResult => _buildNoResultSearch(context),
-      }
-    );
+        child: switch (_state) {
+      SearchState.initial => _buildInitialSearch(context),
+      SearchState.recent => _buildRecentSearch(context),
+      SearchState.success => _buildSuccessSearch(context),
+      SearchState.noResult => _buildNoResultSearch(context),
+    });
   }
 
-
-  SliverToBoxAdapter _buildCategorySection(BuildContext context){
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
-        child: Row(
-          children: [
-            ChipCategory(label: 'Products',
-              selected: _selectedCategory == 'Products',
-              onTap: (){
+  Widget _buildCategorySection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+      child: Row(
+        children: [
+          ChipCategory(
+            label: 'Products',
+            selected: _selectedCategory == 'Products',
+            onTap: () {
               setState(() {
                 _selectedCategory = 'Products';
               });
-            } , assetIcon: Assets.orderIcon,),
-            const Gap(8),
-            ChipCategory(label: 'Stores',
-              selected: _selectedCategory == 'Stores',
-              onTap: (){
+            },
+            assetIcon: Assets.orderIcon,
+          ),
+          const Gap(8),
+          ChipCategory(
+            label: 'Stores',
+            selected: _selectedCategory == 'Stores',
+            onTap: () {
               setState(() {
                 _selectedCategory = 'Stores';
               });
-            }, assetIcon: Assets.storeIcon,),
-          ],
-        ),
+            },
+            assetIcon: Assets.storeIcon,
+          ),
+        ],
       ),
     );
   }
@@ -113,8 +108,8 @@ class _SearchScreenState extends State<SearchScreen> {
               Text(
                 'Recent Searches',
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  color: context.theme.colors.title,
-                ),
+                      color: context.theme.colors.title,
+                    ),
               ),
               GestureDetector(
                 onTap: () {
@@ -125,23 +120,18 @@ class _SearchScreenState extends State<SearchScreen> {
                 child: Text(
                   'Clear All',
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: context.theme.colors.primary,
-                  ),
+                        color: context.theme.colors.primary,
+                      ),
                 ),
               ),
             ],
           ),
           const Gap(12),
-
           Wrap(
             spacing: 4,
             runSpacing: 4,
             children: recentSearches.map((text) {
-              return ChipCategory(
-                  label: text,
-                  selected: false,
-                  onTap: (){
-                  });
+              return ChipCategory(label: text, selected: false, onTap: () {});
             }).toList(),
           ),
         ],
@@ -149,36 +139,53 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  Widget _buildInitialSearch(BuildContext context){
+  Widget _buildInitialSearch(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(Assets.searchIcon),
-          Text('Start exploring your favorite items!',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: context.theme.colors.title,
-              )
-          ),
-        ]
-      ),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(Assets.searchIcon),
+            Text('Start exploring your favorite items!',
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: context.theme.colors.title,
+                    )),
+          ]),
     );
   }
 
-  Widget _buildSuccessSearch(BuildContext context){
+  Widget _buildSuccessSearch(BuildContext context) {
     return Center();
   }
-  Widget _buildNoResultSearch(BuildContext context){
-    return Center();
+
+  Widget _buildNoResultSearch(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+
+    return SizedBox(
+      height: height * 0.75,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildCategorySection(context),
+          const Spacer(), // بدل Expanded
+          Image.asset(
+            Assets.noResultSearchIcon,
+          ),
+          Text('No results found!',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: context.theme.colors.title,
+                  )),
+
+          Text('Please check your spelling or try a different search.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: context.theme.colors.body,
+                  )),
+          Spacer()
+        ],
+      ),
+    );
   }
 }
 
-enum SearchState{
-  initial,
-  recent,
-  success,
-  noResult
-}
-
+enum SearchState { initial, recent, success, noResult }
