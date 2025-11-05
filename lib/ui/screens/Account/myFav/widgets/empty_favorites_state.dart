@@ -12,6 +12,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            margin: const EdgeInsets.only(top: 140),
             width: 112,
             height: 112,
             decoration: BoxDecoration(
@@ -47,8 +48,8 @@ class EmptyFavoritesWidget extends StatelessWidget {
               fontFamily: 'Rubik',
               fontWeight: FontWeight.w400,
               fontSize: 14,
-              height: 1.57, // 22px line height
-              color: Color(0xA61F1F1F), // 66% opacity
+              height: 1.57,
+              color: Color(0xA61F1F1F),
             ),
           ),
           const SizedBox(height: 12),
@@ -75,7 +76,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
                 height: 1.57,
-                color: Color(0xDEFFFFFF), // 87% opacity white
+                color: Color(0xDEFFFFFF),
               ),
             ),
           ),

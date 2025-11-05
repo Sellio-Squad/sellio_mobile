@@ -1,17 +1,24 @@
-class FavoriteStore {
-  final String id;
-  final String name;
-  final String imageUrl;
-  final double rating;
-  final String discount;
-  bool isFavorite;
 
+import '../../../home/widgets/top_stores/top_stores_section.dart';
+
+class FavoriteStore extends Store {
   FavoriteStore({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-    required this.rating,
-    required this.discount,
-    this.isFavorite = false,
-  });
+    required String id,
+    required String name,
+    required String imageUrl,
+    String? discount,
+    String? coverImage,
+    String? profileImage,
+    double? rating,
+    bool isFavorite = false,
+  }) : super(
+    id: id,
+    name: name,
+    imageUrl: imageUrl,
+    discount: discount,
+    coverImage: coverImage,
+    profileImage: profileImage,
+    rating: rating,
+    isFavorite: isFavorite,
+  );
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
 import 'models/favorite_product_model.dart';
+import 'models/favorite_store_model.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
 
@@ -35,6 +35,20 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       isFavorite: true,
     ),
   ];
+  final List<FavoriteStore> _favoriteStores = [
+    FavoriteStore(
+      id: "0",
+      name: 'Sweet Treats Bakery',
+      imageUrl: 'assets/images/product_3.webp',
+      isFavorite: true,
+    ),
+    FavoriteStore(
+      id: "1",
+      name: 'Cake & Coffee House',
+      imageUrl: 'assets/images/product_3.webp',
+      isFavorite: true,
+    ),
+  ];
 
   final Map<int, int> _productCounts = {};
 
@@ -48,7 +62,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       if (count > 0) _productCounts[productId] = count - 1;
     });
   }
-
   void _toggleFavoriteProduct(int productId) {
     setState(() {
       final index = _favoriteProducts.indexWhere((p) => p.id == productId);
@@ -57,15 +70,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       }
     });
   }
-
   void _toggleFavoriteStore(int storeId) {
     setState(() {
-      final index = DataProvider.topStores.indexWhere((store) => store.id == storeId);
+      final index = _favoriteStores.indexWhere((s) => s.id == storeId);
       if (index != -1) {
-        DataProvider.topStores[index].isFavorite = !DataProvider.topStores[index].isFavorite;
+        _favoriteStores[index].isFavorite = !_favoriteStores[index].isFavorite;
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
@@ -77,6 +90,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
+            // ✅ Category Tabs
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -96,6 +110,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
               ),
             ),
+
+            // ✅ Products Tab
             if (_selectedTabIndex == 0)
               ProductsGridSection(
                 favoriteProducts: _favoriteProducts,
@@ -106,7 +122,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               )
             else
               StoresSection(
-                stores: DataProvider.topStores,
+                stores: _favoriteStores,
                 onToggleFavorite: _toggleFavoriteStore,
               ),
           ],
