@@ -33,6 +33,7 @@ class Assets {
   static const String loginTopSection = '$imagesPath/login_top_section.webp';
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
+  static const String searchIcon = '$imagesPath/ic_search.png';
   // Product Card Icons
   static const String add = '$iconsPath/ic_add.svg';
   static const String remove = '$iconsPath/ic_minus.svg';
