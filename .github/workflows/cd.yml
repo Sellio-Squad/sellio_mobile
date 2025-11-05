@@ -61,7 +61,7 @@ jobs:
           echo "storeFile=upload-keystore.jks" >> android/key.properties
 
       - name: Build release APK
-        run: flutter build apk --release -t lib/ui/main/main.dart
+        run: flutter build apk --release --target-platform android-arm64 -t lib/ui/main/main.dart
 
 
       - name: Upload APK to latest Slack thread

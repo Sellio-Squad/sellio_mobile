@@ -59,10 +59,22 @@ class Assets {
   //store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
+  // order history screen
+  static const String noOrderHistory= '$imagesPath/no_order_history.png';
   static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
   static const String alertCircle = '$iconsPath/alert-circle.svg';
   // product customization
   static const String packageProcess = '$iconsPath/package-process.svg';
+
+  // product status
+  static const String packageDelivered = '$iconsPath/ic_package_delivered.svg';
+  static const String packageRemove = '$iconsPath/ic_package_remove.svg';
+  static const String packageDelivery = '$iconsPath/ic_delivery_truck.svg';
+
+  // cart screen icons
+  static const String discountTag = '$iconsPath/discount-tag-02.svg';
+  static const String packageAdd = '$iconsPath/package-add.svg';
+  static const String cartPackageDelivered = '$iconsPath/package-delivered.svg';
   // Account Screen
   static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';
   static const String package= '$iconsPath/ic_package.svg';
