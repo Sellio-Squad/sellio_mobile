@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import '../../../../../core/design_system/themes/sellio_colors.dart';
 
 class EmptyFavoritesWidget extends StatelessWidget {
   const EmptyFavoritesWidget({super.key});
@@ -16,7 +17,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
             width: 112,
             height: 112,
             decoration: BoxDecoration(
-              color: const Color(0xFFFEF5F9),
+              color: SellioColors.light.primaryVariant,
               borderRadius: BorderRadius.circular(1000),
             ),
             child: Center(
@@ -27,40 +28,52 @@ class EmptyFavoritesWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text(
+                  'No favourite items!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Rubik',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    height: 1.5,
+                    color: Color(0xE01F1F1F),
+                  ),
+                ),
+                SizedBox(height: 4),
+                SizedBox(
+                  width: 320,
+                  child: Text(
+                    'Start exploring and saving your favorite items here.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Rubik',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      height: 1.57,
+                      color: Color.fromARGB(255, 117, 117, 117),
+                    ),
+                  ),
+                ),
 
-          const Text(
-            'No favourite items!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Rubik',
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              height: 1.5,
-              color: Color(0xE01F1F1F),
+              ],
             ),
           ),
-          const SizedBox(height: 4),
-          const Text(
-            'Start exploring and saving your favorite items here.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Rubik',
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              height: 1.57,
-              color: Color(0xA61F1F1F),
-            ),
-          ),
+
           const SizedBox(height: 12),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF520826),
+              backgroundColor: SellioColors.light.primary,
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 24,
               ),
-              fixedSize: const Size(180, 48),
+              fixedSize: const Size(180, 55),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -76,7 +89,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 14,
                 height: 1.57,
-                color: Color(0xDEFFFFFF),
+                color: Colors.white,
               ),
             ),
           ),
