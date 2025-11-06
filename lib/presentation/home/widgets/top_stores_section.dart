@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import '../../../../../core/design_system/widgets/cards/store_card.dart';
-import '../../../../../core/design_system/widgets/section_header.dart';
+import '../../../../core/design_system/widgets/cards/store_card.dart';
+import '../../../../core/design_system/widgets/section_header.dart';
 
 class Store{
   final String name;

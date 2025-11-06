@@ -22,6 +22,12 @@ dependencies:
   url_launcher: ^6.3.1
   google_maps_flutter: ^2.9.0
 
+
+  equatable:
+
+  # State Management
+  flutter_bloc:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

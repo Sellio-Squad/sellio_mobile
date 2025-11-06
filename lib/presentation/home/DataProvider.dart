@@ -1,5 +1,5 @@
 import 'widgets/special_offer/special_offers_section.dart';
-import 'widgets/top_stores/top_stores_section.dart';
+import 'widgets/top_stores_section.dart';
 
 class DataProvider {
   static final List<SpecialOfferModel> specialOffers = [
