@@ -51,4 +51,8 @@ class AppStrings {
   static const String backToShopping ='Back to shopping';
   static const String order ='Order';
   static const String orderReceived = 'Your order has been received successfully.';
+
+  //account settings bottom sheet
+  static const String accountSettings ='Account settings';
+  static const String saveChanges ='Save changes';
 }
