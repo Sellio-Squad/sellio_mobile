@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
@@ -127,10 +126,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   countries: _countries,
                   onChangeCountry: (c) => setState(() => _selectedCountry = c),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: nameController,
                   hintText: AppStrings.fullName,
+                  inputFormatter: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                  ],
                   prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                   prefixIcon: SvgPicture.asset(Assets.account,
                     width: 24,
@@ -140,13 +142,16 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       BlendMode.srcIn,
                     ),
                 ),),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 Row(
                   children: [
                     Expanded(
                       child: SellioTextField(
                         controller: countryController,
                         hintText: AppStrings.country,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                        ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon:SvgPicture.asset(
                             Assets.location,
@@ -164,6 +169,9 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       child: SellioTextField(
                         controller: cityController,
                         hintText: AppStrings.city,
+                        inputFormatter: [
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                        ],
                         prefixIconPadding: EdgeInsets.only(left:16, right: 8),
                         prefixIcon: SvgPicture.asset(
                             Assets.location,
@@ -178,7 +186,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: passwordController,
                   hintText: AppStrings.password,
@@ -194,7 +202,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
                 SellioTextField(
                   controller: confirmPasswordController,
                   hintText: AppStrings.confirmPassword,
@@ -211,47 +219,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Text(
-                  AppStrings.profilePhoto,
-                  style: context.theme.typography.textTheme.titleSmall
-                      .copyWith(color: context.theme.colors.title),
-                ),
-                const SizedBox(height: 12),
-                Center(
-                  child: Container(
-                    width: 144,
-                    height: 112,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: context.theme.colors.stroke,
-                        width: 0.5,
-                      ),
-                      color: context.theme.colors.surface,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.imageUpload,
-                          height: 48,
-                          width: 48,
-                          colorFilter: ColorFilter.mode(
-                            context.theme.colors.body,
-                            BlendMode.srcIn,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          AppStrings.upload,
-                          style: context.theme.typography.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -321,7 +288,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
               ],
             ),
           ),
-          Gap(16),
         ],
       ),
     );
