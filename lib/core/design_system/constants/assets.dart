@@ -26,7 +26,6 @@ class Assets {
   static const String imageUpload = '$iconsPath/ic_image-upload.svg';
   static const String outlineArrow = '$iconsPath/ic_outline-arrow.svg';
   static const String profile= '$iconsPath/profile';
-
   //login
   static const String sellioWhite = '$imagesPath/sellio_white.webp';
   static const String loginTopSection = '$imagesPath/login_top_section.webp';
@@ -57,9 +56,21 @@ class Assets {
   //store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
+  // order history screen
+  static const String noOrderHistory= '$imagesPath/no_order_history.png';
   static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
   static const String alertCircle = '$iconsPath/alert-circle.svg';
 
   // product customization
   static const String packageProcess = '$iconsPath/package-process.svg';
+
+  // product status
+  static const String packageDelivered = '$iconsPath/ic_package_delivered.svg';
+  static const String packageRemove = '$iconsPath/ic_package_remove.svg';
+  static const String packageDelivery = '$iconsPath/ic_delivery_truck.svg';
+
+  // cart screen icons
+  static const String discountTag = '$iconsPath/discount-tag-02.svg';
+  static const String packageAdd = '$iconsPath/package-add.svg';
+  static const String cartPackageDelivered = '$iconsPath/package-delivered.svg';
 }

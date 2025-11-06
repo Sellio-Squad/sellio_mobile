@@ -40,8 +40,6 @@ class ProductHorizontalCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -93,7 +91,6 @@ class ProductHorizontalCard extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
             ),
 
             Padding(
