@@ -1,25 +1,25 @@
+import '../core/result.dart';
 import '../entities/product.dart';
-import '../entities/category.dart';
 
 abstract class ProductRepository {
   /// Get all products
-  Future<List<Product>> getProducts({
+  Future<Result<List<Product>>> getProducts({
     int page = 1,
     int limit = 20,
   });
 
   /// Get products by category
-  Future<List<Product>> getProductsByCategory({
+  Future<Result<List<Product>>> getProductsByCategory({
     required String categoryId,
     int page = 1,
     int limit = 20,
   });
 
   /// Get product details by ID
-  Future<Product> getProductById(String productId);
+  Future<Result<Product>> getProductById(String productId);
 
   /// Search products
-  Future<List<Product>> searchProducts({
+  Future<Result<List<Product>>> searchProducts({
     required String query,
     String? categoryId,
     double? minPrice,
@@ -29,23 +29,23 @@ abstract class ProductRepository {
   });
 
   /// Get featured products
-  Future<List<Product>> getFeaturedProducts({
+  Future<Result<List<Product>>> getFeaturedProducts({
     int page = 1,
     int limit = 20,
   });
 
   /// Get trending products
-  Future<List<Product>> getTrendingProducts({
+  Future<Result<List<Product>>> getTrendingProducts({
     int page = 1,
     int limit = 20,
   });
 
   /// Toggle favorite product
-  Future<void> toggleFavoriteProduct(String productId);
+  Future<Result<void>> toggleFavoriteProduct(String productId);
 
   /// Get favorite products
-  Future<List<Product>> getFavoriteProducts();
+  Future<Result<List<Product>>> getFavoriteProducts();
 
   /// Check if product is favorite
-  Future<bool> isFavorite(String productId);
+  Future<Result<bool>> isFavorite(String productId);
 }
