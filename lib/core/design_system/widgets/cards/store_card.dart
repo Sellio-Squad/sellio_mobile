@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import '../../../../ui/screens/home/widgets/top_stores/discount_tag.dart';
 import '../../constants/assets.dart';
+import '../discount_tag.dart';
 
 class StoreCard extends StatelessWidget {
   final String imageUrl;

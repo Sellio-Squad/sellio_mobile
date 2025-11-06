@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
+import 'home/widgets/category_tabs.dart';
 
 class ThriftScreen extends StatefulWidget {
   const ThriftScreen({super.key});

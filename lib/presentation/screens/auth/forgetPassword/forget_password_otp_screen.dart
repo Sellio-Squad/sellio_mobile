@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
-import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
 import 'confirm_password_screen.dart';
+import 'widget/lock_icon.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {
   const ForgetPasswordOTPScreen({super.key});

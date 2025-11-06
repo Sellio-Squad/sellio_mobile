@@ -4,7 +4,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/ui/screens/auth/country.dart';
+import '../../../presentation/screens/auth/country.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -280,7 +280,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     return null;
   }
 }
-
+// todo : it's need update and remove Country parameter
 Widget _buildCountryDropdown({
   required Country selectedCountry,
   required List<Country> countries,

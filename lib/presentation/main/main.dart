@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/auth/login.dart';
+import '../screens/auth/login.dart';
 import '../screens/main/main_screen.dart';
-
 import '../screens/auth/forgetPassword/forget_password_screen.dart';
 
 

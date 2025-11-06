@@ -7,10 +7,10 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
-import 'package:sellio_mobile/ui/screens/auth/country.dart';
-import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../country.dart';
 import 'forget_password_otp_screen.dart';
+import 'widget/lock_icon.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});

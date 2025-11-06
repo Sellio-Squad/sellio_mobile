@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/ui/screens/customize_your_product_screen/widgets/GridProduct.dart';
 
 import '../../../core/design_system/widgets/chip_category.dart';
+import 'widgets/GridProduct.dart';
 
 class CustomizeYourProductScreen extends StatefulWidget {
   const CustomizeYourProductScreen({super.key});

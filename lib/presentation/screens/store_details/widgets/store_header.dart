@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/ui/screens/store_details/widgets/store_discount_frame.dart';
 
 import '../../../../core/design_system/themes/sellio_theme.dart';
+import 'store_discount_frame.dart';
 
 class StoreHeader extends StatelessWidget {
   final String coverImage;

@@ -3,13 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/store_details/widgets/store_header.dart';
-import 'package:sellio_mobile/ui/screens/store_details/widgets/store_info_card.dart';
 import '../../../core/design_system/constants/assets.dart';
 import 'about_store/about_store.dart';
 import 'store_data_provider.dart';
 import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
+import 'widgets/store_header.dart';
+import 'widgets/store_info_card.dart';
 import 'widgets/store_products_list.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
