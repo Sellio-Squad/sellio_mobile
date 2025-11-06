@@ -59,6 +59,10 @@ enum AppRoutes {
   customizeProduct(
     name: 'customizeProduct',
     path: '/customizeProduct',
+  ),
+  aboutStore(
+    name: 'aboutStore',
+    path: '/aboutStore',
   );
 
   const AppRoutes({
