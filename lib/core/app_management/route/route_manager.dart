@@ -17,6 +17,7 @@ import '../../../ui/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../ui/screens/auth/signupOTP.dart';
 import '../../../ui/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../../../ui/screens/store_details/store_details_screen.dart';
+import '../../../ui/screens/store_details/about_store/about_store.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
@@ -225,6 +226,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const CustomizeYourProductScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.aboutStore.name,
+        path: AppRoutes.aboutStore.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const AboutStore(),
           );
         },
       ),
