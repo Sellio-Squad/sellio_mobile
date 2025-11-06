@@ -6,6 +6,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+import 'package:sellio_mobile/ui/screens/search/search_screen.dart';
 import '../store_details/store_details_screen.dart';
 import 'home_app_bar.dart';
 
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CustomScrollView(
                 slivers: [
                   // Search Bar
-                  _buildSearchBarSection(),
+                  _buildSearchBarSection(context),
 
                   // Category Tabs
                   CategoryTabs(),
@@ -77,17 +78,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SliverToBoxAdapter _buildSearchBarSection() {
+  SliverToBoxAdapter _buildSearchBarSection(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: SearchBarWithFilter(
-          onFilterIconClicked: () {
-            // todo: Handle filter icon click
-          },
-          onTextSubmitted: (text) {
-            // todo: Handle search text submission
-          },
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SearchScreen()),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: AbsorbPointer(
+            child: SearchBarWithFilter(
+              onFilterIconClicked: () {
+                // todo: Handle filter icon click
+              },
+              onTextSubmitted: (text) {
+                // todo: Handle search text submission
+              },
+            ),
+          ),
         ),
       ),
     );
