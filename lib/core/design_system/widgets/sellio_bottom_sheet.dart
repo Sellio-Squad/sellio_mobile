@@ -3,13 +3,11 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 
 class SellioBottomSheet extends StatelessWidget {
   final Widget content;
-  final double? height;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   SellioBottomSheet(
       {super.key,
-      required this.content,
-      this.height ,});
+      required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -26,27 +24,22 @@ class SellioBottomSheet extends StatelessWidget {
           Navigator.of(context).pop();
         }
       },
-      child: SizedBox(
-        height: height?? MediaQuery.of(context).size.height *0.25,
+      child:  IntrinsicHeight(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             _CustomDragHandle(),
-            Expanded(
-              child: Navigator(
-                key: navigatorKey,
-                onGenerateRoute: (settings) {
-                  return MaterialPageRoute(
-                    builder: (context) {
-                      return content;
-                    },
-                    // => nextBottomSheet ?? Container(),
-                  );
-                },
-              ),
+            Navigator(
+              key: navigatorKey,
+              onGenerateRoute: (settings) {
+                return MaterialPageRoute(
+                  builder: (context) => content,
+                );
+              },
             ),
           ],
         ),
-      ),
+      )
     );
   }
 }
