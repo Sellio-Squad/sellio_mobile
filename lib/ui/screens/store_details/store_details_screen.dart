@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
@@ -190,6 +191,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   void _navigateToAboutStore() {
+    // Note: AboutStore is not yet in the routing system
+    // For now, we'll keep Navigator.push. You can add it to AppRoutes later if needed.
     Navigator.push(
       context,
       MaterialPageRoute(

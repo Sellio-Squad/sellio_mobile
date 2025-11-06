@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
@@ -6,7 +7,6 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
-import '../store_details/store_details_screen.dart';
 import 'home_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -117,17 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
               // todo: Handle like action
             },
             onCardPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StoreDetailsScreen(
-                    storeId: '123',
-                    coverImage: 'assets/images/product_3.webp',
-                    profileImage: 'assets/images/product_3.webp',
-                    storeName: "Sweet Lovers - Pasteleria",
-                    rating: 3.8,
-                    discount: '40',
-                  ),
+              final store = DataProvider.topStores.isNotEmpty
+                  ? DataProvider.topStores[0] 
+                  : null;
+              
+             context.navigator.pushStoreDetails(
+                StoreDetailsArgs(
+                  storeId: store?.name.hashCode.toString() ?? '123',
+                  coverImage: store?.imageUrl ?? 'assets/images/product_3.webp',
+                  profileImage: store?.imageUrl ?? 'assets/images/product_3.webp',
+                  storeName: store?.name ?? "Sweet Lovers - Pasteleria",
+                  rating: 3.8, // Default rating, as Store model doesn't have rating
+                  discount: store?.discount ?? '40',
                 ),
               );
             },
