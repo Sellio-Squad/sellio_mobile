@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/auth/signupOTP.dart';
+
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'country.dart';
-import 'login.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({super.key});
@@ -44,14 +44,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid =
-          phoneController.text.isNotEmpty &&
-              nameController.text.isNotEmpty &&
-              countryController.text.isNotEmpty &&
-              cityController.text.isNotEmpty &&
-              passwordController.text.isNotEmpty &&
-              confirmPasswordController.text.isNotEmpty &&
-              passwordController.text == confirmPasswordController.text;
+      _isFormValid = phoneController.text.isNotEmpty &&
+          nameController.text.isNotEmpty &&
+          countryController.text.isNotEmpty &&
+          cityController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty &&
+          passwordController.text == confirmPasswordController.text;
     });
   }
 
@@ -61,9 +60,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     setState(() => _isLoading = false);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ConfirmAccountScreen()),
+
+    final phoneNumber = '${_selectedCountry.code}${phoneController.text}';
+    context.navigator.pushSignupOtp(
+      SignupOtpArgs(
+        phoneNumber: phoneNumber,
+      ),
     );
   }
 
@@ -133,15 +135,17 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   inputFormatter: [
                     FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                   ],
-                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
-                  prefixIcon: SvgPicture.asset(Assets.account,
+                  prefixIconPadding: EdgeInsets.only(left: 16, right: 8),
+                  prefixIcon: SvgPicture.asset(
+                    Assets.account,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
                       context.theme.colors.body,
                       BlendMode.srcIn,
                     ),
-                ),),
+                  ),
+                ),
                 const SizedBox(height: 6),
                 Row(
                   children: [
@@ -150,18 +154,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         controller: countryController,
                         hintText: AppStrings.country,
                         inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z ]')),
                         ],
-                        prefixIconPadding: EdgeInsets.only(left:16, right: 8),
-                        prefixIcon:SvgPicture.asset(
-                            Assets.location,
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(
-                              context.theme.colors.body,
-                              BlendMode.srcIn,
-                            ),
+                        prefixIconPadding: EdgeInsets.only(left: 16, right: 8),
+                        prefixIcon: SvgPicture.asset(
+                          Assets.location,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            context.theme.colors.body,
+                            BlendMode.srcIn,
                           ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -170,18 +175,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         controller: cityController,
                         hintText: AppStrings.city,
                         inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'[a-zA-Z ]')),
                         ],
-                        prefixIconPadding: EdgeInsets.only(left:16, right: 8),
+                        prefixIconPadding: EdgeInsets.only(left: 16, right: 8),
                         prefixIcon: SvgPicture.asset(
-                            Assets.location,
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(
-                              context.theme.colors.body,
-                              BlendMode.srcIn,
-                            ),
+                          Assets.location,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            context.theme.colors.body,
+                            BlendMode.srcIn,
                           ),
+                        ),
                       ),
                     ),
                   ],
@@ -190,32 +196,32 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                 SellioTextField(
                   controller: passwordController,
                   hintText: AppStrings.password,
-                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
+                  prefixIconPadding: EdgeInsets.only(left: 16, right: 8),
                   inputType: TextInputType.visiblePassword,
-                  prefixIcon:  SvgPicture.asset(
-                      Assets.password,
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                        context.theme.colors.body,
-                        BlendMode.srcIn,
-                      ),
+                  prefixIcon: SvgPicture.asset(
+                    Assets.password,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.colors.body,
+                      BlendMode.srcIn,
                     ),
+                  ),
                 ),
                 const SizedBox(height: 6),
                 SellioTextField(
                   controller: confirmPasswordController,
                   hintText: AppStrings.confirmPassword,
-                  prefixIconPadding: EdgeInsets.only(left:16, right: 8),
+                  prefixIconPadding: EdgeInsets.only(left: 16, right: 8),
                   inputType: TextInputType.visiblePassword,
-                  prefixIcon:SvgPicture.asset(
-                      Assets.password,
-                      width: 24,
-                      height: 24,
-                      colorFilter: ColorFilter.mode(
-                        context.theme.colors.body,
-                        BlendMode.srcIn,
-                      ),
+                  prefixIcon: SvgPicture.asset(
+                    Assets.password,
+                    width: 24,
+                    height: 24,
+                    colorFilter: ColorFilter.mode(
+                      context.theme.colors.body,
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -270,12 +276,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
+                        context.navigator.replaceWithLogin();
                       },
                       child: Text(
                         AppStrings.login,
