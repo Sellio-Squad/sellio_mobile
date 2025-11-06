@@ -51,4 +51,13 @@ class AppStrings {
   static const String backToShopping ='Back to shopping';
   static const String order ='Order';
   static const String orderReceived = 'Your order has been received successfully.';
+
+  //reset password bottom sheet
+  static const String resetPassword = 'Reset Password';
+  static const String currentPassword = 'Current password';
+  static const String newPassword = 'New password';
+  static const String confirmNewPassword= 'Confirm new password';
+  static const String save = 'Save';
+
+
 }
