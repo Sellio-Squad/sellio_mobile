@@ -6,8 +6,8 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_header.dart';
 import 'package:sellio_mobile/ui/screens/store_details/widgets/store_info_card.dart';
+
 import '../../../core/design_system/constants/assets.dart';
-import 'about_store/about_store.dart';
 import 'store_data_provider.dart';
 import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
@@ -191,13 +191,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   void _navigateToAboutStore() {
-    // Note: AboutStore is not yet in the routing system
-    // For now, we'll keep Navigator.push. You can add it to AppRoutes later if needed.
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AboutStore(),
-      ),
-    );
+    context.navigator.pushAboutStore();
   }
 }
