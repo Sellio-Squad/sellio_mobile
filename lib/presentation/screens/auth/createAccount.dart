@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -44,14 +45,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
   void _validateForm() {
     setState(() {
-      _isFormValid =
-          phoneController.text.isNotEmpty &&
-              nameController.text.isNotEmpty &&
-              countryController.text.isNotEmpty &&
-              cityController.text.isNotEmpty &&
-              passwordController.text.isNotEmpty &&
-              confirmPasswordController.text.isNotEmpty &&
-              passwordController.text == confirmPasswordController.text;
+      _isFormValid = phoneController.text.isNotEmpty &&
+          nameController.text.isNotEmpty &&
+          countryController.text.isNotEmpty &&
+          cityController.text.isNotEmpty &&
+          passwordController.text.isNotEmpty &&
+          confirmPasswordController.text.isNotEmpty &&
+          passwordController.text == confirmPasswordController.text;
     });
   }
 
@@ -61,9 +61,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     await Future.delayed(const Duration(seconds: 2));
 
     setState(() => _isLoading = false);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ConfirmAccountScreen()),
+
+    final phoneNumber = '${_selectedCountry.code}${phoneController.text}';
+    context.navigator.pushSignupOtp(
+      SignupOtpArgs(
+        phoneNumber: phoneNumber,
+      ),
     );
   }
 
@@ -270,12 +273,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     const SizedBox(width: 4),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
+                        context.navigator.replaceWithLogin();
                       },
                       child: Text(
                         AppStrings.login,

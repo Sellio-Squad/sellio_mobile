@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 
@@ -9,7 +10,12 @@ import 'confirm_password_screen.dart';
 import 'widget/lock_icon.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {
-  const ForgetPasswordOTPScreen({super.key});
+  final ForgetPasswordOtpArgs args;
+
+  const ForgetPasswordOTPScreen({
+    super.key,
+    required this.args,
+  });
 
   @override
   State<ForgetPasswordOTPScreen> createState() =>
@@ -94,7 +100,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
             child: IconButton(
               padding: EdgeInsets.zero,
               icon: Icon(Icons.arrow_back, color: colors.title, size: 24),
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => context.navigator.pop(),
             ),
           ),
         ),
@@ -130,7 +136,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                     SizedBox(
                       width: 328,
                       child: Text(
-                        'Please enter the 4-digit code sent to your phone number.',
+                        'Please enter the 4-digit code sent to ${widget.args.phoneNumber}.',
                         style: typography.bodySmall.copyWith(
                           color: colors.body,
                         ),
@@ -164,9 +170,10 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                 child: ElevatedButton(
                   onPressed: _isOtpComplete
                       ? () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => const SetNewPasswordScreen(),
+                          context.navigator.pushConfirmPassword(
+                            ConfirmPasswordArgs(
+                              phoneNumber: widget.args.phoneNumber,
+                              otp: _otpValue,
                             ),
                           );
                         }

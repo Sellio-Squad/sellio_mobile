@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
+import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/textField.dart';
@@ -50,10 +52,8 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
 
   void _handleSave() {
     if (!_isFormValid) return;
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const MainScreen()),
-      (route) => false,
-    );
+
+    context.navigator.goToHome();
   }
 
   @override
@@ -62,7 +62,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword),
+      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword,showBackButton: true,),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -93,7 +93,6 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                       ),
                       const Gap(32),
 
-                      // Use the new reusable PasswordField
                       SellioTextField(
                         controller: _passwordController,
                         hintText: AppStrings.password,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'presentation/screens/auth/login.dart';
 import 'presentation/screens/main/main_screen.dart';
@@ -6,7 +7,6 @@ import 'presentation/screens/auth/forgetPassword/forget_password_screen.dart';
 
 
 void main() {
-
   runApp(
       SellioThemeProvider(
         brightness: Brightness.light,
@@ -20,10 +20,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig:  RouteGenerator.router,
       debugShowCheckedModeBanner: false,
       title: 'Sellio app',
-      home: const LoginScreen(),
     );
   }
 }

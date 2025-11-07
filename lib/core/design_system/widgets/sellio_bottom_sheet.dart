@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
 class SellioBottomSheet extends StatelessWidget {
@@ -6,10 +7,11 @@ class SellioBottomSheet extends StatelessWidget {
   final double? height;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  SellioBottomSheet(
-      {super.key,
-      required this.content,
-      this.height ,});
+  SellioBottomSheet({
+    super.key,
+    required this.content,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +25,11 @@ class SellioBottomSheet extends StatelessWidget {
         if (childNavigator != null && childNavigator.canPop()) {
           childNavigator.pop();
         } else {
-          Navigator.of(context).pop();
+          context.navigator.pop();
         }
       },
       child: SizedBox(
-        height: height?? MediaQuery.of(context).size.height *0.25,
+        height: height ?? MediaQuery.of(context).size.height * 0.25,
         child: Column(
           children: [
             _CustomDragHandle(),

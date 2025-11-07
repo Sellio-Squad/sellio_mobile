@@ -19,6 +19,7 @@ class Assets {
   //section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
   static const String orderIcon = '$iconsPath/ic_order-icon.svg';
+  static const String storeIcon = '$iconsPath/ic_store.svg';
   static const String favouriteIcon = '$iconsPath/ic_unselected-favourite.svg';
   static const String discountIcon = '$iconsPath/ic_discount_icon.svg';
   static const String discountFrame = '$iconsPath/ic_discount_frame.svg';
@@ -31,6 +32,8 @@ class Assets {
   static const String loginTopSection = '$imagesPath/login_top_section.webp';
   //images
   static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
+  static const String searchIcon = '$imagesPath/ic_search.png';
+  static const String noResultSearchIcon = '$imagesPath/ic_search_no_result.png';
   // Product Card Icons
   static const String add = '$iconsPath/ic_add.svg';
   static const String remove = '$iconsPath/ic_minus.svg';

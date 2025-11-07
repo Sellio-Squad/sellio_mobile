@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -48,7 +49,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword),
+      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword,showBackButton: true,),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -107,9 +108,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 text: AppStrings.send,
                 onTap: _isPhoneFilled
                     ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const ForgetPasswordOTPScreen(),
+                        final phoneNumber =
+                            '${_selectedCountry.code}${_phoneController.text}';
+                        context.navigator.pushForgetPasswordOtp(
+                          ForgetPasswordOtpArgs(
+                            phoneNumber: phoneNumber,
                           ),
                         );
                       }

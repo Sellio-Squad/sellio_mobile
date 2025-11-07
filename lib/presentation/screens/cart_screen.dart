@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import '../../core/design_system/constants/app_strings.dart';
 import '../../core/design_system/widgets/buttons/button.dart';
@@ -241,16 +242,13 @@ class _CartScreenState extends State<CartScreen> {
                           const SizedBox(height: 24),
                           SellioButton(
                             text: AppStrings.backToShopping,
-                            backgroundColor: context.theme.colors.primaryVariant,
-                            textStyle: context.theme.typography.textTheme.labelMedium
+                            backgroundColor:
+                                context.theme.colors.primaryVariant,
+                            textStyle: context
+                                .theme.typography.textTheme.labelMedium
                                 .copyWith(color: context.theme.colors.primary),
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              );
+                              context.navigator.goToHome();
                             },
                             fullWidth: true,
                           ),
