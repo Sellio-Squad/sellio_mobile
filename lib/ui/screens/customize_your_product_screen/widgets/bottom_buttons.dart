@@ -45,8 +45,8 @@ class BottomButtons extends StatelessWidget {
               child: Text(
                 'Add to cart',
                 style: context.theme.typography.textTheme.labelLarge.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
+                  color: context.theme.colors.onPrimary,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -66,8 +66,8 @@ class BottomButtons extends StatelessWidget {
               child: Text(
                 'Reset',
                 style: context.theme.typography.textTheme.labelLarge.copyWith(
-                  color: context.theme.colors.body,
-                  fontWeight: FontWeight.w600,
+                  color: context.theme.colors.primary,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
