@@ -35,6 +35,7 @@ class Assets {
   static const String searchIcon = '$imagesPath/ic_search.png';
   static const String noResultSearchIcon = '$imagesPath/ic_search_no_result.png';
   // Product Card Icons
+  static const String upload = '$iconsPath/ic_uplod.svg';
   static const String add = '$iconsPath/ic_add.svg';
   static const String remove = '$iconsPath/ic_minus.svg';
   static const String favorite = '$iconsPath/ic_favourite.svg';

@@ -12,7 +12,7 @@ class ProductImage extends StatelessWidget {
         height: 260,
         color: Colors.grey[800],
         child: Image.asset(
-          'assets/images/product_3.png',
+          'assets/images/product_3.webp',
           fit: BoxFit.contain,
         ),
       ),

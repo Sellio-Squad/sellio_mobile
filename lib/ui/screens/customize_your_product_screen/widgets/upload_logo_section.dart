@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
+import '../../../../core/design_system/constants/assets.dart';
 
 class UploadLogoSection extends StatelessWidget {
   const UploadLogoSection({super.key});
@@ -27,26 +30,20 @@ class UploadLogoSection extends StatelessWidget {
               color: context.theme.colors.surface,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: context.theme.colors.body ?? Colors.grey[300]!,
+                color: context.theme.colors.disabled ?? Colors.grey[300]!,
                 width: 1,
               ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.upload_file_outlined,
-                  size: 48,
-                  color: context.theme.colors.body,
+              children:[
+                 SvgPicture.asset(
+                  Assets.upload,
+                   width: 48,
+                  height: 78,
+                  fit: BoxFit.scaleDown,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Upload',
-                  style: context.theme.typography.textTheme.labelMedium.copyWith(
-                    color: context.theme.colors.body,
-                  ),
-                ),
-              ],
+                ],
             ),
           ),
         ),

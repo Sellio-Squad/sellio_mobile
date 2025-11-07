@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../../../core/design_system/themes/sellio_colors.dart';
+
 class SizeSelector extends StatelessWidget {
   final List<String> sizes;
   final int selectedIndex;
@@ -39,7 +41,7 @@ class SizeSelector extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? const Color(0xFF5C1F4A)
+                        ? SellioColors.light.primary
                         : context.theme.colors.surface,
                     borderRadius: BorderRadius.circular(22),
                   ),

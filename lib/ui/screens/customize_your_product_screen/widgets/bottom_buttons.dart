@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../../../core/design_system/themes/sellio_colors.dart';
+
 class BottomButtons extends StatelessWidget {
   final VoidCallback onAddToCart;
   final VoidCallback onReset;
@@ -33,7 +35,7 @@ class BottomButtons extends StatelessWidget {
             child: ElevatedButton(
               onPressed: onAddToCart,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF5C1F4A),
+                backgroundColor: SellioColors.light.primary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
