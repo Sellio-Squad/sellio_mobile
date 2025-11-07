@@ -67,9 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Products Grid
                   ProductsSection(),
-
-                  // Top Stores Section
-                  _buildTopStoresSection(),
                 ],
               ),
             ),
@@ -113,36 +110,6 @@ class _HomeScreenState extends State<HomeScreen> {
             offers: DataProvider.specialOffers,
             onOfferTap: (offerId) {
               // todo: Handle offer tap
-            },
-          ),
-        )
-    );
-  }
-
-  SliverToBoxAdapter _buildTopStoresSection() {
-    return SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-          child: TopStoresSection(
-            topStores: DataProvider.topStores,
-            onLikePressed: () {
-              // todo: Handle like action
-            },
-            onCardPressed: () {
-              final store = DataProvider.topStores.isNotEmpty
-                  ? DataProvider.topStores[0]
-                  : null;
-
-             context.navigator.pushStoreDetails(
-                StoreDetailsArgs(
-                  storeId: store?.name.hashCode.toString() ?? '123',
-                  coverImage: store?.imageUrl ?? 'assets/images/product_3.webp',
-                  profileImage: store?.imageUrl ?? 'assets/images/product_3.webp',
-                  storeName: store?.name ?? "Sweet Lovers - Pasteleria",
-                  rating: 3.8, // Default rating, as Store model doesn't have rating
-                  discount: store?.discount ?? '40',
-                ),
-              );
             },
           ),
         )
