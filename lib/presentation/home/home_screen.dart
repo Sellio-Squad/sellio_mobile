@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import '../../screens/store_details/store_details_screen.dart';
-import '../cubit/home_cubit.dart';
-import '../cubit/home_state.dart';
-import '../widgets/home_app_bar.dart';
-import '../widgets/category_tabs.dart';
-import '../widgets/products_section.dart';
-import '../widgets/search_bar/search_widget.dart';
-import '../widgets/special_offer/special_offers_section.dart';
-import '../widgets/top_stores_section.dart';
+import '../screens/store_details/store_details_screen.dart';
+import 'cubit/home_cubit.dart';
+import 'cubit/home_state.dart';
+import 'widgets/home_app_bar.dart';
+import 'widgets/category_tabs.dart';
+import 'widgets/products_section.dart';
+import 'widgets/search_bar/search_widget.dart';
+import 'widgets/special_offer/special_offers_section.dart';
+import 'widgets/top_stores_section.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,6 +52,7 @@ class _HomeScreenContent extends StatelessWidget {
 
         // Show success snackbar
         if (state.successMessage != null) {
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.successMessage!),

@@ -311,7 +311,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     try {
       final products = _productRepository != null
-          ? await _productRepository!.searchProducts(
+          ? await _productRepository.searchProducts(
               query: query.trim(),
               limit: 20,
             )

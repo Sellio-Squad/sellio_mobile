@@ -9,7 +9,7 @@ import '../../core/design_system/constants/app_strings.dart';
 import '../../core/design_system/widgets/buttons/button.dart';
 import '../../core/design_system/widgets/cards/productHorizontalCard.dart';
 import '../../core/design_system/widgets/textField.dart';
-import '../home/screens/home_screen.dart';
+import '../home/home_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
