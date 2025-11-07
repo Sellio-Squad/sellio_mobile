@@ -1,13 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/design_system/constants/assets.dart';
-import '../../../domain/entities/address.dart';
-import '../../../domain/entities/category.dart';
-import '../../../domain/entities/product.dart';
-import '../../../domain/entities/special_offer.dart';
-import '../../../domain/entities/store.dart';
 import '../../../domain/repositories/category_repository.dart';
 import '../../../domain/repositories/product_repository.dart';
 import '../../../domain/repositories/store_repository.dart';
+import 'home_mock_data.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -72,9 +68,13 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> _loadUserInfo() async {
     try {
       final currentState = _currentLoadedState ?? const HomeLoaded();
+
+      // TODO: Replace with UserRepository when available
+      final userInfo = HomeMockData.getUserInfo();
+
       emit(currentState.copyWith(
-        userName: 'John Doe',
-        userLocation: 'Baghdad, Iraq',
+        userName: userInfo['name'] as String,
+        userLocation: userInfo['location'] as String?,
       ));
     } catch (e) {
       print('Error loading user info: $e');
@@ -90,7 +90,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final categories = _categoryRepository != null
           ? await _categoryRepository.getCategories()
-          : _getMockCategories();
+          : HomeMockData.getCategories();
 
       final categoriesWithIcons = categories.map((category) {
         final icon = _categoryIconMap[category.name] ?? Assets.allCategories;
@@ -136,7 +136,8 @@ class HomeCubit extends Cubit<HomeState> {
     emit(currentState.copyWith(isOffersLoading: true));
 
     try {
-      final offers = _getMockSpecialOffers();
+      // TODO: Replace with OfferRepository when available
+      final offers = HomeMockData.getSpecialOffers();
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();
       emit(updatedState.copyWith(
@@ -174,7 +175,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final products = _productRepository != null
           ? await _productRepository.getTrendingProducts(limit: 10)
-          : _getMockProducts();
+          : HomeMockData.getTrendingProducts(limit: 10);
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();
       emit(updatedState.copyWith(
@@ -201,7 +202,10 @@ class HomeCubit extends Cubit<HomeState> {
         categoryId: categoryId,
         limit: 10,
       )
-          : _getMockProducts();
+          : HomeMockData.getProductsByCategory(
+        categoryId: categoryId,
+        limit: 10,
+      );
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();
       emit(updatedState.copyWith(
@@ -280,7 +284,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final stores = _storeRepository != null
           ? await _storeRepository!.getTopStores(limit: 10)
-          : _getMockStores();
+          : HomeMockData.getTopStores(limit: 10);
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();
       emit(updatedState.copyWith(
@@ -354,9 +358,10 @@ class HomeCubit extends Cubit<HomeState> {
         query: query.trim(),
         limit: 20,
       )
-          : _getMockProducts()
-          .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
+          : HomeMockData.searchProducts(
+        query: query.trim(),
+        limit: 20,
+      );
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();
       emit(updatedState.copyWith(
@@ -390,152 +395,5 @@ class HomeCubit extends Cubit<HomeState> {
         clearSuccess: true,
       ));
     }
-  }
-
-  // ========== MOCK DATA ==========
-
-  List<Category> _getMockCategories() {
-    return [
-      const Category(id: 'all', name: 'All'),
-      const Category(id: '1', name: 'Food'),
-      const Category(id: '2', name: 'Drinks'),
-      const Category(id: '3', name: 'Clothes'),
-    ];
-  }
-
-  List<Product> _getMockProducts() {
-    return [
-      Product(
-        id: '1',
-        name: 'Gold Stainless Steel Sun Charm Necklace',
-        description: 'Beautiful gold necklace with sun charm',
-        price: 7.00,
-        discount: '30% OFF',
-        images: ['assets/images/product_3.webp'],
-        storeId: '1',
-        categoryId: '3',
-        currency: 'EG',
-      ),
-      Product(
-        id: '2',
-        name: 'Birthday Cake with Bows',
-        description: 'Delicious birthday cake',
-        price: 12.99,
-        images: ['assets/images/product_3.webp'],
-        storeId: '1',
-        categoryId: '1',
-        currency: 'EG',
-      ),
-      Product(
-        id: '3',
-        name: 'Chocolate Brownie',
-        description: 'Rich chocolate brownie',
-        price: 10.99,
-        images: ['assets/images/product_3.webp'],
-        storeId: '2',
-        categoryId: '1',
-        currency: 'EG',
-      ),
-    ];
-  }
-
-  List<Store> _getMockStores() {
-    return [
-    Store(
-        id: '1',
-        name: 'Gold Gallery Accessories',
-        description: 'Premium jewelry and accessories',
-        coverImage: 'assets/images/store_sweet.webp',
-        profileImage: 'assets/images/store_sweet.webp',
-        sale: '25',
-        rating: 4.5,
-      address: const Address(
-        id: '1',
-        country: 'Iraq',
-        city: 'Baghdad',
-        latitude: 33.3152,
-        longitude: 44.3661,
-      ),
-      contactInfo: ContactInfo(
-        provider: 'gold@gallery.com',
-        type: ContactType.email,
-      ),
-      categories: [const Category(id: '1', name: 'Jewelry')],
-    ),
-      Store(
-        id: '2',
-        name: 'Sweet Cake Sweet',
-        description: 'Delicious cakes and desserts',
-        coverImage: 'assets/images/store_sweet.webp',
-        profileImage: 'assets/images/store_sweet.webp',
-        sale: '30',
-        rating: 4.8,
-        address: const Address(
-          id: '2',
-          country: 'Iraq',
-          city: 'Baghdad',
-          latitude: 33.3152,
-          longitude: 44.3661,
-        ),
-        contactInfo: ContactInfo(
-          provider: 'sweet@cake.com',
-          type: ContactType.email,
-        ),
-        categories: [const Category(id: '1', name: 'Food')],
-      ),
-      Store(
-        id: '3',
-        name: 'Techno Store',
-        description: 'Latest tech gadgets',
-        coverImage: 'assets/images/store_sweet.webp',
-        profileImage: 'assets/images/store_sweet.webp',
-        rating: 4.2,
-        address: const Address(
-          id: '3',
-          country: 'Iraq',
-          city: 'Baghdad',
-          latitude: 33.3152,
-          longitude: 44.3661,
-        ),
-        contactInfo: ContactInfo(
-          provider: 'info@techno.com',
-          type: ContactType.email,
-        ),
-        categories: [const Category(id: '2', name: 'Electronics')],
-      ),
-    ];
-  }
-
-  List<SpecialOffer> _getMockSpecialOffers() {
-    return [
-      SpecialOffer(
-        id: '1',
-        title: 'Get 10% off on your first order',
-        imageUrl:
-        'https://img.freepik.com/free-psd/ocean-wave-crashing-sandy-beach-summer-vacation-paradise_191095-79314.jpg',
-        discount: '25% OFF',
-        startDate: DateTime.now().subtract(const Duration(days: 1)),
-        endDate: DateTime.now().add(const Duration(days: 7)),
-        createdAt: DateTime.now(),
-      ),
-      SpecialOffer(
-        id: '2',
-        title: 'Summer Sale',
-        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
-        discount: '30% OFF',
-        startDate: DateTime.now().subtract(const Duration(days: 1)),
-        endDate: DateTime.now().add(const Duration(days: 7)),
-        createdAt: DateTime.now(),
-      ),
-      SpecialOffer(
-        id: '3',
-        title: 'Weekend Special',
-        imageUrl: 'https://images.unsplash.com/photo-1558089551-95d707e6c13c',
-        discount: '20% OFF',
-        startDate: DateTime.now().subtract(const Duration(days: 1)),
-        endDate: DateTime.now().add(const Duration(days: 2)),
-        createdAt: DateTime.now(),
-      ),
-    ];
   }
 }
