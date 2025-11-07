@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/design_system/constants/assets.dart';
-import '../../../domain/repositories/category_repository.dart';
-import '../../../domain/repositories/product_repository.dart';
-import '../../../domain/repositories/store_repository.dart';
+import '../../../../core/design_system/constants/assets.dart';
+import '../../../../domain/repositories/category_repository.dart';
+import '../../../../domain/repositories/product_repository.dart';
+import '../../../../domain/repositories/store_repository.dart';
 import 'home_mock_data.dart';
 import 'home_state.dart';
 
@@ -283,7 +283,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     try {
       final stores = _storeRepository != null
-          ? await _storeRepository!.getTopStores(limit: 10)
+          ? await _storeRepository.getTopStores(limit: 10)
           : HomeMockData.getTopStores(limit: 10);
 
       final updatedState = _currentLoadedState ?? const HomeLoaded();

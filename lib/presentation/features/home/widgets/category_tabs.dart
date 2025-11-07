@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/design_system/widgets/chip_category.dart';
+import '../../../../core/design_system/widgets/chip_category.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 

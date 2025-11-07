@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
-import '../../../domain/entities/product.dart';
-import '../../../domain/entities/store.dart';
-import '../../../domain/entities/special_offer.dart';
-import '../../../domain/entities/category.dart';
+
+import '../../../../domain/entities/category.dart';
+import '../../../../domain/entities/product.dart';
+import '../../../../domain/entities/special_offer.dart';
+import '../../../../domain/entities/store.dart';
+
 
 // ========== MAIN SEALED STATE ==========
 sealed class HomeState extends Equatable {

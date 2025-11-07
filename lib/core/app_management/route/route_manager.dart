@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
-import '../../../presentation/home/home_screen.dart';
+import '../../../presentation/features/home/home_screen.dart';
 import '../../../presentation/screens/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
 import '../../../presentation/screens/auth/createAccount.dart';

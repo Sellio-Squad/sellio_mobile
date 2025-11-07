@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../core/design_system/constants/assets.dart';
-import '../../../core/design_system/widgets/cards/product_vertical_card.dart';
-import '../../../core/design_system/widgets/section_header.dart';
+import '../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
+import '../../../../core/design_system/widgets/section_header.dart';
 import '../cubit/home_cubit.dart';
 import '../cubit/home_state.dart';
 

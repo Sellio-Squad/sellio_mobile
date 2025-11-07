@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
-import '../../home/home_screen.dart';
+import '../../features/home/home_screen.dart';
 import '../cart_screen.dart';
 import '../customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../account_screen.dart';

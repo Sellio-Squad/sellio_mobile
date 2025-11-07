@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/indicator.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
-import '../../../../domain/entities/special_offer.dart';
+import '../../../../../domain/entities/special_offer.dart';
 import 'special_offer_card.dart';
 
 class SpecialOffersSection extends StatefulWidget {

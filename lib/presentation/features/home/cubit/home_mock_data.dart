@@ -1,8 +1,10 @@
-import '../../../domain/entities/address.dart';
-import '../../../domain/entities/category.dart';
-import '../../../domain/entities/product.dart';
-import '../../../domain/entities/special_offer.dart';
-import '../../../domain/entities/store.dart';
+
+
+import '../../../../domain/entities/address.dart';
+import '../../../../domain/entities/category.dart';
+import '../../../../domain/entities/product.dart';
+import '../../../../domain/entities/special_offer.dart';
+import '../../../../domain/entities/store.dart';
 
 /// Mock data provider for Home screen
 /// This will be replaced with real repository data in production
