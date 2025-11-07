@@ -1,59 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/chip_category.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/design_system/widgets/chip_category.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 
-class CategoryTabs extends StatefulWidget {
+class CategoryTabs extends StatelessWidget {
   const CategoryTabs({super.key});
 
   @override
-  State<CategoryTabs> createState() => _CategoryTabsState();
-}
-
-class _CategoryTabsState extends State<CategoryTabs> {
-  int _selectedCategoryIndex = 0;
-
-  final List<String> _categories = [
-    'All',
-    'Electronics',
-    'Fashion',
-    'Home'
-  ];
-
-  final List<String> _categoryIcons = [
-    Assets.allCategories,
-    Assets.food,
-    Assets.drinks,
-    Assets.clothes
-  ];
-
-
-  @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 40,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: _categories.length,
-          itemBuilder: (context, index) {
-            final isSelected = _selectedCategoryIndex == index;
-            return Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: ChipCategory(
-                label: _categories[index],
-                assetIcon: _categoryIcons[index],
-                selected: isSelected,
-                onTap: () {
-                  setState(() {
-                    _selectedCategoryIndex = index;
-                  });
-                },
-              ),
-            );
-          },
-        ),
-      ),
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+      previous.categories != current.categories ||
+          previous.selectedCategoryIndex != current.selectedCategoryIndex ||
+          previous.isCategoriesLoading != current.isCategoriesLoading,
+      builder: (context, state) {
+        if (state.isCategoriesLoading) {
+          return const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 40,
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        }
+
+        if (state.categories.isEmpty) {
+          return const SliverToBoxAdapter(child: SizedBox.shrink());
+        }
+
+        return SliverToBoxAdapter(
+          child: SizedBox(
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: state.categories.length,
+              itemBuilder: (context, index) {
+                final categoryPresentation = state.categories[index];
+                final isSelected = state.selectedCategoryIndex == index;
+
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: ChipCategory(
+                    label: categoryPresentation.category.name,
+                    assetIcon: categoryPresentation.icon,
+                    selected: isSelected,
+                    onTap: () {
+                      context.read<HomeCubit>().selectCategory(index);
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }

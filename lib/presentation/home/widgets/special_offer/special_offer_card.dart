@@ -1,11 +1,14 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class SpecialOfferCard extends StatelessWidget {
   final String imageUrl;
   final VoidCallback? onTap;
 
-  const SpecialOfferCard({super.key, required this.imageUrl, this.onTap});
+  const SpecialOfferCard({
+    super.key,
+    required this.imageUrl,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +25,18 @@ class SpecialOfferCard extends StatelessWidget {
               child: CircularProgressIndicator(
                 value: loadingProgress.expectedTotalBytes != null
                     ? loadingProgress.cumulativeBytesLoaded /
-                          loadingProgress.expectedTotalBytes!
+                    loadingProgress.expectedTotalBytes!
                     : null,
               ),
             );
           },
           errorBuilder: (context, error, stackTrace) {
-            return Icon(Icons.error);
+            return Container(
+              color: Colors.grey[300],
+              child: const Center(
+                child: Icon(Icons.error, size: 40),
+              ),
+            );
           },
         ),
       ),

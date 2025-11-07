@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/indicator.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
-
+import '../../../../domain/entities/special_offer.dart';
 import 'special_offer_card.dart';
 
 class SpecialOffersSection extends StatefulWidget {
-  final List<SpecialOfferModel> offers;
+  final List<SpecialOffer> offers;
+  final int currentPage;
+  final Function(int page) onPageChanged;
   final Function(String offerId)? onOfferTap;
   final VoidCallback? onSeeAllTap;
 
   const SpecialOffersSection({
     super.key,
     required this.offers,
+    required this.currentPage,
+    required this.onPageChanged,
     this.onOfferTap,
     this.onSeeAllTap,
   });
@@ -21,21 +25,34 @@ class SpecialOffersSection extends StatefulWidget {
 }
 
 class _SpecialOffersSectionState extends State<SpecialOffersSection> {
-  final PageController _pageController = PageController(viewportFraction: 1.0);
-  int _currentPage = 0;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController(
+      viewportFraction: 1.0,
+      initialPage: widget.currentPage,
+    );
     _pageController.addListener(_onPageChanged);
+  }
+
+  @override
+  void didUpdateWidget(SpecialOffersSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentPage != widget.currentPage) {
+      _pageController.animateToPage(
+        widget.currentPage,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   void _onPageChanged() {
     final page = _pageController.page?.round() ?? 0;
-    if (page != _currentPage) {
-      setState(() {
-        _currentPage = page;
-      });
+    if (page != widget.currentPage) {
+      widget.onPageChanged(page);
     }
   }
 
@@ -51,36 +68,30 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Header
         SectionHeader(
           title: 'Special Offers',
           onTap: widget.onSeeAllTap,
           trailing: Indicator(
             pages: widget.offers.length,
-            currentPage: _currentPage,
+            currentPage: widget.currentPage,
           ),
         ),
-
         const SizedBox(height: 12),
-
-        // Offers PageView
         SizedBox(
           height: 144,
           width: double.infinity,
           child: PageView.builder(
-            pageSnapping: true,
             controller: _pageController,
             itemCount: widget.offers.length,
             itemBuilder: (context, index) {
               final offer = widget.offers[index];
-              return
-                Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: SpecialOfferCard(
+              return Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: SpecialOfferCard(
                   imageUrl: offer.imageUrl,
                   onTap: () => widget.onOfferTap?.call(offer.id),
-                                ),
-                );
+                ),
+              );
             },
           ),
         ),
@@ -88,19 +99,4 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
       ],
     );
   }
-}
-
-// Model class for Special Offers
-class SpecialOfferModel {
-  final String id;
-  final String imageUrl;
-  final String title;
-  final String discount;
-
-  SpecialOfferModel({
-    required this.id,
-    required this.imageUrl,
-    required this.title,
-    required this.discount,
-  });
 }

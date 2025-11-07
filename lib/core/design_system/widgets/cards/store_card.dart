@@ -11,6 +11,7 @@ class StoreCard extends StatelessWidget {
   final String? discountText;
   final VoidCallback onLikePressed;
   final VoidCallback onCardPressed;
+  final bool isFavorite;
 
   const StoreCard({
     super.key,
@@ -19,6 +20,7 @@ class StoreCard extends StatelessWidget {
     this.discountText,
     required this.onLikePressed,
     required this.onCardPressed,
+    this.isFavorite = false,
   });
 
   @override
@@ -86,11 +88,17 @@ class StoreCard extends StatelessWidget {
                         top: -4,
                         right: -4,
                         child: IconButton(
-                          icon: SvgPicture.asset(
-                            Assets.favouriteIcon,
-                            width: 32,
-                            height: 32,
-                          ),
+                          icon: isFavorite
+                              ? SvgPicture.asset(
+                                  Assets.favouriteIcon,
+                                  width: 24,
+                                  height: 24,
+                                )
+                              : SvgPicture.asset(
+                                  Assets.favorite,
+                                  width: 24,
+                                  height: 24,
+                                ),
                           onPressed: onLikePressed,
                         ),
                       ),

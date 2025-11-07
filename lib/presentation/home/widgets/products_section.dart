@@ -1,103 +1,107 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../../core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
-import '../../../../core/design_system/widgets/section_header.dart';
+import '../../../core/design_system/constants/assets.dart';
+import '../../../core/design_system/widgets/cards/product_vertical_card.dart';
+import '../../../core/design_system/widgets/section_header.dart';
+import '../cubit/home_cubit.dart';
+import '../cubit/home_state.dart';
 
-class ProductsSection extends StatefulWidget {
+class ProductsSection extends StatelessWidget {
   const ProductsSection({super.key});
 
   @override
-  State<ProductsSection> createState() => _ProductsSectionState();
-}
-
-class _ProductsSectionState extends State<ProductsSection> {
-  final Map<int, int> _productCounts = {};
-
-  @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> products = [
-      {
-        'id': 0,
-        'imageUrl': 'assets/images/product_3.webp',
-        'title': 'Gold Stainless Steel Sun Charm Necklace',
-        'price': '\$5.00',
-      },
-      {
-        'id': 1,
-        'imageUrl': 'assets/images/product_3.webp',
-        'title': 'Birthday cake with bows',
-        'price': '\$12.99',
-      },
-      {
-        'id': 2,
-        'imageUrl': 'assets/images/product_3.webp',
-        'title': 'Product Name 3',
-        'price': '\$30.99',
-      },
-    ];
-
-    void incrementProduct(int productId) {
-      setState(() {
-        _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
-      });
-    }
-
-    void decrementProduct(int productId) {
-      setState(() {
-        final count = _productCounts[productId] ?? 0;
-        if (count > 0) {
-          _productCounts[productId] = count - 1;
-        }
-      });
-    }
-
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SectionHeader(
-              title: 'Trending Products',
-              trailing: SvgPicture.asset(
-                  Assets.arrowRight,
-                  width: 20,
-                  height: 20
+    return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+      previous.trendingProducts != current.trendingProducts ||
+          previous.productCounts != current.productCounts ||
+          previous.favoriteProductIds != current.favoriteProductIds ||
+          previous.isProductsLoading != current.isProductsLoading ||
+          previous.searchQuery != current.searchQuery,
+      builder: (context, state) {
+        return SliverToBoxAdapter(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: SectionHeader(
+                  title: state.searchQuery.isEmpty
+                      ? 'Trending Products'
+                      : 'Search Results',
+                  trailing: SvgPicture.asset(
+                    Assets.arrowRight,
+                    width: 20,
+                    height: 20,
+                  ),
+                ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 272,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: products.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                final product = products[index];
-                final productId = product['id'] as int;
-                final count = _productCounts[productId] ?? 0;
+              if (state.isProductsLoading)
+                const SizedBox(
+                  height: 272,
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              else if (state.trendingProducts.isEmpty)
+                SizedBox(
+                  height: 272,
+                  child: Center(
+                    child: Text(
+                      state.searchQuery.isEmpty
+                          ? 'No products available'
+                          : 'No products found for "${state.searchQuery}"',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 272,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: state.trendingProducts.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    itemBuilder: (context, index) {
+                      final product = state.trendingProducts[index];
+                      final count = state.productCounts[product.id] ?? 0;
+                      final isFavorite =
+                      state.favoriteProductIds.contains(product.id);
 
-                return SizedBox(
-                  width: 160,
-                  child: ProductVerticalCard(
-                    imageUrl: product['imageUrl'],
-                    title: product['title'],
-                    price: product['price'],
-                    count: count,
-                    onIncrement: () => incrementProduct(productId),
-                    onDecrement: () => decrementProduct(productId),
-                    onFavorite: () {
-                      // todo:  Handle favorite action
+                      return SizedBox(
+                        width: 160,
+                        child: ProductVerticalCard(
+                          imageUrl: product.images.isNotEmpty
+                              ? product.images.first
+                              : 'assets/images/product_3.webp',
+                          title: product.name,
+                          price: '\$${product.price.toStringAsFixed(2)}',
+                          count: count,
+                          isFavorite: isFavorite,
+                          onIncrement: () {
+                            context
+                                .read<HomeCubit>()
+                                .incrementProduct(product.id);
+                          },
+                          onDecrement: () {
+                            context
+                                .read<HomeCubit>()
+                                .decrementProduct(product.id);
+                          },
+                          onFavorite: () {
+                            context
+                                .read<HomeCubit>()
+                                .toggleProductFavorite(product.id);
+                          },
+                        ),
+                      );
                     },
                   ),
-                );
-              },
-            ),
+                ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
