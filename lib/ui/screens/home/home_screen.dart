@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/ui/screens/home/DataProvider.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/category_tabs.dart';
@@ -6,6 +7,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/products_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+import 'package:sellio_mobile/ui/screens/search/search_screen.dart';
 import '../store_details/store_details_screen.dart';
 import 'home_app_bar.dart';
 
@@ -55,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: CustomScrollView(
                 slivers: [
                   // Search Bar
-                  _buildSearchBarSection(),
+                  _buildSearchBarSection(context),
 
                   // Category Tabs
                   CategoryTabs(),
@@ -77,17 +79,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  SliverToBoxAdapter _buildSearchBarSection() {
+  SliverToBoxAdapter _buildSearchBarSection(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        child: SearchBarWithFilter(
-          onFilterIconClicked: () {
-            // todo: Handle filter icon click
-          },
-          onTextSubmitted: (text) {
-            // todo: Handle search text submission
-          },
+      child: GestureDetector(
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SearchScreen()),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          child: AbsorbPointer(
+            child: SearchBarWithFilter(
+              onFilterIconClicked: () {
+                // todo: Handle filter icon click
+              },
+              onTextSubmitted: (text) {
+                // todo: Handle search text submission
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -117,17 +129,18 @@ class _HomeScreenState extends State<HomeScreen> {
               // todo: Handle like action
             },
             onCardPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => StoreDetailsScreen(
-                    storeId: '123',
-                    coverImage: 'assets/images/product_3.webp',
-                    profileImage: 'assets/images/product_3.webp',
-                    storeName: "Sweet Lovers - Pasteleria",
-                    rating: 3.8,
-                    discount: '40',
-                  ),
+              final store = DataProvider.topStores.isNotEmpty
+                  ? DataProvider.topStores[0]
+                  : null;
+
+             context.navigator.pushStoreDetails(
+                StoreDetailsArgs(
+                  storeId: store?.name.hashCode.toString() ?? '123',
+                  coverImage: store?.imageUrl ?? 'assets/images/product_3.webp',
+                  profileImage: store?.imageUrl ?? 'assets/images/product_3.webp',
+                  storeName: store?.name ?? "Sweet Lovers - Pasteleria",
+                  rating: 3.8, // Default rating, as Store model doesn't have rating
+                  discount: store?.discount ?? '40',
                 ),
               );
             },

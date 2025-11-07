@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -9,8 +10,8 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 import 'package:sellio_mobile/ui/screens/auth/country.dart';
 import 'package:sellio_mobile/ui/screens/auth/forgetPassword/widget/lock_icon.dart';
+
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
-import 'forget_password_otp_screen.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -48,7 +49,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword),
+      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword,showBackButton: true,),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -66,12 +67,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       const SizedBox(height: 40),
                       Text(
                         AppStrings.titleForgetPassword,
-                        style: textTheme.headlineSmall.copyWith(color: colors.title),
+                        style: textTheme.headlineSmall
+                            .copyWith(color: colors.title),
                       ),
                       const Gap(8),
                       Text(
                         AppStrings.subtitleForgetPassword,
-                        style: textTheme.bodyMedium.copyWith(color: colors.body),
+                        style:
+                            textTheme.bodyMedium.copyWith(color: colors.body),
                       ),
                       const Gap(24),
                       SellioTextField(
@@ -97,7 +100,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         controller: _phoneController,
                         selectedCountry: _selectedCountry,
                         countries: _countries,
-                        onChangeCountry: (c) => setState(() => _selectedCountry = c),
+                        onChangeCountry: (c) =>
+                            setState(() => _selectedCountry = c),
                       ),
                     ],
                   ),
@@ -107,16 +111,17 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 text: AppStrings.send,
                 onTap: _isPhoneFilled
                     ? () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const ForgetPasswordOTPScreen(),
+                        final phoneNumber =
+                            '${_selectedCountry.code}${_phoneController.text}';
+                        context.navigator.pushForgetPasswordOtp(
+                          ForgetPasswordOtpArgs(
+                            phoneNumber: phoneNumber,
                           ),
                         );
                       }
                     : null,
-                backgroundColor: _isPhoneFilled
-                    ? colors.primary
-                    : colors.disabled,
+                backgroundColor:
+                    _isPhoneFilled ? colors.primary : colors.disabled,
                 textColor: _isPhoneFilled ? colors.onPrimary : colors.hint,
               ),
               const Gap(10),

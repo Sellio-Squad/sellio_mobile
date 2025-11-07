@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
@@ -127,7 +128,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
             width: double.infinity,
             height: 48,
             child: ElevatedButton(
-              onPressed: _isOtpComplete ? () {} : null,
+              onPressed: _isOtpComplete ? () { context.navigator.goToHome();} : null,
               style: ElevatedButton.styleFrom(
                 backgroundColor:
                 _isOtpComplete ? colors.primary : colors.disabled,

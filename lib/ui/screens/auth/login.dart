@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -10,10 +11,7 @@ import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
 import '../../../core/design_system/widgets/textField.dart';
 import 'package:flutter/services.dart';
-import '../main/main_screen.dart';
 import 'country.dart';
-import 'createAccount.dart';
-import 'forgetPassword/forget_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -61,44 +59,22 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _isLoading = false;
         });
-        _navigateWithAnimation(MainScreen());
+        context.navigator.goToHome();
       });
     }
   }
 
   void _handleGuestLogin() {
-    _navigateWithAnimation(MainScreen());
+    // Navigate to home tab as guest
+    context.navigator.goToHome();
   }
 
   void _handleForgotPassword() {
-    _navigateWithAnimation(ForgetPasswordScreen());
+    context.navigator.pushForgetPassword();
   }
 
   void _handleCreateAccount() {
-    _navigateWithAnimation(CreateAccountScreen());
-  }
-
-  void _navigateWithAnimation(Widget screenDestination) {
-    Navigator.pushReplacement(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-        screenDestination,
-        transitionDuration: Duration(milliseconds: 500),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final fade = CurvedAnimation(parent: animation, curve: Curves.easeIn);
-          final slide = Tween<Offset>(
-            begin: Offset.zero,
-            end: Offset.zero,
-          ).animate(fade);
-
-          return FadeTransition(
-            opacity: fade,
-            child: SlideTransition(position: slide, child: child),
-          );
-        },
-      ),
-    );
+    context.navigator.pushCreateAccount();
   }
 
   List<Widget> _buildLoginHeader(
@@ -197,8 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-
+          const Gap(175),
           SellioButton(
             text: AppStrings.login,
             onTap: _handleLogin,
