@@ -10,11 +10,19 @@ class CategoryTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (previous, current) =>
-      previous.categories != current.categories ||
-          previous.selectedCategoryIndex != current.selectedCategoryIndex ||
-          previous.isCategoriesLoading != current.isCategoriesLoading,
+      buildWhen: (previous, current) {
+        if (previous is HomeLoaded && current is HomeLoaded) {
+          return previous.categories != current.categories ||
+              previous.selectedCategoryIndex != current.selectedCategoryIndex ||
+              previous.isCategoriesLoading != current.isCategoriesLoading;
+        }
+        return true;
+      },
       builder: (context, state) {
+        if (state is! HomeLoaded) {
+          return const SliverToBoxAdapter(child: SizedBox.shrink());
+        }
+
         if (state.isCategoriesLoading) {
           return const SliverToBoxAdapter(
             child: SizedBox(

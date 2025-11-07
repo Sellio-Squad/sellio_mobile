@@ -4,109 +4,121 @@ import '../../../domain/entities/store.dart';
 import '../../../domain/entities/special_offer.dart';
 import '../../../domain/entities/category.dart';
 
-class HomeState extends Equatable {
+// ========== MAIN SEALED STATE ==========
+sealed class HomeState extends Equatable {
+  const HomeState();
+}
+
+// ========== LOADING STATE ==========
+class HomeLoading extends HomeState {
+  const HomeLoading();
+
+  @override
+  List<Object?> get props => [];
+}
+
+// ========== LOADED STATE ==========
+class HomeLoaded extends HomeState {
   // User info
   final String userName;
   final String? userLocation;
 
-  // Categories with presentation icons mapping
+  // Categories
   final List<CategoryPresentation> categories;
   final int selectedCategoryIndex;
-  final bool isCategoriesLoading;
 
   // Special Offers
   final List<SpecialOffer> specialOffers;
   final int currentOfferPage;
-  final bool isOffersLoading;
 
   // Products
   final List<Product> trendingProducts;
-  final Map<String, int> productCounts; // productId -> quantity
+  final Map<String, int> productCounts;
   final Set<String> favoriteProductIds;
-  final bool isProductsLoading;
 
   // Top Stores
   final List<Store> topStores;
   final Set<String> favoriteStoreIds;
-  final bool isStoresLoading;
 
   // Search
   final String searchQuery;
+
+  // Section loading states
+  final bool isCategoriesLoading;
+  final bool isOffersLoading;
+  final bool isProductsLoading;
+  final bool isStoresLoading;
   final bool isSearching;
 
-  // Error handling
-  final String? error;
+  // Messages (optional, cleared after display)
+  final String? errorMessage;
   final String? successMessage;
 
-  // Loading states
-  final bool isInitialLoading;
-
-  const HomeState({
+  const HomeLoaded({
     this.userName = 'Guest',
     this.userLocation,
     this.categories = const [],
     this.selectedCategoryIndex = 0,
-    this.isCategoriesLoading = false,
     this.specialOffers = const [],
     this.currentOfferPage = 0,
-    this.isOffersLoading = false,
     this.trendingProducts = const [],
     this.productCounts = const {},
     this.favoriteProductIds = const {},
-    this.isProductsLoading = false,
     this.topStores = const [],
     this.favoriteStoreIds = const {},
-    this.isStoresLoading = false,
     this.searchQuery = '',
+    this.isCategoriesLoading = false,
+    this.isOffersLoading = false,
+    this.isProductsLoading = false,
+    this.isStoresLoading = false,
     this.isSearching = false,
-    this.error,
+    this.errorMessage,
     this.successMessage,
-    this.isInitialLoading = true,
   });
 
-  HomeState copyWith({
+  HomeLoaded copyWith({
     String? userName,
     String? userLocation,
     List<CategoryPresentation>? categories,
     int? selectedCategoryIndex,
-    bool? isCategoriesLoading,
     List<SpecialOffer>? specialOffers,
     int? currentOfferPage,
-    bool? isOffersLoading,
     List<Product>? trendingProducts,
     Map<String, int>? productCounts,
     Set<String>? favoriteProductIds,
-    bool? isProductsLoading,
     List<Store>? topStores,
     Set<String>? favoriteStoreIds,
-    bool? isStoresLoading,
     String? searchQuery,
+    bool? isCategoriesLoading,
+    bool? isOffersLoading,
+    bool? isProductsLoading,
+    bool? isStoresLoading,
     bool? isSearching,
-    String? error,
+    String? errorMessage,
     String? successMessage,
-    bool? isInitialLoading,
+    bool clearError = false,
+    bool clearSuccess = false,
   }) {
-    return HomeState(
+    return HomeLoaded(
       userName: userName ?? this.userName,
       userLocation: userLocation ?? this.userLocation,
       categories: categories ?? this.categories,
       selectedCategoryIndex: selectedCategoryIndex ?? this.selectedCategoryIndex,
-      isCategoriesLoading: isCategoriesLoading ?? this.isCategoriesLoading,
       specialOffers: specialOffers ?? this.specialOffers,
       currentOfferPage: currentOfferPage ?? this.currentOfferPage,
-      isOffersLoading: isOffersLoading ?? this.isOffersLoading,
       trendingProducts: trendingProducts ?? this.trendingProducts,
       productCounts: productCounts ?? this.productCounts,
       favoriteProductIds: favoriteProductIds ?? this.favoriteProductIds,
-      isProductsLoading: isProductsLoading ?? this.isProductsLoading,
       topStores: topStores ?? this.topStores,
       favoriteStoreIds: favoriteStoreIds ?? this.favoriteStoreIds,
-      isStoresLoading: isStoresLoading ?? this.isStoresLoading,
       searchQuery: searchQuery ?? this.searchQuery,
+      isCategoriesLoading: isCategoriesLoading ?? this.isCategoriesLoading,
+      isOffersLoading: isOffersLoading ?? this.isOffersLoading,
+      isProductsLoading: isProductsLoading ?? this.isProductsLoading,
+      isStoresLoading: isStoresLoading ?? this.isStoresLoading,
       isSearching: isSearching ?? this.isSearching,
-      error: error,
-      successMessage: successMessage,
-      isInitialLoading: isInitialLoading ?? this.isInitialLoading,
+      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
+      successMessage: clearSuccess ? null : (successMessage ?? this.successMessage),
     );
   }
 
@@ -116,25 +128,37 @@ class HomeState extends Equatable {
     userLocation,
     categories,
     selectedCategoryIndex,
-    isCategoriesLoading,
     specialOffers,
     currentOfferPage,
-    isOffersLoading,
     trendingProducts,
     productCounts,
     favoriteProductIds,
-    isProductsLoading,
     topStores,
     favoriteStoreIds,
-    isStoresLoading,
     searchQuery,
+    isCategoriesLoading,
+    isOffersLoading,
+    isProductsLoading,
+    isStoresLoading,
     isSearching,
-    error,
+    errorMessage,
     successMessage,
-    isInitialLoading,
   ];
 }
 
+// ========== ERROR STATE (only for fatal errors) ==========
+class HomeError extends HomeState {
+  final String message;
+
+  const HomeError({
+    required this.message,
+  });
+
+  @override
+  List<Object?> get props => [message];
+}
+
+// ========== HELPER CLASSES ==========
 class CategoryPresentation extends Equatable {
   final Category category;
   final String icon;

@@ -22,26 +22,32 @@ class HomeCubit extends Cubit<HomeState> {
   })  : _categoryRepository = categoryRepository,
         _productRepository = productRepository,
         _storeRepository = storeRepository,
-        super(const HomeState());
+        super(const HomeLoading());
 
-  // Icon mapping - Presentation layer concern
+  // Icon mapping
   static const Map<String, String> _categoryIconMap = {
     'All': Assets.allCategories,
     'Food': Assets.food,
     'Drinks': Assets.drinks,
     'Clothes': Assets.clothes,
-    'Electronics': Assets.food, // You can add more icons
+    'Electronics': Assets.food,
     'Fashion': Assets.clothes,
     'Home': Assets.food,
   };
 
+  // Helper to get current loaded state
+  HomeLoaded? get _currentLoadedState {
+    final currentState = state;
+    return currentState is HomeLoaded ? currentState : null;
+  }
+
   // ========== INITIALIZATION ==========
 
   Future<void> initializeHome() async {
-    emit(state.copyWith(isInitialLoading: true, error: null));
+    emit(const HomeLoading());
 
     try {
-      // Load initial data
+      // Load initial data in parallel
       await Future.wait([
         _loadUserInfo(),
         _loadCategories(),
@@ -50,11 +56,13 @@ class HomeCubit extends Cubit<HomeState> {
         _loadTopStores(),
       ]);
 
-      emit(state.copyWith(isInitialLoading: false));
+      // Ensure we have a loaded state
+      if (state is! HomeLoaded) {
+        emit(const HomeLoaded());
+      }
     } catch (e) {
-      emit(state.copyWith(
-        isInitialLoading: false,
-        error: 'Failed to load home data: ${e.toString()}',
+      emit(HomeError(
+        message: 'Failed to load home data: ${e.toString()}',
       ));
     }
   }
@@ -63,8 +71,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> _loadUserInfo() async {
     try {
-      // TODO: Load from UserRepository when available
-      emit(state.copyWith(
+      final currentState = _currentLoadedState ?? const HomeLoaded();
+      emit(currentState.copyWith(
         userName: 'John Doe',
         userLocation: 'Baghdad, Iraq',
       ));
@@ -76,72 +84,80 @@ class HomeCubit extends Cubit<HomeState> {
   // ========== CATEGORIES ==========
 
   Future<void> _loadCategories() async {
-    emit(state.copyWith(isCategoriesLoading: true));
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+    emit(currentState.copyWith(isCategoriesLoading: true));
 
     try {
       final categories = _categoryRepository != null
           ? await _categoryRepository.getCategories()
           : _getMockCategories();
 
-      // Map domain categories to presentation with icons
       final categoriesWithIcons = categories.map((category) {
         final icon = _categoryIconMap[category.name] ?? Assets.allCategories;
-        return CategoryPresentation(
-          category: category,
-          icon: icon,
-        );
+        return CategoryPresentation(category: category, icon: icon);
       }).toList();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         categories: categoriesWithIcons,
         isCategoriesLoading: false,
+        clearError: true,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isCategoriesLoading: false,
-        error: 'Failed to load categories: ${e.toString()}',
+        errorMessage: 'Failed to load categories: ${e.toString()}',
       ));
     }
   }
 
   void selectCategory(int index) {
-    if (index != state.selectedCategoryIndex) {
-      emit(state.copyWith(selectedCategoryIndex: index));
+    final currentState = _currentLoadedState;
+    if (currentState == null || index == currentState.selectedCategoryIndex) {
+      return;
+    }
 
-      // Reload products based on selected category
-      if (index == 0) {
-        // "All" category
-        _loadTrendingProducts();
-      } else if (index < state.categories.length) {
-        final categoryId = state.categories[index].category.id;
-        _loadProductsByCategory(categoryId);
-      }
+    emit(currentState.copyWith(selectedCategoryIndex: index));
+
+    // Reload products based on selected category
+    if (index == 0) {
+      _loadTrendingProducts();
+    } else if (index < currentState.categories.length) {
+      final categoryId = currentState.categories[index].category.id;
+      _loadProductsByCategory(categoryId);
     }
   }
 
   // ========== SPECIAL OFFERS ==========
 
   Future<void> _loadSpecialOffers() async {
-    emit(state.copyWith(isOffersLoading: true));
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+    emit(currentState.copyWith(isOffersLoading: true));
 
     try {
-      // Mock data for now
       final offers = _getMockSpecialOffers();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         specialOffers: offers,
         isOffersLoading: false,
+        clearError: true,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isOffersLoading: false,
-        error: 'Failed to load special offers: ${e.toString()}',
+        errorMessage: 'Failed to load special offers: ${e.toString()}',
       ));
     }
   }
 
   void updateOfferPage(int page) {
-    emit(state.copyWith(currentOfferPage: page));
+    final currentState = _currentLoadedState;
+    if (currentState != null) {
+      emit(currentState.copyWith(currentOfferPage: page));
+    }
   }
 
   void handleOfferTap(String offerId) {
@@ -152,65 +168,77 @@ class HomeCubit extends Cubit<HomeState> {
   // ========== PRODUCTS ==========
 
   Future<void> _loadTrendingProducts() async {
-    emit(state.copyWith(isProductsLoading: true));
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+    emit(currentState.copyWith(isProductsLoading: true));
 
     try {
       final products = _productRepository != null
           ? await _productRepository.getTrendingProducts(limit: 10)
           : _getMockProducts();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         trendingProducts: products,
         isProductsLoading: false,
+        clearError: true,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isProductsLoading: false,
-        error: 'Failed to load products: ${e.toString()}',
+        errorMessage: 'Failed to load products: ${e.toString()}',
       ));
     }
   }
 
   Future<void> _loadProductsByCategory(String categoryId) async {
-    emit(state.copyWith(isProductsLoading: true));
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+    emit(currentState.copyWith(isProductsLoading: true));
 
     try {
       final products = _productRepository != null
           ? await _productRepository.getProductsByCategory(
-              categoryId: categoryId,
-              limit: 10,
-            )
+        categoryId: categoryId,
+        limit: 10,
+      )
           : _getMockProducts();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         trendingProducts: products,
         isProductsLoading: false,
+        clearError: true,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isProductsLoading: false,
-        error: 'Failed to load products: ${e.toString()}',
+        errorMessage: 'Failed to load products: ${e.toString()}',
       ));
     }
   }
 
   void incrementProduct(String productId) {
-    final currentCount = state.productCounts[productId] ?? 0;
-    final newCount = currentCount + 1;
+    final currentState = _currentLoadedState;
+    if (currentState == null) return;
 
-    final updatedCounts = Map<String, int>.from(state.productCounts);
-    updatedCounts[productId] = newCount;
-    emit(state.copyWith(productCounts: updatedCounts));
+    final currentCount = currentState.productCounts[productId] ?? 0;
+    final updatedCounts = Map<String, int>.from(currentState.productCounts);
+    updatedCounts[productId] = currentCount + 1;
 
+    emit(currentState.copyWith(productCounts: updatedCounts));
     // TODO: Update cart via CartRepository
   }
 
   void decrementProduct(String productId) {
-    final currentCount = state.productCounts[productId] ?? 0;
+    final currentState = _currentLoadedState;
+    if (currentState == null) return;
+
+    final currentCount = currentState.productCounts[productId] ?? 0;
     if (currentCount <= 0) return;
 
+    final updatedCounts = Map<String, int>.from(currentState.productCounts);
     final newCount = currentCount - 1;
-    final updatedCounts = Map<String, int>.from(state.productCounts);
 
     if (newCount == 0) {
       updatedCounts.remove(productId);
@@ -218,14 +246,16 @@ class HomeCubit extends Cubit<HomeState> {
       updatedCounts[productId] = newCount;
     }
 
-    emit(state.copyWith(productCounts: updatedCounts));
-
+    emit(currentState.copyWith(productCounts: updatedCounts));
     // TODO: Update cart via CartRepository
   }
 
   void toggleProductFavorite(String productId) {
-    final isFavorite = state.favoriteProductIds.contains(productId);
-    final updatedFavorites = Set<String>.from(state.favoriteProductIds);
+    final currentState = _currentLoadedState;
+    if (currentState == null) return;
+
+    final isFavorite = currentState.favoriteProductIds.contains(productId);
+    final updatedFavorites = Set<String>.from(currentState.favoriteProductIds);
 
     if (isFavorite) {
       updatedFavorites.remove(productId);
@@ -233,10 +263,9 @@ class HomeCubit extends Cubit<HomeState> {
       updatedFavorites.add(productId);
     }
 
-    emit(state.copyWith(
+    emit(currentState.copyWith(
       favoriteProductIds: updatedFavorites,
-      successMessage:
-          isFavorite ? 'Removed from favorites' : 'Added to favorites',
+      successMessage: isFavorite ? 'Removed from favorites' : 'Added to favorites',
     ));
 
     // TODO: Call ProductRepository.toggleFavoriteProduct
@@ -245,28 +274,35 @@ class HomeCubit extends Cubit<HomeState> {
   // ========== TOP STORES ==========
 
   Future<void> _loadTopStores() async {
-    emit(state.copyWith(isStoresLoading: true));
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+    emit(currentState.copyWith(isStoresLoading: true));
 
     try {
       final stores = _storeRepository != null
           ? await _storeRepository!.getTopStores(limit: 10)
           : _getMockStores();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         topStores: stores,
         isStoresLoading: false,
+        clearError: true,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isStoresLoading: false,
-        error: 'Failed to load stores: ${e.toString()}',
+        errorMessage: 'Failed to load stores: ${e.toString()}',
       ));
     }
   }
 
   void toggleStoreFavorite(String storeId) {
-    final isFavorite = state.favoriteStoreIds.contains(storeId);
-    final updatedFavorites = Set<String>.from(state.favoriteStoreIds);
+    final currentState = _currentLoadedState;
+    if (currentState == null) return;
+
+    final isFavorite = currentState.favoriteStoreIds.contains(storeId);
+    final updatedFavorites = Set<String>.from(currentState.favoriteStoreIds);
 
     if (isFavorite) {
       updatedFavorites.remove(storeId);
@@ -274,11 +310,10 @@ class HomeCubit extends Cubit<HomeState> {
       updatedFavorites.add(storeId);
     }
 
-    emit(state.copyWith(
+    emit(currentState.copyWith(
       favoriteStoreIds: updatedFavorites,
-      successMessage: isFavorite
-          ? 'Store removed from favorites'
-          : 'Store added to favorites',
+      successMessage:
+      isFavorite ? 'Store removed from favorites' : 'Store added to favorites',
     ));
 
     // TODO: Call StoreRepository.toggleFavoriteStore
@@ -287,48 +322,55 @@ class HomeCubit extends Cubit<HomeState> {
   // ========== SEARCH ==========
 
   Future<void> searchProducts(String query) async {
+    final currentState = _currentLoadedState ?? const HomeLoaded();
+
     if (query.trim().isEmpty) {
-      emit(state.copyWith(
+      emit(currentState.copyWith(
         searchQuery: '',
         isSearching: false,
+        clearError: true,
       ));
       await _loadTrendingProducts();
       return;
     }
 
     if (query.trim().length < 2) {
-      emit(state.copyWith(
-        error: 'Search query must be at least 2 characters',
+      emit(currentState.copyWith(
+        errorMessage: 'Search query must be at least 2 characters',
       ));
       return;
     }
 
-    emit(state.copyWith(
+    emit(currentState.copyWith(
       searchQuery: query,
       isSearching: true,
       isProductsLoading: true,
+      clearError: true,
     ));
 
     try {
       final products = _productRepository != null
           ? await _productRepository.searchProducts(
-              query: query.trim(),
-              limit: 20,
-            )
+        query: query.trim(),
+        limit: 20,
+      )
           : _getMockProducts()
-              .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
-              .toList();
+          .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+          .toList();
 
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         trendingProducts: products,
+        searchQuery: query,
         isProductsLoading: false,
         isSearching: false,
       ));
     } catch (e) {
-      emit(state.copyWith(
+      final updatedState = _currentLoadedState ?? const HomeLoaded();
+      emit(updatedState.copyWith(
         isProductsLoading: false,
         isSearching: false,
-        error: 'Search failed: ${e.toString()}',
+        errorMessage: 'Search failed: ${e.toString()}',
       ));
     }
   }
@@ -341,7 +383,13 @@ class HomeCubit extends Cubit<HomeState> {
   // ========== UTILITY ==========
 
   void clearMessages() {
-    emit(state.copyWith(error: null, successMessage: null));
+    final currentState = _currentLoadedState;
+    if (currentState != null) {
+      emit(currentState.copyWith(
+        clearError: true,
+        clearSuccess: true,
+      ));
+    }
   }
 
   // ========== MOCK DATA ==========
@@ -393,7 +441,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   List<Store> _getMockStores() {
     return [
-      Store(
+    Store(
         id: '1',
         name: 'Gold Gallery Accessories',
         description: 'Premium jewelry and accessories',
@@ -401,21 +449,19 @@ class HomeCubit extends Cubit<HomeState> {
         profileImage: 'assets/images/store_sweet.webp',
         sale: '25',
         rating: 4.5,
-        address: const Address(
-          id: '1',
-          country: 'Iraq',
-          city: 'Baghdad',
-          latitude: 33.3152,
-          longitude: 44.3661,
-        ),
-        contactInfo: ContactInfo(
-          provider: 'gold@gallery.com',
-          type: ContactType.email,
-        ),
-        categories: [
-          const Category(id: '1', name: 'Jewelry'),
-        ],
+      address: const Address(
+        id: '1',
+        country: 'Iraq',
+        city: 'Baghdad',
+        latitude: 33.3152,
+        longitude: 44.3661,
       ),
+      contactInfo: ContactInfo(
+        provider: 'gold@gallery.com',
+        type: ContactType.email,
+      ),
+      categories: [const Category(id: '1', name: 'Jewelry')],
+    ),
       Store(
         id: '2',
         name: 'Sweet Cake Sweet',
@@ -435,9 +481,7 @@ class HomeCubit extends Cubit<HomeState> {
           provider: 'sweet@cake.com',
           type: ContactType.email,
         ),
-        categories: [
-          const Category(id: '1', name: 'Food'),
-        ],
+        categories: [const Category(id: '1', name: 'Food')],
       ),
       Store(
         id: '3',
@@ -457,9 +501,7 @@ class HomeCubit extends Cubit<HomeState> {
           provider: 'info@techno.com',
           type: ContactType.email,
         ),
-        categories: [
-          const Category(id: '2', name: 'Electronics'),
-        ],
+        categories: [const Category(id: '2', name: 'Electronics')],
       ),
     ];
   }
@@ -470,7 +512,7 @@ class HomeCubit extends Cubit<HomeState> {
         id: '1',
         title: 'Get 10% off on your first order',
         imageUrl:
-            'https://img.freepik.com/free-psd/ocean-wave-crashing-sandy-beach-summer-vacation-paradise_191095-79314.jpg',
+        'https://img.freepik.com/free-psd/ocean-wave-crashing-sandy-beach-summer-vacation-paradise_191095-79314.jpg',
         discount: '25% OFF',
         startDate: DateTime.now().subtract(const Duration(days: 1)),
         endDate: DateTime.now().add(const Duration(days: 7)),
@@ -479,8 +521,7 @@ class HomeCubit extends Cubit<HomeState> {
       SpecialOffer(
         id: '2',
         title: 'Summer Sale',
-        imageUrl:
-            'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
+        imageUrl: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e',
         discount: '30% OFF',
         startDate: DateTime.now().subtract(const Duration(days: 1)),
         endDate: DateTime.now().add(const Duration(days: 7)),

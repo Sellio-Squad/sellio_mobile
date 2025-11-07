@@ -13,13 +13,21 @@ class ProductsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (previous, current) =>
-      previous.trendingProducts != current.trendingProducts ||
-          previous.productCounts != current.productCounts ||
-          previous.favoriteProductIds != current.favoriteProductIds ||
-          previous.isProductsLoading != current.isProductsLoading ||
-          previous.searchQuery != current.searchQuery,
+      buildWhen: (previous, current) {
+        if (previous is HomeLoaded && current is HomeLoaded) {
+          return previous.trendingProducts != current.trendingProducts ||
+              previous.productCounts != current.productCounts ||
+              previous.favoriteProductIds != current.favoriteProductIds ||
+              previous.isProductsLoading != current.isProductsLoading ||
+              previous.searchQuery != current.searchQuery;
+        }
+        return true;
+      },
       builder: (context, state) {
+        if (state is! HomeLoaded) {
+          return const SliverToBoxAdapter(child: SizedBox.shrink());
+        }
+
         return SliverToBoxAdapter(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
