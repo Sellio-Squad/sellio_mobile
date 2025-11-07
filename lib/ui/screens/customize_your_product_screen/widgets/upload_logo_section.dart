@@ -15,7 +15,7 @@ class UploadLogoSection extends StatelessWidget {
         Text(
           'Upload logo or image',
           style: context.theme.typography.textTheme.titleMedium.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 12),
