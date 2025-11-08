@@ -9,31 +9,40 @@ class LogoutBottomSheet extends StatelessWidget {
 
   const LogoutBottomSheet({super.key, required this.onLogout});
 
+  static Future<void> show({
+    required BuildContext context,
+    required VoidCallback onLogout,
+  }) {
+    return SellioBottomSheet.show(
+      context: context,
+      isScrollControlled: true,
+      child: LogoutBottomSheet(onLogout: onLogout),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SellioBottomSheet(
-        content: Container(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    AppStrings.logout,
-                    style: context.theme.typography.textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    AppStrings.areYouSureToContinueLogout,
-                    style: context.theme.typography.textTheme.bodyMedium,
-                  ),
-                  const SizedBox(height: 24),
-                  SellioButton(
-                    text: AppStrings.logout,
-                    backgroundColor: context.theme.colors.errorVariant,
-                    suffixIconColor: context.theme.colors.red,
-                    onTap: onLogout,
-                  ),
-                ])));
+    return Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppStrings.logout,
+            style: context.theme.typography.textTheme.titleMedium,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            AppStrings.areYouSureToContinueLogout,
+            style: context.theme.typography.textTheme.bodyMedium,
+          ),
+          const SizedBox(height: 24),
+          SellioButton(
+            text: AppStrings.logout,
+            backgroundColor: context.theme.colors.errorVariant,
+            suffixIconColor: context.theme.colors.red,
+            onTap: onLogout,
+            textColor: context.theme.colors.red,
+          ),
+        ]);
   }
 }

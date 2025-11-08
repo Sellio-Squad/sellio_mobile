@@ -9,9 +9,12 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/Account/AccountOptionCard.dart';
-import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
+import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
+import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
+import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
 import '../../../core/design_system/constants/assets.dart';
+import 'account_options/account_options_bottom_sheet.dart';
 import 'language/change_language_bottom_sheet.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -35,12 +38,20 @@ class _AccountScreenState extends State<AccountScreen> {
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surfaceLow,
         appBar: SellioAppBar(
-          title: 'Account',
+          title: AppStrings.account,
           actions: [
-            SvgPicture.asset(
-              Assets.moreHorizontalSquare,
-              width: 24,
-              height: 24,
+            GestureDetector(
+              onTap: () {
+                _showAccountOptionsBottomSheet(context);
+              },
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14),
+                child: SvgPicture.asset(
+                  Assets.moreHorizontalSquare,
+                  width: 24,
+                  height: 24,
+                ),
+              ),
             ),
           ],
         ),
@@ -82,45 +93,48 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: [
                       Expanded(
                         child: AccountCustomCard(
-                            icon: Assets.package, orderTitle: 'My Orders'),
+                            icon: Assets.package,
+                            orderTitle: AppStrings.myOrders),
                       ),
                       Gap(8),
                       Expanded(
                         child: AccountCustomCard(
                             icon: Assets.heartCheck,
-                            orderTitle: 'My Favourites'),
+                            orderTitle: AppStrings.myFavourites),
                       ),
                     ],
                   ),
                   Gap(16),
                   AccountOptionCard(
                     prefixIcon: Assets.repair,
-                    orderTitle: 'Account Settings',
-                    onCardClicked: () {_showAccountSettingsSheet(context);},
+                    orderTitle: AppStrings.accountSettings,
+                    onCardClicked: () {
+                      _showAccountSettingsBottomSheet(context);
+                    },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
                   Gap(12),
                   AccountOptionCard(
                     prefixIcon: Assets.circleLockAdd,
-                    orderTitle: 'Reset Password',
+                    orderTitle: AppStrings.resetPassword,
                     onCardClicked: () {
-                      _showResetPasswordSheet(context);
+                      _showResetPasswordBottomSheet(context);
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
                   Gap(12),
                   AccountOptionCard(
                     prefixIcon: Assets.languageCircle,
-                    orderTitle: 'Language',
+                    orderTitle: AppStrings.language,
                     onCardClicked: () {
-                      _showLanguageSheet(context);
+                      _showLanguageBottomSheet(context);
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
                   Gap(12),
                   AccountOptionCard(
                     prefixIcon: Assets.notification,
-                    orderTitle: 'Notifications',
+                    orderTitle: AppStrings.notification,
                     onCardClicked: () {},
                     trailing: DesignSwitch(
                       value: true,
@@ -130,7 +144,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   Gap(12),
                   AccountOptionCard(
                     prefixIcon: Assets.mobileProgramming,
-                    orderTitle: 'App version',
+                    orderTitle: AppStrings.appVersion,
                     onCardClicked: () {},
                     trailing: Text(
                       '1.2',
@@ -149,62 +163,64 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  void _showAccountSettingsSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: false,
-      backgroundColor: context.theme.colors.surface,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: AccountSettingsBottomSheet(
-          onSave: (){
-
-          },
-        ),
-      ),
-    );
+  void _showAccountSettingsBottomSheet(BuildContext context) {
+    AccountSettingsBottomSheet.show(
+        context: context,
+        onSave: () {
+          print('saved..');
+        });
   }
 
-  void _showResetPasswordSheet(BuildContext context) {
-    showModalBottomSheet(
+  void _showResetPasswordBottomSheet(BuildContext context) {
+    ResetPasswordBottomSheet.show(
+      onSave: () {},
       context: context,
-      isScrollControlled: true,
-      backgroundColor: context.theme.colors.surface,
-      builder: (context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: ResetPasswordBottomSheet(
-          onSave: (){
-
-          },
-        ),
-      ),
     );
   }
 }
 
-void _showLanguageSheet(BuildContext context) {
-  showModalBottomSheet(
+void _showLanguageBottomSheet(BuildContext context) {
+  ChangeLanguageBottomSheet.show(
     context: context,
-    isScrollControlled: true,
-    backgroundColor: context.theme.colors.surface,
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      child: ChangeLanguageBottomSheet(
-        onSave: (selectedLanguage){
-          print(selectedLanguage);
-        },
-        selectedLanguage: AppStrings.english,
-      ),
-    ),
+    onSave: (String language) {
+      print('Selected language: $language');
+    },
+    selectedLanguage: AppStrings.english,
   );
 }
+
+void _showLogoutBottomSheet(BuildContext context) {
+  LogoutBottomSheet.show(
+    context: context,
+    onLogout: () {
+      print('Logging out...');
+    },
+  );
+}
+
+void _showDeleteAccountBottomSheet(BuildContext context) {
+  DeleteAccountBottomSheet.show(
+    context: context,
+    onDeleteAccount: () {
+      print('Logging out...');
+    },
+  );
+}
+
+void _showAccountOptionsBottomSheet(BuildContext context) {
+  AccountOptionsBottomSheet.show(
+      onLogout: () {
+        _showLogoutBottomSheet(context);
+      },
+      onDeleteAccount: () {
+        _showDeleteAccountBottomSheet(context);
+      },
+      context: context,
+      onDismiss: () {
+        print('Dismissing bottom sheet...');
+      });
+}
+
 Widget uploadImageCard({
   required String imagePath,
   required String editIconPath,

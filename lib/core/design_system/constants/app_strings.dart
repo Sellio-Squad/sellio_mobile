@@ -77,7 +77,13 @@ class AppStrings {
   static const logout = 'Logout';
   static const deleteAccount = 'Delete account';
   static const areYouSureToContinueLogout = 'Are you sure to continue logout?';
-  static const areYouSureToContinueDeletingAccount = 'Are you sure to continue deleting account?';
+  static const areYouSureToContinueDeletingAccount =
+      'Are you sure to continue deleting account?';
 
-
+  //account screen
+  static final myOrders = 'My Orders';
+  static final myFavourites = 'My Favourites';
+  static final notification = 'Notifications';
+  static final language = 'Language';
+  static final appVersion = 'App version';
 }
