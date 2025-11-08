@@ -4,12 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
-import '../../../features/cart/cubit/cart_cubit.dart';
-import '../../../features/cart/cubit/cart_state.dart';
-import '../../../features/favorites/cubit/favorites_cubit.dart';
-import '../../../features/favorites/cubit/favorites_state.dart';
-import '../../../features/products/cubit/products_cubit.dart';
-import '../../../features/products/cubit/products_state.dart';
+import '../../../cubits/cart/cubit/cart_cubit.dart';
+import '../../../cubits/cart/cubit/cart_state.dart';
+import '../../../cubits/favorites/cubit/favorites_cubit.dart';
+import '../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../../cubits/products/cubit/products_cubit.dart';
+import '../../../cubits/products/cubit/products_state.dart';
 
 
 class ProductsSection extends StatelessWidget {

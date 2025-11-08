@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
-import '../../../features/user/cubit/user_cubit.dart';
-import '../../../features/user/cubit/user_state.dart';
+import '../../../cubits/user/cubit/user_cubit.dart';
+import '../../../cubits/user/cubit/user_state.dart';
 
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {

@@ -16,9 +16,9 @@ import 'domain/repositories/offers_repository.dart';
 import 'domain/repositories/cart_repository.dart';
 import 'domain/repositories/favorites_repository.dart';
 import 'domain/repositories/user_repository.dart';
-import 'presentation/features/cart/cubit/cart_cubit.dart';
-import 'presentation/features/favorites/cubit/favorites_cubit.dart';
-import 'presentation/features/user/cubit/user_cubit.dart';
+import 'presentation/cubits/cart/cubit/cart_cubit.dart';
+import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
+import 'presentation/cubits/user/cubit/user_cubit.dart';
 
 void main() {
   runApp(
