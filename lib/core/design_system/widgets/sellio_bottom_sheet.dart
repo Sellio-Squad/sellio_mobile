@@ -5,9 +5,7 @@ class SellioBottomSheet extends StatelessWidget {
   final Widget content;
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  SellioBottomSheet(
-      {super.key,
-      required this.content});
+  SellioBottomSheet({super.key, required this.content});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class SellioBottomSheet extends StatelessWidget {
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }

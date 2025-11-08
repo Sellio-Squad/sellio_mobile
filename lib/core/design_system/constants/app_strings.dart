@@ -59,5 +59,7 @@ class AppStrings {
   static const String confirmNewPassword= 'Confirm new password';
   static const String save = 'Save';
 
-
+  //account settings bottom sheet
+  static const String accountSettings ='Account settings';
+  static const String saveChanges ='Save changes';
 }

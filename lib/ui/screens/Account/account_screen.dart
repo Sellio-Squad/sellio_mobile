@@ -10,6 +10,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/Account/AccountOptionCard.dart';
 import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_bottom_sheet.dart';
 
+import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
 import '../../../core/design_system/constants/assets.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   AccountOptionCard(
                     prefixIcon: Assets.repair,
                     orderTitle: 'Account Settings',
-                    onCardClicked: () {},
+                    onCardClicked: () {_showAccountSettingsSheet(context);},
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
                   Gap(12),
@@ -145,6 +146,25 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
+  void _showAccountSettingsSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: false,
+      backgroundColor: context.theme.colors.surface,
+      builder: (context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+        ),
+        child: AccountSettingsBottomSheet(
+          onSave: (){
+
+          },
+        ),
+      ),
+    );
+  }
+
   void _showResetPasswordSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -163,7 +183,6 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 }
-
 Widget uploadImageCard({
   required String imagePath,
   required String editIconPath,
