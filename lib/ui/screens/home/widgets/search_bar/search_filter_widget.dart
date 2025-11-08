@@ -5,19 +5,29 @@ import '../../../../../core/design_system/constants/app_icons.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final Function(String text) onTextSubmitted;
+  final TextEditingController? controller;
 
-  const SearchBarWidget({super.key,required this.onTextSubmitted});
+  const SearchBarWidget(
+      {super.key, required this.onTextSubmitted, this.controller});
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-  final TextEditingController _searchController = TextEditingController();
+  late final TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = widget.controller ?? TextEditingController();
+  }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    if (widget.controller == null) {
+      _searchController.dispose();
+    }
     super.dispose();
   }
 
