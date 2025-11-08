@@ -72,4 +72,12 @@ class AppStrings {
   static const english = 'English';
   static const arabic = 'Arabic';
 
+  //account options
+  static const accountOptions = 'Account options';
+  static const logout = 'Logout';
+  static const deleteAccount = 'Delete account';
+  static const areYouSureToContinueLogout = 'Are you sure to continue logout?';
+  static const areYouSureToContinueDeletingAccount = 'Are you sure to continue deleting account?';
+
+
 }

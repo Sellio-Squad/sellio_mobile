@@ -40,5 +40,9 @@ class AppIcons {
 
   static const String alertCircle = '$_basePath/ic_alert_circle.svg';
 
+  //account options
+  static const String logout = '$_basePath/ic_logout.svg';
+  static const String deleteAccount = '$_basePath/ic_delete.svg';
+
 
 }
