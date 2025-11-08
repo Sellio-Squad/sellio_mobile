@@ -12,8 +12,6 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '10%',
       images: [
-        'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400',
-        'https://images.unsplash.com/photo-1570913149827-d2ac84ab3f9a?w=400',
       ],
       categoryId: '1',
       storeId: 'store1',
@@ -28,7 +26,7 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '15%',
       images: [
-        'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400',
+
       ],
       categoryId: '2',
       storeId: 'store1',
@@ -42,7 +40,7 @@ class ProductRepositoryImpl implements ProductRepository {
       price: 19.99,
       currency: 'USD',
       images: [
-        'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
+
       ],
       categoryId: '3',
       storeId: 'store2',
@@ -57,7 +55,7 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '20%',
       images: [
-        'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
+
       ],
       categoryId: '4',
       storeId: 'store3',
@@ -71,7 +69,7 @@ class ProductRepositoryImpl implements ProductRepository {
       price: 34.99,
       currency: 'USD',
       images: [
-        'https://images.unsplash.com/photo-1627123424574-724758594e93?w=400',
+
       ],
       categoryId: '5',
       storeId: 'store2',
@@ -86,7 +84,7 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '25%',
       images: [
-        'https://images.unsplash.com/photo-1550985616-10810253b84d?w=400',
+
       ],
       categoryId: '6',
       storeId: 'store3',
@@ -100,7 +98,7 @@ class ProductRepositoryImpl implements ProductRepository {
       price: 5.99,
       currency: 'USD',
       images: [
-        'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400',
+
       ],
       categoryId: '2',
       storeId: 'store1',
@@ -115,7 +113,7 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '30%',
       images: [
-        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
+
       ],
       categoryId: '3',
       storeId: 'store2',
@@ -129,7 +127,7 @@ class ProductRepositoryImpl implements ProductRepository {
       price: 14.99,
       currency: 'USD',
       images: [
-        'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400',
+
       ],
       categoryId: '4',
       storeId: 'store3',
@@ -144,7 +142,7 @@ class ProductRepositoryImpl implements ProductRepository {
       currency: 'USD',
       discount: '5%',
       images: [
-        'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400',
+
       ],
       categoryId: '6',
       storeId: 'store2',
