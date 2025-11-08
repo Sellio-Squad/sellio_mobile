@@ -1,29 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/design_system/widgets/chip_category.dart';
-import '../cubit/home_cubit.dart';
-import '../cubit/home_state.dart';
+import '../../../features/categories/cubit/categories_cubit.dart';
+import '../../../features/categories/cubit/categories_state.dart';
+
 
 class CategoryTabs extends StatelessWidget {
   const CategoryTabs({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (previous, current) {
-        if (previous is HomeLoaded && current is HomeLoaded) {
-          return previous.categories != current.categories ||
-              previous.selectedCategoryIndex != current.selectedCategoryIndex ||
-              previous.isCategoriesLoading != current.isCategoriesLoading;
-        }
-        return true;
-      },
+    return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
-        if (state is! HomeLoaded) {
-          return const SliverToBoxAdapter(child: SizedBox.shrink());
-        }
-
-        if (state.isCategoriesLoading) {
+        if (state is CategoriesLoading) {
           return const SliverToBoxAdapter(
             child: SizedBox(
               height: 40,
@@ -32,7 +21,7 @@ class CategoryTabs extends StatelessWidget {
           );
         }
 
-        if (state.categories.isEmpty) {
+        if (state is! CategoriesLoaded || state.categories.isEmpty) {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
@@ -45,7 +34,7 @@ class CategoryTabs extends StatelessWidget {
               itemCount: state.categories.length,
               itemBuilder: (context, index) {
                 final categoryPresentation = state.categories[index];
-                final isSelected = state.selectedCategoryIndex == index;
+                final isSelected = state.selectedIndex == index;
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 12),
@@ -54,7 +43,7 @@ class CategoryTabs extends StatelessWidget {
                     assetIcon: categoryPresentation.icon,
                     selected: isSelected,
                     onTap: () {
-                      context.read<HomeCubit>().selectCategory(index);
+                      context.read<CategoriesCubit>().selectCategory(index);
                     },
                   ),
                 );
