@@ -74,7 +74,7 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
               final offer = widget.offers[index];
               return
                 Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
+                  padding: const EdgeInsets.only(right: 16.0, left: 16.0),
                   child: SpecialOfferCard(
                   imageUrl: offer.imageUrl,
                   onTap: () => widget.onOfferTap?.call(offer.id),

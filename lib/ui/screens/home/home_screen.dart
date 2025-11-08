@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
   SliverToBoxAdapter _buildSpecialOffersSection() {
     return SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 16, 0),
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
           child: SpecialOffersSection(
             offers: DataProvider.specialOffers,
             onOfferTap: (offerId) {
