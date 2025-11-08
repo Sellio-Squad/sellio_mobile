@@ -6,7 +6,14 @@ import 'filter_widget.dart';
 class SearchBarWithFilter extends StatelessWidget {
   final Function() onFilterIconClicked;
   final Function(String text) onTextSubmitted;
-  const SearchBarWithFilter({super.key, required this.onFilterIconClicked, required this.onTextSubmitted});
+  final TextEditingController? controller;
+
+  const SearchBarWithFilter({
+    super.key,
+    required this.onFilterIconClicked,
+    required this.onTextSubmitted,
+    this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +35,7 @@ class SearchBarWithFilter extends StatelessWidget {
               child:
               SearchBarWidget(
                 onTextSubmitted: (String text) { onTextSubmitted(text); },
+                controller: controller,
               ),
             ),
           ),
