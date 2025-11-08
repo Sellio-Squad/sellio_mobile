@@ -1,16 +1,17 @@
 name: CD - Build and Distribute Android (After Merge)
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
-      - main
+  workflow_run:
+    workflows: ["Build Check"] # ⬅️ اسم الـ CI الأول بالضبط
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
   build-and-distribute:
-    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      (github.event.workflow_run.event == 'pull_request' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
 
     steps:
@@ -39,10 +40,8 @@ jobs:
             channel: ${{ secrets.SLACK_CHANNEL_ID }}
             thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
             text: |
-              :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
-              PR created by: ${{ github.event.pull_request.user.login || github.actor }}
-              Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
-              Starting Android build...
+              :rocket: Workflow *Build Check* succeeded on `${{ github.event.workflow_run.head_branch }}`.
+              Starting Android release build...
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
@@ -63,7 +62,6 @@ jobs:
       - name: Build release APK
         run: flutter build apk --release --target-platform android-arm64 -t lib/ui/main/main.dart
 
-
       - name: Upload APK to latest Slack thread
         uses: slackapi/slack-github-action@v2.1.1
         with:
@@ -71,9 +69,9 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: ":white_check_mark: Build successful for commit `${{ github.sha }}` on `${{ github.ref_name }}`."
+            initial_comment: ":white_check_mark: Build successful for commit `${{ github.event.workflow_run.head_sha }}` on `${{ github.event.workflow_run.head_branch }}`."
             file: "build/app/outputs/flutter-apk/app-release.apk"
-            filename: "sellio-${{ github.sha }}.apk"
+            filename: "sellio-${{ github.event.workflow_run.head_sha }}.apk"
             thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
