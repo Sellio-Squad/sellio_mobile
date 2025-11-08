@@ -34,12 +34,10 @@ class HomeCubit extends Cubit<HomeState> {
         _userCubit = userCubit,
         super(const HomeInitial());
 
-  /// Initialize all home screen data
   Future<void> initializeHome() async {
     emit(const HomeLoading());
 
     try {
-      // Load all data in parallel for faster initial load
       await Future.wait([
         _userCubit.loadUserInfo(),
         _categoriesCubit.loadCategories(),
@@ -56,7 +54,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  /// Refresh all home screen data
   Future<void> refreshHome() async {
     try {
       await Future.wait([
@@ -70,29 +67,23 @@ class HomeCubit extends Cubit<HomeState> {
       ]);
     } catch (e) {
       emit(HomeError(message: 'Failed to refresh: ${e.toString()}'));
-      // Revert to loaded state after showing error
       emit(const HomeLoaded());
     }
   }
 
-  /// Handle category selection and coordinate product reload
   void onCategorySelected(int index, List<dynamic> categories) {
     if (index == 0) {
-      // "All" category - load trending products
       _productsCubit.loadTrendingProducts();
     } else if (index < categories.length) {
-      // Specific category - load products by category
       final categoryId = categories[index].category.id;
       _productsCubit.loadProductsByCategory(categoryId);
     }
   }
 
-  /// Handle search
   void onSearch(String query) {
     _productsCubit.searchProducts(query);
   }
 
-  /// Handle filter action
   void onFilterPressed() {
     // TODO: Implement filter dialog
     // This could open a filter bottom sheet and apply filters to products
@@ -105,7 +96,6 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  /// Handle offer tap
   void onOfferTapped(String offerId) {
     // TODO: Navigate to offer details
     emit(HomeOfferSelected(offerId: offerId));
@@ -117,7 +107,6 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  /// Handle store tap
   void onStoreTapped(String storeId) {
     emit(HomeStoreSelected(storeId: storeId));
     // Revert state after navigation
@@ -128,7 +117,6 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  /// Handle notification tap
   void onNotificationTapped() {
     // TODO: Navigate to notifications
     emit(const HomeNotificationRequested());
@@ -140,7 +128,7 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  /// Clear any error state
+
   void clearError() {
     if (state is HomeError) {
       emit(const HomeLoaded());

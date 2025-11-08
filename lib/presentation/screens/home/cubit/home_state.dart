@@ -4,7 +4,7 @@ sealed class HomeState extends Equatable {
   const HomeState();
 }
 
-/// Initial state before any data is loaded
+
 class HomeInitial extends HomeState {
   const HomeInitial();
 
@@ -12,7 +12,6 @@ class HomeInitial extends HomeState {
   List<Object?> get props => [];
 }
 
-/// Loading state when initializing home screen
 class HomeLoading extends HomeState {
   const HomeLoading();
 
@@ -20,7 +19,6 @@ class HomeLoading extends HomeState {
   List<Object?> get props => [];
 }
 
-/// Loaded state - home screen is ready
 class HomeLoaded extends HomeState {
   const HomeLoaded();
 
@@ -28,7 +26,6 @@ class HomeLoaded extends HomeState {
   List<Object?> get props => [];
 }
 
-/// Error state for critical failures
 class HomeError extends HomeState {
   final String message;
 
@@ -38,7 +35,7 @@ class HomeError extends HomeState {
   List<Object?> get props => [message];
 }
 
-/// Action states for navigation/dialogs
+
 class HomeFilterRequested extends HomeState {
   const HomeFilterRequested();
 
