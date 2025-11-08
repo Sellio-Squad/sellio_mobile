@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
@@ -74,7 +73,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           context: context,
                           onEditTap: () {},
                         ),
-                        Gap(12),
+                        const SizedBox(height: 12),
                         Text(
                           'Zinah & Baraa',
                           style: themeText.titleSmall
@@ -88,7 +87,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ],
                     ),
                   ),
-                  Gap(24),
+                  const SizedBox(height:24),
                   Row(
                     children: [
                       Expanded(
@@ -96,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             icon: Assets.package,
                             orderTitle: AppStrings.myOrders),
                       ),
-                      Gap(8),
+                      const SizedBox(height:8),
                       Expanded(
                         child: AccountCustomCard(
                             icon: Assets.heartCheck,
@@ -104,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ],
                   ),
-                  Gap(16),
+                  const SizedBox(height:16),
                   AccountOptionCard(
                     prefixIcon: Assets.repair,
                     orderTitle: AppStrings.accountSettings,
@@ -113,7 +112,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  Gap(12),
+                  const SizedBox(height:12),
                   AccountOptionCard(
                     prefixIcon: Assets.circleLockAdd,
                     orderTitle: AppStrings.resetPassword,
@@ -122,7 +121,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  Gap(12),
+                  const SizedBox(height:12),
                   AccountOptionCard(
                     prefixIcon: Assets.languageCircle,
                     orderTitle: AppStrings.language,
@@ -131,7 +130,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  Gap(12),
+                  const SizedBox(height:12),
                   AccountOptionCard(
                     prefixIcon: Assets.notification,
                     orderTitle: AppStrings.notification,
@@ -141,7 +140,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onChanged: (bool value) {},
                     ),
                   ),
-                  Gap(12),
+                  const SizedBox(height:12),
                   AccountOptionCard(
                     prefixIcon: Assets.mobileProgramming,
                     orderTitle: AppStrings.appVersion,
@@ -153,7 +152,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
-                  Gap(12),
+                  const SizedBox(height:12),
                 ],
               ),
             ),
@@ -331,13 +330,13 @@ class AccountCustomCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gap(12),
+            const SizedBox(height:12),
             SvgPicture.asset(
               icon,
               width: iconSize,
               height: iconSize,
             ),
-            Gap(16),
+            const SizedBox(height:16),
             Text(
               orderTitle,
               style: context.theme.typography.textTheme.labelMedium.copyWith(
