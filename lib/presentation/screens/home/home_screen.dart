@@ -16,10 +16,7 @@ import '../../features/products/cubit/products_cubit.dart';
 import '../../features/products/cubit/products_state.dart';
 import '../../features/stores/cubit/stores_cubit.dart';
 import '../../features/stores/cubit/stores_state.dart';
-import '../../features/user/cubit/user_cubit.dart';
-import '../../screens/store_details/store_details_screen.dart';
-import 'cubit/home_cubit.dart';
-import 'cubit/home_state.dart';
+import '../store_details/store_details_screen.dart';
 import 'widgets/home_app_bar.dart';
 import 'widgets/category_tabs.dart';
 import 'widgets/products_section.dart';
@@ -34,38 +31,26 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // Feature-specific cubits
+        // Screen-specific cubits
         BlocProvider(
           create: (context) => CategoriesCubit(
             context.read<CategoryRepository>(),
-          ),
+          )..loadCategories(),
         ),
         BlocProvider(
           create: (context) => ProductsCubit(
             context.read<ProductRepository>(),
-          ),
+          )..loadTrendingProducts(),
         ),
         BlocProvider(
           create: (context) => StoresCubit(
             context.read<StoreRepository>(),
-          ),
+          )..loadTopStores(),
         ),
         BlocProvider(
           create: (context) => OffersCubit(
             context.read<OffersRepository>(),
-          ),
-        ),
-        // Coordinator cubit
-        BlocProvider(
-          create: (context) => HomeCubit(
-            categoriesCubit: context.read<CategoriesCubit>(),
-            productsCubit: context.read<ProductsCubit>(),
-            storesCubit: context.read<StoresCubit>(),
-            offersCubit: context.read<OffersCubit>(),
-            cartCubit: context.read<CartCubit>(),
-            favoritesCubit: context.read<FavoritesCubit>(),
-            userCubit: context.read<UserCubit>(),
-          )..initializeHome(),
+          )..loadSpecialOffers(),
         ),
       ],
       child: const _HomeScreenContent(),
@@ -83,52 +68,19 @@ class _HomeScreenContent extends StatelessWidget {
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<HomeCubit, HomeState>(
-          listener: (context, state) {
-            if (state is HomeError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: colors.red,
-                  action: SnackBarAction(
-                    label: 'Retry',
-                    textColor: Colors.white,
-                    onPressed: () {
-                      context.read<HomeCubit>().initializeHome();
-                    },
-                  ),
-                ),
-              );
-            } else if (state is HomeFilterRequested) {
-              // TODO: Show filter bottom sheet
-              _showFilterDialog(context);
-            } else if (state is HomeNotificationRequested) {
-              // TODO: Navigate to notifications
-              print('Navigate to notifications');
-            } else if (state is HomeOfferSelected) {
-              // TODO: Navigate to offer details
-              print('Navigate to offer: ${state.offerId}');
-            } else if (state is HomeStoreSelected) {
-              // TODO: Navigate to store details
-              print('Navigate to store: ${state.storeId}');
-            }
-          },
-        ),
         // Listen to category changes to reload products
         BlocListener<CategoriesCubit, CategoriesState>(
           listener: (context, state) {
             if (state is CategoriesLoaded) {
-              context.read<HomeCubit>().onCategorySelected(
-                state.selectedIndex,
-                state.categories,
-              );
-            } else if (state is CategoriesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: colors.red,
-                ),
-              );
+              final productsCubit = context.read<ProductsCubit>();
+
+              if (state.selectedIndex == 0) {
+                productsCubit.loadTrendingProducts();
+              } else if (state.selectedIndex < state.categories.length) {
+                final categoryId =
+                    state.categories[state.selectedIndex].category.id;
+                productsCubit.loadProductsByCategory(categoryId);
+              }
             }
           },
         ),
@@ -136,6 +88,19 @@ class _HomeScreenContent extends StatelessWidget {
         BlocListener<ProductsCubit, ProductsState>(
           listener: (context, state) {
             if (state is ProductsError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: colors.red,
+                ),
+              );
+            }
+          },
+        ),
+        // Listen to category errors
+        BlocListener<CategoriesCubit, CategoriesState>(
+          listener: (context, state) {
+            if (state is CategoriesError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),
@@ -159,38 +124,26 @@ class _HomeScreenContent extends StatelessWidget {
           },
         ),
       ],
-      child: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, homeState) {
-          if (homeState is HomeLoading) {
-            return Scaffold(
-              backgroundColor: colors.surfaceLow,
-              body: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-
-          // Show main content
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Scaffold(
-              appBar: _buildAppBar(context),
-              extendBodyBehindAppBar: true,
-              backgroundColor: colors.surfaceLow,
-              body: _buildBody(context, colors),
-            ),
-          );
-        },
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          appBar: _buildAppBar(context),
+          extendBodyBehindAppBar: true,
+          backgroundColor: colors.surfaceLow,
+          body: _buildBody(context, colors),
+        ),
       ),
     );
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return HomeAppBar(
-      onNotificationTap: () {
-        context.read<HomeCubit>().onNotificationTapped();
-      },
-    );
+    return PreferredSize(
+        preferredSize: const Size.fromHeight(68.0),
+        child: HomeAppBar(
+          onNotificationTap: () {
+            // TODO: Navigate to notifications
+          },
+        ));
   }
 
   Widget _buildBody(BuildContext context, dynamic colors) {
@@ -213,12 +166,21 @@ class _HomeScreenContent extends StatelessWidget {
         // Content
         SafeArea(
           child: RefreshIndicator(
-            onRefresh: () => context.read<HomeCubit>().refreshHome(),
+            onRefresh: () async {
+              await Future.wait([
+                context.read<CategoriesCubit>().loadCategories(),
+                context.read<ProductsCubit>().loadTrendingProducts(),
+                context.read<StoresCubit>().loadTopStores(),
+                context.read<OffersCubit>().loadSpecialOffers(),
+                context.read<CartCubit>().loadCart(),
+                context.read<FavoritesCubit>().loadFavorites(),
+              ]);
+            },
             child: CustomScrollView(
               slivers: [
                 _buildSearchBarSection(context),
                 const CategoryTabs(),
-                _buildSpecialOffersSection(context),
+                _buildSpecialOffersSection(),
                 const ProductsSection(),
                 _buildTopStoresSection(context),
                 const SliverToBoxAdapter(
@@ -238,17 +200,17 @@ class _HomeScreenContent extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         child: SearchBarWithFilter(
           onFilterIconClicked: () {
-            context.read<HomeCubit>().onFilterPressed();
+            // TODO: Show filter dialog
           },
           onTextSubmitted: (text) {
-            context.read<HomeCubit>().onSearch(text);
+            context.read<ProductsCubit>().searchProducts(text);
           },
         ),
       ),
     );
   }
 
-  SliverToBoxAdapter _buildSpecialOffersSection(BuildContext context) {
+  SliverToBoxAdapter _buildSpecialOffersSection() {
     return SliverToBoxAdapter(
       child: BlocBuilder<OffersCubit, OffersState>(
         builder: (context, state) {
@@ -274,7 +236,7 @@ class _HomeScreenContent extends StatelessWidget {
                 context.read<OffersCubit>().setCurrentPage(page);
               },
               onOfferTap: (offerId) {
-                context.read<HomeCubit>().onOfferTapped(offerId);
+                // TODO: Navigate to offer details
               },
             ),
           );
@@ -311,7 +273,6 @@ class _HomeScreenContent extends StatelessWidget {
                     context.read<FavoritesCubit>().toggleStoreFavorite(storeId);
                   },
                   onCardPressed: (store) {
-                    context.read<HomeCubit>().onStoreTapped(store.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -332,37 +293,6 @@ class _HomeScreenContent extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-
-  void _showFilterDialog(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return Container(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'Filter Products',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 16),
-              // TODO: Add filter options
-              const Text('Filter options coming soon...'),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Close'),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }
