@@ -15,7 +15,7 @@ class Assets {
   static const String bell = '$iconsPath/ic_bell.svg';
   static const String location = '$iconsPath/ic_location.svg';
   static const String arrowLeft = '$iconsPath/ic_arrow-left.svg';
-  static const String sellio = '$imagesPath/sellio.webp';
+  static const String sellio = '$imagesPath/sellio.png';
   //section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
   static const String orderIcon = '$iconsPath/ic_order-icon.svg';
