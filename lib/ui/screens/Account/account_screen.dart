@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
@@ -9,9 +10,9 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/Account/AccountOptionCard.dart';
 import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_bottom_sheet.dart';
-
 import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
 import '../../../core/design_system/constants/assets.dart';
+import 'language/change_language_bottom_sheet.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -111,7 +112,9 @@ class _AccountScreenState extends State<AccountScreen> {
                   AccountOptionCard(
                     prefixIcon: Assets.languageCircle,
                     orderTitle: 'Language',
-                    onCardClicked: () {},
+                    onCardClicked: () {
+                      _showLanguageSheet(context);
+                    },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
                   Gap(12),
@@ -182,6 +185,25 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
   }
+}
+
+void _showLanguageSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: context.theme.colors.surface,
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: ChangeLanguageBottomSheet(
+        onSave: (selectedLanguage){
+          print(selectedLanguage);
+        },
+        selectedLanguage: AppStrings.english,
+      ),
+    ),
+  );
 }
 Widget uploadImageCard({
   required String imagePath,
