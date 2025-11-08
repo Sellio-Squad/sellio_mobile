@@ -1,36 +1,18 @@
-name: CI
+name: CI - Auto Update
 
 on:
-  pull_request:
-    branches: [ main, develop ]
-    types: [opened, reopened, synchronize]
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build Check"]
+    types:
+      - completed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-
-      - name: Install dependencies
-        run: flutter pub get
-
   autoupdate:
-    # Run on push to 'develop' OR pull_request events
-    if: |
-      github.event_name == 'push' ||
-      github.event_name == 'pull_request'
-
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Auto Update
     runs-on: ubuntu-latest
 
