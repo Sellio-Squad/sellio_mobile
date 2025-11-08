@@ -23,7 +23,7 @@ class SizeSelector extends StatelessWidget {
         Text(
           'Size',
           style: context.theme.typography.textTheme.titleMedium.copyWith(
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 12),

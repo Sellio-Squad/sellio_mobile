@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../../../core/design_system/themes/sellio_colors.dart';
+
 class ColorSelector extends StatelessWidget {
   final List<Color> colors;
   final int selectedIndex;
@@ -36,16 +38,21 @@ class ColorSelector extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onSelect(index),
                 child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
+                  width: 36,
+                  height: 36,
+                  decoration: isSelected
+                      ? BoxDecoration(
                     shape: BoxShape.circle,
-                    color: colors[index],
                     border: Border.all(
-                      color: isSelected
-                          ? context.theme.colors.primaryVariant
-                          : Colors.transparent,
-                      width: 2,
+                      color: SellioColors.light.surfaceLow,
+                      width: 1,
+                    ),
+                  )
+                      : null,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: colors[index],
                     ),
                   ),
                 ),
