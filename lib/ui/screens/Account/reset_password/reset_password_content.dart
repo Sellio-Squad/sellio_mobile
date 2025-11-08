@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
 import '../../../../core/design_system/widgets/textField.dart';
 
-class ResetPasswordContent extends StatefulWidget {
+class ResetPasswordBottomSheet extends StatefulWidget {
   final VoidCallback? onSave;
-  const ResetPasswordContent({super.key, this.onSave});
+  const ResetPasswordBottomSheet({super.key, this.onSave});
 
   @override
-  State<ResetPasswordContent> createState() => _ResetPasswordContentState();
+  State<ResetPasswordBottomSheet> createState() => _ResetPasswordBottomSheetState();
+
+  static Future<void> show({
+    required BuildContext context,
+    required VoidCallback onSave,
+  }) {
+    return SellioBottomSheet.show(
+      context: context,
+      isScrollControlled: true,
+      child: ResetPasswordBottomSheet(onSave: onSave),
+    );
+  }
 }
 
-class _ResetPasswordContentState extends State<ResetPasswordContent> {
+class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -112,6 +124,5 @@ class _ResetPasswordContentState extends State<ResetPasswordContent> {
   void _handleSave() {
     if (!_isFormValid) return;
     widget.onSave?.call();
-    Navigator.of(context, rootNavigator: true).pop();
   }
 }

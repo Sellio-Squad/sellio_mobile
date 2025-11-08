@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
+import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
 
 class ChangeLanguageBottomSheet extends StatefulWidget {
@@ -17,6 +17,20 @@ class ChangeLanguageBottomSheet extends StatefulWidget {
   @override
   State<ChangeLanguageBottomSheet> createState() =>
       _ChangeLanguageBottomSheetState();
+
+  static Future<void> show(
+      {required BuildContext context,
+      required ValueChanged<String> onSave,
+      required String selectedLanguage}) {
+    return SellioBottomSheet.show(
+      context: context,
+      isScrollControlled: true,
+      child: ChangeLanguageBottomSheet(
+        onSave: onSave,
+        selectedLanguage: selectedLanguage,
+      ),
+    );
+  }
 }
 
 class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
@@ -32,64 +46,57 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppStrings.changeLanguage,
-            style: context.theme.typography.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 24),
-
-          // RadioGroup wrapping the options
-          RadioGroup<String>(
-            groupValue: currentSelectedLanguage,
-            onChanged: (String? value) {
-              if (value != null) {
-                setState(() {
-                  currentSelectedLanguage = value;
-                });
-                _updateSaveButtonState();
-              }
-            },
-            child: Row(
-              children: [
-                Expanded(
-                  child: _buildLanguageOption(
-                    language: AppStrings.english,
-                    context: context,
-                  ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppStrings.changeLanguage,
+          style: context.theme.typography.textTheme.titleMedium,
+        ),
+        const SizedBox(height: 24),
+        RadioGroup<String>(
+          groupValue: currentSelectedLanguage,
+          onChanged: (String? value) {
+            if (value != null) {
+              setState(() {
+                currentSelectedLanguage = value;
+              });
+              _updateSaveButtonState();
+            }
+          },
+          child: Row(
+            children: [
+              Expanded(
+                child: _buildLanguageOption(
+                  language: AppStrings.english,
+                  context: context,
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _buildLanguageOption(
-                    language: AppStrings.arabic,
-                    context: context,
-                  ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: _buildLanguageOption(
+                  language: AppStrings.arabic,
+                  context: context,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: SellioButton(
-              text: AppStrings.save,
-              onTap: _isFormValid
-                  ? () {
-                      widget.onSave(currentSelectedLanguage);
-                      Navigator.pop(context);
-                    }
-                  : null,
-              isEnabled: _isFormValid,
-            ),
+        ),
+        const SizedBox(height: 24),
+        SizedBox(
+          width: double.infinity,
+          child: SellioButton(
+            text: AppStrings.save,
+            onTap: _isFormValid
+                ? () {
+                    widget.onSave(currentSelectedLanguage);
+                  }
+                : null,
+            isEnabled: _isFormValid,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
