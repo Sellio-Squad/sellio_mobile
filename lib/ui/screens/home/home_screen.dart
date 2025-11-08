@@ -8,7 +8,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.d
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 import 'package:sellio_mobile/ui/screens/search/search_screen.dart';
-import '../store_details/store_details_screen.dart';
+import '../notification_screen.dart';
 import 'home_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,8 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
           userName: 'John Doe',
           location: 'New York, USA',
           onNotificationTap: () {
-            // TODO: Handle notification
-          },
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationScreen()),
+            );
+            },
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surfaceLow,
