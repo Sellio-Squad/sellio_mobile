@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
+
 import '../../core/design_system/constants/app_strings.dart';
 import '../../core/design_system/widgets/buttons/button.dart';
 import '../../core/design_system/widgets/cards/productHorizontalCard.dart';
@@ -83,7 +84,8 @@ class _CartScreenState extends State<CartScreen> {
                 child: Center(
                   child: Text(
                     AppStrings.addMoreItems,
-                    style: textTheme.labelMedium.copyWith(color: colors.primary),
+                    style:
+                        textTheme.labelMedium.copyWith(color: colors.primary),
                   ),
                 ),
               ),
@@ -180,7 +182,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 SvgPicture.asset(
                   Assets.discountTag,
-                  ),
+                ),
                 const Gap(1),
                 Text(
                   AppStrings.totalPrice,
@@ -202,11 +204,13 @@ class _CartScreenState extends State<CartScreen> {
                   isScrollControlled: true,
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(24)),
                   ),
                   builder: (context) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24, vertical: 32),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -229,7 +233,8 @@ class _CartScreenState extends State<CartScreen> {
                           const SizedBox(height: 16),
                           Text(
                             '${AppStrings.order} #2002124',
-                            style: context.theme.typography.textTheme.labelMedium
+                            style: context
+                                .theme.typography.textTheme.labelMedium
                                 .copyWith(color: context.theme.colors.title),
                           ),
                           const SizedBox(height: 8),
@@ -241,16 +246,13 @@ class _CartScreenState extends State<CartScreen> {
                           const SizedBox(height: 24),
                           SellioButton(
                             text: AppStrings.backToShopping,
-                            backgroundColor: context.theme.colors.primaryVariant,
-                            textStyle: context.theme.typography.textTheme.labelMedium
+                            backgroundColor:
+                                context.theme.colors.primaryVariant,
+                            textStyle: context
+                                .theme.typography.textTheme.labelMedium
                                 .copyWith(color: context.theme.colors.primary),
                             onTap: () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
-                                ),
-                              );
+                              context.navigator.goToHome();
                             },
                             fullWidth: true,
                           ),
