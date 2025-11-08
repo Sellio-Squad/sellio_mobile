@@ -5,7 +5,7 @@ class AppStrings {
   static const String home = 'Home';
   static const String cart = 'Cart';
   static const String thrift = 'Thrift';
-  static const String account = 'Account';
+  static const String account = 'account';
 
   // login screen
   static const String titleLogin = 'Welcome Back!';
@@ -13,7 +13,7 @@ class AppStrings {
   static const String phoneNumber = 'Phone number';
   static const String login = 'Login';
   static const String or = 'OR';
-  static const String createAccount = 'Create Account';
+  static const String createAccount = 'Create account';
   static const String continueAsGuest = 'Continue as guest';
 
   //forget passwordScreen
@@ -66,7 +66,7 @@ class AppStrings {
   static const String save = 'Save';
 
   //account settings bottom sheet
-  static const String accountSettings = 'Account settings';
+  static const String accountSettings = 'account settings';
   static const String saveChanges = 'Save changes';
 
   //language
@@ -75,7 +75,7 @@ class AppStrings {
   static const arabic = 'Arabic';
 
   //account options
-  static const accountOptions = 'Account options';
+  static const accountOptions = 'account options';
   static const logout = 'Logout';
   static const deleteAccount = 'Delete account';
   static const areYouSureToContinueLogout = 'Are you sure to continue logout?';

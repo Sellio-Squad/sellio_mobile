@@ -7,7 +7,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/Account/AccountOptionCard.dart';
+import 'package:sellio_mobile/ui/screens/account/AccountOptionCard.dart';
 import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
@@ -95,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             icon: Assets.package,
                             orderTitle: AppStrings.myOrders),
                       ),
-                      const SizedBox(height:8),
+                      const SizedBox(width:8),
                       Expanded(
                         child: AccountCustomCard(
                             icon: Assets.heartCheck,

@@ -17,7 +17,7 @@ class AppIcons {
   static const String thrift = '$_basePath/ic_thrift.svg';
   static const String thriftSelected = '$_basePath/ic_thrift_selected.svg';
 
-  // Account icons
+  // account icons
   static const String account = '$_basePath/ic_account.svg';
   static const String accountSelected = '$_basePath/ic_account_selected.svg';
 
