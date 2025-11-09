@@ -18,9 +18,36 @@ class _ThriftScreenState extends State<ThriftScreen> {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-
       appBar: const SellioAppBar(title: 'Thrift'),
-      body: CustomScrollView(slivers: [CategoryTabs(), GridProductsSection()]),
+      body: CustomScrollView(slivers: [
+        CategoryTabs(
+          categories: const [
+            CategoryTabData(
+                id: 'all', name: 'All', icon: 'assets/icons/all_icon.svg'),
+            CategoryTabData(
+                id: 'clothes',
+                name: 'Clothes',
+                icon: 'assets/icons/clothes_icon.svg'),
+            CategoryTabData(
+                id: 'furniture',
+                name: 'Furniture',
+                icon: 'assets/icons/furniture_icon.svg'),
+            CategoryTabData(
+                id: 'electronics',
+                name: 'Electronics',
+                icon: 'assets/icons/electronics_icon.svg'),
+            CategoryTabData(
+                id: 'books',
+                name: 'Books',
+                icon: 'assets/icons/books_icon.svg'),
+          ],
+          selectedIndex: 0,
+          onCategorySelected: (index) {
+            // Handle category selection
+          },
+        ),
+        GridProductsSection()
+      ]),
     );
   }
 }

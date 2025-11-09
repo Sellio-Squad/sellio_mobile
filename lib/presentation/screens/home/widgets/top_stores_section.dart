@@ -6,17 +6,17 @@ import '../../../../core/design_system/widgets/section_header.dart';
 import '../../../../domain/entities/store.dart';
 
 class TopStoresSection extends StatelessWidget {
-  final List<Store> topStores;
+  final List<Store> stores;
   final Set<String> favoriteStoreIds;
   final Function(String storeId) onLikePressed;
-  final Function(Store store) onCardPressed;
+  final Function(Store store) onStorePressed;
 
   const TopStoresSection({
     super.key,
-    required this.topStores,
+    required this.stores,
     required this.favoriteStoreIds,
     required this.onLikePressed,
-    required this.onCardPressed,
+    required this.onStorePressed,
   });
 
   @override
@@ -33,9 +33,9 @@ class TopStoresSection extends StatelessWidget {
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: topStores.length,
+          itemCount: stores.length,
           itemBuilder: (context, index) {
-            final store = topStores[index];
+            final store = stores[index];
             final isFavorite = favoriteStoreIds.contains(store.id);
 
             return StoreCard(
@@ -44,7 +44,7 @@ class TopStoresSection extends StatelessWidget {
               discountText: store.sale,
               isFavorite: isFavorite,
               onLikePressed: () => onLikePressed(store.id),
-              onCardPressed: () => onCardPressed(store),
+              onCardPressed: () => onStorePressed(store),
             );
           },
         ),

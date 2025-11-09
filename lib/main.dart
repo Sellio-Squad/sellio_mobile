@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-     // Register all repositories
         RepositoryProvider<CategoryRepository>(
           create: (context) => CategoryRepositoryImpl(),
         ),
@@ -61,7 +60,6 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          // Global cubits that persist across screens
           BlocProvider(
             create: (context) => CartCubit(
               context.read<CartRepository>(),
