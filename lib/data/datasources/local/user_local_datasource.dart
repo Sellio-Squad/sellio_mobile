@@ -1,7 +1,5 @@
-import 'package:sqflite/sqflite.dart';
-
+import '../../models/address_model.dart';
 import '../../models/user_model.dart';
-import 'database_service/database_service.dart';
 
 abstract class UserLocalDataSource {
   Future<UserModel?> getCachedUser();
@@ -19,54 +17,42 @@ abstract class UserLocalDataSource {
 }
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
-  final DatabaseService _databaseService;
+  UserModel? _cachedUser;
+  String? _authToken;
+  DateTime? _tokenExpiry;
 
-  UserLocalDataSourceImpl(this._databaseService);
+  UserLocalDataSourceImpl();
 
   @override
   Future<UserModel?> getCachedUser() async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query('users', limit: 1);
-
-    if (maps.isEmpty) return null;
-
-    return UserModel.fromDbMap(maps.first);
+    // Return fake user data if not cached
+    if (_cachedUser == null) {
+      return _getFakeUser();
+    }
+    return _cachedUser;
   }
 
   @override
   Future<void> cacheUser(UserModel user) async {
-    final db = await _databaseService.database;
-    await db.insert(
-      'users',
-      user.toDbMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    _cachedUser = user;
   }
 
   @override
   Future<void> clearUserCache() async {
-    final db = await _databaseService.database;
-    await db.delete('users');
+    _cachedUser = null;
   }
 
   @override
   Future<String?> getAuthToken() async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps =
-        await db.query('auth_tokens', limit: 1);
-
-    if (maps.isEmpty) return null;
-
-    final expiresAt = maps.first['expiresAt'] as int;
-    final expiryDate = DateTime.fromMillisecondsSinceEpoch(expiresAt);
+    if (_authToken == null) return null;
 
     // Check if token is expired
-    if (DateTime.now().isAfter(expiryDate)) {
+    if (_tokenExpiry != null && DateTime.now().isAfter(_tokenExpiry!)) {
       await clearAuthToken();
       return null;
     }
 
-    return maps.first['token'] as String;
+    return _authToken;
   }
 
   @override
@@ -75,26 +61,31 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     String? refreshToken,
     DateTime? expiresAt,
   }) async {
-    final db = await _databaseService.database;
-    final expiryMillis =
-        (expiresAt ?? DateTime.now().add(const Duration(days: 30)))
-            .millisecondsSinceEpoch;
-
-    await db.insert(
-      'auth_tokens',
-      {
-        'id': 1,
-        'token': token,
-        'refreshToken': refreshToken,
-        'expiresAt': expiryMillis,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    _authToken = token;
+    _tokenExpiry = expiresAt ?? DateTime.now().add(const Duration(days: 30));
   }
 
   @override
   Future<void> clearAuthToken() async {
-    final db = await _databaseService.database;
-    await db.delete('auth_tokens');
+    _authToken = null;
+    _tokenExpiry = null;
+  }
+
+  // Fake user data
+  UserModel _getFakeUser() {
+    return UserModel(
+      id: 'user_001',
+      fullName: 'John Doe',
+      phoneNumber: '1234567890',
+      countryCode: '+1',
+      profilePhotoUrl: 'https://via.placeholder.com/150',
+      address: AddressModel(
+        id: 'addr_001',
+        country: 'United States',
+        city: 'New York',
+        latitude: 40.7128,
+        longitude: -74.0060,
+      ),
+    );
   }
 }

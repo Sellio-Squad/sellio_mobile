@@ -1,7 +1,4 @@
-import 'package:sqflite/sqflite.dart';
-
 import '../../models/category_model.dart';
-import 'database_service/database_service.dart';
 
 abstract class CategoryLocalDataSource {
   Future<List<CategoryModel>> getCachedCategories();
@@ -12,36 +9,44 @@ abstract class CategoryLocalDataSource {
 }
 
 class CategoryLocalDataSourceImpl implements CategoryLocalDataSource {
-  final DatabaseService _databaseService;
+  List<CategoryModel> _cachedCategories = [];
 
-  CategoryLocalDataSourceImpl(this._databaseService);
+  CategoryLocalDataSourceImpl() {
+    // Initialize with fake categories
+    _cachedCategories = _getFakeCategories();
+  }
 
   @override
   Future<List<CategoryModel>> getCachedCategories() async {
-    final db = await _databaseService.database;
-    final List<Map<String, dynamic>> maps = await db.query('categories');
-    return maps.map((map) => CategoryModel.fromDbMap(map)).toList();
+    if (_cachedCategories.isEmpty) {
+      _cachedCategories = _getFakeCategories();
+    }
+    return _cachedCategories;
   }
 
   @override
   Future<void> cacheCategories(List<CategoryModel> categories) async {
-    final db = await _databaseService.database;
-    final batch = db.batch();
-
-    for (final category in categories) {
-      batch.insert(
-        'categories',
-        category.toDbMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-
-    await batch.commit(noResult: true);
+    _cachedCategories = categories;
   }
 
   @override
   Future<void> clearCategoriesCache() async {
-    final db = await _databaseService.database;
-    await db.delete('categories');
+    _cachedCategories = [];
+  }
+
+  // Fake categories data
+  List<CategoryModel> _getFakeCategories() {
+    return [
+      CategoryModel(id: 'cat_001', name: 'Electronics'),
+      CategoryModel(id: 'cat_002', name: 'Computers'),
+      CategoryModel(id: 'cat_003', name: 'Clothing'),
+      CategoryModel(id: 'cat_004', name: 'Accessories'),
+      CategoryModel(id: 'cat_005', name: 'Furniture'),
+      CategoryModel(id: 'cat_006', name: 'Garden'),
+      CategoryModel(id: 'cat_007', name: 'Books'),
+      CategoryModel(id: 'cat_008', name: 'Sports'),
+      CategoryModel(id: 'cat_009', name: 'Toys'),
+      CategoryModel(id: 'cat_010', name: 'Food & Beverages'),
+    ];
   }
 }
