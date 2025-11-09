@@ -84,45 +84,6 @@ class _HomeScreenContent extends StatelessWidget {
             }
           },
         ),
-        // Listen to product errors
-        BlocListener<ProductsCubit, ProductsState>(
-          listener: (context, state) {
-            if (state is ProductsError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: colors.red,
-                ),
-              );
-            }
-          },
-        ),
-        // Listen to category errors
-        BlocListener<CategoriesCubit, CategoriesState>(
-          listener: (context, state) {
-            if (state is CategoriesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: colors.red,
-                ),
-              );
-            }
-          },
-        ),
-        // Listen to stores errors
-        BlocListener<StoresCubit, StoresState>(
-          listener: (context, state) {
-            if (state is StoresError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: colors.red,
-                ),
-              );
-            }
-          },
-        ),
       ],
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
