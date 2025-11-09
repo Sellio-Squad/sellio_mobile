@@ -37,19 +37,26 @@ class DataProvider {
 
   static final List<Store> topStores = [
     Store(
+      id: '1',
       name: 'Gold Gallery Accessories',
       imageUrl: 'assets/images/store_sweet.webp',
       discount: '25',
+      isFavorite: true
+
     ),
     Store(
+      id: '2',
       name: 'Sweet cake sweet',
       imageUrl: 'assets/images/store_sweet.webp',
       discount: '30',
+      isFavorite: true
     ),
     Store(
+      id: '3',
       name: 'Techno store',
       imageUrl: 'assets/images/store_sweet.webp',
       discount: null,
+      isFavorite: true
     ),
   ];
 }

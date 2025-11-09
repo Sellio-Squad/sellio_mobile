@@ -9,16 +9,16 @@ class StoreCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String? discountText;
-  final VoidCallback onLikePressed;
-  final VoidCallback onCardPressed;
+  final VoidCallback? onLikePressed;
+  final VoidCallback? onCardPressed;
 
   const StoreCard({
     super.key,
     required this.imageUrl,
     required this.title,
     this.discountText,
-    required this.onLikePressed,
-    required this.onCardPressed,
+    this.onLikePressed,
+    this.onCardPressed,
   });
 
   @override
@@ -76,24 +76,25 @@ class StoreCard extends StatelessWidget {
                                   .textTheme
                                   .titleSmall
                                   .copyWith(
-                                    color: context.theme.colors.onPrimary,
-                                  ),
+                                color: context.theme.colors.onPrimary,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: -4,
-                        right: -4,
-                        child: IconButton(
-                          icon: SvgPicture.asset(
-                            Assets.favouriteIcon,
-                            width: 32,
-                            height: 32,
+                      if (onLikePressed != null)
+                        Positioned(
+                          top: -4,
+                          right: -4,
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                              Assets.favouriteIcon,
+                              width: 32,
+                              height: 32,
+                            ),
+                            onPressed: onLikePressed,
                           ),
-                          onPressed: onLikePressed,
                         ),
-                      ),
                     ],
                   ),
                 ),

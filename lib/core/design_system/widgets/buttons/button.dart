@@ -21,8 +21,11 @@ class SellioButton extends StatelessWidget {
     this.isEnabled = true,
     this.suffixSvgPath,
     this.suffixIconColor,
+    this.prefixSvgPath,
+    this.prefixIconColor,
     this.iconWidth = SellioDimensions.buttonIconWidth,
     this.iconHeight = SellioDimensions.buttonIconHeight,
+    this.contentAlignment = MainAxisAlignment.center
   });
 
   final String text;
@@ -39,8 +42,12 @@ class SellioButton extends StatelessWidget {
   final bool isEnabled;
   final String? suffixSvgPath;
   final Color? suffixIconColor;
+  final String? prefixSvgPath;
+  final Color? prefixIconColor;
   final double iconWidth;
   final double iconHeight;
+  final MainAxisAlignment contentAlignment;
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +79,20 @@ class SellioButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment:
-          fullWidth ? MainAxisAlignment.center : MainAxisAlignment.start,
+          mainAxisAlignment:contentAlignment,
           children: [
+            if (prefixSvgPath != null) ...[
+              SvgPicture.asset(
+                prefixSvgPath!,
+                width: iconWidth,
+                height: iconHeight,
+                colorFilter: ColorFilter.mode(
+                  prefixIconColor ?? finalIconColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+              const SizedBox(width: SellioDimensions.buttonIconSpacing),
+            ],
             Flexible(
               child: Text(
                 text,

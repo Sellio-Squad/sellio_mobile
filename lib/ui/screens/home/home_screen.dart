@@ -128,10 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
           child: TopStoresSection(
             topStores: DataProvider.topStores,
-            onLikePressed: () {
+            onLikePressed: (String productId) {
               // todo: Handle like action
             },
-            onCardPressed: () {
+            onCardPressed: (String productId) {
               final store = DataProvider.topStores.isNotEmpty
                   ? DataProvider.topStores[0]
                   : null;
