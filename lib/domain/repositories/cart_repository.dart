@@ -17,12 +17,6 @@ abstract class CartRepository {
   /// Update item quantity
   Future<Result<Cart>> updateQuantity(String productId, int quantity);
 
-  /// Clear cart
-  Future<Result<void>> clearCart();
-
-  /// Get cart item count (total items)
-  Future<Result<int>> getCartItemCount();
-
   /// Get cart counts per product (productId -> quantity)
   Future<Result<Map<String, int>>> getCartCounts();
 }

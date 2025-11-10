@@ -14,8 +14,8 @@ class UserCubit extends Cubit<UserState> {
       final address = await _userRepository.getUserAddress();
 
       emit(UserLoaded(
-        name: user.fullName,
-        location: '${address.city}, ${address.country}',
+        name: user.data.fullName,
+        location: '${address.data.city}, ${address.data.country}',
       ));
     } catch (e) {
       emit(UserError(message: e.toString()));

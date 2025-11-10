@@ -4,10 +4,10 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.dart';
 
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/cards/product_vertical_card.dart';
+import '../../../presentation/screens/home/widgets/search_bar/search_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

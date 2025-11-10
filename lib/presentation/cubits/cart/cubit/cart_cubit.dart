@@ -10,7 +10,8 @@ class CartCubit extends Cubit<CartState> {
   Future<void> loadCart() async {
     try {
       final counts = await _cartRepository.getCartCounts();
-      emit(CartState(productCounts: counts));
+
+      emit(CartState(productCounts: counts.data));
     } catch (e) {
       print('Error loading cart: $e');
       // Handle error
@@ -65,27 +66,5 @@ class CartCubit extends Cubit<CartState> {
 
   int getProductCount(String productId) {
     return state.productCounts[productId] ?? 0;
-  }
-
-  Future<int> getTotalItemCount() async {
-    try {
-      return await _cartRepository.getCartItemCount();
-    } catch (e) {
-      print('Error getting total item count: $e');
-      return 0;
-    }
-  }
-
-  Future<void> clearCart() async {
-    final previousState = state;
-    emit(const CartState(productCounts: {}));
-
-    try {
-      await _cartRepository.clearCart();
-    } catch (e) {
-      // Rollback on error
-      emit(previousState);
-      print('Error clearing cart: $e');
-    }
   }
 }

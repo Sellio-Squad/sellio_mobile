@@ -11,7 +11,7 @@ class HomeTopStoresCubit extends Cubit<HomeTopStoresState> {
     emit(const HomeTopStoresLoading());
     try {
       final stores = await _storeRepository.getTopStores(limit: limit);
-      emit(HomeTopStoresLoaded(stores: stores));
+      emit(HomeTopStoresLoaded(stores: stores.data));
     } catch (e) {
       emit(HomeTopStoresError(message: e.toString()));
     }

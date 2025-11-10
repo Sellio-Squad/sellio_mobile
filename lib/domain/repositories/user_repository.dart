@@ -20,7 +20,7 @@ abstract class UserRepository {
   });
 
   /// Get user addresses
-  Future<Result<Address>> getUserAddresses();
+  Future<Result<Address>> getUserAddress();
 
   /// Add new address
   Future<Result<Address>> addAddress({

@@ -88,4 +88,16 @@ class CartRepositoryImpl implements CartRepository {
       return ServerFailure(message: message);
     }
   }
+
+  @override
+  Future<Result<Cart>> updateQuantity(String productId, int quantity) {
+    // TODO: implement updateQuantity
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<Map<String, int>>> getCartCounts() {
+    // TODO: implement getCartCounts
+    throw UnimplementedError();
+  }
 }

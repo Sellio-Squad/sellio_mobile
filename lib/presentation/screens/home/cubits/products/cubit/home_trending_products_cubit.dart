@@ -11,7 +11,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
     emit(const HomeTrendingProductsLoading());
     try {
       final products = await _productRepository.getTrendingProducts(limit: limit);
-      emit(HomeTrendingProductsLoaded(products: products));
+      emit(HomeTrendingProductsLoaded(products: products.data));
     } catch (e) {
       emit(HomeTrendingProductsError(message: e.toString()));
     }
@@ -24,7 +24,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
         categoryId: categoryId,
         limit: limit,
       );
-      emit(HomeTrendingProductsLoaded(products: products));
+      emit(HomeTrendingProductsLoaded(products: products.data));
     } catch (e) {
       emit(HomeTrendingProductsError(message: e.toString()));
     }
@@ -47,7 +47,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
         query: query.trim(),
         limit: limit,
       );
-      emit(HomeTrendingProductsLoaded(products: products, searchQuery: query));
+      emit(HomeTrendingProductsLoaded(products: products.data, searchQuery: query));
     } catch (e) {
       emit(HomeTrendingProductsError(message: e.toString()));
     }

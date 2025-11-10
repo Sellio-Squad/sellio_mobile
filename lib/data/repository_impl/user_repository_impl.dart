@@ -198,4 +198,10 @@ class UserRepositoryImpl implements UserRepository {
       return ServerFailure(message: message);
     }
   }
+
+  @override
+  Future<Result<Address>> getUserAddress() {
+    // TODO: implement getUserAddress
+    throw UnimplementedError();
+  }
 }

@@ -2,25 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'data/repositories/cart_repository_impl.dart';
-import 'data/repositories/category_repository_impl.dart';
-import 'data/repositories/favorites_repository_impl.dart';
-import 'data/repositories/offers_repository_impl.dart';
-import 'data/repositories/product_repository_impl.dart';
-import 'data/repositories/store_repository_impl.dart';
-import 'data/repositories/user_repository_impl.dart';
+import 'domain/repositories/cart_repository.dart';
 import 'domain/repositories/category_repository.dart';
+import 'domain/repositories/favorites_repository.dart';
+import 'domain/repositories/offers_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
-import 'domain/repositories/offers_repository.dart';
-import 'domain/repositories/cart_repository.dart';
-import 'domain/repositories/favorites_repository.dart';
 import 'domain/repositories/user_repository.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';
+import 'package:sellio_mobile/di/injection_container.dart' as di;
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await di.initAppModule();
   runApp(
     SellioThemeProvider(
       brightness: Brightness.light,
@@ -37,26 +35,22 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<CategoryRepository>(
-          create: (context) => CategoryRepositoryImpl(),
+          create: (_) => di.instance<CategoryRepository>(),
         ),
         RepositoryProvider<ProductRepository>(
-          create: (context) => ProductRepositoryImpl(),
+          create: (_) => di.instance<ProductRepository>(),
         ),
         RepositoryProvider<StoreRepository>(
-          create: (context) => StoreRepositoryImpl(),
+          create: (_) => di.instance<StoreRepository>(),
         ),
         RepositoryProvider<OffersRepository>(
-          create: (context) => OffersRepositoryImpl(),
+          create: (_) => di.instance<OffersRepository>(),
         ),
-        RepositoryProvider<CartRepository>(
-          create: (context) => CartRepositoryImpl(),
-        ),
-        RepositoryProvider<FavoritesRepository>(
-          create: (context) => FavoritesRepositoryImpl(),
-        ),
+
         RepositoryProvider<UserRepository>(
-          create: (context) => UserRepositoryImpl(),
+          create: (_) => di.instance<UserRepository>(),
         ),
+
       ],
       child: MultiBlocProvider(
         providers: [
@@ -77,11 +71,12 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp.router(
-          routerConfig: RouteGenerator.router,
           debugShowCheckedModeBanner: false,
+          routerConfig: RouteGenerator.router,
           title: 'Sellio app',
         ),
       ),
     );
+
   }
 }

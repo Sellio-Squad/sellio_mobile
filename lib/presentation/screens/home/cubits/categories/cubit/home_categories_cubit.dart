@@ -15,7 +15,7 @@ class HomeCategoriesCubit extends Cubit<HomeCategoriesState> {
     emit(const HomeCategoriesLoading());
     try {
       final categories = await _categoryRepository.getCategories();
-      final categoriesWithIcons = categories.map((category) {
+      final categoriesWithIcons = categories.data.map((category) {
         final icon = _getCategoryIcon(category.name);
         return CategoryPresentation(category: category, icon: icon);
       }).toList();
