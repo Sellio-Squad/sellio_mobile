@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
+import '../../../../core/design_system/themes/sellio_colors.dart';
+
 class ProductImage extends StatefulWidget {
   final File? overlayImage;
 
@@ -69,16 +71,19 @@ class _ProductImageState extends State<ProductImage> {
         width: overlaySize.width,
         height: overlaySize.height,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color(0xFF520826),
-            width: 3,
-          ),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // The overlay image
+            CustomPaint(
+              size: overlaySize,
+              painter: CornerPainter(
+                color: SellioColors.light.primary,
+                strokeWidth: 3,
+              ),
+            ),
+
             Positioned.fill(
               child: Padding(
                 padding: const EdgeInsets.all(3),
@@ -106,7 +111,8 @@ class _ProductImageState extends State<ProductImage> {
                 right: 0,
                 child: Center(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: const Color(0xFF3B9AFF),
                       borderRadius: BorderRadius.circular(4),
@@ -129,6 +135,18 @@ class _ProductImageState extends State<ProductImage> {
   }
 
   Widget _buildResizableCorner(Alignment alignment) {
+    // Rotate the corner frame based on position
+    double rotation = 0;
+    if (alignment == Alignment.topLeft) {
+      rotation = 0;
+    } else if (alignment == Alignment.topRight) {
+      rotation = 90 * 3.14159 / 180;
+    } else if (alignment == Alignment.bottomRight) {
+      rotation = 180 * 3.14159 / 180;
+    } else if (alignment == Alignment.bottomLeft) {
+      rotation = 270 * 3.14159 / 180;
+    }
+
     return Align(
       alignment: alignment,
       child: Transform.translate(
@@ -144,7 +162,6 @@ class _ProductImageState extends State<ProductImage> {
           },
           onPanUpdate: (details) {
             setState(() {
-              // Calculate new size based on which corner is being dragged
               double newWidth = overlaySize.width;
               double newHeight = overlaySize.height;
               double newX = overlayPosition.dx;
@@ -152,20 +169,16 @@ class _ProductImageState extends State<ProductImage> {
 
               // Horizontal resizing
               if (alignment.x > 0) {
-                // Right side corners
                 newWidth += details.delta.dx;
               } else {
-                // Left side corners
                 newWidth -= details.delta.dx;
                 newX += details.delta.dx;
               }
 
               // Vertical resizing
               if (alignment.y > 0) {
-                // Bottom corners
                 newHeight += details.delta.dy;
               } else {
-                // Top corners
                 newHeight -= details.delta.dy;
                 newY += details.delta.dy;
               }
@@ -182,20 +195,53 @@ class _ProductImageState extends State<ProductImage> {
               isResizing = false;
             });
           },
-          child: Container(
-            width: 16,
-            height: 16,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: const Color(0xFF520826),
-                width: 3,
-              ),
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
         ),
       ),
     );
   }
+}
+
+class CornerPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double cornerLength;
+
+  CornerPainter({
+    required this.color,
+    this.strokeWidth = 3,
+    this.cornerLength = 18,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    // Top-left corner
+    canvas.drawLine(Offset(0, 0), Offset(cornerLength, 0), paint);
+    canvas.drawLine(Offset(0, 0), Offset(0, cornerLength), paint);
+
+    // Top-right corner
+    canvas.drawLine(Offset(size.width, 0),
+        Offset(size.width - cornerLength, 0), paint);
+    canvas.drawLine(Offset(size.width, 0),
+        Offset(size.width, cornerLength), paint);
+
+    // Bottom-left corner
+    canvas.drawLine(Offset(0, size.height),
+        Offset(0, size.height - cornerLength), paint);
+    canvas.drawLine(Offset(0, size.height),
+        Offset(cornerLength, size.height), paint);
+
+    // Bottom-right corner
+    canvas.drawLine(Offset(size.width, size.height),
+        Offset(size.width - cornerLength, size.height), paint);
+    canvas.drawLine(Offset(size.width, size.height),
+        Offset(size.width, size.height - cornerLength), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
