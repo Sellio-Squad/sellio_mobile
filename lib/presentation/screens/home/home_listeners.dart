@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'cubits/categories/cubit/categories_cubit.dart';
-import 'cubits/categories/cubit/categories_state.dart';
+import 'cubits/categories/cubit/home_categories_cubit.dart';
+import 'cubits/categories/cubit/home_categories_state.dart';
 import 'cubits/products/cubit/products_cubit.dart';
-
 
 class HomeListeners extends StatelessWidget {
   final Widget child;
@@ -17,7 +16,7 @@ class HomeListeners extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
-        BlocListener<CategoriesCubit, CategoriesState>(
+        BlocListener<HomeCategoriesCubit, HomeCategoriesState>(
           listener: _onCategoryChanged,
         ),
       ],
@@ -25,8 +24,8 @@ class HomeListeners extends StatelessWidget {
     );
   }
 
-  void _onCategoryChanged(BuildContext context, CategoriesState state) {
-    if (state is CategoriesLoaded) {
+  void _onCategoryChanged(BuildContext context, HomeCategoriesState state) {
+    if (state is HomeCategoriesLoaded) {
       final productsCubit = context.read<ProductsCubit>();
 
       if (state.selectedIndex == 0) {

@@ -4,30 +4,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/design_system/constants/assets.dart';
 import '../../../../../../domain/entities/category.dart';
 import '../../../../../../domain/repositories/category_repository.dart';
-import 'categories_state.dart';
+import 'home_categories_state.dart';
 
-class CategoriesCubit extends Cubit<CategoriesState> {
+class HomeCategoriesCubit extends Cubit<HomeCategoriesState> {
   final CategoryRepository _categoryRepository;
 
-  CategoriesCubit(this._categoryRepository) : super(const CategoriesInitial());
+  HomeCategoriesCubit(this._categoryRepository) : super(const HomeCategoriesInitial());
 
   Future<void> loadCategories() async {
-    emit(const CategoriesLoading());
+    emit(const HomeCategoriesLoading());
     try {
       final categories = await _categoryRepository.getCategories();
       final categoriesWithIcons = categories.map((category) {
         final icon = _getCategoryIcon(category.name);
         return CategoryPresentation(category: category, icon: icon);
       }).toList();
-      emit(CategoriesLoaded(categories: categoriesWithIcons));
+      emit(HomeCategoriesLoaded(categories: categoriesWithIcons));
     } catch (e) {
-      emit(CategoriesError(message: e.toString()));
+      emit(HomeCategoriesError(message: e.toString()));
     }
   }
 
   void selectCategory(int index) {
-    if (state is CategoriesLoaded) {
-      emit((state as CategoriesLoaded).copyWith(selectedIndex: index));
+    if (state is HomeCategoriesLoaded) {
+      emit((state as HomeCategoriesLoaded).copyWith(selectedIndex: index));
     }
   }
 

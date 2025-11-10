@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/design_system/widgets/chip_category.dart';
-import '../../cubits/categories/cubit/categories_cubit.dart';
-import '../../cubits/categories/cubit/categories_state.dart';
+import '../../cubits/categories/cubit/home_categories_cubit.dart';
+import '../../cubits/categories/cubit/home_categories_state.dart';
 
 Widget buildCategoryTabs() {
-  return BlocBuilder<CategoriesCubit, CategoriesState>(
+  return BlocBuilder<HomeCategoriesCubit, HomeCategoriesState>(
     builder: (context, state) {
-      if (state is CategoriesLoading) {
+      if (state is HomeCategoriesLoading) {
         return const SliverToBoxAdapter(
           child: SizedBox(
             height: 40,
@@ -16,7 +16,7 @@ Widget buildCategoryTabs() {
         );
       }
 
-      if (state is! CategoriesLoaded || state.categories.isEmpty) {
+      if (state is! HomeCategoriesLoaded || state.categories.isEmpty) {
         return const SliverToBoxAdapter(child: SizedBox.shrink());
       }
 
@@ -37,7 +37,7 @@ Widget buildCategoryTabs() {
                   label: categoryPresentation.category.name,
                   assetIcon: categoryPresentation.icon,
                   selected: isSelected,
-                  onTap: () => context.read<CategoriesCubit>().selectCategory(index),
+                  onTap: () => context.read<HomeCategoriesCubit>().selectCategory(index),
                 ),
               );
             },
