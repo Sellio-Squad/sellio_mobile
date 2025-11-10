@@ -64,22 +64,17 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
 
         // Offers PageView
         SizedBox(
-          height: 144,
-          width: double.infinity,
+          height: 200,
           child: PageView.builder(
             pageSnapping: true,
             controller: _pageController,
             itemCount: widget.offers.length,
             itemBuilder: (context, index) {
               final offer = widget.offers[index];
-              return
-                Padding(
-                  padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-                  child: SpecialOfferCard(
-                  imageUrl: offer.imageUrl,
-                  onTap: () => widget.onOfferTap?.call(offer.id),
-                                ),
-                );
+              return SpecialOfferCard(
+                imageUrl: offer.imageUrl,
+                onTap: () => widget.onOfferTap?.call(offer.id),
+              );
             },
           ),
         ),
