@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'product_image.dart';
 
 class UploadLogoSection extends StatefulWidget {
   const UploadLogoSection({super.key});
@@ -30,6 +31,11 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Product Image + Overlay
+        ProductImage(overlayImage: _selectedImage),
+        const SizedBox(height: 20),
+
+        // Upload Section
         Text(
           'Upload logo or image',
           style: context.theme.typography.textTheme.titleMedium.copyWith(
@@ -41,7 +47,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
           onTap: _pickImage,
           child: Container(
             width: double.infinity,
-            height: 280,
+            height: 120,
             decoration: BoxDecoration(
               color: context.theme.colors.surface,
               borderRadius: BorderRadius.circular(12),
@@ -50,35 +56,26 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
                 width: 1,
               ),
             ),
-            child: Stack(
-              alignment: Alignment.center,
+            child: _selectedImage == null
+                ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (_selectedImage != null)
-                  Positioned(
-                    top: 80,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.file(
-                        _selectedImage!,
-                        width: 160,
-                        height: 160,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  )
-                else
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        Assets.upload,
-                        width: 48,
-                        height: 78,
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ],
-                  ),
+                SvgPicture.asset(
+                  Assets.upload,
+                  width: 48,
+                  height: 78,
+                  fit: BoxFit.scaleDown,
+                ),
               ],
+            )
+                : ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(
+                _selectedImage!,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
             ),
           ),
         ),
