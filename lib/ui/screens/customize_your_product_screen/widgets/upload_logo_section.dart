@@ -66,20 +66,49 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
                   height: 78,
                   fit: BoxFit.scaleDown,
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  'Tap to upload',
-                  style: TextStyle(color: Colors.grey[600]),
-                ),
               ],
             )
                 : ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.file(
-                selectedImage,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
+              child: Stack(
+                clipBehavior: Clip.hardEdge,
+                children: [
+                  Image.file(
+                    selectedImage,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity,
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            const BoxShadow(
+                              color: Color(0x70000000),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.pencilEdit,
+                            width: 20,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(
+                              context.theme.colors.onPrimary,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
