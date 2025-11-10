@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/app_management/route/app_navigator.dart';
+import '../../../core/app_management/route/app_navigator_impl.dart';
+import '../../../core/design_system/widgets/bottom_nav_bar.dart';
+
 class Dashboard extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -21,33 +25,13 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_box_outlined),
-            label: 'Custom',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.storefront_outlined),
-            label: 'Thrift',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'account',
-          ),
-        ],
-      ),
+        onCenterButtonTap: () {
+          AppNavigatorImpl(context).goToCustomDesign();
+        },
+      ) ,
     );
   }
 }
