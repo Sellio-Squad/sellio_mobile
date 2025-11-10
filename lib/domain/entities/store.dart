@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:sellio_mobile/domain/entities/review.dart';
+
 import 'address.dart';
+import 'category.dart';
 
 class Store {
   final String id;

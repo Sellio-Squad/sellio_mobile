@@ -1,9 +1,10 @@
-import '../entities/order.dart';
+import '../core/result.dart';
 import '../entities/address.dart';
+import '../entities/order.dart';
 
 abstract class OrderRepository {
   /// Create new order
-  Future<Order> createOrder({
+  Future<Result<Order>> createOrder({
     required String storeId,
     required List<OrderItem> items,
     required Address deliveryAddress,
@@ -11,15 +12,15 @@ abstract class OrderRepository {
   });
 
   /// Get all user orders
-  Future<List<Order>> getOrders({
+  Future<Result<List<Order>>> getOrders({
     OrderStatus? status,
     int page = 1,
     int limit = 20,
   });
 
   /// Get order details by ID
-  Future<Order> getOrderById(String orderId);
+  Future<Result<Order>> getOrderById(String orderId);
 
   /// Cancel order
-  Future<Order> cancelOrder(String orderId);
+  Future<Result<Order>> cancelOrder(String orderId);
 }
