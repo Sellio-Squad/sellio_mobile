@@ -1,28 +1,29 @@
-import '../entities/user.dart';
+import '../core/result.dart';
 import '../entities/address.dart';
+import '../entities/user.dart';
 
 abstract class UserRepository {
   /// Get user profile
-  Future<User> getUserProfile();
+  Future<Result<User>> getUserProfile();
 
   /// Update user profile
-  Future<User> updateUserProfile({
+  Future<Result<User>> updateUserProfile({
     String? fullName,
     String? email,
     String? profilePhotoUrl,
   });
 
   /// Change password
-  Future<void> changePassword({
+  Future<Result<void>> changePassword({
     required String currentPassword,
     required String newPassword,
   });
 
   /// Get user addresses
-  Future<List<Address>> getUserAddresses();
+  Future<Result<List<Address>>> getUserAddresses();
 
   /// Add new address
-  Future<Address> addAddress({
+  Future<Result<Address>> addAddress({
     required String country,
     required String city,
     required String street,
@@ -35,7 +36,7 @@ abstract class UserRepository {
   });
 
   /// Update address
-  Future<Address> updateAddress({
+  Future<Result<Address>> updateAddress({
     required String addressId,
     String? country,
     String? city,
@@ -49,11 +50,11 @@ abstract class UserRepository {
   });
 
   /// Delete address
-  Future<void> deleteAddress(String addressId);
+  Future<Result<void>> deleteAddress(String addressId);
 
   /// Set default address
-  Future<void> setDefaultAddress(String addressId);
+  Future<Result<void>> setDefaultAddress(String addressId);
 
   /// Upload profile photo
-  Future<String> uploadProfilePhoto(String filePath);
+  Future<Result<String>> uploadProfilePhoto(String filePath);
 }

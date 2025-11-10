@@ -1,9 +1,10 @@
+import '../core/result.dart';
 import '../entities/category.dart';
 
 abstract class CategoryRepository {
   /// Get all categories
-  Future<List<Category>> getCategories();
+  Future<Result<List<Category>>> getCategories();
 
   /// Get category by ID
-  Future<Category> getCategoryById(String categoryId);
+  Future<Result<Category>> getCategoryById(String categoryId);
 }
