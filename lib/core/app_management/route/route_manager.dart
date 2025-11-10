@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
 import '../../../ui/screens/account/account_screen.dart';
-import '../../../ui/screens/customDesignScreen.dart';
 import 'package:sellio_mobile/ui/screens/auth/login.dart';
 import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
 import 'package:sellio_mobile/ui/screens/thrift_screen.dart';
 import 'package:sellio_mobile/ui/screens/cart_screen.dart';
 import 'package:sellio_mobile/ui/screens/main/dashboard.dart';
-
 import '../../../ui/screens/ProductDetailsScreen.dart';
 import '../../../ui/screens/auth/createAccount.dart';
 import '../../../ui/screens/auth/forgetPassword/forget_password_screen.dart';
@@ -147,7 +145,7 @@ class RouteGenerator {
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return MaterialPage(
                     key: state.pageKey,
-                    child: const CustomDesignScreen(),
+                    child: const CustomizeYourProductScreen(),
                   );
                 },
               ),
