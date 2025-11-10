@@ -60,7 +60,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     final colors = theme.colors;
 
     return Scaffold(
-      backgroundColor: colors.surface,
+      backgroundColor: colors.surfaceLow,
       appBar: _buildAppBar(context),
       body: _buildBody(),
     );

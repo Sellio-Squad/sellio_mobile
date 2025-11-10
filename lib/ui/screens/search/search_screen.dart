@@ -19,6 +19,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   String _searchText = '';
   String _selectedCategory = 'Products';
+  final TextEditingController _searchController = TextEditingController();
 
   final List<String> recentSearches =
   [
@@ -30,6 +31,22 @@ class _SearchScreenState extends State<SearchScreen> {
     'Cat accessories',
     'عباية خليجي',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(() {
+      setState(() {
+        _searchText = _searchController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +69,10 @@ class _SearchScreenState extends State<SearchScreen> {
           horizontal: 16,
         ),
         child: SearchBarWithFilter(
-            onFilterIconClicked: () {}, onTextSubmitted: (String text) {
-              setState(() {
-                _searchText = text;
-              });
-        }),
+            onFilterIconClicked: () {},
+            onTextSubmitted: (String text) {
+            },
+            controller: _searchController),
       ),
     );
   }
@@ -154,7 +170,15 @@ class _SearchScreenState extends State<SearchScreen> {
             spacing: 4,
             runSpacing: 4,
             children: recentSearches.map((text) {
-              return ChipCategory(label: text, selected: false, onTap: () {});
+              return ChipCategory(
+                  label: text,
+                  selected: false,
+                  onTap: () {
+                    setState(() {
+                      _searchText = text;
+                      _searchController.text = text;
+                    });
+                  });
             }).toList(),
           ),
         ],

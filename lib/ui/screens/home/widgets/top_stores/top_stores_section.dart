@@ -1,33 +1,62 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import '../../../../../core/design_system/widgets/cards/store_card.dart';
-import '../../../../../core/design_system/widgets/section_header.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/store_card.dart';
 
-class Store{
+class Store {
+  final String id;
   final String name;
   final String imageUrl;
   final String? discount;
+  final String? coverImage;
+  final String? profileImage;
+  final double? rating;
+  bool isFavorite;
 
-  Store({required this.name, required this.imageUrl, required this.discount});
+  Store({
+    required this.id,
+    required this.name,
+    required this.imageUrl,
+    this.discount,
+    this.coverImage,
+    this.profileImage,
+    this.rating,
+    this.isFavorite = false,
+  });
 }
 
 class TopStoresSection extends StatelessWidget {
   final List<Store> topStores;
-  final VoidCallback onLikePressed;
-  final VoidCallback onCardPressed;
+  final void Function(String)? onLikePressed;
+  final void Function(String)? onCardPressed;
 
-  const TopStoresSection({super.key, required this.topStores, required this.onLikePressed, required this.onCardPressed});
+  final String? sectionTitle;
+  final bool showHeader;
+
+  const TopStoresSection({
+    super.key,
+    required this.topStores,
+    this.onLikePressed,
+    this.onCardPressed,
+    this.sectionTitle,
+    this.showHeader = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(
-          title: 'Top Stores',
-          onTap: () {},
-          trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
-        ),
+        if (showHeader && sectionTitle != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text(
+              sectionTitle!,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                fontFamily: 'Rubik',
+              ),
+            ),
+          ),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -38,15 +67,16 @@ class TopStoresSection extends StatelessWidget {
               imageUrl: store.imageUrl,
               title: store.name,
               discountText: store.discount,
-              onLikePressed: () {
-                onLikePressed();
-              },
-              onCardPressed: () {
-                onCardPressed();
-              },
+              onLikePressed: onLikePressed != null
+                  ? () => onLikePressed!(store.id)
+                  : null,
+              onCardPressed: onCardPressed != null
+                  ? () => onCardPressed!(store.id)
+                  : null,
             );
           },
-        )      ],
+        ),
+      ],
     );
   }
 }
