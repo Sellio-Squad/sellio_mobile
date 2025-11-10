@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 class ApiService {
-  static final ApiService instance = ApiService._init();
   late final Dio _dio;
 
   // Base URL - Replace with your actual API URL
@@ -10,7 +9,7 @@ class ApiService {
   static const Duration connectTimeout = Duration(seconds: 30);
   static const Duration receiveTimeout = Duration(seconds: 30);
 
-  ApiService._init() {
+  ApiService() {
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -27,21 +26,17 @@ class ApiService {
   }
 
   void _setupInterceptors() {
+    // Request/Response Logging Interceptor
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (options, handler) async {
-          // Add auth token to requests
-          final token = await _getAuthToken();
-          if (token != null) {
-            options.headers['Authorization'] = 'Bearer $token';
-          }
-
+        onRequest: (options, handler) {
           if (kDebugMode) {
             print('📤 REQUEST[${options.method}] => ${options.uri}');
             print('Headers: ${options.headers}');
-            print('Data: ${options.data}');
+            if (options.data != null) {
+              print('Data: ${options.data}');
+            }
           }
-
           return handler.next(options);
         },
         onResponse: (response, handler) {
@@ -52,38 +47,21 @@ class ApiService {
           }
           return handler.next(response);
         },
-        onError: (error, handler) async {
+        onError: (error, handler) {
           if (kDebugMode) {
             print(
                 '❌ ERROR[${error.response?.statusCode}] => ${error.requestOptions.uri}');
             print('Message: ${error.message}');
-            print('Data: ${error.response?.data}');
-          }
-
-          // Handle 401 Unauthorized - Token refresh
-          if (error.response?.statusCode == 401) {
-            final refreshed = await _refreshToken();
-            if (refreshed) {
-              // Retry the request
-              final options = error.requestOptions;
-              final token = await _getAuthToken();
-              options.headers['Authorization'] = 'Bearer $token';
-
-              try {
-                final response = await _dio.fetch(options);
-                return handler.resolve(response);
-              } catch (e) {
-                return handler.next(error);
-              }
+            if (error.response?.data != null) {
+              print('Data: ${error.response?.data}');
             }
           }
-
           return handler.next(error);
         },
       ),
     );
 
-    // Logging Interceptor
+    // Detailed Logging Interceptor (only in debug mode)
     if (kDebugMode) {
       _dio.interceptors.add(LogInterceptor(
         request: true,
@@ -94,17 +72,6 @@ class ApiService {
         error: true,
       ));
     }
-  }
-
-  Future<String?> _getAuthToken() async {
-    // Implement token retrieval from local storage
-    // This will be implemented in auth_local_datasource
-    return null;
-  }
-
-  Future<bool> _refreshToken() async {
-    // Implement token refresh logic
-    return false;
   }
 
   Dio get dio => _dio;
