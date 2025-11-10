@@ -4,14 +4,14 @@ import '../../../cubits/cart/cubit/cart_cubit.dart';
 import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../cubits/categories/cubit/home_categories_cubit.dart';
 import '../cubits/offers/cubit/offers_cubit.dart';
-import '../cubits/products/cubit/products_cubit.dart';
+import '../cubits/products/cubit/home_trending_products_cubit.dart';
 import '../cubits/stores/cubit/stores_cubit.dart';
 
 
 Future<void> handleHomeRefresh(BuildContext context) async {
   await Future.wait([
     context.read<HomeCategoriesCubit>().loadCategories(),
-    context.read<ProductsCubit>().loadTrendingProducts(),
+    context.read<HomeTrendingProductsCubit>().loadTrendingProducts(),
     context.read<StoresCubit>().loadTopStores(),
     context.read<OffersCubit>().loadSpecialOffers(),
     context.read<CartCubit>().loadCart(),

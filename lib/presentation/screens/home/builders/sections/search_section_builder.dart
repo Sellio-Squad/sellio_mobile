@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/products/cubit/products_cubit.dart';
+import '../../cubits/products/cubit/home_trending_products_cubit.dart';
 import '../../widgets/search_bar/search_widget.dart';
 
 SliverToBoxAdapter buildSearchSection(BuildContext context) {
@@ -12,7 +12,7 @@ SliverToBoxAdapter buildSearchSection(BuildContext context) {
           // TODO: Show filter dialog
         },
         onTextSubmitted: (text) {
-          context.read<ProductsCubit>().searchProducts(text);
+          context.read<HomeTrendingProductsCubit>().searchProducts(text);
         },
       ),
     ),

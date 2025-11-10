@@ -5,14 +5,14 @@ import '../../../../cubits/cart/cubit/cart_state.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
 
-import '../../cubits/products/cubit/products_cubit.dart';
-import '../../cubits/products/cubit/products_state.dart';
+import '../../cubits/products/cubit/home_trending_products_cubit.dart';
+import '../../cubits/products/cubit/home_trending_products_state.dart';
 import '../../widgets/products_section.dart';
 
 Widget buildProductsSection() {
-  return BlocBuilder<ProductsCubit, ProductsState>(
+  return BlocBuilder<HomeTrendingProductsCubit, HomeTrendingProductsState>(
     builder: (context, productsState) {
-      if (productsState is ProductsLoading || productsState is ProductsSearching) {
+      if (productsState is HomeTrendingProductsLoading || productsState is HomeTrendingProductsSearching) {
         return const SliverToBoxAdapter(
           child: SizedBox(
             height: 272,
@@ -21,7 +21,7 @@ Widget buildProductsSection() {
         );
       }
 
-      if (productsState is! ProductsLoaded) {
+      if (productsState is! HomeTrendingProductsLoaded) {
         return const SliverToBoxAdapter(child: SizedBox.shrink());
       }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'cubits/categories/cubit/home_categories_cubit.dart';
 import 'cubits/categories/cubit/home_categories_state.dart';
-import 'cubits/products/cubit/products_cubit.dart';
+import 'cubits/products/cubit/home_trending_products_cubit.dart';
 
 class HomeListeners extends StatelessWidget {
   final Widget child;
@@ -26,7 +26,7 @@ class HomeListeners extends StatelessWidget {
 
   void _onCategoryChanged(BuildContext context, HomeCategoriesState state) {
     if (state is HomeCategoriesLoaded) {
-      final productsCubit = context.read<ProductsCubit>();
+      final productsCubit = context.read<HomeTrendingProductsCubit>();
 
       if (state.selectedIndex == 0) {
         productsCubit.loadTrendingProducts();

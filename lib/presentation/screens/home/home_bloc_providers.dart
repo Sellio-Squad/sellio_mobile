@@ -6,7 +6,7 @@ import '../../../domain/repositories/product_repository.dart';
 import '../../../domain/repositories/store_repository.dart';
 import 'cubits/categories/cubit/home_categories_cubit.dart';
 import 'cubits/offers/cubit/offers_cubit.dart';
-import 'cubits/products/cubit/products_cubit.dart';
+import 'cubits/products/cubit/home_trending_products_cubit.dart';
 import 'cubits/stores/cubit/stores_cubit.dart';
 
 
@@ -28,7 +28,7 @@ class HomeBlocProviders extends StatelessWidget {
           )..loadCategories(),
         ),
         BlocProvider(
-          create: (context) => ProductsCubit(
+          create: (context) => HomeTrendingProductsCubit (
             context.read<ProductRepository>(),
           )..loadTrendingProducts(),
         ),
