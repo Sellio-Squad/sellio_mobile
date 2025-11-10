@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/address_model.dart';
 import '../../models/user_model.dart';
 
@@ -10,6 +12,8 @@ abstract class UserLocalDataSource {
 
   Future<String?> getAuthToken();
 
+  Future<String?> getRefreshToken();
+
   Future<void> saveAuthToken(String token,
       {String? refreshToken, DateTime? expiresAt});
 
@@ -17,42 +21,81 @@ abstract class UserLocalDataSource {
 }
 
 class UserLocalDataSourceImpl implements UserLocalDataSource {
-  UserModel? _cachedUser;
-  String? _authToken;
-  DateTime? _tokenExpiry;
+  final SharedPreferences _sharedPreferences;
 
-  UserLocalDataSourceImpl();
+  // Keys for SharedPreferences
+  static const String _cachedUserKey = 'cached_user';
+  static const String _authTokenKey = 'auth_token';
+  static const String _refreshTokenKey = 'refresh_token';
+  static const String _tokenExpiryKey = 'token_expiry';
+
+  UserLocalDataSourceImpl(this._sharedPreferences);
 
   @override
   Future<UserModel?> getCachedUser() async {
-    // Return fake user data if not cached
-    if (_cachedUser == null) {
-      return _getFakeUser();
+    try {
+      final userJson = _sharedPreferences.getString(_cachedUserKey);
+      if (userJson == null) {
+        return null;
+      }
+
+      final userMap = json.decode(userJson) as Map<String, dynamic>;
+      return UserModel.fromJson(userMap);
+    } catch (e) {
+      return null;
     }
-    return _cachedUser;
   }
 
   @override
   Future<void> cacheUser(UserModel user) async {
-    _cachedUser = user;
+    try {
+      final userJson = json.encode(user.toJson());
+      await _sharedPreferences.setString(_cachedUserKey, userJson);
+    } catch (e) {
+      // Handle error silently or log it
+    }
   }
 
   @override
   Future<void> clearUserCache() async {
-    _cachedUser = null;
+    try {
+      await _sharedPreferences.remove(_cachedUserKey);
+    } catch (e) {
+      // Handle error silently or log it
+    }
   }
 
   @override
   Future<String?> getAuthToken() async {
-    if (_authToken == null) return null;
+    try {
+      final token = _sharedPreferences.getString(_authTokenKey);
+      if (token == null) {
+        return null;
+      }
 
-    // Check if token is expired
-    if (_tokenExpiry != null && DateTime.now().isAfter(_tokenExpiry!)) {
-      await clearAuthToken();
+      // Check if token is expired
+      final expiryTimestamp = _sharedPreferences.getInt(_tokenExpiryKey);
+      if (expiryTimestamp != null) {
+        final expiry = DateTime.fromMillisecondsSinceEpoch(expiryTimestamp);
+        if (DateTime.now().isAfter(expiry)) {
+          await clearAuthToken();
+          return null;
+        }
+      }
+
+      return token;
+    } catch (e) {
       return null;
     }
+  }
 
-    return _authToken;
+  @override
+  Future<String?> getRefreshToken() async {
+    try {
+      return _sharedPreferences.getString(_refreshTokenKey);
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
@@ -61,31 +104,31 @@ class UserLocalDataSourceImpl implements UserLocalDataSource {
     String? refreshToken,
     DateTime? expiresAt,
   }) async {
-    _authToken = token;
-    _tokenExpiry = expiresAt ?? DateTime.now().add(const Duration(days: 30));
+    try {
+      await _sharedPreferences.setString(_authTokenKey, token);
+
+      if (refreshToken != null) {
+        await _sharedPreferences.setString(_refreshTokenKey, refreshToken);
+      }
+
+      final expiry = expiresAt ?? DateTime.now().add(const Duration(days: 30));
+      await _sharedPreferences.setInt(
+        _tokenExpiryKey,
+        expiry.millisecondsSinceEpoch,
+      );
+    } catch (e) {
+      // Handle error silently or log it
+    }
   }
 
   @override
   Future<void> clearAuthToken() async {
-    _authToken = null;
-    _tokenExpiry = null;
-  }
-
-  // Fake user data
-  UserModel _getFakeUser() {
-    return UserModel(
-      id: 'user_001',
-      fullName: 'John Doe',
-      phoneNumber: '1234567890',
-      countryCode: '+1',
-      profilePhotoUrl: 'https://via.placeholder.com/150',
-      address: AddressModel(
-        id: 'addr_001',
-        country: 'United States',
-        city: 'New York',
-        latitude: 40.7128,
-        longitude: -74.0060,
-      ),
-    );
+    try {
+      await _sharedPreferences.remove(_authTokenKey);
+      await _sharedPreferences.remove(_refreshTokenKey);
+      await _sharedPreferences.remove(_tokenExpiryKey);
+    } catch (e) {
+      // Handle error silently or log it
+    }
   }
 }
