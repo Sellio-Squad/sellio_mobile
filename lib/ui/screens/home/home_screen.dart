@@ -70,6 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Products Grid
                   ProductsSection(),
+
+                  _buildTopStoresSection()
                 ],
               ),
             ),
