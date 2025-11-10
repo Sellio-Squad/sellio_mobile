@@ -17,18 +17,15 @@ class ProductImage extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            // Base cake/product image
             Image.asset(
-              'assets/images/product_3.webp', // replace with your product image
+              'assets/images/product_3.webp',
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
             ),
-
-            // Overlay uploaded image if available
             if (overlayImage != null)
               Positioned(
-                bottom: 40, // adjust position of overlay on cake
+                bottom: 40,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.file(
