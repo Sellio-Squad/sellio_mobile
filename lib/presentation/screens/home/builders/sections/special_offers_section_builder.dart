@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/offers/cubit/offers_cubit.dart';
-import '../../cubits/offers/cubit/offers_state.dart';
+import '../../cubits/offers/cubit/home_special_offers_cubit.dart';
+import '../../cubits/offers/cubit/home_special_offers_state.dart';
 import '../../widgets/special_offer/special_offers_section.dart';
 
 SliverToBoxAdapter buildSpecialOffersSection() {
   return SliverToBoxAdapter(
-    child: BlocBuilder<OffersCubit, OffersState>(
+    child: BlocBuilder<HomeSpecialOffersCubit, HomeSpecialOffersState>(
       builder: (context, state) {
-        if (state is OffersLoading) {
+        if (state is HomeSpecialOffersLoading) {
           return const _LoadingWidget();
         }
 
-        if (state is! OffersLoaded || state.offers.isEmpty) {
+        if (state is! HomeSpecialOffersLoaded || state.offers.isEmpty) {
           return const SizedBox.shrink();
         }
 
@@ -22,7 +22,7 @@ SliverToBoxAdapter buildSpecialOffersSection() {
             offers: state.offers,
             currentPage: state.currentPage,
             onPageChanged: (page) {
-              context.read<OffersCubit>().setCurrentPage(page);
+              context.read<HomeSpecialOffersCubit>().setCurrentPage(page);
             },
             onOfferTap: (offerId) {
               // TODO: Navigate to offer details

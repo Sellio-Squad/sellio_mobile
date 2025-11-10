@@ -2,38 +2,38 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../../domain/entities/special_offer.dart';
 
-sealed class OffersState extends Equatable {
-  const OffersState();
+sealed class HomeSpecialOffersState extends Equatable {
+  const HomeSpecialOffersState();
 }
 
-class OffersInitial extends OffersState {
-  const OffersInitial();
+class HomeSpecialOffersInitial extends HomeSpecialOffersState {
+  const HomeSpecialOffersInitial();
 
   @override
   List<Object?> get props => [];
 }
 
-class OffersLoading extends OffersState {
-  const OffersLoading();
+class HomeSpecialOffersLoading extends HomeSpecialOffersState {
+  const HomeSpecialOffersLoading();
 
   @override
   List<Object?> get props => [];
 }
 
-class OffersLoaded extends OffersState {
+class HomeSpecialOffersLoaded extends HomeSpecialOffersState {
   final List<SpecialOffer> offers;
   final int currentPage;
 
-  const OffersLoaded({
+  const HomeSpecialOffersLoaded({
     required this.offers,
     this.currentPage = 0,
   });
 
-  OffersLoaded copyWith({
+  HomeSpecialOffersLoaded copyWith({
     List<SpecialOffer>? offers,
     int? currentPage,
   }) {
-    return OffersLoaded(
+    return HomeSpecialOffersLoaded(
       offers: offers ?? this.offers,
       currentPage: currentPage ?? this.currentPage,
     );
@@ -43,10 +43,10 @@ class OffersLoaded extends OffersState {
   List<Object?> get props => [offers, currentPage];
 }
 
-class OffersError extends OffersState {
+class HomeSpecialOffersError extends HomeSpecialOffersState {
   final String message;
 
-  const OffersError({required this.message});
+  const HomeSpecialOffersError({required this.message});
 
   @override
   List<Object?> get props => [message];
