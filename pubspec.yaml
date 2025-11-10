@@ -19,8 +19,15 @@ dependencies:
   # Networking
   dio: ^5.7.0
 
+  # Dependency Injection
+  get_it: ^7.7.0
+
   # Local Storage
   path: ^1.9.0
+  shared_preferences: ^2.2.3
+
+  # Network Info
+  internet_connection_checker: ^1.0.0+1
 
   # Functionality
   url_launcher: ^6.3.1
