@@ -1,19 +1,19 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../domain/repositories/store_repository.dart';
-import 'stores_state.dart';
+import 'home_top_stores_state.dart';
 
-class StoresCubit extends Cubit<StoresState> {
+class HomeTopStoresCubit extends Cubit<HomeTopStoresState> {
   final StoreRepository _storeRepository;
 
-  StoresCubit(this._storeRepository) : super(const StoresInitial());
+  HomeTopStoresCubit(this._storeRepository) : super(const HomeTopStoresInitial());
 
   Future<void> loadTopStores({int limit = 10}) async {
-    emit(const StoresLoading());
+    emit(const HomeTopStoresLoading());
     try {
       final stores = await _storeRepository.getTopStores(limit: limit);
-      emit(StoresLoaded(stores: stores));
+      emit(HomeTopStoresLoaded(stores: stores));
     } catch (e) {
-      emit(StoresError(message: e.toString()));
+      emit(HomeTopStoresError(message: e.toString()));
     }
   }
 

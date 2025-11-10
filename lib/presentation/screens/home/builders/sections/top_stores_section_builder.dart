@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
-import '../../cubits/stores/cubit/stores_cubit.dart';
-import '../../cubits/stores/cubit/stores_state.dart';
+import '../../cubits/stores/cubit/home_top_stores_cubit.dart';
+import '../../cubits/stores/cubit/home_top_stores_state.dart';
 import '../../utils/home_navigation.dart';
 import '../../widgets/top_stores_section.dart';
 
 Widget buildTopStoresSection() {
-  return BlocBuilder<StoresCubit, StoresState>(
+  return BlocBuilder<HomeTopStoresCubit, HomeTopStoresState>(
     builder: (context, storesState) {
-      if (storesState is StoresLoading) {
+      if (storesState is HomeTopStoresLoading) {
         return const SliverToBoxAdapter(child: _LoadingWidget());
       }
 
-      if (storesState is! StoresLoaded || storesState.stores.isEmpty) {
+      if (storesState is! HomeTopStoresLoaded || storesState.stores.isEmpty) {
         return const SliverToBoxAdapter(child: SizedBox.shrink());
       }
 
