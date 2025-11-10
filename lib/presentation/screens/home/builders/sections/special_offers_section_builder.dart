@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../cubits/offers/cubit/offers_cubit.dart';
-import '../../../../cubits/offers/cubit/offers_state.dart';
+import '../../cubits/offers/cubit/offers_cubit.dart';
+import '../../cubits/offers/cubit/offers_state.dart';
 import '../../widgets/special_offer/special_offers_section.dart';
 
 SliverToBoxAdapter buildSpecialOffersSection() {

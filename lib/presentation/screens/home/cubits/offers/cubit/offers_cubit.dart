@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../../domain/repositories/offers_repository.dart';
 import 'offers_state.dart';
 

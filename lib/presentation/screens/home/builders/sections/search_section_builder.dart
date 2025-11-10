@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../cubits/products/cubit/products_cubit.dart';
+import '../../cubits/products/cubit/products_cubit.dart';
 import '../../widgets/search_bar/search_widget.dart';
 
 SliverToBoxAdapter buildSearchSection(BuildContext context) {

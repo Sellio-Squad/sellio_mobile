@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/categories/cubit/categories_cubit.dart';
-import '../../cubits/categories/cubit/categories_state.dart';
-import '../../cubits/products/cubit/products_cubit.dart';
+import 'cubits/categories/cubit/categories_cubit.dart';
+import 'cubits/categories/cubit/categories_state.dart';
+import 'cubits/products/cubit/products_cubit.dart';
+
 
 class HomeListeners extends StatelessWidget {
   final Widget child;

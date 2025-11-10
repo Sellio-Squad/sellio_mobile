@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import 'categories_cubit.dart';
 
 sealed class CategoriesState extends Equatable {

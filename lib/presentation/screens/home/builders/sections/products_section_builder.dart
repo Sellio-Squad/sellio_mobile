@@ -4,8 +4,9 @@ import '../../../../cubits/cart/cubit/cart_cubit.dart';
 import '../../../../cubits/cart/cubit/cart_state.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
-import '../../../../cubits/products/cubit/products_cubit.dart';
-import '../../../../cubits/products/cubit/products_state.dart';
+
+import '../../cubits/products/cubit/products_cubit.dart';
+import '../../cubits/products/cubit/products_state.dart';
 import '../../widgets/products_section.dart';
 
 Widget buildProductsSection() {

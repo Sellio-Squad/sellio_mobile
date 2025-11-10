@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
-import '../../../../cubits/stores/cubit/stores_cubit.dart';
-import '../../../../cubits/stores/cubit/stores_state.dart';
+import '../../cubits/stores/cubit/stores_cubit.dart';
+import '../../cubits/stores/cubit/stores_state.dart';
 import '../../utils/home_navigation.dart';
 import '../../widgets/top_stores_section.dart';
 

@@ -4,10 +4,11 @@ import '../../../domain/repositories/category_repository.dart';
 import '../../../domain/repositories/offers_repository.dart';
 import '../../../domain/repositories/product_repository.dart';
 import '../../../domain/repositories/store_repository.dart';
-import '../../cubits/categories/cubit/categories_cubit.dart';
-import '../../cubits/offers/cubit/offers_cubit.dart';
-import '../../cubits/products/cubit/products_cubit.dart';
-import '../../cubits/stores/cubit/stores_cubit.dart';
+import 'cubits/categories/cubit/categories_cubit.dart';
+import 'cubits/offers/cubit/offers_cubit.dart';
+import 'cubits/products/cubit/products_cubit.dart';
+import 'cubits/stores/cubit/stores_cubit.dart';
+
 
 class HomeBlocProviders extends StatelessWidget {
   final Widget child;
