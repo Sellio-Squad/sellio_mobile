@@ -10,7 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
   # UI Dependencies
+  image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.10+1
   flutter_gap: ^1.0.2
@@ -63,22 +65,16 @@ flutter:
         - asset: assets/fonts/rubik_semi_bold.ttf
           weight: 600
 
-# Native splash screen configuration
+# Native splash screen configuration (light only)
 flutter_native_splash:
   color: "#F8F8F8"
-  color_dark: "#1F1F1F"
-
-  image: assets/images/sellio.webp
-  image_dark: assets/images/sellio.webp
-
+  image: assets/images/sellio.png
   ios_content_mode: center
 
   # Android 12+ configuration
   android_12:
-    image: assets/images/sellio.webp
-    image_dark: assets/images/sellio.webp
+    image: assets/images/sellio.png
     color: "#F8F8F8"
-    color_dark: "#1F1F1F"
 
   # Web configuration (optional)
   web: false
@@ -90,10 +86,7 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/sellio.webp"
+  image_path: "assets/images/sellio.png"
 
   adaptive_icon_background: "#F8F8F8"
-  adaptive_icon_foreground: "assets/images/sellio.webp"
-
-  # Remove background for transparency (optional)
-  # remove_alpha_ios: true
+  adaptive_icon_foreground: "assets/images/sellio.png"

@@ -8,7 +8,7 @@ import 'package:sellio_mobile/ui/screens/home/widgets/search_bar/search_widget.d
 import 'package:sellio_mobile/ui/screens/home/widgets/special_offer/special_offers_section.dart';
 import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
 import 'package:sellio_mobile/ui/screens/search/search_screen.dart';
-import '../store_details/store_details_screen.dart';
+import '../notification_screen.dart';
 import 'home_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -33,8 +33,11 @@ class _HomeScreenState extends State<HomeScreen> {
           userName: 'John Doe',
           location: 'New York, USA',
           onNotificationTap: () {
-            // TODO: Handle notification
-          },
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const NotificationScreen()),
+            );
+            },
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surfaceLow,
@@ -67,9 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   // Products Grid
                   ProductsSection(),
-
-                  // Top Stores Section
-                  _buildTopStoresSection(),
                 ],
               ),
             ),
@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
   SliverToBoxAdapter _buildSpecialOffersSection() {
     return SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 24, 16, 0),
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
           child: SpecialOffersSection(
             offers: DataProvider.specialOffers,
             onOfferTap: (offerId) {
@@ -125,10 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
           child: TopStoresSection(
             topStores: DataProvider.topStores,
-            onLikePressed: () {
+            onLikePressed: (String productId) {
               // todo: Handle like action
             },
-            onCardPressed: () {
+            onCardPressed: (String productId) {
               final store = DataProvider.topStores.isNotEmpty
                   ? DataProvider.topStores[0]
                   : null;

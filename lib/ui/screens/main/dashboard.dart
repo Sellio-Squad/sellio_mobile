@@ -44,7 +44,7 @@ class Dashboard extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            label: 'Account',
+            label: 'account',
           ),
         ],
       ),
