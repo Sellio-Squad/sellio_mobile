@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' hide Category;
 import 'package:sellio_mobile/domain/entities/review.dart';
 import 'address.dart';
 import 'category.dart';

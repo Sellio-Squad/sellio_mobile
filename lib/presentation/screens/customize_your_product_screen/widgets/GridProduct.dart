@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'CustomProductCard.dart';
+import '../design_editor_screen.dart';
 
 class GridProduct extends StatefulWidget {
   const GridProduct({super.key});
@@ -23,19 +23,27 @@ class _GridProductState extends State<GridProduct> {
     {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 10'},
   ];
 
+  void _navigateToDesignEditor(int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const DesignEditorScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
           GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             itemCount: 10,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisSpacing: 8,
               crossAxisCount: 2,
               mainAxisSpacing: 8,
@@ -46,9 +54,7 @@ class _GridProductState extends State<GridProduct> {
               return CustomProductCard(
                 imageUrl: product['imageUrl'],
                 title: product['label'],
-                onClickProduct: () {
-                  // TODO : handle click on product here
-                },
+                onClickProduct: () => _navigateToDesignEditor(index),
               );
             },
           ),

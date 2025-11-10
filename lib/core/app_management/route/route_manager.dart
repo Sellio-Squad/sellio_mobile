@@ -121,7 +121,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _cartNavigatorKey,
             routes: <GoRoute>[
@@ -153,7 +152,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _thriftNavigatorKey,
             routes: <GoRoute>[
@@ -169,8 +167,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
-
           StatefulShellBranch(
             navigatorKey: _accountNavigatorKey,
             routes: <GoRoute>[

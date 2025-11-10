@@ -25,7 +25,7 @@ class _CartScreenState extends State<CartScreen> {
           'A soft, fluffy cake with a refreshing lemon flavor, baked daily using 100% natural ingredients ...',
       'price': '\$12.99',
       'originalPrice': '\$16.99',
-      'image': Assets.cakeHouseLogo,
+      'image': Assets.cartProduct,
       'count': 1,
     },
     {
@@ -34,7 +34,7 @@ class _CartScreenState extends State<CartScreen> {
           'Rich, moist chocolate cake baked fresh daily with top-quality ingredients ...',
       'price': '\$15.99',
       'originalPrice': null,
-      'image': Assets.cakeHouseLogo,
+      'image': Assets.cartProduct,
       'count': 2,
     },
     {
@@ -43,7 +43,7 @@ class _CartScreenState extends State<CartScreen> {
           'A rich red velvet base topped with creamy cheesecake and fresh strawberries ...',
       'price': '\$15.99',
       'originalPrice': null,
-      'image': Assets.cakeHouseLogo,
+      'image': Assets.cartProduct,
       'count': 1,
     },
   ];

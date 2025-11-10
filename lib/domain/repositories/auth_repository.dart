@@ -1,15 +1,16 @@
+import '../core/result.dart';
 import '../entities/user.dart';
 
 abstract class AuthRepository {
   /// Login with phone number and password
-  Future<User> login({
+  Future<Result<User>> login({
     required String phoneNumber,
     required String countryCode,
     required String password,
   });
 
   /// Register new user
-  Future<User> register({
+  Future<Result<User>> register({
     required String fullName,
     required String phoneNumber,
     required String countryCode,
@@ -20,26 +21,26 @@ abstract class AuthRepository {
   });
 
   /// Verify OTP code
-  Future<bool> verifyOtp({
+  Future<Result<bool>> verifyOtp({
     required String phoneNumber,
     required String countryCode,
     required String otpCode,
   });
 
   /// Resend OTP code
-  Future<void> resendOtp({
+  Future<Result<void>> resendOtp({
     required String phoneNumber,
     required String countryCode,
   });
 
   /// Send forgot password OTP
-  Future<void> sendForgotPasswordOtp({
+  Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
     required String countryCode,
   });
 
   /// Reset password
-  Future<void> resetPassword({
+  Future<Result<void>> resetPassword({
     required String phoneNumber,
     required String countryCode,
     required String otpCode,
@@ -47,14 +48,14 @@ abstract class AuthRepository {
   });
 
   /// Logout
-  Future<void> logout();
+  Future<Result<void>> logout();
 
   /// Get current user
-  Future<User?> getCurrentUser();
+  Future<Result<User?>> getCurrentUser();
 
   /// Check if user is logged in
-  Future<bool> isLoggedIn();
+  Future<Result<bool>> isLoggedIn();
 
   /// Get stored auth token
-  Future<String?> getAuthToken();
+  Future<Result<String?>> getAuthToken();
 }
