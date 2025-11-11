@@ -7,7 +7,7 @@ import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../core/design_system/widgets/textField.dart';
-import '../../auth/country.dart';
+import '../../../../presentation/screens/auth/country.dart';
 
 class AccountSettingsBottomSheet extends StatefulWidget {
   final VoidCallback? onSave;

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
-import '../../../ui/screens/account/account_screen.dart';
-import 'package:sellio_mobile/ui/screens/auth/login.dart';
-import 'package:sellio_mobile/ui/screens/home/home_screen.dart';
-import 'package:sellio_mobile/ui/screens/thrift_screen.dart';
-import 'package:sellio_mobile/ui/screens/cart_screen.dart';
-import 'package:sellio_mobile/ui/screens/main/dashboard.dart';
-import '../../../ui/screens/ProductDetailsScreen.dart';
-import '../../../ui/screens/auth/createAccount.dart';
-import '../../../ui/screens/auth/forgetPassword/forget_password_screen.dart';
-import '../../../ui/screens/auth/forgetPassword/forget_password_otp_screen.dart';
-import '../../../ui/screens/auth/forgetPassword/confirm_password_screen.dart';
-import '../../../ui/screens/auth/signupOTP.dart';
-import '../../../ui/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
-import '../../../ui/screens/store_details/store_details_screen.dart';
-import '../../../ui/screens/store_details/about_store/about_store.dart';
+import '../../../presentation/screens/ProductDetailsScreen.dart';
+import '../../../presentation/screens/account_screen.dart';
+import '../../../presentation/screens/auth/createAccount.dart';
+import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
+import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
+import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
+import '../../../presentation/screens/auth/login.dart';
+import '../../../presentation/screens/auth/signupOTP.dart';
+import '../../../presentation/screens/cart_screen.dart';
+import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
+import '../../../presentation/screens/home/home_screen.dart';
+import '../../../presentation/screens/main/dashboard.dart';
+import '../../../presentation/screens/store_details/about_store/about_store.dart';
+import '../../../presentation/screens/store_details/store_details_screen.dart';
+import '../../../presentation/screens/thrift_screen.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
@@ -136,6 +136,7 @@ class RouteGenerator {
               ),
             ],
           ),
+
           StatefulShellBranch(
             navigatorKey: _customDesignNavigatorKey,
             routes: <GoRoute>[

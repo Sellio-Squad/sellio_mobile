@@ -13,4 +13,10 @@ abstract class CartRepository {
 
   /// Remove item from cart
   Future<Result<Cart>> removeFromCart(String cartItemId);
+
+  /// Update item quantity
+  Future<Result<Cart>> updateQuantity(String productId, int quantity);
+
+  /// Get cart counts per product (productId -> quantity)
+  Future<Result<Map<String, int>>> getCartCounts();
 }

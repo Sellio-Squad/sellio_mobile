@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
+import '../../constants/app_icons.dart';
+
 class ProductVerticalCard extends StatefulWidget {
   final String imageUrl;
   final String title;
@@ -249,12 +251,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
   Widget _buildImage(colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.asset(
-        widget.imageUrl,
-        width: double.infinity,
-        height: 145,
-        fit: BoxFit.cover,
-        /*child: Image.network(
+      child: Image.network(
         widget.imageUrl,
         width: 152,
         height: 145,
@@ -272,15 +269,14 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                 );
         },
         errorBuilder: (context, error, stackTrace) {
-          return Container(
-            width: 152,
-            height: 145,
-            color: colors.surface,
-            child: const Icon(Icons.broken_image),
+          return  Image.asset(
+              AppIcons.placeholder,
+              width: double.infinity,
+              height: 145,
+              fit: BoxFit.cover
           );
         },
-      ),*/
-      ),
+      )
     );
   }
 }

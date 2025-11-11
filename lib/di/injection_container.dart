@@ -1,4 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/data/repository_impl/favorites_repository_impl.dart';
+import 'package:sellio_mobile/data/repository_impl/offers_repository_impl.dart';
+import 'package:sellio_mobile/domain/repositories/favorites_repository.dart';
+import 'package:sellio_mobile/domain/repositories/offers_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -161,6 +165,12 @@ void _initRepositoriesModule() {
     );
   }
 
+  if (!instance.isRegistered<FavoritesRepository>()) {
+    instance.registerLazySingleton<FavoritesRepository>(
+          () => FavoritesRepositoryImpl()
+    );
+  }
+
   if (!instance.isRegistered<CategoryRepository>()) {
     instance.registerLazySingleton<CategoryRepository>(
       () => CategoryRepositoryImpl(
@@ -169,6 +179,15 @@ void _initRepositoriesModule() {
       ),
     );
   }
+
+
+  if (!instance.isRegistered<OffersRepository>()) {
+    instance.registerLazySingleton<OffersRepository>(
+          () => OffersRepositoryImpl(),
+    );
+
+  }
+
 
   if (!instance.isRegistered<ProductRepository>()) {
     instance.registerLazySingleton<ProductRepository>(

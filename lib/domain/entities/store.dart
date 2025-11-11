@@ -1,5 +1,4 @@
 import 'package:sellio_mobile/domain/entities/review.dart';
-
 import 'address.dart';
 import 'category.dart';
 
@@ -32,8 +31,7 @@ class Store {
     this.isActive = true,
   });
 
-  get hasSale => sale != null && sale!.isNotEmpty;
-
+  bool get hasSale => sale != null && sale!.isNotEmpty;
 
   Store copyWith({
     String? id,
@@ -62,6 +60,32 @@ class Store {
       isActive: isActive ?? this.isActive,
     );
   }
+
+  factory Store.dummy({int index = 0}) {
+    return Store(
+      id: 'store_$index',
+      name: 'Store #$index',
+      description:
+      'This is a brief description of Store #$index, offering great products and services.',
+      coverImage:
+      'https://picsum.photos/seed/store_cover_$index/800/400', // random placeholder
+      profileImage:
+      'https://picsum.photos/seed/store_profile_$index/200/200', // random placeholder
+      sale: index.isEven ? '20%' : null,
+      rating: (3 + (index % 3) * 0.5),
+      address: Address.dummy(index: index),
+      contactInfo: ContactInfo(
+        provider: 'contact$index@example.com',
+        type: ContactType.email,
+      ),
+      categories: Category.dummyList(count: 3),
+      reviews: Review.dummyList(count: 3),
+    );
+  }
+
+  static List<Store> dummyList({int count = 5}) {
+    return List.generate(count, (i) => Store.dummy(index: i));
+  }
 }
 
 enum ContactType { email, phone, facebook, whatsapp, website }
@@ -76,16 +100,12 @@ class ContactInfo {
   });
 
   ContactInfo copyWith({
-    String? email,
-    String? phone,
-    String? facebook,
-    String? whatsapp,
-    String? website,
+    String? provider,
+    ContactType? type,
   }) {
     return ContactInfo(
-      provider:
-          email ?? phone ?? facebook ?? whatsapp ?? website ?? provider,
-      type: type,
+      provider: provider ?? this.provider,
+      type: type ?? this.type,
     );
   }
 }

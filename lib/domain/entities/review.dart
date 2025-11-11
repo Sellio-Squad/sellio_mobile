@@ -1,4 +1,4 @@
-
+// review.dart
 class Review {
   final String id;
   final String storeId;
@@ -29,7 +29,6 @@ class Review {
     double? rating,
     String? comment,
     DateTime? createdAt,
-    DateTime? updatedAt,
   }) {
     return Review(
       id: id ?? this.id,
@@ -42,32 +41,21 @@ class Review {
       createdAt: createdAt ?? this.createdAt,
     );
   }
-}
 
-class StoreRating {
-  final String storeId;
-  final double averageRating;
-  final int totalReviews;
-  final Map<int, int> ratingDistribution;
-
-  const StoreRating({
-    required this.storeId,
-    required this.averageRating,
-    required this.totalReviews,
-    required this.ratingDistribution,
-  });
-
-  StoreRating copyWith({
-    String? storeId,
-    double? averageRating,
-    int? totalReviews,
-    Map<int, int>? ratingDistribution,
-  }) {
-    return StoreRating(
-      storeId: storeId ?? this.storeId,
-      averageRating: averageRating ?? this.averageRating,
-      totalReviews: totalReviews ?? this.totalReviews,
-      ratingDistribution: ratingDistribution ?? this.ratingDistribution,
+  factory Review.dummy({int index = 0, String storeId = 'store_0'}) {
+    return Review(
+      id: 'review_$index',
+      storeId: storeId,
+      userId: 'user_$index',
+      userName: 'User #$index',
+      userImage: 'https://picsum.photos/seed/user_$index/100',
+      rating: 3.5 + (index % 2),
+      comment: 'Great store! I really liked their service and products.',
+      createdAt: DateTime.now().subtract(Duration(days: index * 2)),
     );
+  }
+
+  static List<Review> dummyList({int count = 5, String storeId = 'store_0'}) {
+    return List.generate(count, (i) => Review.dummy(index: i, storeId: storeId));
   }
 }

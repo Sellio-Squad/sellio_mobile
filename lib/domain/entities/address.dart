@@ -1,4 +1,4 @@
-
+// address.dart
 class Address {
   final String id;
   final String country;
@@ -14,13 +14,7 @@ class Address {
     this.longitude,
   });
 
-  String get fullAddress {
-    final parts = <String>[
-      city,
-      country,
-    ];
-    return parts.join(', ');
-  }
+  String get fullAddress => '$city, $country';
 
   Address copyWith({
     String? id,
@@ -36,5 +30,19 @@ class Address {
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );
+  }
+
+  factory Address.dummy({int index = 0}) {
+    return Address(
+      id: 'address_$index',
+      country: 'Country ${index + 1}',
+      city: 'City ${index + 1}',
+      latitude: 30.0 + index,
+      longitude: 31.0 + index,
+    );
+  }
+
+  static List<Address> dummyList({int count = 3}) {
+    return List.generate(count, (i) => Address.dummy(index: i));
   }
 }

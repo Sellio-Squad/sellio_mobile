@@ -1,3 +1,4 @@
+import '../../domain/entities/StoreRating.dart';
 import '../../domain/entities/review.dart';
 
 class ReviewModel extends Review {

@@ -44,5 +44,8 @@ class AppIcons {
   static const String logout = '$_basePath/ic_logout.svg';
   static const String deleteAccount = '$_basePath/ic_delete.svg';
 
+  static const String placeholder = '$_imagesPath/placeholder.png';
+
+
 
 }

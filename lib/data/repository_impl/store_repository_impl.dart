@@ -1,5 +1,7 @@
+
 import '../../domain/core/failure.dart';
 import '../../domain/core/result.dart';
+import '../../domain/entities/StoreRating.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/entities/review.dart';
 import '../../domain/entities/store.dart';
@@ -19,13 +21,14 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Store>>> getStores({int page = 1, int limit = 20}) async {
     try {
-      final stores =
-          await _remoteDataSource.getStores(page: page, limit: limit);
-
-      // Cache stores
-      await _localDataSource.cacheStores(stores);
-
-      return Success(stores.map((model) => model.toEntity()).toList());
+      // final stores =
+      //     await _remoteDataSource.getStores(page: page, limit: limit);
+      //
+      // // Cache stores
+      // await _localDataSource.cacheStores(stores);
+      //
+      // return Success(stores.map((model) => model.toEntity()).toList());
+      return Success(Store.dummyList(count: 3));
     } catch (e) {
       // Try to get from cache
       try {
@@ -45,12 +48,14 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<Store>> getStoreById(String storeId) async {
     try {
-      final store = await _remoteDataSource.getStoreById(storeId);
+      // final store = await _remoteDataSource.getStoreById(storeId);
+      //
+      // // Cache store
+      // await _localDataSource.cacheStore(store);
+      //
+      // return Success(store.toEntity());
+      return Success(Store.dummy());
 
-      // Cache store
-      await _localDataSource.cacheStore(store);
-
-      return Success(store.toEntity());
     } catch (e) {
       // Try to get from cache
       try {
@@ -69,8 +74,9 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Store>>> getTopStores({int limit = 10}) async {
     try {
-      final stores = await _remoteDataSource.getTopStores(limit: limit);
-      return Success(stores.map((model) => model.toEntity()).toList());
+      // final stores = await _remoteDataSource.getTopStores(limit: limit);
+      // return Success(stores.map((model) => model.toEntity()).toList());
+      return Success(Store.dummyList(count: 3));
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }

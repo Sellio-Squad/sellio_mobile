@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
-import '../../../../ui/screens/home/widgets/top_stores/discount_tag.dart';
 import '../../constants/assets.dart';
+import '../discount_tag.dart';
 
 class StoreCard extends StatelessWidget {
   final String imageUrl;
@@ -11,6 +10,7 @@ class StoreCard extends StatelessWidget {
   final String? discountText;
   final VoidCallback? onLikePressed;
   final VoidCallback? onCardPressed;
+  final bool isFavorite;
 
   const StoreCard({
     super.key,
@@ -19,6 +19,7 @@ class StoreCard extends StatelessWidget {
     this.discountText,
     this.onLikePressed,
     this.onCardPressed,
+    this.isFavorite = false,
   });
 
   @override
@@ -46,9 +47,9 @@ class StoreCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       if (imageUrl.startsWith('assets/'))
-                        Image.asset(imageUrl, fit: BoxFit.cover)
+                        Image.asset(imageUrl, fit: BoxFit.cover, height: 133,)
                       else
-                        Image.network(imageUrl, fit: BoxFit.cover),
+                        Image.network(imageUrl, fit: BoxFit.cover, height: 133),
                       Container(
                         width: double.infinity,
                         height: double.infinity,
@@ -76,25 +77,30 @@ class StoreCard extends StatelessWidget {
                                   .textTheme
                                   .titleSmall
                                   .copyWith(
-                                color: context.theme.colors.onPrimary,
-                              ),
+                                    color: context.theme.colors.onPrimary,
+                                  ),
                             ),
                           ),
                         ),
                       ),
-                      if (onLikePressed != null)
-                        Positioned(
-                          top: -4,
-                          right: -4,
-                          child: IconButton(
-                            icon: SvgPicture.asset(
-                              Assets.favouriteIcon,
-                              width: 32,
-                              height: 32,
-                            ),
-                            onPressed: onLikePressed,
-                          ),
+                      Positioned(
+                        top: -4,
+                        right: -4,
+                        child: IconButton(
+                          icon: isFavorite
+                              ? SvgPicture.asset(
+                                  Assets.favouriteIcon,
+                                  width: 24,
+                                  height: 24,
+                                )
+                              : SvgPicture.asset(
+                                  Assets.favorite,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                          onPressed: onLikePressed,
                         ),
+                      ),
                     ],
                   ),
                 ),
