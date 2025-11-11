@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/design_system/constants/app_strings.dart';
+import '../../../../../core/design_system/constants/assets.dart';
+import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
+import '../../../../../core/design_system/widgets/buttons/button.dart';
+import '../cubits/form/create_account_form_cubit.dart';
+import '../cubits/form/create_account_form_state.dart';
+
+Widget buildCreateAccountButton(BuildContext context) {
+  return BlocBuilder<CreateAccountFormCubit, CreateAccountFormState>(
+    builder: (context, state) {
+      if (state is! CreateAccountFormChanged) {
+        return const SizedBox.shrink();
+      }
+
+      final formCubit = context.read<CreateAccountFormCubit>();
+
+      return SellioButton(
+        text: AppStrings.createAccount,
+        textStyle: context.theme.typography.textTheme.labelMedium,
+        isEnabled: state.isFormValid && !state.isLoading,
+        isLoading: state.isLoading,
+        suffixSvgPath: Assets.outlineArrow,
+        iconWidth: 10,
+        iconHeight: 10,
+        suffixIconColor: state.isFormValid
+            ? context.theme.colors.onPrimary
+            : context.theme.colors.hint,
+        loadingColors: context.theme.colors.loadingLightColors,
+        backgroundColor: state.isFormValid
+            ? context.theme.colors.primary
+            : context.theme.colors.disabled,
+        onTap: state.isFormValid ? formCubit.submitForm : null,
+      );
+    },
+  );
+}
