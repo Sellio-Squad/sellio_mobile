@@ -47,9 +47,9 @@ class StoreCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: [
                       if (imageUrl.startsWith('assets/'))
-                        Image.asset(imageUrl, fit: BoxFit.cover)
+                        Image.asset(imageUrl, fit: BoxFit.cover, height: 133,)
                       else
-                        Image.network(imageUrl, fit: BoxFit.cover),
+                        Image.network(imageUrl, fit: BoxFit.cover, height: 133),
                       Container(
                         width: double.infinity,
                         height: double.infinity,

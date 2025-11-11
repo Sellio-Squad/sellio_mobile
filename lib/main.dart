@@ -46,6 +46,12 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<OffersRepository>(
           create: (_) => di.instance<OffersRepository>(),
         ),
+        RepositoryProvider<CartRepository>(
+          create: (_) => di.instance<CartRepository>(),
+        ),
+        RepositoryProvider<FavoritesRepository>(
+          create: (_) => di.instance<FavoritesRepository>(),
+        ),
 
         RepositoryProvider<UserRepository>(
           create: (_) => di.instance<UserRepository>(),

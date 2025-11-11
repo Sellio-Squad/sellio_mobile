@@ -1,4 +1,5 @@
 import '../core/result.dart';
+import '../entities/StoreRating.dart';
 import '../entities/product.dart';
 import '../entities/review.dart';
 import '../entities/store.dart';

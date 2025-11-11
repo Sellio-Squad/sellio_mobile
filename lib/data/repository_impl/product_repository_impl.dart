@@ -19,13 +19,15 @@ class ProductRepositoryImpl implements ProductRepository {
       {int page = 1, int limit = 20}) async {
     try {
       // Try to fetch from remote
-      final products =
-          await _remoteDataSource.getProducts(page: page, limit: limit);
+      // final products =
+      //     await _remoteDataSource.getProducts(page: page, limit: limit);
+      //
+      // // Cache the products
+      // await _localDataSource.cacheProducts(products);
 
-      // Cache the products
-      await _localDataSource.cacheProducts(products);
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
 
-      return Success(products.map((model) => model.toEntity()).toList());
     } catch (e) {
       // If remote fails, try to get from cache
       try {
@@ -49,13 +51,14 @@ class ProductRepositoryImpl implements ProductRepository {
     int limit = 20,
   }) async {
     try {
-      final products = await _remoteDataSource.getProductsByCategory(
-        categoryId: categoryId,
-        page: page,
-        limit: limit,
-      );
-
-      return Success(products.map((model) => model.toEntity()).toList());
+      // final products = await _remoteDataSource.getProductsByCategory(
+      //   categoryId: categoryId,
+      //   page: page,
+      //   limit: limit,
+      // );
+      //
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
@@ -96,16 +99,18 @@ class ProductRepositoryImpl implements ProductRepository {
     int limit = 20,
   }) async {
     try {
-      final products = await _remoteDataSource.searchProducts(
-        query: query,
-        categoryId: categoryId,
-        minPrice: minPrice,
-        maxPrice: maxPrice,
-        page: page,
-        limit: limit,
-      );
+      // final products = await _remoteDataSource.searchProducts(
+      //   query: query,
+      //   categoryId: categoryId,
+      //   minPrice: minPrice,
+      //   maxPrice: maxPrice,
+      //   page: page,
+      //   limit: limit,
+      // );
 
-      return Success(products.map((model) => model.toEntity()).toList());
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
+
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
@@ -115,9 +120,11 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<List<Product>>> getFeaturedProducts(
       {int page = 1, int limit = 20}) async {
     try {
-      final products =
-          await _remoteDataSource.getFeaturedProducts(page: page, limit: limit);
-      return Success(products.map((model) => model.toEntity()).toList());
+      // final products =
+      //     await _remoteDataSource.getFeaturedProducts(page: page, limit: limit);
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
+
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
@@ -127,9 +134,10 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<List<Product>>> getTrendingProducts(
       {int page = 1, int limit = 20}) async {
     try {
-      final products =
-          await _remoteDataSource.getTrendingProducts(page: page, limit: limit);
-      return Success(products.map((model) => model.toEntity()).toList());
+      // final products =
+          // await _remoteDataSource.getTrendingProducts(page: page, limit: limit);
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
@@ -157,9 +165,11 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<List<Product>>> getFavoriteProducts() async {
     try {
-      final products = await _remoteDataSource.getFavoriteProducts();
-      return Success(products.map((model) => model.toEntity()).toList());
+      // final products = await _remoteDataSource.getFavoriteProducts();
+      // return Success(products.map((model) => model.toEntity()).toList());
+      return Success(Product.dummyList(count: 5));
     } catch (e) {
+
       return ResultFailure(_mapExceptionToFailure(e));
     }
   }
