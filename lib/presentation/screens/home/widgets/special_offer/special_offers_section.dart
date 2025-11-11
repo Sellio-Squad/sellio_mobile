@@ -78,8 +78,7 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
         ),
         const SizedBox(height: 12),
         SizedBox(
-          height: 144,
-          width: double.infinity,
+          height: 200,
           child: PageView.builder(
             controller: _pageController,
             itemCount: widget.offers.length,
