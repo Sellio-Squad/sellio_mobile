@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
 import '../../../presentation/screens/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
-import '../../../presentation/screens/auth/createAccount.dart';
+import '../../../presentation/screens/auth/create_account/create_account_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
