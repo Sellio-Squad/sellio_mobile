@@ -7,7 +7,7 @@ import '../../../presentation/screens/auth/create_account/create_account_screen.
 import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
-import '../../../presentation/screens/auth/login.dart';
+import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
 import '../../../presentation/screens/cart_screen.dart';
 import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
@@ -39,7 +39,6 @@ class RouteGenerator {
             child: const LoginScreen(),
           );
         },
-       
       ),
       GoRoute(
         name: AppRoutes.createAccount.name,
@@ -136,7 +135,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _customDesignNavigatorKey,
             routes: <GoRoute>[
