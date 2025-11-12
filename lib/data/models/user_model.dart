@@ -41,9 +41,7 @@ class UserModel extends User {
       'countryCode': countryCode,
       'profilePhotoUrl': profilePhotoUrl,
       'country': address.country,
-      'city': address.city,
-      'latitude': address.latitude,
-      'longitude': address.longitude,
+      'city': address.city
     };
   }
 
@@ -57,9 +55,7 @@ class UserModel extends User {
       address: AddressModel(
         id: map['id'] as String,
         country: map['country'] as String,
-        city: map['city'] as String,
-        latitude: map['latitude'] as double?,
-        longitude: map['longitude'] as double?,
+        city: map['city'] as String
       ),
     );
   }
