@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
-import 'create_account_button_builder.dart';
-import 'create_account_form_builder.dart' show CreateAccountFormWidget;
 import '../widgets/create_account_footer.dart';
 import '../widgets/create_account_header.dart';
+import 'create_account_button_builder.dart';
+import 'create_account_form_builder.dart' show CreateAccountFormWidget;
 
 Widget buildCreateAccountContent(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisSize: MainAxisSize.min,
     children: [
-      // Header Section
-      buildCreateAccountHeader(context),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: buildCreateAccountHeader(context)),
       const SizedBox(height: 24),
-
-      // Form Section
-      const CreateAccountFormWidget(),
-      const SizedBox(height: 24),
-
-      // Bottom Section with Button and Footer
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: const CreateAccountFormWidget(),
+      ),
       Container(
         decoration: BoxDecoration(
           color: context.theme.colors.surfaceLow,
-          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

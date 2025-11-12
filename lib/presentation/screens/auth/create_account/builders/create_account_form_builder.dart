@@ -10,7 +10,7 @@ import '../../../../../core/design_system/widgets/textField.dart';
 import '../../country.dart';
 import '../cubits/form/create_account_form_cubit.dart';
 import '../cubits/form/create_account_form_state.dart';
-import '../widgets/profile_picture_picker.dart';
+import 'profile_picture_builder.dart';
 
 class CreateAccountFormWidget extends StatefulWidget {
   const CreateAccountFormWidget({super.key});
@@ -290,14 +290,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 ),
               ),
             ),
-            ProfilePicturePicker(
-              onImageSelected: (image) {
-                context
-                    .read<CreateAccountFormCubit>()
-                    .updateProfileImage(image);
-              },
-              selectedImage: state.selectedProfileImage,
-            ),
+            buildProfilePictureSection(context),
           ],
         );
       },
