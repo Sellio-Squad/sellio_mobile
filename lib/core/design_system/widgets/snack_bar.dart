@@ -32,7 +32,7 @@ class SellioSnackBar extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(8),
-      width: 328,
+      width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: context.theme.colors.surfaceLow,
@@ -50,8 +50,8 @@ class SellioSnackBar extends StatelessWidget {
         children: [
           snackBarIcon(iconPath, iconColor),
           const SizedBox(width: 8),
-          snackBarText(context, snackBarTitle, message),
-          const Spacer(),
+          Expanded(child: snackBarText(context, snackBarTitle, message)),
+          const SizedBox(width: 8),
           GestureDetector(
             onTap: onCancelTap,
             child: SvgPicture.asset(Assets.cancelCircle, width: 20, height: 20),
