@@ -100,7 +100,8 @@ class _ProfilePicturePickerState extends State<ProfilePicturePicker> {
                                     blurRadius: 8,
                                   ),
                                 ],
-                              ),                              child: Center(
+                              ),
+                              child: Center(
                                 child: SvgPicture.asset(
                                   Assets.pencilEdit,
                                   width: 20,
