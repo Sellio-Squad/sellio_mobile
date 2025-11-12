@@ -12,6 +12,7 @@ class SellioColors {
     surfaceLow: Color(0xFFFFFFFF),
     surface: Color(0xFFF8F8F8),
     surfaceHigh: Color(0xFFE6E6E6),
+    uploadImageTint : Color(0x70000000),
     uploadImageTint: Color(0x70000000),
     title: Color(0xDE1F1F1F),
     body: Color(0xa81f1f1a),
@@ -83,6 +84,7 @@ class SellioColors {
     productPink: Color(0xFFF48FB1),
     productYellow: Color(0xFFFFF176),
     productBlue: Color(0xFF64B5F6),
+    uploadImageTint: Color(0x70000000),
   );
 }
 
@@ -110,6 +112,7 @@ class SellioColorScheme {
   final Color neutralsHint;
   final List<Color> loadingDarkColors;
   final List<Color> loadingLightColors;
+  final Color uploadImageTint;
   final Color productBlack;
   final Color productWhite;
   final Color productRed;
@@ -149,5 +152,7 @@ class SellioColorScheme {
     required this.productPink,
     required this.productYellow,
     required this.productBlue,
+    required this.uploadImageTint,
   });
+
 }
