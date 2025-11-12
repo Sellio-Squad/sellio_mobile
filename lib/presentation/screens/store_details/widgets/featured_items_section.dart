@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import '../../../../core/app_management/route/route_args.dart';
 import '../../../../domain/entities/product.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
@@ -66,16 +68,25 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                 debugPrint('Product ${product.id} has no images.');
               }
 
-              return SizedBox(
-                width: 160,
-                child: ProductVerticalCard(
-                  imageUrl: product.images.isNotEmpty ? product.images.first : '',
-                  title: product.name,
-                  price: '\$${product.price}',
-                  count: count,
-                  onIncrement: () => _incrementProduct(product.id),
-                  onDecrement: () => _decrementProduct(product.id),
-                  onFavorite: () {},
+              return GestureDetector(
+                onTap: () => context.navigator.pushProductDetails(
+                  ProductDetailsArgs(
+                    productCount: count,
+                    productDescription: product.description,
+                    productPrice: product.price,
+                  )
+                ),
+                child: SizedBox(
+                  width: 160,
+                  child: ProductVerticalCard(
+                    imageUrl: product.images.isNotEmpty ? product.images.first : '',
+                    title: product.name,
+                    price: '\$${product.price}',
+                    count: count,
+                    onIncrement: () => _incrementProduct(product.id),
+                    onDecrement: () => _decrementProduct(product.id),
+                    onFavorite: () {},
+                  ),
                 ),
               );
             },
