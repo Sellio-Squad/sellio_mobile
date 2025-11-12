@@ -16,7 +16,6 @@ Widget buildCreateAccountHeader(BuildContext context) {
         AppStrings.enterYourInformationToCreateAccount,
         style: context.theme.typography.textTheme.bodyMedium,
       ),
-      const SizedBox(height: 24),
     ],
   );
 }

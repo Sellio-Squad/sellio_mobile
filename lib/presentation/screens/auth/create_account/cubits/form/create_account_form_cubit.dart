@@ -129,6 +129,13 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
     }
   }
 
+  void clearCurrentFieldError() {
+    if (state is CreateAccountFormChanged) {
+      final currentState = state as CreateAccountFormChanged;
+      emit(currentState.copyWith(clearCurrentFieldError: true));
+    }
+  }
+
   Future<void> submitForm() async {
     if (state is! CreateAccountFormChanged) return;
     final currentState = state as CreateAccountFormChanged;

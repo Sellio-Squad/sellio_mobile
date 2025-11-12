@@ -21,22 +21,42 @@ class CreateAccountListeners extends StatelessWidget {
         BlocListener<CreateAccountFormCubit, CreateAccountFormState>(
           listener: (context, state) {
             if (state is CreateAccountFormSuccess) {
-              context.navigator.pushSignupOtp(
-                SignupOtpArgs(
-                  phoneNumber: state.phoneNumber,
-                ),
-              );
+              _handleSuccess(context, state);
             } else if (state is CreateAccountFormError) {
-              _showErrorSnackBar(context, state.message);
+              _handleGeneralError(context, state.message);
             } else if (state is CreateAccountFormChanged &&
                 state.currentFieldError != null) {
-              _showErrorSnackBar(context, state.currentFieldError!);
+              _handleFieldValidationError(context, state);
             }
           },
         ),
       ],
       child: child,
     );
+  }
+
+  void _handleSuccess(BuildContext context, CreateAccountFormSuccess state) {
+    context.navigator.pushSignupOtp(
+      SignupOtpArgs(
+        phoneNumber: state.phoneNumber,
+      ),
+    );
+  }
+
+  void _handleGeneralError(BuildContext context, String message) {
+    _showErrorSnackBar(context, message);
+  }
+
+  void _handleFieldValidationError(
+      BuildContext context, CreateAccountFormChanged state) {
+    _showErrorSnackBar(context, state.currentFieldError!);
+
+    // Clear the field error after showing the snackbar
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (context.mounted) {
+        context.read<CreateAccountFormCubit>().clearCurrentFieldError();
+      }
+    });
   }
 
   void _showErrorSnackBar(BuildContext context, String message) {
