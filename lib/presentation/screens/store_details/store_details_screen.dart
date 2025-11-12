@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import '../../../core/design_system/constants/assets.dart';
-import 'store_data_provider.dart';
+import '../../../domain/entities/StoreRating.dart';
+import '../../../domain/entities/category.dart';
+import '../../../domain/entities/product.dart';
+import '../../../domain/entities/store.dart';
 import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
 import 'widgets/store_header.dart';
 import 'widgets/store_info_card.dart';
 import 'widgets/store_products_list.dart';
+import 'cubit/store_details_cubit.dart';
+import 'cubit/store_details_state.dart';
+import '../../../../../../domain/repositories/store_repository.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String storeId;
@@ -43,39 +50,55 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   int _selectedCategoryIndex = 0;
   bool _isFavorite = false;
 
-  late final StoreDataProvider _dataProvider;
-  late final StoreDetailsData _storeData;
-
-  @override
-  void initState() {
-    super.initState();
-    _dataProvider = StoreDataProvider();
-    _storeData = _dataProvider.getStoreDetails(widget.storeId);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final colors = theme.colors;
 
-    return Scaffold(
-      backgroundColor: colors.surfaceLow,
-      appBar: _buildAppBar(context),
-      body: _buildBody(),
+    return BlocProvider(
+      create: (context) => StoreDetailsCubit(context.read<StoreRepository>())
+        ..loadStoreDetails(widget.storeId),
+      child: BlocBuilder<StoreDetailsCubit, StoreDetailsState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: colors.surfaceLow,
+            appBar: _buildAppBar(context),
+            body: _buildBody(state),
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildBody() {
-    return CustomScrollView(
-      slivers: [
-        _buildStoreHeader(),
-        _buildStoreInfoCard(),
-        _buildFeaturedItemsSection(),
-        _buildSectionSpacing(),
-        _buildCategoryTabs(),
-        _buildProductsList(),
-      ],
-    );
+  Widget _buildBody(StoreDetailsState state) {
+    if (state is StoreDetailsLoading || state is StoreDetailsInitial) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state is StoreDetailsError) {
+      return Center(child: Text(state.message));
+    }
+
+    if (state is StoreDetailsLoaded) {
+      final store = state.store;
+      final rating = state.rating;
+      final products = state.products;
+      final categories = store.categories;
+
+
+      return CustomScrollView(
+        slivers: [
+          _buildStoreHeader(),
+          _buildStoreInfoCard(store, rating),
+          _buildFeaturedItemsSection(products),
+          _buildSectionSpacing(),
+          _buildCategoryTabs(store),
+          _buildProductsList(products,categories),
+        ],
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   Widget _buildStoreHeader() {
@@ -89,7 +112,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  Widget _buildStoreInfoCard() {
+  Widget _buildStoreInfoCard(Store store, StoreRating rating) {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -99,45 +122,51 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           _verticalPadding,
         ),
         child: StoreInfoOverview(
-          location: _storeData.location,
-          rating: widget.rating,
-          tags: _storeData.tags,
-          description: _storeData.description,
+          location: store.address.city,
+          rating: rating.averageRating,
+          tags: store.categories
+              .map((category) => category.name)
+              .toList(),
+          description: store.description,
         ),
       ),
     );
   }
 
-  Widget _buildFeaturedItemsSection() {
-    return const SliverToBoxAdapter(
-      child: FeaturedItemsSection(),
+
+  Widget _buildFeaturedItemsSection(List<Product> products) {
+    return SliverToBoxAdapter(
+      child: FeaturedItemsSection(
+        products: products,
+      ),
     );
   }
 
-  Widget _buildSectionSpacing() {
-    return const SliverToBoxAdapter(
-      child: SizedBox(height: _sectionSpacing),
-    );
-  }
 
-  Widget _buildCategoryTabs() {
+  Widget _buildSectionSpacing() =>
+      const SliverToBoxAdapter(child: SizedBox(height: _sectionSpacing));
+
+  Widget _buildCategoryTabs(store) {
     return SliverToBoxAdapter(
       child: StoreCategoryTabs(
-        categories: _storeData.categories,
+        categories: store.categories,
         selectedIndex: _selectedCategoryIndex,
         onCategorySelected: _onCategorySelected,
       ),
     );
   }
 
-  Widget _buildProductsList() {
+  Widget _buildProductsList(List<Product> products, List<Category> categories) {
     return SliverPadding(
       padding: const EdgeInsets.all(_horizontalPadding),
       sliver: StoreProductsList(
         categoryIndex: _selectedCategoryIndex,
+        products: products,
+        categories: categories.map((c) => c.id).toList(),
       ),
     );
   }
+
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final theme = context.theme;
@@ -151,7 +180,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         _buildInfoButton(),
       ],
     );
-
   }
 
   Widget _buildFavoriteButton(dynamic colors) {
@@ -175,7 +203,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       onPressed: _navigateToAboutStore,
     );
   }
-
 
   void _onCategorySelected(int index) {
     setState(() {
