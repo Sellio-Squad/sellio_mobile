@@ -11,6 +11,7 @@ class SellioColors {
     surfaceLow: Color(0xFFFFFFFF),
     surface: Color(0xFFF8F8F8),
     surfaceHigh: Color(0xFFE6E6E6),
+    uploadImageTint : Color(0x70000000),
     title: Color(0xDE1F1F1F),
     body: Color(0xa81f1f1f),
     hint: Color(0x611F1F1F),
@@ -65,6 +66,7 @@ class SellioColors {
       Color(0x80FFFFFF),
       Color(0xDEFFFFFF),
     ],
+    uploadImageTint: Color(0x70000000),
   );
 }
 
@@ -91,6 +93,7 @@ class SellioColorScheme {
   final Color neutralsHint;
   final List<Color> loadingDarkColors;
   final List<Color> loadingLightColors;
+  final Color uploadImageTint;
 
   const SellioColorScheme({
     required this.primary,
@@ -114,5 +117,7 @@ class SellioColorScheme {
     required this.neutralsHint,
     required this.loadingDarkColors,
     required this.loadingLightColors,
+    required this.uploadImageTint,
   });
+
 }
