@@ -30,55 +30,52 @@ class StoreInfoOverview extends StatelessWidget {
         Row(
           children: [
             SvgPicture.asset(Assets.locationPin, width: 20, height: 20),
-            SizedBox(width: 4),
+            const SizedBox(width: 4),
             Text(
               location,
               style: textTheme.labelSmall.copyWith(color: colors.body),
             ),
           ],
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Row(
           children: [
-            Row(
-              children: [
-                Text(
-                  rating.toString(),
-                  style: textTheme.labelSmall.copyWith(color: colors.body),
-                ),
-                const SizedBox(width: 4),
-                SvgPicture.asset(Assets.rate, width: 12, height: 12),
-              ],
+            Text(
+              rating.toString(),
+              style: textTheme.labelSmall.copyWith(color: colors.body),
             ),
-
-            const SizedBox(width: 8),
-
-            ...tags.asMap().entries.map((entry) {
-              final index = entry.key;
-              final tag = entry.value;
-              return Row(
-                children: [
-                  Text(
-                    tag,
-                    style: textTheme.labelSmall.copyWith(color: colors.body),
-                  ),
-                  if (index != tags.length - 1)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text(
-                        "•",
-                        style: textTheme.labelSmall.copyWith(
-                          color: colors.stroke,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            }),
+            const SizedBox(width: 4),
+            SvgPicture.asset(Assets.rate, width: 12, height: 12),
           ],
         ),
-
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
+        // Tags Section using Wrap
+        Wrap(
+          spacing: 6, // horizontal spacing
+          runSpacing: 4, // vertical spacing
+          children: tags.asMap().entries.map((entry) {
+            final index = entry.key;
+            final tag = entry.value;
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  tag,
+                  style: textTheme.labelSmall.copyWith(color: colors.body),
+                ),
+                if (index != tags.length - 1)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Text(
+                      "•",
+                      style: textTheme.labelSmall.copyWith(color: colors.stroke),
+                    ),
+                  ),
+              ],
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 8),
         Text(
           description,
           style: textTheme.bodyMedium.copyWith(color: colors.body),

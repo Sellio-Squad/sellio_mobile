@@ -40,57 +40,57 @@ class ProductHorizontalCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: textTheme.titleSmall.copyWith(color: colors.title),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      description,
-                      style: textTheme.labelXSmall.copyWith(color: colors.body),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        count == 0
-                            ? _buildSingleCartButton(context)
-                            : _buildCounter(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: textTheme.titleSmall.copyWith(color: colors.title),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: textTheme.labelXSmall.copyWith(color: colors.body),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      count == 0
+                          ? _buildSingleCartButton(context)
+                          : _buildCounter(context),
 
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            if (originalPrice != null)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 4.0),
-                                child: Text(
-                                  originalPrice!,
-                                  style: textTheme.titleSmall.copyWith(
-                                    color: colors.hint,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          if (originalPrice != null)
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Text(
+                                originalPrice!,
+                                style: textTheme.titleSmall.copyWith(
+                                  color: colors.hint,
+                                  decoration: TextDecoration.lineThrough,
                                 ),
                               ),
-                            Text(
-                              price,
-                              style: textTheme.titleSmall
-                                  .copyWith(color: colors.primary),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                          Text(
+                            price,
+                            style: textTheme.titleSmall
+                                .copyWith(color: colors.primary),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
 
             Padding(
@@ -214,14 +214,7 @@ class ProductHorizontalCard extends StatelessWidget {
   Widget _buildImage(colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.asset(
-        imageUrl,
-        width: 88,
-        height: 88,
-        fit: BoxFit.cover,
-      ),
-
-      /*Image.network(
+      child: Image.network(
         imageUrl,
         width: 88,
         height: 88,
@@ -230,8 +223,8 @@ class ProductHorizontalCard extends StatelessWidget {
           return progress == null
               ? child
               : Container(
-            width: 104,
-            height: 104,
+            width: 88,
+            height: 88,
             color: colors.surface,
             child: const Center(
               child: CircularProgressIndicator(),
@@ -240,13 +233,13 @@ class ProductHorizontalCard extends StatelessWidget {
         },
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            width: 104,
-            height: 104,
+            width: 88,
+            height: 88,
             color: colors.surface,
             child: const Icon(Icons.broken_image),
           );
         },
-      ),*/
+      ),
     );
   }
 }

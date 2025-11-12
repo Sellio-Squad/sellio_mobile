@@ -12,7 +12,6 @@ import '../data/datasources/local/user_local_datasource.dart';
 import '../data/datasources/local/cart_local_datasource.dart';
 import '../data/datasources/local/category_local_datasource.dart';
 import '../data/datasources/local/product_local_datasource.dart';
-import '../data/datasources/local/store_local_datasource.dart';
 import '../data/datasources/remote/auth_remote_datasource.dart';
 import '../data/datasources/remote/cart_remote_datasource.dart';
 import '../data/datasources/remote/category_remote_datasource.dart';
@@ -138,11 +137,6 @@ void _initDataSourcesModule() {
     );
   }
 
-  if (!instance.isRegistered<StoreLocalDataSource>()) {
-    instance.registerFactory<StoreLocalDataSource>(
-      () => StoreLocalDataSourceImpl(),
-    );
-  }
 }
 
 void _initRepositoriesModule() {
@@ -202,7 +196,6 @@ void _initRepositoriesModule() {
     instance.registerLazySingleton<StoreRepository>(
       () => StoreRepositoryImpl(
         instance<StoreRemoteDataSource>(),
-        instance<StoreLocalDataSource>(),
       ),
     );
   }
