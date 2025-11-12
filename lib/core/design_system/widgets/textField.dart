@@ -151,7 +151,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
     final String? errorText = widget.isParagraph
         ? null
-        : (isError ? 'Error message!' : null);
+        : (isError ? 'Should not be empty' : null);
 
     final errorStyle =
         widget.errorStyle ??
