@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:equatable/equatable.dart';
 import '../../../country.dart';
 
@@ -20,6 +21,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
   final String password;
   final String confirmPassword;
   final Country selectedCountry;
+  final File? selectedProfileImage;
   final bool isFormValid;
   final bool isLoading;
   final String? phoneError;
@@ -28,6 +30,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
   final String? cityError;
   final String? passwordError;
   final String? confirmPasswordError;
+  final String? currentFieldError;
 
   const CreateAccountFormChanged({
     this.phoneNumber = '',
@@ -37,6 +40,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
     this.password = '',
     this.confirmPassword = '',
     required this.selectedCountry,
+    this.selectedProfileImage,
     this.isFormValid = false,
     this.isLoading = false,
     this.phoneError,
@@ -45,6 +49,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
     this.cityError,
     this.passwordError,
     this.confirmPasswordError,
+    this.currentFieldError,
   });
 
   CreateAccountFormChanged copyWith({
@@ -55,6 +60,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
     String? password,
     String? confirmPassword,
     Country? selectedCountry,
+    File? selectedProfileImage,
     bool? isFormValid,
     bool? isLoading,
     String? phoneError,
@@ -63,6 +69,9 @@ class CreateAccountFormChanged extends CreateAccountFormState {
     String? cityError,
     String? passwordError,
     String? confirmPasswordError,
+    String? currentFieldError,
+    bool clearProfileImage = false,
+    bool clearCurrentFieldError = false,
   }) {
     return CreateAccountFormChanged(
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -72,6 +81,9 @@ class CreateAccountFormChanged extends CreateAccountFormState {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       selectedCountry: selectedCountry ?? this.selectedCountry,
+      selectedProfileImage: clearProfileImage
+          ? null
+          : (selectedProfileImage ?? this.selectedProfileImage),
       isFormValid: isFormValid ?? this.isFormValid,
       isLoading: isLoading ?? this.isLoading,
       phoneError: phoneError,
@@ -80,12 +92,14 @@ class CreateAccountFormChanged extends CreateAccountFormState {
       cityError: cityError,
       passwordError: passwordError,
       confirmPasswordError: confirmPasswordError,
+      currentFieldError: clearCurrentFieldError
+          ? null
+          : (currentFieldError ?? this.currentFieldError),
     );
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         phoneNumber,
         fullName,
         country,
@@ -93,6 +107,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
         password,
         confirmPassword,
         selectedCountry,
+        selectedProfileImage,
         isFormValid,
         isLoading,
         phoneError,
@@ -101,6 +116,7 @@ class CreateAccountFormChanged extends CreateAccountFormState {
         cityError,
         passwordError,
         confirmPasswordError,
+        currentFieldError,
       ];
 }
 
@@ -120,4 +136,13 @@ class CreateAccountFormSuccess extends CreateAccountFormState {
 
   @override
   List<Object?> get props => [phoneNumber];
+}
+
+class CreateAccountFormFieldError extends CreateAccountFormState {
+  final String message;
+
+  const CreateAccountFormFieldError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
