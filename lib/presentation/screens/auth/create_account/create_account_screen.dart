@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../core/design_system/themes/sellio_theme.dart';
+
+import '../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 import 'builders/create_account_button_builder.dart';
-import 'builders/create_account_form_builder.dart';
+import 'builders/create_account_form_builder.dart' show CreateAccountFormWidget;
 import 'create_account_bloc_providers.dart';
 import 'create_account_listeners.dart';
 import 'widgets/create_account_footer.dart';
@@ -13,61 +14,35 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CreateAccountBlocProviders(
-      child: _CreateAccountScreenContent(),
-    );
-  }
-}
-
-class _CreateAccountScreenContent extends StatelessWidget {
-  const _CreateAccountScreenContent();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = SellioTheme
-        .of(context)
-        .colors;
-
-    return CreateAccountListeners(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+    return CreateAccountBlocProviders(
+      child: CreateAccountListeners(
         child: AuthBackgroundWrapper(
-          containerPadding: const EdgeInsets.symmetric(horizontal: 0),
+          containerPadding: const EdgeInsets.all(16),
           showLogo: true,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildCreateAccountHeader(context),
-                    buildCreateAccountForm(context),
-                    const SizedBox(height: 24),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
+              buildCreateAccountHeader(context),
+              CreateAccountFormWidget(),
+              const SizedBox(height: 24),
               Container(
                 decoration: BoxDecoration(
-                  color: colors.surfaceLow,
+                  color: context.theme.colors.surfaceLow,
+                  borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      offset: const Offset(0, -4),
+                      offset: const Offset(0, -2),
                       blurRadius: 8,
                     ),
                   ],
                 ),
-                height: 110,
+                padding: const EdgeInsets.all(16),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: buildCreateAccountButton(context),
-                    ),
+                    const CreateAccountButtonBuilder(),
                     const SizedBox(height: 12),
                     buildCreateAccountFooter(context),
                   ],
