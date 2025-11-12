@@ -4,6 +4,7 @@ class SellioColors {
   SellioColors._();
 
   static const light = SellioColorScheme(
+    authBackground: Color(0xFF2C0113),
     primary: Color(0xFF520826),
     primaryVariant: Color(0xFFFEF5F9),
     secondary: Color(0xFFF5A623),
@@ -11,7 +12,7 @@ class SellioColors {
     surfaceLow: Color(0xFFFFFFFF),
     surface: Color(0xFFF8F8F8),
     surfaceHigh: Color(0xFFE6E6E6),
-    uploadImageTint : Color(0x70000000),
+    uploadImageTint: Color(0x70000000),
     title: Color(0xDE1F1F1F),
     body: Color(0xa81f1f1a),
     hint: Color(0x611F1F1F),
@@ -44,6 +45,7 @@ class SellioColors {
   );
 
   static const dark = SellioColorScheme(
+    authBackground: Color(0xFF2C0113),
     primary: Color(0xFF520826),
     primaryVariant: Color(0xFFFEF5F9),
     secondary: Color(0xFFF5A623),
@@ -51,6 +53,7 @@ class SellioColors {
     surfaceLow: Color(0xFFFFFFFF),
     surface: Color(0xFFF8F8F8),
     surfaceHigh: Color(0xFFE6E6E6),
+    uploadImageTint: Color(0x70000000),
     title: Color(0xDE1F1F1F),
     body: Color(0xa81f1f1f),
     hint: Color(0x611F1F1F),
@@ -73,7 +76,6 @@ class SellioColors {
       Color(0x80FFFFFF),
       Color(0xDEFFFFFF),
     ],
-    uploadImageTint: Color(0x70000000),
     productBlack: Color(0xFF000000),
     productWhite: Color(0xFFFFFFFF),
     productRed: Color(0xFFE57373),
@@ -85,7 +87,7 @@ class SellioColors {
 }
 
 class SellioColorScheme {
-  final Color AuthBackground = const Color(0xFF2C0113);
+  final Color authBackground;
   final Color primary;
   final Color primaryVariant;
   final Color secondary;
@@ -93,6 +95,7 @@ class SellioColorScheme {
   final Color surfaceLow;
   final Color surface;
   final Color surfaceHigh;
+  final Color uploadImageTint;
   final Color title;
   final Color body;
   final Color hint;
@@ -107,8 +110,16 @@ class SellioColorScheme {
   final Color neutralsHint;
   final List<Color> loadingDarkColors;
   final List<Color> loadingLightColors;
+  final Color productBlack;
+  final Color productWhite;
+  final Color productRed;
+  final Color productGreen;
+  final Color productPink;
+  final Color productYellow;
+  final Color productBlue;
 
   const SellioColorScheme({
+    required this.authBackground,
     required this.primary,
     required this.primaryVariant,
     required this.secondary,
@@ -116,6 +127,7 @@ class SellioColorScheme {
     required this.surfaceLow,
     required this.surface,
     required this.surfaceHigh,
+    required this.uploadImageTint,
     required this.title,
     required this.body,
     required this.hint,
@@ -130,6 +142,12 @@ class SellioColorScheme {
     required this.neutralsHint,
     required this.loadingDarkColors,
     required this.loadingLightColors,
+    required this.productBlack,
+    required this.productWhite,
+    required this.productRed,
+    required this.productGreen,
+    required this.productPink,
+    required this.productYellow,
+    required this.productBlue,
   });
-
 }

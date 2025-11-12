@@ -31,7 +31,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Scaffold(
-          backgroundColor: colors.AuthBackground,
+          backgroundColor: colors.authBackground,
           body: GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
