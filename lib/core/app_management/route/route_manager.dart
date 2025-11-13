@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
+
+
 import '../../../presentation/screens/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
 import '../../../presentation/screens/auth/createAccount.dart';
@@ -13,6 +15,7 @@ import '../../../presentation/screens/cart_screen.dart';
 import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
+import '../../../presentation/screens/notification/notification_screen.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
 import '../../../presentation/screens/thrift_screen.dart';
@@ -39,7 +42,6 @@ class RouteGenerator {
             child: const LoginScreen(),
           );
         },
-       
       ),
       GoRoute(
         name: AppRoutes.createAccount.name,
@@ -136,7 +138,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _customDesignNavigatorKey,
             routes: <GoRoute>[
@@ -235,6 +236,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const AboutStore(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.notifications.name,
+        path: AppRoutes.notifications.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const NotificationScreen(),
           );
         },
       ),
