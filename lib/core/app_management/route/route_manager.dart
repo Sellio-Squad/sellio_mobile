@@ -10,7 +10,7 @@ import '../../../presentation/screens/auth/forgetPassword/forget_password_screen
 import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
 import '../../../presentation/screens/cart_screen.dart';
-import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
+import '../../../presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
