@@ -14,6 +14,7 @@ import '../../../presentation/screens/customize_product/CustomizeYourProductScre
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
 import '../../../presentation/screens/product_details/ProductDetailsScreen.dart';
+import '../../../presentation/screens/notification_screen.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
 import '../../../presentation/screens/thrift_screen.dart';
@@ -237,6 +238,16 @@ class RouteGenerator {
             child: AboutStore(
               storeId: args.storeId,
             ),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.notifications.name,
+        path: AppRoutes.notifications.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const NotificationScreen(),
           );
         },
       ),

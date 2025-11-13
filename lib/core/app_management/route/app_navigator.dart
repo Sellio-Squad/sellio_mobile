@@ -25,6 +25,8 @@ abstract class AppNavigator {
 
   void pushAboutStore(AboutStoreArgs args);
 
+  void pushNotifications();
+
   void goToHome();
 
   void goToCart();
