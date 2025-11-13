@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
 import '../../../../core/design_system/themes/sellio_colors.dart';
-import '../cubit/design_editor_state.dart';
+import '../../customize_your_product_screen/cubit/design_editor_state.dart';
 
 class SizeSelector extends StatelessWidget {
   final List<ProductSize> sizes;
