@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/chip_category.dart';
 
 class CategoryWidget extends StatefulWidget {
@@ -14,15 +15,15 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   @override
   Widget build(BuildContext context) {
     final List<String> categories = [
-      "Clothes",
-      "Accessories & Gifts",
-      "Home & Decore",
-      "Clothes",
-      "Accessories & Gifts",
-      "Home & Decore",
-      "Clothes",
-      "Accessories & Gifts",
-      "Home & Decore",
+      context.local.clothes,
+      context.local.accessories_and_gifts,
+      context.local.clothes,
+      context.local.clothes,
+      context.local.accessories_and_gifts,
+      context.local.home_and_decore,
+      context.local.clothes,
+      context.local.accessories_and_gifts,
+      context.local.home_and_decore
     ];
 
     return SliverToBoxAdapter(

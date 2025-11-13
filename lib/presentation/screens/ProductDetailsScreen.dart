@@ -4,6 +4,7 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../core/design_system/widgets/sellio_app_bar.dart';
 
@@ -269,7 +270,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             padding: const EdgeInsets.all(16),
             child: SellioTextField(
               isParagraph: true,
-              hintText: "Note  (Optional)",
+              hintText: context.local.note_optional,
             ),
           ),
         ],
@@ -277,7 +278,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 32, left: 16, right: 16),
         child: SellioButton(
-          text: "Add to cart",
+          text: context.local.add_to_cart,
           onTap: () {},
           suffixSvgPath: Assets.cart,
         ),

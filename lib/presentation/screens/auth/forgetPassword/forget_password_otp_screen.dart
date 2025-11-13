@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
 import 'confirm_password_screen.dart';
@@ -105,7 +106,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
           ),
         ),
         title: Text(
-          'Forget password',
+          context.local.forget_password,
           style: typography.titleMedium.copyWith(color: colors.title),
         ),
         centerTitle: false,
@@ -126,7 +127,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                     SizedBox(
                       width: 328,
                       child: Text(
-                        'Enter code',
+                        context.local.enter_code,
                         style: typography.titleMedium.copyWith(
                           color: colors.title,
                         ),
@@ -136,7 +137,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                     SizedBox(
                       width: 328,
                       child: Text(
-                        'Please enter the 4-digit code sent to ${widget.args.phoneNumber}.',
+                        context.local.enter_the_4_digit_sent_to(widget.args.phoneNumber),
                         style: typography.bodySmall.copyWith(
                           color: colors.body,
                         ),
@@ -193,7 +194,7 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                     ),
                   ),
                   child: Text(
-                    'Confirm',
+                    context.local.confirm,
                     style: typography.labelMedium.copyWith(
                       color: _isOtpComplete ? colors.onPrimary : colors.hint,
                     ),
@@ -214,14 +215,14 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Don\'t received code?',
+          context.local.dont_received_code,
           style: typography.labelMedium.copyWith(color: colors.body),
         ),
         const SizedBox(width: 8),
         GestureDetector(
           onTap: canResend ? _handleResendCode : null,
           child: Text(
-            canResend ? 'Re-Send' : 'Re-Send in $_resendCountdown Sec',
+            canResend ? context.local.re_send : context.local.re_send_in_resend_countdown_Sec(_resendCountdown),
             style: typography.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.body,
               decoration: canResend ? TextDecoration.underline : null,

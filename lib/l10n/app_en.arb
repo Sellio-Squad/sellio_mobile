@@ -1,0 +1,130 @@
+{
+  "@@locale": "en",
+  "welcome": "Welcome",
+  "top_stores": "Top Stores",
+  "trending_products": "Trending Products",
+  "search_results": "Search Results",
+  "search_your_favorite_items": "Search your favorite items...",
+  "special_offers": "Special Offers",
+  "add_to_cart": "Add to cart",
+  "reset": "Reset",
+  "note_optional": "Note  (Optional)",
+  "all": "All",
+  "food": "Food",
+  "drinks": "Drinks",
+  "clothes": "Clothes",
+  "thrift": "Thrift",
+  "furniture": "furniture",
+  "books": "Books",
+  "electronics": "Electronics",
+  "notifications": "Notifications",
+  "account_screen": "Account Screen",
+  "no_products_available": "No products available",
+  "featured_items": "Featured Items",
+  "has_been_placed_successfully": "has been placed successfully",
+  "has_been_delivered_successfully": "has been delivered successfully",
+  "has_been_cancelled": "has been cancelled",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "our_friendly_team_is_here_to_help": "Our friendly team is here to help",
+  "store_location": "store_location",
+  "design_editor": "Design editor",
+  "s": "S",
+  "m": "M",
+  "l": "L",
+  "xl": "XL",
+  "two_xl": "2XL",
+  "three_xl": "3XL",
+  "accessories_and_gifts": "Accessories & Gifts",
+  "home_and_decore": "Home & Decore",
+  "tech_accessories": "Tech Accessories",
+  "business_and_branding": "Business & Branding",
+  "customize_your_product": "Customize your product",
+  "choose_a_product_to_customize_it": "Choose_a_product_to_customize_it",
+  "upload_logo_or_image": "Upload logo or image",
+  "size": "Size",
+  "color": "Color",
+  "change_language": "Change language",
+  "english": "English",
+  "arabic": "Arabic",
+  "save": "Save",
+  "delete_account": "Delete account",
+  "account_options": "account options",
+  "are_you_sure_to_continue_deleting_account": "Are you sure to continue deleting account?",
+  "logout": "Logout",
+  "are_you_sure_to_continue_logout": "Are you sure to continue logout?",
+  "start_exploring_and_saving_your_favorite_items_here": "Start exploring and saving your favorite items here.",
+  "no_favourite_items": "No favourite items!",
+  "favorites": "Favorites",
+  "products": "Products",
+  "stores": "Stores",
+  "recent_searches": "Recent Searches",
+  "clear_all": "Clear All",
+  "no_results_found": "No results found!",
+  "please_check_your_spelling_or_try_a_different_search": "Please check your spelling or try a different search.",
+  "start_exploring_your_favorite_items": "Start exploring your favorite items!",
+  "iraq": "Iraq",
+  "egypt": "Egypt",
+  "confirm_your_account": "Confirm your account",
+  "confirm": "Confirm",
+  "dont_received_code": "Don\\'t received code?",
+  "re_send": "Re-Send",
+  "confirm_password": "Confirm Password",
+
+  "enter_code": "Enter code",
+  "password": "Password",
+  "forget_password": "Forget Password?",
+  "phone_number_must_be_at_least_10_digits": "Phone number must be at least 10 digits",
+  "phone_number_digits_only": "Phone number must contain only digits",
+  "full_name_at_least_2_characters": "Full name must be at least 2 characters",
+  "full_name_letters_only": "Full name must contain only letters and spaces",
+  "country_at_least_2_characters": "Country must be at least 2 characters",
+  "country_letters_only": "Country must contain only letters and spaces",
+  "city_at_least_2_characters": "City must be at least 2 characters",
+  "city_letters_only": "City must contain only letters and spaces",
+  "password_min_6_characters": "Password must be at least 6 characters",
+  "password_max_20_characters": "Password must be less than 20 characters",
+  "passwords_do_not_match": "Passwords do not match",
+  "failed_to_create_account": "Failed to create account. Please try again.",
+
+  "profile_photo_optional": "Profile photo (optional)",
+  "enter_the_4digit": "Please enter the 4-digit code sent to your phone number.",
+  "no_order_history": "No order history!",
+  "start_exploring": "Start Exploring",
+  "start_exploring_favorite_items": "Start exploring and purchasing your favorite items",
+  "total_reviews": "($totalReviews reviews)",
+  "@total_reviews": {
+    "description": "Total number of reviews for a store",
+    "placeholders": {
+      "totalReviews": {}
+    }
+  },
+  "no_products_found_for": "No product found for {search_query}",
+  "@no_products_found_for": {
+    "description": "A message appears when no products match the search.",
+    "placeholders": {
+      "search_query": {}
+    }
+  },
+  "your_order_from": "Your order {orderId} from ",
+  "@your_order_from": {
+    "description": "Message showing the order ID",
+    "placeholders": {
+      "orderId": {}
+    }
+  },
+  "re_send_in_resend_countdown_Sec": "Re-Send in $resendCountdown Sec",
+  "@re_send_in_resend_countdown_Sec": {
+    "description": "Countdown timer for re-sending the confirmation code",
+    "placeholders": {
+    "resendCountdown": {}
+  }
+  },
+  "enter_the_4_digit_sent_to": "Please enter the 4-digit code sent to ${phone_number}.",
+  "@enter_the_4_digit_sent_to": {
+    "description": "Instruction to enter the 4-digit code sent to the user's phone number",
+    "placeholders": {
+      "phone_number": {}
+    }
+  }
+}

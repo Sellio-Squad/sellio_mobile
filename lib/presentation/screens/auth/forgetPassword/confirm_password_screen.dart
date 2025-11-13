@@ -5,6 +5,7 @@ import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/textField.dart';
@@ -108,7 +109,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
 
                       SellioTextField(
                         controller: _confirmPasswordController,
-                        hintText: 'Confirm Password',
+                        hintText: context.local.confirm_password,
                         inputType: TextInputType.visiblePassword,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),

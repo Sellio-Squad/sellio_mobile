@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
@@ -33,7 +34,7 @@ class ProductsSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
-            title: searchQuery == null ? 'Trending Products' : 'Search Results',
+            title: searchQuery == null ? context.local.trending_products : context.local.search_results,
             trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
           ),
         ),
@@ -48,8 +49,8 @@ class ProductsSection extends StatelessWidget {
       child: Center(
         child: Text(
           searchQuery == null
-              ? 'No products available'
-              : 'No products found for "$searchQuery"',
+              ? context.local.no_products_available
+              : context.local.no_products_found_for(searchQuery as Object),
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),

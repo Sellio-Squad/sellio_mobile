@@ -89,6 +89,11 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
+  void pushNotifications() {
+    context.pushNamed(AppRoutes.notifications.name);
+  }
+
+  @override
   void goToHome() {
     context.go(AppRoutes.home.path);
   }
@@ -118,7 +123,6 @@ class AppNavigatorImpl implements AppNavigator {
   void pop<T extends Object?>([T? result]) {
     context.pop<T>(result);
   }
-
 
   @override
   void popAndPush(String routeName) {
