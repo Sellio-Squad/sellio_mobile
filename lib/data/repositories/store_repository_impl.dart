@@ -1,4 +1,4 @@
-import '../../domain/core/result.dart';
+import '../../core/error/result.dart';
 import '../../domain/entities/StoreRating.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/entities/review.dart';

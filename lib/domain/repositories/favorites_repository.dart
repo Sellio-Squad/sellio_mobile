@@ -1,4 +1,4 @@
-import '../core/result.dart';
+import '../../core/error/result.dart';
 
 abstract class FavoritesRepository {
   Future<Result<List<String>>> getFavoriteProductIds();

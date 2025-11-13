@@ -1,4 +1,4 @@
-import '../core/result.dart';
+import '../../core/error/result.dart';
 import '../entities/address.dart';
 import '../entities/user.dart';
 

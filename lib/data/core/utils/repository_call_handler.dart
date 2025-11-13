@@ -1,12 +1,11 @@
-import '../../../domain/core/failure.dart';
-import '../../../domain/core/result.dart';
+import '../../../core/error/failure.dart';
+import '../../../core/error/result.dart';
 import '../exceptions/exception_handler.dart';
 
 
 class RepositoryCallHandler {
   RepositoryCallHandler._();
 
-  /// Executes a repository call and handles exceptions
   static Future<Result<T>> call<T>(
       Future<T> Function() repositoryCall,
       ) async {
@@ -18,7 +17,6 @@ class RepositoryCallHandler {
     }
   }
 
-  /// Executes a repository call with additional error mapping
   static Future<Result<T>> callWithMapping<T>(
       Future<T> Function() repositoryCall, {
         Failure Function(dynamic error)? errorMapper,
@@ -34,7 +32,6 @@ class RepositoryCallHandler {
     }
   }
 
-  /// Executes a repository call that returns void
   static Future<Result<void>> callVoid(
       Future<void> Function() repositoryCall,
       ) async {
@@ -46,7 +43,6 @@ class RepositoryCallHandler {
     }
   }
 
-  /// Executes a repository call with authentication check
   static Future<Result<T>> callWithAuth<T>(
       Future<String?> Function() getUserId,
       Future<T> Function(String userId) repositoryCall,
@@ -66,7 +62,6 @@ class RepositoryCallHandler {
     }
   }
 
-  /// Executes multiple repository calls in parallel
   static Future<Result<List<T>>> callMultiple<T>(
       List<Future<T> Function()> repositoryCalls,
       ) async {

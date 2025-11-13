@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../../../domain/core/failure.dart';
+import '../../../core/error/failure.dart';
 import 'api_exception.dart';
 
 class ExceptionHandler {

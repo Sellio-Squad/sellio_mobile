@@ -32,9 +32,4 @@ class DomainConstants {
   // API Timeouts
   static const Duration apiTimeout = Duration(seconds: 30);
   static const Duration uploadTimeout = Duration(minutes: 2);
-
-  // Error messages
-  static const String networkErrorMessage = 'No internet connection';
-  static const String serverErrorMessage = 'Server error occurred';
-  static const String unknownErrorMessage = 'An unexpected error occurred';
 }
