@@ -9,7 +9,7 @@ class DesignEditorState {
   final int selectedSizeIndex;
   final File? overlayImage;
   final List<Color> availableColors;
-  final List<String> availableSizes;
+  final List<ProductSize> availableSizes;
   final double price;
   final double oldPrice;
   final bool isLoading;
@@ -35,15 +35,15 @@ class DesignEditorState {
       selectedSizeIndex: 0,
       overlayImage: null,
       availableColors: [
-        SellioColors.light.productBlack,
-        SellioColors.light.productWhite,
-        SellioColors.light.productRed,
-        SellioColors.light.productGreen,
-        SellioColors.light.productPink,
-        SellioColors.light.productYellow,
-        SellioColors.light.productBlue,
+        SellioColors.productBlack,
+        SellioColors.productWhite,
+        SellioColors.productRed,
+        SellioColors.productGreen,
+        SellioColors.productPink,
+        SellioColors.productYellow,
+        SellioColors.productBlue,
       ],
-      availableSizes: ['S', 'M', 'L', 'XL', '2XL', '3XL'],
+      availableSizes: ProductSize.values,
       price: 12.99,
       oldPrice: 16.99,
       isLoading: false,
@@ -57,7 +57,7 @@ class DesignEditorState {
     int? selectedSizeIndex,
     File? overlayImage,
     List<Color>? availableColors,
-    List<String>? availableSizes,
+    List<ProductSize>? availableSizes,
     double? price,
     double? oldPrice,
     bool? isLoading,
@@ -79,7 +79,19 @@ class DesignEditorState {
   }
 
   Color get selectedColor => availableColors[selectedColorIndex];
-  String get selectedSize => availableSizes[selectedSizeIndex];
+  ProductSize get selectedSize => availableSizes[selectedSizeIndex];
   bool get hasOverlayImage => overlayImage != null;
   double get totalPrice => price * quantity;
+}
+
+enum ProductSize {
+  S('S'),
+  M('M'),
+  L('L'),
+  XL('XL'),
+  XXL('2XL'),
+  XXXL('3XL');
+
+  const ProductSize(this.value);
+  final String value;
 }
