@@ -15,7 +15,7 @@ import '../../../presentation/screens/cart_screen.dart';
 import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
-import '../../../presentation/screens/notification/notification_screen.dart';
+import '../../../presentation/screens/notification_screen.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
 import '../../../presentation/screens/thrift_screen.dart';
