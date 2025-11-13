@@ -23,7 +23,7 @@ abstract class AppNavigator {
 
   void pushCustomizeProduct(CustomizeProductArgs args);
 
-  void pushAboutStore();
+  void pushAboutStore(AboutStoreArgs args);
 
   void goToHome();
 

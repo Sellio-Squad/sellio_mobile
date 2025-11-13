@@ -65,3 +65,11 @@ class CustomizeProductArgs {
   final String productId;
   final String? productName;
 }
+
+class AboutStoreArgs {
+  AboutStoreArgs({
+    required this.storeId,
+  });
+
+  final String storeId;
+}

@@ -84,8 +84,11 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushAboutStore() {
-    context.pushNamed(AppRoutes.aboutStore.name);
+  void pushAboutStore(AboutStoreArgs args) {
+    context.pushNamed(
+      AppRoutes.aboutStore.name,
+      extra: args,
+    );
   }
 
   @override
