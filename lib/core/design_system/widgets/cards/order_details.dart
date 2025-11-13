@@ -2,66 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-
+import '../../../../domain/entities/order.dart';
 import '../../constants/assets.dart';
 
-enum OrderStatus { processing, completed, cancelled }
-
-class OrderItem {
-  final String productId;
-  final String productName;
-  final int quantity;
-  final double price;
-
-  const OrderItem({
-    required this.productId,
-    required this.productName,
-    required this.quantity,
-    required this.price,
-  });
-}
-
-class OrderModel {
-  final String id;
-  final String date;
-  final OrderStatus status;
-  final int totalItems;
-  final String marketName;
-  final String marketImage;
-  final List<OrderItem> orderItems;
-
-  const OrderModel({
-    required this.id,
-    required this.date,
-    required this.status,
-    required this.totalItems,
-    required this.marketName,
-    required this.marketImage,
-    required this.orderItems,
-  });
-}
-
 class OrderDetails extends StatefulWidget {
-  final String orderId;
-  final String orderDate;
-  final OrderStatus status;
-  final int orderTotal;
-  final String marketName;
-  final String marketImage;
-  final List<OrderItem> orderItems;
+  final Order order;
   final VoidCallback onCancelClick;
   final VoidCallback onViewDetailsClick;
   final VoidCallback onOrderAgainClick;
 
   const OrderDetails({
     super.key,
-    required this.orderId,
-    required this.orderDate,
-    required this.status,
-    required this.orderTotal,
-    required this.marketName,
-    required this.marketImage,
-    required this.orderItems,
+    required this.order,
     required this.onCancelClick,
     required this.onViewDetailsClick,
     required this.onOrderAgainClick,
@@ -76,11 +28,15 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final order = widget.order;
+
+    // Determine colors and status text
     Color bgColor;
     Color textColor;
     String statusText;
 
-    switch (widget.status) {
+    switch (order.status) {
+      case OrderStatus.pending:
       case OrderStatus.processing:
         bgColor = context.theme.colors.secondaryVariant;
         textColor = context.theme.colors.secondary;
@@ -108,12 +64,13 @@ class _OrderDetailsState extends State<OrderDetails> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Header row: order ID + status
           Row(
             children: [
               SvgPicture.asset(Assets.orderIcon, width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
-                "Order #${widget.orderId}",
+                "Order #${order.id}",
                 style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: context.theme.colors.title,
                 ),
@@ -133,23 +90,22 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ],
           ),
+
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Placed on ${widget.orderDate}",
+              "Placed on ${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}",
               style: context.theme.typography.textTheme.labelXSmall.copyWith(
                 color: context.theme.colors.body,
               ),
             ),
           ),
+
           const SizedBox(height: 12),
+          // Expandable section
           GestureDetector(
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
+            onTap: () => setState(() => _isExpanded = !_isExpanded),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Row(
@@ -162,13 +118,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                       width: 16,
                       height: 16,
                       colorFilter: ColorFilter.mode(
-                          context.theme.colors.body, BlendMode.srcIn),
+                        context.theme.colors.body,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
                   CircleAvatar(
                     radius: 16,
-                    backgroundImage: AssetImage(widget.marketImage),
+                    backgroundImage: NetworkImage(order.storeImage),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -176,13 +134,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.marketName,
+                          order.storeName,
                           style: context.theme.typography.textTheme.labelSmall
                               .copyWith(color: context.theme.colors.body),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          "${widget.orderTotal} items",
+                          "${order.itemCount} items",
                           style: context.theme.typography.textTheme.labelXSmall
                               .copyWith(color: context.theme.colors.body),
                         ),
@@ -193,12 +151,13 @@ class _OrderDetailsState extends State<OrderDetails> {
               ),
             ),
           ),
+
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
             secondChild: Container(
               margin: const EdgeInsets.only(top: 8),
               child: Column(
-                children: widget.orderItems.map((item) {
+                children: order.items.map((item) {
                   return Container(
                     padding: const EdgeInsets.fromLTRB(24, 5, 12, 5),
                     child: Row(
@@ -232,8 +191,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                 : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 200),
           ),
+
           const SizedBox(height: 16),
-          if (widget.status == OrderStatus.processing)
+          if (order.canBeCancelled)
             Row(
               children: [
                 Expanded(

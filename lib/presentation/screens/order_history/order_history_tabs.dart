@@ -1,50 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/design_system/widgets/chip_category.dart';
-class OrderHistoryTabs extends StatefulWidget {
-  final ValueChanged<int> onTabSelected;
-  const OrderHistoryTabs({super.key, required this.onTabSelected});
+import 'OrderHistoryCubit.dart';
+import 'order_history_state.dart';
 
-  @override
-  State<OrderHistoryTabs> createState() => _OrderHistoryTabsState();
-}
-
-class _OrderHistoryTabsState extends State<OrderHistoryTabs> {
-  int _selectedOrderHistoryIndex = 0;
-
-  final List<String> _orderHistories = [
-    'All Orders',
-    'Processing',
-    'Completed',
-    'Cancelled'
-  ];
+class OrderHistoryTabs extends StatelessWidget {
+  const OrderHistoryTabs({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 40,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          itemCount: _orderHistories.length,
-          itemBuilder: (context, index) {
-            final isSelected = _selectedOrderHistoryIndex == index;
-            return Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: ChipCategory(
-                label: _orderHistories[index],
-                selected: isSelected,
-                onTap: () {
-                  setState(() {
-                    _selectedOrderHistoryIndex = index;
-                  });
-                  widget.onTabSelected(index);
-                },
-              ),
-            );
-          },
-        ),
-      ),
+    return BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
+      builder: (context, state) {
+        if (state is! OrderHistoryLoaded) return const SizedBox.shrink();
+
+        return SliverToBoxAdapter(
+          child: SizedBox(
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              itemCount: state.tabs.length,
+              itemBuilder: (context, index) {
+                final isSelected = state.selectedTabIndex == index;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: ChipCategory(
+                    label: state.tabs[index],
+                    selected: isSelected,
+                    onTap: () {
+                      context.read<OrderHistoryCubit>().selectTab(index);
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
