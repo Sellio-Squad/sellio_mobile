@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../../core/design_system/themes/sellio_colors.dart';
 
 class EmptyFavoritesWidget extends StatelessWidget {
@@ -33,11 +34,11 @@ class EmptyFavoritesWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
+              children: [
                 Text(
-                  'No favourite items!',
+                  context.local.no_favourite_items,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Rubik',
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
@@ -45,13 +46,13 @@ class EmptyFavoritesWidget extends StatelessWidget {
                     color: Color(0xE01F1F1F),
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 SizedBox(
                   width: 320,
                   child: Text(
-                    'Start exploring and saving your favorite items here.',
+                    context.local.start_exploring_and_saving_your_favorite_items_here,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Rubik',
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
@@ -82,9 +83,9 @@ class EmptyFavoritesWidget extends StatelessWidget {
             ),
             onPressed: () {
             },
-            child: const Text(
-              'Start Exploring',
-              style: TextStyle(
+            child: Text(
+              context.local.start_exploring,
+              style: const TextStyle(
                 fontFamily: 'Rubik',
                 fontWeight: FontWeight.w500,
                 fontSize: 14,

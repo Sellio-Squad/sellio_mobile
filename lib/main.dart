@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'domain/repositories/cart_repository.dart';
@@ -9,6 +10,7 @@ import 'domain/repositories/offers_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
 import 'domain/repositories/user_repository.dart';
+import 'l10n/app_localizations.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';
@@ -80,7 +82,20 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerConfig: RouteGenerator.router,
           title: 'Sellio app',
-        ),
+
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('ar'),
+          ],
+          locale: WidgetsBinding.instance.window.locale,
+        )
+        ,
       ),
     );
 

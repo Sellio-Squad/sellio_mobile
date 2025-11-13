@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
 import '../store_data_provider.dart';
 
@@ -58,11 +59,11 @@ class _StoreProductsListState extends State<StoreProductsList> {
   }
 
   Widget _buildEmptyState() {
-    return const SliverToBoxAdapter(
+    return SliverToBoxAdapter(
       child: Center(
         child: Padding(
           padding: EdgeInsets.all(32.0),
-          child: Text('No products available'),
+          child: Text(context.local.no_products_available),
         ),
       ),
     );

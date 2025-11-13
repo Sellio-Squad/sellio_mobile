@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import 'widgets/product_image.dart';
 import 'widgets/price_quantity_row.dart';
 import 'widgets/color_selector.dart';
@@ -38,9 +40,9 @@ class _DesignEditorScreenState extends State<DesignEditorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.colors.surfaceLow,
-      appBar: const SellioAppBar(
+      appBar: SellioAppBar(
         showBackButton: true,
-        title: 'Design editor',
+        title: context.local.design_editor,
         centerTitle: false,
       ),
       body: Column(

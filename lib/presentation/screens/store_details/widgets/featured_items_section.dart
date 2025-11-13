@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
   const FeaturedItemsSection({super.key});
@@ -64,7 +65,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
-            title: 'Featured Items',
+            title: context.local.featured_items,
             trailing: SvgPicture.asset(
               Assets.arrowRight,
               width: 20,

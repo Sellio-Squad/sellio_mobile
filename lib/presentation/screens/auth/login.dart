@@ -6,6 +6,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/AuthBackgroundWrapper.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../core/design_system/themes/sellio_colors.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';
@@ -146,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
           SellioTextField(
             controller: _passwordController,
-            hintText: 'Password',
+            hintText: context.local.password,
             hintStyle: textTheme.labelMedium.copyWith(color: colors.body),
             inputType: TextInputType.visiblePassword,
             prefixIcon: SvgPicture.asset(
@@ -163,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Align(
             alignment: Alignment.centerRight,
             child: SellioButton(
-              text: 'Forget Password?',
+              text: context.local.forget_password,
               textColor: colors.primary,
               backgroundColor: Colors.transparent,
               fullWidth: false,

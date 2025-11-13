@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_colors.dart';
 
@@ -43,7 +44,7 @@ class BottomButtons extends StatelessWidget {
                 elevation: 0,
               ),
               child: Text(
-                'Add to cart',
+                context.local.add_to_cart,
                 style: context.theme.typography.textTheme.labelLarge.copyWith(
                   color: context.theme.colors.onPrimary,
                   fontWeight: FontWeight.w500,
@@ -64,7 +65,7 @@ class BottomButtons extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Reset',
+                context.local.reset,
                 style: context.theme.typography.textTheme.labelLarge.copyWith(
                   color: context.theme.colors.primary,
                   fontWeight: FontWeight.w500,

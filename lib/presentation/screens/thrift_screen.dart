@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../core/design_system/constants/assets.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
 import 'home/widgets/category_tabs.dart';
@@ -21,29 +22,29 @@ class _ThriftScreenState extends State<ThriftScreen> {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-      appBar: const SellioAppBar(title: 'Thrift'),
+      appBar: SellioAppBar(title: context.local.thrift),
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
             child: CategoryTabs(
-              categories: const [
+              categories: [
                 CategoryTabData(
-                    id: 'all', name: 'All', icon: Assets.allCategories),
+                    id: 'all', name: context.local.all, icon: Assets.allCategories),
                 CategoryTabData(
                     id: 'clothes',
-                    name: 'Clothes',
+                    name: context.local.clothes,
                     icon: Assets.clothes),
                 CategoryTabData(
                     id: 'furniture',
-                    name: 'Furniture',
+                    name: context.local.furniture,
                     icon: Assets.clothes),
                 CategoryTabData(
                     id: 'electronics',
-                    name: 'Electronics',
+                    name: context.local.electronics,
                     icon: Assets.clothes),
                 CategoryTabData(
                     id: 'books',
-                    name: 'Books',
+                    name: context.local.books,
                     icon: Assets.clothes),
               ],
               selectedIndex: selectedCategory,
