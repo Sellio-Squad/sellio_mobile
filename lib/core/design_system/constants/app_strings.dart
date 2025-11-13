@@ -88,4 +88,5 @@ class AppStrings {
   static final notification = 'Notifications';
   static final language = 'Language';
   static final appVersion = 'App version';
+  static const String appVersionNumber = '1.2';
 }

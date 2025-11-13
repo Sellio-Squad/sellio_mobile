@@ -7,6 +7,7 @@ class User {
   final String phoneNumber;
   final String countryCode;
   final String? profilePhotoUrl;
+  final String? email;
   final Address address;
 
   const User({
@@ -16,6 +17,7 @@ class User {
     required this.countryCode,
     this.profilePhotoUrl,
     required this.address,
+    this.email,
   });
 
   User copyWith({
@@ -25,6 +27,7 @@ class User {
     String? countryCode,
     String? profilePhotoUrl,
     Address? address,
+    String? email,
   }) {
     return User(
       id: id ?? this.id,
@@ -33,6 +36,7 @@ class User {
       countryCode: countryCode ?? this.countryCode,
       profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
       address: address ?? this.address,
+      email: email ?? this.email,
     );
   }
 }

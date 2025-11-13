@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
@@ -12,8 +13,12 @@ import 'package:sellio_mobile/ui/screens/account/account_settings/account_settin
 import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
+
 import '../../../core/design_system/constants/assets.dart';
 import 'account_options/account_options_bottom_sheet.dart';
+import 'cubits/BottomSheetType.dart';
+import 'cubits/account_cubit.dart';
+import 'cubits/account_state.dart';
 import 'language/change_language_bottom_sheet.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -28,13 +33,52 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     SellioTextTheme themeText = context.theme.typography.textTheme;
     SellioColorScheme colors = context.theme.colors;
+    return BlocProvider(
+        create: (context) => AccountCubit()..loadProfileData(),
+        child: BlocConsumer<AccountCubit, AccountState>(
+            listener: (context, state) {
+          if (state is AccountLoaded) {
+            _showBottomSheetByType(context, state.activeBottomSheet);
+          }
+        }, builder: (context, state) {
+          switch (state) {
+            case AccountInitial():
+              return const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 40,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              );
+            case AccountLoading():
+              return const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 40,
+                  child: Center(child: CircularProgressIndicator()),
+                ),
+              );
+            case AccountLoaded():
+              _showBottomSheetByType(context, state.activeBottomSheet);
+              return _accountContent(context, state, themeText, colors);
+            case AccountError():
+              throw UnimplementedError();
+            case AccountActionLoading():
+              throw UnimplementedError();
+          }
+        }));
+  }
 
+  Widget _accountContent(
+    BuildContext context,
+    AccountLoaded state,
+    SellioTextTheme themeText,
+    SellioColorScheme colors,
+  ) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: colors.surfaceLow,
       ),
       child: Scaffold(
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: false,
         backgroundColor: colors.surfaceLow,
         appBar: SellioAppBar(
           title: AppStrings.account,
@@ -75,19 +119,19 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Zinah & Baraa',
+                          state.userProfile.fullName,
                           style: themeText.titleSmall
                               .copyWith(color: colors.title),
                         ),
                         Text(
-                          'Hamsa2025@gmail.com',
+                          state.userProfile.email ?? '',
                           style:
                               themeText.labelSmall.copyWith(color: colors.body),
                         )
                       ],
                     ),
                   ),
-                  const SizedBox(height:24),
+                  const SizedBox(height: 24),
                   Row(
                     children: [
                       Expanded(
@@ -95,7 +139,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             icon: Assets.package,
                             orderTitle: AppStrings.myOrders),
                       ),
-                      const SizedBox(width:8),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: AccountCustomCard(
                             icon: Assets.heartCheck,
@@ -103,34 +147,40 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height:16),
+                  const SizedBox(height: 16),
                   AccountOptionCard(
                     prefixIcon: Assets.repair,
                     orderTitle: AppStrings.accountSettings,
                     onCardClicked: () {
-                      _showAccountSettingsBottomSheet(context);
+                      context
+                          .read<AccountCubit>()
+                          .showBottomSheet(BottomSheetType.accountSettings);
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: Assets.circleLockAdd,
                     orderTitle: AppStrings.resetPassword,
                     onCardClicked: () {
-                      _showResetPasswordBottomSheet(context);
+                      context
+                          .read<AccountCubit>()
+                          .showBottomSheet(BottomSheetType.resetPassword);
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: Assets.languageCircle,
                     orderTitle: AppStrings.language,
                     onCardClicked: () {
-                      _showLanguageBottomSheet(context);
+                      context
+                          .read<AccountCubit>()
+                          .showBottomSheet(BottomSheetType.language);
                     },
                     trailing: SvgPicture.asset(Assets.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: Assets.notification,
                     orderTitle: AppStrings.notification,
@@ -140,7 +190,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onChanged: (bool value) {},
                     ),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: Assets.mobileProgramming,
                     orderTitle: AppStrings.appVersion,
@@ -152,7 +202,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
@@ -162,62 +212,89 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
+  void _showBottomSheetByType(BuildContext context, BottomSheetType type) {
+    switch (type) {
+      case BottomSheetType.none:
+        return;
+      case BottomSheetType.accountSettings:
+        return _showAccountSettingsBottomSheet(context);
+      case BottomSheetType.resetPassword:
+        return _showResetPasswordBottomSheet(context);
+      case BottomSheetType.language:
+        return _showLanguageBottomSheet(context);
+      case BottomSheetType.accountOptions:
+        return _showAccountOptionsBottomSheet(context);
+      case BottomSheetType.logout:
+        return _showLogoutBottomSheet(context);
+      case BottomSheetType.deleteAccount:
+        return _showDeleteAccountBottomSheet(context);
+    }
+  }
+
   void _showAccountSettingsBottomSheet(BuildContext context) {
     AccountSettingsBottomSheet.show(
         context: context,
         onSave: () {
-          print('saved..');
+          context.read<AccountCubit>().hideBottomSheet();
         });
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {
     ResetPasswordBottomSheet.show(
-      onSave: () {},
+      onSave: () {
+        context.read<AccountCubit>().hideBottomSheet();
+      },
       context: context,
     );
   }
-}
 
-void _showLanguageBottomSheet(BuildContext context) {
-  ChangeLanguageBottomSheet.show(
-    context: context,
-    onSave: (String language) {
-      print('Selected language: $language');
-    },
-    selectedLanguage: AppStrings.english,
-  );
-}
-
-void _showLogoutBottomSheet(BuildContext context) {
-  LogoutBottomSheet.show(
-    context: context,
-    onLogout: () {
-      print('Logging out...');
-    },
-  );
-}
-
-void _showDeleteAccountBottomSheet(BuildContext context) {
-  DeleteAccountBottomSheet.show(
-    context: context,
-    onDeleteAccount: () {
-      print('Logging out...');
-    },
-  );
-}
-
-void _showAccountOptionsBottomSheet(BuildContext context) {
-  AccountOptionsBottomSheet.show(
-      onLogout: () {
-        _showLogoutBottomSheet(context);
-      },
-      onDeleteAccount: () {
-        _showDeleteAccountBottomSheet(context);
-      },
+  void _showLanguageBottomSheet(BuildContext context) {
+    ChangeLanguageBottomSheet.show(
       context: context,
-      onDismiss: () {
-        print('Dismissing bottom sheet...');
-      });
+      onSave: (String language) {
+        context.read<AccountCubit>().hideBottomSheet();
+        print('Selected language: $language');
+      },
+      selectedLanguage: AppStrings.english,
+    );
+  }
+
+  void _showLogoutBottomSheet(BuildContext context) {
+    LogoutBottomSheet.show(
+      context: context,
+      onLogout: () {
+        context.read<AccountCubit>().hideBottomSheet();
+        print('Logging out...');
+      },
+    );
+  }
+
+  void _showDeleteAccountBottomSheet(BuildContext context) {
+    DeleteAccountBottomSheet.show(
+      context: context,
+      onDeleteAccount: () {
+        context.read<AccountCubit>().hideBottomSheet();
+        print('Logging out...');
+      },
+    );
+  }
+
+  void _showAccountOptionsBottomSheet(BuildContext context) {
+    AccountOptionsBottomSheet.show(
+        onLogout: () {
+          context.read<AccountCubit>().showBottomSheet(BottomSheetType.logout);
+        },
+        onDeleteAccount: () {
+          context
+              .read<AccountCubit>()
+              .showBottomSheet(BottomSheetType.deleteAccount);
+        },
+        context: context,
+        onDismiss: () {
+          context.read<AccountCubit>().hideBottomSheet();
+          print('Dismissing bottom sheet...');
+        });
+  }
 }
 
 Widget uploadImageCard({
@@ -330,13 +407,13 @@ class AccountCustomCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height:12),
+            const SizedBox(height: 12),
             SvgPicture.asset(
               icon,
               width: iconSize,
               height: iconSize,
             ),
-            const SizedBox(height:16),
+            const SizedBox(height: 16),
             Text(
               orderTitle,
               style: context.theme.typography.textTheme.labelMedium.copyWith(
