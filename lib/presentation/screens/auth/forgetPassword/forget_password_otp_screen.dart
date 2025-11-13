@@ -6,7 +6,6 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
-import 'confirm_password_screen.dart';
 import 'widget/lock_icon.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {

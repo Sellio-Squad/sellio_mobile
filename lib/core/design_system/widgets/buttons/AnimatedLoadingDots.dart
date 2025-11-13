@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AnimatedLoadingDots extends StatefulWidget {
   final List<Color> colors;
 
-  const AnimatedLoadingDots({Key? key, required this.colors}) : super(key: key);
+  const AnimatedLoadingDots({super.key, required this.colors});
 
   @override
   State<AnimatedLoadingDots> createState() => _AnimatedLoadingDotsState();

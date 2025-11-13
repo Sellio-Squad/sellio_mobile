@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
+
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 
@@ -20,7 +22,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   bool _isOtpComplete = false;
   int _resendCountdown = 0;
   Timer? _countdownTimer;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   void initState() {
