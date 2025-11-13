@@ -11,7 +11,6 @@ import '../../../data/datasources/remote/user_remote_datasource.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {
-
     sl.registerLazySingleton<AuthRemoteDataSource>(
           () => AuthRemoteDataSourceImpl(sl()),
     );

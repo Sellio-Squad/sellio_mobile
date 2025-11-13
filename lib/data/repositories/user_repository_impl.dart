@@ -2,24 +2,24 @@ import '../../core/error/result.dart';
 import '../../domain/entities/address.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
+import '../core/storage/auth/auth_storage.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../core/storage/secure_storage.dart';
 import '../datasources/remote/user_remote_datasource.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource _remoteDataSource;
-  final SecureStorage _secureStorage;
+  final AuthStorage _authStorage;
 
   UserRepositoryImpl({
     required UserRemoteDataSource remoteDataSource,
-    required SecureStorage secureStorage,
+    required AuthStorage authStorage,
   })  : _remoteDataSource = remoteDataSource,
-        _secureStorage = secureStorage;
+        _authStorage = authStorage;
 
   @override
   Future<Result<User>> getUserProfile() async {
     return RepositoryCallHandler.callWithAuth<User>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         final userModel = await _remoteDataSource.getUserProfile(userId);
         return userModel.toEntity();
@@ -34,7 +34,7 @@ class UserRepositoryImpl implements UserRepository {
     String? profilePhotoUrl,
   }) async {
     return RepositoryCallHandler.callWithAuth<User>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         String? firstName;
         String? lastName;
@@ -62,7 +62,7 @@ class UserRepositoryImpl implements UserRepository {
     required String newPassword,
   }) async {
     return RepositoryCallHandler.callWithAuth<void>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) => _remoteDataSource.changePassword(
         userId: userId,
         currentPassword: currentPassword,
@@ -74,7 +74,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<Address>> getUserAddress() async {
     return RepositoryCallHandler.callWithAuth<Address>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         final addressModel = await _remoteDataSource.getUserAddress(userId);
         return addressModel.toEntity();
@@ -88,7 +88,7 @@ class UserRepositoryImpl implements UserRepository {
     required String city,
   }) async {
     return RepositoryCallHandler.callWithAuth<Address>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         final addressModel = await _remoteDataSource.addAddress(
           userId: userId,
@@ -128,7 +128,7 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<String>> uploadProfilePhoto(String filePath) async {
     return RepositoryCallHandler.callWithAuth<String>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) => _remoteDataSource.uploadProfilePhoto(
         userId: userId,
         filePath: filePath,

@@ -73,12 +73,3 @@ class ConflictException extends ApiException {
     super.code,
   });
 }
-
-class CacheException implements Exception {
-  final String message;
-
-  CacheException({required this.message});
-
-  @override
-  String toString() => 'CacheException(message: $message)';
-}

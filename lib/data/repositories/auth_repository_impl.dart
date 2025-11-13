@@ -1,19 +1,19 @@
 import '../../core/error/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../core/storage/auth/auth_storage.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../core/storage/secure_storage.dart';
 import '../datasources/remote/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
-  final SecureStorage _secureStorage;
+  final AuthStorage _authStorage;
 
   AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
-    required SecureStorage secureStorage,
+    required AuthStorage authStorage,
   })  : _remoteDataSource = remoteDataSource,
-        _secureStorage = secureStorage;
+        _authStorage = authStorage;
 
   @override
   Future<Result<User>> login({
@@ -28,7 +28,10 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
 
-      await _secureStorage.saveUserId(userModel.id);
+      // TODO: Save token
+      // TODO: Update UserModel to include token or create AuthResponse
+      await _authStorage.saveUserId(userModel.id);
+
       return userModel.toEntity();
     });
   }
@@ -58,7 +61,7 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
       );
 
-      await _secureStorage.saveUserId(userModel.id);
+      await _authStorage.saveUserId(userModel.id);
       return userModel.toEntity();
     });
   }
@@ -70,7 +73,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String otpCode,
   }) async {
     return RepositoryCallHandler.call<bool>(
-      () => _remoteDataSource.verifyOtp(
+          () => _remoteDataSource.verifyOtp(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         otpCode: otpCode,
@@ -84,7 +87,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String countryCode,
   }) async {
     return RepositoryCallHandler.callVoid(
-      () => _remoteDataSource.resendOtp(
+          () => _remoteDataSource.resendOtp(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
       ),
@@ -97,7 +100,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String countryCode,
   }) async {
     return RepositoryCallHandler.callVoid(
-      () => _remoteDataSource.sendForgotPasswordOtp(
+          () => _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
       ),
@@ -112,7 +115,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String newPassword,
   }) async {
     return RepositoryCallHandler.callVoid(
-      () => _remoteDataSource.resetPassword(
+          () => _remoteDataSource.resetPassword(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         otpCode: otpCode,
@@ -124,14 +127,14 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> logout() async {
     return RepositoryCallHandler.callVoid(
-      () => _secureStorage.clearAll(),
+          () => _authStorage.clearAll(),
     );
   }
 
   @override
   Future<Result<User?>> getCurrentUser() async {
     return RepositoryCallHandler.call<User?>(() async {
-      final userId = await _secureStorage.getUserId();
+      final userId = await _authStorage.getUserId();
       if (userId == null) return null;
 
       final userModel = await _remoteDataSource.getCurrentUser(userId);
@@ -142,16 +145,14 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<bool>> isLoggedIn() async {
     return RepositoryCallHandler.call<bool>(() async {
-      final userId = await _secureStorage.getUserId();
-      final token = await _secureStorage.getToken();
-      return userId != null && token != null;
+      return await _authStorage.hasValidSession();
     });
   }
 
   @override
   Future<Result<String?>> getAuthToken() async {
     return RepositoryCallHandler.call<String?>(
-      () => _secureStorage.getToken(),
+          () => _authStorage.getToken(),
     );
   }
 }

@@ -1,23 +1,23 @@
 import '../../core/error/result.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
+import '../core/storage/auth/auth_storage.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../core/storage/secure_storage.dart';
 import '../datasources/remote/favorites_remote_datasource.dart';
 import '../datasources/remote/product_remote_datasource.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final SecureStorage _secureStorage;
+  final AuthStorage _authStorage;
 
   ProductRepositoryImpl({
     required ProductRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required SecureStorage secureStorage,
+    required AuthStorage authStorage,
   })  : _remoteDataSource = remoteDataSource,
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _secureStorage = secureStorage;
+        _authStorage = authStorage;
 
   @override
   Future<Result<List<Product>>> getProducts({
@@ -125,7 +125,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<void>> toggleFavoriteProduct(String productId) async {
     return RepositoryCallHandler.callWithAuth<void>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
         userId: userId,
         productId: productId,
@@ -136,7 +136,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<List<Product>>> getFavoriteProducts() async {
     return RepositoryCallHandler.callWithAuth<List<Product>>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         final productIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
 
@@ -158,7 +158,7 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<bool>> isFavorite(String productId) async {
     return RepositoryCallHandler.callWithAuth<bool>(
-          () => _secureStorage.getUserId(),
+          () => _authStorage.getUserId(),
           (userId) async {
         final favoriteIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
         return favoriteIds.contains(productId);

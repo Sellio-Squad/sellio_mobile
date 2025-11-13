@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:sellio_mobile/data/repositories/offers_repository_impl.dart';
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/cart_repository_impl.dart';
 import '../../../data/repositories/category_repository_impl.dart';
 import '../../../data/repositories/favorites_repository_impl.dart';
+import '../../../data/repositories/offers_repository_impl.dart';
 import '../../../data/repositories/order_repository_impl.dart';
 import '../../../data/repositories/product_repository_impl.dart';
 import '../../../data/repositories/store_repository_impl.dart';
@@ -21,63 +21,63 @@ import '../../../domain/repositories/user_repository.dart';
 class RepositoryModule {
   static void register(GetIt sl) {
     sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(
+          () => AuthRepositoryImpl(
         remoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<ProductRepository>(
-      () => ProductRepositoryImpl(
+          () => ProductRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<StoreRepository>(
-      () => StoreRepositoryImpl(
+          () => StoreRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<CategoryRepository>(
-      () => CategoryRepositoryImpl(
+          () => CategoryRepositoryImpl(
         remoteDataSource: sl(),
       ),
     );
 
     sl.registerLazySingleton<CartRepository>(
-      () => CartRepositoryImpl(
+          () => CartRepositoryImpl(
         remoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<OrderRepository>(
-      () => OrderRepositoryImpl(
+          () => OrderRepositoryImpl(
         remoteDataSource: sl(),
       ),
     );
 
     sl.registerLazySingleton<UserRepository>(
-      () => UserRepositoryImpl(
+          () => UserRepositoryImpl(
         remoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<FavoritesRepository>(
-      () => FavoritesRepositoryImpl(
+          () => FavoritesRepositoryImpl(
         remoteDataSource: sl(),
-        secureStorage: sl(),
+        authStorage: sl(),
       ),
     );
 
     sl.registerLazySingleton<OffersRepository>(
-      () => OffersRepositoryImpl(
+          () => OffersRepositoryImpl(
         remoteDataSource: sl(),
       ),
     );

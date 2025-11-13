@@ -43,12 +43,6 @@ class ExceptionHandler {
       }
     }
 
-    if (error is CacheException) {
-      return CacheFailure(
-        message: error.message,
-      );
-    }
-
     return ServerFailure(
       message: error.toString(),
     );
