@@ -3,68 +3,45 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import '../../../../domain/entities/product.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
-  const FeaturedItemsSection({super.key});
+  final List<Product> products;
+
+  const FeaturedItemsSection({super.key, required this.products});
 
   @override
   State<FeaturedItemsSection> createState() => _FeaturedItemsSectionState();
 }
 
 class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
-  final Map<int, int> _productCounts = {};
+  final Map<String, int> _productCounts = {};
 
-  final List<Map<String, dynamic>> _featuredProducts = [
-    {
-      'id': 0,
-      'imageUrl': 'assets/images/product_3.webp',
-      'title': 'Birthday cake with bows',
-      'price': '\$12.99',
-    },
-    {
-      'id': 1,
-      'imageUrl': 'assets/images/product_3.webp',
-      'title': 'Strawberry Cupcake',
-      'price': '\$5.00',
-    },
-    {
-      'id': 2,
-      'imageUrl': 'assets/images/product_3.webp',
-      'title': 'Chocolate Donut',
-      'price': '\$3.50',
-    },
-    {
-      'id': 3,
-      'imageUrl': 'assets/images/product_3.webp',
-      'title': 'Vanilla Birthday Cake',
-      'price': '\$15.99',
-    },
-  ];
-
-  void _incrementProduct(int productId) {
+  void _incrementProduct(String productId) {
     setState(() {
       _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
     });
   }
 
-  void _decrementProduct(int productId) {
+  void _decrementProduct(String productId) {
     setState(() {
       final count = _productCounts[productId] ?? 0;
-      if (count > 0) {
-        _productCounts[productId] = count - 1;
-      }
+      if (count > 0) _productCounts[productId] = count - 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.products.isEmpty) return const SizedBox.shrink();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
-            title: 'Featured Items',
+            title: context.local.featured_items,
             trailing: SvgPicture.asset(
               Assets.arrowRight,
               width: 20,
@@ -77,25 +54,29 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _featuredProducts.length,
+            itemCount: widget.products.length,
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
-              final product = _featuredProducts[index];
-              final productId = product['id'] as int;
-              final count = _productCounts[productId] ?? 0;
+              final product = widget.products[index];
+              final count = _productCounts[product.id] ?? 0;
+
+              // Log the first image of each product
+              if (product.images.isNotEmpty) {
+                debugPrint('Product ${product.id} image: ${product.images.first}');
+              } else {
+                debugPrint('Product ${product.id} has no images.');
+              }
 
               return SizedBox(
                 width: 160,
                 child: ProductVerticalCard(
-                  imageUrl: product['imageUrl'],
-                  title: product['title'],
-                  price: product['price'],
+                  imageUrl: product.images.isNotEmpty ? product.images.first : '',
+                  title: product.name,
+                  price: '\$${product.price}',
                   count: count,
-                  onIncrement: () => _incrementProduct(productId),
-                  onDecrement: () => _decrementProduct(productId),
-                  onFavorite: () {
-                    // todo: Handle favorite action
-                  },
+                  onIncrement: () => _incrementProduct(product.id),
+                  onDecrement: () => _decrementProduct(product.id),
+                  onFavorite: () {},
                 ),
               );
             },

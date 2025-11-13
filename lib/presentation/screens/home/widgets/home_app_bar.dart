@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
@@ -48,7 +50,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Welcome, $userName',
+          '${context.local.welcome}, $userName',
           style: textTheme.labelSmall.copyWith(color: colors.title),
         ),
         if (location != null) ...[

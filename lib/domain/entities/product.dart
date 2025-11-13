@@ -1,5 +1,6 @@
+import 'category.dart';
 
-class Product  {
+class Product {
   final String id;
   final String name;
   final String description;
@@ -42,15 +43,17 @@ class Product  {
     return Product(
       id: id ?? 'prod_001',
       name: name ?? 'Sample Product',
-      description: description ?? 'This is a sample product description with all the details you need to know.',
+      description: description ??
+          'This is a sample product description with all the details you need to know.',
       price: price ?? 29.99,
       currency: currency ?? 'USD',
       discount: discount ?? '10%',
-      images: images ?? [
-        'https://via.placeholder.com/400x400?text=Product+1',
-        'https://via.placeholder.com/400x400?text=Product+2',
-        'https://via.placeholder.com/400x400?text=Product+3',
-      ],
+      images: images ??
+          [
+            'assets/images/product_3.webp',
+            'assets/images/product_3.webp',
+            'assets/images/product_3.webp',
+          ],
       storeId: storeId ?? 'store_001',
       categoryId: categoryId ?? 'cat_001',
       isAvailable: isAvailable ?? true,
@@ -59,22 +62,32 @@ class Product  {
   }
 
   static List<Product> dummyList({int count = 5}) {
+    final categories = Category.dummyList(count: 4);
+
     return List.generate(
       count,
-          (index) => Product.dummy(
-        id: 'prod_${(index + 1).toString().padLeft(3, '0')}',
-        name: 'Product ${index + 1}',
-        description: 'Description for product ${index + 1}. This is a high-quality item.',
-        price: 19.99 + (index * 10),
-        discount: index % 2 == 0 ? '${(index + 1) * 5}%' : null,
-        storeId: 'store_${(index % 3 + 1).toString().padLeft(3, '0')}',
-        categoryId: 'cat_${(index % 4 + 1).toString().padLeft(3, '0')}',
-        stockQuantity: 50 + (index * 20),
-        isAvailable: index % 5 != 4, // Every 5th product is unavailable
-      ),
+      (index) {
+        final category = categories[index % categories.length];
+        return Product.dummy(
+          id: 'prod_${(index + 1).toString().padLeft(3, '0')}',
+          name: 'Product ${index + 1}',
+          description:
+              'Description for product ${index + 1}. This is a high-quality item.',
+          price: 19.99,
+          images: [
+            'https://tse2.mm.bing.net/th/id/OIP.zNKs8Nv4bFVOTpS58itFVAHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+            'https://tse2.mm.bing.net/th/id/OIP.zNKs8Nv4bFVOTpS58itFVAHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+            'https://tse2.mm.bing.net/th/id/OIP.zNKs8Nv4bFVOTpS58itFVAHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3',
+          ],
+          discount: index % 2 == 0 ? '${(index + 1) * 5}%' : null,
+          storeId: 'store_${(index % 3 + 1).toString().padLeft(3, '0')}',
+          categoryId: category.id,
+          stockQuantity: 50 + (index * 20),
+          isAvailable: index % 5 != 4,
+        );
+      },
     );
   }
-
 
   Product copyWith({
     String? id,

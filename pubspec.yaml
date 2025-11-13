@@ -11,12 +11,16 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
+
   # UI Dependencies
   image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.10+1
   flutter_gap: ^1.0.2
-  intl: ^0.19.0
+  intl: ^0.20.0
 
   # Networking
   dio: ^5.7.0
@@ -55,6 +59,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
+
 
   # Assets
   assets:

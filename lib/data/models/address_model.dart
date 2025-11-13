@@ -4,14 +4,14 @@ class AddressModel extends Address {
   const AddressModel({
     required super.id,
     required super.country,
-    required super.city,
+    required super.city
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
       id: json['id'] as String,
       country: json['country'] as String,
-      city: json['city'] as String,
+      city: json['city'] as String
     );
   }
 
@@ -19,7 +19,7 @@ class AddressModel extends Address {
     return {
       'id': id,
       'country': country,
-      'city': city,
+      'city': city
     };
   }
 
@@ -27,7 +27,7 @@ class AddressModel extends Address {
     return AddressModel(
       id: address.id,
       country: address.country,
-      city: address.city,
+      city: address.city
     );
   }
 
@@ -35,7 +35,7 @@ class AddressModel extends Address {
     return Address(
       id: id,
       country: country,
-      city: city,
+      city: city
     );
   }
 }

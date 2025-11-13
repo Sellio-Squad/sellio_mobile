@@ -4,6 +4,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/cards/product_vertical_card.dart';
@@ -110,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Row(
         children: [
           ChipCategory(
-            label: 'Products',
+            label: context.local.products,
             selected: _selectedCategory == 'Products',
             onTap: () {
               setState(() {
@@ -121,7 +122,7 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           const Gap(8),
           ChipCategory(
-            label: 'Stores',
+            label: context.local.stores,
             selected: _selectedCategory == 'Stores',
             onTap: () {
               setState(() {
@@ -145,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Recent Searches',
+                context.local.recent_searches,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: context.theme.colors.title,
                     ),
@@ -157,7 +158,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   });
                 },
                 child: Text(
-                  'Clear All',
+                  context.local.clear_all,
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: context.theme.colors.primary,
                       ),
@@ -194,7 +195,8 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(Assets.searchIcon),
-            Text('Start exploring your favorite items!',
+            Text(
+            context.local.start_exploring_your_favorite_items,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: context.theme.colors.title,
                     )),
@@ -221,16 +223,18 @@ class _SearchScreenState extends State<SearchScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _buildCategorySection(context),
-          const Spacer(), // بدل Expanded
+          const Spacer(),
           Image.asset(
             Assets.noResultSearchIcon,
           ),
-          Text('No results found!',
+          Text(
+              context.local.no_results_found,
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                     color: context.theme.colors.title,
                   )),
 
-          Text('Please check your spelling or try a different search.',
+          Text(
+              context.local.please_check_your_spelling_or_try_a_different_search,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: context.theme.colors.body,
                   )),
