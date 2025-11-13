@@ -98,22 +98,16 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
-  /// No description provided for @hello.
-  ///
-  /// In en, this message translates to:
-  /// **'مرحبًا'**
-  String get hello;
-
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
-  /// **'مرحبًا'**
+  /// **'Welcome'**
   String get welcome;
 
   /// No description provided for @top_stores.
   ///
   /// In en, this message translates to:
-  /// **'أعلى المتاجر'**
+  /// **'Top Stores'**
   String get top_stores;
 
   /// No description provided for @trending_products.
@@ -650,10 +644,10 @@ abstract class AppLocalizations {
   /// **'(\$totalReviews reviews)'**
   String total_reviews(Object totalReviews);
 
-  /// رسالة تظهر عند عدم وجود منتجات تطابق البحث
+  /// A message appears when no products match the search.
   ///
   /// In en, this message translates to:
-  /// **'لا توجد منتجات لـ {search_query}'**
+  /// **'No product found for {search_query}'**
   String no_products_found_for(Object search_query);
 
   /// Message showing the order ID

@@ -9,96 +9,92 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get hello => 'مرحبًا';
+  String get welcome => 'مرحباً';
 
   @override
-  String get welcome => 'مرحبًا';
+  String get top_stores => 'أفضل المتاجر';
 
   @override
-  String get top_stores => 'أعلى المتاجر';
+  String get trending_products => 'المنتجات الرائجة';
 
   @override
-  String get trending_products => 'Trending Products';
+  String get search_results => 'نتائج البحث';
 
   @override
-  String get search_results => 'Search Results';
+  String get search_your_favorite_items => 'ابحث عن العناصر المفضلة لديك...';
 
   @override
-  String get search_your_favorite_items => 'Search your favorite items...';
+  String get special_offers => 'عروض خاصة';
 
   @override
-  String get special_offers => 'Special Offers';
+  String get add_to_cart => 'أضف إلى السلة';
 
   @override
-  String get add_to_cart => 'Add to cart';
+  String get reset => 'إعادة تعيين';
 
   @override
-  String get reset => 'Reset';
+  String get note_optional => 'ملاحظة (اختياري)';
 
   @override
-  String get note_optional => 'Note  (Optional)';
+  String get all => 'الكل';
 
   @override
-  String get all => 'All';
+  String get food => 'طعام';
 
   @override
-  String get food => 'Food';
+  String get drinks => 'مشروبات';
 
   @override
-  String get drinks => 'Drinks';
+  String get clothes => 'ملابس';
 
   @override
-  String get clothes => 'Clothes';
+  String get thrift => 'منتجات مستعملة';
 
   @override
-  String get thrift => 'Thrift';
+  String get furniture => 'أثاث';
 
   @override
-  String get furniture => 'furniture';
+  String get books => 'كتب';
 
   @override
-  String get books => 'Books';
+  String get electronics => 'إلكترونيات';
 
   @override
-  String get electronics => 'Electronics';
+  String get notifications => 'الإشعارات';
 
   @override
-  String get notifications => 'Notifications';
+  String get account_screen => 'شاشة الحساب';
 
   @override
-  String get account_screen => 'Account Screen';
+  String get no_products_available => 'لا توجد منتجات متاحة';
 
   @override
-  String get no_products_available => 'No products available';
+  String get featured_items => 'عنوانات مميزة';
 
   @override
-  String get featured_items => 'Featured Items';
+  String get has_been_placed_successfully => 'تم الطلب بنجاح';
 
   @override
-  String get has_been_placed_successfully => 'has been placed successfully';
+  String get has_been_delivered_successfully => 'تم التوصيل بنجاح';
 
   @override
-  String get has_been_delivered_successfully =>
-      'has been delivered successfully';
+  String get has_been_cancelled => 'تم الإلغاء';
 
   @override
-  String get has_been_cancelled => 'has been cancelled';
+  String get today => 'اليوم';
 
   @override
-  String get today => 'Today';
-
-  @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => 'أمس';
 
   @override
   String get our_friendly_team_is_here_to_help =>
-      'Our friendly team is here to help';
+      'فريقنا الودود موجود هنا لمساعدتك';
 
   @override
-  String get store_location => 'store_location';
+  String get store_location => 'موقع المتجر';
 
   @override
-  String get design_editor => 'Design editor';
+  String get design_editor => 'محرر التصميم';
 
   @override
   String get s => 'S';
@@ -119,190 +115,191 @@ class AppLocalizationsAr extends AppLocalizations {
   String get three_xl => '3XL';
 
   @override
-  String get accessories_and_gifts => 'Accessories & Gifts';
+  String get accessories_and_gifts => 'إكسسوارات وهدايا';
 
   @override
-  String get home_and_decore => 'Home & Decore';
+  String get home_and_decore => 'منزل وديكور';
 
   @override
-  String get tech_accessories => 'Tech Accessories';
+  String get tech_accessories => 'إكسسوارات تقنية';
 
   @override
-  String get business_and_branding => 'Business & Branding';
+  String get business_and_branding => 'أعمال وعلامات تجارية';
 
   @override
-  String get customize_your_product => 'Customize your product';
+  String get customize_your_product => 'خصص منتجك';
 
   @override
-  String get choose_a_product_to_customize_it =>
-      'Choose_a_product_to_customize_it';
+  String get choose_a_product_to_customize_it => 'اختر منتجًا لتخصيصه';
 
   @override
-  String get upload_logo_or_image => 'Upload logo or image';
+  String get upload_logo_or_image => 'رفع شعار أو صورة';
 
   @override
-  String get size => 'Size';
+  String get size => 'المقاس';
 
   @override
-  String get color => 'Color';
+  String get color => 'اللون';
 
   @override
   String get change_language => 'تغيير اللغة';
 
   @override
-  String get english => 'English';
+  String get english => 'الإنجليزية';
 
   @override
-  String get arabic => 'Arabic';
+  String get arabic => 'العربية';
 
   @override
-  String get save => 'Save';
+  String get save => 'حفظ';
 
   @override
-  String get delete_account => 'Delete account';
+  String get delete_account => 'حذف الحساب';
 
   @override
-  String get account_options => 'account options';
+  String get account_options => 'خيارات الحساب';
 
   @override
   String get are_you_sure_to_continue_deleting_account =>
-      'Are you sure to continue deleting account?';
+      'هل أنت متأكد من المتابعة لحذف الحساب؟';
 
   @override
-  String get logout => 'Logout';
+  String get logout => 'تسجيل الخروج';
 
   @override
   String get are_you_sure_to_continue_logout =>
-      'Are you sure to continue logout?';
+      'هل أنت متأكد من المتابعة لتسجيل الخروج؟';
 
   @override
   String get start_exploring_and_saving_your_favorite_items_here =>
-      'Start exploring and saving your favorite items here.';
+      'ابدأ الاستكشاف وحفظ العناصر المفضلة لديك هنا.';
 
   @override
-  String get no_favourite_items => 'No favourite items!';
+  String get no_favourite_items => 'لا توجد عنوانات مفضلة!';
 
   @override
-  String get favorites => 'Favorites';
+  String get favorites => 'المفضلة';
 
   @override
-  String get products => 'Products';
+  String get products => 'المنتجات';
 
   @override
-  String get stores => 'Stores';
+  String get stores => 'المتاجر';
 
   @override
-  String get recent_searches => 'Recent Searches';
+  String get recent_searches => 'عمليات البحث الحديثة';
 
   @override
-  String get clear_all => 'Clear All';
+  String get clear_all => 'مسح الكل';
 
   @override
-  String get no_results_found => 'No results found!';
+  String get no_results_found => 'لم يتم العثور على نتائج!';
 
   @override
   String get please_check_your_spelling_or_try_a_different_search =>
-      'Please check your spelling or try a different search.';
+      'يرجى التحقق من تهجئة الكلمة أو تجربة بحث مختلف.';
 
   @override
   String get start_exploring_your_favorite_items =>
-      'Start exploring your favorite items!';
+      'ابدأ استكشاف العناصر المفضلة لديك!';
 
   @override
-  String get iraq => 'Iraq';
+  String get iraq => 'العراق';
 
   @override
-  String get egypt => 'Egypt';
+  String get egypt => 'مصر';
 
   @override
-  String get confirm_your_account => 'Confirm your account';
+  String get confirm_your_account => 'تأكيد حسابك';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'تأكيد';
 
   @override
-  String get dont_received_code => 'Don\\\'t received code?';
+  String get dont_received_code => 'لم تستلم الرمز؟';
 
   @override
-  String get re_send => 'Re-Send';
+  String get re_send => 'إعادة الإرسال';
 
   @override
-  String get confirm_password => 'Confirm Password';
+  String get confirm_password => 'تأكيد كلمة المرور';
 
   @override
-  String get enter_code => 'Enter code';
+  String get enter_code => 'أدخل الرمز';
 
   @override
-  String get password => 'Password';
+  String get password => 'كلمة المرور';
 
   @override
-  String get forget_password => 'Forget Password?';
+  String get forget_password => 'نسيت كلمة المرور؟';
 
   @override
   String get phone_number_must_be_at_least_10_digits =>
-      'Phone number must be at least 10 digits';
+      'يجب أن يكون رقم الهاتف 10 أرقام على الأقل';
 
   @override
   String get phone_number_digits_only =>
-      'Phone number must contain only digits';
+      'يجب أن يحتوي رقم الهاتف على أرقام فقط';
 
   @override
   String get full_name_at_least_2_characters =>
-      'Full name must be at least 2 characters';
+      'يجب أن يكون الاسم الكامل حرفين على الأقل';
 
   @override
   String get full_name_letters_only =>
-      'Full name must contain only letters and spaces';
+      'يجب أن يحتوي الاسم الكامل على أحرف ومسافات فقط';
 
   @override
   String get country_at_least_2_characters =>
-      'Country must be at least 2 characters';
+      'يجب أن يكون اسم الدولة حرفين على الأقل';
 
   @override
   String get country_letters_only =>
-      'Country must contain only letters and spaces';
+      'يجب أن يحتوي اسم الدولة على أحرف ومسافات فقط';
 
   @override
-  String get city_at_least_2_characters => 'City must be at least 2 characters';
+  String get city_at_least_2_characters =>
+      'يجب أن يكون اسم المدينة حرفين على الأقل';
 
   @override
-  String get city_letters_only => 'City must contain only letters and spaces';
+  String get city_letters_only =>
+      'يجب أن يحتوي اسم المدينة على أحرف ومسافات فقط';
 
   @override
   String get password_min_6_characters =>
-      'Password must be at least 6 characters';
+      'يجب أن تكون كلمة المرور 6 أحرف على الأقل';
 
   @override
   String get password_max_20_characters =>
-      'Password must be less than 20 characters';
+      'يجب أن تكون كلمة المرور أقل من 20 حرفًا';
 
   @override
-  String get passwords_do_not_match => 'Passwords do not match';
+  String get passwords_do_not_match => 'كلمتا المرور غير متطابقتين';
 
   @override
   String get failed_to_create_account =>
-      'Failed to create account. Please try again.';
+      'فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.';
 
   @override
-  String get profile_photo_optional => 'Profile photo (optional)';
+  String get profile_photo_optional => 'صورة الملف الشخصي (اختياري)';
 
   @override
   String get enter_the_4digit =>
-      'Please enter the 4-digit code sent to your phone number.';
+      'يرجى إدخال الرمز المكون من 4 أرقام المرسل إلى رقم هاتفك.';
 
   @override
-  String get no_order_history => 'No order history!';
+  String get no_order_history => 'لا يوجد سجل طلبات!';
 
   @override
-  String get start_exploring => 'Start Exploring';
+  String get start_exploring => 'ابدأ الاستكشاف';
 
   @override
   String get start_exploring_favorite_items =>
-      'Start exploring and purchasing your favorite items';
+      'ابدأ استكشاف وشراء العناصر المفضلة لديك';
 
   @override
   String total_reviews(Object totalReviews) {
-    return '(\$totalReviews reviews)';
+    return '(\$totalReviews تقييم)';
   }
 
   @override
@@ -312,16 +309,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String your_order_from(Object orderId) {
-    return 'Your order $orderId from ';
+    return 'طلبك $orderId من ';
   }
 
   @override
   String re_send_in_resend_countdown_Sec(Object resendCountdown) {
-    return 'Re-Send in \$resendCountdown Sec';
+    return 'إعادة الإرسال خلال \$resendCountdown ثانية';
   }
 
   @override
   String enter_the_4_digit_sent_to(Object phone_number) {
-    return 'Please enter the 4-digit code sent to \$$phone_number.';
+    return 'يرجى إدخال الرمز المكون من 4 أرقام المرسل إلى \$$phone_number.';
   }
 }

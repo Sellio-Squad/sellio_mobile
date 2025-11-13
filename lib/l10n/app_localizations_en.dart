@@ -9,13 +9,10 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get hello => 'مرحبًا';
+  String get welcome => 'Welcome';
 
   @override
-  String get welcome => 'مرحبًا';
-
-  @override
-  String get top_stores => 'أعلى المتاجر';
+  String get top_stores => 'Top Stores';
 
   @override
   String get trending_products => 'Trending Products';
@@ -307,7 +304,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String no_products_found_for(Object search_query) {
-    return 'لا توجد منتجات لـ $search_query';
+    return 'No product found for $search_query';
   }
 
   @override
