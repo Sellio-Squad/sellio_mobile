@@ -68,9 +68,9 @@ class Store {
       description:
       'This is a brief description of Store #$index, offering great products and services.',
       coverImage:
-      'https://picsum.photos/seed/store_cover_$index/800/400', // random placeholder
+      'https://picsum.photos/seed/store_cover_$index/800/400',
       profileImage:
-      'https://picsum.photos/seed/store_profile_$index/200/200', // random placeholder
+      'https://picsum.photos/seed/store_profile_$index/200/200',
       sale: index.isEven ? '20%' : null,
       rating: (3 + (index % 3) * 0.5),
       address: Address.dummy(index: index),

@@ -68,10 +68,18 @@ class SellioColors {
     ],
     uploadImageTint: Color(0x70000000),
   );
+
+  static Color productBlack = Colors.black;
+  static Color productWhite = Colors.white;
+  static Color productRed = Colors.red;
+  static Color productGreen = Colors.green;
+  static Color productPink = Colors.pink;
+  static Color productYellow = Colors.yellow;
+  static Color productBlue = Colors.blue;
 }
 
 class SellioColorScheme {
-  final Color AuthBackground = const Color(0xFF2C0113);
+  final Color authBackground = const Color(0xFF2C0113);
   final Color primary;
   final Color primaryVariant;
   final Color secondary;
