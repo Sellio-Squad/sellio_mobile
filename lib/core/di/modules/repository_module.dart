@@ -31,7 +31,6 @@ class RepositoryModule {
       () => ProductRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        favoritesLocalDataSource: sl(),
         secureStorage: sl(),
       ),
     );
@@ -40,7 +39,6 @@ class RepositoryModule {
       () => StoreRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        favoritesLocalDataSource: sl(),
         secureStorage: sl(),
       ),
     );
@@ -54,7 +52,6 @@ class RepositoryModule {
     sl.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(
         remoteDataSource: sl(),
-        localDataSource: sl(),
         secureStorage: sl(),
       ),
     );
@@ -75,7 +72,6 @@ class RepositoryModule {
     sl.registerLazySingleton<FavoritesRepository>(
       () => FavoritesRepositoryImpl(
         remoteDataSource: sl(),
-        localDataSource: sl(),
         secureStorage: sl(),
       ),
     );

@@ -1,6 +1,4 @@
 import 'package:get_it/get_it.dart';
-import '../../../data/datasources/local/cart_local_datasource.dart';
-import '../../../data/datasources/local/favorites_local_datasource.dart';
 import '../../../data/datasources/remote/auth_remote_datasource.dart';
 import '../../../data/datasources/remote/cart_remote_datasource.dart';
 import '../../../data/datasources/remote/category_remote_datasource.dart';
@@ -48,15 +46,6 @@ class DataSourceModule {
 
     sl.registerLazySingleton<OffersRemoteDataSource>(
           () => OffersRemoteDataSourceImpl(sl()),
-    );
-
-    // Local Data Sources
-    sl.registerLazySingleton<FavoritesLocalDataSource>(
-          () => FavoritesLocalDataSourceImpl(sl()),
-    );
-
-    sl.registerLazySingleton<CartLocalDataSource>(
-          () => CartLocalDataSourceImpl(sl()),
     );
   }
 }

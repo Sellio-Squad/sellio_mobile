@@ -3,24 +3,20 @@ import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../core/storage/secure_storage.dart';
-import '../datasources/local/favorites_local_datasource.dart';
 import '../datasources/remote/favorites_remote_datasource.dart';
 import '../datasources/remote/product_remote_datasource.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final FavoritesLocalDataSource _favoritesLocalDataSource;
   final SecureStorage _secureStorage;
 
   ProductRepositoryImpl({
     required ProductRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required FavoritesLocalDataSource favoritesLocalDataSource,
     required SecureStorage secureStorage,
   })  : _remoteDataSource = remoteDataSource,
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _favoritesLocalDataSource = favoritesLocalDataSource,
         _secureStorage = secureStorage;
 
   @override
@@ -129,23 +125,11 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<void>> toggleFavoriteProduct(String productId) async {
     return RepositoryCallHandler.callWithAuth<void>(
-            () => _secureStorage.getUserId(),
-            (userId) async {
-          // Update local first
-          await _favoritesLocalDataSource.toggleProductFavorite(productId);
-
-          try {
-            // Sync with server
-            await _favoritesRemoteDataSource.toggleProductFavorite(
-              userId: userId,
-              productId: productId,
-            );
-          } catch (e) {
-            // Revert on error
-            await _favoritesLocalDataSource.toggleProductFavorite(productId);
-            rethrow;
-          }
-            },
+          () => _secureStorage.getUserId(),
+          (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
+        userId: userId,
+        productId: productId,
+      ),
     );
   }
 
@@ -154,8 +138,7 @@ class ProductRepositoryImpl implements ProductRepository {
     return RepositoryCallHandler.callWithAuth<List<Product>>(
           () => _secureStorage.getUserId(),
           (userId) async {
-        final productIds = await _favoritesRemoteDataSource
-            .getFavoriteProductIds(userId);
+        final productIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
 
         final products = <Product>[];
         for (final productId in productIds) {
@@ -163,7 +146,7 @@ class ProductRepositoryImpl implements ProductRepository {
             final model = await _remoteDataSource.getProductById(productId);
             products.add(model.toEntity());
           } catch (e) {
-            continue; // Skip failed products
+            continue;
           }
         }
 
@@ -174,8 +157,12 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Result<bool>> isFavorite(String productId) async {
-    return RepositoryCallHandler.call<bool>(
-          () => _favoritesLocalDataSource.isProductFavorite(productId),
+    return RepositoryCallHandler.callWithAuth<bool>(
+          () => _secureStorage.getUserId(),
+          (userId) async {
+        final favoriteIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
+        return favoriteIds.contains(productId);
+      },
     );
   }
 }

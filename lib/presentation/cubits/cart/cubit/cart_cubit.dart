@@ -9,9 +9,12 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> loadCart() async {
     try {
-      final counts = await _cartRepository.getCartCounts();
+      final cart = await _cartRepository.getCart();
 
-      emit(CartState(productCounts: counts.data));
+      emit(CartState(
+          productCounts: cart.data.items
+              .asMap()
+              .map((_, item) => MapEntry(item.productId, item.quantity))));
     } catch (e) {
       print('Error loading cart: $e');
       // Handle error
@@ -27,7 +30,8 @@ class CartCubit extends Cubit<CartState> {
     emit(state.copyWith(productCounts: updatedCounts));
 
     try {
-      await _cartRepository.updateQuantity(productId, updatedCounts[productId]!);
+      await _cartRepository.updateQuantity(
+          productId, updatedCounts[productId]!);
     } catch (e) {
       // Rollback on error
       emit(state);

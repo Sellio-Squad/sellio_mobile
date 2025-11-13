@@ -6,24 +6,20 @@ import '../../domain/entities/store.dart';
 import '../../domain/repositories/store_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../core/storage/secure_storage.dart';
-import '../datasources/local/favorites_local_datasource.dart';
 import '../datasources/remote/favorites_remote_datasource.dart';
 import '../datasources/remote/store_remote_datasource.dart';
 
 class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final FavoritesLocalDataSource _favoritesLocalDataSource;
   final SecureStorage _secureStorage;
 
   StoreRepositoryImpl({
     required StoreRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required FavoritesLocalDataSource favoritesLocalDataSource,
     required SecureStorage secureStorage,
   })  : _remoteDataSource = remoteDataSource,
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _favoritesLocalDataSource = favoritesLocalDataSource,
         _secureStorage = secureStorage;
 
   @override
@@ -37,9 +33,7 @@ class StoreRepositoryImpl implements StoreRepository {
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
@@ -60,9 +54,7 @@ class StoreRepositoryImpl implements StoreRepository {
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
@@ -81,9 +73,7 @@ class StoreRepositoryImpl implements StoreRepository {
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
@@ -93,11 +83,10 @@ class StoreRepositoryImpl implements StoreRepository {
     int limit = 10,
   }) async {
     return RepositoryCallHandler.call<List<Product>>(() async {
-      // Filter featured products from store products
       final paginatedResponse = await _remoteDataSource.getStoreProducts(
         storeId: storeId,
         page: 0,
-        pageSize: limit * 2, // Get more to filter
+        pageSize: limit * 2,
       );
 
       return paginatedResponse.data
@@ -121,9 +110,7 @@ class StoreRepositoryImpl implements StoreRepository {
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
@@ -131,22 +118,10 @@ class StoreRepositoryImpl implements StoreRepository {
   Future<Result<void>> toggleFavoriteStore(String storeId) async {
     return RepositoryCallHandler.callWithAuth<void>(
           () => _secureStorage.getUserId(),
-          (userId) async {
-        // Update local first
-        await _favoritesLocalDataSource.toggleStoreFavorite(storeId);
-
-        try {
-          // Sync with server
-          await _favoritesRemoteDataSource.toggleStoreFavorite(
-            userId: userId,
-            storeId: storeId,
-          );
-        } catch (e) {
-          // Revert on error
-          await _favoritesLocalDataSource.toggleStoreFavorite(storeId);
-          rethrow;
-        }
-      },
+          (userId) => _favoritesRemoteDataSource.toggleStoreFavorite(
+        userId: userId,
+        storeId: storeId,
+      ),
     );
   }
 
@@ -155,8 +130,7 @@ class StoreRepositoryImpl implements StoreRepository {
     return RepositoryCallHandler.callWithAuth<List<Store>>(
           () => _secureStorage.getUserId(),
           (userId) async {
-        final storeIds = await _favoritesRemoteDataSource
-            .getFavoriteStoreIds(userId);
+        final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
 
         final stores = <Store>[];
         for (final storeId in storeIds) {
@@ -175,8 +149,12 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<Result<bool>> isFavorite(String storeId) async {
-    return RepositoryCallHandler.call<bool>(
-          () => _favoritesLocalDataSource.isStoreFavorite(storeId),
+    return RepositoryCallHandler.callWithAuth<bool>(
+          () => _secureStorage.getUserId(),
+          (userId) async {
+        final favoriteIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
+        return favoriteIds.contains(storeId);
+      },
     );
   }
 
@@ -193,9 +171,7 @@ class StoreRepositoryImpl implements StoreRepository {
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
