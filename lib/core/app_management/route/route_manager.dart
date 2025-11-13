@@ -3,14 +3,14 @@ import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
 import '../../../presentation/screens/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
-import '../../../presentation/screens/auth/createAccount.dart';
+import '../../../presentation/screens/auth/create_account/create_account_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
-import '../../../presentation/screens/auth/login.dart';
+import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
 import '../../../presentation/screens/cart_screen.dart';
-import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
+import '../../../presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
@@ -39,7 +39,6 @@ class RouteGenerator {
             child: const LoginScreen(),
           );
         },
-       
       ),
       GoRoute(
         name: AppRoutes.createAccount.name,
@@ -136,7 +135,6 @@ class RouteGenerator {
               ),
             ],
           ),
-
           StatefulShellBranch(
             navigatorKey: _customDesignNavigatorKey,
             routes: <GoRoute>[
