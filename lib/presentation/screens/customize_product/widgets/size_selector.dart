@@ -3,9 +3,10 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_colors.dart';
+import '../../customize_your_product_screen/cubit/design_editor_state.dart';
 
 class SizeSelector extends StatelessWidget {
-  final List<String> sizes;
+  final List<ProductSize> sizes;
   final int selectedIndex;
   final ValueChanged<int> onSelect;
 
@@ -48,7 +49,7 @@ class SizeSelector extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    sizes[index],
+                    sizes[index].value,
                     style: context.theme.typography.textTheme.labelMedium.copyWith(
                       color: isSelected
                           ? Colors.white

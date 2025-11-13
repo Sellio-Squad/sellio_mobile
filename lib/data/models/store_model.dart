@@ -67,8 +67,6 @@ class StoreModel extends Store {
       'rating': rating,
       'country': address.country,
       'city': address.city,
-      'latitude': address.latitude,
-      'longitude': address.longitude,
       'isActive': isActive ? 1 : 0,
       'isFavorite': 0,
     };
@@ -90,9 +88,7 @@ class StoreModel extends Store {
       address: AddressModel(
         id: map['id'] as String,
         country: map['country'] as String,
-        city: map['city'] as String,
-        latitude: map['latitude'] as double?,
-        longitude: map['longitude'] as double?,
+        city: map['city'] as String
       ),
       contactInfo: contactInfo,
       categories: categories,

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
-import '../store_data_provider.dart';
+import '../../../../../../domain/entities/product.dart';
 
 class StoreProductsList extends StatefulWidget {
   final int categoryIndex;
+  final List<Product> products;
+  final List<String> categories;
 
   const StoreProductsList({
     super.key,
     required this.categoryIndex,
+    required this.products,
+    required this.categories,
   });
 
   @override
@@ -16,96 +20,63 @@ class StoreProductsList extends StatefulWidget {
 }
 
 class _StoreProductsListState extends State<StoreProductsList> {
-
   static const double _itemSpacing = 12.0;
 
-  final Map<int, int> _productCounts = {};
-  late final StoreDataProvider _dataProvider;
-  late List<ProductData> _products;
+  final Map<String, int> _productCounts = {};
 
-  @override
-  void initState() {
-    super.initState();
-    _dataProvider = StoreDataProvider();
-    _loadProducts();
-  }
-
-  @override
-  void didUpdateWidget(StoreProductsList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.categoryIndex != widget.categoryIndex) {
-      _loadProducts();
+  List<Product> get filteredProducts {
+    if (widget.categories.isEmpty || widget.categoryIndex >= widget.categories.length) {
+      return widget.products;
     }
+    final selectedCategoryId = widget.categories[widget.categoryIndex];
+    return widget.products.where((p) => p.categoryId == selectedCategoryId).toList();
   }
 
-  void _loadProducts() {
+  int _getProductCount(String productId) => _productCounts[productId] ?? 0;
+
+  void _incrementCount(String productId) {
+    setState(() => _productCounts[productId] = _getProductCount(productId) + 1);
+  }
+
+  void _decrementCount(String productId) {
     setState(() {
-      _products = _dataProvider.getProductsByCategory(widget.categoryIndex);
+      final count = _getProductCount(productId);
+      if (count > 0) _productCounts[productId] = count - 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_products.isEmpty) {
-      return _buildEmptyState();
+    if (filteredProducts.isEmpty) {
+      return const SliverToBoxAdapter(
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.all(32.0),
+            child: Text('No products available'),
+          ),
+        ),
+      );
     }
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        _buildProductItem,
-        childCount: _products.length,
+            (context, index) {
+          final product = filteredProducts[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: _itemSpacing),
+            child: ProductHorizontalCard(
+              imageUrl: product.images.isNotEmpty ? product.images.first : '',
+              title: product.name,
+              description: product.description,
+              price: product.price.toString(),
+              count: _getProductCount(product.id),
+              onIncrement: () => _incrementCount(product.id),
+              onDecrement: () => _decrementCount(product.id),
+            ),
+          );
+        },
+        childCount: filteredProducts.length,
       ),
     );
-  }
-
-  Widget _buildEmptyState() {
-    return SliverToBoxAdapter(
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: Text(context.local.no_products_available),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildProductItem(BuildContext context, int index) {
-    final product = _products[index];
-    final count = _getProductCount(product.id);
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: _itemSpacing),
-      child: ProductHorizontalCard(
-        imageUrl: product.imageUrl,
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        originalPrice: product.originalPrice,
-        count: count,
-        onIncrement: () => _handleIncrement(product.id),
-        onDecrement: () => _handleDecrement(product.id),
-      ),
-    );
-  }
-
-
-  int _getProductCount(int productId) {
-    return _productCounts[productId] ?? 0;
-  }
-
-
-  void _handleIncrement(int productId) {
-    setState(() {
-      _productCounts[productId] = _getProductCount(productId) + 1;
-    });
-  }
-
-  void _handleDecrement(int productId) {
-    setState(() {
-      final count = _getProductCount(productId);
-      if (count > 0) {
-        _productCounts[productId] = count - 1;
-      }
-    });
   }
 }
