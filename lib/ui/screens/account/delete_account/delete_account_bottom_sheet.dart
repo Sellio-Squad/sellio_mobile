@@ -3,6 +3,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class DeleteAccountBottomSheet extends StatelessWidget {
   final VoidCallback onDeleteAccount;
@@ -27,19 +28,19 @@ class DeleteAccountBottomSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${AppStrings.deleteAccount}?",
+              "${context.local.delete_account}?",
               style: context.theme.typography.textTheme.titleMedium,
             ),
             const SizedBox(height: 24),
 
             Text(
-              AppStrings.areYouSureToContinueDeletingAccount,
+              context.local.are_you_sure_to_continue_deleting_account,
               style: context.theme.typography.textTheme.bodyMedium,
             ),
             const SizedBox(height: 24),
 
             SellioButton(
-              text: AppStrings.deleteAccount,
+              text: context.local.delete_account,
               backgroundColor: context.theme.colors.errorVariant,
               textColor: context.theme.colors.red,
               onTap: onDeleteAccount,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
 import 'models/favorite_product_model.dart';
 import 'models/favorite_store_model.dart';
@@ -86,7 +87,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceLow,
-      appBar: const SellioAppBar(title: 'Favorites', showBackButton: true),
+      appBar: SellioAppBar(title: context.local.favorites, showBackButton: true),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [

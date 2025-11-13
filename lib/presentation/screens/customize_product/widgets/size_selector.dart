@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_colors.dart';
 import '../../customize_your_product_screen/cubit/design_editor_state.dart';
@@ -22,7 +23,7 @@ class SizeSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Size',
+          context.local.size,
           style: context.theme.typography.textTheme.titleMedium.copyWith(
             fontWeight: FontWeight.w500,
           ),

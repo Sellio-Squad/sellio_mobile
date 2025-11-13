@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class UploadLogoSection extends StatefulWidget {
   final Function(File?) onImageSelected;
@@ -37,7 +38,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Upload logo or image',
+          context.local.upload_logo_or_image,
           style: context.theme.typography.textTheme.titleMedium.copyWith(
             fontWeight: FontWeight.w500,
           ),

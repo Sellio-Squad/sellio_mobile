@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../core/design_system/widgets/chip_category.dart';
 import 'widgets/GridProduct.dart';
 
@@ -19,11 +19,11 @@ class _CustomizeYourProductScreenState
   @override
   Widget build(BuildContext context) {
     final List<String> categories = [
-      "Clothes",
-      "Accessories & Gifts",
-      "Home & Decore",
-      "Tech Accessories",
-      "Business & Branding",
+      context.local.clothes,
+      context.local.accessories_and_gifts,
+      context.local.home_and_decore,
+      context.local.tech_accessories,
+      context.local.business_and_branding,
     ];
 
     return Scaffold(
@@ -52,13 +52,13 @@ class _CustomizeYourProductScreenState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Customize your product",
+                                context.local.customize_your_product,
                                 style: Theme.of(context).textTheme.titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "Choose a product to customize it",
+                                context.local.choose_a_product_to_customize_it,
                                 style: Theme.of(context).textTheme.bodyMedium
                                     ?.copyWith(color: Colors.grey[600]),
                               ),

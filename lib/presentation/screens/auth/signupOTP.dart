@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
-
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
 
@@ -22,7 +21,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   bool _isOtpComplete = false;
   int _resendCountdown = 0;
   Timer? _countdownTimer;
-  final bool _isLoading = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -91,12 +90,12 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Confirm your account',
+                context.local.confirm_your_account,
                 style: textTheme.titleMedium.copyWith(color: colors.title),
               ),
               const SizedBox(height: 4),
               Text(
-                'Please enter the 4-digit code sent to your phone number.',
+                context.local.enter_the_4digit,
                 style: textTheme.bodyMedium.copyWith(color: colors.body),
               ),
               const SizedBox(height: 32),
@@ -141,7 +140,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
                 elevation: 0,
               ),
               child: Text(
-                'Confirm',
+                context.local.confirm,
                 style: textTheme.labelMedium.copyWith(
                   color: _isOtpComplete
                       ? colors.onPrimary
@@ -163,7 +162,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Don\'t received code?',
+          context.local.dont_received_code,
           style: textTheme.labelMedium.copyWith(
             color: colors.body,
           ),
@@ -172,7 +171,7 @@ class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
         GestureDetector(
           onTap: canResend ? _handleResendCode : null,
           child: Text(
-            canResend ? 'Re-Send' : 'Re-Send in $_resendCountdown Sec',
+            canResend ? context.local.re_send : context.local.re_send_in_resend_countdown_Sec(_resendCountdown),
             style: textTheme.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.body,
               decoration: canResend ? TextDecoration.underline : null,

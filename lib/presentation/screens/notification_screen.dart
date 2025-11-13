@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -124,7 +125,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       backgroundColor: context.theme.colors.surfaceLow,
       appBar: SellioAppBar(
-        title: "Notifications",
+        title: context.local.notifications,
         showBackButton: true,
       ),
       body: ListView(
@@ -168,10 +169,10 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (icon, orderState) = switch (state) {
-      0 => (Assets.packageDelivered, "has been placed successfully"),
-      1 => (Assets.packageDelivery, "has been delivered successfully"),
-      2 => (Assets.packageRemove, "has been cancelled"),
-      _ => (Assets.packageRemove, "has been cancelled"),
+      0 => (Assets.packageDelivered, context.local.has_been_placed_successfully),
+      1 => (Assets.packageDelivery, context.local.has_been_delivered_successfully),
+      2 => (Assets.packageRemove, context.local.has_been_cancelled),
+      _ => (Assets.packageRemove, context.local.has_been_cancelled),
     };
 
     return Column(
@@ -208,7 +209,7 @@ class NotificationItem extends StatelessWidget {
                         const EdgeInsets.only(left: 8, right: 16, bottom: 2),
                     child: Text.rich(
                       TextSpan(
-                        text: "Your order #$orderId from ",
+                        text: context.local.your_order_from(orderId),
                         style: context.theme.typography.textTheme.bodySmall
                             .copyWith(
                           color: context.theme.colors.body,
@@ -278,9 +279,9 @@ class DateHeader extends StatelessWidget {
           DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
 
       if (dateOnly == today) {
-        displayText = "Today";
+        displayText = context.local.today;
       } else if (dateOnly == yesterday) {
-        displayText = "Yesterday";
+        displayText = context.local.yesterday;
       } else {
         displayText = DateFormat('MMM dd, yyyy').format(parsedDate);
       }
