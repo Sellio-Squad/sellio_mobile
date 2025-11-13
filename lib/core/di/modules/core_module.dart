@@ -2,7 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../data/core/api/api_endpoints.dart';
 import '../../../data/core/api/dio_client.dart';
-import '../../../data/core/api/http_client.dart';
+import '../../../data/core/api/api_client.dart';
 import '../../../data/core/storage/local_storage.dart';
 import '../../../data/core/storage/secure_storage.dart';
 
@@ -17,7 +17,7 @@ class CoreModule {
     sl.registerLazySingleton<SecureStorage>(() => SecureStorage());
 
     // HTTP Client
-    sl.registerLazySingleton<HttpClient>(
+    sl.registerLazySingleton<ApiClient>(
           () => DioClient(
         baseUrl: ApiEndpoints.baseUrl,
         connectTimeout: const Duration(seconds: 30),

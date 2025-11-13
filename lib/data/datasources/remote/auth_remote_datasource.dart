@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
@@ -46,7 +46,7 @@ abstract class AuthRemoteDataSource {
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   AuthRemoteDataSourceImpl(this._httpClient);
 

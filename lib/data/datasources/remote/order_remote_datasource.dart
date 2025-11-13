@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/base/paginated_response.dart';
 import '../../models/order_model.dart';
 import '../../../domain/entities/order.dart';
@@ -29,7 +29,7 @@ abstract class OrderRemoteDataSource {
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   OrderRemoteDataSourceImpl(this._httpClient);
 

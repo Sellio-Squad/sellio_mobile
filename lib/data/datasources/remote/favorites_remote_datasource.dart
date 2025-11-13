@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 
 abstract class FavoritesRemoteDataSource {
   Future<List<String>> getFavoriteProductIds(String userId);
@@ -18,7 +18,7 @@ abstract class FavoritesRemoteDataSource {
 }
 
 class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   FavoritesRemoteDataSourceImpl(this._httpClient);
 

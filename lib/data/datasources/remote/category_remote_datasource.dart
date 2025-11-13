@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/category_model.dart';
 
 abstract class CategoryRemoteDataSource {
@@ -9,7 +9,7 @@ abstract class CategoryRemoteDataSource {
 }
 
 class CategoryRemoteDataSourceImpl implements CategoryRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   CategoryRemoteDataSourceImpl(this._httpClient);
 

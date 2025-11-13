@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'http_client.dart';
+import 'api_client.dart';
 import '../interceptors/auth_interceptor.dart';
 import '../interceptors/error_interceptor.dart';
 
-class DioClient implements HttpClient {
+class DioClient implements ApiClient {
   late final Dio _dio;
 
   DioClient({

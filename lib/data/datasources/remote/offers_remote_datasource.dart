@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/special_offer_model.dart';
 
 abstract class OffersRemoteDataSource {
@@ -11,7 +11,7 @@ abstract class OffersRemoteDataSource {
 }
 
 class OffersRemoteDataSourceImpl implements OffersRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   OffersRemoteDataSourceImpl(this._httpClient);
 

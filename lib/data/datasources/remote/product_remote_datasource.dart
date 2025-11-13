@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/base/paginated_response.dart';
 import '../../models/product_model.dart';
 
@@ -40,7 +40,7 @@ abstract class ProductRemoteDataSource {
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   ProductRemoteDataSourceImpl(this._httpClient);
 

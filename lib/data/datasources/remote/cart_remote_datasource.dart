@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/cart_model.dart';
 
 abstract class CartRemoteDataSource {
@@ -26,7 +26,7 @@ abstract class CartRemoteDataSource {
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   CartRemoteDataSourceImpl(this._httpClient);
 

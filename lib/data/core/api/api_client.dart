@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-abstract class HttpClient {
+abstract class ApiClient {
   Future<Response<T>> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,

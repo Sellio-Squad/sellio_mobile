@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/http_client.dart';
+import '../../core/api/api_client.dart';
 import '../../models/user_model.dart';
 import '../../models/address_model.dart';
 
@@ -42,7 +42,7 @@ abstract class UserRemoteDataSource {
 }
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
-  final HttpClient _httpClient;
+  final ApiClient _httpClient;
 
   UserRemoteDataSourceImpl(this._httpClient);
 
