@@ -1,64 +1,65 @@
-import '../../models/cart_item_model.dart';
+import 'dart:convert';
+import '../../core/storage/local_storage.dart';
 import '../../models/cart_model.dart';
 
 abstract class CartLocalDataSource {
   Future<CartModel?> getCachedCart();
-
   Future<void> cacheCart(CartModel cart);
-
-  Future<void> clearCartCache();
+  Future<void> clearCart();
+  Future<Map<String, int>> getCartCounts();
 }
 
 class CartLocalDataSourceImpl implements CartLocalDataSource {
-  CartModel? _cachedCart;
+  static const _cartKey = 'cached_cart';
+  static const _cartCountsKey = 'cart_counts';
 
-  CartLocalDataSourceImpl();
+  final LocalStorage _localStorage;
+
+  CartLocalDataSourceImpl(this._localStorage);
 
   @override
   Future<CartModel?> getCachedCart() async {
-    // Return empty cart if not cached, or fake cart with sample items
-    if (_cachedCart == null) {
-      return _getFakeCart();
+    try {
+      final jsonString = _localStorage.getString(_cartKey);
+      if (jsonString != null) {
+        final json = jsonDecode(jsonString) as Map<String, dynamic>;
+        return CartModel.fromJson(json);
+      }
+      return null;
+    } catch (e) {
+      return null;
     }
-    return _cachedCart;
   }
 
   @override
   Future<void> cacheCart(CartModel cart) async {
-    _cachedCart = cart;
+    final jsonString = jsonEncode(cart.toJson());
+    await _localStorage.setString(_cartKey, jsonString);
+
+    final counts = <String, int>{};
+    for (final item in cart.items) {
+      counts[item.productId] = item.quantity;
+    }
+    await _localStorage.setString(_cartCountsKey, jsonEncode(counts));
   }
 
   @override
-  Future<void> clearCartCache() async {
-    _cachedCart = null;
+  Future<void> clearCart() async {
+    await _localStorage.remove(_cartKey);
+    await _localStorage.remove(_cartCountsKey);
   }
 
-  // Fake cart data
-  CartModel _getFakeCart() {
-    return CartModel(
-      id: 'cart_001',
-      userId: 'user_001',
-      items: [
-        CartItemModel(
-          id: 'item_001',
-          productId: 'prod_001',
-          productName: 'Smartphone Pro Max',
-          productImage: 'https://via.placeholder.com/400x400',
-          price: 999.99,
-          quantity: 1,
-          currency: 'USD',
-        ),
-        CartItemModel(
-          id: 'item_002',
-          productId: 'prod_003',
-          productName: 'Designer T-Shirt',
-          productImage: 'https://via.placeholder.com/400x400',
-          price: 29.99,
-          quantity: 2,
-          currency: 'USD',
-        ),
-      ],
-      totalPrice: 1059.97,
-    );
+  @override
+  Future<Map<String, int>> getCartCounts() async {
+    try {
+      final jsonString = _localStorage.getString(_cartCountsKey);
+      if (jsonString != null) {
+        final Map<String, dynamic> json = jsonDecode(jsonString);
+        return json.map((key, value) => MapEntry(key, value as int));
+      }
+      return {};
+    } catch (e) {
+      return {};
+    }
   }
 }

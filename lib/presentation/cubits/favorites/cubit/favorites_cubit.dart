@@ -12,8 +12,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       final productIds = await _favoritesRepository.getFavoriteProductIds();
       final storeIds = await _favoritesRepository.getFavoriteStoreIds();
       emit(FavoritesState(
-        productIds: productIds.toSet(),
-        storeIds: storeIds.toSet(),
+        productIds: productIds.data.toSet(),
+        storeIds: storeIds.data.toSet(),
       ));
     } catch (e) {
       print('Error loading favorites: $e');

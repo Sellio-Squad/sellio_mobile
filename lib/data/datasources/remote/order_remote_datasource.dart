@@ -1,148 +1,122 @@
-import 'package:dio/dio.dart';
-
-import '../../../domain/entities/address.dart';
-import '../../../domain/entities/order.dart';
+import '../../core/api/api_endpoints.dart';
+import '../../core/api/http_client.dart';
+import '../../models/base/paginated_response.dart';
 import '../../models/order_model.dart';
-import 'api_service/api_service.dart';
+import '../../../domain/entities/order.dart';
 
 abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder({
     required String storeId,
-    required List<OrderItem> items,
-    required Address deliveryAddress,
+    required List<OrderItemModel> items,
+    required String addressId,
     String? note,
   });
 
-  Future<List<OrderModel>> getOrders({
+  Future<PaginatedResponse<OrderModel>> getOrders({
     OrderStatus? status,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   });
 
   Future<OrderModel> getOrderById(String orderId);
 
   Future<OrderModel> cancelOrder(String orderId);
+
+  Future<PaginatedResponse<OrderModel>> getCompletedOrders({
+    int page = 0,
+    int pageSize = 20,
+  });
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
-  final ApiService _apiService;
+  final HttpClient _httpClient;
 
-  OrderRemoteDataSourceImpl(this._apiService);
+  OrderRemoteDataSourceImpl(this._httpClient);
 
   @override
   Future<OrderModel> createOrder({
     required String storeId,
-    required List<OrderItem> items,
-    required Address deliveryAddress,
+    required List<OrderItemModel> items,
+    required String addressId,
     String? note,
   }) async {
-    try {
-      final response = await _apiService.post<Map<String, dynamic>>(
-        '/orders',
-        data: {
-          'storeId': storeId,
-          'items': items
-              .map((item) => {
-                    'productId': item.productId,
-                    'quantity': item.quantity,
-                    'price': item.price,
-                  })
-              .toList(),
-          'deliveryAddress': {
-            'country': deliveryAddress.country,
-            'city': deliveryAddress.city,
-            'latitude': deliveryAddress.latitude,
-            'longitude': deliveryAddress.longitude,
-          },
-          if (note != null) 'note': note,
-        },
-      );
+    final response = await _httpClient.post(
+      ApiEndpoints.orders,
+      data: {
+        'storeId': storeId,
+        'items': items.map((item) => item.toJson()).toList(),
+        'addressId': addressId,
+        'note': note,
+      },
+    );
 
-      return OrderModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return OrderModel.fromJson(response.data);
   }
 
   @override
-  Future<List<OrderModel>> getOrders({
+  Future<PaginatedResponse<OrderModel>> getOrders({
     OrderStatus? status,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   }) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/orders',
-        queryParameters: {
-          if (status != null) 'status': status.toString().split('.').last,
-          'page': page,
-          'limit': limit,
-        },
-      );
+    final response = await _httpClient.get(
+      ApiEndpoints.orders,
+      queryParameters: {
+        if (status != null) 'status': _orderStatusToString(status),
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => OrderModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => OrderModel.fromJson(json),
+    );
   }
 
   @override
   Future<OrderModel> getOrderById(String orderId) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/orders/$orderId',
-      );
-
-      return OrderModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _httpClient.get(ApiEndpoints.orderById(orderId));
+    return OrderModel.fromJson(response.data);
   }
 
   @override
   Future<OrderModel> cancelOrder(String orderId) async {
-    try {
-      final response = await _apiService.post<Map<String, dynamic>>(
-        '/orders/$orderId/cancel',
-      );
-
-      return OrderModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _httpClient.put(
+      ApiEndpoints.orderCancel(orderId),
+    );
+    return OrderModel.fromJson(response.data);
   }
 
-  Exception _handleError(DioException e) {
-    if (e.response != null) {
-      final statusCode = e.response!.statusCode;
-      final message =
-          e.response!.data['message'] as String? ?? 'Unknown error occurred';
+  @override
+  Future<PaginatedResponse<OrderModel>> getCompletedOrders({
+    int page = 0,
+    int pageSize = 20,
+  }) async {
+    final response = await _httpClient.get(
+      ApiEndpoints.ordersCompleted,
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      switch (statusCode) {
-        case 400:
-          return Exception('Bad request: $message');
-        case 401:
-          return Exception('Unauthorized: $message');
-        case 404:
-          return Exception('Not found: $message');
-        case 500:
-          return Exception('Server error: $message');
-        default:
-          return Exception('Error: $message');
-      }
-    } else if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return Exception('Connection timeout');
-    } else if (e.type == DioExceptionType.connectionError) {
-      return Exception('No internet connection');
-    } else {
-      return Exception('Unknown error occurred');
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => OrderModel.fromJson(json),
+    );
+  }
+
+  String _orderStatusToString(OrderStatus status) {
+    switch (status) {
+      case OrderStatus.pending:
+        return 'PENDING';
+      case OrderStatus.processing:
+        return 'IN_PROGRESS';
+      case OrderStatus.completed:
+        return 'COMPLETED';
+      case OrderStatus.cancelled:
+        return 'CANCELLED';
     }
   }
 }

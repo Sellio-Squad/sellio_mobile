@@ -20,20 +20,6 @@ class CategoryModel extends Category {
     };
   }
 
-  Map<String, dynamic> toDbMap() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
-
-  factory CategoryModel.fromDbMap(Map<String, dynamic> map) {
-    return CategoryModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-    );
-  }
-
   factory CategoryModel.fromEntity(Category category) {
     return CategoryModel(
       id: category.id,

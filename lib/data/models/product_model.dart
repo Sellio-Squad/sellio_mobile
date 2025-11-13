@@ -48,39 +48,6 @@ class ProductModel extends Product {
     };
   }
 
-  Map<String, dynamic> toDbMap() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'price': price,
-      'currency': currency,
-      'discount': discount,
-      'storeId': storeId,
-      'categoryId': categoryId,
-      'isAvailable': isAvailable ? 1 : 0,
-      'stockQuantity': stockQuantity,
-      'isFavorite': 0,
-    };
-  }
-
-  factory ProductModel.fromDbMap(
-      Map<String, dynamic> map, List<String> images) {
-    return ProductModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      description: map['description'] as String,
-      price: map['price'] as double,
-      currency: map['currency'] as String,
-      discount: map['discount'] as String?,
-      images: images,
-      storeId: map['storeId'] as String,
-      categoryId: map['categoryId'] as String,
-      isAvailable: map['isAvailable'] == 1,
-      stockQuantity: map['stockQuantity'] as int,
-    );
-  }
-
   factory ProductModel.fromEntity(Product product) {
     return ProductModel(
       id: product.id,

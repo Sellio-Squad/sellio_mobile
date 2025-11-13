@@ -33,36 +33,6 @@ class UserModel extends User {
     };
   }
 
-  Map<String, dynamic> toDbMap() {
-    return {
-      'id': id,
-      'fullName': fullName,
-      'phoneNumber': phoneNumber,
-      'countryCode': countryCode,
-      'profilePhotoUrl': profilePhotoUrl,
-      'country': address.country,
-      'city': address.city,
-      'latitude': address.latitude,
-      'longitude': address.longitude,
-    };
-  }
-
-  factory UserModel.fromDbMap(Map<String, dynamic> map) {
-    return UserModel(
-      id: map['id'] as String,
-      fullName: map['fullName'] as String,
-      phoneNumber: map['phoneNumber'] as String,
-      countryCode: map['countryCode'] as String,
-      profilePhotoUrl: map['profilePhotoUrl'] as String?,
-      address: AddressModel(
-        id: map['id'] as String,
-        country: map['country'] as String,
-        city: map['city'] as String,
-        latitude: map['latitude'] as double?,
-        longitude: map['longitude'] as double?,
-      ),
-    );
-  }
 
   factory UserModel.fromEntity(User user) {
     return UserModel(

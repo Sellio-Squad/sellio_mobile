@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'core/di/injection_container.dart' as di;
 import 'domain/repositories/cart_repository.dart';
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/favorites_repository.dart';
@@ -12,13 +13,12 @@ import 'domain/repositories/user_repository.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';
-import 'package:sellio_mobile/di/injection_container.dart' as di;
 
 void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await di.initAppModule();
+  await di.init();
   runApp(
     SellioThemeProvider(
       brightness: Brightness.light,
@@ -35,26 +35,26 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<CategoryRepository>(
-          create: (_) => di.instance<CategoryRepository>(),
+          create: (_) => di.sl<CategoryRepository>(),
         ),
         RepositoryProvider<ProductRepository>(
-          create: (_) => di.instance<ProductRepository>(),
+          create: (_) => di.sl<ProductRepository>(),
         ),
         RepositoryProvider<StoreRepository>(
-          create: (_) => di.instance<StoreRepository>(),
+          create: (_) => di.sl<StoreRepository>(),
         ),
         RepositoryProvider<OffersRepository>(
-          create: (_) => di.instance<OffersRepository>(),
+          create: (_) => di.sl<OffersRepository>(),
         ),
         RepositoryProvider<CartRepository>(
-          create: (_) => di.instance<CartRepository>(),
+          create: (_) => di.sl<CartRepository>(),
         ),
         RepositoryProvider<FavoritesRepository>(
-          create: (_) => di.instance<FavoritesRepository>(),
+          create: (_) => di.sl<FavoritesRepository>(),
         ),
 
         RepositoryProvider<UserRepository>(
-          create: (_) => di.instance<UserRepository>(),
+          create: (_) => di.sl<UserRepository>(),
         ),
 
       ],

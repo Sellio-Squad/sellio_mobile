@@ -5,8 +5,6 @@ class AddressModel extends Address {
     required super.id,
     required super.country,
     required super.city,
-    super.latitude,
-    super.longitude,
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) {
@@ -14,8 +12,6 @@ class AddressModel extends Address {
       id: json['id'] as String,
       country: json['country'] as String,
       city: json['city'] as String,
-      latitude: json['latitude'] as double?,
-      longitude: json['longitude'] as double?,
     );
   }
 
@@ -24,8 +20,6 @@ class AddressModel extends Address {
       'id': id,
       'country': country,
       'city': city,
-      'latitude': latitude,
-      'longitude': longitude,
     };
   }
 
@@ -34,8 +28,6 @@ class AddressModel extends Address {
       id: address.id,
       country: address.country,
       city: address.city,
-      latitude: address.latitude,
-      longitude: address.longitude,
     );
   }
 
@@ -44,8 +36,6 @@ class AddressModel extends Address {
       id: id,
       country: country,
       city: city,
-      latitude: latitude,
-      longitude: longitude,
     );
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
 import '../../../presentation/screens/ProductDetailsScreen.dart';
-import '../../../presentation/screens/account_screen.dart';
 import '../../../presentation/screens/auth/createAccount.dart';
 import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
@@ -16,6 +15,7 @@ import '../../../presentation/screens/main/dashboard.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
 import '../../../presentation/screens/thrift_screen.dart';
+import '../../../ui/screens/account/account_screen.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
