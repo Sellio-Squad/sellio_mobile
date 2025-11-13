@@ -7,6 +7,8 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/order_details.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
+
 import '../../../domain/entities/order.dart';
 import 'OrderHistoryCubit.dart';
 import 'order_history_state.dart';
@@ -49,7 +51,6 @@ class OrderHistoryScreen extends StatelessWidget {
   }
 }
 
-
 class OrderSection extends StatelessWidget {
   final List<Order> orders;
 
@@ -80,6 +81,7 @@ class OrderSection extends StatelessWidget {
     );
   }
 }
+
 Widget emptyOrderHistory(BuildContext context) {
   return SizedBox(
     height: MediaQuery.of(context).size.height * 0.6,
@@ -88,7 +90,7 @@ Widget emptyOrderHistory(BuildContext context) {
       children: [
         Image.asset(Assets.noOrderHistory, width: 112, height: 112),
         Text(
-          'No order history!',
+          context.local.no_order_history,
           style: context.theme.typography.textTheme.titleSmall.copyWith(
             color: context.theme.colors.title,
           ),
@@ -96,7 +98,7 @@ Widget emptyOrderHistory(BuildContext context) {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Text(
-            'Start exploring and purchasing your favorite items',
+            context.local.start_exploring_favorite_items,
             style: context.theme.typography.textTheme.bodySmall.copyWith(
               color: context.theme.colors.body,
             ),
@@ -104,7 +106,7 @@ Widget emptyOrderHistory(BuildContext context) {
           ),
         ),
         const Gap(12),
-        SellioButton(text: 'Start Exploring', fullWidth: false, onTap: () {}),
+        SellioButton(text: context.local.start_exploring, fullWidth: false, onTap: () {}),
       ],
     ),
   );

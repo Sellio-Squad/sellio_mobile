@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
 
 class ChangeLanguageBottomSheet extends StatefulWidget {
@@ -51,7 +52,7 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.changeLanguage,
+          context.local.change_language,
           style: context.theme.typography.textTheme.titleMedium,
         ),
         const SizedBox(height: 24),
@@ -69,14 +70,14 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
             children: [
               Expanded(
                 child: _buildLanguageOption(
-                  language: AppStrings.english,
+                  language: context.local.english,
                   context: context,
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _buildLanguageOption(
-                  language: AppStrings.arabic,
+                  language: context.local.arabic,
                   context: context,
                 ),
               ),
@@ -87,7 +88,7 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
         SizedBox(
           width: double.infinity,
           child: SellioButton(
-            text: AppStrings.save,
+            text: context.local.save,
             onTap: _isFormValid
                 ? () {
                     widget.onSave(currentSelectedLanguage);
