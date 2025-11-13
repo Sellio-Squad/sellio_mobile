@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
+import '../../../../core/app_management/route/route_args.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
@@ -69,19 +71,29 @@ class ProductsSection extends StatelessWidget {
           final count = productCounts[product.id] ?? 0;
           final isFavorite = favoriteProductIds.contains(product.id);
 
-          return SizedBox(
-            width: 160,
-            child: ProductVerticalCard(
-              imageUrl: product.images.isNotEmpty
-                  ? product.images.first
-                  : 'assets/images/product_3.webp',
-              title: product.name,
-              price: '\$${product.price.toStringAsFixed(2)}',
-              count: count,
-              isFavorite: isFavorite,
-              onIncrement: () => onIncrement(product.id),
-              onDecrement: () => onDecrement(product.id),
-              onFavorite: () => onFavorite(product.id),
+          return GestureDetector(
+            onTap: () => context.navigator.pushProductDetails(
+              ProductDetailsArgs(
+                productCount: count,
+                productDescription: product.description,
+                productPrice: product.price,
+                // productPriceBeforeDiscount: product.priceBeforeDiscount,
+              )
+            ),
+            child: SizedBox(
+              width: 160,
+              child: ProductVerticalCard(
+                imageUrl: product.images.isNotEmpty
+                    ? product.images.first
+                    : 'assets/images/product_3.webp',
+                title: product.name,
+                price: '\$${product.price.toStringAsFixed(2)}',
+                count: count,
+                isFavorite: isFavorite,
+                onIncrement: () => onIncrement(product.id),
+                onDecrement: () => onDecrement(product.id),
+                onFavorite: () => onFavorite(product.id),
+              ),
             ),
           );
         },
