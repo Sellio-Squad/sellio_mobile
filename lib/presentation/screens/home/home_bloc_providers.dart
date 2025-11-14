@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/di/injection_container.dart';
 import '../../../domain/repositories/category_repository.dart';
 import '../../../domain/repositories/offers_repository.dart';
 import '../../../domain/repositories/product_repository.dart';
@@ -23,24 +24,16 @@ class HomeBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeCategoriesCubit(
-            context.read<CategoryRepository>(),
-          )..loadCategories(),
+          create: (_) => sl<HomeCategoriesCubit>()..loadCategories(),
         ),
         BlocProvider(
-          create: (context) => HomeTrendingProductsCubit (
-            context.read<ProductRepository>(),
-          )..loadTrendingProducts(),
+          create: (_) => sl<HomeTrendingProductsCubit>()..loadTrendingProducts(),
         ),
         BlocProvider(
-          create: (context) => HomeTopStoresCubit(
-            context.read<StoreRepository>(),
-          )..loadTopStores(),
+          create: (_) => sl<HomeTopStoresCubit>()..loadTopStores(),
         ),
         BlocProvider(
-          create: (context) => HomeSpecialOffersCubit(
-            context.read<OffersRepository>(),
-          )..loadSpecialOffers(),
+          create: (_) => sl<HomeSpecialOffersCubit>()..loadSpecialOffers(),
         ),
       ],
       child: child,

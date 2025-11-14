@@ -35,75 +35,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
+    return MultiBlocProvider(
       providers: [
-        RepositoryProvider<CategoryRepository>(
-          create: (_) => di.sl<CategoryRepository>(),
-        ),
-        RepositoryProvider<ProductRepository>(
-          create: (_) => di.sl<ProductRepository>(),
-        ),
-        RepositoryProvider<StoreRepository>(
-          create: (_) => di.sl<StoreRepository>(),
-        ),
-        RepositoryProvider<OffersRepository>(
-          create: (_) => di.sl<OffersRepository>(),
-        ),
-        RepositoryProvider<CartRepository>(
-          create: (_) => di.sl<CartRepository>(),
-        ),
-        RepositoryProvider<FavoritesRepository>(
-          create: (_) => di.sl<FavoritesRepository>(),
-        ),
-        RepositoryProvider<UserRepository>(
-          create: (_) => di.sl<UserRepository>(),
-        ),
-        RepositoryProvider<OrderRepository>(
-          create: (_) => di.sl<OrderRepository>(),
-        )
+        BlocProvider(create: (_) => di.sl<CartCubit>()),
+        BlocProvider(create: (_) => di.sl<FavoritesCubit>()),
+        BlocProvider(create: (_) => di.sl<OrderHistoryCubit>()),
+        BlocProvider(create: (_) => di.sl<UserCubit>()),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => CartCubit(
-              context.read<CartRepository>(),
-            )..loadCart(),
-          ),
-          BlocProvider(
-            create: (context) => FavoritesCubit(
-              context.read<FavoritesRepository>(),
-            )..loadFavorites(),
-          ),
-          BlocProvider<OrderHistoryCubit>(
-            create: (context) => OrderHistoryCubit(
-              context.read<OrderRepository>(),
-            )..loadOrders(),
-          ),
-          BlocProvider(
-            create: (context) => UserCubit(
-              context.read<UserRepository>(),
-            )..loadUserInfo(),
-          ),
-        ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: RouteGenerator.router,
-          title: 'Sellio app',
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: RouteGenerator.router,
+        title: 'Sellio app',
 
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('ar'),
-          ],
-          locale: WidgetsBinding.instance.window.locale,
-        )
-        ,
-      ),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ar'),
+        ],
+        locale: WidgetsBinding.instance.window.locale,
+      )
+      ,
     );
   }
 }
