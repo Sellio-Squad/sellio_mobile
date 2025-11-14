@@ -8,18 +8,19 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/account/AccountOptionCard.dart';
-import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 
 import '../../../core/design_system/constants/assets.dart';
+import 'AccountOptionCard.dart';
 import 'account_options/account_options_bottom_sheet.dart';
+import 'account_settings/account_settings_bottom_sheet.dart';
 import 'cubits/BottomSheetType.dart';
 import 'cubits/account_cubit.dart';
 import 'cubits/account_state.dart';
+import 'delete_account/delete_account_bottom_sheet.dart';
 import 'language/change_language_bottom_sheet.dart';
+import 'logout/logout_bottom_sheet.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -34,10 +35,13 @@ class _AccountScreenState extends State<AccountScreen> {
     SellioTextTheme themeText = context.theme.typography.textTheme;
     SellioColorScheme colors = context.theme.colors;
     return BlocProvider(
-        create: (context) => AccountCubit()..loadProfileData(),
+        create: (context) => AccountCubit(
+          context.read<AuthRepository>(),
+        )..loadProfileData(),
         child: BlocConsumer<AccountCubit, AccountState>(
             listener: (context, state) {
-          if (state is AccountLoaded) {
+          if (state is AccountLoaded &&
+              state.activeBottomSheet != BottomSheetType.none) {
             _showBottomSheetByType(context, state.activeBottomSheet);
           }
         }, builder: (context, state) {
@@ -57,10 +61,11 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               );
             case AccountLoaded():
-              _showBottomSheetByType(context, state.activeBottomSheet);
               return _accountContent(context, state, themeText, colors);
             case AccountError():
-              throw UnimplementedError();
+              return Scaffold(
+                body: Center(child: Text('An error occurred ${state.message}')),
+              );
             case AccountActionLoading():
               throw UnimplementedError();
           }
@@ -186,8 +191,10 @@ class _AccountScreenState extends State<AccountScreen> {
                     orderTitle: AppStrings.notification,
                     onCardClicked: () {},
                     trailing: DesignSwitch(
-                      value: true,
-                      onChanged: (bool value) {},
+                      value: state.notificationsEnabled,
+                      onChanged: (bool value) {
+                        context.read<AccountCubit>().toggleNotifications(value);
+                      },
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -196,7 +203,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     orderTitle: AppStrings.appVersion,
                     onCardClicked: () {},
                     trailing: Text(
-                      '1.2',
+                      AppStrings.appVersionNumber,
                       style: themeText.labelSmall.copyWith(
                         color: colors.body,
                       ),
@@ -234,15 +241,17 @@ class _AccountScreenState extends State<AccountScreen> {
   void _showAccountSettingsBottomSheet(BuildContext context) {
     AccountSettingsBottomSheet.show(
         context: context,
-        onSave: () {
-          context.read<AccountCubit>().hideBottomSheet();
+        onSave: (fullName, phoneNumber, countryCode) {
+          context.read<AccountCubit>().updateAccountSettings(
+              fullName: fullName, phone: phoneNumber, countryCode: countryCode);
         });
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {
     ResetPasswordBottomSheet.show(
-      onSave: () {
-        context.read<AccountCubit>().hideBottomSheet();
+      onSave: (currentPassword, newPassword, confirmNewPassword) {
+        context.read<AccountCubit>().resetPassword(
+            currentPassword: currentPassword, newPassword: newPassword);
       },
       context: context,
     );
@@ -252,8 +261,7 @@ class _AccountScreenState extends State<AccountScreen> {
     ChangeLanguageBottomSheet.show(
       context: context,
       onSave: (String language) {
-        context.read<AccountCubit>().hideBottomSheet();
-        print('Selected language: $language');
+        context.read<AccountCubit>().changeLanguage(language);
       },
       selectedLanguage: AppStrings.english,
     );
@@ -263,8 +271,7 @@ class _AccountScreenState extends State<AccountScreen> {
     LogoutBottomSheet.show(
       context: context,
       onLogout: () {
-        context.read<AccountCubit>().hideBottomSheet();
-        print('Logging out...');
+        context.read<AccountCubit>().logout();
       },
     );
   }
@@ -273,8 +280,7 @@ class _AccountScreenState extends State<AccountScreen> {
     DeleteAccountBottomSheet.show(
       context: context,
       onDeleteAccount: () {
-        context.read<AccountCubit>().hideBottomSheet();
-        print('Logging out...');
+        context.read<AccountCubit>().deleteAccount();
       },
     );
   }
@@ -289,11 +295,7 @@ class _AccountScreenState extends State<AccountScreen> {
               .read<AccountCubit>()
               .showBottomSheet(BottomSheetType.deleteAccount);
         },
-        context: context,
-        onDismiss: () {
-          context.read<AccountCubit>().hideBottomSheet();
-          print('Dismissing bottom sheet...');
-        });
+        context: context);
   }
 }
 

@@ -62,6 +62,7 @@ class AccountLoaded extends AccountState {
     notificationsEnabled,
     selectedLanguage,
     appVersion,
+    activeBottomSheet,
   ];
 }
 

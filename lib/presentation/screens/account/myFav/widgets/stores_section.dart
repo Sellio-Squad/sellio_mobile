@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+import '../../../../../domain/entities/store.dart';
+import '../../../home/widgets/top_stores_section.dart';
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {
@@ -26,9 +27,10 @@ class StoresSection extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(top: 24),
         child: TopStoresSection(
-          topStores: favoriteStores,
+          stores: favoriteStores,
+          favoriteStoreIds: favoriteStores.map((store) => store.id.toString()).toSet(),
           onLikePressed: (storeId) => onToggleFavorite(int.parse(storeId)),
-          onCardPressed: (storeId) => onToggleFavorite(int.parse(storeId)),
+          onStorePressed: (store) => {},
         ),
       ),
     );

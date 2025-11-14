@@ -16,15 +16,19 @@ class AccountOptionsBottomSheet extends StatelessWidget {
     required BuildContext context,
     required VoidCallback onLogout,
     required VoidCallback onDeleteAccount,
-    required VoidCallback onDismiss,
   }) {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      onDismiss: onDismiss,
       child: AccountOptionsBottomSheet(
-        onLogout: onLogout,
-        onDeleteAccount: onDeleteAccount,
+        onLogout: () {
+          Navigator.of(context).pop();
+          onLogout();
+        },
+        onDeleteAccount: () {
+          Navigator.of(context).pop();
+          onDeleteAccount();
+        },
       ),
     );
   }

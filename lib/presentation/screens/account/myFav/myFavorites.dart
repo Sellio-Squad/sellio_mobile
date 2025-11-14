@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
+import '../../../../domain/entities/store.dart';
 import 'models/favorite_product_model.dart';
-import 'models/favorite_store_model.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
 
@@ -35,20 +35,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       isFavorite: true,
     ),
   ];
-  final List<FavoriteStore> _favoriteStores = [
-    FavoriteStore(
-      id: "0",
-      name: 'Sweet Treats Bakery',
-      imageUrl: 'assets/images/product_3.webp',
-      isFavorite: true,
-    ),
-    FavoriteStore(
-      id: "1",
-      name: 'Cake & Coffee House',
-      imageUrl: 'assets/images/product_3.webp',
-      isFavorite: true,
-    ),
-  ];
+  final List<Store> _favoriteStores = Store.dummyList(count: 3);
 
   final Map<int, int> _productCounts = {};
 
@@ -74,7 +61,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     setState(() {
       final index = _favoriteStores.indexWhere((s) => s.id == storeId);
       if (index != -1) {
-        _favoriteStores[index].isFavorite = !_favoriteStores[index].isFavorite;
+        _favoriteStores[index] =  _favoriteStores[index].copyWith(isFavorite: !_favoriteStores[index].isFavorite);
       }
     });
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import 'domain/repositories/cart_repository.dart';
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/favorites_repository.dart';
@@ -56,7 +57,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<UserRepository>(
           create: (_) => di.instance<UserRepository>(),
         ),
-
+        RepositoryProvider<AuthRepository>(
+          create: (_) => di.instance<AuthRepository>(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [

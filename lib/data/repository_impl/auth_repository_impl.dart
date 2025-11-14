@@ -1,5 +1,6 @@
 import '../../domain/core/failure.dart';
 import '../../domain/core/result.dart';
+import '../../domain/entities/address.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasources/local/user_local_datasource.dart';
@@ -156,19 +157,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<User?>> getCurrentUser() async {
+  Future<Result<User>> getCurrentUser() async {
     try {
       // Try to get from cache first
-      final cachedUser = await _localDataSource.getCachedUser();
-      if (cachedUser != null) {
-        return Success(cachedUser.toEntity());
-      }
+      // final cachedUser = await _localDataSource.getCachedUser();
+      // if (cachedUser != null) {
+      //   return Success(cachedUser.toEntity());
+      // }
+      //
+      // // Fetch from remote if not in cache
+      // final user = await _remoteDataSource.getCurrentUser();
+      // await _localDataSource.cacheUser(user);
 
-      // Fetch from remote if not in cache
-      final user = await _remoteDataSource.getCurrentUser();
-      await _localDataSource.cacheUser(user);
-
-      return Success(user.toEntity());
+      // return Success(user.toEntity());
+      return Success(User(id: '1', fullName: 'Hamsa Ali',email: 'Hamsa2025@gmail.com', phoneNumber: '1012314451', countryCode: '+20', address: Address(city: 'Cairo', country: 'Egypt',id: '1')));
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }

@@ -51,7 +51,7 @@ abstract class AuthRepository {
   Future<Result<void>> logout();
 
   /// Get current user
-  Future<Result<User?>> getCurrentUser();
+  Future<Result<User>> getCurrentUser();
 
   /// Check if user is logged in
   Future<Result<bool>> isLoggedIn();

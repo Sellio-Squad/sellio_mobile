@@ -1,28 +1,29 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/entities/address.dart';
-import 'package:sellio_mobile/domain/entities/user.dart';
-
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import '../../../../domain/core/failure.dart';
+import '../../../../domain/core/result.dart';
 import 'BottomSheetType.dart';
 import 'account_state.dart';
 
 class AccountCubit extends Cubit<AccountState> {
-  AccountCubit() : super(AccountInitial());
+  final AuthRepository _authRepository;
+
+  AccountCubit(this._authRepository) : super(AccountInitial());
 
   Future<void> loadProfileData() async {
-    final currentUser = User(id: '1', fullName: 'Hamsa',email: 'Hamsa2025@gmail.com', phoneNumber: '1012314451', countryCode: '+20', address: Address(city: 'Cairo', country: 'Egypt',id: '1'));
-    emit(AccountLoaded(userProfile: currentUser));
+    final result = _authRepository.getCurrentUser();
+    switch (result) {
+      case Success(data: final user):
+        emit(AccountLoaded(userProfile: user));
+      case Failure(message: final error):
+        emit(AccountError(message: error));
+    }
   }
 
   void showBottomSheet(BottomSheetType type) {
     if (state is AccountLoaded) {
       final currentState = state as AccountLoaded;
       emit(currentState.copyWith(activeBottomSheet: type));
-    }
-  }
-  void hideBottomSheet() {
-    if (state is AccountLoaded) {
-      final currentState = state as AccountLoaded;
-      emit(currentState.copyWith(activeBottomSheet: BottomSheetType.none));
     }
   }
   void toggleNotifications(bool enabled) {
@@ -34,23 +35,22 @@ class AccountCubit extends Cubit<AccountState> {
   void changeLanguage(String language) {
     if (state is AccountLoaded) {
       final currentState = state as AccountLoaded;
-      emit(currentState.copyWith(selectedLanguage: language));
+      emit(currentState.copyWith(selectedLanguage: language,activeBottomSheet: BottomSheetType.none));
     }
   }
   Future<void> updateAccountSettings({
     required String fullName,
-    required String email,
+    required String phone,
+    required String countryCode,
   }) async {
     if (state is AccountLoaded) {
       final currentState = state as AccountLoaded;
       emit(AccountActionLoading(previousState: currentState));
 
       try {
-        await Future.delayed(const Duration(seconds: 1));
+        final updatedUser = currentState.userProfile.copyWith(fullName: fullName, phoneNumber: phone,countryCode: countryCode);
+        emit(currentState.copyWith(userProfile: updatedUser,activeBottomSheet: BottomSheetType.none));
 
-        final updatedUser = currentState.userProfile.copyWith(fullName: fullName, email: email,);
-
-        emit(currentState.copyWith(userProfile: updatedUser, activeBottomSheet: BottomSheetType.none));
       } catch (e) {
         emit(AccountError(message: e.toString()));
       }
@@ -62,8 +62,7 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountActionLoading(previousState: currentState));
 
       try {
-        await Future.delayed(const Duration(seconds: 1));
-        emit(const AccountInitial());
+        emit(currentState.copyWith(activeBottomSheet: BottomSheetType.none));
       } catch (e) {
         emit(AccountError(message: e.toString()));
       }
@@ -76,8 +75,7 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountActionLoading(previousState: currentState));
 
       try {
-        await Future.delayed(const Duration(seconds: 1));
-        emit(const AccountInitial());
+        emit(currentState.copyWith(activeBottomSheet: BottomSheetType.none));
       } catch (e) {
         emit(AccountError(message: e.toString()));
       }
@@ -93,7 +91,6 @@ class AccountCubit extends Cubit<AccountState> {
       emit(AccountActionLoading(previousState: currentState));
 
       try {
-        await Future.delayed(const Duration(seconds: 1));
         emit(currentState.copyWith(activeBottomSheet: BottomSheetType.none));
       } catch (e) {
         emit(AccountError(message: e.toString()));
