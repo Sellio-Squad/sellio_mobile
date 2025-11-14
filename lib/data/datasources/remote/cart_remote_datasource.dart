@@ -17,10 +17,6 @@ abstract class CartRemoteDataSource {
     required String cartItemId,
     required int quantity,
   });
-  Future<CartModel> updateQuantityByProductId({
-    required String productId,
-    required int quantity,
-  });
 
   Future<void> clearCart();
 }
@@ -33,9 +29,11 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<CartModel> getCart() async {
     try {
-      final response = await _apiService.get<Map<String, dynamic>>('/cart');
+      final response = await _apiService.get<Map<String, dynamic>>(
+        '/cart',
+      );
 
-      return CartModel.fromJson(response.data!['data']);
+      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -55,7 +53,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         },
       );
 
-      return CartModel.fromJson(response.data!['data']);
+      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -64,10 +62,11 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<CartModel> removeFromCart(String cartItemId) async {
     try {
-      final response =
-      await _apiService.delete<Map<String, dynamic>>('/cart/items/$cartItemId');
+      final response = await _apiService.delete<Map<String, dynamic>>(
+        '/cart/items/$cartItemId',
+      );
 
-      return CartModel.fromJson(response.data!['data']);
+      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -86,28 +85,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         },
       );
 
-      return CartModel.fromJson(response.data!['data']);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-  @override
-  Future<CartModel> updateQuantityByProductId({
-    required String productId,
-    required int quantity,
-  }) async {
-    try {
-      final cart = await getCart();
-
-      final item = cart.items.firstWhere(
-            (e) => e.productId == productId,
-        orElse: () => throw Exception("Product not in cart"),
-      );
-
-      return await updateCartItem(
-        cartItemId: item.id,
-        quantity: quantity,
-      );
+      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -125,7 +103,8 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   Exception _handleError(DioException e) {
     if (e.response != null) {
       final statusCode = e.response!.statusCode;
-      final message = e.response!.data['message']?.toString() ?? "Error";
+      final message =
+          e.response!.data['message'] as String? ?? 'Unknown error occurred';
 
       switch (statusCode) {
         case 400:
@@ -139,17 +118,13 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         default:
           return Exception('Error: $message');
       }
-    }
-
-    if (e.type == DioExceptionType.connectionTimeout ||
+    } else if (e.type == DioExceptionType.connectionTimeout ||
         e.type == DioExceptionType.receiveTimeout) {
-      return Exception("Connection timeout");
+      return Exception('Connection timeout');
+    } else if (e.type == DioExceptionType.connectionError) {
+      return Exception('No internet connection');
+    } else {
+      return Exception('Unknown error occurred');
     }
-
-    if (e.type == DioExceptionType.connectionError) {
-      return Exception("No internet connection");
-    }
-
-    return Exception("Unknown error occurred");
   }
 }

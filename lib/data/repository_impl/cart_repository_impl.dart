@@ -13,90 +13,91 @@ class CartRepositoryImpl implements CartRepository {
       this._remoteDataSource,
       this._localDataSource,
       );
+
   @override
   Future<Result<Cart>> getCart() async {
     try {
-      final cartModel = await _remoteDataSource.getCart();
-      await _localDataSource.cacheCart(cartModel);
-      return Success(cartModel.toEntity());
+      final cart = await _remoteDataSource.getCart();
+
+      // Cache cart
+      await _localDataSource.cacheCart(cart);
+
+      return Success(cart.toEntity());
     } catch (e) {
+      // Try to get from cache
       try {
-        final cached = await _localDataSource.getCachedCart();
-        if (cached != null) {
-          return Success(cached.toEntity());
+        final cachedCart = await _localDataSource.getCachedCart();
+        if (cachedCart != null) {
+          return Success(cachedCart.toEntity());
         }
-      } catch (_) {}
+      } catch (cacheError) {
+        // Cache failed
+      }
 
       return ResultFailure(_mapExceptionToFailure(e));
     }
   }
+
   @override
   Future<Result<Cart>> addToCart({
     required String productId,
     required int quantity,
   }) async {
     try {
-      final cartModel = await _remoteDataSource.addToCart(
+      final cart = await _remoteDataSource.addToCart(
         productId: productId,
         quantity: quantity,
       );
 
-      await _localDataSource.cacheCart(cartModel);
+      // Cache updated cart
+      await _localDataSource.cacheCart(cart);
 
-      return Success(cartModel.toEntity());
+      return Success(cart.toEntity());
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
   }
+
   @override
   Future<Result<Cart>> removeFromCart(String cartItemId) async {
     try {
-      final cartModel = await _remoteDataSource.removeFromCart(cartItemId);
+      final cart = await _remoteDataSource.removeFromCart(cartItemId);
 
-      await _localDataSource.cacheCart(cartModel);
+      // Cache updated cart
+      await _localDataSource.cacheCart(cart);
 
-      return Success(cartModel.toEntity());
+      return Success(cart.toEntity());
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
     }
   }
-  @override
-  Future<Result<Cart>> updateQuantity(String productId, int quantity) async {
-    try {
-      final cartModel = await _remoteDataSource.updateQuantityByProductId(
-        productId: productId,
-        quantity: quantity,
-      );
-      return Success(cartModel.toEntity());
-    } catch (e) {
-      return ResultFailure(_mapExceptionToFailure(e));
-    }
-  }
-  @override
-  Future<Result<Map<String, int>>> getCartCounts() async {
-    try {
-      final cartModel = await _remoteDataSource.getCart();
 
-      final counts = {
-        for (final item in cartModel.items) item.productId: item.quantity,
-      };
-
-      return Success(counts);
-    } catch (e) {
-      return ResultFailure(_mapExceptionToFailure(e));
-    }
-  }
   Failure _mapExceptionToFailure(Object e) {
     final message = e.toString();
 
-    if (message.contains('No internet') || message.contains('timeout')) {
+    if (message.contains('No internet connection') ||
+        message.contains('Connection timeout')) {
       return const NetworkFailure();
     } else if (message.contains('Unauthorized')) {
       return const UnauthorizedFailure();
     } else if (message.contains('Not found')) {
       return const NotFoundFailure();
+    } else if (message.contains('Server error')) {
+      return ServerFailure(message: message);
     } else {
       return ServerFailure(message: message);
     }
+  }
+
+  @override
+  Future<Result<Cart>> updateQuantity(String productId, int quantity) {
+    // TODO: implement updateQuantity
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<Map<String, int>>> getCartCounts() {
+    // TODO: implement getCartCounts
+    throw UnimplementedError();
   }
 }
