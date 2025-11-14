@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../presentation/screens/auth/country.dart';
 
 class SellioTextField extends StatefulWidget {
