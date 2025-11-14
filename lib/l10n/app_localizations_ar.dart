@@ -207,6 +207,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get iraq => 'العراق';
 
   @override
+  String get processing => 'قيد المعالجة';
+
+  @override
+  String get completed => 'مكتمل';
+
+  @override
+  String get cancelled => 'ملغى';
+
+  @override
+  String get order => 'طلب';
+
+  @override
+  String get view_details => 'عرض التفاصيل';
+
+  @override
+  String get cancel_order => 'إلغاء الطلب';
+
+  @override
+  String get placed_on => 'تم الطلب في';
+
+  @override
+  String get order_again => 'اطلب مرة أخرى';
+
+  @override
+  String get items => 'عناصر';
+
+  @override
+  String get full_name => 'الاسم الكامل';
+
+  @override
   String get egypt => 'مصر';
 
   @override

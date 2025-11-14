@@ -209,6 +209,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get iraq => 'Iraq';
 
   @override
+  String get processing => 'Processing';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get order => 'Order';
+
+  @override
+  String get view_details => 'View details';
+
+  @override
+  String get cancel_order => 'Cancel Order';
+
+  @override
+  String get placed_on => 'Placed on';
+
+  @override
+  String get order_again => 'Order again';
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get full_name => 'Full name';
+
+  @override
   String get egypt => 'Egypt';
 
   @override

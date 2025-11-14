@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../domain/entities/order.dart';
 import '../../constants/assets.dart';
 
@@ -40,17 +41,17 @@ class _OrderDetailsState extends State<OrderDetails> {
       case OrderStatus.processing:
         bgColor = context.theme.colors.secondaryVariant;
         textColor = context.theme.colors.secondary;
-        statusText = 'Processing';
+        statusText = context.local.processing;
         break;
       case OrderStatus.completed:
         bgColor = context.theme.colors.greenVariant;
         textColor = context.theme.colors.green;
-        statusText = 'Completed';
+        statusText = context.local.completed;
         break;
       case OrderStatus.cancelled:
         bgColor = context.theme.colors.errorVariant;
         textColor = context.theme.colors.red;
-        statusText = 'Cancelled';
+        statusText = context.local.cancelled;
         break;
     }
 
@@ -70,7 +71,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               SvgPicture.asset(Assets.orderIcon, width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
-                "Order #${order.id}",
+                "${context.local.order} #${order.id}",
                 style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: context.theme.colors.title,
                 ),
@@ -95,7 +96,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "Placed on ${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}",
+              "${context.local.placed_on} ${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}",
               style: context.theme.typography.textTheme.labelXSmall.copyWith(
                 color: context.theme.colors.body,
               ),
@@ -140,7 +141,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          "${order.itemCount} items",
+                          "${order.itemCount} ${context.local.items}",
                           style: context.theme.typography.textTheme.labelXSmall
                               .copyWith(color: context.theme.colors.body),
                         ),
@@ -199,7 +200,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 Expanded(
                   flex: 3,
                   child: SellioButton(
-                    text: "View details",
+                    text: context.local.view_details,
                     onTap: widget.onViewDetailsClick,
                     textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
@@ -208,7 +209,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 Expanded(
                   flex: 2,
                   child: SellioButton(
-                    text: "Cancel Order",
+                    text: context.local.cancel_order,
                     backgroundColor: context.theme.colors.errorVariant,
                     textColor: context.theme.colors.red,
                     onTap: widget.onCancelClick,
@@ -234,7 +235,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 onPressed: widget.onOrderAgainClick,
                 child: Text(
-                  "Order again",
+                  context.local.order_again,
                   style: context.theme.typography.textTheme.labelSmall,
                 ),
               ),

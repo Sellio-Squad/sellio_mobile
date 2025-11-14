@@ -482,6 +482,66 @@ abstract class AppLocalizations {
   /// **'Iraq'**
   String get iraq;
 
+  /// No description provided for @processing.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing'**
+  String get processing;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// No description provided for @order.
+  ///
+  /// In en, this message translates to:
+  /// **'Order'**
+  String get order;
+
+  /// No description provided for @view_details.
+  ///
+  /// In en, this message translates to:
+  /// **'View details'**
+  String get view_details;
+
+  /// No description provided for @cancel_order.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Order'**
+  String get cancel_order;
+
+  /// No description provided for @placed_on.
+  ///
+  /// In en, this message translates to:
+  /// **'Placed on'**
+  String get placed_on;
+
+  /// No description provided for @order_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Order again'**
+  String get order_again;
+
+  /// No description provided for @items.
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// No description provided for @full_name.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get full_name;
+
   /// No description provided for @egypt.
   ///
   /// In en, this message translates to:
