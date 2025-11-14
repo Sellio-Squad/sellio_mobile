@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
+import 'package:sellio_mobile/core/navigation/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'core/di/injection_container.dart' as di;
 import 'package:sellio_mobile/presentation/screens/order_history/order_history_cubit.dart';
