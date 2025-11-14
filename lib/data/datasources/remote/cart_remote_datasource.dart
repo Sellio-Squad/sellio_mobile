@@ -17,8 +17,6 @@ abstract class CartRemoteDataSource {
     required String cartItemId,
     required int quantity,
   });
-
-  /// NEW → Update quantity using productId instead of cartItemId
   Future<CartModel> updateQuantityByProductId({
     required String productId,
     required int quantity,
@@ -93,17 +91,12 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
       throw _handleError(e);
     }
   }
-
-  /// ================================
-  /// NEW: Update quantity using productId
-  /// ================================
   @override
   Future<CartModel> updateQuantityByProductId({
     required String productId,
     required int quantity,
   }) async {
     try {
-      // Step 1: get cart to find cartItemId
       final cart = await getCart();
 
       final item = cart.items.firstWhere(
@@ -111,7 +104,6 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         orElse: () => throw Exception("Product not in cart"),
       );
 
-      // Step 2: update using cartItemId
       return await updateCartItem(
         cartItemId: item.id,
         quantity: quantity,

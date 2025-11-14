@@ -47,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
           if (state.cart == null || state.cart!.items.isEmpty) {
             return Center(
               child: Text(
-                AppStrings.emptyCart, // FIXED
+                AppStrings.emptyCart,
                 style: textTheme.titleMedium.copyWith(
                   color: colors.body,
                 ),
@@ -95,11 +95,6 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
-
-  // ================================
-  // UI Components
-  // ================================
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final theme = SellioTheme.of(context);
     final textTheme = theme.typography.textTheme;
@@ -147,7 +142,6 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  // ============= CART ITEMS ==============
   Widget _buildCartItems(cart, CartState state) {
     return ListView.separated(
       shrinkWrap: true,
