@@ -113,47 +113,48 @@ class AboutStore extends StatelessWidget {
   List<ContactInfo> _buildContactInfoList(entity.Store store) {
     final List<ContactInfo> contactList = [];
 
-    final storeContact = store.contactInfo;
-    String icon;
-    ContactType type;
-    String title;
+    for (var storeContact in store.contactInfoList) {
+      String icon;
+      ContactType type;
+      String title;
 
-    switch (storeContact.type) {
-      case entity.ContactType.email:
-        icon = AppIcons.email;
-        type = ContactType.email;
-        title = "Our friendly team is here to help";
-        break;
-      case entity.ContactType.phone:
-        icon = AppIcons.phone;
-        type = ContactType.phone;
-        title = "11:00 PM - 12:00 AM";
-        break;
-      case entity.ContactType.facebook:
-        icon = AppIcons.facebook;
-        type = ContactType.facebook;
-        title = "Our account on facebook";
-        break;
-      case entity.ContactType.whatsapp:
-        icon = AppIcons.phone;
-        type = ContactType.whatsapp;
-        title = "WhatsApp Contact";
-        break;
-      case entity.ContactType.website:
-        icon = AppIcons.email;
-        type = ContactType.website;
-        title = "Visit our website";
-        break;
+      switch (storeContact.type) {
+        case entity.ContactType.email:
+          icon = AppIcons.email;
+          type = ContactType.email;
+          title = "Our friendly team is here to help";
+          break;
+        case entity.ContactType.phone:
+          icon = AppIcons.phone;
+          type = ContactType.phone;
+          title = "11:00 PM - 12:00 AM";
+          break;
+        case entity.ContactType.facebook:
+          icon = AppIcons.facebook;
+          type = ContactType.facebook;
+          title = "Our account on facebook";
+          break;
+        case entity.ContactType.whatsapp:
+          icon = AppIcons.phone;
+          type = ContactType.whatsapp;
+          title = "WhatsApp Contact";
+          break;
+        case entity.ContactType.website:
+          icon = AppIcons.email;
+          type = ContactType.website;
+          title = "Visit our website";
+          break;
+      }
+
+      contactList.add(
+        ContactInfo(
+          title: title,
+          provider: storeContact.provider,
+          icon: icon,
+          type: type,
+        ),
+      );
     }
-
-    contactList.add(
-      ContactInfo(
-        title: title,
-        provider: storeContact.provider,
-        icon: icon,
-        type: type,
-      ),
-    );
 
     return contactList;
   }
