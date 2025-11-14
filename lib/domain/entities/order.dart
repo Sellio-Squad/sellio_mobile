@@ -1,9 +1,41 @@
 import 'address.dart';
 
-enum OrderStatus { pending, processing, completed, cancelled }
+enum OrderStatus {
+  pending,
+  processing,
+  completed,
+  cancelled;
+
+  String get displayName {
+    switch (this) {
+      case OrderStatus.pending:
+        return 'Pending';
+      case OrderStatus.processing:
+        return 'Processing';
+      case OrderStatus.completed:
+        return 'Completed';
+      case OrderStatus.cancelled:
+        return 'Cancelled';
+    }
+  }
+
+  static List<String> get allTabLabels {
+    return [
+      'All Orders',
+      ...OrderStatus.values.map((status) => status.displayName).toSet()
+    ];
+  }
+
+  static OrderStatus? fromTabIndex(int index) {
+    if (index == 0) return null;
+    if (index == 1) return OrderStatus.processing;
+    if (index == 2) return OrderStatus.completed;
+    if (index == 3) return OrderStatus.cancelled;
+    return null;
+  }
+}
 
 class Order {
-
   final String id;
   final String userId;
   final String storeId;
@@ -14,7 +46,6 @@ class Order {
   final Address deliveryAddress;
   final String? note;
   final DateTime createdAt;
-
 
   const Order({
     required this.id,
@@ -27,7 +58,6 @@ class Order {
     required this.deliveryAddress,
     this.note,
     required this.createdAt,
-
   });
 
   int get itemCount => items.fold(0, (sum, item) => sum + item.quantity);
