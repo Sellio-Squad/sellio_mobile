@@ -3,7 +3,7 @@ import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../cart/cart_screen.dart';
 import '../../../ui/screens/account/account_screen.dart';
 import '../home/home_screen.dart';
-import '../customize_product/CustomizeYourProductScreen.dart';
+import '../customize_product/customize_your_product_screen.dart';
 import '../thrift_screen.dart';
 
 class MainScreen extends StatefulWidget {

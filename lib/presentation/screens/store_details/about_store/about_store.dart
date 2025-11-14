@@ -9,7 +9,7 @@ import '../../../../domain/entities/store.dart' as entity;
 import '../../../../domain/repositories/store_repository.dart';
 import 'cubit/about_store_cubit.dart';
 import 'cubit/about_store_state.dart';
-import 'models/ContactInfo.dart';
+import 'models/contact_info.dart';
 import 'widgets/address_item.dart';
 import 'widgets/contact_info_item.dart';
 import 'widgets/horizontal_driver.dart';

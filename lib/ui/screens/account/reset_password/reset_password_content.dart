@@ -10,7 +10,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dar
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
-import '../../../../core/design_system/widgets/textField.dart';
+import '../../../../core/design_system/widgets/text_field.dart';
 
 class ResetPasswordBottomSheet extends StatefulWidget {
   final VoidCallback onSave;

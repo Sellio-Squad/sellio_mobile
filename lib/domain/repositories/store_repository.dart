@@ -1,5 +1,5 @@
 import '../../core/error/result.dart';
-import '../entities/StoreRating.dart';
+import '../entities/store_rating.dart';
 import '../entities/product.dart';
 import '../entities/review.dart';
 import '../entities/store.dart';
