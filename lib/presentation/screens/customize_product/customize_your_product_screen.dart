@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/customize_product/widgets/grid_product.dart';
 
 import '../../../core/design_system/widgets/sellio_chip.dart';
-import 'widgets/GridProduct.dart';
 
 class CustomizeYourProductScreen extends StatefulWidget {
   const CustomizeYourProductScreen({super.key});

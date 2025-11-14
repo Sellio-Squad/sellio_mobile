@@ -1,4 +1,4 @@
-import '../../domain/entities/StoreRating.dart';
+import '../../domain/entities/store_rating.dart';
 
 class StoreRatingModel extends StoreRating {
   const StoreRatingModel({

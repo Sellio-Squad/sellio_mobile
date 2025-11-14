@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../../domain/entities/StoreRating.dart';
 import '../../../../../domain/entities/store.dart';
+import '../../../../../domain/entities/store_rating.dart';
 
 abstract class AboutStoreState extends Equatable {
   const AboutStoreState();

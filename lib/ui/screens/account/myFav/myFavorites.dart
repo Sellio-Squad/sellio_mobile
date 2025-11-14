@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_theme.dart';
 import 'models/favorite_product_model.dart';

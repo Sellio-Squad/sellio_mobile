@@ -1,19 +1,20 @@
 import '../../core/error/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../core/storage/auth/auth_storage.dart';
+import '../core/storage/storage_keys.dart';
+import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasources/remote/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
-  final AuthStorage _authStorage;
+  final StorageService _storageService;
 
   AuthRepositoryImpl({
     required AuthRemoteDataSource remoteDataSource,
-    required AuthStorage authStorage,
+    required StorageService storageService,
   })  : _remoteDataSource = remoteDataSource,
-        _authStorage = authStorage;
+        _storageService = storageService;
 
   @override
   Future<Result<User>> login({
@@ -28,9 +29,11 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
 
-      // TODO: Save token
-      // TODO: Update UserModel to include token or create AuthResponse
-      await _authStorage.saveUserId(userModel.id);
+      // Save auth data
+      // TODO: Update your API response to include token
+      // await _storageService.save<String>(StorageKeys.authToken, userModel.token);
+      await _storageService.save<String>(StorageKeys.userId, userModel.id);
+      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
 
       return userModel.toEntity();
     });
@@ -61,7 +64,9 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
       );
 
-      await _authStorage.saveUserId(userModel.id);
+      await _storageService.save<String>(StorageKeys.userId, userModel.id);
+      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
+
       return userModel.toEntity();
     });
   }
@@ -126,15 +131,18 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> logout() async {
-    return RepositoryCallHandler.callVoid(
-          () => _authStorage.clearAll(),
-    );
+    return RepositoryCallHandler.callVoid(() async {
+      await _storageService.remove(StorageKeys.authToken);
+      await _storageService.remove(StorageKeys.refreshToken);
+      await _storageService.remove(StorageKeys.userId);
+      await _storageService.remove(StorageKeys.isLoggedIn);
+    });
   }
 
   @override
   Future<Result<User?>> getCurrentUser() async {
     return RepositoryCallHandler.call<User?>(() async {
-      final userId = await _authStorage.getUserId();
+      final userId = await _storageService.get<String>(StorageKeys.userId);
       if (userId == null) return null;
 
       final userModel = await _remoteDataSource.getCurrentUser(userId);
@@ -145,14 +153,16 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<bool>> isLoggedIn() async {
     return RepositoryCallHandler.call<bool>(() async {
-      return await _authStorage.hasValidSession();
+      final token = await _storageService.get<String>(StorageKeys.authToken);
+      final userId = await _storageService.get<String>(StorageKeys.userId);
+      return token != null && token.isNotEmpty && userId != null;
     });
   }
 
   @override
   Future<Result<String?>> getAuthToken() async {
     return RepositoryCallHandler.call<String?>(
-          () => _authStorage.getToken(),
+      () => _storageService.get<String>(StorageKeys.authToken),
     );
   }
 }

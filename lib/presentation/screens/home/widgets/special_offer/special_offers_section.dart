@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_indicator.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../../domain/entities/special_offer.dart';
 import 'special_offer_card.dart';

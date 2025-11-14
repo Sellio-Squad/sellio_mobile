@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/presentation/screens/order_history/cubit/order_history_cubit.dart';
 
 import 'core/di/injection_container.dart' as di;
-import 'l10n/app_localizations.dart';
+import 'core/localization/l10n/app_localizations.dart';
+import 'core/navigate/route_manager.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';

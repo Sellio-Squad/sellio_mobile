@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/app_management/route/routing.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/constants/assets.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/app_management/route/routing.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
+import '../../../../../core/navigate/routing.dart';
 
 Widget buildCreateAccountFooter(BuildContext context) {
   return Row(

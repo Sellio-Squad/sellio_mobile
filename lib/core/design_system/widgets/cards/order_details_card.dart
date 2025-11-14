@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../domain/entities/order.dart';
 import '../../constants/assets.dart';
@@ -214,7 +214,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                     backgroundColor: context.theme.colors.errorVariant,
                     textColor: context.theme.colors.red,
                     onTap: widget.onCancelClick!,
-                    // Safe to use ! here
                     textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
                 ),

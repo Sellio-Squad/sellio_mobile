@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
+
 import '../constants/assets.dart';
 
 class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {

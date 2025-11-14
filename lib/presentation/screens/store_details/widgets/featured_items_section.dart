@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../domain/entities/product.dart';
 
