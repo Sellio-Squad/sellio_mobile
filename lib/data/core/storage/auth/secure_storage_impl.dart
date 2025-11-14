@@ -1,6 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../core/error/exceptions.dart';
 import '../storage_keys.dart';
 import 'auth_storage.dart';
 
@@ -19,9 +18,7 @@ class SecureStorageImpl implements AuthStorage {
         value: token,
       );
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to save token: ${e.toString()}',
-      );
+      throw Exception('Failed to save token: $e');
     }
   }
 
@@ -30,9 +27,7 @@ class SecureStorageImpl implements AuthStorage {
     try {
       return await _storage.read(key: StorageKeys.authToken);
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to retrieve token: ${e.toString()}',
-      );
+      throw Exception('Failed to read token: $e');
     }
   }
 
@@ -41,9 +36,7 @@ class SecureStorageImpl implements AuthStorage {
     try {
       await _storage.delete(key: StorageKeys.authToken);
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to clear token: ${e.toString()}',
-      );
+      throw Exception('Failed to clear token: $e');
     }
   }
 
@@ -55,9 +48,7 @@ class SecureStorageImpl implements AuthStorage {
         value: token,
       );
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to save refresh token: ${e.toString()}',
-      );
+      throw Exception('Failed to save refresh token: $e');
     }
   }
 
@@ -66,9 +57,7 @@ class SecureStorageImpl implements AuthStorage {
     try {
       return await _storage.read(key: StorageKeys.refreshToken);
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to retrieve refresh token: ${e.toString()}',
-      );
+      throw Exception('Failed to read refresh token: $e');
     }
   }
 
@@ -80,9 +69,7 @@ class SecureStorageImpl implements AuthStorage {
         value: userId,
       );
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to save user ID: ${e.toString()}',
-      );
+      throw Exception('Failed to save user ID: $e');
     }
   }
 
@@ -91,9 +78,7 @@ class SecureStorageImpl implements AuthStorage {
     try {
       return await _storage.read(key: StorageKeys.userId);
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to retrieve user ID: ${e.toString()}',
-      );
+      throw Exception('Failed to read user ID: $e');
     }
   }
 
@@ -102,9 +87,7 @@ class SecureStorageImpl implements AuthStorage {
     try {
       await _storage.deleteAll();
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to clear storage: ${e.toString()}',
-      );
+      throw Exception('Failed to clear storage: $e');
     }
   }
 
