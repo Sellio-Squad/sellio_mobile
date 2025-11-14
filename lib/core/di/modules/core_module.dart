@@ -23,7 +23,7 @@ class CoreModule {
     sl.registerLazySingleton<ApiClient>(
           () => DioClient(
         baseUrl: ApiEndpoints.baseUrl,
-        authStorage: sl(),
+        storageService: sl(),
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),
