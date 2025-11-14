@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'cubit/reset_password_cubit.dart';
-import 'cubit/reset_password_state.dart';
-
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/buttons/button.dart';
-import '../../../../core/design_system/widgets/textField.dart';
+import '../../../../core/design_system/widgets/buttons/sellio_button.dart';
+import '../../../../core/design_system/widgets/sellio_text_field.dart';
+import 'cubit/reset_password_cubit.dart';
+import 'cubit/reset_password_state.dart';
 
 class ResetPasswordBottomSheet extends StatefulWidget {
   final VoidCallback onSave;

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
-class ProductHorizontalCard extends StatelessWidget {
+class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String description;
@@ -13,7 +13,7 @@ class ProductHorizontalCard extends StatelessWidget {
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
 
-  const ProductHorizontalCard({
+  const SellioProductHorizontalCard({
     super.key,
     required this.imageUrl,
     required this.title,

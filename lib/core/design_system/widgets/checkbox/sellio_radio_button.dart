@@ -8,12 +8,12 @@ enum RadioState {
   disabled,
 }
 
-class CustomRadioButton extends StatefulWidget {
+class SellioRadioButton extends StatefulWidget {
   final RadioState state;
   final ValueChanged<RadioState>? onChanged;
   final double size;
 
-  const CustomRadioButton({
+  const SellioRadioButton({
     super.key,
     required this.state,
     this.onChanged,
@@ -21,10 +21,10 @@ class CustomRadioButton extends StatefulWidget {
   });
 
   @override
-  State<CustomRadioButton> createState() => _CustomRadioButtonState();
+  State<SellioRadioButton> createState() => _SellioRadioButtonState();
 }
 
-class _CustomRadioButtonState extends State<CustomRadioButton> {
+class _SellioRadioButtonState extends State<SellioRadioButton> {
   @override
   Widget build(BuildContext context) {
     final bool isEnabled = widget.state != RadioState.disabled;

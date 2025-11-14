@@ -6,7 +6,7 @@ import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/constants/assets.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
-import '../../../../../core/design_system/widgets/buttons/button.dart';
+import '../../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../cubits/form/login_form_cubit.dart';
 import '../cubits/form/login_form_state.dart';
 

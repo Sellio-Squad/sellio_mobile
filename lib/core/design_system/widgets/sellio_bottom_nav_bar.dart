@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../constants/app_icons.dart';
 import '../constants/app_strings.dart';
 
-class BottomNavBar extends StatelessWidget {
+class SellioBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
   final VoidCallback onCenterButtonTap;
 
-  const BottomNavBar({
+  const SellioBottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../core/design_system/widgets/chip_category.dart';
+
+import '../../../../../core/design_system/widgets/sellio_chip.dart';
 import '../../cubits/categories/cubit/home_categories_cubit.dart';
 import '../../cubits/categories/cubit/home_categories_state.dart';
 
@@ -33,7 +34,7 @@ Widget buildCategoryTabs() {
 
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: ChipCategory(
+                child: SellioChip(
                   label: categoryPresentation.category.name,
                   assetIcon: categoryPresentation.icon,
                   selected: isSelected,

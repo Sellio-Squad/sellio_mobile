@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../themes/sellio_colors.dart';
 
-class DesignSwitch extends StatefulWidget {
+class SellioSwitch extends StatefulWidget {
   final bool value;
   final bool enabled;
   final ValueChanged<bool> onChanged;
 
-  const DesignSwitch({
+  const SellioSwitch({
     super.key,
     required this.value,
     required this.onChanged,
@@ -14,10 +15,10 @@ class DesignSwitch extends StatefulWidget {
   });
 
   @override
-  State<DesignSwitch> createState() => _DesignSwitchState();
+  State<SellioSwitch> createState() => _SellioSwitchState();
 }
 
-class _DesignSwitchState extends State<DesignSwitch>
+class _SellioSwitchState extends State<SellioSwitch>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -34,7 +35,7 @@ class _DesignSwitchState extends State<DesignSwitch>
   }
 
   @override
-  void didUpdateWidget(DesignSwitch oldWidget) {
+  void didUpdateWidget(SellioSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
       widget.value ? _controller.forward() : _controller.reverse();

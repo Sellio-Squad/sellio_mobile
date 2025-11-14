@@ -4,8 +4,8 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/order_details.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/order_details_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
@@ -68,7 +68,7 @@ class OrderSection extends StatelessWidget {
           final order = orders[index];
           return Padding(
             padding: const EdgeInsets.all(16),
-            child: OrderDetails(
+            child: OrderDetailsCard(
               order: order,
               onCancelClick: order.canBeCancelled ? () {} : () {},
               onViewDetailsClick: () {},

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 
-enum OTPInputState { defaultState, focused, filled }
+enum SellioOTPInputState { defaultState, focused, filled }
 
 class OTPInputCard extends StatefulWidget {
   final ValueChanged<String>? onChanged;
@@ -19,11 +19,11 @@ class OTPInputCard extends StatefulWidget {
   });
 
   @override
-  State<OTPInputCard> createState() => _OTPInputCardState();
+  State<OTPInputCard> createState() => _SellioOTPInputCardState();
 }
 
-class _OTPInputCardState extends State<OTPInputCard> {
-  OTPInputState _currentState = OTPInputState.defaultState;
+class _SellioOTPInputCardState extends State<OTPInputCard> {
+  SellioOTPInputState _currentState = SellioOTPInputState.defaultState;
   String _value = '';
   late FocusNode _internalFocusNode;
   final TextEditingController _controller = TextEditingController();
@@ -48,12 +48,12 @@ class _OTPInputCardState extends State<OTPInputCard> {
   void _handleFocusChange() {
     setState(() {
       if (_internalFocusNode.hasFocus) {
-        _currentState = OTPInputState.focused;
+        _currentState = SellioOTPInputState.focused;
       } else {
         if (_value.isEmpty) {
-          _currentState = OTPInputState.defaultState;
+          _currentState = SellioOTPInputState.defaultState;
         } else {
-          _currentState = OTPInputState.filled;
+          _currentState = SellioOTPInputState.filled;
         }
       }
     });
@@ -63,7 +63,7 @@ class _OTPInputCardState extends State<OTPInputCard> {
     if (value.isNotEmpty && RegExp(r'^[0-9]$').hasMatch(value)) {
       setState(() {
         _value = value;
-        _currentState = OTPInputState.filled;
+        _currentState = SellioOTPInputState.filled;
       });
       widget.onChanged?.call(value);
       widget.onCompleted?.call(value);
@@ -79,22 +79,22 @@ class _OTPInputCardState extends State<OTPInputCard> {
     final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
 
     switch (_currentState) {
-      case OTPInputState.focused:
+      case SellioOTPInputState.focused:
         return colors.primary;
-      case OTPInputState.defaultState:
-      case OTPInputState.filled:
+      case SellioOTPInputState.defaultState:
+      case SellioOTPInputState.filled:
         return colors.stroke;
     }
   }
 
   double _getBorderWidth() {
-    return _currentState == OTPInputState.focused ? 1.0 : 0.5;
+    return _currentState == SellioOTPInputState.focused ? 1.0 : 0.5;
   }
 
   Color _getBackgroundColor(BuildContext context) {
     final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
 
-    return _currentState == OTPInputState.focused
+    return _currentState == SellioOTPInputState.focused
         ? colors.surfaceLow
         : colors.surface;
   }
@@ -103,7 +103,7 @@ class _OTPInputCardState extends State<OTPInputCard> {
     setState(() {
       _value = '';
       _controller.clear();
-      _currentState = OTPInputState.defaultState;
+      _currentState = SellioOTPInputState.defaultState;
     });
   }
 
@@ -125,7 +125,7 @@ class _OTPInputCardState extends State<OTPInputCard> {
             color: _getBorderColor(context),
             width: _getBorderWidth(),
           ),
-          boxShadow: _currentState == OTPInputState.focused
+          boxShadow: _currentState == SellioOTPInputState.focused
               ? [
             BoxShadow(
               color: colors.primary.withOpacity(0.15),
@@ -210,14 +210,15 @@ class OTPInputField extends StatefulWidget {
 
 class OTPInputFieldState extends State<OTPInputField> {
   late List<FocusNode> _focusNodes;
-  late List<GlobalKey<_OTPInputCardState>> _cardKeys;
+  late List<GlobalKey<_SellioOTPInputCardState>> _cardKeys;
   final List<String> _values = [];
 
   @override
   void initState() {
     super.initState();
     _focusNodes = List.generate(widget.length, (index) => FocusNode());
-    _cardKeys = List.generate(widget.length, (index) => GlobalKey<_OTPInputCardState>());
+    _cardKeys = List.generate(
+        widget.length, (index) => GlobalKey<_SellioOTPInputCardState>());
     _values.addAll(List.filled(widget.length, ''));
   }
 

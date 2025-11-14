@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/design_system/widgets/chip_category.dart';
+
+import '../../../../core/design_system/widgets/sellio_chip.dart';
 
 class CategoryTabs extends StatelessWidget {
   final List<CategoryTabData> categories;
@@ -27,7 +28,7 @@ class CategoryTabs extends StatelessWidget {
 
           return Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: ChipCategory(
+            child: SellioChip(
               label: category.name,
               assetIcon: category.icon,
               selected: isSelected,

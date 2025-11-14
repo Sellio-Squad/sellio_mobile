@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
+
 import '../../core/design_system/constants/assets.dart';
-import '../../core/design_system/widgets/cards/product_vertical_card.dart';
+import '../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'home/widgets/category_tabs.dart';
 
 class ThriftScreen extends StatefulWidget {
@@ -156,7 +157,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
             final count = _productCounts[productId] ?? 0;
             final isFavorite = _favorites[productId] ?? false;
 
-            return ProductVerticalCard(
+            return SellioProductVerticalCard(
               key: ValueKey(productId),
               imageUrl: product['imageUrl'],
               title: product['title'],

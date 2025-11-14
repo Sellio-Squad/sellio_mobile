@@ -11,12 +11,12 @@ enum CheckboxState {
   disabledChecked,
 }
 
-class CustomCheckbox extends StatefulWidget {
+class SellioCheckbox extends StatefulWidget {
   final CheckboxState state;
   final ValueChanged<CheckboxState>? onChanged;
   final double size;
 
-  const CustomCheckbox({
+  const SellioCheckbox({
     super.key,
     required this.state,
     this.onChanged,
@@ -24,10 +24,10 @@ class CustomCheckbox extends StatefulWidget {
   });
 
   @override
-  State<CustomCheckbox> createState() => _CustomCheckboxState();
+  State<SellioCheckbox> createState() => _SellioCheckboxState();
 }
 
-class _CustomCheckboxState extends State<CustomCheckbox> {
+class _SellioCheckboxState extends State<SellioCheckbox> {
   @override
   Widget build(BuildContext context) {
     final bool isEnabled = widget.state != CheckboxState.disabledChecked;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/design_system/widgets/chip_category.dart';
+
+import '../../../../core/design_system/widgets/sellio_chip.dart';
 import 'order_history_cubit.dart';
 import 'order_history_state.dart';
 
@@ -24,7 +25,7 @@ class OrderHistoryTabs extends StatelessWidget {
                 final isSelected = state.selectedTabIndex == index;
                 return Padding(
                   padding: const EdgeInsets.only(right: 12),
-                  child: ChipCategory(
+                  child: SellioChip(
                     label: state.tabs[index],
                     selected: isSelected,
                     onTap: () {

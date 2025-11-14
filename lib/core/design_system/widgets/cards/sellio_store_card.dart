@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../../constants/assets.dart';
 import '../discount_tag.dart';
 
-class StoreCard extends StatelessWidget {
+class SellioStoreCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String? discountText;
@@ -12,7 +13,7 @@ class StoreCard extends StatelessWidget {
   final VoidCallback? onCardPressed;
   final bool isFavorite;
 
-  const StoreCard({
+  const SellioStoreCard({
     super.key,
     required this.imageUrl,
     required this.title,

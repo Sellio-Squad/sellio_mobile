@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-class ChipCategory extends StatelessWidget {
+class SellioChip extends StatelessWidget {
   final String label;
   final String? assetIcon;
   final bool selected;
   final VoidCallback onTap;
   final ShapeBorder shape;
 
-  const ChipCategory({
+  const SellioChip({
     super.key,
     required this.label,
     this.assetIcon,

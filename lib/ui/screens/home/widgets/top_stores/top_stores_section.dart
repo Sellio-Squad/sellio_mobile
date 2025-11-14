@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/store_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_store_card.dart';
 
 class Store {
   final String id;
@@ -63,7 +63,7 @@ class TopStoresSection extends StatelessWidget {
           itemCount: topStores.length,
           itemBuilder: (context, index) {
             final store = topStores[index];
-            return StoreCard(
+            return SellioStoreCard(
               imageUrl: store.imageUrl,
               title: store.name,
               discountText: store.discount,

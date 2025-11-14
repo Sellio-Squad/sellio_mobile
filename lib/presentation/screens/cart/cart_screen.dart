@@ -7,9 +7,9 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import '../../../core/app_management/route/navigation_extensions.dart';
 import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/constants/assets.dart';
-import '../../../core/design_system/widgets/buttons/button.dart';
-import '../../../core/design_system/widgets/cards/productHorizontalCard.dart';
-import '../../../core/design_system/widgets/textField.dart';
+import '../../../core/design_system/widgets/buttons/sellio_button.dart';
+import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
+import '../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 
@@ -152,7 +152,7 @@ class _CartScreenState extends State<CartScreen> {
         final item = cart.items[index];
         final qty = state.productCounts[item.productId] ?? item.quantity;
 
-        return ProductHorizontalCard(
+        return SellioProductHorizontalCard(
           imageUrl: item.productImage,
           title: item.productName,
           description: '',

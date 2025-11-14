@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../../themes/dimentions.dart';
-import 'AnimatedLoadingDots.dart';
+import 'sellio_animated_loading_dots.dart';
 
 class SellioButton extends StatelessWidget {
   const SellioButton({
@@ -103,7 +104,7 @@ class SellioButton extends StatelessWidget {
             ),
             if (isLoading) ...[
               const SizedBox(width: SellioDimensions.buttonIconSpacing),
-              AnimatedLoadingDots(
+              SellioAnimatedLoadingDots(
                 colors: loadingColors ?? context.theme.colors.loadingLightColors,
               ),
             ] else if (suffixSvgPath != null) ...[
