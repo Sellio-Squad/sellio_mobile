@@ -10,8 +10,8 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../domain/entities/order.dart';
-import 'order_history_cubit.dart';
-import 'order_history_state.dart';
+import 'cubit/order_history_cubit.dart';
+import 'cubit/order_history_state.dart';
 import 'order_history_tabs.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
@@ -64,13 +64,15 @@ class OrderSection extends StatelessWidget {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           final order = orders[index];
           return Padding(
             padding: const EdgeInsets.all(16),
             child: OrderDetailsCard(
               order: order,
-              onCancelClick: order.canBeCancelled ? () {} : () {},
+              onCancelClick: () {
+                if (order.canBeCancelled) {}
+              },
               onViewDetailsClick: () {},
               onOrderAgainClick: () {},
             ),
@@ -106,7 +108,11 @@ Widget emptyOrderHistory(BuildContext context) {
           ),
         ),
         const Gap(12),
-        SellioButton(text: context.local.start_exploring, fullWidth: false, onTap: () {}),
+        SellioButton(
+          text: context.local.start_exploring,
+          fullWidth: false,
+          onTap: () {},
+        ),
       ],
     ),
   );
