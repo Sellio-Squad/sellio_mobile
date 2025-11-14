@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/core/result.dart';
+import '../../../../../core/error/result.dart';
 import '../../../../../domain/repositories/store_repository.dart';
-import 'AboutStoreState.dart';
+import 'about_store_state.dart';
 
 class AboutStoreCubit extends Cubit<AboutStoreState> {
   final StoreRepository _repository;
