@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'CustomProductCard.dart';
+import 'custom_product_card.dart';
 import '../design_editor_screen.dart';
 
 class GridProduct extends StatefulWidget {

@@ -9,8 +9,8 @@ enum AppRoutes {
     path: '/createAccount',
   ),
   forgetPassword(
-    name: 'forgetPassword',
-    path: '/forgetPassword',
+    name: 'forget_password',
+    path: '/forget_password',
   ),
   forgetPasswordOtp(
     name: 'forgetPasswordOtp',

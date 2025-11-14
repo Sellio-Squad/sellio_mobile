@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/app_management/route/routing.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
