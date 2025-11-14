@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
+
 import '../../themes/sellio_colors.dart';
 
 enum CheckboxState {
@@ -16,11 +17,11 @@ class CustomCheckbox extends StatefulWidget {
   final double size;
 
   const CustomCheckbox({
-    Key? key,
+    super.key,
     required this.state,
     this.onChanged,
     this.size = 20.0,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomCheckbox> createState() => _CustomCheckboxState();
