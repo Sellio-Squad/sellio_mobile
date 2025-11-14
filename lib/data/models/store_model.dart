@@ -13,7 +13,7 @@ class StoreModel extends Store {
     super.sale,
     super.rating,
     required super.address,
-    required super.contactInfo,
+    required super.contactInfoList,
     required super.categories,
     super.reviews,
     super.isActive,
@@ -29,8 +29,10 @@ class StoreModel extends Store {
       sale: json['sale'] as String?,
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
-      contactInfo: ContactInfoModel.fromJson(
-          json['contactInfo'] as Map<String, dynamic>),
+      contactInfoList: (json['contactInfoList'] as List<dynamic>?)
+              ?.map((e) => ContactInfoModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
       categories: (json['categories'] as List<dynamic>)
           .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -49,7 +51,8 @@ class StoreModel extends Store {
       'sale': sale,
       'rating': rating,
       'address': (address as AddressModel).toJson(),
-      'contactInfo': (contactInfo as ContactInfoModel).toJson(),
+      'contactInfoList':
+          contactInfoList.map((e) => (e as ContactInfoModel).toJson()).toList(),
       'categories':
           categories.map((e) => (e as CategoryModel).toJson()).toList(),
       'isActive': isActive,
@@ -66,7 +69,7 @@ class StoreModel extends Store {
       sale: store.sale,
       rating: store.rating,
       address: store.address,
-      contactInfo: store.contactInfo,
+      contactInfoList: store.contactInfoList,
       categories: store.categories,
       reviews: store.reviews,
       isActive: store.isActive,
@@ -83,7 +86,8 @@ class StoreModel extends Store {
       sale: sale,
       rating: rating,
       address: address,
-      contactInfo: contactInfo,
+      contactInfoList: contactInfoList,
+      // Changed
       categories: categories,
       reviews: reviews,
       isActive: isActive,
@@ -91,3 +95,58 @@ class StoreModel extends Store {
   }
 }
 
+class ContactInfoModel extends ContactInfo {
+  ContactInfoModel({
+    required super.provider,
+    required super.type,
+  });
+
+  factory ContactInfoModel.fromJson(Map<String, dynamic> json) {
+    return ContactInfoModel(
+      provider: json['provider'] as String,
+      type: ContactType.values.firstWhere(
+        (e) => e.toString() == 'ContactType.${json['type']}',
+        orElse: () => ContactType.email,
+      ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'provider': provider,
+      'type': type.toString().split('.').last,
+    };
+  }
+
+  Map<String, dynamic> toDbMap(String storeId) {
+    return {
+      'storeId': storeId,
+      'provider': provider,
+      'type': type.toString().split('.').last,
+    };
+  }
+
+  factory ContactInfoModel.fromDbMap(Map<String, dynamic> map) {
+    return ContactInfoModel(
+      provider: map['provider'] as String,
+      type: ContactType.values.firstWhere(
+        (e) => e.toString() == 'ContactType.${map['type']}',
+        orElse: () => ContactType.email,
+      ),
+    );
+  }
+
+  factory ContactInfoModel.fromEntity(ContactInfo contactInfo) {
+    return ContactInfoModel(
+      provider: contactInfo.provider,
+      type: contactInfo.type,
+    );
+  }
+
+  ContactInfo toEntity() {
+    return ContactInfo(
+      provider: provider,
+      type: type,
+    );
+  }
+}

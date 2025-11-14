@@ -1,4 +1,5 @@
 import 'package:sellio_mobile/domain/entities/review.dart';
+
 import 'address.dart';
 import 'category.dart';
 
@@ -12,7 +13,7 @@ class Store {
   final double rating;
   final List<Review> reviews;
   final Address address;
-  final ContactInfo contactInfo;
+  final List<ContactInfo> contactInfoList;
   final List<Category> categories;
   final bool isActive;
 
@@ -25,7 +26,7 @@ class Store {
     this.sale,
     this.rating = 0.0,
     required this.address,
-    required this.contactInfo,
+    required this.contactInfoList,
     required this.categories,
     this.reviews = const [],
     this.isActive = true,
@@ -42,7 +43,7 @@ class Store {
     String? sale,
     double? rating,
     Address? address,
-    ContactInfo? contactInfo,
+    List<ContactInfo>? contactInfoList,
     List<Category>? categories,
     bool? isActive,
   }) {
@@ -56,7 +57,7 @@ class Store {
       rating: rating ?? this.rating,
       address: address ?? this.address,
       categories: categories ?? this.categories,
-      contactInfo: contactInfo ?? this.contactInfo,
+      contactInfoList: contactInfoList ?? this.contactInfoList,
       isActive: isActive ?? this.isActive,
     );
   }
@@ -67,17 +68,25 @@ class Store {
       name: 'Store #$index',
       description:
       'This is a brief description of Store #$index, offering great products and services.',
-      coverImage:
-      'https://picsum.photos/seed/store_cover_$index/800/400',
-      profileImage:
-      'https://picsum.photos/seed/store_profile_$index/200/200',
+      coverImage: 'https://picsum.photos/seed/store_cover_$index/800/400',
+      profileImage: 'https://picsum.photos/seed/store_profile_$index/200/200',
       sale: index.isEven ? '20%' : null,
       rating: (3 + (index % 3) * 0.5),
       address: Address.dummy(index: index),
-      contactInfo: ContactInfo(
-        provider: 'contact$index@example.com',
-        type: ContactType.email,
-      ),
+      contactInfoList: [
+        ContactInfo(
+          provider: 'SweetLoversPasteleria2021@gmail.com',
+          type: ContactType.email,
+        ),
+        ContactInfo(
+          provider: '+20 1026647377',
+          type: ContactType.phone,
+        ),
+        ContactInfo(
+          provider: 'https://www.facebook.com/share/1BpmS6Amet/',
+          type: ContactType.facebook,
+        ),
+      ],
       categories: Category.dummyList(count: 3),
       reviews: Review.dummyList(count: 3),
     );

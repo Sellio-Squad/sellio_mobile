@@ -92,4 +92,7 @@ class AppStrings {
   //product details screen
   static final addToCart = 'Add to cart';
   static final noteOptional = "Note  (Optional)";
+
+  //Cart Screen
+  static String get emptyCart => "empty Cart";
 }

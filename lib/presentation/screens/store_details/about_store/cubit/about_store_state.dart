@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../../domain/entities/StoreRating.dart';
 import '../../../../../domain/entities/store.dart';
 
-sealed class AboutStoreState extends Equatable {
+abstract class AboutStoreState extends Equatable {
   const AboutStoreState();
 
   @override
