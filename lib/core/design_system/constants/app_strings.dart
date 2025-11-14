@@ -88,4 +88,7 @@ class AppStrings {
   static final notification = 'Notifications';
   static final language = 'Language';
   static final appVersion = 'App version';
+
+  //Cart Screen
+  static String get emptyCart => "empty Cart";
 }
