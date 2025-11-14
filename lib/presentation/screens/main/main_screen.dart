@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/design_system/widgets/bottom_nav_bar.dart';
 import '../account_screen.dart';
-import '../cart_screen.dart';
+import '../cart/cart_screen.dart';
 import '../home/home_screen.dart';
 import '../customize_product/CustomizeYourProductScreen.dart';
 import '../thrift_screen.dart';

@@ -10,9 +10,9 @@ class CartRepositoryImpl implements CartRepository {
   final CartLocalDataSource _localDataSource;
 
   CartRepositoryImpl(
-    this._remoteDataSource,
-    this._localDataSource,
-  );
+      this._remoteDataSource,
+      this._localDataSource,
+      );
 
   @override
   Future<Result<Cart>> getCart() async {

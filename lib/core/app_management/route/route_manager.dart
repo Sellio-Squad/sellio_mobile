@@ -9,7 +9,7 @@ import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_sc
 import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
 import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
-import '../../../presentation/screens/cart_screen.dart';
+import '../../../presentation/screens/cart/cart_screen.dart';
 import '../../../presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
