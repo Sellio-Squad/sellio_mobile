@@ -8,7 +8,7 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
-import '../../../../core/design_system/widgets/textField.dart';
+import '../../../../core/design_system/widgets/text_field.dart';
 import 'widget/lock_icon.dart';
 
 class SetNewPasswordScreen extends StatefulWidget {

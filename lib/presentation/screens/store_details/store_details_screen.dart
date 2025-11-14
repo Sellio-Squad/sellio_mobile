@@ -8,7 +8,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 
 import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../core/design_system/constants/assets.dart';
-import '../../../domain/entities/StoreRating.dart';
+import '../../../domain/entities/store_rating.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';

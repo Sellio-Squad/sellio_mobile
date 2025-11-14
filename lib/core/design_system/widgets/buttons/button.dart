@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import 'AnimatedLoadingDots.dart';
+import 'animated_loading_dots.dart';
 
 class SellioButton extends StatelessWidget {
   const SellioButton(
