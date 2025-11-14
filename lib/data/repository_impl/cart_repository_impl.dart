@@ -67,9 +67,6 @@ class CartRepositoryImpl implements CartRepository {
         productId: productId,
         quantity: quantity,
       );
-
-      await _localDataSource.cacheCart(cartModel);
-
       return Success(cartModel.toEntity());
     } catch (e) {
       return ResultFailure(_mapExceptionToFailure(e));
