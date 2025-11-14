@@ -17,20 +17,39 @@ class ProductModel extends Product {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String,
-      price: (json['price'] as num).toDouble(),
-      currency: json['currency'] as String,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? json['title'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+      price: _parseDouble(json['price']),
+      currency: json['currency'] as String? ?? '',
       discount: json['discount'] as String?,
-      images:
-          (json['images'] as List<dynamic>).map((e) => e as String).toList(),
-      storeId: json['storeId'] as String,
-      categoryId: json['categoryId'] as String,
-      isAvailable: json['isAvailable'] as bool? ?? true,
-      stockQuantity: json['stockQuantity'] as int? ?? 0,
+      images: _parseImages(json['images']),
+      storeId: json['storeId'] as String? ?? json['store_id'] as String? ?? '',
+      categoryId: json['categoryId'] as String? ?? json['category_id'] as String? ?? '',
+      isAvailable: json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
+      stockQuantity: json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
     );
   }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.0;
+    return 0.0;
+  }
+
+  static List<String> _parseImages(dynamic value) {
+    if (value == null) return [];
+    if (value is List) {
+      return value
+          .where((e) => e != null)
+          .map((e) => e.toString())
+          .toList();
+    }
+    return [];
+  }
+
 
   Map<String, dynamic> toJson() {
     return {

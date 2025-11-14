@@ -4,10 +4,10 @@ import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
-import '../../../../domain/entities/product.dart';
+import '../models/trending_product_ui_model.dart';
 
 class ProductsSection extends StatelessWidget {
-  final List<Product> products;
+  final List<TrendingProductUIModel> products;
   final String? searchQuery;
   final Map<String, int> productCounts;
   final Set<String> favoriteProductIds;
@@ -34,11 +34,19 @@ class ProductsSection extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
-            title: searchQuery == null ? context.local.trending_products : context.local.search_results,
-            trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
+            title: searchQuery == null
+                ? context.local.trending_products
+                : context.local.search_results,
+            trailing: SvgPicture.asset(
+              Assets.arrowRight,
+              width: 20,
+              height: 20,
+            ),
           ),
         ),
-        products.isEmpty ? _buildEmptyState(context) : _buildProductsList(),
+        products.isEmpty
+            ? _buildEmptyState(context)
+            : _buildProductsList(),
       ],
     );
   }
@@ -73,11 +81,9 @@ class ProductsSection extends StatelessWidget {
           return SizedBox(
             width: 160,
             child: ProductVerticalCard(
-              imageUrl: product.images.isNotEmpty
-                  ? product.images.first
-                  : 'assets/images/product_3.webp',
-              title: product.name,
-              price: '\$${product.price.toStringAsFixed(2)}',
+              imageUrl: product.imageUrl,
+              title: product.title,
+              price: product.price,
               count: count,
               isFavorite: isFavorite,
               onIncrement: () => onIncrement(product.id),

@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../domain/repositories/product_repository.dart';
+import '../../../models/trending_product_ui_model.dart';
 import 'home_trending_products_state.dart';
 
 class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
@@ -18,7 +19,11 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
 
     result.fold(
       onSuccess: (products) {
-        emit(HomeTrendingProductsLoaded(products: products));
+        final uiModels = products
+            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .toList();
+
+        emit(HomeTrendingProductsLoaded(products: uiModels));
       },
       onFailure: (failure) {
         emit(HomeTrendingProductsError(message: failure.message));
@@ -40,7 +45,11 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
 
     result.fold(
       onSuccess: (products) {
-        emit(HomeTrendingProductsLoaded(products: products));
+        final uiModels = products
+            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .toList();
+
+        emit(HomeTrendingProductsLoaded(products: uiModels));
       },
       onFailure: (failure) {
         emit(HomeTrendingProductsError(message: failure.message));
@@ -71,8 +80,12 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
 
     result.fold(
       onSuccess: (products) {
+        final uiModels = products
+            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .toList();
+
         emit(HomeTrendingProductsLoaded(
-          products: products,
+          products: uiModels,
           searchQuery: query,
         ));
       },
