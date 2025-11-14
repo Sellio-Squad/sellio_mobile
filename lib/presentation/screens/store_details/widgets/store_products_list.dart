@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
 import '../../../../../../domain/entities/product.dart';
 

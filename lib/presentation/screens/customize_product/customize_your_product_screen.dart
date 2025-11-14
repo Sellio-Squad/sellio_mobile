@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../core/design_system/widgets/chip_category.dart';
 import 'widgets/grid_product.dart';
 
