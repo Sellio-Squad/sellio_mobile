@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../core/error/exceptions.dart';
 import 'cache_storage.dart';
 
 class SharedPrefsStorageImpl implements CacheStorage {
@@ -25,8 +24,8 @@ class SharedPrefsStorageImpl implements CacheStorage {
         await _prefs.setString(key, jsonEncode(data));
       }
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to save data: ${e.toString()}',
+      throw Exception(
+       'Failed to save data: ${e.toString()}',
       );
     }
   }
@@ -50,8 +49,8 @@ class SharedPrefsStorageImpl implements CacheStorage {
         return jsonDecode(jsonString) as T;
       }
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to retrieve data: ${e.toString()}',
+      throw Exception(
+        'Failed to retrieve data: ${e.toString()}',
       );
     }
   }
@@ -61,8 +60,8 @@ class SharedPrefsStorageImpl implements CacheStorage {
     try {
       await _prefs.remove(key);
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to remove data: ${e.toString()}',
+      throw Exception(
+        'Failed to remove data: ${e.toString()}',
       );
     }
   }
@@ -72,8 +71,8 @@ class SharedPrefsStorageImpl implements CacheStorage {
     try {
       await _prefs.clear();
     } catch (e) {
-      throw CacheException(
-        message: 'Failed to clear storage: ${e.toString()}',
+      throw Exception(
+        'Failed to clear storage: ${e.toString()}',
       );
     }
   }
