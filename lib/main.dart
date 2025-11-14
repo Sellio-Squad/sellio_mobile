@@ -5,7 +5,7 @@ import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'core/di/injection_container.dart' as di;
 import 'package:sellio_mobile/presentation/screens/order_history/order_history_cubit.dart';
-import 'l10n/app_localizations.dart';
+import 'core/localization/l10n/app_localizations.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';
