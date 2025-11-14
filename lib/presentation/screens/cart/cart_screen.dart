@@ -4,7 +4,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
-import '../../../core/navigation/navigation_extensions.dart';
+import '../../../core/app_management/route/navigation_extensions.dart';
 import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/buttons/button.dart';

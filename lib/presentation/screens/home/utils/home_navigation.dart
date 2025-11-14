@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/navigation/navigation_extensions.dart';
+import '../../../../core/app_management/route/navigation_extensions.dart';
 import '../../../../domain/entities/store.dart';
 import '../../store_details/store_details_screen.dart';
 
