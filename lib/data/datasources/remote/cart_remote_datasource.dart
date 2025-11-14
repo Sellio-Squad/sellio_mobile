@@ -18,6 +18,12 @@ abstract class CartRemoteDataSource {
     required int quantity,
   });
 
+  /// NEW → Update quantity using productId instead of cartItemId
+  Future<CartModel> updateQuantityByProductId({
+    required String productId,
+    required int quantity,
+  });
+
   Future<void> clearCart();
 }
 
@@ -29,11 +35,9 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<CartModel> getCart() async {
     try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/cart',
-      );
+      final response = await _apiService.get<Map<String, dynamic>>('/cart');
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
+      return CartModel.fromJson(response.data!['data']);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -53,7 +57,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         },
       );
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
+      return CartModel.fromJson(response.data!['data']);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -62,11 +66,10 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<CartModel> removeFromCart(String cartItemId) async {
     try {
-      final response = await _apiService.delete<Map<String, dynamic>>(
-        '/cart/items/$cartItemId',
-      );
+      final response =
+      await _apiService.delete<Map<String, dynamic>>('/cart/items/$cartItemId');
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
+      return CartModel.fromJson(response.data!['data']);
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -85,7 +88,34 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         },
       );
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
+      return CartModel.fromJson(response.data!['data']);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  /// ================================
+  /// NEW: Update quantity using productId
+  /// ================================
+  @override
+  Future<CartModel> updateQuantityByProductId({
+    required String productId,
+    required int quantity,
+  }) async {
+    try {
+      // Step 1: get cart to find cartItemId
+      final cart = await getCart();
+
+      final item = cart.items.firstWhere(
+            (e) => e.productId == productId,
+        orElse: () => throw Exception("Product not in cart"),
+      );
+
+      // Step 2: update using cartItemId
+      return await updateCartItem(
+        cartItemId: item.id,
+        quantity: quantity,
+      );
     } on DioException catch (e) {
       throw _handleError(e);
     }
@@ -103,8 +133,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   Exception _handleError(DioException e) {
     if (e.response != null) {
       final statusCode = e.response!.statusCode;
-      final message =
-          e.response!.data['message'] as String? ?? 'Unknown error occurred';
+      final message = e.response!.data['message']?.toString() ?? "Error";
 
       switch (statusCode) {
         case 400:
@@ -118,13 +147,17 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
         default:
           return Exception('Error: $message');
       }
-    } else if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return Exception('Connection timeout');
-    } else if (e.type == DioExceptionType.connectionError) {
-      return Exception('No internet connection');
-    } else {
-      return Exception('Unknown error occurred');
     }
+
+    if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout) {
+      return Exception("Connection timeout");
+    }
+
+    if (e.type == DioExceptionType.connectionError) {
+      return Exception("No internet connection");
+    }
+
+    return Exception("Unknown error occurred");
   }
 }
