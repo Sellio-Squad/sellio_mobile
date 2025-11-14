@@ -6,7 +6,7 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
-import '../../core/design_system/widgets/sellio_app_bar.dart';
+import '../../../core/design_system/widgets/sellio_app_bar.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final int productCount;

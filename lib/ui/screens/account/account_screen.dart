@@ -12,6 +12,7 @@ import 'package:sellio_mobile/ui/screens/account/account_settings/account_settin
 import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
+
 import '../../../core/design_system/constants/assets.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'language/change_language_bottom_sheet.dart';
@@ -249,7 +250,7 @@ Widget uploadImageCard({
           ),
         ),
         ClipOval(
-          child: Container(
+          child: SizedBox(
             width: 136,
             height: 136,
             child: Stack(

@@ -89,6 +89,10 @@ class AppStrings {
   static final language = 'Language';
   static final appVersion = 'App version';
 
+  //product details screen
+  static final addToCart = 'Add to cart';
+  static final noteOptional = "Note  (Optional)";
+
   //Cart Screen
   static String get emptyCart => "empty Cart";
 }

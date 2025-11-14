@@ -1,90 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../../core/design_system/constants/app_icons.dart';
+import '../../../../domain/entities/store.dart' as entity;
+import '../../../../domain/repositories/store_repository.dart';
+import 'cubit/AboutStoreCubit.dart';
+import 'cubit/AboutStoreState.dart';
 import 'models/ContactInfo.dart';
 import 'widgets/address_item.dart';
 import 'widgets/contact_info_item.dart';
 import 'widgets/horizontal_driver.dart';
 import 'widgets/rating_section.dart';
-import 'widgets/store_map_view.dart';
 
 class AboutStore extends StatelessWidget {
-  const AboutStore({super.key});
+  final String storeId;
 
-  static final List<ContactInfo> _contactInfoList = [
-    ContactInfo(
-      title: "Our friendly team is here to help",
-      provider: "SweetLoversPasteleria2021@gmail.com",
-      icon: AppIcons.email,
-      type: ContactType.email,
-    ),
-    ContactInfo(
-      title: "11:00 PM - 12:00 AM",
-      provider: "+20 1026647377",
-      icon: AppIcons.phone,
-      type: ContactType.phone,
-    ),
-    ContactInfo(
-      title: "Our account on facebook",
-      provider: "https://www.facebook.com/share/1BpmS6Amet/",
-      icon: AppIcons.facebook,
-      type: ContactType.facebook,
-    ),
-  ];
+  const AboutStore({
+    super.key,
+    required this.storeId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const SellioAppBar(showBackButton: true, title: "About Store"),
-      backgroundColor: context.theme.colors.surfaceLow,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RatingSection(
-                averageRating: 4.5,
-                totalReviews: 250,
-                ratingCounts: {5: 150, 4: 60, 3: 20, 2: 15, 1: 5},
-              ),
-              HorizontalDriver(),
-              Text(
-                "Contact Info",
-                style: context.theme.typography.textTheme.titleMedium.copyWith(
-                  color: context.theme.colors.title,
-                ),
-              ),
-              const SizedBox(height: 8),
-              for (int i = 0; i < _contactInfoList.length; i++) ...[
-                ContactInfoItem(
-                  contactInfo: _contactInfoList[i],
-                  onTap: () => _handleContactTap(_contactInfoList[i]),
-                ),
-                if (i < _contactInfoList.length - 1)
-                  Padding(padding: const EdgeInsets.only(bottom: 12)),
-              ],
-              HorizontalDriver(),
-              Text(
-                "Address",
-                style: context.theme.typography.textTheme.titleMedium.copyWith(
-                  color: context.theme.colors.title,
-                ),
-              ),
-              AddressItem(address: "Karrada, Baghdad, Iraq"),
-              StoreMapView(
-                latitude: 30.0444,
-                longitude: 31.2357,
-                storeName: "Sellio store",
-                onTap: () => _launchMap(30.0444, 31.2357, "Sellio store"),
-              ),
-            ],
-          ),
+    return BlocProvider(
+      create: (context) => AboutStoreCubit(context.read<StoreRepository>())
+        ..loadStoreInfo(storeId),
+      child: Scaffold(
+        appBar: const SellioAppBar(showBackButton: true, title: "About Store"),
+        backgroundColor: context.theme.colors.surfaceLow,
+        body: BlocBuilder<AboutStoreCubit, AboutStoreState>(
+          builder: (context, state) {
+            return _buildBody(context, state);
+          },
         ),
       ),
     );
+  }
+
+  Widget _buildBody(BuildContext context, AboutStoreState state) {
+    if (state is AboutStoreLoading || state is AboutStoreInitial) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state is AboutStoreError) {
+      return Center(
+        child: Text(
+          state.message,
+          style: context.theme.typography.textTheme.bodyMedium.copyWith(
+            color: context.theme.colors.hint,
+          ),
+        ),
+      );
+    }
+
+    if (state is AboutStoreLoaded) {
+      return _buildContent(context, state);
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildContent(BuildContext context, AboutStoreLoaded state) {
+    final store = state.store;
+    final rating = state.rating;
+
+    final contactInfoList = _buildContactInfoList(store);
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RatingSection(
+              averageRating: rating.averageRating,
+              totalReviews: rating.totalReviews,
+              ratingCounts: rating.ratingDistribution,
+            ),
+            const HorizontalDriver(),
+            Text(
+              "Contact Info",
+              style: context.theme.typography.textTheme.titleMedium.copyWith(
+                color: context.theme.colors.title,
+              ),
+            ),
+            const SizedBox(height: 8),
+            for (int i = 0; i < contactInfoList.length; i++) ...[
+              ContactInfoItem(
+                contactInfo: contactInfoList[i],
+                onTap: () => _handleContactTap(contactInfoList[i]),
+              ),
+              if (i < contactInfoList.length - 1)
+                const Padding(padding: EdgeInsets.only(bottom: 12)),
+            ],
+            const HorizontalDriver(),
+            Text(
+              "Address",
+              style: context.theme.typography.textTheme.titleMedium.copyWith(
+                color: context.theme.colors.title,
+              ),
+            ),
+            AddressItem(address: store.address.fullAddress),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<ContactInfo> _buildContactInfoList(entity.Store store) {
+    final List<ContactInfo> contactList = [];
+
+    final storeContact = store.contactInfo;
+    String icon;
+    ContactType type;
+    String title;
+
+    switch (storeContact.type) {
+      case entity.ContactType.email:
+        icon = AppIcons.email;
+        type = ContactType.email;
+        title = "Our friendly team is here to help";
+        break;
+      case entity.ContactType.phone:
+        icon = AppIcons.phone;
+        type = ContactType.phone;
+        title = "11:00 PM - 12:00 AM";
+        break;
+      case entity.ContactType.facebook:
+        icon = AppIcons.facebook;
+        type = ContactType.facebook;
+        title = "Our account on facebook";
+        break;
+      case entity.ContactType.whatsapp:
+        icon = AppIcons.phone;
+        type = ContactType.whatsapp;
+        title = "WhatsApp Contact";
+        break;
+      case entity.ContactType.website:
+        icon = AppIcons.email;
+        type = ContactType.website;
+        title = "Visit our website";
+        break;
+    }
+
+    contactList.add(
+      ContactInfo(
+        title: title,
+        provider: storeContact.provider,
+        icon: icon,
+        type: type,
+      ),
+    );
+
+    return contactList;
   }
 
   void _handleContactTap(ContactInfo contact) async {
@@ -142,19 +213,9 @@ class AboutStore extends StatelessWidget {
     }
   }
 
-  Future<void> _launchMap(double lat, double lng, String storeName) async {
-    final label = Uri.encodeComponent(storeName);
-    final Uri mapUri = Uri.parse('geo:0,0?q=$lat,$lng($label)');
-    if (await canLaunchUrl(mapUri)) {
-      await launchUrl(mapUri, mode: LaunchMode.externalApplication);
-    }
-  }
-
   Future<void> _launchFacebook(String facebookUrl) async {
-    // Clean the URL if needed
     String url = facebookUrl;
 
-    // If user provides just username/page ID, build the URL
     if (!url.startsWith('http')) {
       url = 'https://www.facebook.com/$url';
     }
