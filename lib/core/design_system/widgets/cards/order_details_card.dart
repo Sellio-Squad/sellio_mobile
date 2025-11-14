@@ -9,14 +9,14 @@ import '../../constants/assets.dart';
 
 class OrderDetailsCard extends StatefulWidget {
   final Order order;
-  final VoidCallback onCancelClick;
+  final VoidCallback? onCancelClick;
   final VoidCallback onViewDetailsClick;
   final VoidCallback onOrderAgainClick;
 
   const OrderDetailsCard({
     super.key,
     required this.order,
-    required this.onCancelClick,
+    this.onCancelClick,
     required this.onViewDetailsClick,
     required this.onOrderAgainClick,
   });
@@ -195,7 +195,7 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
           ),
 
           const SizedBox(height: 16),
-          if (order.canBeCancelled)
+          if (order.canBeCancelled && widget.onCancelClick != null)
             Row(
               children: [
                 Expanded(
@@ -213,7 +213,8 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                     text: context.local.cancel_order,
                     backgroundColor: context.theme.colors.errorVariant,
                     textColor: context.theme.colors.red,
-                    onTap: widget.onCancelClick,
+                    onTap: widget.onCancelClick!,
+                    // Safe to use ! here
                     textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
                 ),
