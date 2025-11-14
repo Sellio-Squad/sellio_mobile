@@ -2,22 +2,22 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../interceptors/auth_interceptor.dart';
 import '../interceptors/error_interceptor.dart';
-import '../storage/auth/auth_storage.dart';
+import '../storage/storage_service.dart';
 import 'api_client.dart';
 
 
 class DioClient implements ApiClient {
   late final Dio _dio;
-  final AuthStorage _authStorage;
+  final StorageService _storageService;
 
   DioClient({
     required String baseUrl,
-    required AuthStorage authStorage,
+    required StorageService storageService,
     Duration? connectTimeout,
     Duration? receiveTimeout,
     Duration? sendTimeout,
     List<Interceptor>? additionalInterceptors,
-  }) : _authStorage = authStorage {
+  }) : _storageService = storageService {
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -37,7 +37,7 @@ class DioClient implements ApiClient {
   void _setupInterceptors(List<Interceptor>? additionalInterceptors) {
     _dio.interceptors.addAll([
       AuthInterceptor(
-        authStorage: _authStorage,
+        storageService: _storageService,
         dio: _dio,
       ),
       ErrorInterceptor(),

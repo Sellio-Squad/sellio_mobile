@@ -23,7 +23,7 @@ class RepositoryModule {
     sl.registerLazySingleton<AuthRepository>(
           () => AuthRepositoryImpl(
         remoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 
@@ -31,7 +31,7 @@ class RepositoryModule {
           () => ProductRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 
@@ -39,7 +39,7 @@ class RepositoryModule {
           () => StoreRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 
@@ -52,7 +52,7 @@ class RepositoryModule {
     sl.registerLazySingleton<CartRepository>(
           () => CartRepositoryImpl(
         remoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 
@@ -65,14 +65,14 @@ class RepositoryModule {
     sl.registerLazySingleton<UserRepository>(
           () => UserRepositoryImpl(
         remoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 
     sl.registerLazySingleton<FavoritesRepository>(
           () => FavoritesRepositoryImpl(
         remoteDataSource: sl(),
-        authStorage: sl(),
+        storageService: sl(),
       ),
     );
 

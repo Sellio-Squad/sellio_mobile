@@ -4,7 +4,8 @@ import '../../domain/entities/product.dart';
 import '../../domain/entities/review.dart';
 import '../../domain/entities/store.dart';
 import '../../domain/repositories/store_repository.dart';
-import '../core/storage/auth/auth_storage.dart';
+import '../core/storage/storage_keys.dart';
+import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasources/remote/favorites_remote_datasource.dart';
 import '../datasources/remote/store_remote_datasource.dart';
@@ -12,15 +13,18 @@ import '../datasources/remote/store_remote_datasource.dart';
 class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final AuthStorage _authStorage;
+  final StorageService _storageService;
 
   StoreRepositoryImpl({
     required StoreRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required AuthStorage authStorage,
+    required StorageService storageService,
   })  : _remoteDataSource = remoteDataSource,
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _authStorage = authStorage;
+        _storageService = storageService;
+
+  Future<String?> _getUserId() => _storageService.get<String>(StorageKeys.userId);
+
 
   @override
   Future<Result<List<Store>>> getStores({
@@ -117,7 +121,7 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<void>> toggleFavoriteStore(String storeId) async {
     return RepositoryCallHandler.callWithAuth<void>(
-          () => _authStorage.getUserId(),
+      _getUserId,
           (userId) => _favoritesRemoteDataSource.toggleStoreFavorite(
         userId: userId,
         storeId: storeId,
@@ -128,7 +132,7 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Store>>> getFavoriteStores() async {
     return RepositoryCallHandler.callWithAuth<List<Store>>(
-          () => _authStorage.getUserId(),
+      _getUserId,
           (userId) async {
         final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
 
@@ -150,7 +154,7 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<bool>> isFavorite(String storeId) async {
     return RepositoryCallHandler.callWithAuth<bool>(
-          () => _authStorage.getUserId(),
+      _getUserId,
           (userId) async {
         final favoriteIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
         return favoriteIds.contains(storeId);
