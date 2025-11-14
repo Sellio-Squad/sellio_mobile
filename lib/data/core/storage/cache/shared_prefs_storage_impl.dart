@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/error/exceptions.dart';
-import 'cache/cache_storage.dart';
+import '../../../../core/error/exceptions.dart';
+import 'cache_storage.dart';
 
 class SharedPrefsStorageImpl implements CacheStorage {
   final SharedPreferences _prefs;

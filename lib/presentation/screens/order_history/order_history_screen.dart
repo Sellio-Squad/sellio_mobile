@@ -10,7 +10,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../domain/entities/order.dart';
-import 'OrderHistoryCubit.dart';
+import 'order_history_cubit.dart';
 import 'order_history_state.dart';
 import 'order_history_tabs.dart';
 

@@ -27,6 +27,7 @@ class OrderHistoryLoaded extends OrderHistoryState {
     required this.orders,
     required this.filteredOrders,
     required this.selectedTabIndex,
+    // todo: update the status to be enums and get it from the domain layer
     this.tabs = const ['All Orders', 'Processing', 'Completed', 'Cancelled'],
   });
 

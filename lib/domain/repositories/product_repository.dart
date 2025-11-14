@@ -1,8 +1,20 @@
 import '../../core/error/result.dart';
 import '../entities/product.dart';
+import '../entities/common/paginated_data.dart';
 
 abstract class ProductRepository {
+  Future<Result<PaginatedData<Product>>> getProductsPaginated({
+    int page = 1,
+    int limit = 20,
+  });
+
   Future<Result<List<Product>>> getProducts({
+    int page = 1,
+    int limit = 20,
+  });
+
+  Future<Result<PaginatedData<Product>>> getProductsByCategoryPaginated({
+    required String categoryId,
     int page = 1,
     int limit = 20,
   });
@@ -15,6 +27,15 @@ abstract class ProductRepository {
 
   Future<Result<Product>> getProductById(String productId);
 
+  Future<Result<PaginatedData<Product>>> searchProductsPaginated({
+    required String query,
+    String? categoryId,
+    double? minPrice,
+    double? maxPrice,
+    int page = 1,
+    int limit = 20,
+  });
+
   Future<Result<List<Product>>> searchProducts({
     required String query,
     String? categoryId,
@@ -24,7 +45,17 @@ abstract class ProductRepository {
     int limit = 20,
   });
 
+  Future<Result<PaginatedData<Product>>> getFeaturedProductsPaginated({
+    int page = 1,
+    int limit = 20,
+  });
+
   Future<Result<List<Product>>> getFeaturedProducts({
+    int page = 1,
+    int limit = 20,
+  });
+
+  Future<Result<PaginatedData<Product>>> getTrendingProductsPaginated({
     int page = 1,
     int limit = 20,
   });

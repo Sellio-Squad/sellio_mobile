@@ -4,7 +4,6 @@ import '../../../../cubits/cart/cubit/cart_cubit.dart';
 import '../../../../cubits/cart/cubit/cart_state.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
-
 import '../../cubits/products/cubit/home_trending_products_cubit.dart';
 import '../../cubits/products/cubit/home_trending_products_state.dart';
 import '../../widgets/products_section.dart';
@@ -12,11 +11,40 @@ import '../../widgets/products_section.dart';
 Widget buildProductsSection() {
   return BlocBuilder<HomeTrendingProductsCubit, HomeTrendingProductsState>(
     builder: (context, productsState) {
-      if (productsState is HomeTrendingProductsLoading || productsState is HomeTrendingProductsSearching) {
+      if (productsState is HomeTrendingProductsLoading ||
+          productsState is HomeTrendingProductsSearching) {
         return const SliverToBoxAdapter(
           child: SizedBox(
             height: 272,
             child: Center(child: CircularProgressIndicator()),
+          ),
+        );
+      }
+
+      if (productsState is HomeTrendingProductsError) {
+        return SliverToBoxAdapter(
+          child: SizedBox(
+            height: 272,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    productsState.message,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      context
+                          .read<HomeTrendingProductsCubit>()
+                          .refreshProducts();
+                    },
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       }

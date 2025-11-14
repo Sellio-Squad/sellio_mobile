@@ -1,6 +1,6 @@
 import '../../core/api/api_endpoints.dart';
 import '../../core/api/api_client.dart';
-import '../../models/base/paginated_response.dart';
+import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
 
 abstract class ProductRemoteDataSource {

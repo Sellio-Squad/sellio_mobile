@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sellio_mobile/core/app_management/route/route_manager.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'core/di/injection_container.dart' as di;
-import 'package:sellio_mobile/presentation/screens/order_history/OrderHistoryCubit.dart';
+import 'package:sellio_mobile/presentation/screens/order_history/order_history_cubit.dart';
 import 'domain/repositories/cart_repository.dart';
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/favorites_repository.dart';
