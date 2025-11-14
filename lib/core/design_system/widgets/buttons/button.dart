@@ -1,32 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import '../../themes/dimentions.dart';
+
 import 'AnimatedLoadingDots.dart';
 
 class SellioButton extends StatelessWidget {
-  const SellioButton({
-    super.key,
-    required this.text,
-    this.textStyle,
-    this.textColor,
-    this.backgroundColor,
-    this.loadingColors,
-    this.fullWidth = true,
-    this.onTap,
-    this.verticalPadding = SellioDimensions.buttonVerticalPadding,
-    this.horizontalPadding = SellioDimensions.buttonHorizontalPadding,
-    this.borderRadius = SellioDimensions.buttonBorderRadius,
-    this.isLoading = false,
-    this.isEnabled = true,
-    this.suffixSvgPath,
-    this.suffixIconColor,
-    this.prefixSvgPath,
-    this.prefixIconColor,
-    this.iconWidth = SellioDimensions.buttonIconWidth,
-    this.iconHeight = SellioDimensions.buttonIconHeight,
-    this.contentAlignment = MainAxisAlignment.center
-  });
+  const SellioButton(
+      {super.key,
+      required this.text,
+      this.textStyle,
+      this.textColor,
+      this.backgroundColor,
+      this.loadingColors,
+      this.fullWidth = true,
+      this.onTap,
+      this.verticalPadding = 9,
+      this.horizontalPadding = 24,
+      this.borderRadius = 8,
+      this.isLoading = false,
+      this.isEnabled = true,
+      this.suffixSvgPath,
+      this.suffixIconColor,
+      this.prefixSvgPath,
+      this.prefixIconColor,
+      this.iconWidth = 20,
+      this.iconHeight = 20,
+      this.contentAlignment = MainAxisAlignment.center});
 
   final String text;
   final TextStyle? textStyle;
@@ -47,7 +46,6 @@ class SellioButton extends StatelessWidget {
   final double iconWidth;
   final double iconHeight;
   final MainAxisAlignment contentAlignment;
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +77,7 @@ class SellioButton extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment:contentAlignment,
+          mainAxisAlignment: contentAlignment,
           children: [
             if (prefixSvgPath != null) ...[
               SvgPicture.asset(
@@ -91,23 +89,25 @@ class SellioButton extends StatelessWidget {
                   BlendMode.srcIn,
                 ),
               ),
-              const SizedBox(width: SellioDimensions.buttonIconSpacing),
+              const SizedBox(width: 8),
             ],
             Flexible(
               child: Text(
                 text,
-                style: (textStyle ?? context.theme.typography.textTheme.labelMedium)
+                style: (textStyle ??
+                        context.theme.typography.textTheme.labelMedium)
                     .copyWith(color: finalTextColor),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             if (isLoading) ...[
-              const SizedBox(width: SellioDimensions.buttonIconSpacing),
+              const SizedBox(width: 8),
               AnimatedLoadingDots(
-                colors: loadingColors ?? context.theme.colors.loadingLightColors,
+                colors:
+                    loadingColors ?? context.theme.colors.loadingLightColors,
               ),
             ] else if (suffixSvgPath != null) ...[
-              const SizedBox(width: SellioDimensions.buttonIconSpacing),
+              const SizedBox(width: 8),
               SvgPicture.asset(
                 suffixSvgPath!,
                 width: iconWidth,
