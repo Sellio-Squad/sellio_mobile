@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -8,7 +9,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Account Screen',
+        context.local.account_screen,
         style: context.theme.typography.textTheme.headlineLarge.copyWith(
           color: context.theme.colors.primary,
         ),

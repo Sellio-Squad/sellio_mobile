@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class StoreMapView extends StatefulWidget {
   final double latitude;
@@ -40,7 +41,7 @@ class _StoreMapViewState extends State<StoreMapView> {
     setState(() {
       markers.add(
         Marker(
-          markerId: MarkerId('store_location'),
+          markerId: MarkerId(context.local.store_location),
           position: LatLng(widget.latitude, widget.longitude),
           infoWindow: InfoWindow(title: widget.storeName),
           icon: customIcon,

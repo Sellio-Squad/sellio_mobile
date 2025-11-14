@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
+import 'cubit/reset_password_cubit.dart';
+import 'cubit/reset_password_state.dart';
+
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
@@ -8,11 +13,9 @@ import '../../../../core/design_system/widgets/buttons/button.dart';
 import '../../../../core/design_system/widgets/textField.dart';
 
 class ResetPasswordBottomSheet extends StatefulWidget {
-  final VoidCallback? onSave;
-  const ResetPasswordBottomSheet({super.key, this.onSave});
+  final VoidCallback onSave;
 
-  @override
-  State<ResetPasswordBottomSheet> createState() => _ResetPasswordBottomSheetState();
+  const ResetPasswordBottomSheet({super.key, required this.onSave});
 
   static Future<void> show({
     required BuildContext context,
@@ -21,108 +24,113 @@ class ResetPasswordBottomSheet extends StatefulWidget {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      child: ResetPasswordBottomSheet(onSave: onSave),
+      child: BlocProvider(
+        create: (_) => ResetPasswordCubit(),
+        child: ResetPasswordBottomSheet(onSave: onSave),
+      ),
     );
   }
+
+  @override
+  State<ResetPasswordBottomSheet> createState() =>
+      _ResetPasswordBottomSheetState();
 }
 
 class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
-  final _currentPasswordController = TextEditingController();
-  final _newPasswordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
-  bool _isFormValid = false;
+  late final TextEditingController currentCtrl;
+  late final TextEditingController newCtrl;
+  late final TextEditingController confirmCtrl;
 
   @override
   void initState() {
     super.initState();
-    _currentPasswordController.addListener(_validateForm);
-    _newPasswordController.addListener(_validateForm);
-    _confirmPasswordController.addListener(_validateForm);
-  }
 
-  void _validateForm() {
-    final newPassword = _newPasswordController.text;
-    final confirmPassword = _confirmPasswordController.text;
-    final isValid = newPassword.isNotEmpty && confirmPassword.isNotEmpty;
+    currentCtrl = TextEditingController();
+    newCtrl = TextEditingController();
+    confirmCtrl = TextEditingController();
 
-    if (isValid != _isFormValid) {
-      setState(() {
-        _isFormValid = isValid;
-      });
-    }
+    /// Connect controllers to cubit
+    currentCtrl.addListener(() {
+      context.read<ResetPasswordCubit>().updateCurrentPassword(currentCtrl.text);
+    });
+
+    newCtrl.addListener(() {
+      context.read<ResetPasswordCubit>().updateNewPassword(newCtrl.text);
+    });
+
+    confirmCtrl.addListener(() {
+      context.read<ResetPasswordCubit>().updateConfirmPassword(confirmCtrl.text);
+    });
   }
 
   @override
   void dispose() {
-    _currentPasswordController.dispose();
-    _newPasswordController.dispose();
-    _confirmPasswordController.dispose();
+    currentCtrl.dispose();
+    newCtrl.dispose();
+    confirmCtrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppStrings.resetPassword,
-          style: context.theme.typography.textTheme.titleMedium,
-        ),
-        SizedBox(height: 24.0),
-        SellioTextField(
-          controller: _currentPasswordController,
-          hintText: AppStrings.currentPassword,
-          inputType: TextInputType.visiblePassword,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 12),
-            child: SvgPicture.asset(
-              Assets.password,
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-        SizedBox(height: 12.0),
-        SellioTextField(
-          controller: _newPasswordController,
-          hintText: AppStrings.newPassword,
-          inputType: TextInputType.visiblePassword,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 12),
-            child: SvgPicture.asset(
-              Assets.password,
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-        SizedBox(height: 12.0),
-        SellioTextField(
-          controller: _confirmPasswordController,
-          hintText: AppStrings.confirmNewPassword,
-          inputType: TextInputType.visiblePassword,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 16, right: 12),
-            child: SvgPicture.asset(
-              Assets.password,
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-        SizedBox(height: 24.0),
-        SellioButton(
-          text: AppStrings.save,
-          onTap: _isFormValid ? _handleSave : null,
-          isEnabled: _isFormValid,
-        )
-      ],
-    );
-  }
+    return BlocBuilder<ResetPasswordCubit, ResetPasswordState>(
+      builder: (context, state) {
+        final cubit = context.read<ResetPasswordCubit>();
 
-  void _handleSave() {
-    if (!_isFormValid) return;
-    widget.onSave?.call();
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppStrings.resetPassword,
+              style: context.theme.typography.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 24),
+            SellioTextField(
+              controller: currentCtrl,
+              hintText: AppStrings.currentPassword,
+              inputType: TextInputType.visiblePassword,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 12),
+                child:
+                SvgPicture.asset(Assets.password, width: 24, height: 24),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+            SellioTextField(
+              controller: newCtrl,
+              hintText: AppStrings.newPassword,
+              inputType: TextInputType.visiblePassword,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 12),
+                child:
+                SvgPicture.asset(Assets.password, width: 24, height: 24),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+            SellioTextField(
+              controller: confirmCtrl,
+              hintText: AppStrings.confirmNewPassword,
+              inputType: TextInputType.visiblePassword,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: 16, right: 12),
+                child:
+                SvgPicture.asset(Assets.password, width: 24, height: 24),
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            SellioButton(
+              text: AppStrings.save,
+              onTap:
+              state.isFormValid ? () => cubit.submit(widget.onSave) : null,
+              isEnabled: state.isFormValid,
+            ),
+          ],
+        );
+      },
+    );
   }
 }

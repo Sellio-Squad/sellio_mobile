@@ -30,6 +30,8 @@ abstract class StoreRemoteDataSource {
     int limit = 20,
   });
 
+  Future<bool> isFavorite(String storeId);
+
   Future<void> toggleFavoriteStore(String storeId);
 
   Future<List<StoreModel>> getFavoriteStores();
@@ -240,6 +242,19 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
       return StoreRatingModel.fromJson(
           response.data!['data'] as Map<String, dynamic>);
+    } on DioException catch (e) {
+      throw _handleError(e);
+    }
+  }
+
+  @override
+  Future<bool> isFavorite(String storeId) async {
+    try {
+      final response = await _apiService.get<Map<String, dynamic>>(
+        '/stores/$storeId/is-favorite',
+      );
+
+      return response.data!['data']['isFavorite'] as bool;
     } on DioException catch (e) {
       throw _handleError(e);
     }

@@ -50,9 +50,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
               .toList(),
           'deliveryAddress': {
             'country': deliveryAddress.country,
-            'city': deliveryAddress.city,
-            'latitude': deliveryAddress.latitude,
-            'longitude': deliveryAddress.longitude,
+            'city': deliveryAddress.city
           },
           if (note != null) 'note': note,
         },

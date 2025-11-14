@@ -3,6 +3,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class LogoutBottomSheet extends StatelessWidget {
   final Function() onLogout;
@@ -27,17 +28,17 @@ class LogoutBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppStrings.logout,
+            context.local.logout,
             style: context.theme.typography.textTheme.titleMedium,
           ),
           const SizedBox(height: 24),
           Text(
-            AppStrings.areYouSureToContinueLogout,
+            context.local.are_you_sure_to_continue_logout,
             style: context.theme.typography.textTheme.bodyMedium,
           ),
           const SizedBox(height: 24),
           SellioButton(
-            text: AppStrings.logout,
+            text: context.local.logout,
             backgroundColor: context.theme.colors.errorVariant,
             suffixIconColor: context.theme.colors.red,
             onTap: onLogout,
