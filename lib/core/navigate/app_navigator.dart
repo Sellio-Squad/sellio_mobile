@@ -1,4 +1,4 @@
-import 'package:sellio_mobile/core/app_management/route/route_args.dart';
+import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 abstract class AppNavigator {
   void pushLogin();
