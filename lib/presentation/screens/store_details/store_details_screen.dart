@@ -5,19 +5,20 @@ import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+
+import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../core/design_system/constants/assets.dart';
 import '../../../domain/entities/StoreRating.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
+import 'cubit/store_details_cubit.dart';
+import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';
 import 'widgets/store_category_tabs.dart';
 import 'widgets/store_header.dart';
 import 'widgets/store_info_card.dart';
 import 'widgets/store_products_list.dart';
-import 'cubit/store_details_cubit.dart';
-import 'cubit/store_details_state.dart';
-import '../../../../../../domain/repositories/store_repository.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String storeId;
@@ -217,6 +218,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   void _navigateToAboutStore() {
-    context.navigator.pushAboutStore();
+    context.navigator.pushAboutStore(
+      AboutStoreArgs(storeId: widget.storeId),
+    );
   }
 }
