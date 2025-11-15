@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
+import '../../../../core/design_system/constants/app_images.dart';
 import '../cubits/notifications/cubit/notification_cubit.dart';
 import '../models/notification_model.dart';
 import '../utils/notification_utils.dart';
@@ -20,15 +20,15 @@ class NotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final (icon, orderState) = switch (notification.state) {
       0 => (
-          Assets.packageDelivered,
+          AppImages.packageDelivered,
           NotificationUtils.getNotificationMessage(0)
         ),
       1 => (
-          Assets.packageDelivery,
+          AppImages.packageDelivery,
           NotificationUtils.getNotificationMessage(1)
         ),
-      2 => (Assets.packageRemove, NotificationUtils.getNotificationMessage(2)),
-      _ => (Assets.packageRemove, NotificationUtils.getNotificationMessage(2)),
+      2 => (AppImages.packageRemove, NotificationUtils.getNotificationMessage(2)),
+      _ => (AppImages.packageRemove, NotificationUtils.getNotificationMessage(2)),
     };
 
     return Dismissible(

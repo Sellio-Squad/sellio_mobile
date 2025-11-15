@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 
+import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
-import '../../../../../core/design_system/constants/assets.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/buttons/button.dart';
 import '../cubits/form/login_form_cubit.dart';
@@ -35,7 +35,7 @@ class LoginFooter extends StatelessWidget {
               backgroundColor:
                   state.isFormValid ? colors.primary : colors.disabled,
               isLoading: state.isLoading,
-              suffixSvgPath: Assets.outlineArrow,
+              suffixSvgPath: AppImages.outlineArrow,
               iconWidth: 10,
               iconHeight: 10,
               suffixIconColor:

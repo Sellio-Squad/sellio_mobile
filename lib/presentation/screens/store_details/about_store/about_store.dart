@@ -4,7 +4,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../core/design_system/constants/app_icons.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../domain/entities/store.dart' as entity;
 import '../../../../domain/repositories/store_repository.dart';
 import 'cubit/AboutStoreCubit.dart';
@@ -120,27 +120,27 @@ class AboutStore extends StatelessWidget {
 
       switch (storeContact.type) {
         case entity.ContactType.email:
-          icon = AppIcons.email;
+          icon = AppImages.email;
           type = ContactType.email;
           title = "Our friendly team is here to help";
           break;
         case entity.ContactType.phone:
-          icon = AppIcons.phone;
+          icon = AppImages.phone;
           type = ContactType.phone;
           title = "11:00 PM - 12:00 AM";
           break;
         case entity.ContactType.facebook:
-          icon = AppIcons.facebook;
+          icon = AppImages.facebook;
           type = ContactType.facebook;
           title = "Our account on facebook";
           break;
         case entity.ContactType.whatsapp:
-          icon = AppIcons.phone;
+          icon = AppImages.phone;
           type = ContactType.whatsapp;
           title = "WhatsApp Contact";
           break;
         case entity.ContactType.website:
-          icon = AppIcons.email;
+          icon = AppImages.email;
           type = ContactType.website;
           title = "Visit our website";
           break;

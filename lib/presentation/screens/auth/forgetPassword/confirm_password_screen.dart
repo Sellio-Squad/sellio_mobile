@@ -6,7 +6,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/textField.dart';
 import 'widget/lock_icon.dart';
@@ -99,7 +99,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),
                           child: SvgPicture.asset(
-                            Assets.password,
+                            AppImages.password,
                             width: 24,
                             height: 24,
                           ),
@@ -114,7 +114,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),
                           child: SvgPicture.asset(
-                            Assets.password,
+                            AppImages.password,
                             width: 24,
                             height: 24,
                           ),

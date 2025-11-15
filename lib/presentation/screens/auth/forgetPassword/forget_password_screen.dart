@@ -4,11 +4,11 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
 
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../country.dart';
 import 'widget/lock_icon.dart';
@@ -79,7 +79,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(right: 4),
                           child: SvgPicture.asset(
-                            Assets.phone,
+                            AppImages.phone,
                             width: 24,
                             height: 24,
                             colorFilter: ColorFilter.mode(
