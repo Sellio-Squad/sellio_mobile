@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
+import '../constants/app_images.dart';
 
 
 class AuthBackgroundWrapper extends StatelessWidget {
@@ -54,7 +55,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
       left: 0,
       right: 0,
       child: Image.asset(
-        Assets.loginTopSection,
+        AppImages.loginTopSection,
         width: double.infinity,
         height: 207,
         fit: BoxFit.fill,
@@ -68,7 +69,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
         padding: EdgeInsets.only(top: 70 ,bottom: bottomPadding),
         child: Align(
           alignment: Alignment.topCenter,
-          child: Image.asset(Assets.sellioWhite, width: 120),
+          child: Image.asset(AppImages.sellioWhite, width: 120),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 
+import '../../constants/app_images.dart';
 import '../../themes/sellio_colors.dart';
 
 enum CheckboxState {
@@ -110,7 +110,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         return null;
       case CheckboxState.checked:
         return SvgPicture.asset(
-          Assets.check,
+          AppImages.check,
           colorFilter: ColorFilter.mode(
             colorScheme.onPrimary,
             BlendMode.srcIn,
@@ -121,7 +121,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         );
       case CheckboxState.indeterminate:
         return SvgPicture.asset(
-          Assets.indeterminate,
+          AppImages.indeterminate,
           colorFilter: ColorFilter.mode(
             colorScheme.onPrimary,
             BlendMode.srcIn,
@@ -132,7 +132,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         );
       case CheckboxState.disabledChecked:
         return SvgPicture.asset(
-          Assets.check,
+          AppImages.check,
           colorFilter: ColorFilter.mode(
             colorScheme.hint,
             BlendMode.srcIn,
