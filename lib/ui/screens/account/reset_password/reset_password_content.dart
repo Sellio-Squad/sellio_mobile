@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/design_system/constants/app_images.dart';
 import 'cubit/reset_password_cubit.dart';
 import 'cubit/reset_password_state.dart';
 
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
-import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/widgets/buttons/button.dart';
 import '../../../../core/design_system/widgets/textField.dart';
 
@@ -92,7 +92,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
                 child:
-                SvgPicture.asset(Assets.password, width: 24, height: 24),
+                SvgPicture.asset(AppImages.password, width: 24, height: 24),
               ),
             ),
 
@@ -104,7 +104,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
                 child:
-                SvgPicture.asset(Assets.password, width: 24, height: 24),
+                SvgPicture.asset(AppImages.password, width: 24, height: 24),
               ),
             ),
 
@@ -116,7 +116,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
                 child:
-                SvgPicture.asset(Assets.password, width: 24, height: 24),
+                SvgPicture.asset(AppImages.password, width: 24, height: 24),
               ),
             ),
 
