@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import '../../../../../core/design_system/constants/app_icons.dart';
+import '../../../../../core/design_system/constants/app_images.dart';
+
 
 
 class AddressItem extends StatelessWidget {
@@ -26,7 +27,7 @@ class AddressItem extends StatelessWidget {
               width: 40,
               child: Center(
                 child: SvgPicture.asset(
-                  AppIcons.pinLocation,
+                  AppImages.pinLocation,
                   width: 24,
                   height: 24,
                 ),
