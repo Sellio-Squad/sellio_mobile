@@ -1,10 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
-import '../../constants/app_icons.dart';
+import '../../constants/app_images.dart';
 
 class ProductVerticalCard extends StatefulWidget {
   final String imageUrl;
@@ -91,8 +90,8 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
                               child: Center(
                                 child: SvgPicture.asset(
                                   _isFavorite
-                                      ? Assets.favorite
-                                      : Assets.unselectedFavorite,
+                                      ? AppImages.favorite
+                                      : AppImages.unselectedFavorite,
                                   colorFilter: ColorFilter.mode(
                                     colors.primary,
                                     BlendMode.srcIn,
@@ -165,7 +164,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
         child: InkWell(
           onTap: widget.onIncrement,
           child: SvgPicture.asset(
-            Assets.add,
+            AppImages.add,
             colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
             width: 16,
             height: 16,
@@ -205,7 +204,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               child: InkWell(
                 onTap: widget.onDecrement,
                 child: SvgPicture.asset(
-                  Assets.remove,
+                  AppImages.remove,
                   colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
@@ -231,7 +230,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
               child: InkWell(
                 onTap: widget.onIncrement,
                 child: SvgPicture.asset(
-                  Assets.add,
+                  AppImages.add,
                   colorFilter: ColorFilter.mode(
                     colors.primary,
                     BlendMode.srcIn,
@@ -270,7 +269,7 @@ class _ProductVerticalCardState extends State<ProductVerticalCard> {
         },
         errorBuilder: (context, error, stackTrace) {
           return  Image.asset(
-              AppIcons.placeholder,
+              AppImages.placeholder,
               width: double.infinity,
               height: 145,
               fit: BoxFit.cover

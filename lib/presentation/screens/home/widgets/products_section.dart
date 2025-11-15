@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/cards/product_vertical_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
 import '../../../../domain/entities/product.dart';
@@ -35,7 +35,7 @@ class ProductsSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
             title: searchQuery == null ? context.local.trending_products : context.local.search_results,
-            trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
+            trailing: SvgPicture.asset(AppImages.arrowRight, width: 20, height: 20),
           ),
         ),
         products.isEmpty ? _buildEmptyState(context) : _buildProductsList(),
@@ -75,7 +75,7 @@ class ProductsSection extends StatelessWidget {
             child: ProductVerticalCard(
               imageUrl: product.images.isNotEmpty
                   ? product.images.first
-                  : 'assets/images/product_3.webp',
+                  : 'AppImages/images/product_3.webp',
               title: product.name,
               price: '\$${product.price.toStringAsFixed(2)}',
               count: count,
