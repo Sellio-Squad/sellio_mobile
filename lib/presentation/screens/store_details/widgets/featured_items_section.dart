@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
-import '../../../../domain/entities/product.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
+import '../../../../domain/entities/product.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
   final List<Product> products;
@@ -69,7 +70,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
 
               return SizedBox(
                 width: 160,
-                child: ProductVerticalCard(
+                child: SellioProductVerticalCard(
                   imageUrl: product.images.isNotEmpty ? product.images.first : '',
                   title: product.name,
                   price: '\$${product.price}',

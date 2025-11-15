@@ -102,7 +102,7 @@ class SellioButton extends StatelessWidget {
             ),
             if (isLoading) ...[
               const SizedBox(width: 8),
-              AnimatedLoadingDots(
+              SellioAnimatedLoadingDots(
                 colors:
                     loadingColors ?? context.theme.colors.loadingLightColors,
               ),

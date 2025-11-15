@@ -1,12 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/otp_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_otp_card.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/auth_background_wrapper.dart';
-
 
 class ConfirmAccountScreen extends StatefulWidget {
   const ConfirmAccountScreen({super.key});

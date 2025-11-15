@@ -1,8 +1,8 @@
 import '../../core/error/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../core/storage/storage_service.dart';
 import '../core/storage/storage_keys.dart';
+import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasources/remote/auth_remote_datasource.dart';
 
@@ -162,7 +162,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<String?>> getAuthToken() async {
     return RepositoryCallHandler.call<String?>(
-          () => _storageService.get<String>(StorageKeys.authToken),
+      () => _storageService.get<String>(StorageKeys.authToken),
     );
   }
 }

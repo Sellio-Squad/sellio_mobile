@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../core/design_system/widgets/chip_category.dart';
-import 'widgets/grid_product.dart';
+import 'package:sellio_mobile/presentation/screens/customize_product/widgets/grid_product.dart';
+
+import '../../../core/design_system/widgets/sellio_chip.dart';
 
 class CustomizeYourProductScreen extends StatefulWidget {
   const CustomizeYourProductScreen({super.key});
@@ -84,7 +85,7 @@ class _CustomizeYourProductScreenState
                         final isSelected = _selectedCategoryIndex == index;
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
-                          child: ChipCategory(
+                          child: SellioChip(
                             label: categories[index],
                             selected: isSelected,
                             onTap: () {

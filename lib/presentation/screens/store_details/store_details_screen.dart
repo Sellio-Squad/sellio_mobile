@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../core/design_system/constants/assets.dart';
-import '../../../domain/entities/store_rating.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
+import '../../../domain/entities/store_rating.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';

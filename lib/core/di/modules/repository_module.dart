@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/cart_repository_impl.dart';
 import '../../../data/repositories/category_repository_impl.dart';

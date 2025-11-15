@@ -1,8 +1,8 @@
 import '../../core/error/result.dart';
-import '../entities/store_rating.dart';
 import '../entities/product.dart';
 import '../entities/review.dart';
 import '../entities/store.dart';
+import '../entities/store_rating.dart';
 
 abstract class StoreRepository {
   Future<Result<List<Store>>> getStores({

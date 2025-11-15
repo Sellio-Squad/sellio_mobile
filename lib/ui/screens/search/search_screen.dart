@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../core/design_system/constants/assets.dart';
-import '../../../core/design_system/widgets/cards/product_vertical_card.dart';
+import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import '../../../presentation/screens/home/widgets/search_bar/search_widget.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -110,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
       child: Row(
         children: [
-          ChipCategory(
+          SellioChip(
             label: context.local.products,
             selected: _selectedCategory == 'Products',
             onTap: () {
@@ -121,7 +121,7 @@ class _SearchScreenState extends State<SearchScreen> {
             assetIcon: Assets.orderIcon,
           ),
           const Gap(8),
-          ChipCategory(
+          SellioChip(
             label: context.local.stores,
             selected: _selectedCategory == 'Stores',
             onTap: () {
@@ -171,7 +171,7 @@ class _SearchScreenState extends State<SearchScreen> {
             spacing: 4,
             runSpacing: 4,
             children: recentSearches.map((text) {
-              return ChipCategory(
+              return SellioChip(
                   label: text,
                   selected: false,
                   onTap: () {
@@ -360,7 +360,7 @@ class _GridProductsSectionState extends State<GridProductsSection> {
             final productId = product['id'] as int;
             final count = _productCounts[productId] ?? 0;
 
-            return ProductVerticalCard(
+            return SellioProductVerticalCard(
               imageUrl: product['imageUrl'],
               title: product['title'],
               price: product['price'],

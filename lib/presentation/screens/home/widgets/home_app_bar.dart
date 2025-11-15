@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-class Indicator extends StatelessWidget {
+class SellioIndicator extends StatelessWidget {
   final int pages;
   final int currentPage;
 
-  const Indicator({
+  const SellioIndicator({
     super.key,
     required this.pages,
     required this.currentPage,

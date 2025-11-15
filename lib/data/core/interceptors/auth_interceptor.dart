@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:sellio_mobile/data/core/api/api_endpoints.dart';
-import '../storage/storage_service.dart';
+
 import '../storage/storage_keys.dart';
+import '../storage/storage_service.dart';
 
 class AuthInterceptor extends Interceptor {
   final StorageService _storageService;
@@ -15,9 +16,9 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onRequest(
-      RequestOptions options,
-      RequestInterceptorHandler handler,
-      ) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     try {
       final token = await _storageService.get<String>(StorageKeys.authToken);
 
@@ -58,7 +59,8 @@ class AuthInterceptor extends Interceptor {
 
   Future<bool> _refreshToken() async {
     try {
-      final refreshToken = await _storageService.get<String>(StorageKeys.refreshToken);
+      final refreshToken =
+          await _storageService.get<String>(StorageKeys.refreshToken);
 
       if (refreshToken == null || refreshToken.isEmpty) {
         return false;
@@ -73,9 +75,11 @@ class AuthInterceptor extends Interceptor {
         final newAccessToken = response.data['accessToken'] as String;
         final newRefreshToken = response.data['refreshToken'] as String?;
 
-        await _storageService.save<String>(StorageKeys.authToken, newAccessToken);
+        await _storageService.save<String>(
+            StorageKeys.authToken, newAccessToken);
         if (newRefreshToken != null) {
-          await _storageService.save<String>(StorageKeys.refreshToken, newRefreshToken);
+          await _storageService.save<String>(
+              StorageKeys.refreshToken, newRefreshToken);
         }
 
         return true;

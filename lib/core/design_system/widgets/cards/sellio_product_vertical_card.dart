@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
@@ -6,7 +7,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 
 import '../../constants/app_icons.dart';
 
-class ProductVerticalCard extends StatefulWidget {
+class SellioProductVerticalCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String price;
@@ -16,7 +17,7 @@ class ProductVerticalCard extends StatefulWidget {
   final VoidCallback? onFavorite;
   final bool isFavorite;
 
-  const ProductVerticalCard({
+  const SellioProductVerticalCard({
     super.key,
     required this.imageUrl,
     required this.title,
@@ -29,10 +30,11 @@ class ProductVerticalCard extends StatefulWidget {
   });
 
   @override
-  State<ProductVerticalCard> createState() => _ProductVerticalCardState();
+  State<SellioProductVerticalCard> createState() =>
+      _SellioProductVerticalCardState();
 }
 
-class _ProductVerticalCardState extends State<ProductVerticalCard> {
+class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
   late bool _isFavorite;
 
   @override

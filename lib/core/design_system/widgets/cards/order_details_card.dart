@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../domain/entities/order.dart';
 import '../../constants/assets.dart';
 
-class OrderDetails extends StatefulWidget {
+class OrderDetailsCard extends StatefulWidget {
   final Order order;
-  final VoidCallback onCancelClick;
+  final VoidCallback? onCancelClick;
   final VoidCallback onViewDetailsClick;
   final VoidCallback onOrderAgainClick;
 
-  const OrderDetails({
+  const OrderDetailsCard({
     super.key,
     required this.order,
-    required this.onCancelClick,
+    this.onCancelClick,
     required this.onViewDetailsClick,
     required this.onOrderAgainClick,
   });
 
   @override
-  State<OrderDetails> createState() => _OrderDetailsState();
+  State<OrderDetailsCard> createState() => _OrderDetailsCardState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
+class _OrderDetailsCardState extends State<OrderDetailsCard> {
   bool _isExpanded = false;
 
   @override
@@ -194,7 +195,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           ),
 
           const SizedBox(height: 16),
-          if (order.canBeCancelled)
+          if (order.canBeCancelled && widget.onCancelClick != null)
             Row(
               children: [
                 Expanded(
@@ -212,7 +213,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     text: context.local.cancel_order,
                     backgroundColor: context.theme.colors.errorVariant,
                     textColor: context.theme.colors.red,
-                    onTap: widget.onCancelClick,
+                    onTap: widget.onCancelClick!,
                     textStyle: context.theme.typography.textTheme.labelSmall,
                   ),
                 ),

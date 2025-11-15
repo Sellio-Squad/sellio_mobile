@@ -17,13 +17,14 @@ class UserRepositoryImpl implements UserRepository {
   })  : _remoteDataSource = remoteDataSource,
         _storageService = storageService;
 
-  Future<String?> _getUserId() => _storageService.get<String>(StorageKeys.userId);
+  Future<String?> _getUserId() =>
+      _storageService.get<String>(StorageKeys.userId);
 
   @override
   Future<Result<User>> getUserProfile() async {
     return RepositoryCallHandler.callWithAuth<User>(
-          _getUserId,
-          (userId) async {
+      _getUserId,
+      (userId) async {
         final userModel = await _remoteDataSource.getUserProfile(userId);
         return userModel.toEntity();
       },
@@ -37,8 +38,8 @@ class UserRepositoryImpl implements UserRepository {
     String? profilePhotoUrl,
   }) async {
     return RepositoryCallHandler.callWithAuth<User>(
-          _getUserId,
-          (userId) async {
+      _getUserId,
+      (userId) async {
         String? firstName;
         String? lastName;
         if (fullName != null) {
@@ -65,8 +66,8 @@ class UserRepositoryImpl implements UserRepository {
     required String newPassword,
   }) async {
     return RepositoryCallHandler.callWithAuth<void>(
-          _getUserId,
-          (userId) => _remoteDataSource.changePassword(
+      _getUserId,
+      (userId) => _remoteDataSource.changePassword(
         userId: userId,
         currentPassword: currentPassword,
         newPassword: newPassword,
@@ -77,8 +78,8 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<Address>> getUserAddress() async {
     return RepositoryCallHandler.callWithAuth<Address>(
-          _getUserId,
-          (userId) async {
+      _getUserId,
+      (userId) async {
         final addressModel = await _remoteDataSource.getUserAddress(userId);
         return addressModel.toEntity();
       },
@@ -91,8 +92,8 @@ class UserRepositoryImpl implements UserRepository {
     required String city,
   }) async {
     return RepositoryCallHandler.callWithAuth<Address>(
-          _getUserId,
-          (userId) async {
+      _getUserId,
+      (userId) async {
         final addressModel = await _remoteDataSource.addAddress(
           userId: userId,
           country: country,
@@ -131,8 +132,8 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<String>> uploadProfilePhoto(String filePath) async {
     return RepositoryCallHandler.callWithAuth<String>(
-          _getUserId,
-          (userId) => _remoteDataSource.uploadProfilePhoto(
+      _getUserId,
+      (userId) => _remoteDataSource.uploadProfilePhoto(
         userId: userId,
         filePath: filePath,
       ),

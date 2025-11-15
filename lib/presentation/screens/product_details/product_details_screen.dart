@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-import 'package:sellio_mobile/core/design_system/widgets/text_field.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../core/design_system/widgets/sellio_app_bar.dart';

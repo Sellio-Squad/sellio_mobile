@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../../../domain/entities/order.dart';
 
 sealed class OrderHistoryState extends Equatable {
@@ -20,16 +21,14 @@ class OrderHistoryLoaded extends OrderHistoryState {
   final List<Order> orders;
   final List<Order> filteredOrders;
   final int selectedTabIndex;
-
   final List<String> tabs;
 
-  const OrderHistoryLoaded({
+  OrderHistoryLoaded({
     required this.orders,
     required this.filteredOrders,
     required this.selectedTabIndex,
-    // todo: update the status to be enums and get it from the domain layer
-    this.tabs = const ['All Orders', 'Processing', 'Completed', 'Cancelled'],
-  });
+    List<String>? tabs,
+  }) : tabs = tabs ?? OrderStatus.allTabLabels;
 
   OrderHistoryLoaded copyWith({
     List<Order>? orders,

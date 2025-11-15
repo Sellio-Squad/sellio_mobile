@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/widgets/indicator.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_indicator.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../../domain/entities/special_offer.dart';
 import 'special_offer_card.dart';
 
@@ -72,7 +73,7 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
         SectionHeader(
           title: context.local.special_offers,
           onTap: widget.onSeeAllTap,
-          trailing: Indicator(
+          trailing: SellioIndicator(
             pages: widget.offers.length,
             currentPage: widget.currentPage,
           ),

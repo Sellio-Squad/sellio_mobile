@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../core/design_system/widgets/chip_category.dart';
+
+import '../../../../core/design_system/widgets/sellio_chip.dart';
+import '../../../../core/localization/l10n/localization_service.dart';
 
 class CategoryWidget extends StatefulWidget {
   const CategoryWidget({super.key});
@@ -37,7 +38,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             final isSelected = _selectedCategoryIndex == index;
             return Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: ChipCategory(
+              child: SellioChip(
                 label: categories[index],
                 selected: isSelected,
                 onTap: () {

@@ -1,16 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-class AnimatedLoadingDots extends StatefulWidget {
+
+class SellioAnimatedLoadingDots extends StatefulWidget {
   final List<Color> colors;
 
-  const AnimatedLoadingDots({super.key, required this.colors});
+  const SellioAnimatedLoadingDots({super.key, required this.colors});
 
   @override
-  State<AnimatedLoadingDots> createState() => _AnimatedLoadingDotsState();
+  State<SellioAnimatedLoadingDots> createState() =>
+      _SellioAnimatedLoadingDotsState();
 }
 
-class _AnimatedLoadingDotsState extends State<AnimatedLoadingDots>
+class _SellioAnimatedLoadingDotsState extends State<SellioAnimatedLoadingDots>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 

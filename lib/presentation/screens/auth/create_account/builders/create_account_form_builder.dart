@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/constants/assets.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
-import '../../../../../core/design_system/widgets/text_field.dart';
+import '../../../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../country.dart';
 import '../cubits/form/create_account_form_cubit.dart';
 import '../cubits/form/create_account_form_state.dart';

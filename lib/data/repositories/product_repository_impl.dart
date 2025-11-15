@@ -1,6 +1,6 @@
 import '../../core/error/result.dart';
-import '../../domain/entities/product.dart';
 import '../../domain/entities/common/paginated_data.dart';
+import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
@@ -15,7 +15,6 @@ class ProductRepositoryImpl implements ProductRepository {
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
   final StorageService _storageService;
 
-
   ProductRepositoryImpl({
     required ProductRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
@@ -24,7 +23,8 @@ class ProductRepositoryImpl implements ProductRepository {
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
         _storageService = storageService;
 
-  Future<String?> _getUserId() => _storageService.get<String>(StorageKeys.userId);
+  Future<String?> _getUserId() =>
+      _storageService.get<String>(StorageKeys.userId);
 
   @override
   Future<Result<PaginatedData<Product>>> getProductsPaginated({
@@ -223,7 +223,7 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<void>> toggleFavoriteProduct(String productId) async {
     return RepositoryCallHandler.callWithAuth<void>(
       _getUserId,
-          (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
+      (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
         userId: userId,
         productId: productId,
       ),
@@ -234,8 +234,9 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<List<Product>>> getFavoriteProducts() async {
     return RepositoryCallHandler.callWithAuth<List<Product>>(
       _getUserId,
-          (userId) async {
-        final productIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
+      (userId) async {
+        final productIds =
+            await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
 
         final products = <Product>[];
         for (final productId in productIds) {
@@ -256,8 +257,9 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Result<bool>> isFavorite(String productId) async {
     return RepositoryCallHandler.callWithAuth<bool>(
       _getUserId,
-          (userId) async {
-        final favoriteIds = await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
+      (userId) async {
+        final favoriteIds =
+            await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
         return favoriteIds.contains(productId);
       },
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
+
 import '../../../../../../domain/entities/product.dart';
+import '../../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
 
 class StoreProductsList extends StatefulWidget {
   final int categoryIndex;
@@ -63,7 +64,7 @@ class _StoreProductsListState extends State<StoreProductsList> {
           final product = filteredProducts[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: _itemSpacing),
-            child: ProductHorizontalCard(
+            child: SellioProductHorizontalCard(
               imageUrl: product.images.isNotEmpty ? product.images.first : '',
               title: product.name,
               description: product.description,

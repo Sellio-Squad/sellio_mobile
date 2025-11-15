@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/navigate/navigation_extensions.dart';
 import '../../../../domain/entities/store.dart';
 import '../../store_details/store_details_screen.dart';
