@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/cards/store_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
 import '../../../../domain/entities/store.dart';
@@ -27,9 +27,9 @@ class TopStoresSection extends StatelessWidget {
         SectionHeader(
           title: context.local.top_stores,
           onTap: () {
-            // TODO: Navigate to all stores
+            
           },
-          trailing: SvgPicture.asset(Assets.arrowRight, width: 20, height: 20),
+          trailing: SvgPicture.asset(AppImages.arrowRight, width: 20, height: 20),
         ),
         ListView.builder(
           shrinkWrap: true,

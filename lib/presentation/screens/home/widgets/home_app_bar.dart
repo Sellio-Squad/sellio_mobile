@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
-import '../../../../l10n/app_localizations.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String userName;
@@ -34,7 +33,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   // Logo
   Widget _buildLogo() {
     return Image.asset(
-      Assets.sellio,
+      AppImages.sellio,
       fit: BoxFit.contain,
     );
   }
@@ -70,7 +69,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SvgPicture.asset(Assets.location, width: 16, height: 16),
+        SvgPicture.asset(AppImages.location, width: 16, height: 16),
         const SizedBox(width: 4),
         Text(
           location!,
@@ -83,7 +82,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   // Notification Button
   Widget _buildNotificationButton() {
     return IconButton(
-      icon: SvgPicture.asset(Assets.bell),
+      icon: SvgPicture.asset(AppImages.bell),
       onPressed: onNotificationTap,
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),

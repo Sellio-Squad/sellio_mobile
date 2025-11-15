@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../domain/entities/product.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 
@@ -43,7 +43,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
           child: SectionHeader(
             title: context.local.featured_items,
             trailing: SvgPicture.asset(
-              Assets.arrowRight,
+              AppImages.arrowRight,
               width: 20,
               height: 20,
             ),

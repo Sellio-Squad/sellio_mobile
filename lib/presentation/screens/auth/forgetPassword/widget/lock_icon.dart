@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../../core/design_system/constants/app_icons.dart';
+import '../../../../../core/design_system/constants/app_images.dart';
+
 
 Widget buildLockIcon(dynamic colors) {
   return Container(
@@ -13,7 +14,7 @@ Widget buildLockIcon(dynamic colors) {
     ),
     child: Center(
       child: SvgPicture.asset(
-        AppIcons.lock,
+        AppImages.lock,
         width: 48,
         height: 48,
       ),

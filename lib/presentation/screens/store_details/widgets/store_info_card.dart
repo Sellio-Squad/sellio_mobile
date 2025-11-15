@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
 
 class StoreInfoOverview extends StatelessWidget {
@@ -29,7 +29,7 @@ class StoreInfoOverview extends StatelessWidget {
       children: [
         Row(
           children: [
-            SvgPicture.asset(Assets.locationPin, width: 20, height: 20),
+            SvgPicture.asset(AppImages.locationPin, width: 20, height: 20),
             const SizedBox(width: 4),
             Text(
               location,
@@ -45,7 +45,7 @@ class StoreInfoOverview extends StatelessWidget {
               style: textTheme.labelSmall.copyWith(color: colors.body),
             ),
             const SizedBox(width: 4),
-            SvgPicture.asset(Assets.rate, width: 12, height: 12),
+            SvgPicture.asset(AppImages.rate, width: 12, height: 12),
           ],
         ),
         const SizedBox(height: 8),

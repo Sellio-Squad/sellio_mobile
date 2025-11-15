@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../../../../core/design_system/constants/app_icons.dart';
+
+import '../../../../../core/design_system/constants/app_images.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final Function(String text) onTextSubmitted;
@@ -40,7 +41,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: SvgPicture.asset(
-            AppIcons.search,
+            AppImages.search,
             width: 24,
             height: 24,
           ),

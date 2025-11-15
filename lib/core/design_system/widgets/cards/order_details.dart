@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../domain/entities/order.dart';
-import '../../constants/assets.dart';
 
 class OrderDetails extends StatefulWidget {
   final Order order;
@@ -68,7 +68,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           // Header row: order ID + status
           Row(
             children: [
-              SvgPicture.asset(Assets.orderIcon, width: 20, height: 20),
+              SvgPicture.asset(AppImages.orderIcon, width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
                 "${context.local.order} #${order.id}",
@@ -115,7 +115,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     turns: _isExpanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 200),
                     child: SvgPicture.asset(
-                      Assets.arrowDown,
+                      AppImages.arrowDown,
                       width: 16,
                       height: 16,
                       colorFilter: ColorFilter.mode(
