@@ -18,7 +18,7 @@ class NotificationEmptyState extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'No notifications yet',
-            style: context.theme.typography.textTheme.titleMedium?.copyWith(
+            style: context.theme.typography.textTheme.titleMedium.copyWith(
               color: context.theme.colors.body,
             ),
           ),
@@ -26,7 +26,7 @@ class NotificationEmptyState extends StatelessWidget {
           Text(
             'When you have notifications, they will appear here',
             textAlign: TextAlign.center,
-            style: context.theme.typography.textTheme.bodyMedium?.copyWith(
+            style: context.theme.typography.textTheme.bodyMedium.copyWith(
               color: context.theme.colors.body.withOpacity(0.7),
             ),
           ),

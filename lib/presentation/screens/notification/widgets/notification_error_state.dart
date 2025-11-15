@@ -27,7 +27,7 @@ class NotificationErrorState extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Something went wrong',
-              style: context.theme.typography.textTheme.titleMedium?.copyWith(
+              style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.body,
               ),
             ),
@@ -35,7 +35,7 @@ class NotificationErrorState extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: context.theme.typography.textTheme.bodyMedium?.copyWith(
+              style: context.theme.typography.textTheme.bodyMedium.copyWith(
                 color: context.theme.colors.body.withOpacity(0.7),
               ),
             ),
