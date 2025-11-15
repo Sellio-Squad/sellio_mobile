@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/app_management/route/route_args.dart';
+import 'package:sellio_mobile/presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/product_details/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
 import '../../../presentation/screens/auth/create_account/create_account_screen.dart';
@@ -10,7 +11,6 @@ import '../../../presentation/screens/auth/forgetPassword/forget_password_screen
 import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
 import '../../../presentation/screens/cart_screen.dart';
-import '../../../presentation/screens/customize_your_product_screen/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
@@ -190,10 +190,7 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: ProductDetailsScreen(
-              productCount: args.productCount,
-              productDescription: args.productDescription,
-              productPrice: args.productPrice,
-              productPriceBeforeDiscount: args.productPriceBeforeDiscount,
+              productId: args.productId,
             ),
           );
         },

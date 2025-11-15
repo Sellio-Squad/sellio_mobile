@@ -74,10 +74,10 @@ class ProductsSection extends StatelessWidget {
           return GestureDetector(
             onTap: () => context.navigator.pushProductDetails(
               ProductDetailsArgs(
+                productId: product.id,
                 productCount: count,
                 productDescription: product.description,
                 productPrice: product.price,
-                // productPriceBeforeDiscount: product.priceBeforeDiscount,
               )
             ),
             child: SizedBox(
