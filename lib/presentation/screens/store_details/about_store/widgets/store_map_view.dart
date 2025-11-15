@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
+
+import '../../../../../core/design_system/constants/app_images.dart';
 
 class StoreMapView extends StatefulWidget {
   final double latitude;
@@ -35,7 +36,7 @@ class _StoreMapViewState extends State<StoreMapView> {
   Future<void> _setMarker() async {
     final BitmapDescriptor customIcon = await BitmapDescriptor.asset(
       ImageConfiguration(size: Size(48, 48), devicePixelRatio: 4.0),
-      AppIcons.marker,
+      AppImages.marker,
     );
 
     setState(() {
