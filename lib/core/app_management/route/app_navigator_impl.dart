@@ -84,8 +84,16 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushAboutStore() {
-    context.pushNamed(AppRoutes.aboutStore.name);
+  void pushAboutStore(AboutStoreArgs args) {
+    context.pushNamed(
+      AppRoutes.aboutStore.name,
+      extra: args,
+    );
+  }
+
+  @override
+  void pushNotifications() {
+    context.pushNamed(AppRoutes.notifications.name);
   }
 
   @override
@@ -118,7 +126,6 @@ class AppNavigatorImpl implements AppNavigator {
   void pop<T extends Object?>([T? result]) {
     context.pop<T>(result);
   }
-
 
   @override
   void popAndPush(String routeName) {

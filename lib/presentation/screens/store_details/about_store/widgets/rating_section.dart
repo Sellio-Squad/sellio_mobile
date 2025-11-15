@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 import 'rating_bar_item.dart';
 
 class RatingSection extends StatelessWidget {
@@ -44,7 +45,7 @@ class RatingSection extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '($totalReviews reviews)',
+                context.local.total_reviews(totalReviews),
                 style: context.theme.typography.textTheme.labelXSmall.copyWith(
                   color: context.theme.colors.hint,
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../themes/sellio_colors.dart';
 
 enum RadioState {
@@ -13,11 +14,11 @@ class CustomRadioButton extends StatefulWidget {
   final double size;
 
   const CustomRadioButton({
-    Key? key,
+    super.key,
     required this.state,
     this.onChanged,
     this.size = 20.0,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomRadioButton> createState() => _CustomRadioButtonState();

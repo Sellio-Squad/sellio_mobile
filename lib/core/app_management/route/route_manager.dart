@@ -4,15 +4,19 @@ import 'package:sellio_mobile/core/app_management/route/route_args.dart';
 import 'package:sellio_mobile/presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/product_details/ProductDetailsScreen.dart';
 import '../../../presentation/screens/account_screen.dart';
-import '../../../presentation/screens/auth/create_account/create_account_screen.dart';
+import '../../../presentation/screens/auth/createAccount.dart';
 import '../../../presentation/screens/auth/forgetPassword/confirm_password_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_otp_screen.dart';
 import '../../../presentation/screens/auth/forgetPassword/forget_password_screen.dart';
 import '../../../presentation/screens/auth/login/login_screen.dart';
 import '../../../presentation/screens/auth/signupOTP.dart';
-import '../../../presentation/screens/cart_screen.dart';
+import '../../../presentation/screens/cart/cart_screen.dart';
+import '../../../presentation/screens/customize_product/CustomizeYourProductScreen.dart';
 import '../../../presentation/screens/home/home_screen.dart';
 import '../../../presentation/screens/main/dashboard.dart';
+import '../../../presentation/screens/notification/notification_screen.dart';
+import '../../../presentation/screens/product_details/ProductDetailsScreen.dart';
+
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
 import '../../../presentation/screens/thrift_screen.dart';
@@ -227,9 +231,22 @@ class RouteGenerator {
         name: AppRoutes.aboutStore.name,
         path: AppRoutes.aboutStore.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
+          final args = state.extra as AboutStoreArgs;
           return MaterialPage(
             key: state.pageKey,
-            child: const AboutStore(),
+            child: AboutStore(
+              storeId: args.storeId,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.notifications.name,
+        path: AppRoutes.notifications.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const NotificationScreen(),
           );
         },
       ),

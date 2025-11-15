@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 import '../../../../core/design_system/themes/sellio_colors.dart';
 
@@ -21,7 +22,7 @@ class ColorSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Color',
+          context.local.color,
           style: context.theme.typography.textTheme.titleMedium.copyWith(
             fontWeight: FontWeight.w600,
           ),

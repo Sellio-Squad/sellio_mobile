@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
-import '../../../../core/app_management/route/route_args.dart';
 import '../../../../domain/entities/product.dart';
+import 'package:sellio_mobile/core/localization/localization_service.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
   final List<Product> products;
@@ -42,7 +41,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: SectionHeader(
-            title: 'Featured Items',
+            title: context.local.featured_items,
             trailing: SvgPicture.asset(
               Assets.arrowRight,
               width: 20,
@@ -68,25 +67,16 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                 debugPrint('Product ${product.id} has no images.');
               }
 
-              return GestureDetector(
-                onTap: () => context.navigator.pushProductDetails(
-                  ProductDetailsArgs(
-                    productCount: count,
-                    productDescription: product.description,
-                    productPrice: product.price,
-                  )
-                ),
-                child: SizedBox(
-                  width: 160,
-                  child: ProductVerticalCard(
-                    imageUrl: product.images.isNotEmpty ? product.images.first : '',
-                    title: product.name,
-                    price: '\$${product.price}',
-                    count: count,
-                    onIncrement: () => _incrementProduct(product.id),
-                    onDecrement: () => _decrementProduct(product.id),
-                    onFavorite: () {},
-                  ),
+              return SizedBox(
+                width: 160,
+                child: ProductVerticalCard(
+                  imageUrl: product.images.isNotEmpty ? product.images.first : '',
+                  title: product.name,
+                  price: '\$${product.price}',
+                  count: count,
+                  onIncrement: () => _incrementProduct(product.id),
+                  onDecrement: () => _decrementProduct(product.id),
+                  onFavorite: () {},
                 ),
               );
             },
