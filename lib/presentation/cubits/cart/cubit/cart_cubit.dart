@@ -44,15 +44,17 @@ class CartCubit extends Cubit<CartState> {
   // INCREMENT PRODUCT QUANTITY
   // ============================
   Future<void> incrementProduct(String productId) async {
-    final int currentQty = state.productCounts[productId] ?? 0;
+    final currentCount = state.productCounts[productId] ?? 0;
+    final updatedCounts = Map<String, int>.from(state.productCounts);
+    updatedCounts[productId] = currentCount + 1;
 
-    final Result<Cart> result =
-    await repository.updateQuantity(productId, currentQty + 1);
+    emit(state.copyWith(productCounts: updatedCounts));
 
-    if (result.isSuccess) {
-      _syncCart(result.data);
-    } else {
-      emit(state.copyWith(error: _extractError(result)));
+    try {
+      await repository.updateQuantity(productId, updatedCounts[productId]!);
+    } catch (e) {
+      emit(state);
+      print('Error incrementing product: $e');
     }
   }
 
@@ -60,16 +62,29 @@ class CartCubit extends Cubit<CartState> {
   // DECREMENT PRODUCT QUANTITY
   // ============================
   Future<void> decrementProduct(String productId) async {
-    final int currentQty = state.productCounts[productId] ?? 0;
-    if (currentQty <= 1) return;
+    final currentCount = state.productCounts[productId] ?? 0;
+    if (currentCount <= 0) return;
 
-    final Result<Cart> result =
-    await repository.updateQuantity(productId, currentQty - 1);
+    final updatedCounts = Map<String, int>.from(state.productCounts);
+    final newCount = currentCount - 1;
 
-    if (result.isSuccess) {
-      _syncCart(result.data);
+    if (newCount == 0) {
+      updatedCounts.remove(productId);
     } else {
-      emit(state.copyWith(error: _extractError(result)));
+      updatedCounts[productId] = newCount;
+    }
+
+    emit(state.copyWith(productCounts: updatedCounts));
+
+    try {
+      if (newCount == 0) {
+        await repository.removeFromCart(productId);
+      } else {
+        await repository.updateQuantity(productId, newCount);
+      }
+    } catch (e) {
+      emit(state);
+      print('Error decrementing product: $e');
     }
   }
 
