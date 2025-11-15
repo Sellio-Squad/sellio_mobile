@@ -54,7 +54,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
               color: context.theme.colors.surface,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: context.theme.colors.disabled ?? Colors.grey[300]!,
+                color: context.theme.colors.disabled,
                 width: 1,
               ),
             ),
