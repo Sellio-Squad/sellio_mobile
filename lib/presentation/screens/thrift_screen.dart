@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../core/design_system/constants/assets.dart';
+import '../../core/design_system/constants/app_images.dart';
 import '../../core/design_system/widgets/cards/product_vertical_card.dart';
 import 'home/widgets/category_tabs.dart';
 
@@ -29,23 +29,23 @@ class _ThriftScreenState extends State<ThriftScreen> {
             child: CategoryTabs(
               categories: [
                 CategoryTabData(
-                    id: 'all', name: context.local.all, icon: Assets.allCategories),
+                    id: 'all', name: context.local.all, icon: AppImages.allCategories),
                 CategoryTabData(
                     id: 'clothes',
                     name: context.local.clothes,
-                    icon: Assets.clothes),
+                    icon: AppImages.clothes),
                 CategoryTabData(
                     id: 'furniture',
                     name: context.local.furniture,
-                    icon: Assets.clothes),
+                    icon: AppImages.clothes),
                 CategoryTabData(
                     id: 'electronics',
                     name: context.local.electronics,
-                    icon: Assets.clothes),
+                    icon: AppImages.clothes),
                 CategoryTabData(
                     id: 'books',
                     name: context.local.books,
-                    icon: Assets.clothes),
+                    icon: AppImages.clothes),
               ],
               selectedIndex: selectedCategory,
               onCategorySelected: (index) {
@@ -75,49 +75,49 @@ class _GridProductsSectionState extends State<GridProductsSection> {
   final List<Map<String, dynamic>> _products = [
     {
       'id': 0,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Gold Stainless Steel Sun Charm Necklace',
       'price': '\$5.00',
     },
     {
       'id': 1,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
     },
     {
       'id': 2,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Product Name 3',
       'price': '\$30.99',
     },
     {
       'id': 3,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
     },
     {
       'id': 4,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Product Name 4',
       'price': '\$30.99',
     },
     {
       'id': 5,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Product Name 5',
       'price': '\$25.50',
     },
     {
       'id': 6,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Birthday cake with bows',
       'price': '\$12.99',
     },
     {
       'id': 7,
-      'imageUrl': 'assets/images/product_3.webp',
+      'imageUrl': 'AppImages/images/product_3.webp',
       'title': 'Product Name 7',
       'price': '\$30.99',
     },
