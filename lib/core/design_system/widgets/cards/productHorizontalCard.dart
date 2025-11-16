@@ -13,6 +13,7 @@ class ProductHorizontalCard extends StatelessWidget {
   final int count;
   final VoidCallback onIncrement;
   final VoidCallback onDecrement;
+  final VoidCallback? onTap;
 
   const ProductHorizontalCard({
     super.key,
@@ -24,6 +25,7 @@ class ProductHorizontalCard extends StatelessWidget {
     this.count = 0,
     required this.onIncrement,
     required this.onDecrement,
+    this.onTap,
   });
 
   @override
@@ -35,79 +37,78 @@ class ProductHorizontalCard extends StatelessWidget {
     return Material(
       color: colors.surfaceLow,
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        height: 89,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: textTheme.titleSmall.copyWith(color: colors.title),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: textTheme.labelXSmall.copyWith(color: colors.body),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      count == 0
-                          ? _buildSingleCartButton(context)
-                          : _buildCounter(context),
-
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.baseline,
-                        textBaseline: TextBaseline.alphabetic,
-                        children: [
-                          if (originalPrice != null)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Text(
-                                originalPrice!,
-                                style: textTheme.titleSmall.copyWith(
-                                  color: colors.hint,
-                                  decoration: TextDecoration.lineThrough,
+      child: GestureDetector(
+        onTap: onTap,
+        child: SizedBox(
+          height: 89,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: textTheme.titleSmall.copyWith(color: colors.title),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      description,
+                      style: textTheme.labelXSmall.copyWith(color: colors.body),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        count == 0
+                            ? _buildSingleCartButton(context)
+                            : _buildCounter(context),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            if (originalPrice != null)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 4.0),
+                                child: Text(
+                                  originalPrice!,
+                                  style: textTheme.titleSmall.copyWith(
+                                    color: colors.hint,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
                                 ),
                               ),
+                            Text(
+                              price,
+                              style: textTheme.titleSmall
+                                  .copyWith(color: colors.primary),
                             ),
-                          Text(
-                            price,
-                            style: textTheme.titleSmall
-                                .copyWith(color: colors.primary),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 12),
-              child: _buildImage(colors),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 12),
+                child: _buildImage(colors),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildSingleCartButton(BuildContext context) {
-    final colors = SellioTheme
-        .of(context)
-        .colors;
+    final colors = SellioTheme.of(context).colors;
     return Container(
       width: 30,
       height: 30,
@@ -224,13 +225,13 @@ class ProductHorizontalCard extends StatelessWidget {
           return progress == null
               ? child
               : Container(
-            width: 88,
-            height: 88,
-            color: colors.surface,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+                  width: 88,
+                  height: 88,
+                  color: colors.surface,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
         },
         errorBuilder: (context, error, stackTrace) {
           return Container(

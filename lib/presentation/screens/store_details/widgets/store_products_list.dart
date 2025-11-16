@@ -7,12 +7,20 @@ class StoreProductsList extends StatefulWidget {
   final int categoryIndex;
   final List<Product> products;
   final List<String> categories;
+  final VoidCallback? onTap;
+  final VoidCallback onIncrement;
+  final VoidCallback onDecrement;
+  final int count;
 
   const StoreProductsList({
     super.key,
     required this.categoryIndex,
     required this.products,
     required this.categories,
+    this.onTap,
+    required this.onIncrement,
+    required this.onDecrement,
+    required this.count,
   });
 
   @override
@@ -22,27 +30,12 @@ class StoreProductsList extends StatefulWidget {
 class _StoreProductsListState extends State<StoreProductsList> {
   static const double _itemSpacing = 12.0;
 
-  final Map<String, int> _productCounts = {};
-
   List<Product> get filteredProducts {
     if (widget.categories.isEmpty || widget.categoryIndex >= widget.categories.length) {
       return widget.products;
     }
     final selectedCategoryId = widget.categories[widget.categoryIndex];
     return widget.products.where((p) => p.categoryId == selectedCategoryId).toList();
-  }
-
-  int _getProductCount(String productId) => _productCounts[productId] ?? 0;
-
-  void _incrementCount(String productId) {
-    setState(() => _productCounts[productId] = _getProductCount(productId) + 1);
-  }
-
-  void _decrementCount(String productId) {
-    setState(() {
-      final count = _getProductCount(productId);
-      if (count > 0) _productCounts[productId] = count - 1;
-    });
   }
 
   @override
@@ -62,16 +55,19 @@ class _StoreProductsListState extends State<StoreProductsList> {
       delegate: SliverChildBuilderDelegate(
             (context, index) {
           final product = filteredProducts[index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: _itemSpacing),
-            child: ProductHorizontalCard(
-              imageUrl: product.images.isNotEmpty ? product.images.first : '',
-              title: product.name,
-              description: product.description,
-              price: product.price.toString(),
-              count: _getProductCount(product.id),
-              onIncrement: () => _incrementCount(product.id),
-              onDecrement: () => _decrementCount(product.id),
+          return GestureDetector(
+            onTap: widget.onTap,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: _itemSpacing),
+              child: ProductHorizontalCard(
+                imageUrl: product.images.isNotEmpty ? product.images.first : '',
+                title: product.name,
+                description: product.description,
+                price: product.price.toString(),
+                count: widget.count,
+                onIncrement: () => widget.onIncrement,
+                onDecrement: () => widget.onDecrement,
+              ),
             ),
           );
         },

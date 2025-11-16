@@ -4,6 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 
 import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../core/design_system/constants/app_images.dart';
@@ -85,7 +87,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       final products = state.products;
       final categories = store.categories;
 
-
       return CustomScrollView(
         slivers: [
           _buildStoreHeader(),
@@ -93,7 +94,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           _buildFeaturedItemsSection(products),
           _buildSectionSpacing(),
           _buildCategoryTabs(store),
-          _buildProductsList(products,categories),
+          _buildProductsList(products, categories),
         ],
       );
     }
@@ -124,15 +125,12 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         child: StoreInfoOverview(
           location: store.address.city,
           rating: rating.averageRating,
-          tags: store.categories
-              .map((category) => category.name)
-              .toList(),
+          tags: store.categories.map((category) => category.name).toList(),
           description: store.description,
         ),
       ),
     );
   }
-
 
   Widget _buildFeaturedItemsSection(List<Product> products) {
     return SliverToBoxAdapter(
@@ -141,7 +139,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       ),
     );
   }
-
 
   Widget _buildSectionSpacing() =>
       const SliverToBoxAdapter(child: SizedBox(height: _sectionSpacing));
@@ -157,16 +154,33 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildProductsList(List<Product> products, List<Category> categories) {
-    return SliverPadding(
-      padding: const EdgeInsets.all(_horizontalPadding),
-      sliver: StoreProductsList(
-        categoryIndex: _selectedCategoryIndex,
-        products: products,
-        categories: categories.map((c) => c.id).toList(),
-      ),
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (BuildContext context, cartState) {
+        return SliverPadding(
+          padding: const EdgeInsets.all(_horizontalPadding),
+          sliver: StoreProductsList(
+            onTap: () => context.navigator.pushProductDetails(
+              ProductDetailsArgs(
+                productId: products[0].id,
+                productDescription: products[0].description,
+                productPrice: products[0].price,
+              ),
+            ),
+            categoryIndex: _selectedCategoryIndex,
+            products: products,
+            categories: categories.map((c) => c.id).toList(),
+            onIncrement: () {
+              context.read<CartCubit>().incrementProduct(products[0].id);
+            },
+            onDecrement: () {
+              context.read<CartCubit>().decrementProduct(products[0].id);
+            },
+            count: cartState.productCounts[products[0].id] ?? 0,
+          ),
+        );
+      },
     );
   }
-
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final theme = context.theme;
