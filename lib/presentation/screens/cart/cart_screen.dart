@@ -165,8 +165,6 @@ class _CartScreenState extends State<CartScreen> {
             onTap: () => context.navigator.pushProductDetails(
               ProductDetailsArgs(
                 productId: item.productId,
-                productDescription: item.productDescription,
-                productPrice: item.price,
               ),
             ),
             imageUrl: item.productImage,

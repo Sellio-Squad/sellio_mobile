@@ -62,8 +62,6 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                 onTap: () => context.navigator.pushProductDetails(
                   ProductDetailsArgs(
                     productId: product.id,
-                    productDescription: product.description,
-                    productPrice: product.price,
                   ),
                 ),
                 child: SizedBox(

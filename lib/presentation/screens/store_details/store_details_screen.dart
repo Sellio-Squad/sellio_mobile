@@ -162,8 +162,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             onTap: () => context.navigator.pushProductDetails(
               ProductDetailsArgs(
                 productId: products[0].id,
-                productDescription: products[0].description,
-                productPrice: products[0].price,
               ),
             ),
             categoryIndex: _selectedCategoryIndex,
