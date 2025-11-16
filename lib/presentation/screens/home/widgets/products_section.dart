@@ -76,7 +76,6 @@ class ProductsSection extends StatelessWidget {
             onTap: () => context.navigator.pushProductDetails(
               ProductDetailsArgs(
                 productId: product.id,
-                productCount: count,
                 productDescription: product.description,
                 productPrice: product.price,
               )
