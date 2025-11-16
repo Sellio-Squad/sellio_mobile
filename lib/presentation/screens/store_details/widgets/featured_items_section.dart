@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/app_management/route/navigation_extensions.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
-import '../../../../core/app_management/route/route_args.dart';
 import '../../../../core/design_system/constants/app_images.dart';
+import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../cubits/cart/cubit/cart_cubit.dart';
 import '../../../cubits/cart/cubit/cart_state.dart';
 

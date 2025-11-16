@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/themes/sellio_colors.dart';
 
