@@ -16,7 +16,7 @@ class SellioBottomSheet extends StatelessWidget {
     required Widget child,
     VoidCallback? onDismiss,
     bool isScrollControlled = true,
-    bool useRootNavigator = false,
+    bool useRootNavigator = true,
     bool isDismissible = true,
     bool enableDrag = true,
   }) {
