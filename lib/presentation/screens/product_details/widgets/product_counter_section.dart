@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import '../../../../core/design_system/constants/assets.dart';
 
 Widget productCounterSection(
     BuildContext context, String productId, int count) {
@@ -23,7 +23,7 @@ Widget productCounterSection(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                Assets.remove,
+                AppImages.remove,
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(
@@ -57,7 +57,7 @@ Widget productCounterSection(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                Assets.add,
+                AppImages.add,
                 width: 16,
                 height: 16,
                 colorFilter: ColorFilter.mode(

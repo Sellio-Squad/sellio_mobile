@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/textField.dart';
@@ -10,10 +11,11 @@ import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
-import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_favorite.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_image_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_price_section.dart';
 
@@ -134,9 +136,26 @@ class ProductDetailsScreen extends StatelessWidget {
           return SellioButton(
             text: AppStrings.addToCart,
             onTap: () => context.read<ProductDetailsCubit>().addToCart(),
-            suffixSvgPath: Assets.cart,
+            suffixSvgPath: AppImages.cart,
           );
         },
       ),
     );
   }
+
+Widget productFavorite(BuildContext context, String productId) {
+  return BlocBuilder<FavoritesCubit, FavoritesState>(
+    builder: (context, favoritesState) {
+      final isFavorite = favoritesState.productIds.contains(productId);
+
+      return IconButton(
+        icon: SvgPicture.asset(
+          isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
+        ),
+        onPressed: () async {
+          await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+        },
+      );
+    },
+  );
+}
