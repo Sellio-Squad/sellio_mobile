@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../core/design_system/widgets/bottom_nav_bar.dart';
-import '../account_screen.dart';
+
+import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
+import '../../../ui/screens/account/account_screen.dart';
 import '../cart/cart_screen.dart';
+import '../customize_product/customize_your_product_screen.dart';
 import '../home/home_screen.dart';
-import '../customize_product/CustomizeYourProductScreen.dart';
 import '../thrift_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: SellioBottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

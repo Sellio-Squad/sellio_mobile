@@ -12,8 +12,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       final productIds = await _favoritesRepository.getFavoriteProductIds();
       final storeIds = await _favoritesRepository.getFavoriteStoreIds();
       emit(FavoritesState(
-        productIds: productIds.toSet(),
-        storeIds: storeIds.toSet(),
+        productIds: productIds.data.toSet(),
+        storeIds: storeIds.data.toSet(),
       ));
     } catch (e) {
       print('Error loading favorites: $e');
@@ -31,13 +31,11 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       updatedIds.add(productId);
     }
 
-    // Optimistic update
     emit(currentState.copyWith(productIds: updatedIds));
 
     try {
       await _favoritesRepository.toggleProductFavorite(productId);
     } catch (e) {
-      // Rollback on error
       emit(currentState);
       rethrow;
     }
@@ -54,13 +52,11 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       updatedIds.add(storeId);
     }
 
-    // Optimistic update
     emit(currentState.copyWith(storeIds: updatedIds));
 
     try {
       await _favoritesRepository.toggleStoreFavorite(storeId);
     } catch (e) {
-      // Rollback on error
       emit(currentState);
       rethrow;
     }

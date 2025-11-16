@@ -1,45 +1,41 @@
-import 'package:dio/dio.dart';
-
+import '../../core/api/api_endpoints.dart';
+import '../../core/api/api_client.dart';
+import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
 import '../../models/review_model.dart';
 import '../../models/store_model.dart';
-import 'api_service/api_service.dart';
+import '../../models/store_rating_model.dart';
 
 abstract class StoreRemoteDataSource {
-  Future<List<StoreModel>> getStores({int page = 1, int limit = 20});
+  Future<PaginatedResponse<StoreModel>> getStores({
+    int page = 0,
+    int pageSize = 20,
+  });
 
   Future<StoreModel> getStoreById(String storeId);
 
-  Future<List<StoreModel>> getTopStores({int limit = 10});
+  Future<PaginatedResponse<StoreModel>> getTopStores({
+    int page = 0,
+    int pageSize = 10,
+  });
 
-  Future<List<ProductModel>> getStoreProducts({
+  Future<PaginatedResponse<ProductModel>> getStoreProducts({
     required String storeId,
     String? categoryId,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   });
 
-  Future<List<ProductModel>> getStoreFeaturedProducts({
-    required String storeId,
-    int limit = 10,
-  });
-
-  Future<List<StoreModel>> searchStores({
+  Future<PaginatedResponse<StoreModel>> searchStores({
     required String query,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   });
 
-  Future<bool> isFavorite(String storeId);
-
-  Future<void> toggleFavoriteStore(String storeId);
-
-  Future<List<StoreModel>> getFavoriteStores();
-
-  Future<List<ReviewModel>> getStoreReviews({
+  Future<PaginatedResponse<ReviewModel>> getStoreReviews({
     required String storeId,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   });
 
   Future<StoreRatingModel> getStoreRating(String storeId);
@@ -49,215 +45,130 @@ abstract class StoreRemoteDataSource {
     required double rating,
     String? comment,
   });
+
+  Future<String> uploadStoreImage({
+    required String storeId,
+    required String filePath,
+    required String imageType, // 'avatar' or 'cover'
+  });
 }
 
 class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
-  final ApiService _apiService;
+  final ApiClient _httpClient;
 
-  StoreRemoteDataSourceImpl(this._apiService);
+  StoreRemoteDataSourceImpl(this._httpClient);
 
   @override
-  Future<List<StoreModel>> getStores({int page = 1, int limit = 20}) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores',
-        queryParameters: {
-          'page': page,
-          'limit': limit,
-        },
-      );
+  Future<PaginatedResponse<StoreModel>> getStores({
+    int page = 0,
+    int pageSize = 20,
+  }) async {
+    final response = await _httpClient.get(
+      ApiEndpoints.stores,
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => StoreModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => StoreModel.fromJson(json),
+    );
   }
 
   @override
   Future<StoreModel> getStoreById(String storeId) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId',
-      );
-
-      return StoreModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _httpClient.get(ApiEndpoints.storeById(storeId));
+    return StoreModel.fromJson(response.data);
   }
 
   @override
-  Future<List<StoreModel>> getTopStores({int limit = 10}) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/top',
-        queryParameters: {
-          'limit': limit,
-        },
-      );
+  Future<PaginatedResponse<StoreModel>> getTopStores({
+    int page = 0,
+    int pageSize = 10,
+  }) async {
+    final response = await _httpClient.get(
+      ApiEndpoints.storesTopRating,
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => StoreModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => StoreModel.fromJson(json),
+    );
   }
 
   @override
-  Future<List<ProductModel>> getStoreProducts({
+  Future<PaginatedResponse<ProductModel>> getStoreProducts({
     required String storeId,
     String? categoryId,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   }) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId/products',
-        queryParameters: {
-          if (categoryId != null) 'categoryId': categoryId,
-          'page': page,
-          'limit': limit,
-        },
-      );
+    final response = await _httpClient.get(
+      ApiEndpoints.productsByStore(storeId),
+      queryParameters: {
+        if (categoryId != null) 'categoryId': categoryId,
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => ProductModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => ProductModel.fromJson(json),
+    );
   }
 
   @override
-  Future<List<ProductModel>> getStoreFeaturedProducts({
-    required String storeId,
-    int limit = 10,
-  }) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId/products/featured',
-        queryParameters: {
-          'limit': limit,
-        },
-      );
-
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => ProductModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  @override
-  Future<List<StoreModel>> searchStores({
+  Future<PaginatedResponse<StoreModel>> searchStores({
     required String query,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   }) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/search',
-        queryParameters: {
-          'query': query,
-          'page': page,
-          'limit': limit,
-        },
-      );
+    final response = await _httpClient.get(
+      ApiEndpoints.storesSearch,
+      queryParameters: {
+        'query': query,
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => StoreModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => StoreModel.fromJson(json),
+    );
   }
 
   @override
-  Future<void> toggleFavoriteStore(String storeId) async {
-    try {
-      await _apiService.post(
-        '/stores/$storeId/favorite',
-      );
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  @override
-  Future<List<StoreModel>> getFavoriteStores() async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/favorites',
-      );
-
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => StoreModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  @override
-  Future<List<ReviewModel>> getStoreReviews({
+  Future<PaginatedResponse<ReviewModel>> getStoreReviews({
     required String storeId,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 20,
   }) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId/reviews',
-        queryParameters: {
-          'page': page,
-          'limit': limit,
-        },
-      );
+    final response = await _httpClient.get(
+      ApiEndpoints.storeReviewsByStore(storeId),
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+      },
+    );
 
-      final data = response.data!['data'] as List<dynamic>;
-      return data
-          .map((json) => ReviewModel.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return PaginatedResponse.fromJson(
+      response.data,
+          (json) => ReviewModel.fromJson(json),
+    );
   }
 
   @override
   Future<StoreRatingModel> getStoreRating(String storeId) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId/rating',
-      );
-
-      return StoreRatingModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  @override
-  Future<bool> isFavorite(String storeId) async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/stores/$storeId/is-favorite',
-      );
-
-      return response.data!['data']['isFavorite'] as bool;
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    final response = await _httpClient.get(ApiEndpoints.storeRating(storeId));
+    return StoreRatingModel.fromJson(response.data);
   }
 
   @override
@@ -266,47 +177,31 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
     required double rating,
     String? comment,
   }) async {
-    try {
-      final response = await _apiService.post<Map<String, dynamic>>(
-        '/stores/$storeId/reviews',
-        data: {
-          'rating': rating,
-          if (comment != null) 'comment': comment,
-        },
-      );
+    final response = await _httpClient.post(
+      ApiEndpoints.storeReviews,
+      data: {
+        'storeId': storeId,
+        'rating': rating,
+        'comment': comment,
+      },
+    );
 
-      return ReviewModel.fromJson(
-          response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return ReviewModel.fromJson(response.data);
   }
 
-  Exception _handleError(DioException e) {
-    if (e.response != null) {
-      final statusCode = e.response!.statusCode;
-      final message =
-          e.response!.data['message'] as String? ?? 'Unknown error occurred';
+  @override
+  Future<String> uploadStoreImage({
+    required String storeId,
+    required String filePath,
+    required String imageType,
+  }) async {
+    final response = await _httpClient.uploadFile(
+      ApiEndpoints.storeImages(storeId),
+      filePath,
+      fieldName: 'image',
+      additionalData: {'type': imageType},
+    );
 
-      switch (statusCode) {
-        case 400:
-          return Exception('Bad request: $message');
-        case 401:
-          return Exception('Unauthorized: $message');
-        case 404:
-          return Exception('Not found: $message');
-        case 500:
-          return Exception('Server error: $message');
-        default:
-          return Exception('Error: $message');
-      }
-    } else if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return Exception('Connection timeout');
-    } else if (e.type == DioExceptionType.connectionError) {
-      return Exception('No internet connection');
-    } else {
-      return Exception('Unknown error occurred');
-    }
+    return response.data['imageUrl'] as String;
   }
 }

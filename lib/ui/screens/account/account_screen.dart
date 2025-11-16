@@ -5,7 +5,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/switch.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/ui/screens/account/AccountOptionCard.dart';
 import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
@@ -136,7 +136,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     prefixIcon: AppImages.notification,
                     orderTitle: AppStrings.notification,
                     onCardClicked: () {},
-                    trailing: DesignSwitch(
+                    trailing: SellioSwitch(
                       value: true,
                       onChanged: (bool value) {},
                     ),

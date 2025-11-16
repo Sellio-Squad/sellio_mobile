@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
@@ -100,7 +100,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     final isSelected = _selectedTabIndex == index;
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: ChipCategory(
+                      child: SellioChip(
                         label: _tabs[index],
                         assetIcon: index == 0 ? AppImages.product : AppImages.store,
                         selected: isSelected,

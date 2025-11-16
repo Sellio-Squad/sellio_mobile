@@ -1,130 +1,95 @@
-import 'package:dio/dio.dart';
-
+import '../../core/api/api_endpoints.dart';
+import '../../core/api/api_client.dart';
 import '../../models/cart_model.dart';
-import 'api_service/api_service.dart';
 
 abstract class CartRemoteDataSource {
-  Future<CartModel> getCart();
+  Future<CartModel> getCart(String userId);
 
   Future<CartModel> addToCart({
+    required String userId,
     required String productId,
     required int quantity,
   });
 
-  Future<CartModel> removeFromCart(String cartItemId);
-
-  Future<CartModel> updateCartItem({
+  Future<CartModel> removeFromCart({
+    required String userId,
     required String cartItemId,
+  });
+
+  Future<CartModel> updateQuantity({
+    required String userId,
+    required String productId,
     required int quantity,
   });
 
-  Future<void> clearCart();
+  Future<void> clearCart(String userId);
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {
-  final ApiService _apiService;
+  final ApiClient _httpClient;
 
-  CartRemoteDataSourceImpl(this._apiService);
+  CartRemoteDataSourceImpl(this._httpClient);
 
   @override
-  Future<CartModel> getCart() async {
-    try {
-      final response = await _apiService.get<Map<String, dynamic>>(
-        '/cart',
-      );
-
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+  Future<CartModel> getCart(String userId) async {
+    final response = await _httpClient.get(ApiEndpoints.cart(userId));
+    return CartModel.fromJson(response.data);
   }
 
   @override
   Future<CartModel> addToCart({
+    required String userId,
     required String productId,
     required int quantity,
   }) async {
-    try {
-      final response = await _apiService.post<Map<String, dynamic>>(
-        '/cart/items',
-        data: {
-          'productId': productId,
-          'quantity': quantity,
-        },
-      );
+    final response = await _httpClient.post(
+      ApiEndpoints.cartAdd,
+      data: {
+        'userId': userId,
+        'productId': productId,
+        'quantity': quantity,
+      },
+    );
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return CartModel.fromJson(response.data);
   }
 
   @override
-  Future<CartModel> removeFromCart(String cartItemId) async {
-    try {
-      final response = await _apiService.delete<Map<String, dynamic>>(
-        '/cart/items/$cartItemId',
-      );
-
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  @override
-  Future<CartModel> updateCartItem({
+  Future<CartModel> removeFromCart({
+    required String userId,
     required String cartItemId,
+  }) async {
+    final response = await _httpClient.delete(
+      ApiEndpoints.cartRemove,
+      data: {
+        'userId': userId,
+        'cartItemId': cartItemId,
+      },
+    );
+
+    return CartModel.fromJson(response.data);
+  }
+
+  @override
+  Future<CartModel> updateQuantity({
+    required String userId,
+    required String productId,
     required int quantity,
   }) async {
-    try {
-      final response = await _apiService.patch<Map<String, dynamic>>(
-        '/cart/items/$cartItemId',
-        data: {
-          'quantity': quantity,
-        },
-      );
+    final response = await _httpClient.put(
+      ApiEndpoints.cartUpdate,
+      data: {
+        'userId': userId,
+        'productId': productId,
+        'quantity': quantity,
+      },
+    );
 
-      return CartModel.fromJson(response.data!['data'] as Map<String, dynamic>);
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
+    return CartModel.fromJson(response.data);
   }
 
   @override
-  Future<void> clearCart() async {
-    try {
-      await _apiService.delete('/cart');
-    } on DioException catch (e) {
-      throw _handleError(e);
-    }
-  }
-
-  Exception _handleError(DioException e) {
-    if (e.response != null) {
-      final statusCode = e.response!.statusCode;
-      final message =
-          e.response!.data['message'] as String? ?? 'Unknown error occurred';
-
-      switch (statusCode) {
-        case 400:
-          return Exception('Bad request: $message');
-        case 401:
-          return Exception('Unauthorized: $message');
-        case 404:
-          return Exception('Not found: $message');
-        case 500:
-          return Exception('Server error: $message');
-        default:
-          return Exception('Error: $message');
-      }
-    } else if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return Exception('Connection timeout');
-    } else if (e.type == DioExceptionType.connectionError) {
-      return Exception('No internet connection');
-    } else {
-      return Exception('Unknown error occurred');
-    }
+  Future<void> clearCart(String userId) async {
+    await _httpClient.delete(ApiEndpoints.cartClear(userId));
   }
 }

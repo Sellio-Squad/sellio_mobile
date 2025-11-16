@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/app_management/route/routing.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
+
 import '../cubits/form/create_account_form_cubit.dart';
 
 // Form submission handler

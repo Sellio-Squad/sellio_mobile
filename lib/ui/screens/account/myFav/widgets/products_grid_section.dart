@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
+
 import '../models/favorite_product_model.dart';
 import 'empty_favorites_state.dart';
 
@@ -42,7 +43,7 @@ class ProductsGridSection extends StatelessWidget {
             final product = favoriteItems[index];
             final count = productCounts[product.id] ?? 0;
 
-            return ProductVerticalCard(
+            return SellioProductVerticalCard(
               imageUrl: product.imageUrl,
               title: product.title,
               price: product.price,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
 import '../../../../core/design_system/constants/app_images.dart';
-import '../../../../core/design_system/widgets/cards/store_card.dart';
+import '../../../../core/design_system/widgets/cards/sellio_store_card.dart';
 import '../../../../core/design_system/widgets/section_header.dart';
 import '../../../../domain/entities/store.dart';
 
@@ -27,7 +27,7 @@ class TopStoresSection extends StatelessWidget {
         SectionHeader(
           title: context.local.top_stores,
           onTap: () {
-            
+
           },
           trailing: SvgPicture.asset(AppImages.arrowRight, width: 20, height: 20),
         ),
@@ -39,7 +39,7 @@ class TopStoresSection extends StatelessWidget {
             final store = stores[index];
             final isFavorite = favoriteStoreIds.contains(store.id);
 
-            return StoreCard(
+            return SellioStoreCard(
               imageUrl: store.coverImage,
               title: store.name,
               discountText: store.sale,

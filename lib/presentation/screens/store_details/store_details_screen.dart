@@ -9,10 +9,10 @@ import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 
 import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../core/design_system/constants/app_images.dart';
-import '../../../domain/entities/StoreRating.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
+import '../../../domain/entities/store_rating.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';
@@ -125,7 +125,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         child: StoreInfoOverview(
           location: store.address.city,
           rating: rating.averageRating,
-          tags: store.categories.map((category) => category.name).toList(),
+          tags: store.categories
+              .map((category) => category.name)
+              .toList(),
           description: store.description,
         ),
       ),

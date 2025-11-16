@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../domain/core/result.dart';
+import '../../../../core/error/result.dart';
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/repositories/cart_repository.dart';
 import 'cart_state.dart';
@@ -9,9 +9,6 @@ class CartCubit extends Cubit<CartState> {
 
   CartCubit(this.repository) : super(CartState.initial());
 
-  // ============================
-  // LOAD CART
-  // ============================
   Future<void> loadCart() async {
     emit(state.copyWith(loading: true));
 
@@ -40,9 +37,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // ============================
-  // INCREMENT PRODUCT QUANTITY
-  // ============================
   Future<void> incrementProduct(String productId) async {
     final currentCount = state.productCounts[productId] ?? 0;
     final updatedCounts = Map<String, int>.from(state.productCounts);
@@ -58,9 +52,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // ============================
-  // DECREMENT PRODUCT QUANTITY
-  // ============================
   Future<void> decrementProduct(String productId) async {
     final currentCount = state.productCounts[productId] ?? 0;
     if (currentCount <= 0) return;
@@ -88,9 +79,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // ============================
-  // ADD TO CART
-  // ============================
   Future<void> addToCart(String productId) async {
     final Result<Cart> result = await repository.addToCart(
       productId: productId,
@@ -104,9 +92,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // ============================
-  // REMOVE ITEM
-  // ============================
   Future<void> removeFromCart(String cartItemId) async {
     final Result<Cart> result = await repository.removeFromCart(cartItemId);
 
@@ -117,9 +102,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  // ============================
-  // INTERNAL SYNC
-  // ============================
   void _syncCart(Cart cart) {
     emit(
       state.copyWith(
@@ -133,9 +115,6 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  // ============================
-  // ERROR EXTRACTOR (CORRECT!)
-  // ============================
   String _extractError(Result result) {
     return result.failure.message;
   }

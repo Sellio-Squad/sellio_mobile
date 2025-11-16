@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../../../core/design_system/widgets/cards/productHorizontalCard.dart';
+import '../../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
 import '../../../../../../domain/entities/product.dart';
 
 class StoreProductsList extends StatefulWidget {
@@ -59,7 +59,7 @@ class _StoreProductsListState extends State<StoreProductsList> {
             onTap: widget.onTap,
             child: Padding(
               padding: const EdgeInsets.only(bottom: _itemSpacing),
-              child: ProductHorizontalCard(
+              child: SellioProductHorizontalCard(
                 imageUrl: product.images.isNotEmpty ? product.images.first : '',
                 title: product.name,
                 description: product.description,

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-
 import '../../../../domain/entities/cart.dart';
 
 class CartState extends Equatable {

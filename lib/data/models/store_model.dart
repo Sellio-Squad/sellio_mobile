@@ -1,7 +1,7 @@
-import '../../domain/entities/category.dart';
 import '../../domain/entities/store.dart';
 import 'address_model.dart';
 import 'category_model.dart';
+import 'contact_info_model.dart';
 
 class StoreModel extends Store {
   const StoreModel({
@@ -57,44 +57,6 @@ class StoreModel extends Store {
           categories.map((e) => (e as CategoryModel).toJson()).toList(),
       'isActive': isActive,
     };
-  }
-
-  Map<String, dynamic> toDbMap() {
-    return {
-      'id': id,
-      'name': name,
-      'description': description,
-      'coverImage': coverImage,
-      'profileImage': profileImage,
-      'sale': sale,
-      'rating': rating,
-      'country': address.country,
-      'city': address.city,
-      'isActive': isActive ? 1 : 0,
-      'isFavorite': 0,
-    };
-  }
-
-  factory StoreModel.fromDbMap(Map<String, dynamic> map,
-      List<Category> categories,
-      List<ContactInfo> contactInfoList,) {
-    return StoreModel(
-      id: map['id'] as String,
-      name: map['name'] as String,
-      description: map['description'] as String,
-      coverImage: map['coverImage'] as String,
-      profileImage: map['profileImage'] as String,
-      sale: map['sale'] as String?,
-      rating: map['rating'] as double,
-      address: AddressModel(
-        id: map['id'] as String,
-        country: map['country'] as String,
-        city: map['city'] as String,
-      ),
-      contactInfoList: contactInfoList,
-      categories: categories,
-      isActive: map['isActive'] == 1,
-    );
   }
 
   factory StoreModel.fromEntity(Store store) {
