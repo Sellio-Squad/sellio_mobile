@@ -47,19 +47,9 @@ class _AccountScreenState extends State<AccountScreen> {
         }, builder: (context, state) {
           switch (state) {
             case AccountInitial():
-              return const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 40,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-              );
+              return const Center(child: CircularProgressIndicator());
             case AccountLoading():
-              return const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 40,
-                  child: Center(child: CircularProgressIndicator()),
-                ),
-              );
+              return const Center(child: CircularProgressIndicator());
             case AccountLoaded():
               return _accountContent(context, state, themeText, colors);
             case AccountError():
@@ -67,7 +57,12 @@ class _AccountScreenState extends State<AccountScreen> {
                 body: Center(child: Text('An error occurred ${state.message}')),
               );
             case AccountActionLoading():
-              throw UnimplementedError();
+               return Stack(
+                children: [
+                  _accountContent(context, state.previousState, themeText, colors),
+                  const Center(child: CircularProgressIndicator()),
+                ],
+              );
           }
         }));
   }

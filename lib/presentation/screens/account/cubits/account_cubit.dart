@@ -11,7 +11,8 @@ class AccountCubit extends Cubit<AccountState> {
   AccountCubit(this._authRepository) : super(AccountInitial());
 
   Future<void> loadProfileData() async {
-    final result = _authRepository.getCurrentUser();
+    emit(const AccountLoading());
+    final result = await _authRepository.getCurrentUser();
     switch (result) {
       case Success(data: final user):
         emit(AccountLoaded(userProfile: user));
