@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/design_system/widgets/sellio_chip.dart';
+import '../../../../../../core/design_system/widgets/sellio_chip.dart';
 
 class CategoryTabs extends StatelessWidget {
   final List<CategoryTabData> categories;
@@ -37,18 +37,6 @@ class CategoryTabs extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class CategoryTabsLoading extends StatelessWidget {
-  const CategoryTabsLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      height: 40,
-      child: Center(child: CircularProgressIndicator()),
     );
   }
 }
