@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_indicator.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
-import '../../../../../domain/entities/special_offer.dart';
+import '../../../../../../domain/entities/special_offer.dart';
 import 'special_offer_card.dart';
 
-class SpecialOffersSection extends StatefulWidget {
+class SpecialOffersList extends StatefulWidget {
   final List<SpecialOffer> offers;
   final int currentPage;
   final Function(int page) onPageChanged;
   final Function(String offerId)? onOfferTap;
   final VoidCallback? onSeeAllTap;
 
-  const SpecialOffersSection({
+  const SpecialOffersList({
     super.key,
     required this.offers,
     required this.currentPage,
@@ -23,10 +22,10 @@ class SpecialOffersSection extends StatefulWidget {
   });
 
   @override
-  State<SpecialOffersSection> createState() => _SpecialOffersSectionState();
+  State<SpecialOffersList> createState() => _SpecialOffersListState();
 }
 
-class _SpecialOffersSectionState extends State<SpecialOffersSection> {
+class _SpecialOffersListState extends State<SpecialOffersList> {
   late PageController _pageController;
 
   @override
@@ -40,7 +39,7 @@ class _SpecialOffersSectionState extends State<SpecialOffersSection> {
   }
 
   @override
-  void didUpdateWidget(SpecialOffersSection oldWidget) {
+  void didUpdateWidget(SpecialOffersList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentPage != widget.currentPage) {
       _pageController.animateToPage(
