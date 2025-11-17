@@ -4,7 +4,7 @@ import '../../domain/repositories/auth_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/auth_remote_datasource.dart';
+import '../datasource/remote/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;

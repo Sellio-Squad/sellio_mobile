@@ -5,7 +5,7 @@ import '../../domain/repositories/user_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/user_remote_datasource.dart';
+import '../datasource/remote/user_remote_datasource.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource _remoteDataSource;
