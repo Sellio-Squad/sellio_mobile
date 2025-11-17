@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import '../../../../../../core/design_system/widgets/cards/sellio_store_card.dart';
+import '../../../../../../core/design_system/widgets/section_header.dart';
+import '../../../../../../domain/entities/store.dart';
 
-import '../../../../core/design_system/widgets/cards/sellio_store_card.dart';
-import '../../../../core/design_system/widgets/section_header.dart';
-import '../../../../domain/entities/store.dart';
-
-class TopStoresSection extends StatelessWidget {
+class StoresList extends StatelessWidget {
   final List<Store> stores;
   final Set<String> favoriteStoreIds;
   final Function(String storeId) onLikePressed;
   final Function(Store store) onStorePressed;
 
-  const TopStoresSection({
+  const StoresList({
     super.key,
     required this.stores,
     required this.favoriteStoreIds,
