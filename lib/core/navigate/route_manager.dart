@@ -13,7 +13,7 @@ import '../../../presentation/screens/notification/notification_screen.dart';
 import '../../../presentation/screens/product_details/product_details_screen.dart';
 import '../../../presentation/screens/store_details/about_store/about_store.dart';
 import '../../../presentation/screens/store_details/store_details_screen.dart';
-import '../../../presentation/screens/thrift_screen.dart';
+import '../../presentation/screens/thrift/thrift_screen.dart';
 import '../../../ui/screens/account/account_screen.dart';
 import '../../presentation/screens/auth/forget_password/confirm_password_screen.dart';
 import '../../presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
