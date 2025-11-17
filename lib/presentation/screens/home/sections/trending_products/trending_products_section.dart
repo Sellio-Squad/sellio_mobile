@@ -15,7 +15,6 @@ class TrendingProductsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeTrendingProductsCubit, HomeTrendingProductsState>(
       listener: (context, state) {
-        // Handle side effects
         if (state is HomeTrendingProductsError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -26,7 +25,6 @@ class TrendingProductsSection extends StatelessWidget {
           );
         }
 
-        // You can also show a loading toast/indicator
         if (state is HomeTrendingProductsSearching) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -65,7 +63,6 @@ class TrendingProductsSection extends StatelessWidget {
 
         return BlocConsumer<CartCubit, CartState>(
           listener: (context, cartState) {
-            // Handle cart side effects
             if (cartState is CartError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -78,7 +75,6 @@ class TrendingProductsSection extends StatelessWidget {
           builder: (context, cartState) {
             return BlocConsumer<FavoritesCubit, FavoritesState>(
               listener: (context, favState) {
-                // Handle favorites side effects
                 if (favState is FavoritesError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
