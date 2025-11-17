@@ -8,7 +8,7 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
-import '../../../presentation/screens/home/widgets/search_bar/search_widget.dart';
+import '../../../presentation/screens/home/sections/search/widgets/search_bar_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
