@@ -35,6 +35,13 @@ class ApiEndpoints {
   static String productsByStore(String storeId) => '$apiVersion/products/store/$storeId';
   static String productsByCategory(String categoryId) => '$apiVersion/products/category/$categoryId';
 
+  static String productsUsedByCategory([String? categoryId]) {
+    if (categoryId != null && categoryId.isNotEmpty) {
+      return '$apiVersion/products/used?category=$categoryId';
+    }
+    return productsUsed;
+  }
+
   // Stores
   static const String stores = '$apiVersion/stores';
   static const String storesCreate = '$apiVersion/stores/create';
@@ -79,7 +86,6 @@ class ApiEndpoints {
   static String discountsBySubCategory(String subCategoryId) => '$apiVersion/discounts/sub-category/$subCategoryId';
   static String discountsByProduct(String productId) => '$apiVersion/discounts/product/$productId';
   static String discountById(String discountId) => '$apiVersion/discounts/$discountId';
-
 
   // Store Rating
   static String storeRating(String storeId) => '$apiVersion/store-rating/$storeId';
