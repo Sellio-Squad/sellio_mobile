@@ -12,7 +12,7 @@ import '../../../core/navigate/app_routes.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
-import '../home/widgets/category_tabs.dart';
+import '../home/sections/categories/widgets/category_tabs.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
 
