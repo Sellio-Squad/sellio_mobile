@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
@@ -7,6 +8,8 @@ import '../../../../domain/repositories/product_repository.dart';
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
+import '../../../core/navigate/app_routes.dart';
+import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../home/widgets/category_tabs.dart';
@@ -99,14 +102,14 @@ class ThriftContent extends StatelessWidget {
         icon: Assets.allCategories,
       ),
       ...state.categories.map((c) => CategoryTabData(
-        id: c.id,
-        name: c.name,
-        icon: _mapCategoryIcon(c.name),
-      )),
+            id: c.id,
+            name: c.name,
+            icon: _mapCategoryIcon(c.name),
+          )),
     ];
 
     final selectedIndex =
-    tabs.indexWhere((t) => t.id == state.selectedCategoryId);
+        tabs.indexWhere((t) => t.id == state.selectedCategoryId);
 
     return SliverToBoxAdapter(
       child: CategoryTabs(
@@ -144,7 +147,7 @@ class ThriftContent extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
-              (context, index) {
+          (context, index) {
             final product = state.items[index];
             final productId = product.id;
 
@@ -153,8 +156,7 @@ class ThriftContent extends StatelessWidget {
 
             final count = cart.state.productCounts[productId] ?? 0;
 
-            final isFavorite =
-            favorites.state.productIds.contains(productId);
+            final isFavorite = favorites.state.productIds.contains(productId);
 
             return SellioProductVerticalCard(
               key: ValueKey(productId),
@@ -163,14 +165,19 @@ class ThriftContent extends StatelessWidget {
               price: product.price.toString(),
               count: count,
               isFavorite: isFavorite,
-
               onIncrement: () =>
                   context.read<CartCubit>().incrementProduct(productId),
               onDecrement: () =>
                   context.read<CartCubit>().decrementProduct(productId),
-
-              onFavorite: () =>
-                  context.read<FavoritesCubit>().toggleProductFavorite(productId),
+              onFavorite: () => context
+                  .read<FavoritesCubit>()
+                  .toggleProductFavorite(productId),
+              onTap: () {
+                GoRouter.of(context).push(
+                  AppRoutes.productDetails.path,
+                  // extra: ProductDetailsArgs(productId: product.id),
+                );
+              },
             );
           },
           childCount: state.items.length,
