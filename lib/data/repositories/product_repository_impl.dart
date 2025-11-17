@@ -277,4 +277,21 @@ class ProductRepositoryImpl implements ProductRepository {
       totalPages: response.totalPages,
     );
   }
+  @override
+  Future<Result<PaginatedData<Product>>> getThriftProducts({
+    String? categoryId,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
+      final paginatedResponse = await _remoteDataSource.getThriftProducts(
+        categoryId: categoryId ?? '',
+        page: page - 1,
+        pageSize: limit,
+      );
+
+      return _mapToPaginatedData(paginatedResponse);
+    });
+  }
+
 }
