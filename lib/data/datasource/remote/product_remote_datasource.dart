@@ -33,7 +33,8 @@ abstract class ProductRemoteDataSource {
     int pageSize = 20,
   });
 
-  Future<PaginatedResponse<ProductModel>> getUsedProducts({
+  Future<PaginatedResponse<ProductModel>> getThriftProducts({
+    String? categoryId,
     int page = 0,
     int pageSize = 20,
   });
@@ -151,13 +152,19 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     );
   }
 
+
   @override
-  Future<PaginatedResponse<ProductModel>> getUsedProducts({
+  Future<PaginatedResponse<ProductModel>> getThriftProducts({
+    String? categoryId,
     int page = 0,
     int pageSize = 20,
   }) async {
+    final endpoint = categoryId != null
+        ? ApiEndpoints.productsUsedByCategory(categoryId)
+        : ApiEndpoints.productsUsed;
+
     final response = await _httpClient.get(
-      ApiEndpoints.productsUsed,
+      endpoint,
       queryParameters: {
         'page': page,
         'size': pageSize,
@@ -169,4 +176,5 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
           (json) => ProductModel.fromJson(json),
     );
   }
+
 }

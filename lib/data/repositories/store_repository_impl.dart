@@ -7,8 +7,8 @@ import '../../domain/repositories/store_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/favorites_remote_datasource.dart';
-import '../datasources/remote/store_remote_datasource.dart';
+import '../datasource/remote/favorites_remote_datasource.dart';
+import '../datasource/remote/store_remote_datasource.dart';
 
 class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;

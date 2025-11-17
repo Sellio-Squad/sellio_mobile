@@ -3,7 +3,7 @@ import '../../domain/entities/address.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/order_remote_datasource.dart';
+import '../datasource/remote/order_remote_datasource.dart';
 import '../models/order_model.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
