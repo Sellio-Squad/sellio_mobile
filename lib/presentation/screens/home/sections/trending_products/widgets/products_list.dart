@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
-import '../../../../core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
-import '../../../../core/design_system/widgets/section_header.dart';
+import '../../../../../../core/design_system/constants/assets.dart';
+import '../../../../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
+import '../../../../../../core/design_system/widgets/section_header.dart';
 import '../models/trending_product_ui_model.dart';
 
-class ProductsSection extends StatelessWidget {
+class ProductsList extends StatelessWidget {
   final List<TrendingProductUIModel> products;
   final String? searchQuery;
   final Map<String, int> productCounts;
@@ -16,7 +15,7 @@ class ProductsSection extends StatelessWidget {
   final Function(String) onDecrement;
   final Function(String) onFavorite;
 
-  const ProductsSection({
+  const ProductsList({
     super.key,
     required this.products,
     this.searchQuery,

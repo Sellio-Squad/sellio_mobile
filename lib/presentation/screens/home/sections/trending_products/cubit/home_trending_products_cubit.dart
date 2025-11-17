@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../domain/repositories/product_repository.dart';
-import '../../../models/trending_product_ui_model.dart';
+import '../models/trending_product_ui_model.dart';
 import 'home_trending_products_state.dart';
 
 class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import '../../../models/trending_product_ui_model.dart';
+
+import '../models/trending_product_ui_model.dart';
 
 abstract class HomeTrendingProductsState extends Equatable {
   const HomeTrendingProductsState();
