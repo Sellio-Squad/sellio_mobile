@@ -9,7 +9,25 @@ class CategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCategoriesCubit, HomeCategoriesState>(
+    return BlocConsumer<HomeCategoriesCubit, HomeCategoriesState>(
+      listener: (context, state) {
+        // Handle side effects
+        if (state is HomeCategoriesError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+              action: SnackBarAction(
+                label: 'Retry',
+                textColor: Colors.white,
+                onPressed: () {
+                  context.read<HomeCategoriesCubit>().loadCategories();
+                },
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         if (state is HomeCategoriesLoading) {
           return const SliverToBoxAdapter(

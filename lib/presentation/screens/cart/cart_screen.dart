@@ -40,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: _buildAppBar(context),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
-          if (state.loading) {
+          if (state is CartLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 

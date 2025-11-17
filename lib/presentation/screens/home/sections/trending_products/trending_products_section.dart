@@ -13,7 +13,30 @@ class TrendingProductsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeTrendingProductsCubit, HomeTrendingProductsState>(
+    return BlocConsumer<HomeTrendingProductsCubit, HomeTrendingProductsState>(
+      listener: (context, state) {
+        // Handle side effects
+        if (state is HomeTrendingProductsError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+
+        // You can also show a loading toast/indicator
+        if (state is HomeTrendingProductsSearching) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Searching for "${state.query}"...'),
+              duration: const Duration(seconds: 1),
+              backgroundColor: Colors.blue,
+            ),
+          );
+        }
+      },
       builder: (context, productsState) {
         if (productsState is HomeTrendingProductsLoading ||
             productsState is HomeTrendingProductsSearching) {
@@ -40,9 +63,31 @@ class TrendingProductsSection extends StatelessWidget {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        return BlocBuilder<CartCubit, CartState>(
+        return BlocConsumer<CartCubit, CartState>(
+          listener: (context, cartState) {
+            // Handle cart side effects
+            if (cartState is CartError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(cartState.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
           builder: (context, cartState) {
-            return BlocBuilder<FavoritesCubit, FavoritesState>(
+            return BlocConsumer<FavoritesCubit, FavoritesState>(
+              listener: (context, favState) {
+                // Handle favorites side effects
+                if (favState is FavoritesError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(favState.message),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
               builder: (context, favState) {
                 return SliverToBoxAdapter(
                   child: ProductsList(

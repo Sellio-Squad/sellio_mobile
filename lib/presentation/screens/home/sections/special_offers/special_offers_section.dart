@@ -10,7 +10,25 @@ class SpecialOffersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: BlocBuilder<HomeSpecialOffersCubit, HomeSpecialOffersState>(
+      child: BlocConsumer<HomeSpecialOffersCubit, HomeSpecialOffersState>(
+        listener: (context, state) {
+          // Handle side effects
+          if (state is HomeSpecialOffersError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+                action: SnackBarAction(
+                  label: 'Retry',
+                  textColor: Colors.white,
+                  onPressed: () {
+                    context.read<HomeSpecialOffersCubit>().refreshOffers();
+                  },
+                ),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is HomeSpecialOffersLoading) {
             return const _LoadingWidget();

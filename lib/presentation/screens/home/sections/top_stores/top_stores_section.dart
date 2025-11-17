@@ -12,7 +12,25 @@ class TopStoresSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeTopStoresCubit, HomeTopStoresState>(
+    return BlocConsumer<HomeTopStoresCubit, HomeTopStoresState>(
+      listener: (context, state) {
+        // Handle side effects
+        if (state is HomeTopStoresError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+              action: SnackBarAction(
+                label: 'Retry',
+                textColor: Colors.white,
+                onPressed: () {
+                  context.read<HomeTopStoresCubit>().refreshStores();
+                },
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, storesState) {
         if (storesState is HomeTopStoresLoading) {
           return const SliverToBoxAdapter(child: _LoadingWidget());
@@ -22,7 +40,18 @@ class TopStoresSection extends StatelessWidget {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        return BlocBuilder<FavoritesCubit, FavoritesState>(
+        return BlocConsumer<FavoritesCubit, FavoritesState>(
+          listener: (context, favState) {
+            // Handle favorites side effects
+            if (favState is FavoritesError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(favState.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          },
           builder: (context, favState) {
             return SliverToBoxAdapter(
               child: Padding(
