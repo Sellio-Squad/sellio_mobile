@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
-import '../../../data/datasources/remote/auth_remote_datasource.dart';
-import '../../../data/datasources/remote/cart_remote_datasource.dart';
-import '../../../data/datasources/remote/category_remote_datasource.dart';
-import '../../../data/datasources/remote/favorites_remote_datasource.dart';
-import '../../../data/datasources/remote/offers_remote_datasource.dart';
-import '../../../data/datasources/remote/order_remote_datasource.dart';
-import '../../../data/datasources/remote/product_remote_datasource.dart';
-import '../../../data/datasources/remote/store_remote_datasource.dart';
-import '../../../data/datasources/remote/user_remote_datasource.dart';
+import '../../../data/datasource/remote/auth_remote_datasource.dart';
+import '../../../data/datasource/remote/cart_remote_datasource.dart';
+import '../../../data/datasource/remote/category_remote_datasource.dart';
+import '../../../data/datasource/remote/favorites_remote_datasource.dart';
+import '../../../data/datasource/remote/offers_remote_datasource.dart';
+import '../../../data/datasource/remote/order_remote_datasource.dart';
+import '../../../data/datasource/remote/product_remote_datasource.dart';
+import '../../../data/datasource/remote/store_remote_datasource.dart';
+import '../../../data/datasource/remote/user_remote_datasource.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {

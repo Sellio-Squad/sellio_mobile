@@ -2,7 +2,7 @@ import '../../core/error/result.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/category_remote_datasource.dart';
+import '../datasource/remote/category_remote_datasource.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
   final CategoryRemoteDataSource _remoteDataSource;

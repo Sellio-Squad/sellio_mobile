@@ -12,11 +12,7 @@ class StorageModule {
     );
 
     sl.registerLazySingleton<StorageService>(
-      () => SecureStorageImpl(storage: sl()),
-    );
-
-    sl.registerLazySingleton<StorageService>(
-      () => SharedPrefsStorageImpl(sl()),
+          () => SecureStorageImpl(storage: sl()),
     );
   }
 }

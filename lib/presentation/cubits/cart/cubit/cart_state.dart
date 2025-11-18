@@ -1,42 +1,56 @@
 import 'package:equatable/equatable.dart';
 import '../../../../domain/entities/cart.dart';
 
-class CartState extends Equatable {
+abstract class CartState extends Equatable {
   final Cart? cart;
   final Map<String, int> productCounts;
-  final bool loading;
-  final String? error;
 
   const CartState({
     this.cart,
-    required this.productCounts,
-    this.loading = false,
-    this.error,
+    this.productCounts = const {},
   });
 
-  factory CartState.initial() {
-    return const CartState(
-      cart: null,
-      productCounts: {},
-      loading: false,
-      error: null,
-    );
-  }
+  @override
+  List<Object?> get props => [cart, productCounts];
+}
 
-  CartState copyWith({
+class CartInitial extends CartState {
+  const CartInitial();
+}
+
+class CartLoading extends CartState {
+  const CartLoading({
+    super.cart,
+    super.productCounts,
+  });
+}
+
+class CartLoaded extends CartState {
+  const CartLoaded({
+    required Cart super.cart,
+    required super.productCounts,
+  });
+
+  CartLoaded copyWith({
     Cart? cart,
     Map<String, int>? productCounts,
-    bool? loading,
-    String? error,
   }) {
-    return CartState(
-      cart: cart ?? this.cart,
+    return CartLoaded(
+      cart: cart ?? this.cart!,
       productCounts: productCounts ?? this.productCounts,
-      loading: loading ?? this.loading,
-      error: error,
     );
   }
+}
+
+class CartError extends CartState {
+  final String message;
+
+  const CartError({
+    required this.message,
+    super.cart,
+    super.productCounts,
+  });
 
   @override
-  List<Object?> get props => [cart, productCounts, loading, error];
+  List<Object?> get props => [message, cart, productCounts];
 }
