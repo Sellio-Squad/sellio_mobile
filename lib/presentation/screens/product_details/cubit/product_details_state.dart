@@ -17,6 +17,8 @@ class ProductDetailsLoading extends ProductDetailsState {
   final int productCount;
   final bool isFavorite;
   final String note;
+  final String? cartMessage;
+
 
   const ProductDetailsLoading({
     required this.productId,
@@ -24,6 +26,7 @@ class ProductDetailsLoading extends ProductDetailsState {
     this.productCount =0,
     this.isFavorite = false,
     this.note = '',
+    this.cartMessage,
   });
 
   ProductDetailsLoading copyWith({
@@ -32,6 +35,7 @@ class ProductDetailsLoading extends ProductDetailsState {
     bool? isFavorite,
     int? productCount,
     String? note,
+    String? cartMessage,
   }) {
     return ProductDetailsLoading(
       productId: productId ?? this.productId,
@@ -39,11 +43,12 @@ class ProductDetailsLoading extends ProductDetailsState {
       isFavorite: isFavorite ?? this.isFavorite,
       productCount: productCount ?? this.productCount,
       note: note ?? this.note,
+      cartMessage: cartMessage ?? this.cartMessage,
     );
   }
 
   @override
-  List<Object?> get props => [product, productCount, isFavorite, note];
+  List<Object?> get props => [product, productCount, isFavorite, note , cartMessage];
 }
 
 class ProductDetailsError extends ProductDetailsState {
@@ -60,5 +65,6 @@ class ProductDetailsAddToCartSuccess extends ProductDetailsLoading {
     required super.productCount,
     required super.isFavorite,
     required super.note,
+    required super.cartMessage,
   });
 }

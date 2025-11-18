@@ -2,14 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
 
 import '../../../../domain/entities/product.dart';
 
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductRepository _repository;
+  CartCubit _cartCubit;
 
-  ProductDetailsCubit(this._repository) : super(ProductDetailsInitial());
+  ProductDetailsCubit(this._repository, this._cartCubit) : super(ProductDetailsInitial());
 
   Future<void> loadProductDetails(String productId) async {
     emit(ProductDetailsLoading(productId: productId, product: Product.dummy()));
@@ -36,7 +38,17 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final currentState = state;
     if (currentState is! ProductDetailsLoading) return;
 
-    // TODO
+    final productId = currentState.product.id;
+    _cartCubit.addToCart(productId);
+
+    emit(ProductDetailsAddToCartSuccess(
+      productId: currentState.productId,
+      product: currentState.product,
+      productCount: currentState.productCount,
+      isFavorite: currentState.isFavorite,
+      note: currentState.note,
+      cartMessage: "Product added successfully",
+    ));
   }
 
   String _extractErrorMessage(List<Result> results) {
