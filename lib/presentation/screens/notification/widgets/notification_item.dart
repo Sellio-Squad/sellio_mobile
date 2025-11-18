@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/notification/extensions/notification_extensions.dart';
 
 import '../cubits/notifications/cubit/notification_cubit.dart';
 import '../models/notification_model.dart';
@@ -18,18 +19,10 @@ class NotificationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (icon, orderState) = switch (notification.state) {
-      0 => (
-          Assets.packageDelivered,
-          NotificationUtils.getNotificationMessage(0)
-        ),
-      1 => (
-          Assets.packageDelivery,
-          NotificationUtils.getNotificationMessage(1)
-        ),
-      2 => (Assets.packageRemove, NotificationUtils.getNotificationMessage(2)),
-      _ => (Assets.packageRemove, NotificationUtils.getNotificationMessage(2)),
-    };
+    final type = NotificationUtils.getMessageType(notification.state);
+
+    final icon = type.icon;
+    final orderState = type.localized(context);
 
     return Dismissible(
       key: Key(notification.orderId),
@@ -39,7 +32,7 @@ class NotificationItem extends StatelessWidget {
             notification.orderId);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Notification dismissed'),
+            content: Text(context.local.notification_dismissed),
             duration: const Duration(seconds: 2),
           ),
         );
@@ -91,7 +84,7 @@ class NotificationItem extends StatelessWidget {
                         const EdgeInsets.only(left: 8, right: 16, bottom: 2),
                         child: Text.rich(
                           TextSpan(
-                            text: "Your order #${notification.orderId} from ",
+                            text: context.local.your_order_from(notification.orderId),
                             style: context.theme.typography.textTheme.bodySmall
                                 .copyWith(
                               color: context.theme.colors.body,
