@@ -31,6 +31,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add_to_cart => 'Add to cart';
 
   @override
+  String get empty_cart_title => 'Your cart is empty!';
+
+  @override
+  String get empty_cart_desc =>
+      'Start exploring and purchasing your favorite items';
+
+  @override
+  String get empty_cart_button => 'Start Exploring';
+
+  @override
   String get reset => 'Reset';
 
   @override

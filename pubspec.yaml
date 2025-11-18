@@ -32,7 +32,7 @@ dependencies:
   # Local Storage
   path: ^1.9.0
   shared_preferences: ^2.2.3
-  flutter_secure_storage:
+  flutter_secure_storage: ^9.2.2
 
   # Network Info
   internet_connection_checker: ^1.0.0+1

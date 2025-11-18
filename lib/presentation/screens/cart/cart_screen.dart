@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
 
 import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/constants/assets.dart';
@@ -45,14 +46,7 @@ class _CartScreenState extends State<CartScreen> {
           }
 
           if (state.cart == null || state.cart!.items.isEmpty) {
-            return Center(
-              child: Text(
-                AppStrings.emptyCart,
-                style: textTheme.titleMedium.copyWith(
-                  color: colors.body,
-                ),
-              ),
-            );
+            return EmptyCartSection(textTheme: textTheme, colors: colors);
           }
 
           final cart = state.cart!;
@@ -77,16 +71,19 @@ class _CartScreenState extends State<CartScreen> {
           );
         },
       ),
-      bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          final cart = state.cart;
-          final totalPrice = cart?.items.fold(
-                0.0,
-                (sum, item) => sum + (item.price * item.quantity),
-              ) ??
-              0.0;
+      bottomNavigationBar: (context.read<CartCubit>().state.cart == null ||
+              context.read<CartCubit>().state.cart!.items.isEmpty)
+          ? null
+          : BlocBuilder<CartCubit, CartState>(
+              builder: (context, state) {
+                final cart = state.cart;
+                final totalPrice = cart?.items.fold(
+                      0.0,
+                      (sum, item) => sum + (item.price * item.quantity),
+                    ) ??
+                    0.0;
 
-          return _buildBottomBar(
+                return _buildBottomBar(
             context,
             totalPrice,
             cart?.items.length ?? 0,
@@ -95,6 +92,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     final theme = SellioTheme.of(context);
     final textTheme = theme.typography.textTheme;
@@ -111,15 +109,18 @@ class _CartScreenState extends State<CartScreen> {
             style: textTheme.titleMedium.copyWith(color: colors.title),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Center(
-                child: Text(
-                  AppStrings.addMoreItems,
-                  style: textTheme.labelMedium.copyWith(color: colors.primary),
+            if (context.read<CartCubit>().state.cart != null &&
+                context.read<CartCubit>().state.cart!.items.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Center(
+                  child: Text(
+                    AppStrings.addMoreItems,
+                    style:
+                        textTheme.labelMedium.copyWith(color: colors.primary),
+                  ),
                 ),
-              ),
-            ),
+              )
           ],
         ),
       ),
