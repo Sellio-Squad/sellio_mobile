@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import 'builders/notification_sections_builder.dart';
 import 'notification_bloc_providers.dart';
@@ -26,7 +27,7 @@ class _NotificationScreenContent extends StatelessWidget {
       child: Scaffold(
         backgroundColor: context.theme.colors.surfaceLow,
         appBar: SellioAppBar(
-          title: "Notifications",
+          title: context.local.notifications,
           showBackButton: true,
         ),
         body: buildNotificationSections(context),
