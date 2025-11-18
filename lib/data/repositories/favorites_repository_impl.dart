@@ -3,7 +3,7 @@ import '../../domain/repositories/favorites_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/favorites_remote_datasource.dart';
+import '../datasource/remote/favorites_remote_datasource.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
   final FavoritesRemoteDataSource _remoteDataSource;
