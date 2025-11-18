@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sellio_mobile/domain/entities/store.dart' as entity;
+import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 
 import '../../../../core/design_system/constants/app_icons.dart';
-import '../../../../domain/entities/store.dart' as entity;
-import '../../../../domain/repositories/store_repository.dart';
+import '../../../../core/design_system/constants/app_strings.dart';
+import '../../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/about_store_cubit.dart';
 import 'cubit/about_store_state.dart';
-import 'models/contact_info.dart';
+import 'helper/ContactActionHandler.dart';
 import 'widgets/address_item.dart';
 import 'widgets/contact_info_item.dart';
 import 'widgets/horizontal_driver.dart';
@@ -29,9 +30,22 @@ class AboutStore extends StatelessWidget {
       create: (context) => AboutStoreCubit(context.read<StoreRepository>())
         ..loadStoreInfo(storeId),
       child: Scaffold(
-        appBar: const SellioAppBar(showBackButton: true, title: "About Store"),
+        appBar: const SellioAppBar(
+          showBackButton: true,
+          title: AppStrings.aboutStore,
+        ),
         backgroundColor: context.theme.colors.surfaceLow,
-        body: BlocBuilder<AboutStoreCubit, AboutStoreState>(
+        body: BlocConsumer<AboutStoreCubit, AboutStoreState>(
+          listener: (context, state) {
+            if (state is AboutStoreError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: context.theme.colors.hint,
+                ),
+              );
+            }
+          },
           builder: (context, state) {
             return _buildBody(context, state);
           },
@@ -67,11 +81,12 @@ class AboutStore extends StatelessWidget {
     final store = state.store;
     final rating = state.rating;
 
-    final contactInfoList = _buildContactInfoList(store);
-
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+        padding: const EdgeInsets.symmetric(
+          horizontal: LayoutConstants.paddingHorizontal,
+          vertical: LayoutConstants.paddingMedium,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,23 +97,16 @@ class AboutStore extends StatelessWidget {
             ),
             const HorizontalDriver(),
             Text(
-              "Contact Info",
+              AppStrings.contactInfo,
               style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.title,
               ),
             ),
-            const SizedBox(height: 8),
-            for (int i = 0; i < contactInfoList.length; i++) ...[
-              ContactInfoItem(
-                contactInfo: contactInfoList[i],
-                onTap: () => _handleContactTap(contactInfoList[i]),
-              ),
-              if (i < contactInfoList.length - 1)
-                const Padding(padding: EdgeInsets.only(bottom: 12)),
-            ],
+            const SizedBox(height: LayoutConstants.paddingSmall),
+            ..._buildContactInfoList(context, store.contactInfoList),
             const HorizontalDriver(),
             Text(
-              "Address",
+              AppStrings.address,
               style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.title,
               ),
@@ -110,123 +118,63 @@ class AboutStore extends StatelessWidget {
     );
   }
 
-  List<ContactInfo> _buildContactInfoList(entity.Store store) {
-    final List<ContactInfo> contactList = [];
+  List<Widget> _buildContactInfoList(
+    BuildContext context,
+    List<entity.ContactInfo> contactInfoList,
+  ) {
+    final widgets = <Widget>[];
 
-    for (var storeContact in store.contactInfoList) {
-      String icon;
-      ContactType type;
-      String title;
+    for (int i = 0; i < contactInfoList.length; i++) {
+      final contact = contactInfoList[i];
+      final iconAsset = _getContactIcon(contact.type);
+      final title = ContactActionHandler.getContactTitle(contact.type);
 
-      switch (storeContact.type) {
-        case entity.ContactType.email:
-          icon = AppIcons.email;
-          type = ContactType.email;
-          title = "Our friendly team is here to help";
-          break;
-        case entity.ContactType.phone:
-          icon = AppIcons.phone;
-          type = ContactType.phone;
-          title = "11:00 PM - 12:00 AM";
-          break;
-        case entity.ContactType.facebook:
-          icon = AppIcons.facebook;
-          type = ContactType.facebook;
-          title = "Our account on facebook";
-          break;
-        case entity.ContactType.whatsapp:
-          icon = AppIcons.phone;
-          type = ContactType.whatsapp;
-          title = "WhatsApp Contact";
-          break;
-        case entity.ContactType.website:
-          icon = AppIcons.email;
-          type = ContactType.website;
-          title = "Visit our website";
-          break;
-      }
-
-      contactList.add(
-        ContactInfo(
+      widgets.add(
+        ContactInfoItem(
+          icon: iconAsset,
           title: title,
-          provider: storeContact.provider,
-          icon: icon,
-          type: type,
+          provider: contact.provider,
+          onTap: () => _handleContactTap(context, contact),
         ),
       );
+
+      if (i < contactInfoList.length - 1) {
+        widgets.add(const SizedBox(height: LayoutConstants.itemSpacing));
+      }
     }
 
-    return contactList;
+    return widgets;
   }
 
-  void _handleContactTap(ContactInfo contact) async {
-    switch (contact.type) {
-      case ContactType.email:
-        await _launchEmail(contact.provider);
-        break;
-      case ContactType.phone:
-        await _launchPhone(contact.provider);
-        break;
-      case ContactType.facebook:
-        await _launchFacebook(contact.provider);
-        break;
-      case ContactType.website:
-        await _launchUrl(contact.provider);
-        break;
-      case ContactType.whatsapp:
-        await _launchWhatsApp(contact.provider);
-        break;
-    }
-  }
-
-  Future<void> _launchEmail(String email) async {
-    final String encodedSubject = Uri.encodeComponent("Sellio customer");
-    final Uri emailUri = Uri.parse("mailto:$email?subject=$encodedSubject");
-
-    try {
-      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      print('Could not launch email: $e');
+  String _getContactIcon(entity.ContactType type) {
+    switch (type) {
+      case entity.ContactType.email:
+        return AppIcons.email;
+      case entity.ContactType.phone:
+      case entity.ContactType.whatsapp:
+        return AppIcons.phone;
+      case entity.ContactType.facebook:
+        return AppIcons.facebook;
+      case entity.ContactType.website:
+        return AppIcons.email; // Replace with website icon if available
     }
   }
 
-  Future<void> _launchPhone(String phone) async {
-    final Uri phoneUri = Uri(scheme: 'tel', path: phone);
-    if (await canLaunchUrl(phoneUri)) {
-      await launchUrl(phoneUri);
-    }
-  }
+  Future<void> _handleContactTap(
+    BuildContext context,
+    entity.ContactInfo contact,
+  ) async {
+    final result = await ContactActionHandler.handleContact(contact);
 
-  Future<void> _launchUrl(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
-  Future<void> _launchWhatsApp(String phone) async {
-    final cleanPhone = phone.replaceAll(RegExp(r'\D'), '');
-    final Uri whatsappUri = Uri.parse('https://wa.me/$cleanPhone');
-    try {
-      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      print('Error: $e');
-    }
-  }
-
-  Future<void> _launchFacebook(String facebookUrl) async {
-    String url = facebookUrl;
-
-    if (!url.startsWith('http')) {
-      url = 'https://www.facebook.com/$url';
-    }
-
-    final Uri uri = Uri.parse(url);
-
-    try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (e) {
-      print('Could not launch Facebook: $e');
+    if (!result.isSuccess && result.errorMessage != null) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result.errorMessage!),
+            backgroundColor: context.theme.colors.hint,
+          ),
+        );
+      }
     }
   }
 }

@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
-
-import '../../../presentation/screens/auth/create_account/create_account_screen.dart';
-import '../../../presentation/screens/auth/login/login_screen.dart';
-import '../../../presentation/screens/auth/signupOTP.dart';
-import '../../../presentation/screens/cart/cart_screen.dart';
-import '../../../presentation/screens/customize_product/customize_your_product_screen.dart';
-import '../../../presentation/screens/home/home_screen.dart';
-import '../../../presentation/screens/main/dashboard.dart';
-import '../../../presentation/screens/notification/notification_screen.dart';
-import '../../../presentation/screens/product_details/product_details_screen.dart';
-import '../../../presentation/screens/store_details/about_store/about_store.dart';
-import '../../../presentation/screens/store_details/store_details_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/create_account/create_account_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/forget_password/confirm_password_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/login/login_screen.dart';
+import 'package:sellio_mobile/presentation/screens/auth/signupOTP.dart';
+import 'package:sellio_mobile/presentation/screens/cart/cart_screen.dart';
+import 'package:sellio_mobile/presentation/screens/customize_product/customize_your_product_screen.dart';
+import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
+import 'package:sellio_mobile/presentation/screens/main/dashboard.dart';
+import 'package:sellio_mobile/presentation/screens/notification/notification_screen.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/product_details_screen.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/about_store/about_store.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
+import 'package:sellio_mobile/ui/screens/account/account_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
-import '../../../ui/screens/account/account_screen.dart';
-import '../../presentation/screens/auth/forget_password/confirm_password_screen.dart';
-import '../../presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
-import '../../presentation/screens/auth/forget_password/forget_password_screen.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
@@ -209,11 +208,6 @@ class RouteGenerator {
             key: state.pageKey,
             child: StoreDetailsScreen(
               storeId: args.storeId,
-              coverImage: args.coverImage,
-              profileImage: args.profileImage,
-              storeName: args.storeName,
-              discount: args.discount,
-              rating: args.rating,
             ),
           );
         },
