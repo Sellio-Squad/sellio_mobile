@@ -5,8 +5,6 @@ import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
 
-import '../../../../domain/entities/product.dart';
-
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductRepository _repository;
   CartCubit _cartCubit;
@@ -14,7 +12,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductDetailsCubit(this._repository, this._cartCubit) : super(ProductDetailsInitial());
 
   Future<void> loadProductDetails(String productId) async {
-    emit(ProductDetailsLoading(productId: productId, product: Product.dummy()));
+    emit(ProductDetailsLoading(productId: productId));
     final productResult = await _repository.getProductById(productId);
     final favoriteResult = await _repository.isFavorite(productId);
 
@@ -38,8 +36,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final currentState = state;
     if (currentState is! ProductDetailsLoading) return;
 
-    final productId = currentState.product.id;
-    _cartCubit.addToCart(productId);
+    final productId = currentState.product?.id;
+    _cartCubit.addToCart(productId!);
 
     emit(ProductDetailsAddToCartSuccess(
       productId: currentState.productId,

@@ -13,7 +13,7 @@ class ProductDetailsInitial extends ProductDetailsState {
 
 class ProductDetailsLoading extends ProductDetailsState {
   final String productId;
-  final Product product;
+  final Product? product;
   final int productCount;
   final bool isFavorite;
   final String note;
@@ -22,7 +22,7 @@ class ProductDetailsLoading extends ProductDetailsState {
 
   const ProductDetailsLoading({
     required this.productId,
-    required this.product,
+    this.product,
     this.productCount =0,
     this.isFavorite = false,
     this.note = '',

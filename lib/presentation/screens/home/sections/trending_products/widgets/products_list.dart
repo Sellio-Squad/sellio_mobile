@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
-import '../../../../core/design_system/widgets/section_header.dart';
 import '../models/trending_product_ui_model.dart';
 
 class ProductsList extends StatelessWidget {

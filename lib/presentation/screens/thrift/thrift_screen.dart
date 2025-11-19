@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../domain/repositories/product_repository.dart';
 import '../../../../domain/repositories/category_repository.dart';
-import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import '../../../core/navigate/app_routes.dart';
-import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../home/sections/categories/widgets/category_tabs.dart';
@@ -99,7 +98,7 @@ class ThriftContent extends StatelessWidget {
       CategoryTabData(
         id: "all",
         name: context.local.all,
-        icon: Assets.allCategories,
+        icon: AppImages.allCategories,
       ),
       ...state.categories.map((c) => CategoryTabData(
             id: c.id,
@@ -126,13 +125,13 @@ class ThriftContent extends StatelessWidget {
   String _mapCategoryIcon(String name) {
     switch (name.toLowerCase()) {
       case 'food':
-        return Assets.food;
+        return AppImages.food;
       case 'drinks':
-        return Assets.drinks;
+        return AppImages.drinks;
       case 'clothes':
-        return Assets.clothes;
+        return AppImages.clothes;
       default:
-        return Assets.allCategories;
+        return AppImages.allCategories;
     }
   }
 

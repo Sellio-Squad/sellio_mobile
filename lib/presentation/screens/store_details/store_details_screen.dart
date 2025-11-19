@@ -14,13 +14,6 @@ import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
 import '../../../domain/entities/store_rating.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:sellio_mobile/domain/entities/category.dart';
-import 'package:sellio_mobile/domain/entities/product.dart';
-import 'package:sellio_mobile/domain/entities/store.dart';
-import 'package:sellio_mobile/domain/entities/store_rating.dart';
-import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
-import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
@@ -150,7 +143,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return BlocBuilder<CartCubit, CartState>(
       builder: (BuildContext context, cartState) {
         return SliverPadding(
-          padding: const EdgeInsets.all(_horizontalPadding),
+          padding: const EdgeInsets.all(LayoutConstants.paddingHorizontal),
           sliver: StoreProductsList(
             onTap: () => context.navigator.pushProductDetails(
               ProductDetailsArgs(

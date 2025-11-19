@@ -8,7 +8,6 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.d
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_snack_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
-import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
@@ -31,8 +30,6 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Product.dummy();
-
     return ProductDetailsListener(
       child: BlocProvider(
         create: (context) => ProductDetailsCubit(
@@ -43,14 +40,25 @@ class ProductDetailsScreen extends StatelessWidget {
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             backgroundColor: context.theme.colors.surfaceLow,
-            appBar: SellioAppBar(
-              showBackButton: true,
-              title: product.name,
-              actions: [
-                productFavorite(context, productId),
-              ],
-            ),
-            body: Column(
+            appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(56), // or kToolbarHeight
+          child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+            builder: (context, state) {
+              final title = (state is ProductDetailsLoading)
+                  ? state.product?.name: null;
+
+              return SellioAppBar(
+                showBackButton: true,
+                title: title,
+                actions: [
+                  productFavorite(context, productId),
+                ],
+              );
+            },
+          ),
+        ),
+
+        body: Column(
               children: [
                 productImagesSection(),
                 Padding(
@@ -81,14 +89,14 @@ Widget _buildPriceAndCounterRow(BuildContext context) {
         builder: (context, productState) {
           if (productState is! ProductDetailsLoading) return const SizedBox();
 
-          final productId = productState.product.id;
+          final productId = productState.product?.id;
           final count = cartState.productCounts[productId] ?? 0;
 
           return Row(
             children: [
               productPriceSection(context, productState),
               const Expanded(child: Spacer()),
-              productCounterSection(context, productId, count),
+              productCounterSection(context, productId!, count),
             ],
           );
         },
@@ -105,7 +113,7 @@ Widget _buildDescription(BuildContext context) {
       return Padding(
         padding: const EdgeInsets.only(top: 16),
         child: Text(
-          state.product.description,
+          state.product!.description,
           style: context.theme.typography.textTheme.bodyMedium
               .copyWith(color: context.theme.colors.body),
         ),

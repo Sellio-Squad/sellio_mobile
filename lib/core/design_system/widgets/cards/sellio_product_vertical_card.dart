@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
@@ -96,8 +95,8 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                                 child: Center(
                                   child: SvgPicture.asset(
                                     _isFavorite
-                                        ? Assets.favorite
-                                        : Assets.unselectedFavorite,
+                                        ? AppImages.favorite
+                                        : AppImages.unselectedFavorite,
                                     colorFilter: ColorFilter.mode(
                                       colors.primary,
                                       BlendMode.srcIn,
