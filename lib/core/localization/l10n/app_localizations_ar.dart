@@ -106,6 +106,25 @@ class AppLocalizationsAr extends AppLocalizations {
   String get design_editor => 'محرر التصميم';
 
   @override
+  String get try_again => 'حاول مرة أخرى';
+
+  @override
+  String get notifications_will_appear_here =>
+      'عندما يكون لديك إشعارات، ستظهر هنا';
+
+  @override
+  String get no_notifications_yet => 'لا توجد إشعارات بعد';
+
+  @override
+  String get something_went_wrong => 'حدث خطأ ما';
+
+  @override
+  String get notification_dismissed => 'تم رفض الإشعار';
+
+  @override
+  String get error_loading_notifications => 'خطأ في تحميل الإشعارات';
+
+  @override
   String get s => 'S';
 
   @override
