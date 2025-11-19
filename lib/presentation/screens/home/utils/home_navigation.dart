@@ -8,14 +8,7 @@ void navigateToStoreDetails(BuildContext context, Store store) {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => StoreDetailsScreen(
-        storeId: store.id,
-        coverImage: store.coverImage,
-        profileImage: store.profileImage,
-        storeName: store.name,
-        rating: store.rating,
-        discount: store.sale ?? '0',
-      ),
+      builder: (context) => StoreDetailsScreen(storeId: store.id),
     ),
   );
 }

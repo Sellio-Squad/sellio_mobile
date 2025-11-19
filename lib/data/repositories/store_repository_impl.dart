@@ -1,14 +1,16 @@
-import '../../core/error/result.dart';
-import '../../domain/entities/product.dart';
-import '../../domain/entities/review.dart';
-import '../../domain/entities/store.dart';
-import '../../domain/entities/store_rating.dart';
-import '../../domain/repositories/store_repository.dart';
+import 'package:sellio_mobile/core/error/result.dart';
+import 'package:sellio_mobile/domain/entities/product.dart';
+import 'package:sellio_mobile/domain/entities/review.dart';
+import 'package:sellio_mobile/domain/entities/store.dart';
+import 'package:sellio_mobile/domain/entities/store_rating.dart';
+import 'package:sellio_mobile/domain/repositories/store_repository.dart';
+
+import '../../core/design_system/constants/layout_constants.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/favorites_remote_datasource.dart';
-import '../datasources/remote/store_remote_datasource.dart';
+import '../datasource/remote/favorites_remote_datasource.dart';
+import '../datasource/remote/store_remote_datasource.dart';
 
 class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;
@@ -28,8 +30,8 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<Result<List<Store>>> getStores({
-    int page = 1,
-    int limit = 20,
+    int page = RepositoryConstants.defaultPage,
+    int limit = RepositoryConstants.defaultPageSize,
   }) async {
     return RepositoryCallHandler.call<List<Store>>(() async {
       final paginatedResponse = await _remoteDataSource.getStores(
@@ -51,7 +53,7 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<Result<List<Store>>> getTopStores({
-    int limit = 10,
+    int limit = RepositoryConstants.defaultTopStoresLimit,
   }) async {
     return RepositoryCallHandler.call<List<Store>>(() async {
       final paginatedResponse = await _remoteDataSource.getTopStores(
@@ -66,8 +68,8 @@ class StoreRepositoryImpl implements StoreRepository {
   Future<Result<List<Product>>> getStoreProducts({
     required String storeId,
     String? categoryId,
-    int page = 1,
-    int limit = 20,
+    int page = RepositoryConstants.defaultPage,
+    int limit = RepositoryConstants.defaultPageSize,
   }) async {
     return RepositoryCallHandler.call<List<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getStoreProducts(
@@ -84,13 +86,13 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Product>>> getStoreFeaturedProducts({
     required String storeId,
-    int limit = 10,
+    int limit = RepositoryConstants.defaultFeaturedProductsLimit,
   }) async {
     return RepositoryCallHandler.call<List<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getStoreProducts(
         storeId: storeId,
         page: 0,
-        pageSize: limit * 2,
+        pageSize: limit * RepositoryConstants.featuredProductsMultiplier,
       );
 
       return paginatedResponse.data
@@ -104,8 +106,8 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Store>>> searchStores({
     required String query,
-    int page = 1,
-    int limit = 20,
+    int page = RepositoryConstants.defaultPage,
+    int limit = RepositoryConstants.defaultPageSize,
   }) async {
     return RepositoryCallHandler.call<List<Store>>(() async {
       final paginatedResponse = await _remoteDataSource.searchStores(
@@ -165,8 +167,8 @@ class StoreRepositoryImpl implements StoreRepository {
   @override
   Future<Result<List<Review>>> getStoreReviews({
     required String storeId,
-    int page = 1,
-    int limit = 20,
+    int page = RepositoryConstants.defaultPage,
+    int limit = RepositoryConstants.defaultPageSize,
   }) async {
     return RepositoryCallHandler.call<List<Review>>(() async {
       final paginatedResponse = await _remoteDataSource.getStoreReviews(

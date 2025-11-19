@@ -24,19 +24,4 @@ class StoreRating {
       ratingDistribution: ratingDistribution ?? this.ratingDistribution,
     );
   }
-
-  factory StoreRating.dummy({String storeId = 'store_0'}) {
-    return StoreRating(
-      storeId: storeId,
-      averageRating: 4.2,
-      totalReviews: 150,
-      ratingDistribution: {
-        5: 90,
-        4: 40,
-        3: 15,
-        2: 3,
-        1: 2,
-      },
-    );
-  }
 }

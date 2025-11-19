@@ -4,7 +4,7 @@ import '../../domain/repositories/cart_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/cart_remote_datasource.dart';
+import '../datasource/remote/cart_remote_datasource.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartRemoteDataSource _remoteDataSource;

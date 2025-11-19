@@ -5,8 +5,8 @@ import '../../domain/repositories/product_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasources/remote/favorites_remote_datasource.dart';
-import '../datasources/remote/product_remote_datasource.dart';
+import '../datasource/remote/favorites_remote_datasource.dart';
+import '../datasource/remote/product_remote_datasource.dart';
 import '../models/common/paginated_response.dart';
 import '../models/product_model.dart';
 
@@ -277,4 +277,21 @@ class ProductRepositoryImpl implements ProductRepository {
       totalPages: response.totalPages,
     );
   }
+  @override
+  Future<Result<PaginatedData<Product>>> getThriftProducts({
+    String? categoryId,
+    int page = 1,
+    int limit = 20,
+  }) async {
+    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
+      final paginatedResponse = await _remoteDataSource.getThriftProducts(
+        categoryId: categoryId ?? '',
+        page: page - 1,
+        pageSize: limit,
+      );
+
+      return _mapToPaginatedData(paginatedResponse);
+    });
+  }
+
 }

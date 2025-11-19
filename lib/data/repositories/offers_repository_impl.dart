@@ -1,6 +1,6 @@
 import '../../domain/entities/special_offer.dart';
 import '../../domain/repositories/offers_repository.dart';
-import '../datasources/remote/offers_remote_datasource.dart';
+import '../datasource/remote/offers_remote_datasource.dart';
 
 class OffersRepositoryImpl implements OffersRepository {
   final OffersRemoteDataSource _remoteDataSource;

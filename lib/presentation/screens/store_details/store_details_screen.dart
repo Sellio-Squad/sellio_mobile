@@ -13,6 +13,15 @@ import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
 import '../../../domain/entities/store_rating.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
+import 'package:sellio_mobile/domain/entities/category.dart';
+import 'package:sellio_mobile/domain/entities/product.dart';
+import 'package:sellio_mobile/domain/entities/store.dart';
+import 'package:sellio_mobile/domain/entities/store_rating.dart';
+import 'package:sellio_mobile/domain/repositories/store_repository.dart';
+
+import '../../../core/design_system/constants/assets.dart';
+import '../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';
@@ -23,20 +32,10 @@ import 'widgets/store_products_list.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String storeId;
-  final String coverImage;
-  final String profileImage;
-  final String storeName;
-  final String discount;
-  final double rating;
 
   const StoreDetailsScreen({
     super.key,
     required this.storeId,
-    required this.coverImage,
-    required this.profileImage,
-    required this.storeName,
-    required this.discount,
-    required this.rating,
   });
 
   @override
@@ -44,11 +43,6 @@ class StoreDetailsScreen extends StatefulWidget {
 }
 
 class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
-  static const double _horizontalPadding = 16.0;
-  static const double _verticalPadding = 8.0;
-  static const double _sectionSpacing = 8.0;
-  static const double _iconSize = 24.0;
-
   int _selectedCategoryIndex = 0;
   bool _isFavorite = false;
 
@@ -64,15 +58,15 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: colors.surfaceLow,
-            appBar: _buildAppBar(context),
-            body: _buildBody(state),
+            appBar: _buildAppBar(context, state),
+            body: _buildBody(context, state),
           );
         },
       ),
     );
   }
 
-  Widget _buildBody(StoreDetailsState state) {
+  Widget _buildBody(BuildContext context, StoreDetailsState state) {
     if (state is StoreDetailsLoading || state is StoreDetailsInitial) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -89,7 +83,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
 
       return CustomScrollView(
         slivers: [
-          _buildStoreHeader(),
+          _buildStoreHeader(store),
           _buildStoreInfoCard(store, rating),
           _buildFeaturedItemsSection(products),
           _buildSectionSpacing(),
@@ -102,13 +96,13 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildStoreHeader() {
+  Widget _buildStoreHeader(Store store) {
     return SliverToBoxAdapter(
       child: StoreHeader(
-        coverImage: widget.coverImage,
-        profileImage: widget.profileImage,
-        storeName: widget.storeName,
-        discount: widget.discount,
+        coverImage: store.coverImage,
+        profileImage: store.profileImage,
+        storeName: store.name,
+        discount: store.sale ?? '',
       ),
     );
   }
@@ -117,17 +111,15 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
-          _horizontalPadding,
-          _verticalPadding,
-          _horizontalPadding,
-          _verticalPadding,
+          LayoutConstants.paddingHorizontal,
+          LayoutConstants.paddingVertical,
+          LayoutConstants.paddingHorizontal,
+          LayoutConstants.paddingVertical,
         ),
         child: StoreInfoOverview(
           location: store.address.city,
           rating: rating.averageRating,
-          tags: store.categories
-              .map((category) => category.name)
-              .toList(),
+          tags: store.categories.map((category) => category.name).toList(),
           description: store.description,
         ),
       ),
@@ -136,16 +128,15 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
 
   Widget _buildFeaturedItemsSection(List<Product> products) {
     return SliverToBoxAdapter(
-      child: FeaturedItemsSection(
-        products: products,
-      ),
+      child: FeaturedItemsSection(products: products),
     );
   }
 
-  Widget _buildSectionSpacing() =>
-      const SliverToBoxAdapter(child: SizedBox(height: _sectionSpacing));
+  Widget _buildSectionSpacing() => const SliverToBoxAdapter(
+        child: SizedBox(height: LayoutConstants.sectionSpacing),
+      );
 
-  Widget _buildCategoryTabs(store) {
+  Widget _buildCategoryTabs(Store store) {
     return SliverToBoxAdapter(
       child: StoreCategoryTabs(
         categories: store.categories,
@@ -182,13 +173,16 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  PreferredSizeWidget _buildAppBar(
+      BuildContext context, StoreDetailsState state) {
     final theme = context.theme;
     final colors = theme.colors;
 
+    final storeName = state is StoreDetailsLoaded ? state.store.name : '';
+
     return SellioAppBar(
       showBackButton: true,
-      title: widget.storeName,
+      title: storeName,
       actions: [
         _buildFavoriteButton(colors),
         _buildInfoButton(),
@@ -200,8 +194,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return IconButton(
       icon: SvgPicture.asset(
         _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
-        width: _iconSize,
-        height: _iconSize,
+        width: LayoutConstants.iconSizeMedium,
+        height: LayoutConstants.iconSizeMedium,
       ),
       onPressed: _toggleFavorite,
     );
@@ -211,8 +205,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return IconButton(
       icon: SvgPicture.asset(
         AppImages.alertCircle,
-        width: _iconSize,
-        height: _iconSize,
+        width: LayoutConstants.iconSizeMedium,
+        height: LayoutConstants.iconSizeMedium,
       ),
       onPressed: _navigateToAboutStore,
     );
