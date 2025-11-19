@@ -30,6 +30,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get add_to_cart => 'أضف إلى السلة';
 
   @override
+  String get empty_cart_title => 'سلة التسوق الخاصة بك فارغة!';
+
+  @override
+  String get empty_cart_desc => 'ابدأ في استكشاف وشراء العناصر المفضلة لديك';
+
+  @override
+  String get empty_cart_button => 'ابدأ التصفح';
+
+  @override
   String get reset => 'إعادة تعيين';
 
   @override

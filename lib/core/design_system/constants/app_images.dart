@@ -94,6 +94,7 @@ class AppImages {
   static const String discountTag = '$iconsPath/discount-tag-02.svg';
   static const String packageAdd = '$iconsPath/package-add.svg';
   static const String cartPackageDelivered = '$iconsPath/package-delivered.svg';
+  static const String cartEmpty = '$iconsPath/ic_cart_empty.svg';
 
   // Account screen
   static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';

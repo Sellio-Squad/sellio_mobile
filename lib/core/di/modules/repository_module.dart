@@ -1,9 +1,11 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/domain/repositories/notification_repository.dart';
 
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/cart_repository_impl.dart';
 import '../../../data/repositories/category_repository_impl.dart';
 import '../../../data/repositories/favorites_repository_impl.dart';
+import '../../../data/repositories/notification_repository_impl.dart';
 import '../../../data/repositories/offers_repository_impl.dart';
 import '../../../data/repositories/order_repository_impl.dart';
 import '../../../data/repositories/product_repository_impl.dart';
@@ -81,6 +83,10 @@ class RepositoryModule {
           () => OffersRepositoryImpl(
         remoteDataSource: sl(),
       ),
+    );
+
+    sl.registerLazySingleton<NotificationRepository>(
+          () => NotificationRepositoryImpl(),
     );
   }
 }
