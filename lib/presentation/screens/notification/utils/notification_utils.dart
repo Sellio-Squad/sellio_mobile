@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import '../extensions/notification_extensions.dart';
 
 class NotificationUtils {
   static String formatDateHeader(String dateString) {
@@ -21,12 +22,12 @@ class NotificationUtils {
     }
   }
 
-  static String getNotificationMessage(int state) {
+  static NotificationStateMessage getMessageType(int state) {
     return switch (state) {
-      0 => "has been placed successfully",
-      1 => "has been delivered successfully",
-      2 => "has been cancelled",
-      _ => "has been cancelled",
+      0 => NotificationStateMessage.placed,
+      1 => NotificationStateMessage.delivered,
+      2 => NotificationStateMessage.cancelled,
+      _ => NotificationStateMessage.cancelled,
     };
   }
 

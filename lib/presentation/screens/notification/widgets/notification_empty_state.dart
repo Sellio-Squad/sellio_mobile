@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 class NotificationEmptyState extends StatelessWidget {
   const NotificationEmptyState({super.key});
@@ -17,14 +18,14 @@ class NotificationEmptyState extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'No notifications yet',
+            context.local.no_notifications_yet,
             style: context.theme.typography.textTheme.titleMedium.copyWith(
               color: context.theme.colors.body,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            'When you have notifications, they will appear here',
+            context.local.notifications_will_appear_here,
             textAlign: TextAlign.center,
             style: context.theme.typography.textTheme.bodyMedium.copyWith(
               color: context.theme.colors.body.withOpacity(0.7),
