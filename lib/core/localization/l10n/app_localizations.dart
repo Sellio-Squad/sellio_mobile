@@ -140,6 +140,24 @@ abstract class AppLocalizations {
   /// **'Add to cart'**
   String get add_to_cart;
 
+  /// No description provided for @empty_cart_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty!'**
+  String get empty_cart_title;
+
+  /// No description provided for @empty_cart_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exploring and purchasing your favorite items'**
+  String get empty_cart_desc;
+
+  /// No description provided for @empty_cart_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Exploring'**
+  String get empty_cart_button;
+
   /// No description provided for @reset.
   ///
   /// In en, this message translates to:
