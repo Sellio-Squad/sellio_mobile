@@ -7,15 +7,15 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/ui/screens/account/AccountOptionCard.dart';
-import 'package:sellio_mobile/ui/screens/account/account_settings/account_settings_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
-import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
+import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 
 import '../../../core/design_system/constants/app_images.dart';
+import 'AccountOptionCard.dart';
 import 'account_options/account_options_bottom_sheet.dart';
+import 'account_settings/account_settings_bottom_sheet.dart';
+import 'delete_account/delete_account_bottom_sheet.dart';
 import 'language/change_language_bottom_sheet.dart';
+import 'logout/logout_bottom_sheet.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
