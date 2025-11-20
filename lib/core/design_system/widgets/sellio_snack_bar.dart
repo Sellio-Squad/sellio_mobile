@@ -27,6 +27,8 @@ class _SellioSnackBarState extends State<SellioSnackBar>
   late Animation<Offset> _slide;
   late Animation<double> _fade;
 
+  double dragOffset = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -76,39 +78,58 @@ class _SellioSnackBarState extends State<SellioSnackBar>
       position: _slide,
       child: FadeTransition(
         opacity: _fade,
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: context.theme.colors.surfaceLow,
-            boxShadow: [
-              BoxShadow(
-                color: shadowColor,
-                offset: const Offset(0, 4),
-                blurRadius: 24,
-                spreadRadius: 0,
+        child: Transform.translate(
+          offset: Offset(dragOffset, 0),
+          child: GestureDetector(
+            onHorizontalDragUpdate: (details) {
+              setState(() {
+                dragOffset += details.delta.dx;
+              });
+            },
+            onHorizontalDragEnd: (details) {
+              const dismissThreshold = 80;
+
+              if (dragOffset.abs() > dismissThreshold) {
+                _dismiss();
+              } else {
+                setState(() => dragOffset = 0);
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: context.theme.colors.surfaceLow,
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    offset: const Offset(0, 4),
+                    blurRadius: 24,
+                    spreadRadius: 0,
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              snackBarIcon(iconPath, iconColor),
-              const SizedBox(width: 8),
-              Expanded(
-                child: snackBarText(context, snackBarTitle, widget.message),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  snackBarIcon(iconPath, iconColor),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: snackBarText(context, snackBarTitle, widget.message),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: _dismiss,
+                    child: SvgPicture.asset(
+                      AppImages.cancelCircle,
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: _dismiss,
-                child: SvgPicture.asset(
-                  AppImages.cancelCircle,
-                  width: 20,
-                  height: 20,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
