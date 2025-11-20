@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/di/injection_container.dart';
+import '../../../di/injection_container.dart';
 import 'sections/categories/cubit/home_categories_cubit.dart';
 import 'sections/special_offers/cubit/home_special_offers_cubit.dart';
 import 'sections/trending_products/cubit/home_trending_products_cubit.dart';
