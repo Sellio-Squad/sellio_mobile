@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
 import '../constants/app_images.dart';
 
-class SellioSnackBar extends StatelessWidget {
+class SellioSnackBar extends StatefulWidget {
   final bool isError;
   final String message;
   final String? title;
@@ -19,44 +18,99 @@ class SellioSnackBar extends StatelessWidget {
   });
 
   @override
+  State<SellioSnackBar> createState() => _SellioSnackBarState();
+}
+
+class _SellioSnackBarState extends State<SellioSnackBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slide;
+  late Animation<double> _fade;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 280),
+    );
+
+    _slide = Tween<Offset>(
+      begin: const Offset(0, -0.4),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    _fade = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _controller.forward();
+    });
+  }
+
+  void _dismiss() {
+    _controller.reverse().then((_) => widget.onCancelTap());
+  }
+
+  @override
   Widget build(BuildContext context) {
     final themeColor = context.theme.colors;
-    final snackBarTitle = title ?? (isError ? 'Error' : 'Success');
-    final iconPath = isError ? AppImages.alertDiamond : AppImages.checkmarkBadge;
-    final iconColor = isError
+    final snackBarTitle =
+        widget.title ?? (widget.isError ? 'Error' : 'Success');
+
+    final iconPath = widget.isError
+        ? AppImages.alertDiamond
+        : AppImages.checkmarkBadge;
+
+    final iconColor = widget.isError
         ? themeColor.errorVariant
         : themeColor.greenVariant;
-    final shadowColor = isError
+
+    final shadowColor = widget.isError
         ? themeColor.red.withAlpha(35)
         : themeColor.green.withAlpha(35);
 
-    return Container(
-      padding: const EdgeInsets.all(8),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: context.theme.colors.surfaceLow,
-        boxShadow: [
-          BoxShadow(
-            color: shadowColor,
-            offset: const Offset(0, 4),
-            blurRadius: 24,
-            spreadRadius: 0,
+    return SlideTransition(
+      position: _slide,
+      child: FadeTransition(
+        opacity: _fade,
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: context.theme.colors.surfaceLow,
+            boxShadow: [
+              BoxShadow(
+                color: shadowColor,
+                offset: const Offset(0, 4),
+                blurRadius: 24,
+                spreadRadius: 0,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          snackBarIcon(iconPath, iconColor),
-          const SizedBox(width: 8),
-          Expanded(child: snackBarText(context, snackBarTitle, message)),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: onCancelTap,
-            child: SvgPicture.asset(AppImages.cancelCircle, width: 20, height: 20),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              snackBarIcon(iconPath, iconColor),
+              const SizedBox(width: 8),
+              Expanded(
+                child: snackBarText(context, snackBarTitle, widget.message),
+              ),
+              const SizedBox(width: 8),
+              GestureDetector(
+                onTap: _dismiss,
+                child: SvgPicture.asset(
+                  AppImages.cancelCircle,
+                  width: 20,
+                  height: 20,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -93,5 +147,11 @@ class SellioSnackBar extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
