@@ -15,7 +15,7 @@ import 'package:sellio_mobile/presentation/screens/notification/notification_scr
 import 'package:sellio_mobile/presentation/screens/product_details/product_details_screen.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/about_store/about_store.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
-import 'package:sellio_mobile/ui/screens/account/account_screen.dart';
+import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
 import 'app_routes.dart';
 
