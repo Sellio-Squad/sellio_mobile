@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
-import '../constants/app_icons.dart';
+import '../constants/app_images.dart';
 import '../constants/app_strings.dart';
 
 class SellioBottomNavBar extends StatelessWidget {
@@ -72,30 +71,30 @@ class _NavigationItems extends StatelessWidget {
       child: Row(
         children: [
           _NavBarItem(
-            iconPath: AppIcons.home,
-            selectedIconPath: AppIcons.homeSelected,
+            iconPath: AppImages.home,
+            selectedIconPath: AppImages.homeSelected,
             label: AppStrings.home,
             isSelected: currentIndex == 0,
             onTap: () => onTap(0),
           ),
           _NavBarItem(
-            iconPath: AppIcons.cart,
-            selectedIconPath: AppIcons.cartSelected,
+            iconPath: AppImages.cart,
+            selectedIconPath: AppImages.cartSelected,
             label: AppStrings.cart,
             isSelected: currentIndex == 1,
             onTap: () => onTap(1),
           ),
           const Expanded(child: SizedBox()),
           _NavBarItem(
-            iconPath: AppIcons.thrift,
-            selectedIconPath: AppIcons.thriftSelected,
+            iconPath: AppImages.thrift,
+            selectedIconPath: AppImages.thriftSelected,
             label: AppStrings.thrift,
             isSelected: currentIndex == 3,
             onTap: () => onTap(3),
           ),
           _NavBarItem(
-            iconPath: AppIcons.account,
-            selectedIconPath: AppIcons.accountSelected,
+            iconPath: AppImages.account,
+            selectedIconPath: AppImages.accountSelected,
             label: AppStrings.account,
             isSelected: currentIndex == 4,
             onTap: () => onTap(4),
@@ -254,7 +253,7 @@ class _CenterButtonState extends State<_CenterButton>
                 ),
                 child: Center(
                   child: SvgPicture.asset(
-                    AppIcons.magicStick,
+                    AppImages.magicStick,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(

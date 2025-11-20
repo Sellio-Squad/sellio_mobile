@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
-
-import '../constants/assets.dart';
+import '../constants/app_images.dart';
 
 class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
@@ -58,7 +56,7 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
       return Padding(
         padding: const EdgeInsets.only(left: _leadingPadding),
         child: IconButton(
-          icon: SvgPicture.asset(Assets.arrowLeft),
+          icon: SvgPicture.asset(AppImages.arrowLeft),
           onPressed: () => context.navigator.pop(),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),

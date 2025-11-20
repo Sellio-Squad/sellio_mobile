@@ -1,10 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import '../../constants/app_icons.dart';
+import '../../constants/app_images.dart';
 
 class SellioProductVerticalCard extends StatefulWidget {
   final String imageUrl;
@@ -27,7 +25,7 @@ class SellioProductVerticalCard extends StatefulWidget {
     required this.onDecrement,
     this.onFavorite,
     this.isFavorite = false,
-    this.onTap, // Add here
+    this.onTap,
   });
 
   @override
@@ -60,7 +58,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     return Material(
       color: colors.surface,
       borderRadius: BorderRadius.circular(8),
-      child: InkWell( // Wrap the card for onTap
+      child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: widget.onTap,
         child: SizedBox(
@@ -97,8 +95,8 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                                 child: Center(
                                   child: SvgPicture.asset(
                                     _isFavorite
-                                        ? Assets.favorite
-                                        : Assets.unselectedFavorite,
+                                        ? AppImages.favorite
+                                        : AppImages.unselectedFavorite,
                                     colorFilter: ColorFilter.mode(
                                       colors.primary,
                                       BlendMode.srcIn,
@@ -172,7 +170,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
         child: InkWell(
           onTap: widget.onIncrement,
           child: SvgPicture.asset(
-            Assets.add,
+            AppImages.add,
             colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
             width: 16,
             height: 16,
@@ -212,7 +210,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               child: InkWell(
                 onTap: widget.onDecrement,
                 child: SvgPicture.asset(
-                  Assets.remove,
+                  AppImages.remove,
                   colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
@@ -238,7 +236,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               child: InkWell(
                 onTap: widget.onIncrement,
                 child: SvgPicture.asset(
-                  Assets.add,
+                  AppImages.add,
                   colorFilter: ColorFilter.mode(
                     colors.primary,
                     BlendMode.srcIn,
@@ -267,20 +265,20 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
           return progress == null
               ? child
               : Container(
-            width: 152,
-            height: 145,
-            color: colors.surface,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+                  width: 152,
+                  height: 145,
+                  color: colors.surface,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
         },
         errorBuilder: (context, error, stackTrace) {
-          return Image.asset(
-            AppIcons.placeholder,
-            width: double.infinity,
-            height: 145,
-            fit: BoxFit.cover,
+          return  Image.asset(
+              AppImages.placeholder,
+              width: double.infinity,
+              height: 145,
+              fit: BoxFit.cover
           );
         },
       ),

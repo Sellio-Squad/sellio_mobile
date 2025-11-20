@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import '../../constants/app_images.dart';
 
 class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
@@ -120,7 +121,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
         child: InkWell(
           onTap: onIncrement,
           child: SvgPicture.asset(
-            Assets.cart,
+            AppImages.cart,
             colorFilter: ColorFilter.mode(
               colors.primary,
               BlendMode.srcIn,
@@ -163,7 +164,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
               child: InkWell(
                 onTap: onDecrement,
                 child: SvgPicture.asset(
-                  Assets.remove,
+                  AppImages.remove,
                   colorFilter: ColorFilter.mode(
                     colors.body,
                     BlendMode.srcIn,
@@ -194,7 +195,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
               child: InkWell(
                 onTap: onIncrement,
                 child: SvgPicture.asset(
-                  Assets.add,
+                  AppImages.add,
                   colorFilter: ColorFilter.mode(
                     colors.primary,
                     BlendMode.srcIn,

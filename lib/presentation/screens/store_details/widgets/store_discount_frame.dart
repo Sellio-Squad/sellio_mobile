@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import '../../../../../core/design_system/constants/assets.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 
 class StoreDiscountTag extends StatelessWidget {
   final String discount;
@@ -13,7 +13,7 @@ class StoreDiscountTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SvgPicture.asset(Assets.storeDiscountFrame, fit: BoxFit.fill),
+        SvgPicture.asset(AppImages.storeDiscountFrame, fit: BoxFit.fill),
         Positioned.fill(
           child: Padding(
             padding: const EdgeInsets.only(
@@ -28,7 +28,7 @@ class StoreDiscountTag extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SvgPicture.asset(
-                    Assets.discountIcon,
+                    AppImages.discountIcon,
                     width: 16,
                     height: 16,
                     colorFilter: ColorFilter.mode(

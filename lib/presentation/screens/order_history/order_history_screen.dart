@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/order_details_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
+import '../../../core/design_system/constants/app_images.dart';
 import '../../../domain/entities/order.dart';
 import 'cubit/order_history_cubit.dart';
 import 'cubit/order_history_state.dart';
@@ -90,7 +90,7 @@ Widget emptyOrderHistory(BuildContext context) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(Assets.noOrderHistory, width: 112, height: 112),
+        Image.asset(AppImages.noOrderHistory, width: 112, height: 112),
         Text(
           context.local.no_order_history,
           style: context.theme.typography.textTheme.titleSmall.copyWith(

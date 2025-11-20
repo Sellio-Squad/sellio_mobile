@@ -3,7 +3,7 @@ import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
 import 'models/favorite_product_model.dart';
 import 'models/favorite_store_model.dart';
@@ -103,7 +103,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 6),
                       child: SellioChip(
                         label: _tabs[index],
-                        assetIcon: index == 0 ? Assets.product : Assets.store,
+                        assetIcon: index == 0 ? AppImages.product : AppImages.store,
                         selected: isSelected,
                         onTap: () => setState(() => _selectedTabIndex = index),
                       ),

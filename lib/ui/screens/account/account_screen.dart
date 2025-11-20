@@ -13,7 +13,7 @@ import 'package:sellio_mobile/ui/screens/account/delete_account/delete_account_b
 import 'package:sellio_mobile/ui/screens/account/logout/logout_bottom_sheet.dart';
 import 'package:sellio_mobile/ui/screens/account/reset_password/reset_password_content.dart';
 
-import '../../../core/design_system/constants/assets.dart';
+import '../../../core/design_system/constants/app_images.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'language/change_language_bottom_sheet.dart';
 
@@ -47,7 +47,7 @@ class _AccountScreenState extends State<AccountScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14),
                 child: SvgPicture.asset(
-                  Assets.moreHorizontalSquare,
+                  AppImages.moreHorizontalSquare,
                   width: 24,
                   height: 24,
                 ),
@@ -69,8 +69,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     child: Column(
                       children: [
                         uploadImageCard(
-                          imagePath: Assets.cat,
-                          editIconPath: Assets.pencilEdit,
+                          imagePath: AppImages.cat,
+                          editIconPath: AppImages.pencilEdit,
                           context: context,
                           onEditTap: () {},
                         ),
@@ -93,47 +93,47 @@ class _AccountScreenState extends State<AccountScreen> {
                     children: [
                       Expanded(
                         child: AccountCustomCard(
-                            icon: Assets.package,
+                            icon: AppImages.package,
                             orderTitle: AppStrings.myOrders),
                       ),
                       const SizedBox(width:8),
                       Expanded(
                         child: AccountCustomCard(
-                            icon: Assets.heartCheck,
+                            icon: AppImages.heartCheck,
                             orderTitle: AppStrings.myFavourites),
                       ),
                     ],
                   ),
                   const SizedBox(height:16),
                   AccountOptionCard(
-                    prefixIcon: Assets.repair,
+                    prefixIcon: AppImages.repair,
                     orderTitle: AppStrings.accountSettings,
                     onCardClicked: () {
                       _showAccountSettingsBottomSheet(context);
                     },
-                    trailing: SvgPicture.asset(Assets.arrowRightCustom),
+                    trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
                   const SizedBox(height:12),
                   AccountOptionCard(
-                    prefixIcon: Assets.circleLockAdd,
+                    prefixIcon: AppImages.circleLockAdd,
                     orderTitle: AppStrings.resetPassword,
                     onCardClicked: () {
                       _showResetPasswordBottomSheet(context);
                     },
-                    trailing: SvgPicture.asset(Assets.arrowRightCustom),
+                    trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
                   const SizedBox(height:12),
                   AccountOptionCard(
-                    prefixIcon: Assets.languageCircle,
+                    prefixIcon: AppImages.languageCircle,
                     orderTitle: AppStrings.language,
                     onCardClicked: () {
                       _showLanguageBottomSheet(context);
                     },
-                    trailing: SvgPicture.asset(Assets.arrowRightCustom),
+                    trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
                   const SizedBox(height:12),
                   AccountOptionCard(
-                    prefixIcon: Assets.notification,
+                    prefixIcon: AppImages.notification,
                     orderTitle: AppStrings.notification,
                     onCardClicked: () {},
                     trailing: SellioSwitch(
@@ -143,7 +143,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   const SizedBox(height:12),
                   AccountOptionCard(
-                    prefixIcon: Assets.mobileProgramming,
+                    prefixIcon: AppImages.mobileProgramming,
                     orderTitle: AppStrings.appVersion,
                     onCardClicked: () {},
                     trailing: Text(

@@ -1,11 +1,13 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
+import '../../../../core/design_system/constants/app_images.dart';
 
 class UploadLogoSection extends StatefulWidget {
   final Function(File?) onImageSelected;
@@ -54,7 +56,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
               color: context.theme.colors.surface,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: context.theme.colors.disabled ?? Colors.grey[300]!,
+                color: context.theme.colors.disabled,
                 width: 1,
               ),
             ),
@@ -63,7 +65,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
-                  Assets.upload,
+                  AppImages.upload,
                   width: 48,
                   height: 78,
                   fit: BoxFit.scaleDown,
@@ -98,7 +100,7 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
                         ),
                         child: Center(
                           child: SvgPicture.asset(
-                            Assets.pencilEdit,
+                            AppImages.pencilEdit,
                             width: 20,
                             height: 20,
                             colorFilter: ColorFilter.mode(

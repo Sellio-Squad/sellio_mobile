@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
+import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
@@ -10,7 +10,12 @@ import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/entities/store_rating.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
+import '../../../../../../domain/repositories/store_repository.dart';
+import '../../../core/design_system/constants/app_images.dart';
+import '../../../domain/entities/StoreRating.dart';
+import '../../../domain/entities/category.dart';
+import '../../../domain/entities/product.dart';
+import '../../../domain/entities/store.dart';
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/store_details_cubit.dart';
@@ -168,7 +173,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   Widget _buildFavoriteButton(dynamic colors) {
     return IconButton(
       icon: SvgPicture.asset(
-        _isFavorite ? Assets.favorite : Assets.unselectedFavorite,
+        _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
         width: LayoutConstants.iconSizeMedium,
         height: LayoutConstants.iconSizeMedium,
       ),
@@ -179,7 +184,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   Widget _buildInfoButton() {
     return IconButton(
       icon: SvgPicture.asset(
-        AppIcons.alertCircle,
+        AppImages.alertCircle,
         width: LayoutConstants.iconSizeMedium,
         height: LayoutConstants.iconSizeMedium,
       ),

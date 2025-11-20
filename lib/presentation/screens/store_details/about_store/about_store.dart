@@ -4,7 +4,6 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/domain/entities/store.dart' as entity;
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
 import '../../../../core/design_system/constants/app_icons.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/layout_constants.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
+import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -68,7 +68,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         actions: [
           IconButton(
             icon: SvgPicture.asset(
-              _isFavorite ? Assets.favorite : Assets.unselectedFavorite,
+              _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
               width: 28,
               height: 28,
             ),
@@ -94,7 +94,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         height: 110,
                         color: Colors.grey[200],
                         child: Image.asset(
-                          'assets/images/lemon_popsicle.jpg',
+                          'AppImages/images/lemon_popsicle.jpg',
                           width: 110,
                           height: 110,
                           fit: BoxFit.cover,
@@ -118,7 +118,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         height: 110,
                         color: Colors.grey[200],
                         child: Image.asset(
-                          'assets/images/lemon_cheesecake.jpg',
+                          'AppImages/images/lemon_cheesecake.jpg',
                           width: 110,
                           height: 110,
                           fit: BoxFit.cover,
@@ -144,7 +144,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       height: 224,
                       color: Colors.grey[200],
                       child: Image.asset(
-                        'assets/images/lemon_cake_main.jpg',
+                        'AppImages/images/lemon_cake_main.jpg',
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Center(
@@ -204,7 +204,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              Assets.remove,
+                              AppImages.remove,
                               width: 16,
                               height: 16,
                               colorFilter: ColorFilter.mode(
@@ -241,7 +241,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              Assets.add,
+                              AppImages.add,
                               width: 16,
                               height: 16,
                               colorFilter: ColorFilter.mode(
@@ -280,7 +280,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: SellioButton(
           text: context.local.add_to_cart,
           onTap: () {},
-          suffixSvgPath: Assets.cart,
+          suffixSvgPath: AppImages.cart,
         ),
       ),
     );

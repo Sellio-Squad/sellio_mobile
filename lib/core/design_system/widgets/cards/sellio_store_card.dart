@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
-import '../../constants/assets.dart';
+import '../../constants/app_images.dart';
 import '../discount_tag.dart';
 
 class SellioStoreCard extends StatelessWidget {
@@ -90,12 +89,12 @@ class SellioStoreCard extends StatelessWidget {
                         child: IconButton(
                           icon: isFavorite
                               ? SvgPicture.asset(
-                                  Assets.favouriteIcon,
+                                  AppImages.favouriteIcon,
                                   width: 24,
                                   height: 24,
                                 )
                               : SvgPicture.asset(
-                                  Assets.favorite,
+                                  AppImages.favorite,
                                   width: 24,
                                   height: 24,
                                 ),

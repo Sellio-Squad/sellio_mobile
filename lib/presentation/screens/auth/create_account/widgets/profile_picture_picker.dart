@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
+import '../../../../../core/design_system/constants/app_images.dart';
 
 class ProfilePicturePickerWidget extends StatelessWidget {
   final Function(File?) onImageSelected;
@@ -47,7 +48,7 @@ class ProfilePicturePickerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(
-                          Assets.upload,
+                          AppImages.upload,
                           width: 48,
                           height: 78,
                           fit: BoxFit.scaleDown,
@@ -84,7 +85,7 @@ class ProfilePicturePickerWidget extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: SvgPicture.asset(
-                                    Assets.pencilEdit,
+                                    AppImages.pencilEdit,
                                     width: 20,
                                     height: 20,
                                     colorFilter: ColorFilter.mode(

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/design_system/constants/assets.dart';
+import '../../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../../domain/entities/category.dart';
 import '../../../../../../domain/repositories/category_repository.dart';
 import 'home_categories_state.dart';
@@ -33,12 +33,12 @@ class HomeCategoriesCubit extends Cubit<HomeCategoriesState> {
 
   String _getCategoryIcon(String name) {
     const iconMap = {
-      'All': Assets.allCategories,
-      'Food': Assets.food,
-      'Drinks': Assets.drinks,
-      'Clothes': Assets.clothes,
+      'All': AppImages.allCategories,
+      'Food': AppImages.food,
+      'Drinks': AppImages.drinks,
+      'Clothes': AppImages.clothes,
     };
-    return iconMap[name] ?? Assets.allCategories;
+    return iconMap[name] ?? AppImages.allCategories;
   }
 }
 

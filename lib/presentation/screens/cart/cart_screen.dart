@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-
+import '../../../core/app_management/route/navigation_extensions.dart';
+import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/buttons/sellio_button.dart';
@@ -208,7 +209,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Row(
             children: [
-              SvgPicture.asset(Assets.discountTag),
+              SvgPicture.asset(AppImages.discountTag),
               const Gap(4),
               Text(
                 AppStrings.totalPrice,
@@ -226,7 +227,7 @@ class _CartScreenState extends State<CartScreen> {
             text: '${AppStrings.confirmOrder} ($count)',
             backgroundColor: colors.primary,
             fullWidth: true,
-            suffixSvgPath: Assets.packageAdd,
+            suffixSvgPath: AppImages.packageAdd,
             onTap: () => _showOrderConfirmation(context),
           ),
         ],
@@ -259,7 +260,7 @@ class _CartScreenState extends State<CartScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: SvgPicture.asset(
-                  Assets.cartPackageDelivered,
+                  AppImages.cartPackageDelivered,
                   colorFilter: ColorFilter.mode(
                     theme.colors.primary,
                     BlendMode.srcIn,
