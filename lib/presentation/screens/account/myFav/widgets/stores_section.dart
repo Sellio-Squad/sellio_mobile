@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/ui/screens/home/widgets/top_stores/top_stores_section.dart';
+import 'package:sellio_mobile/presentation/screens/home/widgets/top_stores_section.dart';
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {

@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../../../../../domain/repositories/store_repository.dart';
