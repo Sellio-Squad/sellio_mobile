@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import '../../../core/app_management/route/navigation_extensions.dart';
 import '../../../core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
-import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
@@ -52,7 +50,7 @@ class _CartScreenState extends State<CartScreen> {
           }
 
           final cart = state.cart!;
-          final totalPrice = cart.items.fold(
+          cart.items.fold(
             0.0,
             (sum, item) => sum + (item.price * item.quantity),
           );

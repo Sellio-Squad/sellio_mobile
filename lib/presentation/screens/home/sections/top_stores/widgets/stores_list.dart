@@ -5,11 +5,6 @@ import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_store_card
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import '../../../../../../core/design_system/widgets/section_header.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
-import '../../../../core/design_system/constants/app_images.dart';
-import '../../../../core/design_system/widgets/cards/store_card.dart';
-import '../../../../core/design_system/widgets/section_header.dart';
-import '../../../../domain/entities/store.dart';
 
 class StoresList extends StatelessWidget {
   final List<Store> stores;

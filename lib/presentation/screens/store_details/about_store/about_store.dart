@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/domain/entities/store.dart' as entity;
+import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-import '../../../../core/design_system/constants/app_icons.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/about_store_cubit.dart';
@@ -119,7 +119,7 @@ class AboutStore extends StatelessWidget {
 
   List<Widget> _buildContactInfoList(
     BuildContext context,
-    List<entity.ContactInfo> contactInfoList,
+    List<ContactInfo> contactInfoList,
   ) {
     final widgets = <Widget>[];
 
@@ -145,23 +145,23 @@ class AboutStore extends StatelessWidget {
     return widgets;
   }
 
-  String _getContactIcon(entity.ContactType type) {
+  String _getContactIcon(ContactType type) {
     switch (type) {
-      case entity.ContactType.email:
+      case ContactType.email:
         return AppImages.email;
-      case entity.ContactType.phone:
-      case entity.ContactType.whatsapp:
+      case ContactType.phone:
+      case ContactType.whatsapp:
         return AppImages.phone;
-      case entity.ContactType.facebook:
+      case ContactType.facebook:
         return AppImages.facebook;
-      case entity.ContactType.website:
+      case ContactType.website:
         return AppImages.email;
     }
   }
 
   Future<void> _handleContactTap(
     BuildContext context,
-    entity.ContactInfo contact,
+    ContactInfo contact,
   ) async {
     final result = await ContactActionHandler.handleContact(contact);
 
