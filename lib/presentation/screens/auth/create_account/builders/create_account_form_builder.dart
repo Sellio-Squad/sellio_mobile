@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
-import '../../../../../core/design_system/constants/assets.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../country.dart';
@@ -159,7 +159,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: SvgPicture.asset(
-                    Assets.phone,
+                    AppImages.phone,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
@@ -193,7 +193,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 ],
                 prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                 prefixIcon: SvgPicture.asset(
-                  Assets.account,
+                  AppImages.account,
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(
@@ -217,7 +217,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                       prefixIconPadding:
                           const EdgeInsets.only(left: 16, right: 8),
                       prefixIcon: SvgPicture.asset(
-                        Assets.location,
+                        AppImages.location,
                         width: 24,
                         height: 24,
                         colorFilter: ColorFilter.mode(
@@ -241,7 +241,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                       prefixIconPadding:
                           const EdgeInsets.only(left: 16, right: 8),
                       prefixIcon: SvgPicture.asset(
-                        Assets.location,
+                        AppImages.location,
                         width: 24,
                         height: 24,
                         colorFilter: ColorFilter.mode(
@@ -262,7 +262,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
-                  Assets.password,
+                  AppImages.password,
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(
@@ -280,7 +280,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
-                  Assets.password,
+                  AppImages.password,
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-
-import '../../../../core/design_system/constants/assets.dart';
 import '../../../../core/design_system/themes/sellio_colors.dart';
 import '../../../../core/design_system/themes/sellio_typography.dart';
 
@@ -29,7 +28,7 @@ class EmptyCartSection extends StatelessWidget {
             color: Color(0xFFFEF5F9),
             shape: BoxShape.circle,
           ),
-          child: SvgPicture.asset(Assets.cartEmpty),
+          child: SvgPicture.asset(AppImages.cartEmpty),
         ),
         const Gap(12),
         Text(

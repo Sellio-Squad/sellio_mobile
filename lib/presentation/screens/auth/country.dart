@@ -1,4 +1,5 @@
-import '../../../core/design_system/constants/assets.dart';
+
+import '../../../core/design_system/constants/app_images.dart';
 
 class Country {
   final String name;
@@ -16,11 +17,11 @@ final List<Country> mockCountries = [
   Country(
     name: 'Iraq',
     code: '+964',
-    flagAsset: Assets.flagIraq,
+    flagAsset: AppImages.flagIraq,
   ),
   Country(
     name: 'Egypt',
     code: '+20',
-    flagAsset: Assets.flagIraq,
+    flagAsset: AppImages.flagIraq,
   ),
 ];

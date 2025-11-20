@@ -5,8 +5,8 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
+import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/constants/app_strings.dart';
-import '../../../../../core/design_system/constants/assets.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(right: 4),
                   child: SvgPicture.asset(
-                    Assets.phone,
+                    AppImages.phone,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(
@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                 hintText: 'Password',
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
-                  Assets.password,
+                  AppImages.password,
                   width: 24,
                   height: 24,
                   colorFilter: ColorFilter.mode(

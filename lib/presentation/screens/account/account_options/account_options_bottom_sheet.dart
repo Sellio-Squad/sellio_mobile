@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_icons.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
+import '../../../../core/design_system/constants/app_images.dart';
 
 class AccountOptionsBottomSheet extends StatelessWidget {
   final Function() onLogout;
@@ -44,7 +45,7 @@ class AccountOptionsBottomSheet extends StatelessWidget {
             text: context.local.logout,
             backgroundColor: context.theme.colors.errorVariant,
             prefixIconColor: context.theme.colors.red,
-            prefixSvgPath: AppIcons.logout,
+            prefixSvgPath: AppImages.logout,
             textColor: context.theme.colors.red,
             onTap: onLogout,
             contentAlignment: MainAxisAlignment.start,
@@ -55,7 +56,7 @@ class AccountOptionsBottomSheet extends StatelessWidget {
             backgroundColor: context.theme.colors.errorVariant,
             prefixIconColor: context.theme.colors.red,
             textColor: context.theme.colors.red,
-            prefixSvgPath: AppIcons.deleteAccount,
+            prefixSvgPath: AppImages.deleteAccount,
             onTap: onDeleteAccount,
             contentAlignment: MainAxisAlignment.start,
           ),

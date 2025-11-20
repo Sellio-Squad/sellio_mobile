@@ -5,7 +5,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/domain/entities/store.dart' as entity;
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 
-import '../../../../core/design_system/constants/app_icons.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/about_store_cubit.dart';
@@ -149,14 +149,14 @@ class AboutStore extends StatelessWidget {
   String _getContactIcon(entity.ContactType type) {
     switch (type) {
       case entity.ContactType.email:
-        return AppIcons.email;
+        return AppImages.email;
       case entity.ContactType.phone:
       case entity.ContactType.whatsapp:
-        return AppIcons.phone;
+        return AppImages.phone;
       case entity.ContactType.facebook:
-        return AppIcons.facebook;
+        return AppImages.facebook;
       case entity.ContactType.website:
-        return AppIcons.email; // Replace with website icon if available
+        return AppImages.email; // Replace with website icon if available
     }
   }
 

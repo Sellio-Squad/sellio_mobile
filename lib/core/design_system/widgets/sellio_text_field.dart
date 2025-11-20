@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/assets.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../presentation/screens/auth/country.dart';
+import '../constants/app_images.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -57,7 +56,7 @@ class SellioTextField extends StatefulWidget {
     this.errorStyle,
     this.controller,
     this.isPhoneNumber = false,
-    this.countryFlag = Assets.flagIraq,
+    this.countryFlag = AppImages.flagIraq,
     this.selectedCountry,
     this.countries,
     this.onChangeCountry,
@@ -200,7 +199,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
               hintStyle: hintTextStyle,
               prefixIcon: widget.isParagraph
                   ? null
-                  : _buildPrefixIcon(iconColor, Assets.iconsPath),
+                  : _buildPrefixIcon(iconColor, AppImages.iconsPath),
               prefixIconConstraints: const BoxConstraints(
                 minWidth: 24,
                 minHeight: 24,
@@ -255,7 +254,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
               selectedCountry: widget.selectedCountry!,
               countries: widget.countries!,
               onChanged: widget.onChangeCountry!,
-              countryFlag: widget.countryFlag ?? Assets.flagIraq,
+              countryFlag: widget.countryFlag ?? AppImages.flagIraq,
             ),
         ],
       ),
@@ -268,7 +267,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     if (widget.inputType == TextInputType.visiblePassword) {
       return IconButton(
         icon: SvgPicture.asset(
-          isObscured ? Assets.closeEye : Assets.openEye,
+          isObscured ? AppImages.closeEye : AppImages.openEye,
           colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
         ),
         onPressed: () {
@@ -302,7 +301,7 @@ Widget _buildCountryDropdown({
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              SvgPicture.asset(Assets.arrowDown, width: 16, height: 16),
+              SvgPicture.asset(AppImages.arrowDown, width: 16, height: 16),
               const Gap(8),
               SvgPicture.asset(countryFlag, width: 24, height: 24),
               const Gap(8),

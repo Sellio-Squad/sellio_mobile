@@ -290,6 +290,42 @@ abstract class AppLocalizations {
   /// **'Design editor'**
   String get design_editor;
 
+  /// No description provided for @try_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get try_again;
+
+  /// No description provided for @notifications_will_appear_here.
+  ///
+  /// In en, this message translates to:
+  /// **'When you have notifications, they will appear here'**
+  String get notifications_will_appear_here;
+
+  /// No description provided for @no_notifications_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get no_notifications_yet;
+
+  /// No description provided for @something_went_wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get something_went_wrong;
+
+  /// No description provided for @notification_dismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification dismissed'**
+  String get notification_dismissed;
+
+  /// No description provided for @error_loading_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading notifications'**
+  String get error_loading_notifications;
+
   /// No description provided for @s.
   ///
   /// In en, this message translates to:

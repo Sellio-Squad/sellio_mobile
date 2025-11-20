@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 
-import '../constants/assets.dart';
+import '../constants/app_images.dart';
 
 class SellioSnackBar extends StatelessWidget {
   final bool isError;
@@ -22,7 +22,7 @@ class SellioSnackBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeColor = context.theme.colors;
     final snackBarTitle = title ?? (isError ? 'Error' : 'Success');
-    final iconPath = isError ? Assets.alertDiamond : Assets.checkmarkBadge;
+    final iconPath = isError ? AppImages.alertDiamond : AppImages.checkmarkBadge;
     final iconColor = isError
         ? themeColor.errorVariant
         : themeColor.greenVariant;
@@ -54,7 +54,7 @@ class SellioSnackBar extends StatelessWidget {
           const SizedBox(width: 8),
           GestureDetector(
             onTap: onCancelTap,
-            child: SvgPicture.asset(Assets.cancelCircle, width: 20, height: 20),
+            child: SvgPicture.asset(AppImages.cancelCircle, width: 20, height: 20),
           ),
         ],
       ),

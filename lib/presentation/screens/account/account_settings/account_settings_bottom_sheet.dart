@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
+import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
-import '../../../../core/design_system/constants/assets.dart';
-import '../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
-import '../../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../../../presentation/screens/auth/country.dart';
 
 class AccountSettingsBottomSheet extends StatefulWidget {
@@ -74,7 +73,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
             prefixIcon: Padding(
               padding: const EdgeInsets.only(right: 4),
               child: SvgPicture.asset(
-                Assets.phone,
+                AppImages.phone,
                 width: 24,
                 height: 24,
                 colorFilter: ColorFilter.mode(
@@ -105,7 +104,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
             ],
             prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
             prefixIcon: SvgPicture.asset(
-              Assets.account,
+              AppImages.account,
               width: 24,
               height: 24,
               colorFilter: ColorFilter.mode(

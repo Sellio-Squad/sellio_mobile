@@ -108,6 +108,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get design_editor => 'Design editor';
 
   @override
+  String get try_again => 'Try Again';
+
+  @override
+  String get notifications_will_appear_here =>
+      'When you have notifications, they will appear here';
+
+  @override
+  String get no_notifications_yet => 'No notifications yet';
+
+  @override
+  String get something_went_wrong => 'Something went wrong';
+
+  @override
+  String get notification_dismissed => 'Notification dismissed';
+
+  @override
+  String get error_loading_notifications => 'Error loading notifications';
+
+  @override
   String get s => 'S';
 
   @override

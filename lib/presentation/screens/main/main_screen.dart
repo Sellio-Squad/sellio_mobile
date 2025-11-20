@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
-import '../../../ui/screens/account/account_screen.dart';
+import '../account/account_screen.dart';
 import '../cart/cart_screen.dart';
 import '../customize_product/customize_your_product_screen.dart';
 import '../home/home_screen.dart';

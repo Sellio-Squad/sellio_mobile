@@ -5,12 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
 
+import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/constants/app_strings.dart';
-import '../../../core/design_system/constants/assets.dart';
 import '../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
 import '../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../../core/navigate/navigation_extensions.dart';
+import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 
@@ -55,18 +56,23 @@ class _CartScreenState extends State<CartScreen> {
             (sum, item) => sum + (item.price * item.quantity),
           );
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
-            child: Column(
-              children: [
-                _buildHeader(cart.items.length, textTheme, colors),
-                const Gap(12),
-                _buildCartItems(cart, state),
-                const Gap(12),
-                Divider(color: colors.stroke, thickness: 1),
-                const Gap(12),
-                _buildNoteSection(textTheme, colors),
-              ],
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
+              child: Column(
+                children: [
+                  _buildHeader(cart.items.length, textTheme, colors),
+                  const Gap(12),
+                  Builder(
+                    builder: (context) => _buildCartItems(context, cart, state),
+                  ),
+                  const Gap(12),
+                  Divider(color: colors.stroke, thickness: 1),
+                  const Gap(12),
+                  _buildNoteSection(textTheme, colors),
+                ],
+              ),
             ),
           );
         },
@@ -143,7 +149,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildCartItems(cart, CartState state) {
+  Widget _buildCartItems(BuildContext context, cart, CartState state) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -153,17 +159,25 @@ class _CartScreenState extends State<CartScreen> {
         final item = cart.items[index];
         final qty = state.productCounts[item.productId] ?? item.quantity;
 
-        return SellioProductHorizontalCard(
-          imageUrl: item.productImage,
-          title: item.productName,
-          description: '',
-          price: '${item.currency} ${item.price}',
-          originalPrice: null,
-          count: qty,
-          onIncrement: () =>
-              context.read<CartCubit>().incrementProduct(item.productId),
-          onDecrement: () =>
-              context.read<CartCubit>().decrementProduct(item.productId),
+        return SizedBox(
+          height: 89,
+          child: SellioProductHorizontalCard(
+            onTap: () => context.navigator.pushProductDetails(
+              ProductDetailsArgs(
+                productId: item.productId,
+              ),
+            ),
+            imageUrl: item.productImage,
+            title: item.productName,
+            description: '',
+            price: '${item.currency} ${item.price}',
+            originalPrice: null,
+            count: qty,
+            onIncrement: () =>
+                context.read<CartCubit>().incrementProduct(item.productId),
+            onDecrement: () =>
+                context.read<CartCubit>().decrementProduct(item.productId),
+          ),
         );
       },
     );
@@ -209,7 +223,7 @@ class _CartScreenState extends State<CartScreen> {
         children: [
           Row(
             children: [
-              SvgPicture.asset(Assets.discountTag),
+              SvgPicture.asset(AppImages.discountTag),
               const Gap(4),
               Text(
                 AppStrings.totalPrice,
@@ -227,7 +241,7 @@ class _CartScreenState extends State<CartScreen> {
             text: '${AppStrings.confirmOrder} ($count)',
             backgroundColor: colors.primary,
             fullWidth: true,
-            suffixSvgPath: Assets.packageAdd,
+            suffixSvgPath: AppImages.packageAdd,
             onTap: () => _showOrderConfirmation(context),
           ),
         ],
@@ -260,7 +274,7 @@ class _CartScreenState extends State<CartScreen> {
                   shape: BoxShape.circle,
                 ),
                 child: SvgPicture.asset(
-                  Assets.cartPackageDelivered,
+                  AppImages.cartPackageDelivered,
                   colorFilter: ColorFilter.mode(
                     theme.colors.primary,
                     BlendMode.srcIn,

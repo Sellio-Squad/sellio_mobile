@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/notification/extensions/notification_extensions.dart';
-
+import '../../../../core/design_system/constants/app_images.dart';
 import '../cubits/notifications/cubit/notification_cubit.dart';
 import '../models/notification_model.dart';
 import '../utils/notification_utils.dart';

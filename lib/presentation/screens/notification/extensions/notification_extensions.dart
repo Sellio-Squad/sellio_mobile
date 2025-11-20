@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../core/design_system/constants/assets.dart';
 
 enum NotificationStateMessage {
   placed,
@@ -25,13 +25,13 @@ extension NotificationState on NotificationStateMessage {
   String get icon {
     switch (this) {
       case NotificationStateMessage.placed:
-        return Assets.packageDelivered;
+        return AppImages.packageDelivered;
 
       case NotificationStateMessage.delivered:
-        return Assets.packageDelivery;
+        return AppImages.packageDelivery;
 
       case NotificationStateMessage.cancelled:
-        return Assets.packageRemove;
+        return AppImages.packageRemove;
     }
   }
 }

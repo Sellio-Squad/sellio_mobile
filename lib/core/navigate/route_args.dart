@@ -1,15 +1,9 @@
 class ProductDetailsArgs {
   ProductDetailsArgs({
-    required this.productCount,
-    required this.productDescription,
-    required this.productPrice,
-    this.productPriceBeforeDiscount,
+    required this.productId,
   });
 
-  final int productCount;
-  final String productDescription;
-  final double productPrice;
-  final double? productPriceBeforeDiscount;
+  final String productId;
 }
 
 class StoreDetailsArgs {

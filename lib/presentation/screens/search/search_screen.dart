@@ -5,8 +5,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
-import '../../../core/design_system/constants/assets.dart';
+import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import '../../../presentation/screens/home/sections/search/widgets/search_bar_widget.dart';
 
@@ -118,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 _selectedCategory = 'Products';
               });
             },
-            assetIcon: Assets.orderIcon,
+            assetIcon: AppImages.orderIcon,
           ),
           const Gap(8),
           SellioChip(
@@ -129,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 _selectedCategory = 'Stores';
               });
             },
-            assetIcon: Assets.storeIcon,
+            assetIcon: AppImages.storeIcon,
           ),
         ],
       ),
@@ -194,7 +193,7 @@ class _SearchScreenState extends State<SearchScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(Assets.searchIcon),
+            Image.asset(AppImages.searchIcon),
             Text(
             context.local.start_exploring_your_favorite_items,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -225,7 +224,7 @@ class _SearchScreenState extends State<SearchScreen> {
           _buildCategorySection(context),
           const Spacer(),
           Image.asset(
-            Assets.noResultSearchIcon,
+            AppImages.noResultSearchIcon,
           ),
           Text(
               context.local.no_results_found,
@@ -264,56 +263,56 @@ class _GridProductsSectionState extends State<GridProductsSection> {
     final List<Map<String, dynamic>> products = [
       {
         'id': 0,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Gold Stainless Steel Sun Charm Necklace',
         'price': '\$5.00',
         'isFavourite': _isFavourite,
       },
       {
         'id': 1,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 3,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 4,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 5,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 6,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 7,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Birthday cake with bows',
         'price': '\$12.99',
         'isFavourite': _isFavourite,
       },
       {
         'id': 8,
-        'imageUrl': 'assets/images/product_3.webp',
+        'imageUrl': 'AppImages/images/product_3.webp',
         'title': 'Product Name 3',
         'price': '\$30.99',
         'isFavourite': _isFavourite,
