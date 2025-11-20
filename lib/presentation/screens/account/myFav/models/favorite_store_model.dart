@@ -1,5 +1,5 @@
 
-import '../../../home/widgets/top_stores/top_stores_section.dart';
+import '../../../../../presentation/screens/home/widgets/top_stores_section.dart';
 
 class FavoriteStore extends Store {
   FavoriteStore({

@@ -5,7 +5,6 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
 import '../../../../core/design_system/constants/app_images.dart';
 
 class AccountOptionsBottomSheet extends StatelessWidget {

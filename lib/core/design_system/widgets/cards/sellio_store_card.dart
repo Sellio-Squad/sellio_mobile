@@ -46,7 +46,7 @@ class SellioStoreCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      if (imageUrl.startsWith('assets/'))
+                      if (imageUrl.startsWith('AppImages/'))
                         Image.asset(imageUrl, fit: BoxFit.cover, height: 133,)
                       else
                         Image.network(imageUrl, fit: BoxFit.cover, height: 133),

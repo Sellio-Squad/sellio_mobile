@@ -30,6 +30,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add_to_cart => 'Add to cart';
 
   @override
+  String get empty_cart_title => 'Your cart is empty!';
+
+  @override
+  String get empty_cart_desc =>
+      'Start exploring and purchasing your favorite items';
+
+  @override
+  String get empty_cart_button => 'Start Exploring';
+
+  @override
   String get reset => 'Reset';
 
   @override
@@ -96,6 +106,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get design_editor => 'Design editor';
+
+  @override
+  String get try_again => 'Try Again';
+
+  @override
+  String get notifications_will_appear_here =>
+      'When you have notifications, they will appear here';
+
+  @override
+  String get no_notifications_yet => 'No notifications yet';
+
+  @override
+  String get something_went_wrong => 'Something went wrong';
+
+  @override
+  String get notification_dismissed => 'Notification dismissed';
+
+  @override
+  String get error_loading_notifications => 'Error loading notifications';
 
   @override
   String get s => 'S';

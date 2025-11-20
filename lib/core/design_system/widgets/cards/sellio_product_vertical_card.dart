@@ -278,7 +278,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               AppImages.placeholder,
               width: double.infinity,
               height: 145,
-              fit: BoxFit.cover
+              fit: BoxFit.cover,
           );
         },
       ),

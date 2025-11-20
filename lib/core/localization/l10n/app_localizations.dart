@@ -140,6 +140,24 @@ abstract class AppLocalizations {
   /// **'Add to cart'**
   String get add_to_cart;
 
+  /// No description provided for @empty_cart_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty!'**
+  String get empty_cart_title;
+
+  /// No description provided for @empty_cart_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Start exploring and purchasing your favorite items'**
+  String get empty_cart_desc;
+
+  /// No description provided for @empty_cart_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Exploring'**
+  String get empty_cart_button;
+
   /// No description provided for @reset.
   ///
   /// In en, this message translates to:
@@ -271,6 +289,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Design editor'**
   String get design_editor;
+
+  /// No description provided for @try_again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get try_again;
+
+  /// No description provided for @notifications_will_appear_here.
+  ///
+  /// In en, this message translates to:
+  /// **'When you have notifications, they will appear here'**
+  String get notifications_will_appear_here;
+
+  /// No description provided for @no_notifications_yet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications yet'**
+  String get no_notifications_yet;
+
+  /// No description provided for @something_went_wrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get something_went_wrong;
+
+  /// No description provided for @notification_dismissed.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification dismissed'**
+  String get notification_dismissed;
+
+  /// No description provided for @error_loading_notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading notifications'**
+  String get error_loading_notifications;
 
   /// No description provided for @s.
   ///

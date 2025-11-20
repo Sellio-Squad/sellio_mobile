@@ -148,14 +148,14 @@ class AboutStore extends StatelessWidget {
   String _getContactIcon(entity.ContactType type) {
     switch (type) {
       case entity.ContactType.email:
-        return AppIcons.email;
+        return AppImages.email;
       case entity.ContactType.phone:
       case entity.ContactType.whatsapp:
-        return AppIcons.phone;
+        return AppImages.phone;
       case entity.ContactType.facebook:
-        return AppIcons.facebook;
+        return AppImages.facebook;
       case entity.ContactType.website:
-        return AppIcons.email; // Replace with website icon if available
+        return AppImages.email;
     }
   }
 

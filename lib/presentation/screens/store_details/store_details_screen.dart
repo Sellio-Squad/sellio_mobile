@@ -4,6 +4,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/app_management/route/routing.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
+import '../../../../../../domain/repositories/store_repository.dart';
+import '../../../core/design_system/constants/app_images.dart';
+import '../../../domain/entities/category.dart';
+import '../../../domain/entities/product.dart';
+import '../../../domain/entities/store.dart';
+import '../../../domain/entities/store_rating.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/domain/entities/category.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
@@ -143,13 +151,29 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildProductsList(List<Product> products, List<Category> categories) {
-    return SliverPadding(
-      padding: const EdgeInsets.all(LayoutConstants.paddingHorizontal),
-      sliver: StoreProductsList(
-        categoryIndex: _selectedCategoryIndex,
-        products: products,
-        categories: categories.map((c) => c.id).toList(),
-      ),
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (BuildContext context, cartState) {
+        return SliverPadding(
+          padding: const EdgeInsets.all(LayoutConstants.paddingHorizontal),
+          sliver: StoreProductsList(
+            onTap: () => context.navigator.pushProductDetails(
+              ProductDetailsArgs(
+                productId: products[0].id,
+              ),
+            ),
+            categoryIndex: _selectedCategoryIndex,
+            products: products,
+            categories: categories.map((c) => c.id).toList(),
+            onIncrement: () {
+              context.read<CartCubit>().incrementProduct(products[0].id);
+            },
+            onDecrement: () {
+              context.read<CartCubit>().decrementProduct(products[0].id);
+            },
+            count: cartState.productCounts[products[0].id] ?? 0,
+          ),
+        );
+      },
     );
   }
 

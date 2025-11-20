@@ -30,6 +30,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get add_to_cart => 'أضف إلى السلة';
 
   @override
+  String get empty_cart_title => 'سلة التسوق الخاصة بك فارغة!';
+
+  @override
+  String get empty_cart_desc => 'ابدأ في استكشاف وشراء العناصر المفضلة لديك';
+
+  @override
+  String get empty_cart_button => 'ابدأ التصفح';
+
+  @override
   String get reset => 'إعادة تعيين';
 
   @override
@@ -95,6 +104,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get design_editor => 'محرر التصميم';
+
+  @override
+  String get try_again => 'حاول مرة أخرى';
+
+  @override
+  String get notifications_will_appear_here =>
+      'عندما يكون لديك إشعارات، ستظهر هنا';
+
+  @override
+  String get no_notifications_yet => 'لا توجد إشعارات بعد';
+
+  @override
+  String get something_went_wrong => 'حدث خطأ ما';
+
+  @override
+  String get notification_dismissed => 'تم رفض الإشعار';
+
+  @override
+  String get error_loading_notifications => 'خطأ في تحميل الإشعارات';
 
   @override
   String get s => 'S';
