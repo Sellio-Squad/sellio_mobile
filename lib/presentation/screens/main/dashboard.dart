@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/design_system/widgets/bottom_nav_bar.dart';
+
+import '../../../core/design_system/widgets/sellio_bottom_nav_bar.dart';
 
 class Dashboard extends StatefulWidget {
   final int screenIndex;
@@ -28,7 +29,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.navigationShell,
-      bottomNavigationBar: BottomNavBar(
+      bottomNavigationBar: SellioBottomNavBar(
         currentIndex: widget.navigationShell.currentIndex,
         onTap: (index) {
           setState(() {

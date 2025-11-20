@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../domain/repositories/category_repository.dart';
-import '../../../domain/repositories/offers_repository.dart';
-import '../../../domain/repositories/product_repository.dart';
-import '../../../domain/repositories/store_repository.dart';
-import 'cubits/categories/cubit/home_categories_cubit.dart';
-import 'cubits/offers/cubit/home_special_offers_cubit.dart';
-import 'cubits/products/cubit/home_trending_products_cubit.dart';
-import 'cubits/stores/cubit/home_top_stores_cubit.dart';
-
+import '../../../di/injection_container.dart';
+import 'sections/categories/cubit/home_categories_cubit.dart';
+import 'sections/special_offers/cubit/home_special_offers_cubit.dart';
+import 'sections/trending_products/cubit/home_trending_products_cubit.dart';
+import 'sections/top_stores/cubit/home_top_stores_cubit.dart';
 
 class HomeBlocProviders extends StatelessWidget {
   final Widget child;
@@ -23,24 +19,16 @@ class HomeBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => HomeCategoriesCubit(
-            context.read<CategoryRepository>(),
-          )..loadCategories(),
+          create: (_) => sl<HomeCategoriesCubit>()..loadCategories(),
         ),
         BlocProvider(
-          create: (context) => HomeTrendingProductsCubit (
-            context.read<ProductRepository>(),
-          )..loadTrendingProducts(),
+          create: (_) => sl<HomeTrendingProductsCubit>()..loadTrendingProducts(),
         ),
         BlocProvider(
-          create: (context) => HomeTopStoresCubit(
-            context.read<StoreRepository>(),
-          )..loadTopStores(),
+          create: (_) => sl<HomeTopStoresCubit>()..loadTopStores(),
         ),
         BlocProvider(
-          create: (context) => HomeSpecialOffersCubit(
-            context.read<OffersRepository>(),
-          )..loadSpecialOffers(),
+          create: (_) => sl<HomeSpecialOffersCubit>()..loadSpecialOffers(),
         ),
       ],
       child: child,

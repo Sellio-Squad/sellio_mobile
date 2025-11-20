@@ -95,4 +95,32 @@ class AppStrings {
 
   //Cart Screen
   static String get emptyCart => "empty Cart";
+
+  // Store Details
+  static const String storeDetails = 'Store Details';
+
+  // About Store
+  static const String aboutStore = 'About Store';
+  static const String contactInfo = 'Contact Info';
+  static const String address = 'Address';
+
+  // Contact Titles
+  static const String emailTitle = 'Our friendly team is here to help';
+  static const String phoneTitle = '11:00 PM - 12:00 AM';
+  static const String facebookTitle = 'Our account on facebook';
+  static const String whatsappTitle = 'WhatsApp Contact';
+  static const String websiteTitle = 'Visit our website';
+
+  // Email
+  static const String emailSubject = 'Sellio customer';
+
+  // Error Messages
+  static const String errorGeneric = 'Something went wrong';
+  static const String errorLoadingStore = 'Failed to load store information';
+  static const String errorNoInternet = 'No internet connection';
+  static const String couldNotLaunchEmail = 'Could not launch email';
+  static const String couldNotLaunchPhone = 'Could not launch phone';
+  static const String couldNotLaunchFacebook = 'Could not launch Facebook';
+  static const String couldNotLaunchWhatsApp = 'Could not launch WhatsApp';
+  static const String couldNotLaunchWebsite = 'Could not launch website';
 }

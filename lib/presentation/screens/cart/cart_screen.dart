@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-
-import '../../../core/app_management/route/navigation_extensions.dart';
 import '../../../core/design_system/constants/app_images.dart';
+import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
 import '../../../core/design_system/constants/app_strings.dart';
-import '../../../core/design_system/widgets/buttons/button.dart';
-import '../../../core/design_system/widgets/cards/productHorizontalCard.dart';
-import '../../../core/design_system/widgets/textField.dart';
+import '../../../core/design_system/widgets/buttons/sellio_button.dart';
+import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
+import '../../../core/design_system/widgets/sellio_text_field.dart';
+import '../../../core/navigate/navigation_extensions.dart';
+import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 
@@ -40,53 +41,54 @@ class _CartScreenState extends State<CartScreen> {
       appBar: _buildAppBar(context),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
-          if (state.loading) {
+          if (state is CartLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
           if (state.cart == null || state.cart!.items.isEmpty) {
-            return Center(
-              child: Text(
-                AppStrings.emptyCart,
-                style: textTheme.titleMedium.copyWith(
-                  color: colors.body,
-                ),
-              ),
-            );
+            return EmptyCartSection(textTheme: textTheme, colors: colors);
           }
 
           final cart = state.cart!;
-          final totalPrice = cart.items.fold(
+          cart.items.fold(
             0.0,
             (sum, item) => sum + (item.price * item.quantity),
           );
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
-            child: Column(
-              children: [
-                _buildHeader(cart.items.length, textTheme, colors),
-                const Gap(12),
-                _buildCartItems(cart, state),
-                const Gap(12),
-                Divider(color: colors.stroke, thickness: 1),
-                const Gap(12),
-                _buildNoteSection(textTheme, colors),
-              ],
+          return GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
+              child: Column(
+                children: [
+                  _buildHeader(cart.items.length, textTheme, colors),
+                  const Gap(12),
+                  Builder(
+                    builder: (context) => _buildCartItems(context, cart, state),
+                  ),
+                  const Gap(12),
+                  Divider(color: colors.stroke, thickness: 1),
+                  const Gap(12),
+                  _buildNoteSection(textTheme, colors),
+                ],
+              ),
             ),
           );
         },
       ),
-      bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          final cart = state.cart;
-          final totalPrice = cart?.items.fold(
-                0.0,
-                (sum, item) => sum + (item.price * item.quantity),
-              ) ??
-              0.0;
+      bottomNavigationBar: (context.read<CartCubit>().state.cart == null ||
+              context.read<CartCubit>().state.cart!.items.isEmpty)
+          ? null
+          : BlocBuilder<CartCubit, CartState>(
+              builder: (context, state) {
+                final cart = state.cart;
+                final totalPrice = cart?.items.fold(
+                      0.0,
+                      (sum, item) => sum + (item.price * item.quantity),
+                    ) ??
+                    0.0;
 
-          return _buildBottomBar(
+                return _buildBottomBar(
             context,
             totalPrice,
             cart?.items.length ?? 0,
@@ -111,15 +113,18 @@ class _CartScreenState extends State<CartScreen> {
             style: textTheme.titleMedium.copyWith(color: colors.title),
           ),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: Center(
-                child: Text(
-                  AppStrings.addMoreItems,
-                  style: textTheme.labelMedium.copyWith(color: colors.primary),
+            if (context.read<CartCubit>().state.cart != null &&
+                context.read<CartCubit>().state.cart!.items.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Center(
+                  child: Text(
+                    AppStrings.addMoreItems,
+                    style:
+                        textTheme.labelMedium.copyWith(color: colors.primary),
+                  ),
                 ),
-              ),
-            ),
+              )
           ],
         ),
       ),
@@ -142,7 +147,7 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _buildCartItems(cart, CartState state) {
+  Widget _buildCartItems(BuildContext context, cart, CartState state) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -152,17 +157,25 @@ class _CartScreenState extends State<CartScreen> {
         final item = cart.items[index];
         final qty = state.productCounts[item.productId] ?? item.quantity;
 
-        return ProductHorizontalCard(
-          imageUrl: item.productImage,
-          title: item.productName,
-          description: '',
-          price: '${item.currency} ${item.price}',
-          originalPrice: null,
-          count: qty,
-          onIncrement: () =>
-              context.read<CartCubit>().incrementProduct(item.productId),
-          onDecrement: () =>
-              context.read<CartCubit>().decrementProduct(item.productId),
+        return SizedBox(
+          height: 89,
+          child: SellioProductHorizontalCard(
+            onTap: () => context.navigator.pushProductDetails(
+              ProductDetailsArgs(
+                productId: item.productId,
+              ),
+            ),
+            imageUrl: item.productImage,
+            title: item.productName,
+            description: '',
+            price: '${item.currency} ${item.price}',
+            originalPrice: null,
+            count: qty,
+            onIncrement: () =>
+                context.read<CartCubit>().incrementProduct(item.productId),
+            onDecrement: () =>
+                context.read<CartCubit>().decrementProduct(item.productId),
+          ),
         );
       },
     );

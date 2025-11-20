@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../domain/core/result.dart';
+import '../../../../core/error/result.dart';
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/repositories/cart_repository.dart';
 import 'cart_state.dart';
@@ -7,13 +7,13 @@ import 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   final CartRepository repository;
 
-  CartCubit(this.repository) : super(CartState.initial());
+  CartCubit(this.repository) : super(const CartInitial());
 
-  // ============================
-  // LOAD CART
-  // ============================
   Future<void> loadCart() async {
-    emit(state.copyWith(loading: true));
+    emit(CartLoading(
+      cart: state.cart,
+      productCounts: state.productCounts,
+    ));
 
     final Result<Cart> result = await repository.getCart();
 
@@ -21,30 +21,29 @@ class CartCubit extends Cubit<CartState> {
       final Cart cart = result.data;
 
       emit(
-        state.copyWith(
+        CartLoaded(
           cart: cart,
           productCounts: {
             for (final item in cart.items) item.productId: item.quantity,
           },
-          loading: false,
-          error: null,
         ),
       );
     } else {
       emit(
-        state.copyWith(
-          loading: false,
-          error: _extractError(result),
+        CartError(
+          message: _extractError(result),
+          cart: state.cart,
+          productCounts: state.productCounts,
         ),
       );
     }
   }
 
-  // ============================
-  // INCREMENT PRODUCT QUANTITY
-  // ============================
   Future<void> incrementProduct(String productId) async {
-    final int currentQty = state.productCounts[productId] ?? 0;
+    if (state is! CartLoaded) return;
+
+    final currentState = state as CartLoaded;
+    final int currentQty = currentState.productCounts[productId] ?? 0;
 
     final Result<Cart> result =
     await repository.updateQuantity(productId, currentQty + 1);
@@ -52,15 +51,21 @@ class CartCubit extends Cubit<CartState> {
     if (result.isSuccess) {
       _syncCart(result.data);
     } else {
-      emit(state.copyWith(error: _extractError(result)));
+      emit(CartError(
+        message: _extractError(result),
+        cart: currentState.cart,
+        productCounts: currentState.productCounts,
+      ));
+      // Restore state after showing error
+      emit(currentState);
     }
   }
 
-  // ============================
-  // DECREMENT PRODUCT QUANTITY
-  // ============================
   Future<void> decrementProduct(String productId) async {
-    final int currentQty = state.productCounts[productId] ?? 0;
+    if (state is! CartLoaded) return;
+
+    final currentState = state as CartLoaded;
+    final int currentQty = currentState.productCounts[productId] ?? 0;
     if (currentQty <= 1) return;
 
     final Result<Cart> result =
@@ -69,13 +74,16 @@ class CartCubit extends Cubit<CartState> {
     if (result.isSuccess) {
       _syncCart(result.data);
     } else {
-      emit(state.copyWith(error: _extractError(result)));
+      emit(CartError(
+        message: _extractError(result),
+        cart: currentState.cart,
+        productCounts: currentState.productCounts,
+      ));
+      // Restore state after showing error
+      emit(currentState);
     }
   }
 
-  // ============================
-  // ADD TO CART
-  // ============================
   Future<void> addToCart(String productId) async {
     final Result<Cart> result = await repository.addToCart(
       productId: productId,
@@ -85,42 +93,52 @@ class CartCubit extends Cubit<CartState> {
     if (result.isSuccess) {
       _syncCart(result.data);
     } else {
-      emit(state.copyWith(error: _extractError(result)));
+      emit(CartError(
+        message: _extractError(result),
+        cart: state.cart,
+        productCounts: state.productCounts,
+      ));
+
+      // If we had a loaded state, restore it
+      if (state.cart != null) {
+        emit(CartLoaded(
+          cart: state.cart!,
+          productCounts: state.productCounts,
+        ));
+      }
     }
   }
 
-  // ============================
-  // REMOVE ITEM
-  // ============================
   Future<void> removeFromCart(String cartItemId) async {
+    if (state is! CartLoaded) return;
+
+    final currentState = state as CartLoaded;
     final Result<Cart> result = await repository.removeFromCart(cartItemId);
 
     if (result.isSuccess) {
       _syncCart(result.data);
     } else {
-      emit(state.copyWith(error: _extractError(result)));
+      emit(CartError(
+        message: _extractError(result),
+        cart: currentState.cart,
+        productCounts: currentState.productCounts,
+      ));
+      // Restore state after showing error
+      emit(currentState);
     }
   }
 
-  // ============================
-  // INTERNAL SYNC
-  // ============================
   void _syncCart(Cart cart) {
     emit(
-      state.copyWith(
+      CartLoaded(
         cart: cart,
         productCounts: {
           for (final item in cart.items) item.productId: item.quantity,
         },
-        loading: false,
-        error: null,
       ),
     );
   }
 
-  // ============================
-  // ERROR EXTRACTOR (CORRECT!)
-  // ============================
   String _extractError(Result result) {
     return result.failure.message;
   }

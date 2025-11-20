@@ -1,4 +1,3 @@
-// review.dart
 class Review {
   final String id;
   final String storeId;
@@ -40,22 +39,5 @@ class Review {
       comment: comment ?? this.comment,
       createdAt: createdAt ?? this.createdAt,
     );
-  }
-
-  factory Review.dummy({int index = 0, String storeId = 'store_0'}) {
-    return Review(
-      id: 'review_$index',
-      storeId: storeId,
-      userId: 'user_$index',
-      userName: 'User #$index',
-      userImage: 'https://picsum.photos/seed/user_$index/100',
-      rating: 3.5 + (index % 2),
-      comment: 'Great store! I really liked their service and products.',
-      createdAt: DateTime.now().subtract(Duration(days: index * 2)),
-    );
-  }
-
-  static List<Review> dummyList({int count = 5, String storeId = 'store_0'}) {
-    return List.generate(count, (i) => Review.dummy(index: i, storeId: storeId));
   }
 }

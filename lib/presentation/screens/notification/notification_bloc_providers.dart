@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../di/injection_container.dart';
 import 'cubits/notifications/cubit/notification_cubit.dart';
 
 class NotificationBlocProviders extends StatelessWidget {
@@ -16,9 +16,7 @@ class NotificationBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-          NotificationCubit()
-            ..loadNotifications(),
+          create: (_) => sl<NotificationCubit>()..loadNotifications(),
         ),
       ],
       child: child,

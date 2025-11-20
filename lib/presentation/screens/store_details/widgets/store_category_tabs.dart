@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/design_system/widgets/chip_category.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
+
 import '../../../../domain/entities/category.dart';
 
 class StoreCategoryTabs extends StatelessWidget {
@@ -27,7 +28,7 @@ class StoreCategoryTabs extends StatelessWidget {
           final isSelected = selectedIndex == index;
           return Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: ChipCategory(
+            child: SellioChip(
               label: categories[index].name, // Use name here
               selected: isSelected,
               onTap: () => onCategorySelected(index),

@@ -35,31 +35,6 @@ class CartItemModel extends CartItem {
     };
   }
 
-  Map<String, dynamic> toDbMap(String cartId) {
-    return {
-      'id': id,
-      'cartId': cartId,
-      'productId': productId,
-      'productName': productName,
-      'productImage': productImage,
-      'price': price,
-      'quantity': quantity,
-      'currency': currency,
-    };
-  }
-
-  factory CartItemModel.fromDbMap(Map<String, dynamic> map) {
-    return CartItemModel(
-      id: map['id'] as String,
-      productId: map['productId'] as String,
-      productName: map['productName'] as String,
-      productImage: map['productImage'] as String,
-      price: map['price'] as double,
-      quantity: map['quantity'] as int,
-      currency: map['currency'] as String,
-    );
-  }
-
   factory CartItemModel.fromEntity(CartItem item) {
     return CartItemModel(
       id: item.id,

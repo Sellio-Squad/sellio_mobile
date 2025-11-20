@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import 'cubits/notifications/cubit/notification_cubit.dart';
 import 'cubits/notifications/cubit/notification_state.dart';
@@ -29,7 +30,7 @@ class NotificationListeners extends StatelessWidget {
     if (state is NotificationError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error loading notifications: ${state.message}'),
+          content: Text('${context.local.error_loading_notifications}: ${state.message}'),
           backgroundColor: Colors.red,
         ),
       );

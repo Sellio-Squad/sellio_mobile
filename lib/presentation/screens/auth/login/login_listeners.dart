@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/app_management/route/routing.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
 
-import '../../../../core/design_system/widgets/snack_bar.dart';
+import '../../../../core/design_system/widgets/sellio_snack_bar.dart';
 import 'cubits/form/login_form_cubit.dart';
 import 'cubits/form/login_form_state.dart';
 

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import '../../../../../../../domain/entities/store.dart';
-import '../../../../../../../domain/entities/product.dart';
-import '../../../../domain/entities/StoreRating.dart';
 
+import '../../../../../../../domain/entities/product.dart';
+import '../../../../../../../domain/entities/store.dart';
+import '../../../../domain/entities/store_rating.dart';
 
 sealed class StoreDetailsState extends Equatable {
   const StoreDetailsState();

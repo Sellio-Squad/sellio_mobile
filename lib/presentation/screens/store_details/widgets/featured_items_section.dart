@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/product_vertical_card.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 import '../../../../core/design_system/constants/app_images.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
+import '../../../../core/design_system/constants/app_images.dart';
+import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import '../../../cubits/cart/cubit/cart_cubit.dart';
+import '../../../cubits/cart/cubit/cart_state.dart';
 
 class FeaturedItemsSection extends StatefulWidget {
   final List<Product> products;
@@ -16,21 +24,6 @@ class FeaturedItemsSection extends StatefulWidget {
 }
 
 class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
-  final Map<String, int> _productCounts = {};
-
-  void _incrementProduct(String productId) {
-    setState(() {
-      _productCounts[productId] = (_productCounts[productId] ?? 0) + 1;
-    });
-  }
-
-  void _decrementProduct(String productId) {
-    setState(() {
-      final count = _productCounts[productId] ?? 0;
-      if (count > 0) _productCounts[productId] = count - 1;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget.products.isEmpty) return const SizedBox.shrink();
@@ -58,7 +51,6 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
             separatorBuilder: (_, __) => const SizedBox(width: 12),
             itemBuilder: (context, index) {
               final product = widget.products[index];
-              final count = _productCounts[product.id] ?? 0;
 
               // Log the first image of each product
               if (product.images.isNotEmpty) {
@@ -67,16 +59,41 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                 debugPrint('Product ${product.id} has no images.');
               }
 
-              return SizedBox(
-                width: 160,
-                child: ProductVerticalCard(
-                  imageUrl: product.images.isNotEmpty ? product.images.first : '',
-                  title: product.name,
-                  price: '\$${product.price}',
-                  count: count,
-                  onIncrement: () => _incrementProduct(product.id),
-                  onDecrement: () => _decrementProduct(product.id),
-                  onFavorite: () {},
+              return GestureDetector(
+                onTap: () => context.navigator.pushProductDetails(
+                  ProductDetailsArgs(
+                    productId: product.id,
+                  ),
+                ),
+                child: SizedBox(
+                  width: 160,
+                  child: BlocBuilder<CartCubit, CartState>(
+                    builder: (BuildContext context, cartState) {
+                      return BlocBuilder<FavoritesCubit, FavoritesState>(
+                        builder: (BuildContext context, favState) {
+                          final isFavorite = favState.productIds.contains(product.id);
+                          return SellioProductVerticalCard(
+                            imageUrl: product.images.isNotEmpty
+                                ? product.images.first
+                                : '',
+                            title: product.name,
+                            price: '\$${product.price}',
+                            count: cartState.productCounts[product.id] ?? 0,
+                            isFavorite: isFavorite,
+                            onFavorite: () => context
+                                .read<FavoritesCubit>()
+                                .toggleProductFavorite(product.id),
+                            onIncrement: () => context
+                                .read<CartCubit>()
+                                .incrementProduct(product.id),
+                            onDecrement: () => context
+                                .read<CartCubit>()
+                                .decrementProduct(product.id),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               );
             },

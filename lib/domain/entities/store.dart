@@ -61,40 +61,6 @@ class Store {
       isActive: isActive ?? this.isActive,
     );
   }
-
-  factory Store.dummy({int index = 0}) {
-    return Store(
-      id: 'store_$index',
-      name: 'Store #$index',
-      description:
-      'This is a brief description of Store #$index, offering great products and services.',
-      coverImage: 'https://picsum.photos/seed/store_cover_$index/800/400',
-      profileImage: 'https://picsum.photos/seed/store_profile_$index/200/200',
-      sale: index.isEven ? '20%' : null,
-      rating: (3 + (index % 3) * 0.5),
-      address: Address.dummy(index: index),
-      contactInfoList: [
-        ContactInfo(
-          provider: 'SweetLoversPasteleria2021@gmail.com',
-          type: ContactType.email,
-        ),
-        ContactInfo(
-          provider: '+20 1026647377',
-          type: ContactType.phone,
-        ),
-        ContactInfo(
-          provider: 'https://www.facebook.com/share/1BpmS6Amet/',
-          type: ContactType.facebook,
-        ),
-      ],
-      categories: Category.dummyList(count: 3),
-      reviews: Review.dummyList(count: 3),
-    );
-  }
-
-  static List<Store> dummyList({int count = 5}) {
-    return List.generate(count, (i) => Store.dummy(index: i));
-  }
 }
 
 enum ContactType { email, phone, facebook, whatsapp, website }

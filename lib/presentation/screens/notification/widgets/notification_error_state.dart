@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 class NotificationErrorState extends StatelessWidget {
   final String message;
@@ -26,8 +27,8 @@ class NotificationErrorState extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Something went wrong',
-              style: context.theme.typography.textTheme.titleMedium?.copyWith(
+              context.local.something_went_wrong,
+              style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.body,
               ),
             ),
@@ -35,7 +36,7 @@ class NotificationErrorState extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: context.theme.typography.textTheme.bodyMedium?.copyWith(
+              style: context.theme.typography.textTheme.bodyMedium.copyWith(
                 color: context.theme.colors.body.withOpacity(0.7),
               ),
             ),
@@ -47,8 +48,8 @@ class NotificationErrorState extends StatelessWidget {
                 foregroundColor: Colors.white,
               ),
               child: Text(
-                'Try Again',
-                style: context.theme.typography.textTheme.labelMedium?.copyWith(
+                context.local.try_again,
+                style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: Colors.white,
                 ),
               ),

@@ -1,14 +1,10 @@
 class AppImages {
   AppImages._();
 
-  // Base paths
   static const String iconsPath = 'assets/svg';
   static const String imagesPath = 'assets/images';
 
-  // -----------------------------
-  // General Icons
-  // -----------------------------
-
+  // icons:
   // Snack bar icons
   static const String heartRemove = '$iconsPath/ic_heart_remove.svg';
   static const String alertDiamond = '$iconsPath/ic_alert-diamond.svg';
@@ -21,7 +17,6 @@ class AppImages {
   static const String bell = '$iconsPath/ic_bell.svg';
   static const String location = '$iconsPath/ic_location.svg';
   static const String arrowLeft = '$iconsPath/ic_arrow-left.svg';
-
   static const String sellio = '$imagesPath/sellio.png';
 
   // Section title icons
@@ -94,6 +89,7 @@ class AppImages {
   static const String discountTag = '$iconsPath/discount-tag-02.svg';
   static const String packageAdd = '$iconsPath/package-add.svg';
   static const String cartPackageDelivered = '$iconsPath/package-delivered.svg';
+  static const String cartEmpty = '$iconsPath/ic_cart_empty.svg';
 
   // Account screen
   static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import 'builders/home_sections_builder.dart';
 import 'home_bloc_providers.dart';
 import 'home_listeners.dart';
-import 'builders/home_app_bar_builder.dart';
+import 'sections/categories/categories_section.dart';
+import 'sections/search/search_section.dart';
+import 'sections/special_offers/special_offers_section.dart';
+import 'sections/top_stores/top_stores_section.dart';
+import 'sections/trending_products/trending_products_section.dart';
 import 'utils/home_refresh_handler.dart';
+import 'widgets/home_app_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,46 +32,69 @@ class _HomeScreenContent extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: buildHomeAppBar(context),
+          appBar: HomeAppBar.fromContext(context),
           extendBodyBehindAppBar: true,
           backgroundColor: colors.surfaceLow,
-          body: homeBody(context, colors),
+          body: _HomeBody(colors: colors),
         ),
       ),
     );
   }
 }
 
+class _HomeBody extends StatelessWidget {
+  final dynamic colors;
 
+  const _HomeBody({required this.colors});
 
-Widget homeBody(BuildContext context, dynamic colors) {
-  return Stack(
-    children: [
-      _gradientBackground(colors),
-      SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () => handleHomeRefresh(context),
-          child: CustomScrollView(
-            slivers: buildHomeSections(context),
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        _GradientBackground(colors: colors),
+        SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () => handleHomeRefresh(context),
+            child: CustomScrollView(
+              slivers: _buildSections(),
+            ),
           ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
+
+  List<Widget> _buildSections() {
+    return const [
+      SearchSection(),
+      CategoriesSection(),
+      SpecialOffersSection(),
+      TrendingProductsSection(),
+      TopStoresSection(),
+      SliverToBoxAdapter(child: SizedBox(height: 24)),
+    ];
+  }
 }
 
-Widget _gradientBackground(dynamic colors) {
-  return Container(
-    height: 256,
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [
-          colors.primary.withOpacity(0.16),
-          colors.primary.withOpacity(0.0),
-        ],
+class _GradientBackground extends StatelessWidget {
+  final dynamic colors;
+
+  const _GradientBackground({required this.colors});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 256,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            colors.primary.withOpacity(0.16),
+            colors.primary.withOpacity(0.0),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }

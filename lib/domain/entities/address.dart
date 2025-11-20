@@ -1,9 +1,7 @@
-// address.dart
 class Address {
   final String id;
   final String country;
   final String city;
-
 
   const Address({
     required this.id,
@@ -16,24 +14,12 @@ class Address {
   Address copyWith({
     String? id,
     String? country,
-    String? city
+    String? city,
   }) {
     return Address(
       id: id ?? this.id,
       country: country ?? this.country,
-      city: city ?? this.city
+      city: city ?? this.city,
     );
-  }
-
-  factory Address.dummy({int index = 0}) {
-    return Address(
-      id: 'address_$index',
-      country: 'Country ${index + 1}',
-      city: 'City ${index + 1}'
-    );
-  }
-
-  static List<Address> dummyList({int count = 3}) {
-    return List.generate(count, (i) => Address.dummy(index: i));
   }
 }

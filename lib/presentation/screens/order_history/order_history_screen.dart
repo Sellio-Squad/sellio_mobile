@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/button.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/order_details.dart';
+import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
+import 'package:sellio_mobile/core/design_system/widgets/cards/order_details_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
-import 'package:sellio_mobile/core/localization/localization_service.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../core/design_system/constants/app_images.dart';
 import '../../../domain/entities/order.dart';
-import 'OrderHistoryCubit.dart';
-import 'order_history_state.dart';
+import 'cubit/order_history_cubit.dart';
+import 'cubit/order_history_state.dart';
 import 'order_history_tabs.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
@@ -64,13 +64,15 @@ class OrderSection extends StatelessWidget {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           final order = orders[index];
           return Padding(
             padding: const EdgeInsets.all(16),
-            child: OrderDetails(
+            child: OrderDetailsCard(
               order: order,
-              onCancelClick: order.canBeCancelled ? () {} : () {},
+              onCancelClick: () {
+                if (order.canBeCancelled) {}
+              },
               onViewDetailsClick: () {},
               onOrderAgainClick: () {},
             ),
@@ -106,7 +108,11 @@ Widget emptyOrderHistory(BuildContext context) {
           ),
         ),
         const Gap(12),
-        SellioButton(text: context.local.start_exploring, fullWidth: false, onTap: () {}),
+        SellioButton(
+          text: context.local.start_exploring,
+          fullWidth: false,
+          onTap: () {},
+        ),
       ],
     ),
   );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/design_system/widgets/AuthBackgroundWrapper.dart';
+import '../../../../core/design_system/widgets/auth_background_wrapper.dart';
 import 'builders/create_account_sections_builder.dart';
 import 'create_account_bloc_providers.dart';
 import 'create_account_listeners.dart';
