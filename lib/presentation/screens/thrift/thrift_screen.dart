@@ -9,6 +9,7 @@ import '../../../../domain/repositories/product_repository.dart';
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import '../../../core/navigate/app_routes.dart';
+import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../home/sections/categories/widgets/category_tabs.dart';
@@ -174,7 +175,7 @@ class ThriftContent extends StatelessWidget {
               onTap: () {
                 GoRouter.of(context).push(
                   AppRoutes.productDetails.path,
-                  // extra: ProductDetailsArgs(productId: product.id),
+                  extra: ProductDetailsArgs(productId: product.id)
                 );
               },
             );
