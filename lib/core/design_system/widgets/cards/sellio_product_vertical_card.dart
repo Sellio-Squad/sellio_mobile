@@ -63,9 +63,10 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
         onTap: widget.onTap,
         child: SizedBox(
           width: 160,
+          height: 272,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Stack(
                 children: [
@@ -141,7 +142,6 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   ),
                 ),
               ),
-              const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(4),
                 child: Align(
