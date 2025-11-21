@@ -135,7 +135,6 @@ class ThriftContent extends StatelessWidget {
         return AppImages.allCategories;
     }
   }
-
   Widget _buildProductsGrid(BuildContext context, ThriftProductsState state) {
     if (state.items.isEmpty) {
       return const SliverFillRemaining(
@@ -145,53 +144,57 @@ class ThriftContent extends StatelessWidget {
 
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final product = state.items[index];
-            final productId = product.id;
+      sliver: SliverLayoutBuilder(
+        builder: (context, constraints) {
+          final screenWidth = constraints.crossAxisExtent;
+          const cardWidth = 170.0;
+          final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+          return SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                final product = state.items[index];
+                final productId = product.id;
 
-            final cart = context.watch<CartCubit>();
-            final favorites = context.watch<FavoritesCubit>();
+                final cart = context.watch<CartCubit>();
+                final favorites = context.watch<FavoritesCubit>();
 
-            final count = cart.state.productCounts[productId] ?? 0;
+                final count = cart.state.productCounts[productId] ?? 0;
+                final isFavorite = favorites.state.productIds.contains(productId);
 
-            final isFavorite = favorites.state.productIds.contains(productId);
-
-            return SellioProductVerticalCard(
-              key: ValueKey(productId),
-              imageUrl: product.images.first,
-              title: product.name,
-              price: product.price.toString(),
-              count: count,
-              isFavorite: isFavorite,
-              onIncrement: () =>
-                  context.read<CartCubit>().incrementProduct(productId),
-              onDecrement: () =>
-                  context.read<CartCubit>().decrementProduct(productId),
-              onFavorite: () => context
-                  .read<FavoritesCubit>()
-                  .toggleProductFavorite(productId),
-              onTap: () {
-                GoRouter.of(context).push(
-                  AppRoutes.productDetails.path,
-                  extra: ProductDetailsArgs(productId: product.id)
+                return SellioProductVerticalCard(
+                  key: ValueKey(productId),
+                  imageUrl: product.images.first,
+                  title: product.name,
+                  price: product.price.toString(),
+                  count: count,
+                  isFavorite: isFavorite,
+                  onIncrement: () =>
+                      context.read<CartCubit>().incrementProduct(productId),
+                  onDecrement: () =>
+                      context.read<CartCubit>().decrementProduct(productId),
+                  onFavorite: () =>
+                      context.read<FavoritesCubit>().toggleProductFavorite(productId),
+                  onTap: () {
+                    GoRouter.of(context).push(
+                      AppRoutes.productDetails.path,
+                      extra: ProductDetailsArgs(productId: product.id),
+                    );
+                  },
                 );
               },
-            );
-          },
-          childCount: state.items.length,
-        ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 12,
-          childAspectRatio: 170 / 272,
-        ),
+              childCount: state.items.length,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 12,
+              childAspectRatio: 160 / 272,
+            ),
+          );
+        },
       ),
     );
   }
-
   Widget _buildLoadingMore() {
     return const SliverToBoxAdapter(
       child: Padding(
