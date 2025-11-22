@@ -2,7 +2,6 @@
 import 'address.dart';
 
 class User {
-  final String id;
   final String fullName;
   final String phoneNumber;
   final String countryCode;
@@ -10,7 +9,6 @@ class User {
   final Address address;
 
   const User({
-    required this.id,
     required this.fullName,
     required this.phoneNumber,
     required this.countryCode,
@@ -27,7 +25,6 @@ class User {
     Address? address,
   }) {
     return User(
-      id: id ?? this.id,
       fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCode: countryCode ?? this.countryCode,
