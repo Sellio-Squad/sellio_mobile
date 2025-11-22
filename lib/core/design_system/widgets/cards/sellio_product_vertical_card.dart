@@ -66,6 +66,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
           height: 272,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Stack(
                 children: [
@@ -117,10 +118,9 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Container(
-                  height: 44.0,
-                  width: 160,
-                  alignment: Alignment.topLeft,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 44,
                   child: Text(
                     widget.title,
                     style: textTheme.labelMedium.copyWith(color: colors.title),
@@ -132,13 +132,16 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text(
-                  widget.price,
-                  style: textTheme.titleSmall.copyWith(color: colors.primary),
-                  maxLines: 1,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 23,
+                  child: Text(
+                    widget.price,
+                    style: textTheme.titleSmall.copyWith(color: colors.primary),
+                    maxLines: 1,
+                  ),
                 ),
               ),
-              const Spacer(),
               Padding(
                 padding: const EdgeInsets.all(4),
                 child: Align(
@@ -150,6 +153,35 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImage(colors) {
+    return AspectRatio(
+      aspectRatio: 1.05,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+          widget.imageUrl,
+          fit: BoxFit.cover,
+          loadingBuilder: (context, child, progress) {
+            return progress == null
+                ? child
+                : Container(
+              width: double.infinity,
+              color: colors.surface,
+              child: const Center(child: CircularProgressIndicator()),
+            );
+          },
+          errorBuilder: (context, error, stackTrace) {
+            return Image.asset(
+              AppImages.placeholder,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            );
+          },
         ),
       ),
     );
@@ -223,64 +255,43 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
             widget.count.toString().padLeft(2, '0'),
             style: textTheme.labelSmall.copyWith(color: colors.title),
           ),
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: colors.primaryVariant,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: widget.onIncrement,
-                child: SvgPicture.asset(
-                  AppImages.add,
-                  colorFilter: ColorFilter.mode(
-                    colors.primary,
-                    BlendMode.srcIn,
-                  ),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            ),
+          _buildCounterButton(
+            onTap: widget.onIncrement,
+            icon: AppImages.add,
+            background: colors.primaryVariant,
+            iconColor: colors.primary,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildImage(colors) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        widget.imageUrl,
-        width: 152,
-        height: 145,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          return progress == null
-              ? child
-              : Container(
-                  width: 152,
-                  height: 145,
-                  color: colors.surface,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return  Image.asset(
-              AppImages.placeholder,
-              width: double.infinity,
-              height: 145,
-              fit: BoxFit.cover,
-          );
-        },
+  Widget _buildCounterButton({
+    required VoidCallback onTap,
+    required String icon,
+    required Color background,
+    required Color iconColor,
+  }) {
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onTap,
+          child: SvgPicture.asset(
+            icon,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+            width: 16,
+            height: 16,
+            fit: BoxFit.scaleDown,
+          ),
+        ),
       ),
     );
   }
