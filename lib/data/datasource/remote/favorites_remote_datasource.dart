@@ -1,20 +1,17 @@
-import '../../core/api/api_endpoints.dart';
 import '../../core/api/api_client.dart';
+import '../../core/api/api_endpoints.dart';
+import '../../mappers/favorite_mapper.dart';
+import '../../models/request/favorite_product_request.dart';
+import '../../models/request/favorite_store_request.dart';
 
 abstract class FavoritesRemoteDataSource {
-  Future<List<String>> getFavoriteProductIds(String userId);
+  Future<List<String>> getFavoriteProductIds();
 
-  Future<List<String>> getFavoriteStoreIds(String userId);
+  Future<List<String>> getFavoriteStoreIds();
 
-  Future<String> toggleProductFavorite({
-    required String userId,
-    required String productId,
-  });
+  Future<void> toggleProductFavorite({required String productId});
 
-  Future<String> toggleStoreFavorite({
-    required String userId,
-    required String storeId,
-  });
+  Future<void> toggleStoreFavorite({required String storeId});
 }
 
 class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
@@ -23,55 +20,32 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
   FavoritesRemoteDataSourceImpl(this._httpClient);
 
   @override
-  Future<List<String>> getFavoriteProductIds(String userId) async {
-    final response =
-        await _httpClient.get(ApiEndpoints.favoriteProducts(userId));
-
-    final favorites = response.data as List;
-    return favorites.map((item) => item['productId'] as String).toList();
+  Future<List<String>> getFavoriteProductIds() async {
+    final response = await _httpClient.get(ApiEndpoints.favoriteProducts);
+    return FavoriteMapper.toProductIdListFromJson(response.data);
   }
 
   @override
-  Future<List<String>> getFavoriteStoreIds(String userId) async {
-    final response = await _httpClient.get(ApiEndpoints.favoriteStores(userId));
-
-    if (response.data is Map && response.data.containsKey('data')) {
-      final favorites = response.data['data'] as List;
-      return favorites.map((item) => item['storeId'] as String).toList();
-    }
-
-    return [];
+  Future<List<String>> getFavoriteStoreIds() async {
+    final response = await _httpClient.get(ApiEndpoints.favoriteStores);
+    return FavoriteMapper.toStoreIdListFromJson(response.data);
   }
 
   @override
-  Future<String> toggleProductFavorite({
-    required String userId,
-    required String productId,
-  }) async {
-    final response = await _httpClient.post(
-      ApiEndpoints.favoriteProductsToggle,
-      data: {
-        'userId': userId,
-        'productId': productId,
-      },
+  Future<void> toggleProductFavorite({required String productId}) async {
+    final request = FavoriteProductToggleRequest(productId: productId);
+    await _httpClient.post(
+      ApiEndpoints.favoriteProductToggle(productId),
+      data: request.toJson(),
     );
-
-    return response.data as String;
   }
 
   @override
-  Future<String> toggleStoreFavorite({
-    required String userId,
-    required String storeId,
-  }) async {
-    final response = await _httpClient.post(
-      ApiEndpoints.favoriteStoresToggle,
-      data: {
-        'userId': userId,
-        'storeId': storeId,
-      },
+  Future<void> toggleStoreFavorite({required String storeId}) async {
+    final request = FavoriteStoreToggleRequest(storeId: storeId);
+    await _httpClient.post(
+      ApiEndpoints.favoriteStoreToggle(storeId),
+      data: request.toJson(),
     );
-
-    return response.data as String;
   }
 }
