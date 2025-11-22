@@ -1,36 +1,15 @@
-import '../../domain/entities/category.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class CategoryModel extends Category {
-  const CategoryModel({
-    required super.id,
-    required super.name,
-  });
+part 'category_model.freezed.dart';
+part 'category_model.g.dart';
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-    );
-  }
+@freezed
+class CategoryModel with _$CategoryModel {
+  const factory CategoryModel({
+    required String id,
+    required String name,
+  }) = _CategoryModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
-
-  factory CategoryModel.fromEntity(Category category) {
-    return CategoryModel(
-      id: category.id,
-      name: category.name,
-    );
-  }
-
-  Category toEntity() {
-    return Category(
-      id: id,
-      name: name,
-    );
-  }
+  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
 }
