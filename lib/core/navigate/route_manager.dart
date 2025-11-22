@@ -16,6 +16,7 @@ import 'package:sellio_mobile/presentation/screens/product_details/product_detai
 import 'package:sellio_mobile/presentation/screens/store_details/about_store/about_store.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
 import '../../presentation/screens/account/account_screen.dart';
+import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
 import 'app_routes.dart';
 
@@ -239,6 +240,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const NotificationScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.myOrders.name,
+        path: AppRoutes.myOrders.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const OrderHistoryScreen(),
           );
         },
       ),

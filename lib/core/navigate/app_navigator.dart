@@ -27,6 +27,8 @@ abstract class AppNavigator {
 
   void pushNotifications();
 
+  void pushMyOrders();
+
   void goToHome();
 
   void goToCart();

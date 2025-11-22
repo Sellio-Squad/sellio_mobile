@@ -67,6 +67,10 @@ enum AppRoutes {
   notifications(
     name: 'notifications',
     path: '/notifications',
+  ),
+  myOrders(
+    name: 'myOrders',
+    path: '/myOrders',
   );
 
   const AppRoutes({
