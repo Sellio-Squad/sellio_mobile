@@ -74,10 +74,14 @@ class ApiEndpoints {
   static String orderCancel(String orderId) => '$apiVersion/orders/$orderId/cancel';
 
   // Favorites
-  static const String favoriteProductsToggle = '$apiVersion/favorite-products/toggle';
-  static String favoriteProducts(String userId) => '$apiVersion/favorite-products/$userId';
-  static const String favoriteStoresToggle = '$apiVersion/favorite-stores/toggle';
-  static String favoriteStores(String userId) => '$apiVersion/favorite-stores/$userId';
+  static const String favoriteProducts = '$apiVersion/favorite-products';
+  static const String favoriteStores = '$apiVersion/favorite-stores';
+
+  static String favoriteProductToggle(String productId) =>
+      '$apiVersion/favorite-products/toggle/$productId';
+
+  static String favoriteStoreToggle(String storeId) =>
+      '$apiVersion/favorite-stores/toggle/$storeId';
 
   // Discounts
   static const String discounts = '$apiVersion/discounts';
