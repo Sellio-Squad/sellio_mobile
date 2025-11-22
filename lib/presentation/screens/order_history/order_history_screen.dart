@@ -21,30 +21,29 @@ class OrderHistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: SafeArea(
-        child: Scaffold(
-          appBar: SellioAppBar(
-            showBackButton: true,
-            title: AppStrings.orderHistory,
-          ),
-          body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
-            builder: (context, state) {
-              if (state is OrderHistoryLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is OrderHistoryError) {
-                return Center(child: Text(state.message));
-              } else if (state is OrderHistoryLoaded) {
-                final orders = state.filteredOrders;
-                return CustomScrollView(
-                  slivers: [
-                    const OrderHistoryTabs(),
-                    OrderSection(orders: orders),
-                  ],
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+      child: Scaffold(
+        backgroundColor: context.theme.colors.surfaceLow,
+        appBar: SellioAppBar(
+          showBackButton: true,
+          title: AppStrings.orderHistory,
+        ),
+        body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
+          builder: (context, state) {
+            if (state is OrderHistoryLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is OrderHistoryError) {
+              return Center(child: Text(state.message));
+            } else if (state is OrderHistoryLoaded) {
+              final orders = state.filteredOrders;
+              return CustomScrollView(
+                slivers: [
+                  const OrderHistoryTabs(),
+                  OrderSection(orders: orders),
+                ],
+              );
+            }
+            return const SizedBox.shrink();
+          },
         ),
       ),
     );

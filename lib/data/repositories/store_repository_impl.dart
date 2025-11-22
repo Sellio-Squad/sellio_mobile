@@ -127,7 +127,6 @@ class StoreRepositoryImpl implements StoreRepository {
     return RepositoryCallHandler.callWithAuth<void>(
       _getUserId,
       (userId) => _favoritesRemoteDataSource.toggleStoreFavorite(
-        userId: userId,
         storeId: storeId,
       ),
     );
@@ -138,7 +137,7 @@ class StoreRepositoryImpl implements StoreRepository {
     return RepositoryCallHandler.callWithAuth<List<Store>>(
       _getUserId,
       (userId) async {
-        final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
+        final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds();
 
         final stores = <Store>[];
         for (final storeId in storeIds) {
@@ -160,7 +159,8 @@ class StoreRepositoryImpl implements StoreRepository {
     return RepositoryCallHandler.callWithAuth<bool>(
       _getUserId,
       (userId) async {
-        final favoriteIds = await _favoritesRemoteDataSource.getFavoriteStoreIds(userId);
+        final favoriteIds =
+            await _favoritesRemoteDataSource.getFavoriteStoreIds();
         return favoriteIds.contains(storeId);
       },
     );

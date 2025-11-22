@@ -7,6 +7,8 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/constants/app_images.dart';
@@ -88,23 +90,27 @@ class _AccountScreenState extends State<AccountScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height:24),
+                  const SizedBox(height: 24),
                   Row(
                     children: [
                       Expanded(
                         child: AccountCustomCard(
-                            icon: AppImages.package,
-                            orderTitle: AppStrings.myOrders),
+                          icon: AppImages.package,
+                          orderTitle: context.local.my_orders,
+                          onTap: () => navigateToMyOrders(context),
+                        ),
                       ),
-                      const SizedBox(width:8),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: AccountCustomCard(
-                            icon: AppImages.heartCheck,
-                            orderTitle: AppStrings.myFavourites),
+                          icon: AppImages.heartCheck,
+                          orderTitle: context.local.my_favourites,
+                          onTap: () => navigateToMyFavourites(context),
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height:16),
+                  const SizedBox(height: 16),
                   AccountOptionCard(
                     prefixIcon: AppImages.repair,
                     orderTitle: AppStrings.accountSettings,
@@ -113,7 +119,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: AppImages.circleLockAdd,
                     orderTitle: AppStrings.resetPassword,
@@ -122,7 +128,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: AppImages.languageCircle,
                     orderTitle: AppStrings.language,
@@ -131,7 +137,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     },
                     trailing: SvgPicture.asset(AppImages.arrowRightCustom),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: AppImages.notification,
                     orderTitle: AppStrings.notification,
@@ -141,7 +147,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       onChanged: (bool value) {},
                     ),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                   AccountOptionCard(
                     prefixIcon: AppImages.mobileProgramming,
                     orderTitle: AppStrings.appVersion,
@@ -153,7 +159,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height:12),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
@@ -306,6 +312,7 @@ class AccountCustomCard extends StatelessWidget {
   final String icon;
   final double iconSize;
   final String orderTitle;
+  final VoidCallback onTap;
 
   const AccountCustomCard({
     super.key,
@@ -314,37 +321,41 @@ class AccountCustomCard extends StatelessWidget {
     required this.icon,
     this.iconSize = 28,
     required this.orderTitle,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 90,
-      width: 160,
-      decoration: BoxDecoration(
-        color: cardColor ?? context.theme.colors.surface,
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 12),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height:12),
-            SvgPicture.asset(
-              icon,
-              width: iconSize,
-              height: iconSize,
-            ),
-            const SizedBox(height:16),
-            Text(
-              orderTitle,
-              style: context.theme.typography.textTheme.labelMedium.copyWith(
-                color: context.theme.colors.title,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 90,
+        width: 160,
+        decoration: BoxDecoration(
+          color: cardColor ?? context.theme.colors.surface,
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 12),
+              SvgPicture.asset(
+                icon,
+                width: iconSize,
+                height: iconSize,
               ),
-            )
-          ],
+              const SizedBox(height: 16),
+              Text(
+                orderTitle,
+                style: context.theme.typography.textTheme.labelMedium.copyWith(
+                  color: context.theme.colors.title,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

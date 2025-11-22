@@ -2,6 +2,8 @@
   "@@locale": "en",
   "welcome": "Welcome",
   "top_stores": "Top Stores",
+  "my_orders": "My Orders",
+  "my_favourites": "My Favourites",
   "trending_products": "Trending Products",
   "search_results": "Search Results",
   "search_your_favorite_items": "Search your favorite items...",
