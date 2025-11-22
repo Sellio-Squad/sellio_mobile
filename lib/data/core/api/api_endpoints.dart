@@ -19,11 +19,11 @@ class ApiEndpoints {
 
   // User
   static const String userInsert = '$apiVersion/user/insert';
-  static String userById(String userId) => '$apiVersion/user/$userId';
-  static String userUpdate(String userId) => '$apiVersion/user/$userId/update';
-  static String userAvatar(String userId) => '$apiVersion/user/$userId/avatar';
-  static String userAddress(String userId) => '$apiVersion/user/$userId/address';
-  static String userChangePassword(String userId) => '$apiVersion/user/$userId/change-password';
+  static String userById() => '$apiVersion/user/profile';
+  static String userUpdate() => '$apiVersion/user/update';
+  static String userAvatar() => '$apiVersion/user/avatar';
+  static String userAddress() => '$apiVersion/user/address';
+  static String userChangePassword() => '$apiVersion/user/change-password';
 
   // Products
   static const String products = '$apiVersion/products';
