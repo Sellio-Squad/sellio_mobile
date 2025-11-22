@@ -15,10 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
       - name: Cache pub dependencies
         uses: actions/cache@v4
         with:
@@ -26,8 +28,13 @@ jobs:
           key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
+
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Generate Freezed & JSON serialization files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Build Android APK
         run: flutter build apk --debug -t lib/main.dart
 
