@@ -14,7 +14,6 @@ class TopStoresSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeTopStoresCubit, HomeTopStoresState>(
       listener: (context, state) {
-        // Handle side effects
         if (state is HomeTopStoresError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -42,7 +41,6 @@ class TopStoresSection extends StatelessWidget {
 
         return BlocConsumer<FavoritesCubit, FavoritesState>(
           listener: (context, favState) {
-            // Handle favorites side effects
             if (favState is FavoritesError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
