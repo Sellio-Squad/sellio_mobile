@@ -73,10 +73,7 @@ class RepositoryModule {
     );
 
     sl.registerLazySingleton<FavoritesRepository>(
-          () => FavoritesRepositoryImpl(
-        remoteDataSource: sl(),
-        storageService: sl(),
-      ),
+          () => FavoritesRepositoryImpl(remoteDataSource: sl()),
     );
 
     sl.registerLazySingleton<OffersRepository>(
