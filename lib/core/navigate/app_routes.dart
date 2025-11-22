@@ -71,6 +71,10 @@ enum AppRoutes {
   myOrders(
     name: 'myOrders',
     path: '/myOrders',
+  ),
+  myFavorites(
+    name: 'myFavorites',
+    path: '/myFavorites',
   );
 
   const AppRoutes({
