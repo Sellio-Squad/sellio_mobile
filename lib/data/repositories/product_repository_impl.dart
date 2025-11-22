@@ -224,7 +224,6 @@ class ProductRepositoryImpl implements ProductRepository {
     return RepositoryCallHandler.callWithAuth<void>(
       _getUserId,
       (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
-        userId: userId,
         productId: productId,
       ),
     );
@@ -236,7 +235,7 @@ class ProductRepositoryImpl implements ProductRepository {
       _getUserId,
       (userId) async {
         final productIds =
-            await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
+            await _favoritesRemoteDataSource.getFavoriteProductIds();
 
         final products = <Product>[];
         for (final productId in productIds) {
@@ -259,7 +258,7 @@ class ProductRepositoryImpl implements ProductRepository {
       _getUserId,
       (userId) async {
         final favoriteIds =
-            await _favoritesRemoteDataSource.getFavoriteProductIds(userId);
+            await _favoritesRemoteDataSource.getFavoriteProductIds();
         return favoriteIds.contains(productId);
       },
     );
