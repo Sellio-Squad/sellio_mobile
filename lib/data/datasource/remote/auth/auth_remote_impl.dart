@@ -1,49 +1,8 @@
-import '../../core/api/api_endpoints.dart';
-import '../../core/api/api_client.dart';
-import '../../models/user_model.dart';
+import '../../../core/api/api_endpoints.dart';
+import '../../../core/api/api_client.dart';
+import '../../../models/user_model.dart';
+import 'auth_remote.dart';
 
-abstract class AuthRemoteDataSource {
-  Future<UserModel> login({
-    required String phoneNumber,
-    required String countryCode,
-    required String password,
-  });
-
-  Future<UserModel> register({
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    required String countryCode,
-    required String password,
-    required String country,
-    required String city,
-  });
-
-  Future<bool> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
-  });
-
-  Future<void> resendOtp({
-    required String phoneNumber,
-    required String countryCode,
-  });
-
-  Future<void> sendForgotPasswordOtp({
-    required String phoneNumber,
-    required String countryCode,
-  });
-
-  Future<void> resetPassword({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
-    required String newPassword,
-  });
-
-  Future<UserModel?> getCurrentUser(String userId);
-}
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiClient _httpClient;
@@ -159,7 +118,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel?> getCurrentUser(String userId) async {
-    final response = await _httpClient.get(ApiEndpoints.userById(userId));
+    final response = await _httpClient.get(ApiEndpoints.userById());
     return UserModel.fromJson(response.data);
   }
 }
