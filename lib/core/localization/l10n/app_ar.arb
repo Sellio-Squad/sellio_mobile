@@ -2,6 +2,8 @@
   "@@locale": "ar",
   "welcome": "مرحباً",
   "top_stores": "أفضل المتاجر",
+  "my_orders": "طلباتي",
+  "my_favourites": "المفضلة لدي",
   "trending_products": "المنتجات الرائجة",
   "search_results": "نتائج البحث",
   "search_your_favorite_items": "ابحث عن العناصر المفضلة لديك...",
