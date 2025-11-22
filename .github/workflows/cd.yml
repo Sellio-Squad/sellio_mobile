@@ -49,6 +49,9 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
 
+      - name: Generate Freezed & JSON serialization files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
@@ -62,7 +65,6 @@ jobs:
 
       - name: Build release APK
         run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
-
 
       - name: Upload APK to latest Slack thread
         uses: slackapi/slack-github-action@v2.1.1
