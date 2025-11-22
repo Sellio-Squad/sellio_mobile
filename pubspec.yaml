@@ -14,7 +14,6 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-
   # UI Dependencies
   image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
@@ -24,7 +23,7 @@ dependencies:
 
   # Networking
   dio: ^5.7.0
-  pretty_dio_logger:
+  pretty_dio_logger: ^1.2.0
 
   # Dependency Injection
   get_it: ^7.7.0
@@ -32,7 +31,7 @@ dependencies:
   # Local Storage
   path: ^1.9.0
   shared_preferences: ^2.2.3
-  flutter_secure_storage:
+  flutter_secure_storage: ^8.0.0
 
   # Network Info
   internet_connection_checker: ^1.0.0+1
@@ -42,11 +41,13 @@ dependencies:
   google_maps_flutter: ^2.9.0
   go_router: ^16.3.0
 
-
-  equatable:
-
   # State Management
-  flutter_bloc:
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.2
+
+  # Freezed Serialization
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
@@ -57,12 +58,15 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
 
+  # Freezed Code Generation
+  build_runner: ^2.4.7
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+
 flutter:
   uses-material-design: true
   generate: true
 
-
-  # Assets
   assets:
     - assets/images/
     - assets/svg/
@@ -79,28 +83,21 @@ flutter:
         - asset: assets/fonts/rubik_semi_bold.ttf
           weight: 600
 
-# Native splash screen configuration (light only)
 flutter_native_splash:
   color: "#F8F8F8"
   image: assets/images/sellio.png
   ios_content_mode: center
 
-  # Android 12+ configuration
   android_12:
     image: assets/images/sellio.png
     color: "#F8F8F8"
 
-  # Web configuration (optional)
   web: false
-
-  # Remove full screen for better compatibility
   fullscreen: false
 
-# App launcher icons configuration
 flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/images/sellio.png"
-
   adaptive_icon_background: "#F8F8F8"
   adaptive_icon_foreground: "assets/images/sellio.png"
