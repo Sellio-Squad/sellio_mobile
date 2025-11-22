@@ -18,7 +18,6 @@ class MockDataGenerator {
   // User Mock Data
   static User generateUser({int index = 0}) {
     return User(
-      id: 'user_$index',
       fullName: 'John Doe $index',
       phoneNumber: '555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
       countryCode: '+1',
