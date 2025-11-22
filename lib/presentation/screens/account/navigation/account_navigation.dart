@@ -7,7 +7,7 @@ void navigateToMyOrders(BuildContext context) {
 }
 
 void navigateToMyFavourites(BuildContext context) {
-  // TODO: Implement app version navigation
+  context.navigator.pushMyFavorites();
 }
 
 void navigateToAppVersion(BuildContext context) {
