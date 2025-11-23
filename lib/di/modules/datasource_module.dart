@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
-import '../../../data/datasource/remote/auth_remote_datasource.dart';
+import '../../data/datasource/remote/auth/auth_remote.dart';
+import '../../data/datasource/remote/auth/auth_remote_impl.dart';
 import '../../../data/datasource/remote/cart_remote_datasource.dart';
 import '../../../data/datasource/remote/category_remote_datasource.dart';
 import '../../../data/datasource/remote/favorites_remote_datasource.dart';
@@ -7,7 +8,8 @@ import '../../../data/datasource/remote/offers_remote_datasource.dart';
 import '../../../data/datasource/remote/order_remote_datasource.dart';
 import '../../../data/datasource/remote/product_remote_datasource.dart';
 import '../../../data/datasource/remote/store_remote_datasource.dart';
-import '../../../data/datasource/remote/user_remote_datasource.dart';
+import '../../data/datasource/remote/user/user_remote.dart';
+import '../../data/datasource/remote/user/user_remote_impl.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {

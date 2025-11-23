@@ -6,9 +6,13 @@ abstract class UserRepository {
   Future<Result<User>> getUserProfile();
 
   Future<Result<User>> updateUserProfile({
-    String? fullName,
+    String? firstName,
+    String? lastName,
     String? email,
-    String? profilePhotoUrl,
+    String? phoneNumber,
+    String? country,
+    String? city,
+    String? avatarUrl,
   });
 
   Future<Result<void>> changePassword({

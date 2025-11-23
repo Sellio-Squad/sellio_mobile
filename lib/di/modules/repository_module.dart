@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:sellio_mobile/domain/repositories/notification_repository.dart';
-
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/cart_repository_impl.dart';
 import '../../../data/repositories/category_repository_impl.dart';
@@ -34,7 +33,7 @@ class RepositoryModule {
           () => ProductRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
@@ -42,48 +41,49 @@ class RepositoryModule {
           () => StoreRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
     sl.registerLazySingleton<CategoryRepository>(
           () => CategoryRepositoryImpl(
-        remoteDataSource: sl(),
+        remoteDataSource: sl()
       ),
     );
 
     sl.registerLazySingleton<CartRepository>(
           () => CartRepositoryImpl(
         remoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
     sl.registerLazySingleton<OrderRepository>(
           () => OrderRepositoryImpl(
-        remoteDataSource: sl(),
+        remoteDataSource: sl()
       ),
     );
 
     sl.registerLazySingleton<UserRepository>(
           () => UserRepositoryImpl(
-        remoteDataSource: sl(),
-        storageService: sl(),
+        remoteDataSource: sl()
       ),
     );
 
     sl.registerLazySingleton<FavoritesRepository>(
-          () => FavoritesRepositoryImpl(remoteDataSource: sl()),
+          () => FavoritesRepositoryImpl(
+        remoteDataSource: sl()
+      ),
     );
 
     sl.registerLazySingleton<OffersRepository>(
           () => OffersRepositoryImpl(
-        remoteDataSource: sl(),
+        remoteDataSource: sl()
       ),
     );
 
     sl.registerLazySingleton<NotificationRepository>(
-          () => NotificationRepositoryImpl(),
+          () => NotificationRepositoryImpl()
     );
   }
 }

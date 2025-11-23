@@ -1,10 +1,10 @@
 class Address {
-  final String id;
+  final String? id;
   final String country;
   final String city;
 
   const Address({
-    required this.id,
+    this.id,
     required this.country,
     required this.city,
   });

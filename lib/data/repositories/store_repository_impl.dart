@@ -1,4 +1,6 @@
 import 'package:sellio_mobile/core/error/result.dart';
+import 'package:sellio_mobile/data/mappers/review_mapper.dart';
+import 'package:sellio_mobile/data/mappers/store_mapper.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/entities/review.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';

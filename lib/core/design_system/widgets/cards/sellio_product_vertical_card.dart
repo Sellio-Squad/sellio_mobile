@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import '../../constants/app_images.dart';
+import '../utils/widgets_utils.dart';
 
 class SellioProductVerticalCard extends StatefulWidget {
   final String imageUrl;
@@ -136,7 +137,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   width: double.infinity,
                   height: 23,
                   child: Text(
-                    widget.price,
+                    "\$${formatPrice(widget.price)}",
                     style: textTheme.titleSmall.copyWith(color: colors.primary),
                     maxLines: 1,
                   ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/navigate/navigation_extensions.dart';
 import '../../../../domain/entities/store.dart';
+import '../../product_details/product_details_screen.dart';
 import '../../store_details/store_details_screen.dart';
 
 void navigateToStoreDetails(BuildContext context, Store store) {
@@ -10,6 +10,15 @@ void navigateToStoreDetails(BuildContext context, Store store) {
     MaterialPageRoute(
       builder: (context) => StoreDetailsScreen(storeId: store.id),
     ),
+  );
+}
+
+void navigateToProductDetails(BuildContext context, String productId) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => ProductDetailsScreen(productId: productId)
+    )
   );
 }
 
