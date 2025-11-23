@@ -118,7 +118,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<UserModel?> getCurrentUser(String userId) async {
-    final response = await _httpClient.get(ApiEndpoints.userById());
+    final response = await _httpClient.get(ApiEndpoints.userProfile());
     return UserModel.fromJson(response.data);
   }
 }
