@@ -33,7 +33,7 @@ class RepositoryModule {
           () => ProductRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
@@ -41,26 +41,26 @@ class RepositoryModule {
           () => StoreRepositoryImpl(
         remoteDataSource: sl(),
         favoritesRemoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
     sl.registerLazySingleton<CategoryRepository>(
           () => CategoryRepositoryImpl(
-        remoteDataSource: sl(),
+        remoteDataSource: sl()
       ),
     );
 
     sl.registerLazySingleton<CartRepository>(
           () => CartRepositoryImpl(
         remoteDataSource: sl(),
-        storageService: sl(),
+        storageService: sl()
       ),
     );
 
     sl.registerLazySingleton<OrderRepository>(
           () => OrderRepositoryImpl(
-        remoteDataSource: sl(),
+        remoteDataSource: sl()
       ),
     );
 
@@ -68,30 +68,22 @@ class RepositoryModule {
           () => UserRepositoryImpl(
         remoteDataSource: sl()
       ),
-        remoteDataSource: sl(),
-        storageService: sl(),
-      ),
     );
 
     sl.registerLazySingleton<FavoritesRepository>(
-          () => FavoritesRepositoryImpl(remoteDataSource: sl()),
+          () => FavoritesRepositoryImpl(
+        remoteDataSource: sl()
+      ),
     );
-    //
-    // sl.registerLazySingleton<FavoritesRepository>(
-    //       () => FavoritesRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //     storageService: sl(),
-    //   ),
-    // );
-    //
-    // sl.registerLazySingleton<OffersRepository>(
-    //       () => OffersRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //   ),
-    // );
-    //
-    // sl.registerLazySingleton<NotificationRepository>(
-    //       () => NotificationRepositoryImpl(),
-    // );
+
+    sl.registerLazySingleton<OffersRepository>(
+          () => OffersRepositoryImpl(
+        remoteDataSource: sl()
+      ),
+    );
+
+    sl.registerLazySingleton<NotificationRepository>(
+          () => NotificationRepositoryImpl()
+    );
   }
 }

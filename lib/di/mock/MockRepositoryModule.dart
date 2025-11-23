@@ -31,6 +31,5 @@ class MockRepositoryModule {
     sl.registerLazySingleton<FavoritesRepository>(() => MockFavoritesRepositoryImpl());
     sl.registerLazySingleton<OffersRepository>(() => MockOffersRepositoryImpl());
     sl.registerLazySingleton<NotificationRepository>(() => MockNotificationRepositoryImpl());
-    sl.registerLazySingleton<UserRepository>(() => MockUserRepositoryImpl());
   }
 }
