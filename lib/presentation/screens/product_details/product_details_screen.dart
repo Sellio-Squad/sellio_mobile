@@ -33,35 +33,35 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProductDetailsListener(
-      child: BlocProvider(
-        create: (context) => ProductDetailsCubit(
-          context.read<ProductRepository>(),
-          context.read<CartCubit>(),
-        )..loadProductDetails(productId),
+    return BlocProvider(
+      create: (context) => ProductDetailsCubit(
+        context.read<ProductRepository>(),
+        context.read<CartCubit>(),
+      )..loadProductDetails(productId),
+      child: ProductDetailsListener(
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             backgroundColor: context.theme.colors.surfaceLow,
             appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(56),
-          child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-            builder: (context, state) {
-              final title = (state is ProductDetailsLoading)
-                  ? state.product?.name: null;
+              preferredSize: const Size.fromHeight(56),
+              child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+                builder: (context, state) {
+                  final title = (state is ProductDetailsLoading)
+                      ? state.product?.name
+                      : null;
 
-              return SellioAppBar(
-                showBackButton: true,
-                title: title,
-                actions: [
-                  productFavorite(context, productId),
-                ],
-              );
-            },
-          ),
-        ),
-
-        body: Column(
+                  return SellioAppBar(
+                    showBackButton: true,
+                    title: title,
+                    actions: [
+                      productFavorite(context, productId),
+                    ],
+                  );
+                },
+              ),
+            ),
+            body: Column(
               children: [
                 productImagesSection(),
                 Padding(
@@ -83,6 +83,7 @@ class ProductDetailsScreen extends StatelessWidget {
       ),
     );
   }
+
 }
 
 Widget _buildPriceAndCounterRow(BuildContext context) {
