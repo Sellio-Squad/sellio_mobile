@@ -7,59 +7,35 @@ import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../cubits/user/cubit/user_cubit.dart';
 import '../../../cubits/user/cubit/user_state.dart';
-import '../utils/home_navigation.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String userName;
-  final String? location;
   final VoidCallback? onNotificationTap;
 
-  const HomeAppBar({
-    super.key,
-    required this.userName,
-    this.location,
-    this.onNotificationTap,
-  });
+  const HomeAppBar({super.key, this.onNotificationTap});
 
   @override
   Size get preferredSize => const Size.fromHeight(68.0);
 
-  static PreferredSizeWidget fromContext(BuildContext context) {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(68.0),
-      child: BlocBuilder<UserCubit, UserState>(
-        builder: (context, state) {
-          final userName = state is UserLoaded ? state.name : 'Guest';
-          final location = state is UserLoaded ? state.location : null;
-
-          return HomeAppBar(
-            userName: userName,
-            location: location,
-            onNotificationTap: () => navigateToNotifications(context),
-          );
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SellioAppBar(
-      leading: _buildLogo(),
-      centerTitle: true,
-      customTitle: _buildUserInfo(context),
-      actions: [_buildNotificationButton()],
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        final userName = (state as UserLoaded?)?.name ?? context.local.guest;
+        final location = (state as UserLoaded?)?.location;
+
+        return SellioAppBar(
+          leading: _buildLogo(),
+          centerTitle: true,
+          customTitle: _buildUserInfo(context, userName, location),
+          actions: [_buildNotificationButton()],
+        );
+      },
     );
   }
 
-  Widget _buildLogo() {
-    return Image.asset(
-      AppImages.sellio,
-      fit: BoxFit.contain,
-    );
-  }
+  Widget _buildLogo() => Image.asset(AppImages.sellio, fit: BoxFit.contain);
 
-  Widget _buildUserInfo(BuildContext context) {
+  Widget _buildUserInfo(BuildContext context, String userName, String? location) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
@@ -68,19 +44,17 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          '${context.local.welcome}, $userName',
-          style: textTheme.labelSmall.copyWith(color: colors.title),
-        ),
+        Text('${context.local.welcome}, $userName',
+            style: textTheme.labelSmall.copyWith(color: colors.title)),
         if (location != null) ...[
           const SizedBox(height: 2),
-          _buildLocation(context),
-        ],
+          _buildLocation(context, location),
+        ]
       ],
     );
   }
 
-  Widget _buildLocation(BuildContext context) {
+  Widget _buildLocation(BuildContext context, String location) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
@@ -90,21 +64,16 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       children: [
         SvgPicture.asset(AppImages.location, width: 16, height: 16),
         const SizedBox(width: 4),
-        Text(
-          location!,
-          style: textTheme.labelXSmall.copyWith(color: colors.body),
-        ),
+        Text(location, style: textTheme.labelXSmall.copyWith(color: colors.body)),
       ],
     );
   }
 
-  Widget _buildNotificationButton() {
-    return IconButton(
-      icon: SvgPicture.asset(AppImages.bell),
-      onPressed: onNotificationTap,
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(),
-      iconSize: 40,
-    );
-  }
+  Widget _buildNotificationButton() => IconButton(
+    icon: SvgPicture.asset(AppImages.bell),
+    onPressed: onNotificationTap,
+    padding: EdgeInsets.zero,
+    constraints: const BoxConstraints(),
+    iconSize: 40,
+  );
 }

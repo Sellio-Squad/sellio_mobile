@@ -1,5 +1,9 @@
 {
   "@@locale": "ar",
+   "guest": "ضيف",
+   "@guest": {
+     "description": "Default name for guest user"
+   },
   "welcome": "مرحباً",
   "top_stores": "أفضل المتاجر",
   "my_orders": "طلباتي",

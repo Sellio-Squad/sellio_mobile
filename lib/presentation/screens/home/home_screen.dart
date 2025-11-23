@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 import 'home_bloc_providers.dart';
 import 'home_listeners.dart';
 import 'sections/categories/categories_section.dart';
@@ -32,7 +33,9 @@ class _HomeScreenContent extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
-          appBar: HomeAppBar.fromContext(context),
+          appBar: HomeAppBar(
+            onNotificationTap: () => navigateToNotifications(context),
+          ),
           extendBodyBehindAppBar: true,
           backgroundColor: colors.surfaceLow,
           body: _HomeBody(colors: colors),
@@ -41,7 +44,6 @@ class _HomeScreenContent extends StatelessWidget {
     );
   }
 }
-
 class _HomeBody extends StatelessWidget {
   final dynamic colors;
 

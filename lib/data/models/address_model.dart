@@ -1,41 +1,17 @@
-import '../../domain/entities/address.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class AddressModel extends Address {
-  const AddressModel({
-    required super.id,
-    required super.country,
-    required super.city
-  });
+part 'address_model.freezed.dart';
+part 'address_model.g.dart';
 
-  factory AddressModel.fromJson(Map<String, dynamic> json) {
-    return AddressModel(
-      id: json['id'] as String,
-      country: json['country'] as String,
-      city: json['city'] as String
-    );
-  }
+@freezed
+class AddressModel with _$AddressModel {
+  const factory AddressModel({
+    String? id,
+    required String country,
+    required String city,
+  }) = _AddressModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'country': country,
-      'city': city
-    };
-  }
-
-  factory AddressModel.fromEntity(Address address) {
-    return AddressModel(
-      id: address.id,
-      country: address.country,
-      city: address.city
-    );
-  }
-
-  Address toEntity() {
-    return Address(
-      id: id,
-      country: country,
-      city: city
-    );
-  }
+  factory AddressModel.fromJson(Map<String, dynamic> json) =>
+      _$AddressModelFromJson(json);
 }
+

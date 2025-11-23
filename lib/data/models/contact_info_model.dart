@@ -1,24 +1,16 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/store.dart';
 
-class ContactInfoModel extends ContactInfo {
-  ContactInfoModel({
-    required super.provider,
-    required super.type,
-  });
+part 'contact_info_model.freezed.dart';
+part 'contact_info_model.g.dart';
 
-  factory ContactInfoModel.fromJson(Map<String, dynamic> json) {
-    return ContactInfoModel(
-      provider: json['provider'] as String,
-      type: ContactType.values.firstWhere(
-            (e) => e.toString() == 'ContactType.${json['type']}',
-      ),
-    );
-  }
+@freezed
+class ContactInfoModel with _$ContactInfoModel {
+  const factory ContactInfoModel({
+    required String provider,
+    required ContactType type,
+  }) = _ContactInfoModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'provider': provider,
-      'type': type.toString().split('.').last,
-    };
-  }
+  factory ContactInfoModel.fromJson(Map<String, dynamic> json) =>
+      _$ContactInfoModelFromJson(json);
 }

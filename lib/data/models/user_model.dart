@@ -1,58 +1,19 @@
-import '../../domain/entities/user.dart';
-import 'address_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UserModel extends User {
-  const UserModel({
-    required super.id,
-    required super.fullName,
-    required super.phoneNumber,
-    required super.countryCode,
-    super.profilePhotoUrl,
-    required super.address,
-  });
+part 'user_model.freezed.dart';
+part 'user_model.g.dart';
+@freezed
+class UserModel with _$UserModel {
+  const factory UserModel({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String phoneNumber,
+    required String city,
+    required String country,
+    String? avatarUrl,
+  }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'] as String,
-      fullName: json['fullName'] as String,
-      phoneNumber: json['phoneNumber'] as String,
-      countryCode: json['countryCode'] as String,
-      profilePhotoUrl: json['profilePhotoUrl'] as String?,
-      address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'fullName': fullName,
-      'phoneNumber': phoneNumber,
-      'countryCode': countryCode,
-      'profilePhotoUrl': profilePhotoUrl,
-      'address': (address as AddressModel).toJson(),
-    };
-  }
-
-
-  factory UserModel.fromEntity(User user) {
-    return UserModel(
-      id: user.id,
-      fullName: user.fullName,
-      phoneNumber: user.phoneNumber,
-      countryCode: user.countryCode,
-      profilePhotoUrl: user.profilePhotoUrl,
-      address: user.address,
-    );
-  }
-
-  User toEntity() {
-    return User(
-      id: id,
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      countryCode: countryCode,
-      profilePhotoUrl: profilePhotoUrl,
-      address: address,
-    );
-  }
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 }

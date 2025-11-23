@@ -1,10 +1,12 @@
+import 'package:sellio_mobile/data/mappers/user_mapper.dart';
+
 import '../../core/error/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasource/remote/auth_remote_datasource.dart';
+import '../datasource/remote/auth/auth_remote.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -32,7 +34,6 @@ class AuthRepositoryImpl implements AuthRepository {
       // Save auth data
       // TODO: Update your API response to include token
       // await _storageService.save<String>(StorageKeys.authToken, userModel.token);
-      await _storageService.save<String>(StorageKeys.userId, userModel.id);
       await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
 
       return userModel.toEntity();
@@ -64,7 +65,6 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
       );
 
-      await _storageService.save<String>(StorageKeys.userId, userModel.id);
       await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
 
       return userModel.toEntity();

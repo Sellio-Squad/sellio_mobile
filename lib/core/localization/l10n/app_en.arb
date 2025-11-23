@@ -1,5 +1,9 @@
 {
   "@@locale": "en",
+  "guest": "Guest",
+  "@guest": {
+    "description": "Default name for guest user"
+  },
   "welcome": "Welcome",
   "top_stores": "Top Stores",
   "my_orders": "My Orders",

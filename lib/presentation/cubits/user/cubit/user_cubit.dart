@@ -10,12 +10,12 @@ class UserCubit extends Cubit<UserState> {
   Future<void> loadUserInfo() async {
     emit(const UserLoading());
     try {
-      final user = await _userRepository.getUserProfile();
-      final address = await _userRepository.getUserAddress();
+      final userResult = await _userRepository.getUserProfile();
 
+      final user = userResult.data;
       emit(UserLoaded(
-        name: user.data.fullName,
-        location: '${address.data.city}, ${address.data.country}',
+        name: user.firstName,
+        location: '${user.address.city}, ${user.address.country}',
       ));
     } catch (e) {
       emit(UserError(message: e.toString()));
@@ -23,16 +23,25 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> updateProfile({
-    String? fullName,
+    String? firstName,
+    String? lastName,
     String? email,
-    String? profilePhotoUrl,
+    String? phoneNumber,
+    String? country,
+    String? city,
+    String? avatarUrl,
   }) async {
     try {
       await _userRepository.updateUserProfile(
-        fullName: fullName,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
-        profilePhotoUrl: profilePhotoUrl,
+        phoneNumber: phoneNumber,
+        country: country,
+        city: city,
+        avatarUrl: avatarUrl,
       );
+
       await loadUserInfo();
     } catch (e) {
       emit(UserError(message: e.toString()));
@@ -42,6 +51,4 @@ class UserCubit extends Cubit<UserState> {
   Future<void> refreshUserInfo() async {
     await loadUserInfo();
   }
-
-
 }
