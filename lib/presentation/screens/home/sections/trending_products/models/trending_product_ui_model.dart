@@ -24,7 +24,7 @@ class TrendingProductUIModel {
           ? product.images.first
           : 'assets/images/product_3.webp',
       title: product.name,
-      price: '\$${product.price.toStringAsFixed(2)}',
+      price: product.price.toString(),
       hasDiscount: product.discount != null,
       discountText: product.discount,
     );
