@@ -1,15 +1,20 @@
-import 'package:sellio_mobile/data/mappers/address_mapper.dart';
 
+import '../../domain/entities/address.dart';
 import '../../domain/entities/user.dart';
 import '../models/user_model.dart';
 
 extension UserModelMapper on UserModel {
-  User toEntity() => User(
-    fullName: fullName,
-    phoneNumber: phoneNumber,
-    countryCode: countryCode,
-    profilePhotoUrl: profilePhotoUrl,
-    address: address.toEntity(),
-  );
+  User toEntity() {
+    return User(
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+      avatarUrl: avatarUrl,
+      address: Address(
+        country: country,
+        city: city,
+      ),
+    );
+  }
 }
-

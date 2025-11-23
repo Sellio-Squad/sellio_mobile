@@ -1,34 +1,38 @@
-
 import 'address.dart';
 
 class User {
-  final String fullName;
+  final String firstName;
+  final String lastName;
+  final String email;
   final String phoneNumber;
-  final String countryCode;
-  final String? profilePhotoUrl;
+  final String? avatarUrl;
   final Address address;
 
   const User({
-    required this.fullName,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
     required this.phoneNumber,
-    required this.countryCode,
-    this.profilePhotoUrl,
+    this.avatarUrl,
     required this.address,
   });
 
   User copyWith({
-    String? id,
-    String? fullName,
+    String? firstName,
+    String? lastName,
+    String? email,
     String? phoneNumber,
-    String? countryCode,
-    String? profilePhotoUrl,
+    String? city,
+    String? country,
+    String? avatarUrl,
     Address? address,
   }) {
     return User(
-      fullName: fullName ?? this.fullName,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      countryCode: countryCode ?? this.countryCode,
-      profilePhotoUrl: profilePhotoUrl ?? this.profilePhotoUrl,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
       address: address ?? this.address,
     );
   }
