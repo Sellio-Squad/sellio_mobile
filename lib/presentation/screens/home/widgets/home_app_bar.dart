@@ -20,13 +20,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
-        String userName = 'Guest';
-        String? location;
-
-        if (state is UserLoaded) {
-          userName = state.name;
-          location = state.location;
-        }
+        final userName = (state as UserLoaded?)?.name ?? context.local.guest;
+        final location = (state as UserLoaded?)?.location;
 
         return SellioAppBar(
           leading: _buildLogo(),
