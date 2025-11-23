@@ -13,23 +13,38 @@ class MockUserRepositoryImpl implements UserRepository {
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<User>> getUserProfile() async {
     await _simulateDelay();
     return Success(_currentUser);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<User>> updateUserProfile({
-    String? fullName,
+    String? firstName,
+    String? lastName,
     String? email,
-    String? profilePhotoUrl,
+    String? phoneNumber,
+    String? country,
+    String? city,
+    String? avatarUrl,
   }) async {
     await _simulateDelay();
 
+    Address updatedAddress = _currentUser.address.copyWith(
+      country: country ?? _currentUser.address.country,
+      city: city ?? _currentUser.address.city,
+    );
+
     _currentUser = _currentUser.copyWith(
-      fullName: fullName ?? _currentUser.fullName,
-      profilePhotoUrl: profilePhotoUrl ?? _currentUser.profilePhotoUrl,
+      firstName: firstName ?? _currentUser.firstName,
+      lastName: lastName ?? _currentUser.lastName,
+      email: email ?? _currentUser.email,
+      phoneNumber: phoneNumber ?? _currentUser.phoneNumber,
+      avatarUrl: avatarUrl ?? _currentUser.avatarUrl,
+      address: updatedAddress,
     );
 
     return Success(_currentUser);
@@ -57,14 +72,14 @@ class MockUserRepositoryImpl implements UserRepository {
     return const Success(null);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<Address>> getUserAddress() async {
     await _simulateDelay();
     return Success(_currentUser.address);
   }
 
-  // Continuing from MockUserRepositoryImpl addAddress method
-
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<Address>> addAddress({
     required String country,
@@ -79,9 +94,14 @@ class MockUserRepositoryImpl implements UserRepository {
     );
 
     _addresses.add(newAddress);
+
+    // Also update current user's primary address
+    _currentUser = _currentUser.copyWith(address: newAddress);
+
     return Success(newAddress);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<Address>> updateAddress({
     required String addressId,
@@ -90,38 +110,46 @@ class MockUserRepositoryImpl implements UserRepository {
   }) async {
     await _simulateDelay();
 
-    final addressIndex = _addresses.indexWhere((a) => a.id == addressId);
-
-    if (addressIndex == -1) {
+    final index = _addresses.indexWhere((a) => a.id == addressId);
+    if (index == -1) {
       return const ResultFailure(
         NotFoundFailure(message: 'Address not found'),
       );
     }
 
-    final updatedAddress = _addresses[addressIndex].copyWith(
-      country: country ?? _addresses[addressIndex].country,
-      city: city ?? _addresses[addressIndex].city,
+    final updated = _addresses[index].copyWith(
+      country: country,
+      city: city,
     );
 
-    _addresses[addressIndex] = updatedAddress;
+    _addresses[index] = updated;
 
-    // Update user's address if it's the same one
+    // If this is the user's active address → update user
     if (_currentUser.address.id == addressId) {
-      _currentUser = _currentUser.copyWith(address: updatedAddress);
+      _currentUser = _currentUser.copyWith(address: updated);
     }
 
-    return Success(updatedAddress);
+    return Success(updated);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<void>> deleteAddress(String addressId) async {
     await _simulateDelay();
 
-     _addresses.removeWhere((a) => a.id == addressId);
+    _addresses.removeWhere((a) => a.id == addressId);
+
+    // If deleting the user's active address → clear it or replace it
+    if (_currentUser.address.id == addressId) {
+      _currentUser = _currentUser.copyWith(
+        address: Address(id: '', country: '', city: ''),
+      );
+    }
 
     return const Success(null);
   }
 
+  // ---------------------------------------------------------------------------
   @override
   Future<Result<String>> uploadProfilePhoto(String filePath) async {
     await _simulateDelay();
@@ -132,10 +160,10 @@ class MockUserRepositoryImpl implements UserRepository {
       );
     }
 
-    // Simulate upload and return a URL
-    final photoUrl = 'https://i.pravatar.cc/150?random=${DateTime.now().millisecondsSinceEpoch}';
+    final photoUrl =
+        'https://i.pravatar.cc/150?random=${DateTime.now().millisecondsSinceEpoch}';
 
-    _currentUser = _currentUser.copyWith(profilePhotoUrl: photoUrl);
+    _currentUser = _currentUser.copyWith(avatarUrl: photoUrl);
 
     return Success(photoUrl);
   }

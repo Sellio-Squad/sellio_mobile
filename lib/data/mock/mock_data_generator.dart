@@ -17,14 +17,24 @@ class MockDataGenerator {
 
   // User Mock Data
   static User generateUser({int index = 0}) {
+    final firstNames = ['John', 'Emma', 'Liam', 'Olivia', 'Noah'];
+    final lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones'];
+
+    final firstName = firstNames[index % firstNames.length];
+    final lastName = lastNames[index % lastNames.length];
+
+    final address = generateAddress(index: index);
+
     return User(
-      fullName: 'John Doe $index',
+      firstName: firstName,
+      lastName: lastName,
+      email: '${firstName.toLowerCase()}.${lastName.toLowerCase()}$index@example.com',
       phoneNumber: '555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
-      countryCode: '+1',
-      profilePhotoUrl: 'https://i.pravatar.cc/150?img=$index',
-      address: generateAddress(index: index),
+      avatarUrl: 'https://i.pravatar.cc/150?img=$index',
+      address: address,
     );
   }
+
 
   // Address Mock Data
   static Address generateAddress({int index = 0}) {
