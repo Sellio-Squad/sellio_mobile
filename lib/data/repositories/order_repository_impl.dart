@@ -37,7 +37,7 @@ class OrderRepositoryImpl implements OrderRepository {
       final orderModel = await _remoteDataSource.createOrder(
         storeId: storeId,
         items: orderItems,
-        addressId: deliveryAddress.id,
+        addressId: deliveryAddress.id ?? '',
         note: note,
       );
 
