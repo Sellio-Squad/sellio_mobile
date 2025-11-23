@@ -12,7 +12,7 @@ Future<void> init() async {
   await CoreModule.register(sl);
   StorageModule.register(sl);
   DataSourceModule.register(sl);
-  RepositoryModule.register(sl);
-  // MockRepositoryModule.register(sl);
+  // RepositoryModule.register(sl);
+  MockRepositoryModule.register(sl);
   BlocModule.register(sl);
 }
