@@ -18,7 +18,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> getUserProfile() async {
-    final response = await _httpClient.get(ApiEndpoints.userById());
+    final response = await _httpClient.get(ApiEndpoints.userProfile());
     return UserModel.fromJson(response.data);
   }
 
