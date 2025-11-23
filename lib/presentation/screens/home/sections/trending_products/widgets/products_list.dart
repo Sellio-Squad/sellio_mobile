@@ -4,6 +4,7 @@ import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:sellio_mobile/core/design_system/widgets/section_header.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 import '../models/trending_product_ui_model.dart';
 
 class ProductsList extends StatelessWidget {
@@ -89,6 +90,7 @@ class ProductsList extends StatelessWidget {
               onIncrement: () => onIncrement(product.id),
               onDecrement: () => onDecrement(product.id),
               onFavorite: () => onFavorite(product.id),
+              onTap: () => navigateToProductDetails(context, product.id),
             ),
           );
         },
