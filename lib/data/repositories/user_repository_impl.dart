@@ -29,28 +29,26 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Result<User>> updateUserProfile({
-    String? fullName,
+    String? firstName,
+    String? lastName,
     String? email,
-    String? profilePhotoUrl,
+    String? phoneNumber,
+    String? city,
+    String? country,
+    String? avatarUrl,
   }) async {
     return RepositoryCallHandler.call<User>(() async {
-      String? firstName;
-      String? lastName;
-
-      if (fullName != null && fullName.trim().isNotEmpty) {
-        final names = fullName.trim().split(' ');
-        firstName = names.first;
-        lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
-      }
-
       final request = UpdateUserProfileRequest(
         firstName: firstName,
         lastName: lastName,
-        email: email
+        email: email,
+        phoneNumber: phoneNumber,
+        city: city,
+        country: country,
+        avatarUrl: avatarUrl,
       );
 
       final userModel = await _remoteDataSource.updateUserProfile(request);
-
       return userModel.toEntity();
     });
   }
