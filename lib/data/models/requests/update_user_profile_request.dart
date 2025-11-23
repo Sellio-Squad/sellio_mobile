@@ -9,6 +9,10 @@ class UpdateUserProfileRequest with _$UpdateUserProfileRequest {
     String? firstName,
     String? lastName,
     String? email,
+    String? phoneNumber,
+    String? city,
+    String? country,
+    String? avatarUrl,
   }) = _UpdateUserProfileRequest;
 
   factory UpdateUserProfileRequest.fromJson(Map<String, dynamic> json) =>
