@@ -19,7 +19,7 @@ class ApiEndpoints {
 
   // User
   static const String userInsert = '$apiVersion/user/insert';
-  static String userById() => '$apiVersion/user/profile';
+  static String userProfile() => '$apiVersion/user/profile';
   static String userUpdate() => '$apiVersion/user/update';
   static String userAvatar() => '$apiVersion/user/avatar';
   static String userAddress() => '$apiVersion/user/address';
