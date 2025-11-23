@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
@@ -10,7 +11,6 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
-import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/constants/app_images.dart';
 import 'AccountOptionCard.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -74,7 +74,10 @@ class _AccountScreenState extends State<AccountScreen> {
                           imagePath: AppImages.cat,
                           editIconPath: AppImages.pencilEdit,
                           context: context,
-                          onEditTap: () {},
+                          onEditTap: () async {
+                            final ImagePicker picker = ImagePicker();
+                            final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+                          },
                         ),
                         const SizedBox(height: 12),
                         Text(
