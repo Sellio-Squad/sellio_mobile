@@ -9,10 +9,19 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get guest => 'Guest';
+
+  @override
   String get welcome => 'Welcome';
 
   @override
   String get top_stores => 'Top Stores';
+
+  @override
+  String get my_orders => 'My Orders';
+
+  @override
+  String get my_favourites => 'My Favourites';
 
   @override
   String get trending_products => 'Trending Products';

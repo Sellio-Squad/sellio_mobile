@@ -187,13 +187,7 @@ class _AccountScreenState extends State<AccountScreen> {
 }
 
 void _showLanguageBottomSheet(BuildContext context) {
-  ChangeLanguageBottomSheet.show(
-    context: context,
-    onSave: (String language) {
-      print('Selected language: $language');
-    },
-    selectedLanguage: AppStrings.english,
-  );
+  ChangeLanguageBottomSheet.show(context: context);
 }
 
 void _showLogoutBottomSheet(BuildContext context) {

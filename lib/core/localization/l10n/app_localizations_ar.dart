@@ -9,10 +9,19 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get guest => 'ضيف';
+
+  @override
   String get welcome => 'مرحباً';
 
   @override
   String get top_stores => 'أفضل المتاجر';
+
+  @override
+  String get my_orders => 'طلباتي';
+
+  @override
+  String get my_favourites => 'المفضلة لدي';
 
   @override
   String get trending_products => 'المنتجات الرائجة';

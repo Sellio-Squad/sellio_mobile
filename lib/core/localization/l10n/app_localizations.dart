@@ -98,6 +98,12 @@ abstract class AppLocalizations {
     Locale('en')
   ];
 
+  /// Default name for guest user
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guest;
+
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
@@ -109,6 +115,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Top Stores'**
   String get top_stores;
+
+  /// No description provided for @my_orders.
+  ///
+  /// In en, this message translates to:
+  /// **'My Orders'**
+  String get my_orders;
+
+  /// No description provided for @my_favourites.
+  ///
+  /// In en, this message translates to:
+  /// **'My Favourites'**
+  String get my_favourites;
 
   /// No description provided for @trending_products.
   ///
