@@ -10,7 +10,7 @@ import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
-import '../../../core/design_system/constants/app_images.dart';
+
 import '../../../core/design_system/constants/app_images.dart';
 import 'AccountOptionCard.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -171,10 +171,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _showAccountSettingsBottomSheet(BuildContext context) {
     AccountSettingsBottomSheet.show(
-        context: context,
-        onSave: () {
-          print('saved..');
-        });
+      context: context,
+      onSave: () {
+        print('saved..');
+      },
+    );
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {
