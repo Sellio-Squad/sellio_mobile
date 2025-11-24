@@ -95,6 +95,7 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
                   }
                 : null,
             isEnabled: _isFormValid,
+            verticalPadding: 13,
           ),
         ),
       ],
