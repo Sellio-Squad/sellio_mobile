@@ -38,8 +38,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buildLogo() => Image.asset(AppImages.sellio, fit: BoxFit.contain);
-
+  Widget _buildLogo() => Padding(
+    padding: const EdgeInsets.all(4),
+    child: Image.asset(
+      AppImages.sellio,
+      fit: BoxFit.contain
+    ),
+  );
   Widget _buildUserInfo(BuildContext context, String userName, String? location) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;

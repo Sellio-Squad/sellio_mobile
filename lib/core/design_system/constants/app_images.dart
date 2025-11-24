@@ -17,7 +17,8 @@ class AppImages {
   static const String bell = '$iconsPath/ic_bell.svg';
   static const String location = '$iconsPath/ic_location.svg';
   static const String arrowLeft = '$iconsPath/ic_arrow-left.svg';
-  static const String sellio = '$imagesPath/sellio.png';
+  static const String sellioSplash = '$imagesPath/sellio_splash.png';
+  static const String sellio = '$imagesPath/sellio.webp';
 
   // Section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
