@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import '../../../../core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
+
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
@@ -120,6 +120,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
             text: AppStrings.saveChanges,
             onTap: _isFormValid ? _handleSave : null,
             isEnabled: _isFormValid,
+            verticalPadding: 13,
             fullWidth: true,
           ),
         ],

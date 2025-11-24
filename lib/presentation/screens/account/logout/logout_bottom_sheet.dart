@@ -42,6 +42,7 @@ class LogoutBottomSheet extends StatelessWidget {
             suffixIconColor: context.theme.colors.red,
             onTap: onLogout,
             textColor: context.theme.colors.red,
+            verticalPadding: 13,
           ),
         ]);
   }
