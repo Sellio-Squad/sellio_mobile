@@ -44,7 +44,8 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               textColor: context.theme.colors.red,
               onTap: onDeleteAccount,
               fullWidth: true,
-            ),
+          verticalPadding: 13,
+        ),
           ],
         );
   }

@@ -174,10 +174,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _showAccountSettingsBottomSheet(BuildContext context) {
     AccountSettingsBottomSheet.show(
-        context: context,
-        onSave: () {
-          print('saved..');
-        });
+      context: context,
+      onSave: () {
+        print('saved..');
+      },
+    );
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {

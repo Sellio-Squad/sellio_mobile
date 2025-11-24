@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../../../presentation/screens/auth/country.dart';
 import '../constants/app_images.dart';
 
@@ -227,7 +228,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
             ),
           ),
           Text(
-             isError ? errorText.toString() : '',
+            isError ? (errorText ?? '') : '',
             style: errorStyle,
           )
         ]

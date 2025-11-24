@@ -20,8 +20,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
-        final userName = (state as UserLoaded?)?.name ?? context.local.guest;
-        final location = (state as UserLoaded?)?.location;
+        String userName = context.local.guest;
+        String? location;
+
+        if (state is UserLoaded) {
+          userName = state.name;
+          location = state.location;
+        }
 
         return SellioAppBar(
           leading: _buildLogo(),
@@ -33,8 +38,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _buildLogo() => Image.asset(AppImages.sellio, fit: BoxFit.contain);
-
+  Widget _buildLogo() => Padding(
+    padding: const EdgeInsets.all(4),
+    child: Image.asset(
+      AppImages.sellio,
+      fit: BoxFit.contain
+    ),
+  );
   Widget _buildUserInfo(BuildContext context, String userName, String? location) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
