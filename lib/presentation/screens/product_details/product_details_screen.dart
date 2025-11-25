@@ -176,7 +176,7 @@ Widget _buildAddToCartButton(BuildContext context) {
       return SellioButton(
         text: context.local.add_to_cart,
         onTap: () => context.read<ProductDetailsCubit>().addToCart(),
-        suffixSvgPath: AppImages.cart,
+        suffixSvgPath: AppImages.cartSmall,
       );
     },
   );
