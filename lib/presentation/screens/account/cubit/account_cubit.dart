@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_state.dart';
 
@@ -24,6 +25,34 @@ class AccountCubit extends Cubit<AccountState> {
       final errorMessage = _extractErrorMessage([result]);
       emit(AccountError(message: errorMessage));
     }
+  }
+
+  Future<void> updateProfilePicture() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    // if (pickedFile != null) {
+    //   emit(const AccountLoading());
+    //   final uploadResult = await _repository.uploadProfilePhoto(pickedFile.path);
+    //   if (uploadResult is Success) {
+    //     final updateResult = await _repository.updateUserProfile(avatarUrl: uploadResult.data);
+    //     if (updateResult is Success) {
+    //       emit(AccountLoaded(
+    //         firstName: updateResult.data.firstName,
+    //         lastName: updateResult.data.lastName,
+    //         email: updateResult.data.email,
+    //         imagePath: updateResult.data.avatarUrl,
+    //       ));
+    //     } else {
+    //       final errorMessage = _extractErrorMessage([updateResult]);
+    //       emit(AccountError(message: errorMessage));
+    //     }
+    //   } else {
+    //     final errorMessage = _extractErrorMessage([uploadResult]);
+    //     emit(AccountError(message: errorMessage));
+    //   }
+    // }
+
   }
 
   String _extractErrorMessage(List<Result> results) {
