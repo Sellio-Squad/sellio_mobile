@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 
 import '../../../presentation/cubits/cart/cubit/cart_cubit.dart';
 import '../../../presentation/cubits/favorites/cubit/favorites_cubit.dart';
@@ -23,5 +24,6 @@ class BlocModule {
     sl.registerFactory(() => HomeSpecialOffersCubit(sl()));
     sl.registerFactory(() => NotificationCubit(sl()));
     sl.registerFactory(() => ProductDetailsCubit(sl(), sl()));
+    sl.registerFactory(() => AccountCubit(sl()));
   }
 }
