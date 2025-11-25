@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../../../../../core/design_system/constants/app_images.dart';
-import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
@@ -99,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                hintText: AppStrings.phoneNumber,
+                hintText: context.local.phone_number,
                 inputType: TextInputType.phone,
                 isPhoneNumber: true,
                 inputFormatter: [

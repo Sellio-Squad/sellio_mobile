@@ -4,11 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
-import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/sellio_text_field.dart';
 import 'widget/lock_icon.dart';
@@ -63,7 +60,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: AppStrings.titleParForgetPassword,showBackButton: true,),
+      appBar: SellioAppBar(title: context.local.title_par_forget_password,showBackButton: true,),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -80,14 +77,14 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                       Center(child: buildLockIcon(colors)),
                       const SizedBox(height: 40),
                       Text(
-                        AppStrings.setNewPassword,
+                        context.local.set_new_password,
                         style: textTheme.headlineSmall.copyWith(
                           color: colors.title,
                         ),
                       ),
                       const Gap(8),
                       Text(
-                        AppStrings.subtitleSetNewPassword,
+                        context.local.subtitle_set_new_password,
                         style: textTheme.bodyMedium.copyWith(
                           color: colors.body,
                         ),
@@ -96,7 +93,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
 
                       SellioTextField(
                         controller: _passwordController,
-                        hintText: AppStrings.password,
+                        hintText: context.local.password,
                         inputType: TextInputType.visiblePassword,
                         prefixIcon: Padding(
                           padding: const EdgeInsets.only(left: 16, right: 12),
@@ -127,7 +124,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                 ),
               ),
               SellioButton(
-                text: AppStrings.send,
+                text: context.local.send,
                 onTap: _isFormValid ? _handleSave : null,
                 isEnabled: _isFormValid,
               ),

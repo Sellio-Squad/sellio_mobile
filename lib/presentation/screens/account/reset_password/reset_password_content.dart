@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../core/design_system/constants/app_images.dart';
-import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../../core/design_system/widgets/sellio_text_field.dart';
 import 'cubit/reset_password_cubit.dart';
@@ -80,13 +80,13 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppStrings.resetPassword,
+              context.local.reset_password,
               style: context.theme.typography.textTheme.titleMedium,
             ),
             const SizedBox(height: 24),
             SellioTextField(
               controller: currentCtrl,
-              hintText: AppStrings.currentPassword,
+              hintText: context.local.current_password,
               inputType: TextInputType.visiblePassword,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
@@ -98,7 +98,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
             const SizedBox(height: 12),
             SellioTextField(
               controller: newCtrl,
-              hintText: AppStrings.newPassword,
+              hintText: context.local.new_password,
               inputType: TextInputType.visiblePassword,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
@@ -110,7 +110,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
             const SizedBox(height: 12),
             SellioTextField(
               controller: confirmCtrl,
-              hintText: AppStrings.confirmNewPassword,
+              hintText: context.local.confirm_new_password,
               inputType: TextInputType.visiblePassword,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
@@ -122,7 +122,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
             const SizedBox(height: 24),
 
             SellioButton(
-              text: AppStrings.save,
+              text: context.local.save,
               onTap:
               state.isFormValid ? () => cubit.submit(widget.onSave) : null,
               isEnabled: state.isFormValid,

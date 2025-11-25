@@ -10,6 +10,7 @@ import 'di/injection_container.dart';
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
+import 'domain/repositories/user_repository.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/cubits/user/cubit/user_cubit.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (_) => sl<ProductRepository>()),
         RepositoryProvider(create: (_) => sl<CategoryRepository>()),
         RepositoryProvider(create: (_) => sl<StoreRepository>()),
+        RepositoryProvider(create: (_) => sl<UserRepository>()),
       ],
       child: MultiBlocProvider(
         providers: [
