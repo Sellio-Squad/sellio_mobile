@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 import '../../../../core/design_system/constants/app_images.dart';
-import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/constants/layout_constants.dart';
 import 'cubit/about_store_cubit.dart';
 import 'cubit/about_store_state.dart';
@@ -29,9 +29,9 @@ class AboutStore extends StatelessWidget {
       create: (context) => AboutStoreCubit(context.read<StoreRepository>())
         ..loadStoreInfo(storeId),
       child: Scaffold(
-        appBar: const SellioAppBar(
+        appBar: SellioAppBar(
           showBackButton: true,
-          title: AppStrings.aboutStore,
+          title: context.local.about_store,
         ),
         backgroundColor: context.theme.colors.surfaceLow,
         body: BlocConsumer<AboutStoreCubit, AboutStoreState>(
@@ -96,7 +96,7 @@ class AboutStore extends StatelessWidget {
             ),
             const HorizontalDriver(),
             Text(
-              AppStrings.contactInfo,
+              context.local.contact_info,
               style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.title,
               ),
@@ -105,7 +105,7 @@ class AboutStore extends StatelessWidget {
             ..._buildContactInfoList(context, store.contactInfoList),
             const HorizontalDriver(),
             Text(
-              AppStrings.address,
+              context.local.address,
               style: context.theme.typography.textTheme.titleMedium.copyWith(
                 color: context.theme.colors.title,
               ),
@@ -126,7 +126,7 @@ class AboutStore extends StatelessWidget {
     for (int i = 0; i < contactInfoList.length; i++) {
       final contact = contactInfoList[i];
       final iconAsset = _getContactIcon(contact.type);
-      final title = ContactActionHandler.getContactTitle(contact.type);
+      final title = ContactActionHandler.getContactTitle(context, contact.type);
 
       widgets.add(
         ContactInfoItem(
@@ -163,7 +163,7 @@ class AboutStore extends StatelessWidget {
     BuildContext context,
     ContactInfo contact,
   ) async {
-    final result = await ContactActionHandler.handleContact(contact);
+    final result = await ContactActionHandler.handleContact(context, contact);
 
     if (!result.isSuccess && result.errorMessage != null) {
       if (context.mounted) {

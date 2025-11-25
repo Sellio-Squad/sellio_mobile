@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../../../../../core/design_system/constants/app_images.dart';
-import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../cubits/form/login_form_cubit.dart';
@@ -27,7 +27,7 @@ class LoginFooter extends StatelessWidget {
         return Column(
           children: [
             SellioButton(
-              text: AppStrings.login,
+              text: context.local.login,
               onTap: state.isFormValid && !state.isLoading
                   ? () => context.read<LoginFormCubit>().submitForm()
                   : null,
@@ -48,7 +48,7 @@ class LoginFooter extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    AppStrings.or,
+                    context.local.or,
                     style: textTheme.labelSmall.copyWith(color: colors.body),
                   ),
                 ),
@@ -60,7 +60,7 @@ class LoginFooter extends StatelessWidget {
               children: [
                 Expanded(
                   child: SellioButton(
-                    text: AppStrings.createAccount,
+                    text: context.local.create_account,
                     backgroundColor: colors.primaryVariant,
                     textColor: colors.primary,
                     onTap: () => context.navigator.pushCreateAccount(),
@@ -69,7 +69,7 @@ class LoginFooter extends StatelessWidget {
                 const Gap(16),
                 Expanded(
                   child: SellioButton(
-                    text: AppStrings.continueAsGuest,
+                    text: context.local.continue_as_guest,
                     backgroundColor: colors.primaryVariant,
                     textColor: colors.primary,
                     onTap: () => context.navigator.goToHome(),

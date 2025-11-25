@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/order_details_card.dart';
@@ -25,7 +24,7 @@ class OrderHistoryScreen extends StatelessWidget {
         backgroundColor: context.theme.colors.surfaceLow,
         appBar: SellioAppBar(
           showBackButton: true,
-          title: AppStrings.orderHistory,
+          title: context.local.order_history,
         ),
         body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
           builder: (context, state) {

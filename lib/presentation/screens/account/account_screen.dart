@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_colors.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';

@@ -61,10 +61,18 @@ class DioClient implements ApiClient {
         Options? options,
         CancelToken? cancelToken,
       }) async {
+    final token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmNDRkNmM5MS05YTllLTQwNTItYjAxMy02MjFiMTNjYzVmZGMiLCJpYXQiOjE3NjQwMzU1NDgsImV4cCI6MTc2NDAzOTE0OH0.rqsaqVNVK21NZhmm9Wgr_mW6so_AEmBkoK28achyXYk";
+    final headers = <String, dynamic>{...?options?.headers};
+    if (token != null && token.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $token';
+    }
+
+    final mergedOptions = (options ?? Options()).copyWith(headers: headers);
+
     return await _dio.get<T>(
       path,
       queryParameters: queryParameters,
-      options: options,
+      options: mergedOptions,
       cancelToken: cancelToken,
     );
   }

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
-import '../../../core/design_system/constants/app_strings.dart';
 import '../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
 import '../../../core/design_system/widgets/sellio_text_field.dart';
@@ -109,7 +109,7 @@ class _CartScreenState extends State<CartScreen> {
         child: AppBar(
           backgroundColor: colors.surfaceLow,
           title: Text(
-            AppStrings.cart,
+            context.local.cart,
             style: textTheme.titleMedium.copyWith(color: colors.title),
           ),
           actions: [
@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                 padding: const EdgeInsets.only(right: 16.0),
                 child: Center(
                   child: Text(
-                    AppStrings.addMoreItems,
+                    context.local.add_more_items,
                     style:
                         textTheme.labelMedium.copyWith(color: colors.primary),
                   ),
@@ -136,11 +136,11 @@ class _CartScreenState extends State<CartScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '$count ${AppStrings.items}',
+          '$count ${context.local.items}',
           style: textTheme.labelMedium.copyWith(color: colors.body),
         ),
         Text(
-          AppStrings.select,
+          context.local.select,
           style: textTheme.labelMedium.copyWith(color: colors.primary),
         ),
       ],
@@ -185,13 +185,13 @@ class _CartScreenState extends State<CartScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppStrings.noteAboutOrder,
+        Text(context.local.note_about_order,
             style: textTheme.titleMedium.copyWith(color: colors.title)),
         const Gap(8),
         SellioTextField(
           controller: _noteController,
           isParagraph: true,
-          hintText: AppStrings.writeHere,
+          hintText: context.local.write_here,
           maxLine: 1,
         ),
       ],
@@ -224,7 +224,7 @@ class _CartScreenState extends State<CartScreen> {
               SvgPicture.asset(AppImages.discountTag),
               const Gap(4),
               Text(
-                AppStrings.totalPrice,
+                context.local.total_price,
                 style: textTheme.titleSmall.copyWith(color: colors.title),
               ),
               const Spacer(),
@@ -236,7 +236,7 @@ class _CartScreenState extends State<CartScreen> {
           ),
           const Gap(12),
           SellioButton(
-            text: '${AppStrings.confirmOrder} ($count)',
+            text: '${context.local.confirm_order} ($count)',
             backgroundColor: colors.primary,
             fullWidth: true,
             suffixSvgPath: AppImages.packageAdd,
@@ -281,19 +281,19 @@ class _CartScreenState extends State<CartScreen> {
               ),
               const Gap(16),
               Text(
-                '${AppStrings.order} #2002124',
+                '${context.local.order} #2002124',
                 style: theme.typography.textTheme.labelMedium
                     .copyWith(color: theme.colors.title),
               ),
               const Gap(8),
               Text(
-                AppStrings.orderReceived,
+                context.local.order_received,
                 style: theme.typography.textTheme.titleSmall
                     .copyWith(color: theme.colors.body),
               ),
               const Gap(24),
               SellioButton(
-                text: AppStrings.backToShopping,
+                text: context.local.back_to_shopping,
                 backgroundColor: theme.colors.primaryVariant,
                 textStyle: theme.typography.textTheme.labelMedium
                     .copyWith(color: theme.colors.primary),
