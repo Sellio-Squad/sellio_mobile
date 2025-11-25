@@ -66,7 +66,6 @@ class MockDataGenerator {
     return List.generate(count, (i) => generateCategory(index: i));
   }
 
-  // Product Mock Data
   static Product generateProduct({int index = 0, String? categoryId, String? storeId}) {
     final productNames = [
       'Wireless Headphones', 'Smart Watch', 'Running Shoes', 'Coffee Maker',
@@ -80,13 +79,15 @@ class MockDataGenerator {
       'Durable and long-lasting design',
     ];
 
+    final int? discountValue = index % 3 == 0 ? 10 + _random.nextInt(40) : null;
+
     return Product(
       id: 'product_$index',
       name: productNames[index % productNames.length],
       description: descriptions[index % descriptions.length],
       price: 19.99 + (_random.nextDouble() * 500),
       currency: 'USD',
-      discount: index % 3 == 0 ? '${10 + _random.nextInt(40)}% OFF' : null,
+      discount: discountValue?.toString(),
       images: List.generate(
         3,
             (i) => 'https://picsum.photos/seed/product_${index}_$i/400',
@@ -136,7 +137,6 @@ class MockDataGenerator {
     );
   }
 
-  // Store Mock Data
   static Store generateStore({int index = 0}) {
     final storeNames = [
       'Tech Haven', 'Fashion Hub', 'Home Comfort', 'Sports Zone',
@@ -154,7 +154,7 @@ class MockDataGenerator {
       address: generateAddress(index: index),
       contactInfoList: [
         ContactInfo(
-          provider: 'store${index}@example.com',
+          provider: 'store$index@example.com',
           type: ContactType.email,
         ),
         ContactInfo(
