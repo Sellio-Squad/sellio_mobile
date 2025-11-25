@@ -8,20 +8,10 @@ class ProductDetailsArgs {
 
 class StoreDetailsArgs {
   StoreDetailsArgs({
-    required this.storeId,
-    required this.coverImage,
-    required this.profileImage,
-    required this.storeName,
-    required this.discount,
-    required this.rating,
+    required this.storeId
   });
 
   final String storeId;
-  final String coverImage;
-  final String profileImage;
-  final String storeName;
-  final String discount;
-  final double rating;
 }
 
 class ForgetPasswordOtpArgs {
