@@ -104,11 +104,371 @@ abstract class AppLocalizations {
   /// **'Guest'**
   String get guest;
 
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @cart.
+  ///
+  /// In en, this message translates to:
+  /// **'Cart'**
+  String get cart;
+
+  /// No description provided for @title_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back!'**
+  String get title_login;
+
+  /// No description provided for @subtitle_login.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your information to login'**
+  String get subtitle_login;
+
+  /// No description provided for @phone_number.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phone_number;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @or.
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get or;
+
+  /// No description provided for @create_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get create_account;
+
+  /// No description provided for @continue_as_guest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get continue_as_guest;
+
+  /// No description provided for @title_par_forget_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget Password?'**
+  String get title_par_forget_password;
+
+  /// No description provided for @title_forget_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forget your Password?'**
+  String get title_forget_password;
+
+  /// No description provided for @subtitle_forget_password.
+  ///
+  /// In en, this message translates to:
+  /// **'We will send 4-digit code to your below phone number.'**
+  String get subtitle_forget_password;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'send'**
+  String get send;
+
+  /// No description provided for @set_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Set new password'**
+  String get set_new_password;
+
+  /// No description provided for @subtitle_set_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your new password and make sure to remember it in next time'**
+  String get subtitle_set_new_password;
+
+  /// No description provided for @enter_your_information_to_create_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your information to create account'**
+  String get enter_your_information_to_create_account;
+
+  /// No description provided for @country.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get country;
+
+  /// No description provided for @city.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get city;
+
+  /// No description provided for @profile_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile photo (optional)'**
+  String get profile_photo;
+
+  /// No description provided for @upload.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload'**
+  String get upload;
+
+  /// No description provided for @already_have_account.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have account?'**
+  String get already_have_account;
+
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @order_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders History'**
+  String get order_history;
+
+  /// No description provided for @add_more_items.
+  ///
+  /// In en, this message translates to:
+  /// **'Add more items'**
+  String get add_more_items;
+
+  /// No description provided for @note_about_order.
+  ///
+  /// In en, this message translates to:
+  /// **'Note about order'**
+  String get note_about_order;
+
+  /// No description provided for @write_here.
+  ///
+  /// In en, this message translates to:
+  /// **'Write here'**
+  String get write_here;
+
+  /// No description provided for @confirm_order.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Order'**
+  String get confirm_order;
+
+  /// No description provided for @total_price.
+  ///
+  /// In en, this message translates to:
+  /// **'Total price'**
+  String get total_price;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @back_to_shopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to shopping'**
+  String get back_to_shopping;
+
+  /// No description provided for @order_received.
+  ///
+  /// In en, this message translates to:
+  /// **'Your order has been received successfully.'**
+  String get order_received;
+
+  /// No description provided for @current_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get current_password;
+
+  /// No description provided for @new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get new_password;
+
+  /// No description provided for @confirm_new_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get confirm_new_password;
+
+  /// No description provided for @save_changes.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes'**
+  String get save_changes;
+
+  /// No description provided for @notification.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notification;
+
+  /// No description provided for @empty_cart.
+  ///
+  /// In en, this message translates to:
+  /// **'empty Cart'**
+  String get empty_cart;
+
+  /// No description provided for @store_details.
+  ///
+  /// In en, this message translates to:
+  /// **'Store Details'**
+  String get store_details;
+
+  /// No description provided for @about_store.
+  ///
+  /// In en, this message translates to:
+  /// **'About Store'**
+  String get about_store;
+
+  /// No description provided for @contact_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Info'**
+  String get contact_info;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @email_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Our friendly team is here to help'**
+  String get email_title;
+
+  /// No description provided for @phone_title.
+  ///
+  /// In en, this message translates to:
+  /// **'11:00 PM - 12:00 AM'**
+  String get phone_title;
+
+  /// No description provided for @facebook_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Our account on facebook'**
+  String get facebook_title;
+
+  /// No description provided for @whatsapp_title.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp Contact'**
+  String get whatsapp_title;
+
+  /// No description provided for @website_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit our website'**
+  String get website_title;
+
+  /// No description provided for @email_subject.
+  ///
+  /// In en, this message translates to:
+  /// **'Sellio customer'**
+  String get email_subject;
+
+  /// No description provided for @error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get error_generic;
+
+  /// No description provided for @error_loading_store.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load store information'**
+  String get error_loading_store;
+
+  /// No description provided for @error_no_internet.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection'**
+  String get error_no_internet;
+
+  /// No description provided for @could_not_launch_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch email'**
+  String get could_not_launch_email;
+
+  /// No description provided for @could_not_launch_phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch phone'**
+  String get could_not_launch_phone;
+
+  /// No description provided for @could_not_launch_facebook.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch Facebook'**
+  String get could_not_launch_facebook;
+
+  /// No description provided for @could_not_launch_whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch WhatsApp'**
+  String get could_not_launch_whatsapp;
+
+  /// No description provided for @could_not_launch_website.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch website'**
+  String get could_not_launch_website;
+
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
   /// **'Welcome'**
   String get welcome;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @account_settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Account settings'**
+  String get account_settings;
+
+  /// No description provided for @reset_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get reset_password;
+
+  /// No description provided for @app_version.
+  ///
+  /// In en, this message translates to:
+  /// **'App version'**
+  String get app_version;
 
   /// No description provided for @top_stores.
   ///

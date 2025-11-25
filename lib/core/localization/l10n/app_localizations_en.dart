@@ -12,7 +12,190 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guest => 'Guest';
 
   @override
+  String get home => 'Home';
+
+  @override
+  String get cart => 'Cart';
+
+  @override
+  String get title_login => 'Welcome Back!';
+
+  @override
+  String get subtitle_login => 'Enter your information to login';
+
+  @override
+  String get phone_number => 'Phone number';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get or => 'OR';
+
+  @override
+  String get create_account => 'Create account';
+
+  @override
+  String get continue_as_guest => 'Continue as guest';
+
+  @override
+  String get title_par_forget_password => 'Forget Password?';
+
+  @override
+  String get title_forget_password => 'Forget your Password?';
+
+  @override
+  String get subtitle_forget_password =>
+      'We will send 4-digit code to your below phone number.';
+
+  @override
+  String get send => 'send';
+
+  @override
+  String get set_new_password => 'Set new password';
+
+  @override
+  String get subtitle_set_new_password =>
+      'Please enter your new password and make sure to remember it in next time';
+
+  @override
+  String get enter_your_information_to_create_account =>
+      'Enter your information to create account';
+
+  @override
+  String get country => 'Country';
+
+  @override
+  String get city => 'City';
+
+  @override
+  String get profile_photo => 'Profile photo (optional)';
+
+  @override
+  String get upload => 'Upload';
+
+  @override
+  String get already_have_account => 'Already have account?';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get order_history => 'Orders History';
+
+  @override
+  String get add_more_items => 'Add more items';
+
+  @override
+  String get note_about_order => 'Note about order';
+
+  @override
+  String get write_here => 'Write here';
+
+  @override
+  String get confirm_order => 'Confirm Order';
+
+  @override
+  String get total_price => 'Total price';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String get back_to_shopping => 'Back to shopping';
+
+  @override
+  String get order_received => 'Your order has been received successfully.';
+
+  @override
+  String get current_password => 'Current password';
+
+  @override
+  String get new_password => 'New password';
+
+  @override
+  String get confirm_new_password => 'Confirm new password';
+
+  @override
+  String get save_changes => 'Save changes';
+
+  @override
+  String get notification => 'Notifications';
+
+  @override
+  String get empty_cart => 'empty Cart';
+
+  @override
+  String get store_details => 'Store Details';
+
+  @override
+  String get about_store => 'About Store';
+
+  @override
+  String get contact_info => 'Contact Info';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get email_title => 'Our friendly team is here to help';
+
+  @override
+  String get phone_title => '11:00 PM - 12:00 AM';
+
+  @override
+  String get facebook_title => 'Our account on facebook';
+
+  @override
+  String get whatsapp_title => 'WhatsApp Contact';
+
+  @override
+  String get website_title => 'Visit our website';
+
+  @override
+  String get email_subject => 'Sellio customer';
+
+  @override
+  String get error_generic => 'Something went wrong';
+
+  @override
+  String get error_loading_store => 'Failed to load store information';
+
+  @override
+  String get error_no_internet => 'No internet connection';
+
+  @override
+  String get could_not_launch_email => 'Could not launch email';
+
+  @override
+  String get could_not_launch_phone => 'Could not launch phone';
+
+  @override
+  String get could_not_launch_facebook => 'Could not launch Facebook';
+
+  @override
+  String get could_not_launch_whatsapp => 'Could not launch WhatsApp';
+
+  @override
+  String get could_not_launch_website => 'Could not launch website';
+
+  @override
   String get welcome => 'Welcome';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get account_settings => 'Account settings';
+
+  @override
+  String get reset_password => 'Reset Password';
+
+  @override
+  String get app_version => 'App version';
 
   @override
   String get top_stores => 'Top Stores';

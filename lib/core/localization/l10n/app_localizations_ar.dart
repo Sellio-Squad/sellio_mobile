@@ -12,7 +12,190 @@ class AppLocalizationsAr extends AppLocalizations {
   String get guest => 'ضيف';
 
   @override
+  String get home => 'الرئيسية';
+
+  @override
+  String get cart => 'عربة التسوق';
+
+  @override
+  String get title_login => 'مرحباً بعودتك!';
+
+  @override
+  String get subtitle_login => 'أدخل معلوماتك لتسجيل الدخول';
+
+  @override
+  String get phone_number => 'رقم الهاتف';
+
+  @override
+  String get login => 'تسجيل الدخول';
+
+  @override
+  String get or => 'أو';
+
+  @override
+  String get create_account => 'انشاء حساب';
+
+  @override
+  String get continue_as_guest => 'المتابعة كزائر';
+
+  @override
+  String get title_par_forget_password => 'نسيت كلمة المرور؟';
+
+  @override
+  String get title_forget_password => 'نسيت كلمة المرور؟';
+
+  @override
+  String get subtitle_forget_password =>
+      'سنرسل رمز مكون من 4 أرقام إلى رقم هاتفك أدناه.';
+
+  @override
+  String get send => 'إرسال';
+
+  @override
+  String get set_new_password => 'تعيين كلمة مرور جديدة';
+
+  @override
+  String get subtitle_set_new_password =>
+      'يرجى إدخال كلمة المرور الجديدة الخاصة بك والتأكد من تذكرها في المرة القادمة';
+
+  @override
+  String get enter_your_information_to_create_account =>
+      'أدخل معلوماتك لإنشاء حساب';
+
+  @override
+  String get country => 'الدولة';
+
+  @override
+  String get city => 'المدينة';
+
+  @override
+  String get profile_photo => 'صورة الملف الشخصي (اختياري)';
+
+  @override
+  String get upload => 'رفع';
+
+  @override
+  String get already_have_account => 'هل لديك حساب بالفعل؟';
+
+  @override
+  String get search => 'بحث';
+
+  @override
+  String get order_history => 'سجل الطلبات';
+
+  @override
+  String get add_more_items => 'إضافة المزيد من العناصر';
+
+  @override
+  String get note_about_order => 'ملاحظة حول الطلب';
+
+  @override
+  String get write_here => 'اكتب هنا';
+
+  @override
+  String get confirm_order => 'تأكيد الطلب';
+
+  @override
+  String get total_price => 'السعر الإجمالي';
+
+  @override
+  String get select => 'اختر';
+
+  @override
+  String get back_to_shopping => 'العودة للتسوق';
+
+  @override
+  String get order_received => 'تم استلام طلبك بنجاح.';
+
+  @override
+  String get current_password => 'كلمة المرور الحالية';
+
+  @override
+  String get new_password => 'كلمة المرور الجديدة';
+
+  @override
+  String get confirm_new_password => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get save_changes => 'حفظ التغييرات';
+
+  @override
+  String get notification => 'الإشعارات';
+
+  @override
+  String get empty_cart => 'عربة التسوق فارغة';
+
+  @override
+  String get store_details => 'تفاصيل المتجر';
+
+  @override
+  String get about_store => 'حول المتجر';
+
+  @override
+  String get contact_info => 'معلومات الاتصال';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get email_title => 'فريقنا الودود هنا لمساعدتك';
+
+  @override
+  String get phone_title => '11:00 مساءً - 12:00 صباحاً';
+
+  @override
+  String get facebook_title => 'حسابنا على فيسبوك';
+
+  @override
+  String get whatsapp_title => 'اتصال واتساب';
+
+  @override
+  String get website_title => 'زيارة موقعنا الإلكتروني';
+
+  @override
+  String get email_subject => 'عميل Sellio';
+
+  @override
+  String get error_generic => 'حدث خطأ ما';
+
+  @override
+  String get error_loading_store => 'فشل في تحميل معلومات المتجر';
+
+  @override
+  String get error_no_internet => 'لا يوجد اتصال بالإنترنت';
+
+  @override
+  String get could_not_launch_email => 'تعذر فتح البريد الإلكتروني';
+
+  @override
+  String get could_not_launch_phone => 'تعذر فتح الهاتف';
+
+  @override
+  String get could_not_launch_facebook => 'تعذر فتح فيسبوك';
+
+  @override
+  String get could_not_launch_whatsapp => 'تعذر فتح واتساب';
+
+  @override
+  String get could_not_launch_website => 'تعذر فتح الموقع الإلكتروني';
+
+  @override
   String get welcome => 'مرحباً';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get account_settings => 'إعدادات الحساب';
+
+  @override
+  String get reset_password => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get app_version => 'إصدار التطبيق';
 
   @override
   String get top_stores => 'أفضل المتاجر';

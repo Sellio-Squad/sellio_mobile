@@ -46,9 +46,7 @@ class _AccountScreenState extends State<AccountScreen> {
               title: context.local.account_screen,
               actions: [
                 GestureDetector(
-                  onTap: () {
-                    _showAccountOptionsBottomSheet(context);
-                  },
+                  onTap: () => _showAccountOptionsBottomSheet(context),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: SvgPicture.asset(
@@ -68,94 +66,114 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Widget _buildBody(BuildContext context, AccountState state) {
-    if (state is AccountLoading || state is AccountInitial) {
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: _buildInfoBody(context, state),
-                ),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state),
-              ],
-            ),
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (state is AccountLoading || state is AccountInitial)
+                _buildLoadingInfo(context)
+              else if (state is AccountError)
+                _buildErrorInfo(context, state.message)
+              else if (state is AccountLoaded)
+                  _buildLoadedInfo(context, state),
+
+              const SizedBox(height: 24),
+
+              _buildOptionBody(context),
+            ],
           ),
         ),
-      );
-    }
-
-    if (state is AccountError) {
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildInfoBody(context, state),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (state is AccountLoaded) {
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      uploadImageCard(
-                        imagePath: state.imagePath ?? AppImages.cat,
-                        editIconPath: AppImages.pencilEdit,
-                        context: context,
-                        onEditTap: () =>
-                            context.read<AccountCubit>().updateProfilePicture(),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        '${state.firstName} ${state.lastName}',
-                        style: context.theme.typography.textTheme.titleSmall
-                            .copyWith(color: context.theme.colors.title),
-                      ),
-                      Text(
-                        state.email,
-                        style: context.theme.typography.textTheme.labelSmall
-                            .copyWith(color: context.theme.colors.body),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 
-  Widget _buildInfoBody(BuildContext context, AccountState state) {
+  Widget _buildLoadingInfo(BuildContext context) {
+    SellioColorScheme colors = context.theme.colors;
+
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Center(
+        child: Column(
+          children: [
+            Container(
+              width: 136,
+              height: 136,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colors.surface,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              width: 150,
+              height: 20,
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              width: 200,
+              height: 16,
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorInfo(BuildContext context, String errorMessage) {
+    SellioColorScheme colors = context.theme.colors;
+    SellioTextTheme themeText = context.theme.typography.textTheme;
+
+    return Center(
+      child: Column(
+        children: [
+          Container(
+            width: 136,
+            height: 136,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colors.surface,
+            ),
+            child: Icon(
+              Icons.error_outline,
+              size: 64,
+              color: colors.red,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.local.something_went_wrong,
+            style: themeText.titleSmall.copyWith(color: colors.title),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            errorMessage,
+            style: themeText.labelSmall.copyWith(color: colors.red),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.read<AccountCubit>().loadAccountDetails(),
+            child: Text(context.local.try_again),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadedInfo(BuildContext context, AccountLoaded state) {
     SellioColorScheme colors = context.theme.colors;
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
@@ -163,27 +181,26 @@ class _AccountScreenState extends State<AccountScreen> {
       child: Column(
         children: [
           uploadImageCard(
-            imagePath: AppImages.cat,
+            imagePath: state.imagePath ?? AppImages.cat,
             editIconPath: AppImages.pencilEdit,
             context: context,
-            onEditTap: () =>
-                context.read<AccountCubit>().updateProfilePicture(),
+            onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
           ),
           const SizedBox(height: 12),
           Text(
-            'firstName lastName',
+            '${state.firstName} ${state.lastName}',
             style: themeText.titleSmall.copyWith(color: colors.title),
           ),
           Text(
-            "email",
+            state.email,
             style: themeText.labelSmall.copyWith(color: colors.body),
-          )
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildOptionBody(BuildContext context, AccountState state) {
+  Widget _buildOptionBody(BuildContext context) {
     SellioColorScheme colors = context.theme.colors;
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
@@ -225,7 +242,6 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
         const SizedBox(height: 12),
 
-        // ✅ Updated Language Option with current locale display
         BlocBuilder<LocaleCubit, LocaleState>(
           builder: (context, localeState) {
             final localeCubit = context.read<LocaleCubit>();
@@ -239,9 +255,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 children: [
                   Text(
                     localeCubit.getLocaleName(localeState.locale),
-                    style: themeText.labelSmall.copyWith(
-                      color: colors.body,
-                    ),
+                    style: themeText.labelSmall.copyWith(color: colors.body),
                   ),
                   const SizedBox(width: 8),
                   SvgPicture.asset(AppImages.arrowRightCustom),
@@ -267,9 +281,7 @@ class _AccountScreenState extends State<AccountScreen> {
           onCardClicked: () {},
           trailing: Text(
             '1.2',
-            style: themeText.labelSmall.copyWith(
-              color: colors.body,
-            ),
+            style: themeText.labelSmall.copyWith(color: colors.body),
           ),
         ),
         const SizedBox(height: 12),
@@ -295,7 +307,6 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  // ✅ Updated to use LocaleCubit
   void _showLanguageBottomSheet(BuildContext context) {
     ChangeLanguageBottomSheet.show(context: context);
   }
@@ -381,9 +392,7 @@ Widget uploadImageCard({
                       height: 32,
                       decoration: const BoxDecoration(
                         boxShadow: [
-                          BoxShadow(
-                            color: Color(0x70000000),
-                          ),
+                          BoxShadow(color: Color(0x70000000)),
                         ],
                       ),
                       child: Center(
