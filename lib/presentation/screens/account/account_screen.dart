@@ -44,7 +44,7 @@ class _AccountScreenState extends State<AccountScreen> {
             extendBodyBehindAppBar: true,
             backgroundColor: colors.surfaceLow,
             appBar: SellioAppBar(
-              title: AppStrings.account,
+              title: context.local.account,
               actions: [
                 GestureDetector(
                   onTap: () {
@@ -222,7 +222,7 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 16),
         AccountOptionCard(
           prefixIcon: AppImages.repair,
-          orderTitle: AppStrings.accountSettings,
+          orderTitle: context.local.account_settings,
           onCardClicked: () {
             _showAccountSettingsBottomSheet(context);
           },
@@ -231,7 +231,7 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 12),
         AccountOptionCard(
           prefixIcon: AppImages.circleLockAdd,
-          orderTitle: AppStrings.resetPassword,
+          orderTitle: context.local.reset_password,
           onCardClicked: () {
             _showResetPasswordBottomSheet(context);
           },
@@ -240,7 +240,7 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 12),
         AccountOptionCard(
           prefixIcon: AppImages.languageCircle,
-          orderTitle: AppStrings.language,
+          orderTitle: context.local.language,
           onCardClicked: () {
             _showLanguageBottomSheet(context);
           },
@@ -249,7 +249,7 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 12),
         AccountOptionCard(
           prefixIcon: AppImages.notification,
-          orderTitle: AppStrings.notification,
+          orderTitle: context.local.notifications,
           onCardClicked: () {},
           trailing: SellioSwitch(
             value: true,
@@ -259,7 +259,7 @@ class _AccountScreenState extends State<AccountScreen> {
         const SizedBox(height: 12),
         AccountOptionCard(
           prefixIcon: AppImages.mobileProgramming,
-          orderTitle: AppStrings.appVersion,
+          orderTitle: context.local.app_version,
           onCardClicked: () {},
           trailing: Text(
             '1.2',
@@ -296,7 +296,7 @@ void _showLanguageBottomSheet(BuildContext context) {
     onSave: (String language) {
       print('Selected language: $language');
     },
-    selectedLanguage: AppStrings.english,
+    selectedLanguage: context.local.english,
   );
 }
 
