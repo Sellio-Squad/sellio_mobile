@@ -101,10 +101,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         imagePath: state.imagePath ?? AppImages.cat,
                         editIconPath: AppImages.pencilEdit,
                         context: context,
-                        onEditTap: () async {
-                          final ImagePicker picker = ImagePicker();
-                          final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-                        },
+                        onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
                       ),
                       const SizedBox(height: 12),
                       Text(
