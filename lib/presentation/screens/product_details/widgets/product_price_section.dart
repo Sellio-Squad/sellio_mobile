@@ -7,29 +7,32 @@ Widget productPriceSection(BuildContext context, ProductDetailsLoaded state) {
   final product = state.product;
 
   final double price = product.price;
-  final String discountString = product.discount ?? '';
-  final int? discount = int.tryParse(discountString);
-
+  final int? discount = int.tryParse(product.discount ?? '');
   final bool hasDiscount = discount != null && discount > 0;
 
-  return Row(
-    children: [
-      if (hasDiscount)
-        Text(
-          "\$${price.oldPrice(discount)}",
-          style: context.theme.typography.textTheme.titleSmall.copyWith(
-            color: context.theme.colors.hint,
-            decoration: TextDecoration.lineThrough,
-            decorationColor: context.theme.colors.hint,
-          ),
-        ),
-      if (hasDiscount)
-        const SizedBox(width: 5),
+  final List<Widget> priceWidgets = [];
+
+  if (hasDiscount) {
+    priceWidgets.add(
       Text(
-        "\$${price.toStringAsFixed(2)}",
-        style: context.theme.typography.textTheme.titleSmall
-            .copyWith(color: context.theme.colors.primary),
+        "\$${price.oldPrice(discount)}",
+        style: context.theme.typography.textTheme.titleSmall.copyWith(
+          color: context.theme.colors.hint,
+          decoration: TextDecoration.lineThrough,
+          decorationColor: context.theme.colors.hint,
+        ),
       ),
-    ],
+    );
+    priceWidgets.add(const SizedBox(width: 5));
+  }
+
+  priceWidgets.add(
+    Text(
+      "\$${price.toStringAsFixed(2)}",
+      style: context.theme.typography.textTheme.titleSmall
+          .copyWith(color: context.theme.colors.primary),
+    ),
   );
+
+  return Row(children: priceWidgets);
 }

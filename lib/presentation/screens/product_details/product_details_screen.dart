@@ -55,7 +55,6 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
             ),
 
-            // Body - Responsive Scrollable Layout
             body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is ProductDetailsLoading) {
