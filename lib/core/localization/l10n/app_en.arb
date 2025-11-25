@@ -5,6 +5,11 @@
     "description": "Default name for guest user"
   },
   "welcome": "Welcome",
+  "account": "Account",
+  "language": "Language",
+  "account_settings": "Account settings",
+  "reset_password": "Reset Password",
+  "app_version": "App version",
   "top_stores": "Top Stores",
   "my_orders": "My Orders",
   "my_favourites": "My Favourites",

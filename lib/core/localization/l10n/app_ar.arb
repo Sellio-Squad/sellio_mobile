@@ -5,6 +5,11 @@
      "description": "Default name for guest user"
    },
   "welcome": "مرحباً",
+  "account": "الحساب",
+  "language": "اللغة",
+  "account_settings": "إعدادات الحساب",
+  "app_version": "إصدار التطبيق",
+  "reset_password": "إعادة تعيين كلمة المرور",
   "top_stores": "أفضل المتاجر",
   "my_orders": "طلباتي",
   "my_favourites": "المفضلة لدي",
