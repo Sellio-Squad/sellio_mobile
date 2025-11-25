@@ -12,6 +12,7 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../core/design_system/constants/app_images.dart';
 import '../../../domain/repositories/user_repository.dart';
 import 'AccountOptionCard.dart';
@@ -72,7 +73,28 @@ class _AccountScreenState extends State<AccountScreen> {
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
     if (state is AccountLoading || state is AccountInitial) {
-      return const Center(child: CircularProgressIndicator());
+      return SafeArea(
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: _buildInfoBody(context, state)
+                ),
+                const SizedBox(height: 24),
+                _buildOptionBody(context, state)
+              ],
+            ),
+          ),
+        ),
+      );
     }
 
     if (state is AccountError) {
@@ -86,29 +108,7 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: Column(
-                    children: [
-                      uploadImageCard(
-                        imagePath: AppImages.cat,
-                        editIconPath: AppImages.pencilEdit,
-                        context: context,
-                        onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'firstName lastName',
-                        style: themeText.titleSmall
-                            .copyWith(color: colors.title),
-                      ),
-                      Text(
-                        "email",
-                        style:
-                        themeText.labelSmall.copyWith(color: colors.body),
-                      )
-                    ],
-                  ),
-                ),
+                _buildInfoBody(context, state),
                 const SizedBox(height: 24),
                 _buildOptionBody(context, state)
               ],
@@ -162,6 +162,35 @@ class _AccountScreenState extends State<AccountScreen> {
     }
 
     return const SizedBox.shrink();
+  }
+
+  Widget _buildInfoBody(BuildContext context, AccountState state){
+    SellioColorScheme colors = context.theme.colors;
+    SellioTextTheme themeText = context.theme.typography.textTheme;
+
+    return  Center(
+      child: Column(
+        children: [
+          uploadImageCard(
+            imagePath: AppImages.cat,
+            editIconPath: AppImages.pencilEdit,
+            context: context,
+            onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'firstName lastName',
+            style: themeText.titleSmall
+                .copyWith(color: colors.title),
+          ),
+          Text(
+            "email",
+            style:
+            themeText.labelSmall.copyWith(color: colors.body),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildOptionBody(BuildContext context, AccountState state) {
