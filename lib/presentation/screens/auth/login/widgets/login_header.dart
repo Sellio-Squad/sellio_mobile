@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-
-import '../../../../../core/design_system/constants/app_strings.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 
 class LoginHeader extends StatelessWidget {
@@ -17,12 +16,12 @@ class LoginHeader extends StatelessWidget {
       children: [
         const Gap(24),
         Text(
-          AppStrings.titleLogin,
+          context.local.title_login,
           style: textTheme.headlineSmall.copyWith(color: colors.title),
         ),
         const Gap(8),
         Text(
-          AppStrings.subtitleLogin,
+          context.local.subtitle_login,
           style: textTheme.bodyMedium.copyWith(color: colors.body),
         ),
       ],

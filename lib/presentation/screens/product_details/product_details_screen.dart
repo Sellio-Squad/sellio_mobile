@@ -3,14 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_snack_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../core/design_system/constants/app_images.dart';
-import '../../../core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
@@ -135,7 +132,7 @@ Widget _buildNoteTextField(BuildContext context) {
 
         return SellioTextField(
           isParagraph: true,
-          hintText: AppStrings.noteOptional,
+          hintText: context.local.note_optional,
           controller: context.read<ProductDetailsCubit>().noteController,
         );
       },
@@ -161,7 +158,7 @@ Widget _buildAddToCartButton(BuildContext context) {
       },
       builder: (context, state) {
         return SellioButton(
-          text: AppStrings.addToCart,
+          text: context.local.add_to_cart,
           onTap: () => context.read<ProductDetailsCubit>().addToCart(),
           suffixSvgPath: AppImages.cart,
         );

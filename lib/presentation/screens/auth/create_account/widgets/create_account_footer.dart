@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
-import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/navigate/routing.dart';
 
@@ -9,7 +9,7 @@ Widget buildCreateAccountFooter(BuildContext context) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text(
-        AppStrings.alreadyHaveAccount,
+        context.local.already_have_account,
         style: context.theme.typography.textTheme.labelMedium
             .copyWith(color: context.theme.colors.body),
       ),
@@ -19,7 +19,7 @@ Widget buildCreateAccountFooter(BuildContext context) {
           context.navigator.replaceWithLogin();
         },
         child: Text(
-          AppStrings.login,
+          context.local.login,
           style: context.theme.typography.textTheme.labelMedium
               .copyWith(color: context.theme.colors.primary),
         ),

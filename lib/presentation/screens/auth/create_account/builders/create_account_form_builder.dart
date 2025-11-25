@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../../core/design_system/constants/app_images.dart';
-import '../../../../../core/design_system/constants/app_strings.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
 import '../../country.dart';
@@ -168,7 +168,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                     ),
                   ),
                 ),
-                hintText: AppStrings.phoneNumber,
+                hintText: context.local.phone_number,
                 inputType: TextInputType.phone,
                 isPhoneNumber: true,
                 inputFormatter: [
@@ -187,7 +187,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
               focusNode: nameFocusNode,
               child: SellioTextField(
                 controller: nameController,
-                hintText: AppStrings.fullName,
+                hintText: context.local.full_name,
                 inputFormatter: [
                   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                 ],
@@ -210,7 +210,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                     focusNode: countryFocusNode,
                     child: SellioTextField(
                       controller: countryController,
-                      hintText: AppStrings.country,
+                      hintText: context.local.country,
                       inputFormatter: [
                         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                       ],
@@ -234,7 +234,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                     focusNode: cityFocusNode,
                     child: SellioTextField(
                       controller: cityController,
-                      hintText: AppStrings.city,
+                      hintText: context.local.city,
                       inputFormatter: [
                         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
                       ],
@@ -258,7 +258,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
               focusNode: passwordFocusNode,
               child: SellioTextField(
                 controller: passwordController,
-                hintText: AppStrings.password,
+                hintText: context.local.password,
                 prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
@@ -276,7 +276,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
               focusNode: confirmPasswordFocusNode,
               child: SellioTextField(
                 controller: confirmPasswordController,
-                hintText: AppStrings.confirmPassword,
+                hintText: context.local.confirm_password,
                 prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
