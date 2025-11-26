@@ -25,7 +25,7 @@ class MockRepositoryModule {
     sl.registerLazySingleton<StoreRepository>(() => MockStoreRepositoryImpl());
     sl.registerLazySingleton<CartRepository>(() => MockCartRepositoryImpl());
     sl.registerLazySingleton<OrderRepository>(() => MockOrderRepositoryImpl());
-    sl.registerLazySingleton<CategoryRepository>(() => MockCategoryRepositoryImpl());
+    // sl.registerLazySingleton<CategoryRepository>(() => MockCategoryRepositoryImpl());
     sl.registerLazySingleton<FavoritesRepository>(() => MockFavoritesRepositoryImpl());
     sl.registerLazySingleton<OffersRepository>(() => MockOffersRepositoryImpl());
     sl.registerLazySingleton<NotificationRepository>(() => MockNotificationRepositoryImpl());
