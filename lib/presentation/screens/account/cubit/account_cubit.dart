@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
@@ -47,18 +46,18 @@ class AccountCubit extends Cubit<AccountState> {
 
       final uploadResult = await _repository.uploadProfilePhoto(pickedFile.path);
       if (uploadResult is Success) {
-        final updateResult = await _repository.updateUserProfile(avatarUrl: uploadResult.data);
 
-        if (updateResult is Success) {
+        final loadUserData = await _repository.getUserProfile();
+        if (loadUserData is Success) {
           emit(AccountLoaded(
-            firstName: updateResult.data.firstName,
-            lastName: updateResult.data.lastName,
-            email: updateResult.data.email,
-            imagePath: updateResult.data.avatarUrl,
+            firstName: loadUserData.data.firstName,
+            lastName: loadUserData.data.lastName,
+            email: loadUserData.data.email,
+            imagePath: loadUserData.data.avatarUrl,
           ));
 
         } else {
-          final errorMessage = _extractErrorMessage([updateResult]);
+          final errorMessage = _extractErrorMessage([loadUserData]);
           emit(AccountError(message: errorMessage));
         }
       } else {
