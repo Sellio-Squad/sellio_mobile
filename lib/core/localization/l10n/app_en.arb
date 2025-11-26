@@ -11,6 +11,8 @@
   "phone_number": "Phone number",
   "login": "Login",
   "or": "OR",
+  "not_registered": "Your’e not registered user",
+  "login_to_access_your_account": "Please login to access your account details and other features!",
   "create_account": "Create account",
   "continue_as_guest": "Continue as guest",
   "title_par_forget_password": "Forget Password?",
