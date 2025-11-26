@@ -18,12 +18,22 @@ class AccountCubit extends Cubit<AccountState> {
           firstName: result.data.firstName,
           lastName: result.data.lastName,
           email: result.data.email,
-          imagePath: result.data.avatarUrl
-        )
+        imagePath: result.data.avatarUrl,
+        notificationsEnabled: true,
+      )
       );
     } else {
       final errorMessage = _extractErrorMessage([result]);
       emit(AccountError(message: errorMessage));
+    }
+  }
+
+  void toggleNotifications(bool enabled) {
+    if (state is AccountLoaded) {
+      final currentState = state as AccountLoaded;
+      emit(currentState.copyWith(notificationsEnabled: enabled));
+
+      // _repository.updateNotificationSettings(enabled);
     }
   }
 

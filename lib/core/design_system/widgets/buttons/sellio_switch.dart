@@ -29,16 +29,20 @@ class _SellioSwitchState extends State<SellioSwitch>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 200),
-      value: widget.value ? 1.0 : 0.0,
     );
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
+    _controller.value = widget.value ? 1.0 : 0.0;
   }
 
   @override
-  void didUpdateWidget(SellioSwitch oldWidget) {
+  void didUpdateWidget(covariant SellioSwitch oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.value != widget.value) {
-      widget.value ? _controller.forward() : _controller.reverse();
+      if (widget.value) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     }
   }
 
@@ -56,7 +60,11 @@ class _SellioSwitchState extends State<SellioSwitch>
     final borderColor = colors.hint;
 
     return GestureDetector(
-      onTap: widget.enabled ? () => widget.onChanged(!widget.value) : null,
+      onTap: widget.enabled
+          ? () {
+              widget.onChanged(!widget.value);
+            }
+          : null,
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
@@ -70,10 +78,8 @@ class _SellioSwitchState extends State<SellioSwitch>
               borderRadius: BorderRadius.circular(100),
               border: !widget.enabled || !widget.value
                   ? Border.all(
-                color: widget.enabled
-                    ? borderColor
-                    : disabledColor,
-                width: 2,
+                      color: widget.enabled ? borderColor : disabledColor,
+                      width: 2,
               )
                   : null,
             ),
@@ -82,9 +88,7 @@ class _SellioSwitchState extends State<SellioSwitch>
                 AnimatedPositioned(
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
-                  top: widget.enabled
-                      ? 4.0
-                      : 8.0,
+                  top: widget.enabled ? 4.0 : 8.0,
                   left: widget.enabled
                       ? (widget.value ? 24.0 : 4.0)
                       : 8.0,

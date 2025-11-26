@@ -19,13 +19,14 @@ class AccountLoaded extends AccountState {
   final String lastName;
   final String email;
   final String? imagePath;
-
+  final bool notificationsEnabled;
 
   const AccountLoaded({
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.imagePath,
+    this.notificationsEnabled = true,
   });
 
   AccountLoaded copyWith({
@@ -33,17 +34,20 @@ class AccountLoaded extends AccountState {
     String? lastName,
     String? email,
     String? imagePath,
+    bool? notificationsEnabled,
   }) {
     return AccountLoaded(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       email: email ?? this.email,
       imagePath: imagePath ?? this.imagePath,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
     );
   }
 
   @override
-  List<Object?> get props => [firstName, lastName, email, imagePath];
+  List<Object?> get props =>
+      [firstName, lastName, email, imagePath, notificationsEnabled];
 }
 
 class AccountError extends AccountState {
