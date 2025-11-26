@@ -11,9 +11,9 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
-import 'package:sellio_mobile/presentation/screens/account/widgets/not_logged_in_section.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../core/design_system/constants/app_images.dart';
+import '../../../core/design_system/widgets/empty_section.dart';
 import '../../../domain/repositories/user_repository.dart';
 import 'AccountOptionCard.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -47,7 +47,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   title: context.local.account_screen,
                 ),
                 backgroundColor: colors.surfaceLow,
-                body: NotLoggedInSection(
+                body: EmptySection(
                     icon: AppImages.notLoggedIn,
                     title: context.local.not_registered,
                     description: context.local.login_to_access_your_account,
