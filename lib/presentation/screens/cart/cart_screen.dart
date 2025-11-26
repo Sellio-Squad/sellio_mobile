@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+import 'package:sellio_mobile/core/design_system/widgets/empty_section.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../core/design_system/constants/app_images.dart';
-import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
 import '../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
 import '../../../core/design_system/widgets/sellio_text_field.dart';
@@ -46,7 +47,14 @@ class _CartScreenState extends State<CartScreen> {
           }
 
           if (state.cart == null || state.cart!.items.isEmpty) {
-            return EmptyCartSection(textTheme: textTheme, colors: colors);
+            return EmptySection(
+                icon: AppImages.cartEmpty,
+                title: context.local.empty_cart_title,
+                description: context.local.empty_cart_desc,
+                buttonText: context.local.empty_cart_button,
+                color: context.theme.colors.purpleVariant,
+                onTap: () => context.navigator.goToHome()
+            );
           }
 
           final cart = state.cart!;
