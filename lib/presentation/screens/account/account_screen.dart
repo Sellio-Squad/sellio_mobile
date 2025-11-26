@@ -12,6 +12,7 @@ import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.d
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../core/design_system/constants/app_images.dart';
 import '../../../core/design_system/widgets/empty_section.dart';
 import '../../../domain/repositories/user_repository.dart';
@@ -53,7 +54,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     description: context.local.login_to_access_your_account,
                     buttonText: context.local.login,
                     color: context.theme.colors.redVariant,
-                    onTap: () {},
+                  onTap: () => navigateToLoginScreen(context),
                 )
             );
           }
@@ -271,14 +272,27 @@ class _AccountScreenState extends State<AccountScreen> {
             },
           ),
           const SizedBox(height: 12),
-          AccountOptionCard(
-            prefixIcon: AppImages.notification,
-            orderTitle: context.local.notifications,
-            onCardClicked: () {},
-            trailing: SellioSwitch(
-              value: true,
-              onChanged: (bool value) {},
-            ),
+          BlocBuilder<AccountCubit, AccountState>(
+            builder: (context, state) {
+              final notificationsEnabled =
+                  state is AccountLoaded ? state.notificationsEnabled : true;
+
+              return AccountOptionCard(
+                prefixIcon: AppImages.notification,
+                orderTitle: context.local.notifications,
+                onCardClicked: () {
+                  context
+                      .read<AccountCubit>()
+                      .toggleNotifications(!notificationsEnabled);
+                },
+                trailing: SellioSwitch(
+                  value: notificationsEnabled,
+                  onChanged: (bool value) {
+                    context.read<AccountCubit>().toggleNotifications(value);
+                  },
+                ),
+              );
+            },
           ),
           const SizedBox(height: 12),
           AccountOptionCard(
