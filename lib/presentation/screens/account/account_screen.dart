@@ -52,7 +52,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: context.local.not_registered,
                     description: context.local.login_to_access_your_account,
                     buttonText: context.local.login,
-                    color: context.theme.colors.redVariant
+                    color: context.theme.colors.redVariant,
+                    onTap: () {},
                 )
             );
           }

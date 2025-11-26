@@ -15,6 +15,7 @@ class NotLoggedInSection extends StatelessWidget {
   final String description;
   final String buttonText;
   final Color color;
+  final VoidCallback onTap;
 
   const NotLoggedInSection({
     super.key,
@@ -23,6 +24,7 @@ class NotLoggedInSection extends StatelessWidget {
     required this.description,
     required this.buttonText,
     required this.color,
+    required this.onTap,
   });
 
   @override
@@ -65,7 +67,7 @@ class NotLoggedInSection extends StatelessWidget {
                   textTheme.labelMedium.copyWith(color: colors.onPrimary),
               verticalPadding: 13,
               horizontalPadding: 24,
-              onTap: () => context.navigator.goToHome(),
+              onTap: onTap,
             ),
           ]),
         ));
