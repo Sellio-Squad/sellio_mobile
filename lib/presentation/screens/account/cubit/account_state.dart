@@ -58,3 +58,11 @@ class AccountError extends AccountState {
   @override
   List<Object?> get props => [message];
 }
+
+class AvatarNotUploaded extends AccountState {
+  const AvatarNotUploaded();
+}
+
+class UserNotLoggedIn extends AccountState {
+  const UserNotLoggedIn();
+}
