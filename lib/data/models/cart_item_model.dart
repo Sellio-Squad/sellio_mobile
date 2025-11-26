@@ -1,19 +1,24 @@
 import '../../domain/entities/cart.dart';
 
-class CartItemModel extends CartItem {
+class CartItemModel {
+  final String productId;
+  final String productName;
+  final String productImage;
+  final double price;
+  final int quantity;
+  final String currency;
+
   const CartItemModel({
-    required super.id,
-    required super.productId,
-    required super.productName,
-    required super.productImage,
-    required super.price,
-    required super.quantity,
-    required super.currency,
+    required this.productId,
+    required this.productName,
+    required this.productImage,
+    required this.price,
+    required this.quantity,
+    required this.currency,
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
     return CartItemModel(
-      id: json['id'] as String,
       productId: json['productId'] as String,
       productName: json['productName'] as String,
       productImage: json['productImage'] as String,
@@ -25,7 +30,6 @@ class CartItemModel extends CartItem {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'productId': productId,
       'productName': productName,
       'productImage': productImage,
@@ -35,27 +39,33 @@ class CartItemModel extends CartItem {
     };
   }
 
-  factory CartItemModel.fromEntity(CartItem item) {
-    return CartItemModel(
-      id: item.id,
-      productId: item.productId,
-      productName: item.productName,
-      productImage: item.productImage,
-      price: item.price,
-      quantity: item.quantity,
-      currency: item.currency,
-    );
-  }
-
   CartItem toEntity() {
     return CartItem(
-      id: id,
+      id: productId,
       productId: productId,
       productName: productName,
       productImage: productImage,
       price: price,
       quantity: quantity,
       currency: currency,
+    );
+  }
+
+  CartItemModel copyWith({
+    String? productId,
+    String? productName,
+    String? productImage,
+    double? price,
+    int? quantity,
+    String? currency,
+  }) {
+    return CartItemModel(
+      productId: productId ?? this.productId,
+      productName: productName ?? this.productName,
+      productImage: productImage ?? this.productImage,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      currency: currency ?? this.currency,
     );
   }
 }

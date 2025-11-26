@@ -1,79 +1,131 @@
+import '../../core/error/failure.dart';
 import '../../core/error/result.dart';
 import '../../domain/entities/cart.dart';
 import '../../domain/repositories/cart_repository.dart';
-import '../core/storage/storage_keys.dart';
-import '../core/storage/storage_service.dart';
-import '../core/utils/repository_call_handler.dart';
-import '../datasource/remote/cart_remote_datasource.dart';
+import '../datasource/local/cart_local_datasource.dart';
+import '../models/cart_item_model.dart';
+import '../models/cart_model.dart';
 
 class CartRepositoryImpl implements CartRepository {
-  final CartRemoteDataSource _remoteDataSource;
-  final StorageService _storageService;
+  final CartLocalDataSource _localDataSource;
 
   CartRepositoryImpl({
-    required CartRemoteDataSource remoteDataSource,
-    required StorageService storageService,
-  })  : _remoteDataSource = remoteDataSource,
-        _storageService = storageService;
-
-  Future<String?> _getUserId() =>
-      _storageService.get<String>(StorageKeys.userId);
+    required CartLocalDataSource localDataSource,
+  }) : _localDataSource = localDataSource;
 
   @override
   Future<Result<Cart>> getCart() async {
-    return RepositoryCallHandler.callWithAuth<Cart>(
-      _getUserId,
-      (userId) async {
-        final cartModel = await _remoteDataSource.getCart(userId);
-        return cartModel.toEntity();
-      },
-    );
+    try {
+      final cartModel = await _localDataSource.getCart();
+      return Success(cartModel.toEntity());
+    } catch (e) {
+      return ResultFailure(
+        CacheFailure(message: 'Failed to get cart: ${e.toString()}'),
+      );
+    }
   }
 
   @override
   Future<Result<Cart>> addToCart({
     required String productId,
+    required String productName,
+    required String productImage,
+    required double price,
+    required String currency,
     required int quantity,
   }) async {
-    return RepositoryCallHandler.callWithAuth<Cart>(
-      _getUserId,
-      (userId) async {
-        final cartModel = await _remoteDataSource.addToCart(
-          userId: userId,
-          productId: productId,
-          quantity: quantity,
+    try {
+      final currentCart = await _localDataSource.getCart();
+      final items = List<CartItemModel>.from(currentCart.items);
+
+      final existingIndex = items.indexWhere(
+            (item) => item.productId == productId,
+      );
+
+      if (existingIndex != -1) {
+        items[existingIndex] = items[existingIndex].copyWith(
+          quantity: items[existingIndex].quantity + quantity,
         );
-        return cartModel.toEntity();
-      },
-    );
+      } else {
+        items.add(
+          CartItemModel(
+            productId: productId,
+            productName: productName,
+            productImage: productImage,
+            price: price,
+            quantity: quantity,
+            currency: currency,
+          ),
+        );
+      }
+
+      final updatedCart = CartModel(items: items);
+      await _localDataSource.saveCart(updatedCart);
+
+      return Success(updatedCart.toEntity());
+    } catch (e) {
+      return ResultFailure(
+        CacheFailure(message: 'Failed to add to cart: ${e.toString()}'),
+      );
+    }
   }
 
   @override
-  Future<Result<Cart>> removeFromCart(String cartItemId) async {
-    return RepositoryCallHandler.callWithAuth<Cart>(
-      _getUserId,
-      (userId) async {
-        final cartModel = await _remoteDataSource.removeFromCart(
-          userId: userId,
-          cartItemId: cartItemId,
-        );
-        return cartModel.toEntity();
-      },
-    );
+  Future<Result<Cart>> removeFromCart(String productId) async {
+    try {
+      final currentCart = await _localDataSource.getCart();
+      final items = currentCart.items
+          .where((item) => item.productId != productId)
+          .toList();
+
+      final updatedCart = CartModel(items: items);
+      await _localDataSource.saveCart(updatedCart);
+
+      return Success(updatedCart.toEntity());
+    } catch (e) {
+      return ResultFailure(
+        CacheFailure(message: 'Failed to remove from cart: ${e.toString()}'),
+      );
+    }
   }
 
   @override
   Future<Result<Cart>> updateQuantity(String productId, int quantity) async {
-    return RepositoryCallHandler.callWithAuth<Cart>(
-      _getUserId,
-      (userId) async {
-        final cartModel = await _remoteDataSource.updateQuantity(
-          userId: userId,
-          productId: productId,
-          quantity: quantity,
+    try {
+      if (quantity < 1) {
+        return ResultFailure(
+          ValidationFailure(message: 'Quantity must be at least 1'),
         );
-        return cartModel.toEntity();
-      },
-    );
+      }
+
+      final currentCart = await _localDataSource.getCart();
+      final items = currentCart.items.map((item) {
+        if (item.productId == productId) {
+          return item.copyWith(quantity: quantity);
+        }
+        return item;
+      }).toList();
+
+      final updatedCart = CartModel(items: items);
+      await _localDataSource.saveCart(updatedCart);
+
+      return Success(updatedCart.toEntity());
+    } catch (e) {
+      return ResultFailure(
+        CacheFailure(message: 'Failed to update quantity: ${e.toString()}'),
+      );
+    }
+  }
+
+  @override
+  Future<Result<void>> clearCart() async {
+    try {
+      await _localDataSource.clearCart();
+      return const Success(null);
+    } catch (e) {
+      return ResultFailure(
+        CacheFailure(message: 'Failed to clear cart: ${e.toString()}'),
+      );
+    }
   }
 }

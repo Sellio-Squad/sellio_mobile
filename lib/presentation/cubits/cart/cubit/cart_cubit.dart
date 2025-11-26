@@ -1,13 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/error/result.dart';
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/repositories/cart_repository.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final CartRepository repository;
+  final CartRepository _repository;
 
-  CartCubit(this.repository) : super(const CartInitial());
+  CartCubit(this._repository) : super(const CartInitial());
 
   Future<void> loadCart() async {
     emit(CartLoading(
@@ -15,131 +14,115 @@ class CartCubit extends Cubit<CartState> {
       productCounts: state.productCounts,
     ));
 
-    final Result<Cart> result = await repository.getCart();
+    final result = await _repository.getCart();
 
-    if (result.isSuccess) {
-      final Cart cart = result.data;
+    result.fold(
+      onSuccess: (cart) => _emitLoadedState(cart),
+      onFailure: (failure) => _emitErrorState(failure.message),
+    );
+  }
 
-      emit(
-        CartLoaded(
-          cart: cart,
-          productCounts: {
-            for (final item in cart.items) item.productId: item.quantity,
-          },
-        ),
-      );
-    } else {
-      emit(
-        CartError(
-          message: _extractError(result),
-          cart: state.cart,
-          productCounts: state.productCounts,
-        ),
-      );
-    }
+  Future<void> addToCart({
+    required String productId,
+    required String productName,
+    required String productImage,
+    required double price,
+    required String currency,
+    int quantity = 1,
+  }) async {
+    final result = await _repository.addToCart(
+      productId: productId,
+      productName: productName,
+      productImage: productImage,
+      price: price,
+      currency: currency,
+      quantity: quantity,
+    );
+
+    result.fold(
+      onSuccess: _emitLoadedState,
+      onFailure: (failure) => _emitErrorState(failure.message),
+    );
+  }
+
+  Future<void> removeFromCart(String productId) async {
+    if (state is! CartLoaded) return;
+
+    final currentState = state as CartLoaded;
+    final result = await _repository.removeFromCart(productId);
+
+    result.fold(
+      onSuccess: _emitLoadedState,
+      onFailure: (failure) => _handleError(failure.message, currentState),
+    );
   }
 
   Future<void> incrementProduct(String productId) async {
     if (state is! CartLoaded) return;
 
     final currentState = state as CartLoaded;
-    final int currentQty = currentState.productCounts[productId] ?? 0;
+    final currentQty = currentState.productCounts[productId] ?? 0;
 
-    final Result<Cart> result =
-    await repository.updateQuantity(productId, currentQty + 1);
+    final result = await _repository.updateQuantity(productId, currentQty + 1);
 
-    if (result.isSuccess) {
-      _syncCart(result.data);
-    } else {
-      emit(CartError(
-        message: _extractError(result),
-        cart: currentState.cart,
-        productCounts: currentState.productCounts,
-      ));
-      // Restore state after showing error
-      emit(currentState);
-    }
+    result.fold(
+      onSuccess: _emitLoadedState,
+      onFailure: (failure) => _handleError(failure.message, currentState),
+    );
   }
 
   Future<void> decrementProduct(String productId) async {
     if (state is! CartLoaded) return;
 
     final currentState = state as CartLoaded;
-    final int currentQty = currentState.productCounts[productId] ?? 0;
+    final currentQty = currentState.productCounts[productId] ?? 0;
+
     if (currentQty <= 1) return;
 
-    final Result<Cart> result =
-    await repository.updateQuantity(productId, currentQty - 1);
+    final result = await _repository.updateQuantity(productId, currentQty - 1);
 
-    if (result.isSuccess) {
-      _syncCart(result.data);
-    } else {
-      emit(CartError(
-        message: _extractError(result),
-        cart: currentState.cart,
-        productCounts: currentState.productCounts,
-      ));
-      // Restore state after showing error
-      emit(currentState);
-    }
-  }
-
-  Future<void> addToCart(String productId) async {
-    final Result<Cart> result = await repository.addToCart(
-      productId: productId,
-      quantity: 1,
-    );
-
-    if (result.isSuccess) {
-      _syncCart(result.data);
-    } else {
-      emit(CartError(
-        message: _extractError(result),
-        cart: state.cart,
-        productCounts: state.productCounts,
-      ));
-
-      // If we had a loaded state, restore it
-      if (state.cart != null) {
-        emit(CartLoaded(
-          cart: state.cart!,
-          productCounts: state.productCounts,
-        ));
-      }
-    }
-  }
-
-  Future<void> removeFromCart(String cartItemId) async {
-    if (state is! CartLoaded) return;
-
-    final currentState = state as CartLoaded;
-    final Result<Cart> result = await repository.removeFromCart(cartItemId);
-
-    if (result.isSuccess) {
-      _syncCart(result.data);
-    } else {
-      emit(CartError(
-        message: _extractError(result),
-        cart: currentState.cart,
-        productCounts: currentState.productCounts,
-      ));
-      // Restore state after showing error
-      emit(currentState);
-    }
-  }
-
-  void _syncCart(Cart cart) {
-    emit(
-      CartLoaded(
-        cart: cart,
-        productCounts: {
-          for (final item in cart.items) item.productId: item.quantity,
-        },
-      ),
+    result.fold(
+      onSuccess: _emitLoadedState,
+      onFailure: (failure) => _handleError(failure.message, currentState),
     );
   }
 
-  String _extractError(Result result) {
-    return result.failure.message;
+  Future<void> clearCart() async {
+    final result = await _repository.clearCart();
+
+    result.fold(
+      onSuccess: (_) => loadCart(),
+      onFailure: (failure) => _emitErrorState(failure.message),
+    );
+  }
+
+  void _emitLoadedState(Cart cart) {
+    emit(CartLoaded(
+      cart: cart,
+      productCounts: _buildProductCountsMap(cart.items),
+    ));
+  }
+
+  void _emitErrorState(String message) {
+    emit(CartError(
+      message: message,
+      cart: state.cart,
+      productCounts: state.productCounts,
+    ));
+  }
+
+  void _handleError(String message, CartLoaded previousState) {
+    emit(CartError(
+      message: message,
+      cart: previousState.cart,
+      productCounts: previousState.productCounts,
+    ));
+    emit(previousState);
+  }
+
+  Map<String, int> _buildProductCountsMap(List items) {
+    return {
+      for (final item in items) item.productId: item.quantity,
+    };
   }
 }

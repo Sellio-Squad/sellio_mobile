@@ -58,7 +58,14 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
 
     final productId = currentState.product.id;
 
-    _cartCubit.addToCart(productId);
+    _cartCubit.addToCart(
+      productId: productId,
+      productName: currentState.product.name,
+      productImage: currentState.product.images[0],
+      price: currentState.product.price,
+      currency: currentState.product.currency,
+      quantity: 1,
+    );
 
     emit(ProductDetailsAddToCartSuccess(
       product: currentState.product,

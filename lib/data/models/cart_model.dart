@@ -1,49 +1,43 @@
+import 'dart:convert';
 import '../../domain/entities/cart.dart';
 import 'cart_item_model.dart';
 
-class CartModel extends Cart {
-  const CartModel({
-    required super.id,
-    required super.userId,
-    required super.items,
-    required super.totalPrice,
-  });
+class CartModel {
+  final List<CartItemModel> items;
+
+  const CartModel({required this.items});
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
     return CartModel(
-      id: json['id'] as String,
-      userId: json['userId'] as String,
       items: (json['items'] as List<dynamic>)
           .map((e) => CartItemModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalPrice: (json['totalPrice'] as num).toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'userId': userId,
-      'items': items.map((e) => (e as CartItemModel).toJson()).toList(),
-      'totalPrice': totalPrice,
+      'items': items.map((e) => e.toJson()).toList(),
     };
   }
 
-  factory CartModel.fromEntity(Cart cart) {
-    return CartModel(
-      id: cart.id,
-      userId: cart.userId,
-      items: cart.items,
-      totalPrice: cart.totalPrice,
+  Cart toEntity() {
+    final totalPrice = items.fold(
+      0.0,
+          (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    return Cart(
+      id: '',
+      userId: '',
+      items: items.map((e) => e.toEntity()).toList(),
+      totalPrice: totalPrice,
     );
   }
 
-  Cart toEntity() {
-    return Cart(
-      id: id,
-      userId: userId,
-      items: items,
-      totalPrice: totalPrice,
-    );
+  String toJsonString() => jsonEncode(toJson());
+
+  factory CartModel.fromJsonString(String jsonString) {
+    return CartModel.fromJson(jsonDecode(jsonString));
   }
 }

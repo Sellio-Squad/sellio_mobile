@@ -51,12 +51,11 @@ class RepositoryModule {
     //   ),
     // );
     //
-    // sl.registerLazySingleton<CartRepository>(
-    //       () => CartRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //     storageService: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(
+        localDataSource: sl(),
+      ),
+    );
     //
     // sl.registerLazySingleton<OrderRepository>(
     //       () => OrderRepositoryImpl(
@@ -65,9 +64,7 @@ class RepositoryModule {
     // );
 
     sl.registerLazySingleton<UserRepository>(
-          () => UserRepositoryImpl(
-        remoteDataSource: sl()
-      ),
+      () => UserRepositoryImpl(remoteDataSource: sl()),
     );
 
     // sl.registerLazySingleton<FavoritesRepository>(

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../core/design_system/constants/app_images.dart';
-import 'package:sellio_mobile/presentation/screens/cart/Widgets/EmptyCartSection.dart';
-import '../../../core/design_system/widgets/buttons/sellio_button.dart';
-import '../../../core/design_system/widgets/cards/sellio_product_horizontal_card.dart';
-import '../../../core/design_system/widgets/sellio_text_field.dart';
-import '../../../core/navigate/navigation_extensions.dart';
-import '../../../core/navigate/route_args.dart';
+import '../../../core/design_system/themes/sellio_theme_provider.dart';
+import '../../../core/design_system/widgets/sellio_app_bar.dart';
+import '../../../core/localization/l10n/localization_service.dart';
+import '../../../core/utils/price_calculator.dart';
+import '../../../data/models/requests/order_request_model.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
+import 'constants/cart_constants.dart';
+import 'widgets/cart_bottom_bar.dart';
+import 'widgets/cart_header.dart';
+import 'widgets/cart_items_list.dart';
+import 'widgets/cart_note_section.dart';
+import 'widgets/empty_cart_section.dart';
+import 'widgets/order_confirmation_dialog.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -27,283 +29,160 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     super.initState();
+    _loadCart();
+  }
+
+  @override
+  void dispose() {
+    _noteController.dispose();
+    super.dispose();
+  }
+
+  void _loadCart() {
     context.read<CartCubit>().loadCart();
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final textTheme = theme.typography.textTheme;
-    final colors = theme.colors;
-
     return Scaffold(
-      backgroundColor: colors.surfaceLow,
-      appBar: _buildAppBar(context),
+      backgroundColor: context.theme.colors.surfaceLow,
+      appBar: _buildAppBar(),
       body: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) => _buildBody(state),
+      ),
+      bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
-          if (state is CartLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           if (state.cart == null || state.cart!.items.isEmpty) {
-            return EmptyCartSection(textTheme: textTheme, colors: colors);
+            return const SizedBox.shrink();
           }
 
-          final cart = state.cart!;
-          cart.items.fold(
-            0.0,
-            (sum, item) => sum + (item.price * item.quantity),
+          final totalPrice = PriceCalculator.calculateTotalPrice(
+            state.cart!.items,
           );
+          final itemCount = state.cart!.items.length;
 
-          return GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 46),
-              child: Column(
-                children: [
-                  _buildHeader(cart.items.length, textTheme, colors),
-                  const Gap(12),
-                  Builder(
-                    builder: (context) => _buildCartItems(context, cart, state),
-                  ),
-                  const Gap(12),
-                  Divider(color: colors.stroke, thickness: 1),
-                  const Gap(12),
-                  _buildNoteSection(textTheme, colors),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: (context.read<CartCubit>().state.cart == null ||
-              context.read<CartCubit>().state.cart!.items.isEmpty)
-          ? null
-          : BlocBuilder<CartCubit, CartState>(
-              builder: (context, state) {
-                final cart = state.cart;
-                final totalPrice = cart?.items.fold(
-                      0.0,
-                      (sum, item) => sum + (item.price * item.quantity),
-                    ) ??
-                    0.0;
-
-                return _buildBottomBar(
-            context,
-            totalPrice,
-            cart?.items.length ?? 0,
+          return CartBottomBar(
+            totalPrice: totalPrice,
+            itemCount: itemCount,
+            onConfirmOrder: _handleConfirmOrder,
           );
         },
       ),
     );
   }
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final textTheme = theme.typography.textTheme;
-    final colors = theme.colors;
 
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(68),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: AppBar(
-          backgroundColor: colors.surfaceLow,
-          title: Text(
-            context.local.cart,
-            style: textTheme.titleMedium.copyWith(color: colors.title),
-          ),
-          actions: [
-            if (context.read<CartCubit>().state.cart != null &&
-                context.read<CartCubit>().state.cart!.items.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: Center(
-                  child: Text(
-                    context.local.add_more_items,
-                    style:
-                        textTheme.labelMedium.copyWith(color: colors.primary),
-                  ),
-                ),
-              )
-          ],
-        ),
-      ),
+  PreferredSizeWidget _buildAppBar() {
+    final cubit = context.read<CartCubit>();
+    final hasItems = cubit.state.cart?.items.isNotEmpty ?? false;
+
+    return SellioAppBar(
+      title: context.local.cart,
+      actions: hasItems ? [_buildAddMoreAction()] : null,
     );
   }
 
-  Widget _buildHeader(int count, textTheme, colors) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          '$count ${context.local.items}',
-          style: textTheme.labelMedium.copyWith(color: colors.body),
-        ),
-        Text(
-          context.local.select,
-          style: textTheme.labelMedium.copyWith(color: colors.primary),
-        ),
-      ],
-    );
-  }
+  Widget _buildAddMoreAction() {
+    final theme = context.theme;
 
-  Widget _buildCartItems(BuildContext context, cart, CartState state) {
-    return ListView.separated(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: cart.items.length,
-      separatorBuilder: (_, __) => const Gap(12),
-      itemBuilder: (_, index) {
-        final item = cart.items[index];
-        final qty = state.productCounts[item.productId] ?? item.quantity;
-
-        return SizedBox(
-          height: 89,
-          child: SellioProductHorizontalCard(
-            onTap: () => context.navigator.pushProductDetails(
-              ProductDetailsArgs(
-                productId: item.productId,
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0),
+      child: Center(
+        child: GestureDetector(
+          onTap: _handleAddMoreItems,
+          child: Text(
+            context.local.add_more_items,
+            style: theme.typography.textTheme.labelMedium.copyWith(
+              color: theme.colors.primary,
             ),
-            imageUrl: item.productImage,
-            title: item.productName,
-            description: '',
-            price: '${item.currency} ${item.price}',
-            originalPrice: null,
-            count: qty,
-            onIncrement: () =>
-                context.read<CartCubit>().incrementProduct(item.productId),
-            onDecrement: () =>
-                context.read<CartCubit>().decrementProduct(item.productId),
           ),
-        );
-      },
-    );
-  }
-
-  Widget _buildNoteSection(textTheme, colors) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(context.local.note_about_order,
-            style: textTheme.titleMedium.copyWith(color: colors.title)),
-        const Gap(8),
-        SellioTextField(
-          controller: _noteController,
-          isParagraph: true,
-          hintText: context.local.write_here,
-          maxLine: 1,
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, double total, int count) {
-    final theme = SellioTheme.of(context);
-    final textTheme = theme.typography.textTheme;
-    final colors = theme.colors;
+  void _handleAddMoreItems() {
+    Navigator.of(context).pop();
+  }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1), // FIXED
-            offset: const Offset(0, -4),
-            blurRadius: 8,
-          ),
-        ],
+  Widget _buildBody(CartState state) {
+    if (state is CartLoading && state.cart == null) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: context.theme.colors.primary,
+        ),
+      );
+    }
+
+    if (state.cart == null || state.cart!.items.isEmpty) {
+      return const EmptyCartSection();
+    }
+
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: _buildCartContent(state),
+    );
+  }
+
+  Widget _buildCartContent(CartState state) {
+    final cart = state.cart!;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(
+        left: CartConstants.horizontalPadding,
+        right: CartConstants.horizontalPadding,
+        bottom: CartConstants.bottomPadding,
       ),
-      height: 110,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              SvgPicture.asset(AppImages.discountTag),
-              const Gap(4),
-              Text(
-                context.local.total_price,
-                style: textTheme.titleSmall.copyWith(color: colors.title),
-              ),
-              const Spacer(),
-              Text(
-                total.toStringAsFixed(2),
-                style: textTheme.titleSmall.copyWith(color: colors.primary),
-              ),
-            ],
+          CartHeader(itemCount: cart.items.length),
+          const Gap(CartConstants.sectionSpacing),
+          CartItemsList(
+            items: cart.items,
+            productCounts: state.productCounts,
+            onIncrement: _handleIncrement,
+            onDecrement: _handleDecrement,
           ),
-          const Gap(12),
-          SellioButton(
-            text: '${context.local.confirm_order} ($count)',
-            backgroundColor: colors.primary,
-            fullWidth: true,
-            suffixSvgPath: AppImages.packageAdd,
-            onTap: () => _showOrderConfirmation(context),
+          const Gap(CartConstants.sectionSpacing),
+          Divider(
+            color: context.theme.colors.stroke,
+            thickness: 1,
           ),
+          const Gap(CartConstants.sectionSpacing),
+          CartNoteSection(controller: _noteController),
         ],
       ),
     );
   }
 
-  void _showOrderConfirmation(BuildContext context) {
-    final theme = SellioTheme.of(context);
+  void _handleIncrement(String productId) {
+    context.read<CartCubit>().incrementProduct(productId);
+  }
 
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(24),
-                width: 112,
-                height: 112,
-                decoration: BoxDecoration(
-                  color: theme.colors.primaryVariant,
-                  shape: BoxShape.circle,
-                ),
-                child: SvgPicture.asset(
-                  AppImages.cartPackageDelivered,
-                  colorFilter: ColorFilter.mode(
-                    theme.colors.primary,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-              const Gap(16),
-              Text(
-                '${context.local.order} #2002124',
-                style: theme.typography.textTheme.labelMedium
-                    .copyWith(color: theme.colors.title),
-              ),
-              const Gap(8),
-              Text(
-                context.local.order_received,
-                style: theme.typography.textTheme.titleSmall
-                    .copyWith(color: theme.colors.body),
-              ),
-              const Gap(24),
-              SellioButton(
-                text: context.local.back_to_shopping,
-                backgroundColor: theme.colors.primaryVariant,
-                textStyle: theme.typography.textTheme.labelMedium
-                    .copyWith(color: theme.colors.primary),
-                onTap: () => context.navigator.goToHome(),
-                fullWidth: true,
-              ),
-            ],
-          ),
-        );
-      },
+  void _handleDecrement(String productId) {
+    context.read<CartCubit>().decrementProduct(productId);
+  }
+
+  void _handleConfirmOrder() {
+    final cart = context.read<CartCubit>().state.cart;
+    if (cart == null || cart.items.isEmpty) return;
+
+    final orderRequest = OrderRequestModel(
+      items: cart.items
+          .map((item) => OrderItemModel(
+        productId: item.productId,
+        quantity: item.quantity,
+      ))
+          .toList(),
+      note: _noteController.text.trim().isNotEmpty
+          ? _noteController.text.trim()
+          : null,
     );
+
+    // TODO: Send orderRequest.toJson() to backend
+    print('Order Request: ${orderRequest.toJson()}');
+
+    OrderConfirmationDialog.show(context, '#2002124');
+
+    context.read<CartCubit>().clearCart();
   }
 }
