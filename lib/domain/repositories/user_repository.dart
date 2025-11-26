@@ -20,6 +20,12 @@ abstract class UserRepository {
     required String newPassword,
   });
 
+  Future<Result<void>> resetPassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  });
+
   Future<Result<Address>> getUserAddress();
 
   Future<Result<Address>> addAddress({
