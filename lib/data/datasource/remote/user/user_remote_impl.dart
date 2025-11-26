@@ -1,14 +1,14 @@
-
 import 'package:sellio_mobile/data/datasource/remote/user/user_remote.dart';
 
-import '../../../core/api/api_endpoints.dart';
 import '../../../core/api/api_client.dart';
-import '../../../models/user_model.dart';
+import '../../../core/api/api_endpoints.dart';
 import '../../../models/address_model.dart';
-import '../../../models/requests/update_user_profile_request.dart';
-import '../../../models/requests/change_password_request.dart';
 import '../../../models/requests/add_address_request.dart';
+import '../../../models/requests/change_password_request.dart';
+import '../../../models/requests/reset_password_request.dart'; // Add this
 import '../../../models/requests/update_address_request.dart';
+import '../../../models/requests/update_user_profile_request.dart';
+import '../../../models/user_model.dart';
 
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
@@ -36,6 +36,14 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   Future<void> changePassword(ChangePasswordRequest request) async {
     await _httpClient.put(
       ApiEndpoints.userChangePassword(),
+      data: request.toJson(),
+    );
+  }
+
+  @override
+  Future<void> resetPassword(ResetPasswordRequest request) async {
+    await _httpClient.post(
+      ApiEndpoints.resetPassword,
       data: request.toJson(),
     );
   }
