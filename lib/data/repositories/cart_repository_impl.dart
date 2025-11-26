@@ -3,6 +3,7 @@ import '../../core/error/result.dart';
 import '../../domain/entities/cart.dart';
 import '../../domain/repositories/cart_repository.dart';
 import '../datasource/local/cart_local_datasource.dart';
+import '../mappers/cart_mapper.dart';
 import '../models/cart_item_model.dart';
 import '../models/cart_model.dart';
 
@@ -17,7 +18,8 @@ class CartRepositoryImpl implements CartRepository {
   Future<Result<Cart>> getCart() async {
     try {
       final cartModel = await _localDataSource.getCart();
-      return Success(cartModel.toEntity());
+      final cart = CartMapper.toEntity(cartModel);
+      return Success(cart);
     } catch (e) {
       return ResultFailure(
         CacheFailure(message: 'Failed to get cart: ${e.toString()}'),
@@ -43,10 +45,13 @@ class CartRepositoryImpl implements CartRepository {
       );
 
       if (existingIndex != -1) {
-        items[existingIndex] = items[existingIndex].copyWith(
-          quantity: items[existingIndex].quantity + quantity,
+        // Update existing item
+        final existingItem = items[existingIndex];
+        items[existingIndex] = existingItem.copyWith(
+          quantity: existingItem.quantity + quantity,
         );
       } else {
+        // Add new item
         items.add(
           CartItemModel(
             productId: productId,
@@ -62,7 +67,7 @@ class CartRepositoryImpl implements CartRepository {
       final updatedCart = CartModel(items: items);
       await _localDataSource.saveCart(updatedCart);
 
-      return Success(updatedCart.toEntity());
+      return Success(CartMapper.toEntity(updatedCart));
     } catch (e) {
       return ResultFailure(
         CacheFailure(message: 'Failed to add to cart: ${e.toString()}'),
@@ -81,7 +86,7 @@ class CartRepositoryImpl implements CartRepository {
       final updatedCart = CartModel(items: items);
       await _localDataSource.saveCart(updatedCart);
 
-      return Success(updatedCart.toEntity());
+      return Success(CartMapper.toEntity(updatedCart));
     } catch (e) {
       return ResultFailure(
         CacheFailure(message: 'Failed to remove from cart: ${e.toString()}'),
@@ -109,7 +114,7 @@ class CartRepositoryImpl implements CartRepository {
       final updatedCart = CartModel(items: items);
       await _localDataSource.saveCart(updatedCart);
 
-      return Success(updatedCart.toEntity());
+      return Success(CartMapper.toEntity(updatedCart));
     } catch (e) {
       return ResultFailure(
         CacheFailure(message: 'Failed to update quantity: ${e.toString()}'),

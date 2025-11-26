@@ -1,44 +1,26 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/cart.dart';
 
-class CartItemModel {
-  final String productId;
-  final String productName;
-  final String productImage;
-  final double price;
-  final int quantity;
-  final String currency;
+part 'cart_item_model.freezed.dart';
+part 'cart_item_model.g.dart';
 
-  const CartItemModel({
-    required this.productId,
-    required this.productName,
-    required this.productImage,
-    required this.price,
-    required this.quantity,
-    required this.currency,
-  });
+@freezed
+class CartItemModel with _$CartItemModel {
+  const CartItemModel._();
 
-  factory CartItemModel.fromJson(Map<String, dynamic> json) {
-    return CartItemModel(
-      productId: json['productId'] as String,
-      productName: json['productName'] as String,
-      productImage: json['productImage'] as String,
-      price: (json['price'] as num).toDouble(),
-      quantity: json['quantity'] as int,
-      currency: json['currency'] as String,
-    );
-  }
+  const factory CartItemModel({
+    required String productId,
+    required String productName,
+    required String productImage,
+    required double price,
+    required int quantity,
+    required String currency,
+  }) = _CartItemModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'productId': productId,
-      'productName': productName,
-      'productImage': productImage,
-      'price': price,
-      'quantity': quantity,
-      'currency': currency,
-    };
-  }
+  factory CartItemModel.fromJson(Map<String, dynamic> json) =>
+      _$CartItemModelFromJson(json);
 
+  // Mapper to domain entity
   CartItem toEntity() {
     return CartItem(
       id: productId,
@@ -51,21 +33,15 @@ class CartItemModel {
     );
   }
 
-  CartItemModel copyWith({
-    String? productId,
-    String? productName,
-    String? productImage,
-    double? price,
-    int? quantity,
-    String? currency,
-  }) {
+  // Mapper from domain entity
+  factory CartItemModel.fromEntity(CartItem item) {
     return CartItemModel(
-      productId: productId ?? this.productId,
-      productName: productName ?? this.productName,
-      productImage: productImage ?? this.productImage,
-      price: price ?? this.price,
-      quantity: quantity ?? this.quantity,
-      currency: currency ?? this.currency,
+      productId: item.productId,
+      productName: item.productName,
+      productImage: item.productImage,
+      price: item.price,
+      quantity: item.quantity,
+      currency: item.currency,
     );
   }
 }

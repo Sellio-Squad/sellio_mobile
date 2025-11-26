@@ -1,3 +1,4 @@
+import 'dart:convert';
 import '../../core/storage/storage_keys.dart';
 import '../../core/storage/storage_service.dart';
 import '../../models/cart_model.dart';
@@ -17,22 +18,35 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
   Future<CartModel> getCart() async {
     try {
       final cartJson = await _storageService.get<String>(StorageKeys.cart);
+
       if (cartJson == null || cartJson.isEmpty) {
         return const CartModel(items: []);
       }
-      return CartModel.fromJsonString(cartJson);
+
+      final Map<String, dynamic> cartMap = jsonDecode(cartJson);
+      return CartModel.fromJson(cartMap);
     } catch (e) {
+      // Return empty cart on error
       return const CartModel(items: []);
     }
   }
 
   @override
   Future<void> saveCart(CartModel cart) async {
-    await _storageService.save(StorageKeys.cart, cart.toJsonString());
+    try {
+      final cartJson = jsonEncode(cart.toJson());
+      await _storageService.save(StorageKeys.cart, cartJson);
+    } catch (e) {
+      throw Exception('Failed to save cart: $e');
+    }
   }
 
   @override
   Future<void> clearCart() async {
-    await _storageService.remove(StorageKeys.cart);
+    try {
+      await _storageService.remove(StorageKeys.cart);
+    } catch (e) {
+      throw Exception('Failed to clear cart: $e');
+    }
   }
 }

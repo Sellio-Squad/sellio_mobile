@@ -1,26 +1,22 @@
-import 'dart:convert';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/cart.dart';
 import 'cart_item_model.dart';
 
-class CartModel {
-  final List<CartItemModel> items;
+part 'cart_model.freezed.dart';
+part 'cart_model.g.dart';
 
-  const CartModel({required this.items});
+@freezed
+class CartModel with _$CartModel {
+  const CartModel._();
 
-  factory CartModel.fromJson(Map<String, dynamic> json) {
-    return CartModel(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => CartItemModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-  }
+  const factory CartModel({
+    required List<CartItemModel> items,
+  }) = _CartModel;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'items': items.map((e) => e.toJson()).toList(),
-    };
-  }
+  factory CartModel.fromJson(Map<String, dynamic> json) =>
+      _$CartModelFromJson(json);
 
+  // Mapper to domain entity
   Cart toEntity() {
     final totalPrice = items.fold(
       0.0,
@@ -30,14 +26,17 @@ class CartModel {
     return Cart(
       id: '',
       userId: '',
-      items: items.map((e) => e.toEntity()).toList(),
+      items: items.map((item) => item.toEntity()).toList(),
       totalPrice: totalPrice,
     );
   }
 
-  String toJsonString() => jsonEncode(toJson());
-
-  factory CartModel.fromJsonString(String jsonString) {
-    return CartModel.fromJson(jsonDecode(jsonString));
+  // Mapper from domain entity
+  factory CartModel.fromEntity(Cart cart) {
+    return CartModel(
+      items: cart.items
+          .map((item) => CartItemModel.fromEntity(item))
+          .toList(),
+    );
   }
 }
