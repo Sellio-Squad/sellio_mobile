@@ -2,18 +2,19 @@ import '../../core/api/api_endpoints.dart';
 import '../../core/api/api_client.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/order_model.dart';
-import '../../../domain/entities/order.dart';
 
 abstract class OrderRemoteDataSource {
   Future<OrderModel> createOrder({
     required String storeId,
+    required String storeName,
+    String? storeLogoUrl,
     required List<OrderItemModel> items,
     required String addressId,
     String? note,
   });
 
   Future<PaginatedResponse<OrderModel>> getOrders({
-    OrderStatus? status,
+    String? status,
     int page = 0,
     int pageSize = 20,
   });
@@ -22,10 +23,6 @@ abstract class OrderRemoteDataSource {
 
   Future<OrderModel> cancelOrder(String orderId);
 
-  Future<PaginatedResponse<OrderModel>> getCompletedOrders({
-    int page = 0,
-    int pageSize = 20,
-  });
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -36,6 +33,8 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   @override
   Future<OrderModel> createOrder({
     required String storeId,
+    required String storeName,
+    String? storeLogoUrl,
     required List<OrderItemModel> items,
     required String addressId,
     String? note,
@@ -44,9 +43,11 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
       ApiEndpoints.orders,
       data: {
         'storeId': storeId,
-        'items': items.map((item) => item.toJson()).toList(),
+        'storeName': storeName,
+        if (storeLogoUrl != null) 'storeLogoUrl': storeLogoUrl,
+        'items': items.map((i) => i.toJson()).toList(),
         'addressId': addressId,
-        'note': note,
+        if (note != null) 'note': note,
       },
     );
 
@@ -55,17 +56,19 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<PaginatedResponse<OrderModel>> getOrders({
-    OrderStatus? status,
+    String? status,
     int page = 0,
     int pageSize = 20,
   }) async {
+    final queryParams = <String, dynamic>{
+      'page': page,
+      'size': pageSize,
+      if (status != null) 'status': status,
+    };
+
     final response = await _httpClient.get(
-      ApiEndpoints.orders,
-      queryParameters: {
-        if (status != null) 'status': _orderStatusToString(status),
-        'page': page,
-        'size': pageSize,
-      },
+      ApiEndpoints.ordersHistory,
+      queryParameters: queryParams,
     );
 
     return PaginatedResponse.fromJson(
@@ -82,41 +85,8 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
   @override
   Future<OrderModel> cancelOrder(String orderId) async {
-    final response = await _httpClient.put(
-      ApiEndpoints.orderCancel(orderId),
-    );
+    final response = await _httpClient.put(ApiEndpoints.orderCancel(orderId));
     return OrderModel.fromJson(response.data);
   }
 
-  @override
-  Future<PaginatedResponse<OrderModel>> getCompletedOrders({
-    int page = 0,
-    int pageSize = 20,
-  }) async {
-    final response = await _httpClient.get(
-      ApiEndpoints.ordersCompleted,
-      queryParameters: {
-        'page': page,
-        'size': pageSize,
-      },
-    );
-
-    return PaginatedResponse.fromJson(
-      response.data,
-          (json) => OrderModel.fromJson(json),
-    );
-  }
-
-  String _orderStatusToString(OrderStatus status) {
-    switch (status) {
-      case OrderStatus.pending:
-        return 'PENDING';
-      case OrderStatus.processing:
-        return 'IN_PROGRESS';
-      case OrderStatus.completed:
-        return 'COMPLETED';
-      case OrderStatus.cancelled:
-        return 'CANCELLED';
-    }
-  }
 }
