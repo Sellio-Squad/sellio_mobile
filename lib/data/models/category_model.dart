@@ -13,3 +13,10 @@ class CategoryModel with _$CategoryModel {
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
 }
+
+String _idFromJson(dynamic value) => value?.toString() ?? '';
+
+String _nameFromJson(dynamic value) {
+  if (value == null) return '';
+  return value.toString();
+}
