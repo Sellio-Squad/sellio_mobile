@@ -64,6 +64,7 @@ class AppImages {
   static const String openEye = '$iconsPath/ic_opened_eye.svg';
   static const String closeEye = '$iconsPath/ic_closed_eye.svg';
   static const String flagIraq = '$iconsPath/ic_flag_iraq.svg';
+  static const String flagEgypt = '$iconsPath/ic_flag_egypt.svg';
   static const String phone = '$iconsPath/ic_phone.svg';
   static const String arrowDown = '$iconsPath/ic_arrow_down.svg';
   static const String password = '$iconsPath/ic_lock_password.svg';
