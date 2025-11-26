@@ -321,10 +321,11 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _showResetPasswordBottomSheet(BuildContext context) {
     ResetPasswordBottomSheet.show(
-      onSave: () {
-        debugPrint('Password reset');
-      },
       context: context,
+      onSave: () {
+        debugPrint('Password reset successfully');
+        context.read<AccountCubit>().loadAccountDetails();
+      },
     );
   }
 

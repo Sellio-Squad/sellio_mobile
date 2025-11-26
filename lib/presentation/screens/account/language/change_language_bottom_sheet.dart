@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
+
 import '../../../../core/design_system/widgets/buttons/sellio_button.dart';
+import '../../../../core/design_system/widgets/checkbox/sellio_radio_button.dart';
 import '../../../../core/localization/cubit/locale_cubit.dart';
 import '../../../../core/localization/l10n/localization_service.dart';
 
@@ -51,36 +53,24 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
               style: context.theme.typography.textTheme.titleMedium,
             ),
             const SizedBox(height: 24),
-
-            RadioGroup<Locale>(
-              groupValue: currentSelectedLocale,
-              onChanged: (Locale? value) {
-                if (value != null) {
-                  setState(() {
-                    currentSelectedLocale = value;
-                  });
-                  _updateSaveButtonState();
-                }
-              },
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _buildLanguageOption(
-                      locale: const Locale('en'),
-                      languageName: context.local.english,
-                      context: context,
-                    ),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildLanguageOption(
+                    locale: const Locale('en'),
+                    languageName: context.local.english,
+                    context: context,
                   ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: _buildLanguageOption(
-                      locale: const Locale('ar'),
-                      languageName: context.local.arabic,
-                      context: context,
-                    ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildLanguageOption(
+                    locale: const Locale('ar'),
+                    languageName: context.local.arabic,
+                    context: context,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
             const SizedBox(height: 24),
 
@@ -146,6 +136,7 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
               ? context.theme.colors.primaryVariant
@@ -155,37 +146,24 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Radio<Locale>(
-              value: locale,
-              groupValue: currentSelectedLocale,
-              fillColor:
-              WidgetStateColor.resolveWith((Set<WidgetState> states) {
-                if (states.contains(WidgetState.selected)) {
-                  return context.theme.colors.surface;
-                }
-                return Colors.transparent;
-              }),
-              backgroundColor:
-              WidgetStateColor.resolveWith((Set<WidgetState> states) {
-                if (states.contains(WidgetState.selected)) {
-                  return context.theme.colors.primary;
-                }
-                return Colors.transparent;
-              }),
-              innerRadius: const WidgetStatePropertyAll<double>(3),
-              onChanged: (Locale? value) {
-                if (value != null) {
-                  setState(() {
-                    currentSelectedLocale = value;
-                  });
-                  _updateSaveButtonState();
-                }
+            SellioRadioButton(
+              state: isSelected ? RadioState.checked : RadioState.unchecked,
+              onChanged: (RadioState newState) {
+                setState(() {
+                  currentSelectedLocale = locale;
+                });
+                _updateSaveButtonState();
               },
+              size: 20.0,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 12),
             Text(
               languageName,
-              style: context.theme.typography.textTheme.labelLarge,
+              style: context.theme.typography.textTheme.labelLarge?.copyWith(
+                color: isSelected
+                    ? context.theme.colors.primary
+                    : context.theme.typography.textTheme.labelLarge?.color,
+              ),
             ),
           ],
         ),
