@@ -132,11 +132,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
     final textFieldStyle =
         widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(
-          color: isFocused
-              ? context.theme.colors.title
-              : context.theme.colors.body,
-        );
+        context.theme.typography.textTheme.bodyMedium.copyWith(color: context.theme.colors.title);
 
     final maxLines = widget.isParagraph
         ? (widget.maxLine ?? 5)
@@ -304,7 +300,7 @@ Widget _buildCountryDropdown({
             children: [
               SvgPicture.asset(AppImages.arrowDown, width: 16, height: 16),
               const Gap(8),
-              SvgPicture.asset(countryFlag, width: 24, height: 24),
+              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
               const Gap(8),
               Text(
                 country.code,
