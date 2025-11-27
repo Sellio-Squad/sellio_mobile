@@ -29,13 +29,13 @@ class RepositoryModule {
     //   ),
     // );
     //
-    // sl.registerLazySingleton<ProductRepository>(
-    //       () => ProductRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //     favoritesRemoteDataSource: sl(),
-    //     storageService: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<ProductRepository>(
+          () => ProductRepositoryImpl(
+        remoteDataSource: sl(),
+        favoritesRemoteDataSource: sl(),
+        storageService: sl()
+      ),
+    );
     //
     // sl.registerLazySingleton<StoreRepository>(
     //       () => StoreRepositoryImpl(
