@@ -6,6 +6,7 @@ import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.d
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../domain/entities/order.dart';
+import '../../../../presentation/utils/date_format.dart';
 
 class OrderDetailsCard extends StatefulWidget {
   final Order order;
@@ -32,7 +33,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
   Widget build(BuildContext context) {
     final order = widget.order;
 
-    // Determine colors and status text
     Color bgColor;
     Color textColor;
     String statusText;
@@ -66,13 +66,12 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Header row: order ID + status
           Row(
             children: [
               SvgPicture.asset(AppImages.orderIcon, width: 20, height: 20),
               const SizedBox(width: 4),
               Text(
-                "${context.local.order} #${order.id}",
+                "${context.local.order} #${order.orderId}",
                 style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: context.theme.colors.title,
                 ),
@@ -92,20 +91,17 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               ),
             ],
           ),
-
           const SizedBox(height: 8),
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "${context.local.placed_on} ${order.createdAt.day}/${order.createdAt.month}/${order.createdAt.year}",
+              "${context.local.placed_on} ${formatDateToReadable(order.orderDate)}",
               style: context.theme.typography.textTheme.labelXSmall.copyWith(
                 color: context.theme.colors.body,
               ),
             ),
           ),
-
           const SizedBox(height: 12),
-          // Expandable section
           GestureDetector(
             onTap: () => setState(() => _isExpanded = !_isExpanded),
             child: Container(
@@ -128,7 +124,7 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                   const SizedBox(width: 8),
                   CircleAvatar(
                     radius: 16,
-                    backgroundImage: NetworkImage(order.storeImage),
+                    backgroundImage: NetworkImage(order.storeLogoUrl ?? ''),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
@@ -142,7 +138,7 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          "${order.itemCount} ${context.local.items}",
+                          "${order.items.length} ${context.local.items}",
                           style: context.theme.typography.textTheme.labelXSmall
                               .copyWith(color: context.theme.colors.body),
                         ),
@@ -153,7 +149,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               ),
             ),
           ),
-
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
             secondChild: Container(
@@ -193,54 +188,28 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                 : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 200),
           ),
-
           const SizedBox(height: 16),
-          if (order.canBeCancelled && widget.onCancelClick != null)
-            Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: SellioButton(
-                    text: context.local.view_details,
-                    onTap: widget.onViewDetailsClick,
-                    textStyle: context.theme.typography.textTheme.labelSmall,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 2,
-                  child: SellioButton(
-                    text: context.local.cancel_order,
-                    backgroundColor: context.theme.colors.errorVariant,
-                    textColor: context.theme.colors.red,
-                    onTap: widget.onCancelClick!,
-                    textStyle: context.theme.typography.textTheme.labelSmall,
-                  ),
-                ),
-              ],
-            )
-          else
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: context.theme.colors.primary,
-                  foregroundColor: context.theme.colors.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
-                onPressed: widget.onOrderAgainClick,
-                child: Text(
-                  context.local.order_again,
-                  style: context.theme.typography.textTheme.labelSmall,
-                ),
+          Row(children: [
+            Expanded(
+              flex: 3,
+              child: SellioButton(
+                text: context.local.view_details,
+                onTap: widget.onViewDetailsClick,
+                textStyle: context.theme.typography.textTheme.labelSmall,
               ),
             ),
+            const SizedBox(width: 8),
+            Expanded(
+              flex: 2,
+              child: SellioButton(
+                text: context.local.cancel_order,
+                backgroundColor: context.theme.colors.errorVariant,
+                textColor: context.theme.colors.red,
+                onTap: widget.onCancelClick!,
+                textStyle: context.theme.typography.textTheme.labelSmall,
+              ),
+            ),
+          ])
         ],
       ),
     );

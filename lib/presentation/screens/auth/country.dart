@@ -22,6 +22,6 @@ final List<Country> mockCountries = [
   Country(
     name: 'Egypt',
     code: '+20',
-    flagAsset: AppImages.flagIraq,
+    flagAsset: AppImages.flagEgypt,
   ),
 ];

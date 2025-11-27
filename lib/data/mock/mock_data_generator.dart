@@ -28,13 +28,13 @@ class MockDataGenerator {
     return User(
       firstName: firstName,
       lastName: lastName,
-      email: '${firstName.toLowerCase()}.${lastName.toLowerCase()}$index@example.com',
+      email:
+          '${firstName.toLowerCase()}.${lastName.toLowerCase()}$index@example.com',
       phoneNumber: '555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
       avatarUrl: 'https://i.pravatar.cc/150?img=$index',
       address: address,
     );
   }
-
 
   // Address Mock Data
   static Address generateAddress({int index = 0}) {
@@ -54,7 +54,16 @@ class MockDataGenerator {
 
   // Category Mock Data
   static Category generateCategory({int index = 0}) {
-    final categories = ['Electronics', 'Fashion', 'Home & Garden', 'Sports', 'Books', 'Toys', 'Beauty', 'Automotive'];
+    final categories = [
+      'Electronics',
+      'Fashion',
+      'Home & Garden',
+      'Sports',
+      'Books',
+      'Toys',
+      'Beauty',
+      'Automotive'
+    ];
 
     return Category(
       id: 'category_$index',
@@ -66,11 +75,17 @@ class MockDataGenerator {
     return List.generate(count, (i) => generateCategory(index: i));
   }
 
-  // Product Mock Data
-  static Product generateProduct({int index = 0, String? categoryId, String? storeId}) {
+  static Product generateProduct(
+      {int index = 0, String? categoryId, String? storeId}) {
     final productNames = [
-      'Wireless Headphones', 'Smart Watch', 'Running Shoes', 'Coffee Maker',
-      'Laptop Stand', 'Yoga Mat', 'Water Bottle', 'Desk Lamp',
+      'Wireless Headphones',
+      'Smart Watch',
+      'Running Shoes',
+      'Coffee Maker',
+      'Laptop Stand',
+      'Yoga Mat',
+      'Water Bottle',
+      'Desk Lamp',
     ];
 
     final descriptions = [
@@ -80,16 +95,18 @@ class MockDataGenerator {
       'Durable and long-lasting design',
     ];
 
+    final int? discountValue = index % 3 == 0 ? 10 + _random.nextInt(40) : null;
+
     return Product(
       id: 'product_$index',
       name: productNames[index % productNames.length],
       description: descriptions[index % descriptions.length],
       price: 19.99 + (_random.nextDouble() * 500),
       currency: 'USD',
-      discount: index % 3 == 0 ? '${10 + _random.nextInt(40)}% OFF' : null,
+      discount: discountValue?.toString(),
       images: List.generate(
         3,
-            (i) => 'https://picsum.photos/seed/product_${index}_$i/400',
+        (i) => 'https://picsum.photos/seed/product_${index}_$i/400',
       ),
       storeId: storeId ?? 'store_${index % 10}',
       categoryId: categoryId ?? 'category_${index % 8}',
@@ -105,7 +122,8 @@ class MockDataGenerator {
   }) {
     return List.generate(
       count,
-          (i) => generateProduct(index: i, categoryId: categoryId, storeId: storeId),
+      (i) =>
+          generateProduct(index: i, categoryId: categoryId, storeId: storeId),
     );
   }
 
@@ -120,7 +138,7 @@ class MockDataGenerator {
     final startIndex = page * pageSize;
     final products = List.generate(
       pageSize.clamp(0, total - startIndex),
-          (i) => generateProduct(
+      (i) => generateProduct(
         index: startIndex + i,
         categoryId: categoryId,
         storeId: storeId,
@@ -136,17 +154,23 @@ class MockDataGenerator {
     );
   }
 
-  // Store Mock Data
   static Store generateStore({int index = 0}) {
     final storeNames = [
-      'Tech Haven', 'Fashion Hub', 'Home Comfort', 'Sports Zone',
-      'Book Nook', 'Toy World', 'Beauty Corner', 'Auto Parts Plus',
+      'Tech Haven',
+      'Fashion Hub',
+      'Home Comfort',
+      'Sports Zone',
+      'Book Nook',
+      'Toy World',
+      'Beauty Corner',
+      'Auto Parts Plus',
     ];
 
     return Store(
       id: 'store_$index',
       name: storeNames[index % storeNames.length],
-      description: 'Welcome to ${storeNames[index % storeNames.length]}. We offer the best products in town!',
+      description:
+          'Welcome to ${storeNames[index % storeNames.length]}. We offer the best products in town!',
       coverImage: 'https://picsum.photos/seed/store_cover_$index/800/400',
       profileImage: 'https://picsum.photos/seed/store_profile_$index/200',
       sale: index % 3 == 0 ? 'Up to ${20 + _random.nextInt(50)}% OFF' : null,
@@ -154,11 +178,12 @@ class MockDataGenerator {
       address: generateAddress(index: index),
       contactInfoList: [
         ContactInfo(
-          provider: 'store${index}@example.com',
+          provider: 'store$index@example.com',
           type: ContactType.email,
         ),
         ContactInfo(
-          provider: '+1555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
+          provider:
+              '+1555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
           type: ContactType.phone,
         ),
       ],
@@ -194,8 +219,10 @@ class MockDataGenerator {
     );
   }
 
-  static List<Review> generateReviews({int count = 5, required String storeId}) {
-    return List.generate(count, (i) => generateReview(index: i, storeId: storeId));
+  static List<Review> generateReviews(
+      {int count = 5, required String storeId}) {
+    return List.generate(
+        count, (i) => generateReview(index: i, storeId: storeId));
   }
 
   // Store Rating Mock Data
@@ -214,24 +241,22 @@ class MockDataGenerator {
     );
   }
 
-  // Order Mock Data
   static Order generateOrder({int index = 0, OrderStatus? status}) {
     final store = generateStore(index: index % 10);
 
+    final items = List.generate(
+      1 + _random.nextInt(3),
+          (i) => generateOrderItem(index: i),
+    );
+
     return Order(
-      id: 'order_$index',
-      userId: 'user_0',
-      storeId: store.id,
-      storeName: store.name,
-      storeImage: store.profileImage,
-      items: List.generate(
-        1 + _random.nextInt(3),
-            (i) => generateOrderItem(index: i),
-      ),
+      orderId: 'order_$index',
+      orderDate: DateTime.now().subtract(Duration(days: index)),
       status: status ?? OrderStatus.values[_random.nextInt(OrderStatus.values.length)],
-      deliveryAddress: generateAddress(index: index),
-      note: index % 2 == 0 ? 'Please deliver before 5 PM' : null,
-      createdAt: DateTime.now().subtract(Duration(days: index)),
+      totalPrice: _calculateTotal(items: items),
+      storeName: store.name,
+      storeLogoUrl: store.profileImage,
+      items: items,
     );
   }
 
@@ -245,11 +270,16 @@ class MockDataGenerator {
     return OrderItem(
       id: 'order_item_$index',
       productId: product.id,
-      productName: product.name,
-      productImage: product.images.first,
       price: product.price,
+      createdAt: DateTime.now().subtract(Duration(days: index)),
+      updatedAt: DateTime.now(),
+      productName: product.name,
       quantity: 1 + _random.nextInt(3),
     );
+  }
+
+  static double _calculateTotal({required List<OrderItem> items}) {
+    return items.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
   }
 
   // Cart Mock Data
@@ -280,8 +310,13 @@ class MockDataGenerator {
   // Special Offer Mock Data
   static SpecialOffer generateSpecialOffer({int index = 0}) {
     final titles = [
-      'Summer Sale', 'Flash Deal', 'Weekend Special', 'Clearance Sale',
-      'New Arrival Discount', 'Bundle Offer', 'Limited Time Offer',
+      'Summer Sale',
+      'Flash Deal',
+      'Weekend Special',
+      'Clearance Sale',
+      'New Arrival Discount',
+      'Bundle Offer',
+      'Limited Time Offer',
     ];
 
     return SpecialOffer(
@@ -312,7 +347,8 @@ class MockDataGenerator {
       id: 'notification_$index',
       orderId: 'order_$index',
       storeName: 'Store ${index + 1}',
-      time: '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
+      time:
+          '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}',
       date: '${time.day}/${time.month}/${time.year}',
       state: index % 4,
     );

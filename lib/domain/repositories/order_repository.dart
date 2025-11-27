@@ -1,13 +1,11 @@
+
 import '../../core/error/result.dart';
-import '../entities/address.dart';
+import '../../data/models/response/create_order_response.dart';
 import '../entities/order.dart';
 
 abstract class OrderRepository {
-  Future<Result<Order>> createOrder({
-    required String storeId,
+  Future<Result<CreateOrderResponse>> createOrder({
     required List<OrderItem> items,
-    required Address deliveryAddress,
-    String? note,
   });
 
   Future<Result<List<Order>>> getOrders({

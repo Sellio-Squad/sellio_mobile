@@ -17,7 +17,8 @@ class AppImages {
   static const String bell = '$iconsPath/ic_bell.svg';
   static const String location = '$iconsPath/ic_location.svg';
   static const String arrowLeft = '$iconsPath/ic_arrow-left.svg';
-  static const String sellio = '$imagesPath/sellio.png';
+  static const String sellioSplash = '$imagesPath/sellio_splash.png';
+  static const String sellio = '$imagesPath/sellio.webp';
 
   // Section title icons
   static const String arrowRight = '$iconsPath/ic_arrow-right.svg';
@@ -63,6 +64,7 @@ class AppImages {
   static const String openEye = '$iconsPath/ic_opened_eye.svg';
   static const String closeEye = '$iconsPath/ic_closed_eye.svg';
   static const String flagIraq = '$iconsPath/ic_flag_iraq.svg';
+  static const String flagEgypt = '$iconsPath/ic_flag_egypt.svg';
   static const String phone = '$iconsPath/ic_phone.svg';
   static const String arrowDown = '$iconsPath/ic_arrow_down.svg';
   static const String password = '$iconsPath/ic_lock_password.svg';

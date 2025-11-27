@@ -16,7 +16,7 @@ class SellioBottomSheet extends StatelessWidget {
     required Widget child,
     VoidCallback? onDismiss,
     bool isScrollControlled = true,
-    bool useRootNavigator = false,
+    bool useRootNavigator = true,
     bool isDismissible = true,
     bool enableDrag = true,
   }) {
@@ -50,7 +50,7 @@ class SellioBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: context.theme.colors.surface,
+        color: context.theme.colors.surfaceLow,
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(16),
         ),

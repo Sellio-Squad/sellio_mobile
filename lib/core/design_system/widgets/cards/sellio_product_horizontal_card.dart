@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme.dart';
 import '../../constants/app_images.dart';
+import '../utils/widgets_utils.dart';
 
 class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
@@ -76,7 +77,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(right: 4.0),
                                 child: Text(
-                                  originalPrice!,
+                                  "\$${formatPrice(originalPrice!)}",
                                   style: textTheme.titleSmall.copyWith(
                                     color: colors.hint,
                                     decoration: TextDecoration.lineThrough,
@@ -84,7 +85,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                                 ),
                               ),
                             Text(
-                              price,
+                              "\$${formatPrice(price)}",
                               style: textTheme.titleSmall
                                   .copyWith(color: colors.primary),
                             ),

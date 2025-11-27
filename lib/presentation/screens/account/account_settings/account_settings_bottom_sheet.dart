@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import '../../../../core/design_system/constants/app_images.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_text_field.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../core/design_system/constants/app_images.dart';
-import '../../../../core/design_system/constants/app_strings.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
 import '../../../../presentation/screens/auth/country.dart';
 
@@ -65,7 +65,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppStrings.accountSettings,
+            context.local.account_settings,
             style: context.theme.typography.textTheme.titleMedium,
           ),
           const SizedBox(height: 24),
@@ -83,7 +83,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
                 ),
               ),
             ),
-            hintText: AppStrings.phoneNumber,
+            hintText: context.local.phone_number,
             inputType: TextInputType.phone,
             isPhoneNumber: true,
             inputFormatter: [
@@ -99,7 +99,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
 
           SellioTextField(
             controller: nameController,
-            hintText: AppStrings.fullName,
+            hintText: context.local.full_name,
             inputFormatter: [
               FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
             ],
@@ -117,9 +117,10 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
           const SizedBox(height: 12),
 
           SellioButton(
-            text: AppStrings.saveChanges,
+            text: context.local.save_changes,
             onTap: _isFormValid ? _handleSave : null,
             isEnabled: _isFormValid,
+            verticalPadding: 13,
             fullWidth: true,
           ),
         ],

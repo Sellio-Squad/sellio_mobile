@@ -85,11 +85,11 @@ flutter:
 
 flutter_native_splash:
   color: "#F8F8F8"
-  image: assets/images/sellio.png
+  image: assets/images/sellio_splash.png
   ios_content_mode: center
 
   android_12:
-    image: assets/images/sellio.png
+    image: assets/images/sellio_splash.png
     color: "#F8F8F8"
 
   web: false
@@ -98,6 +98,6 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/sellio.png"
+  image_path: "assets/images/sellio_splash.png"
   adaptive_icon_background: "#F8F8F8"
-  adaptive_icon_foreground: "assets/images/sellio.png"
+  adaptive_icon_foreground: "assets/images/sellio_splash.png"

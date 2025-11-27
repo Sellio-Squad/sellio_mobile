@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
@@ -53,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
         backgroundColor: context.theme.colors.surfaceLow,
         appBar: SellioAppBar(
-          title: AppStrings.search,
+          title: context.local.search,
           showBackButton: true,
         ),
         body: CustomScrollView(slivers: [

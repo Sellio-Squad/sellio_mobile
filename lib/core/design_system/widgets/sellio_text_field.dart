@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../../../presentation/screens/auth/country.dart';
 import '../constants/app_images.dart';
 
@@ -131,11 +132,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
 
     final textFieldStyle =
         widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(
-          color: isFocused
-              ? context.theme.colors.title
-              : context.theme.colors.body,
-        );
+        context.theme.typography.textTheme.bodyMedium.copyWith(color: context.theme.colors.title);
 
     final maxLines = widget.isParagraph
         ? (widget.maxLine ?? 5)
@@ -227,7 +224,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
             ),
           ),
           Text(
-             isError ? errorText.toString() : '',
+            isError ? (errorText ?? '') : '',
             style: errorStyle,
           )
         ]
@@ -303,7 +300,7 @@ Widget _buildCountryDropdown({
             children: [
               SvgPicture.asset(AppImages.arrowDown, width: 16, height: 16),
               const Gap(8),
-              SvgPicture.asset(countryFlag, width: 24, height: 24),
+              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
               const Gap(8),
               Text(
                 country.code,

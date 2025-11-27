@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_strings.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/order_details_card.dart';
@@ -19,22 +18,24 @@ class OrderHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<OrderHistoryCubit>().loadOrders();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: context.theme.colors.surfaceLow,
         appBar: SellioAppBar(
           showBackButton: true,
-          title: AppStrings.orderHistory,
+          title: context.local.order_history,
         ),
         body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
           builder: (context, state) {
-            if (state is OrderHistoryLoading) {
+            if (state is OrderHistoryLoading || state is OrderHistoryInitial) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is OrderHistoryError) {
               return Center(child: Text(state.message));
             } else if (state is OrderHistoryLoaded) {
-              final orders = state.filteredOrders;
+              final orders = state.orders;
               return CustomScrollView(
                 slivers: [
                   const OrderHistoryTabs(),
@@ -63,14 +64,14 @@ class OrderSection extends StatelessWidget {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) {
+            (context, index) {
           final order = orders[index];
           return Padding(
             padding: const EdgeInsets.all(16),
             child: OrderDetailsCard(
               order: order,
               onCancelClick: () {
-                if (order.canBeCancelled) {}
+
               },
               onViewDetailsClick: () {},
               onOrderAgainClick: () {},
