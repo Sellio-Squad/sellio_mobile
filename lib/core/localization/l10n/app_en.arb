@@ -211,5 +211,8 @@
     "placeholders": {
       "phone_number": {}
     }
-  }
+  },
+  "login_successful": "Login successful!",
+  "login_failed": "Login failed. Please try again.",
+  "default_country_code": "+964"
 }

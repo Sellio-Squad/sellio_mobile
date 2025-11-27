@@ -209,5 +209,8 @@
     "placeholders": {
       "phone_number": {}
     }
-  }
+  },
+  "login_successful": "تم تسجيل الدخول بنجاح!",
+  "login_failed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "default_country_code": "+964"
 }
