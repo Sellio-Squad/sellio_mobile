@@ -13,6 +13,7 @@ import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
 import 'package:sellio_mobile/presentation/screens/main/dashboard.dart';
 import 'package:sellio_mobile/presentation/screens/notification/notification_screen.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/product_details_screen.dart';
+import 'package:sellio_mobile/presentation/screens/search/search_screen.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/about_store/about_store.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
 import '../../presentation/screens/account/account_screen.dart';
@@ -93,6 +94,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const ConfirmAccountScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.search.name,
+        path: AppRoutes.search.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const SearchScreen(),
           );
         },
       ),

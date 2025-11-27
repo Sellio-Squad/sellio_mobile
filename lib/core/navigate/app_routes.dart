@@ -46,6 +46,10 @@ enum AppRoutes {
     name: 'account',
     path: '/account',
   ),
+  search(
+    name: 'search',
+    path: '/search',
+  ),
 
   // Detail routes
   productDetails(

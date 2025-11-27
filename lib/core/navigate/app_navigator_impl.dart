@@ -147,4 +147,9 @@ class AppNavigatorImpl implements AppNavigator {
   void replace(String routeName) {
     context.pushReplacement(routeName);
   }
+
+  @override
+  void goToSearch() {
+    context.go(AppRoutes.search.path);
+  }
 }
