@@ -87,6 +87,13 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<Result<void>> deleteAccount() async {
+    return RepositoryCallHandler.callVoid(() async {
+      await _remoteDataSource.deleteAccount();
+    });
+  }
+
+  @override
   Future<Result<Address>> getUserAddress() async {
     return RepositoryCallHandler.call<Address>(() async {
       final model = await _remoteDataSource.getUserAddress();
