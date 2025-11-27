@@ -132,6 +132,19 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> logout() async {
     return RepositoryCallHandler.callVoid(() async {
+      try {
+        await _remoteDataSource.logout();
+      } catch (e) {
+        // Even if API call fails, still clear local data
+        // This ensures user can logout even with network issues
+      } finally {
+        await _clearLocalData();
+      }
+    });
+  }
+
+  Future<Result<void>> _clearLocalData() async {
+    return RepositoryCallHandler.callVoid(() async {
       await _storageService.remove(StorageKeys.authToken);
       await _storageService.remove(StorageKeys.refreshToken);
       await _storageService.remove(StorageKeys.userId);
