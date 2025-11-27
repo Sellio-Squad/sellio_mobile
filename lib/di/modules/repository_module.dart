@@ -4,6 +4,10 @@ import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/user_repository_impl.dart';
 import '../../../domain/repositories/auth_repository.dart';
 import '../../../domain/repositories/user_repository.dart';
+import '../../data/repositories/category_repository_impl.dart';
+import '../../data/repositories/favorites_repository_impl.dart';
+import '../../domain/repositories/category_repository.dart';
+import '../../domain/repositories/favorites_repository.dart';
 
 class RepositoryModule {
   static void register(GetIt sl) {
@@ -31,9 +35,7 @@ class RepositoryModule {
     // );
     //
     sl.registerLazySingleton<CategoryRepository>(
-          () => CategoryRepositoryImpl(
-        remoteDataSource: sl()
-      ),
+      () => CategoryRepositoryImpl(remoteDataSource: sl()),
     );
     //
     // sl.registerLazySingleton<CartRepository>(
@@ -53,12 +55,10 @@ class RepositoryModule {
       () => UserRepositoryImpl(remoteDataSource: sl()),
     );
 
-    // sl.registerLazySingleton<FavoritesRepository>(
-    //       () => FavoritesRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
-    //
+    sl.registerLazySingleton<FavoritesRepository>(
+      () => FavoritesRepositoryImpl(remoteDataSource: sl()),
+    );
+
     // sl.registerLazySingleton<OffersRepository>(
     //       () => OffersRepositoryImpl(
     //     remoteDataSource: sl()

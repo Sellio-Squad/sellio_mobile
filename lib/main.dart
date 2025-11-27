@@ -10,6 +10,7 @@ import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
 import 'domain/repositories/auth_repository.dart'; // Add this import
 import 'domain/repositories/category_repository.dart';
+import 'domain/repositories/favorites_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
 import 'domain/repositories/user_repository.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => sl<AuthRepository>()),
-        // Add this line
+        RepositoryProvider(create: (_) => sl<FavoritesRepository>()),
         RepositoryProvider(create: (_) => sl<ProductRepository>()),
         RepositoryProvider(create: (_) => sl<CategoryRepository>()),
         RepositoryProvider(create: (_) => sl<StoreRepository>()),
