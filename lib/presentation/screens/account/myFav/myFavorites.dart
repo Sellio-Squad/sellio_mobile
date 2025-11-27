@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
+
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/themes/sellio_theme.dart';
-import 'models/favorite_product_model.dart';
-import 'models/favorite_store_model.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
 
@@ -20,64 +22,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   int _selectedTabIndex = 0;
   final List<String> _tabs = ['Products', 'Stores'];
 
-  final List<FavoriteProduct> _favoriteProducts = [
-    FavoriteProduct(
-      id: 0,
-      imageUrl: 'AppImages/images/product_3.webp',
-      title: 'Birthday Cake with Bows',
-      price: '\$12.99',
-      isFavorite: false,
-    ),
-    FavoriteProduct(
-      id: 1,
-      imageUrl: 'AppImages/images/product_3.webp',
-      title: 'Berry Cake',
-      price: '\$12.99',
-      isFavorite: true,
-    ),
-  ];
-  final List<FavoriteStore> _favoriteStores = [
-    FavoriteStore(
-      id: "0",
-      name: 'Sweet Treats Bakery',
-      imageUrl: 'AppImages/images/product_3.webp',
-      isFavorite: true,
-    ),
-    FavoriteStore(
-      id: "1",
-      name: 'Cake & Coffee House',
-      imageUrl: 'AppImages/images/product_3.webp',
-      isFavorite: true,
-    ),
-  ];
-
-  final Map<int, int> _productCounts = {};
-
-  void _incrementProduct(int productId) {
-    setState(() => _productCounts[productId] = (_productCounts[productId] ?? 0) + 1);
+  @override
+  void initState() {
+    super.initState();
+    // Load favorites when screen opens
+    _loadFavorites();
   }
 
-  void _decrementProduct(int productId) {
-    setState(() {
-      final count = _productCounts[productId] ?? 0;
-      if (count > 0) _productCounts[productId] = count - 1;
-    });
-  }
-  void _toggleFavoriteProduct(int productId) {
-    setState(() {
-      final index = _favoriteProducts.indexWhere((p) => p.id == productId);
-      if (index != -1) {
-        _favoriteProducts[index].isFavorite = !_favoriteProducts[index].isFavorite;
-      }
-    });
-  }
-  void _toggleFavoriteStore(int storeId) {
-    setState(() {
-      final index = _favoriteStores.indexWhere((s) => s.id == storeId);
-      if (index != -1) {
-        _favoriteStores[index].isFavorite = !_favoriteStores[index].isFavorite;
-      }
-    });
+  void _loadFavorites() {
+    context.read<FavoritesCubit>().loadFavorites();
   }
 
   @override
@@ -87,46 +40,113 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     return Scaffold(
       backgroundColor: colorScheme.surfaceLow,
-      appBar: SellioAppBar(title: context.local.favorites, showBackButton: true),
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // ✅ Category Tabs
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                child: Row(
-                  children: List.generate(_tabs.length, (index) {
-                    final isSelected = _selectedTabIndex == index;
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: SellioChip(
-                        label: _tabs[index],
-                        assetIcon: index == 0 ? AppImages.product : AppImages.store,
-                        selected: isSelected,
-                        onTap: () => setState(() => _selectedTabIndex = index),
+      appBar: SellioAppBar(
+        title: context.local.favorites,
+        showBackButton: true,
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _loadFavorites();
+        },
+        child: SafeArea(
+          child: BlocBuilder<FavoritesCubit, FavoritesState>(
+            builder: (context, state) {
+              return CustomScrollView(
+                slivers: [
+                  // Category Tabs
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
                       ),
-                    );
-                  }),
-                ),
-              ),
-            ),
+                      child: Row(
+                        children: List.generate(_tabs.length, (index) {
+                          final isSelected = _selectedTabIndex == index;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
+                            child: SellioChip(
+                              label: _tabs[index],
+                              assetIcon: index == 0
+                                  ? AppImages.product
+                                  : AppImages.store,
+                              selected: isSelected,
+                              onTap: () =>
+                                  setState(() => _selectedTabIndex = index),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
 
-            // ✅ Products Tab
-            if (_selectedTabIndex == 0)
-              ProductsGridSection(
-                favoriteProducts: _favoriteProducts,
-                productCounts: _productCounts,
-                onIncrement: _incrementProduct,
-                onDecrement: _decrementProduct,
-                onToggleFavorite: _toggleFavoriteProduct,
-              )
-            else
-              StoresSection(
-                stores: _favoriteStores,
-                onToggleFavorite: _toggleFavoriteStore,
-              ),
-          ],
+                  // Loading state
+                  if (state is FavoritesLoading)
+                    const SliverFillRemaining(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+
+                  // Products or Stores Tab
+                  else if (state is FavoritesLoaded)
+                    _selectedTabIndex == 0
+                        ? ProductsGridSection(
+                            favoriteProductIds: state.productIds.toList(),
+                            onToggleFavorite: (productId) {
+                              context
+                                  .read<FavoritesCubit>()
+                                  .toggleProductFavorite(productId);
+                            },
+                          )
+                        : StoresSection(
+                            favoriteStoreIds: state.storeIds.toList(),
+                            onToggleFavorite: (storeId) {
+                              context
+                                  .read<FavoritesCubit>()
+                                  .toggleStoreFavorite(storeId);
+                            },
+                          )
+
+                  // Error state
+                  else if (state is FavoritesError)
+                    SliverFillRemaining(
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              size: 64,
+                              color: colorScheme.hint,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: theme.typography.textTheme.bodyMedium,
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: _loadFavorites,
+                              child: Text(context.local.retry),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+
+                  // Initial state
+                  else
+                    const SliverFillRemaining(
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
