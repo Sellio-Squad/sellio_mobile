@@ -10,7 +10,9 @@ import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../../core/design_system/widgets/sellio_text_field.dart';
-import '../country.dart';
+import 'package:sellio_mobile/domain/entities/country.dart';
+import 'package:sellio_mobile/domain/services/country_service.dart';
+import 'package:sellio_mobile/di/injection_container.dart';
 import 'widget/lock_icon.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -23,13 +25,15 @@ class ForgetPasswordScreen extends StatefulWidget {
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final _phoneController = TextEditingController();
   bool _isPhoneFilled = false;
-  final List<Country> _countries = mockCountries;
+  late final List<Country> _countries;
   late Country _selectedCountry;
 
   @override
   void initState() {
     super.initState();
-    _selectedCountry = _countries.firstWhere((c) => c.code == '+964');
+    final countryService = sl<CountryService>();
+    _countries = countryService.getAvailableCountries();
+    _selectedCountry = countryService.getDefaultCountry() ?? _countries.first;
     _phoneController.addListener(() {
       setState(() {
         _isPhoneFilled = _phoneController.text.isNotEmpty;
