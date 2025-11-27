@@ -1,12 +1,35 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/app_localizations.dart';
+import 'package:sellio_mobile/core/validation/auth_validators.dart';
+import 'package:sellio_mobile/domain/entities/country.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/domain/services/country_service.dart';
 
-import '../../../country.dart';
 import 'login_form_state.dart';
 
+enum AuthFieldType {
+  phone,
+  password,
+}
+
 class LoginFormCubit extends Cubit<LoginFormState> {
-  LoginFormCubit() : super(const LoginFormInitial()) {
-    final defaultCountry = mockCountries.firstWhere((c) => c.code == '+964');
-    emit(LoginFormChanged(selectedCountry: defaultCountry));
+  final AuthRepository _authRepository;
+  final CountryService _countryService;
+
+  LoginFormCubit({
+    required AuthRepository authRepository,
+    required CountryService countryService,
+  })  : _authRepository = authRepository,
+        _countryService = countryService,
+        super(const LoginFormInitial()) {
+    _initializeDefaultCountry();
+  }
+
+  void _initializeDefaultCountry() {
+    final defaultCountry = _countryService.getDefaultCountry();
+    if (defaultCountry != null) {
+      emit(LoginFormChanged(selectedCountry: defaultCountry));
+    }
   }
 
   void updatePhoneNumber(String phoneNumber) {
@@ -39,17 +62,21 @@ class LoginFormCubit extends Cubit<LoginFormState> {
     }
   }
 
-  void validateFieldOnFocusChange(String fieldType, String value) {
+  void validateFieldOnFocusChange(
+    AuthFieldType fieldType,
+    String value,
+    AppLocalizations localizations,
+  ) {
     if (value.isEmpty) return;
     if (state is! LoginFormChanged) return;
 
     String? error;
     switch (fieldType) {
-      case 'phone':
-        error = _validatePhoneNumber(value);
+      case AuthFieldType.phone:
+        error = AuthValidators.validatePhone(value, localizations);
         break;
-      case 'password':
-        error = _validatePassword(value);
+      case AuthFieldType.password:
+        error = AuthValidators.validatePassword(value, localizations);
         break;
     }
 
@@ -66,40 +93,64 @@ class LoginFormCubit extends Cubit<LoginFormState> {
     }
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm(AppLocalizations localizations) async {
     if (state is! LoginFormChanged) return;
     final currentState = state as LoginFormChanged;
-    if (!_validateAllFieldsForSubmission(currentState)) {
+    
+    final validationError = _validateAllFieldsForSubmission(
+      currentState,
+      localizations,
+    );
+    if (validationError != null) {
+      emit(currentState.copyWith(currentFieldError: validationError));
       return;
     }
 
     emit(currentState.copyWith(isLoading: true));
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
-      final phoneNumber =
-          '${currentState.selectedCountry.code}${currentState.phoneNumber}';
-      emit(LoginFormSuccess(phoneNumber: phoneNumber));
+      final result = await _authRepository.login(
+        phoneNumber: currentState.phoneNumber,
+        countryCode: currentState.selectedCountry.code,
+        password: currentState.password,
+      );
+
+      result.fold(
+        onSuccess: (user) {
+          final phoneNumber =
+              '${currentState.selectedCountry.code}${currentState.phoneNumber}';
+          emit(LoginFormSuccess(phoneNumber: phoneNumber));
+        },
+        onFailure: (error) {
+          emit(LoginFormError(
+            message: error.message,
+          ));
+          emit(currentState.copyWith(isLoading: false));
+        },
+      );
     } catch (e) {
-      emit(const LoginFormError(message: 'Login failed. Please try again.'));
+      emit(LoginFormError(message: localizations.login_failed));
       emit(currentState.copyWith(isLoading: false));
     }
   }
 
-  bool _validateAllFieldsForSubmission(LoginFormChanged state) {
-    final phoneError = _validatePhoneNumber(state.phoneNumber);
-    if (phoneError != null) {
-      emit(state.copyWith(currentFieldError: phoneError));
-      return false;
-    }
+  String? _validateAllFieldsForSubmission(
+    LoginFormChanged state,
+    AppLocalizations localizations,
+  ) {
+    final phoneError = AuthValidators.validatePhone(
+      state.phoneNumber,
+      localizations,
+    );
+    if (phoneError != null) return phoneError;
 
-    final passwordError = _validatePassword(state.password);
-    if (passwordError != null) {
-      emit(state.copyWith(currentFieldError: passwordError));
-      return false;
-    }
+    final passwordError = AuthValidators.validatePassword(
+      state.password,
+      localizations,
+    );
+    if (passwordError != null) return passwordError;
 
-    return true;
+    return null;
   }
 
   LoginFormChanged _updateFormValidation(LoginFormChanged state) {
@@ -112,20 +163,5 @@ class LoginFormCubit extends Cubit<LoginFormState> {
         state.password.isNotEmpty &&
         state.phoneNumber.length >= 10 &&
         state.password.length >= 6;
-  }
-
-  String? _validatePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length < 10) {
-      return 'Phone number must be at least 10 digits';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(phoneNumber)) {
-      return 'Phone number must contain only digits';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String password) {
-    if (password.length < 6) return 'Password must be at least 6 characters';
-    return null;
   }
 }

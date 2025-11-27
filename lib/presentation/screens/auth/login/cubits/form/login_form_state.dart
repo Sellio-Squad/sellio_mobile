@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import '../../../country.dart';
+import '../../../../../../domain/entities/country.dart';
 
-abstract class LoginFormState extends Equatable {
+sealed class LoginFormState extends Equatable {
   const LoginFormState();
 
   @override
