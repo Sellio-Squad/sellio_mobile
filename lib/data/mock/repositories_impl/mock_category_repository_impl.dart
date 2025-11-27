@@ -1,3 +1,4 @@
+/*
 import '../../../core/error/result.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/repositories/category_repository.dart';
@@ -27,4 +28,4 @@ class MockCategoryRepositoryImpl implements CategoryRepository {
 
     return Success(category);
   }
-}
+}*/
