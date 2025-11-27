@@ -16,18 +16,23 @@ class ProductModel extends Product {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    final images = _extractImages(json);
+    final categoryId = _extractCategoryId(json);
+
     return ProductModel(
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? json['title'] as String? ?? '',
-      description: json['description'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
+      name: (json['name'] ?? json['title'] ?? '').toString(),
+      description: (json['description'] ?? '').toString(),
       price: _parseDouble(json['price']),
-      currency: json['currency'] as String? ?? '',
-      discount: json['discount'] as String?,
-      images: _parseImages(json['images']),
-      storeId: json['storeId'] as String? ?? json['store_id'] as String? ?? '',
-      categoryId: json['categoryId'] as String? ?? json['category_id'] as String? ?? '',
-      isAvailable: json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
-      stockQuantity: json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
+      currency: (json['currency'] ?? '').toString(),
+      discount: json['discount']?.toString(),
+      images: images,
+      storeId: json['storeId']?.toString() ?? json['store_id']?.toString() ?? '',
+      categoryId: categoryId,
+      isAvailable:
+          json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
+      stockQuantity:
+          json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
     );
   }
 
@@ -39,15 +44,55 @@ class ProductModel extends Product {
     return 0.0;
   }
 
-  static List<String> _parseImages(dynamic value) {
-    if (value == null) return [];
-    if (value is List) {
-      return value
-          .where((e) => e != null)
-          .map((e) => e.toString())
-          .toList();
+  static List<String> _extractImages(Map<String, dynamic> json) {
+    final images = <String>[];
+
+    void addFromList(dynamic value) {
+      if (value is List) {
+        for (final item in value) {
+          final image = item?.toString();
+          if (_isValidUrl(image)) {
+            images.add(image!);
+          }
+        }
+      }
     }
-    return [];
+
+    addFromList(json['images']);
+    addFromList(json['imageUrls']);
+    addFromList(json['image_urls']);
+
+    final mainImage = json['mainImageURL'] ?? json['main_image_url'];
+    if (_isValidUrl(mainImage?.toString())) {
+      images.insert(0, mainImage.toString());
+    }
+
+    return images;
+  }
+
+  static String _extractCategoryId(Map<String, dynamic> json) {
+    final direct =
+        json['categoryId'] ?? json['category_id'] ?? json['categoryID'];
+    if (direct != null && direct.toString().isNotEmpty) {
+      return direct.toString();
+    }
+
+    final subCategories = json['subCategoryIds'] ?? json['sub_category_ids'];
+    if (subCategories is List && subCategories.isNotEmpty) {
+      return subCategories.first?.toString() ?? '';
+    }
+
+    return '';
+  }
+
+  static bool _isValidUrl(String? value) {
+    if (value == null) return false;
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return false;
+    final uri = Uri.tryParse(trimmed);
+    if (uri == null) return false;
+    if (!(uri.isScheme('http') || uri.isScheme('https'))) return false;
+    return true;
   }
 
 
