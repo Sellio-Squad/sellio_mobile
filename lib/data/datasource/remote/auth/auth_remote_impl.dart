@@ -1,3 +1,5 @@
+import 'package:sellio_mobile/data/models/user_token.dart';
+
 import '../../../core/api/api_endpoints.dart';
 import '../../../core/api/api_client.dart';
 import '../../../models/user_model.dart';
@@ -28,7 +30,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<UserModel> register({
+  Future<String> createAccount({
     required String firstName,
     required String lastName,
     required String phoneNumber,
@@ -38,7 +40,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String city,
   }) async {
     final response = await _httpClient.post(
-      ApiEndpoints.userInsert,
+      ApiEndpoints.createUser,
       data: {
         'firstName': firstName,
         'lastName': lastName,
@@ -49,25 +51,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       },
     );
 
-    return UserModel.fromJson(response.data);
+    return response.data['sessionId'];
   }
 
   @override
-  Future<bool> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
+  Future<UserToken> verifyOtp({
+    required String sessionId,
     required String otpCode,
   }) async {
     final response = await _httpClient.post(
       ApiEndpoints.verifyOtp,
       data: {
-        'phoneNumber': phoneNumber,
-        'countryCode': countryCode,
-        'otpCode': otpCode,
+        'sessionId': sessionId,
+        'otp': otpCode,
       },
     );
-
-    return response.data['verified'] as bool? ?? false;
+    return UserToken.fromJson(response.data);
   }
 
   @override

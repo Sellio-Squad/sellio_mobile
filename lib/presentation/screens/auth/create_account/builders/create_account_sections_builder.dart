@@ -9,7 +9,7 @@ import 'create_account_form_builder.dart' show CreateAccountFormWidget;
 Widget buildCreateAccountContent(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisSize: MainAxisSize.min,
+    mainAxisSize: MainAxisSize.max,
     children: [
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),

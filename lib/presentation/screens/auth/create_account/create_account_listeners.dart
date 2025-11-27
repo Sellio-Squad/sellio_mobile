@@ -39,6 +39,7 @@ class CreateAccountListeners extends StatelessWidget {
     context.navigator.pushSignupOtp(
       SignupOtpArgs(
         phoneNumber: state.phoneNumber,
+        sessionId: state.sessionId,
       ),
     );
   }

@@ -22,12 +22,12 @@ import '../../../domain/repositories/user_repository.dart';
 
 class RepositoryModule {
   static void register(GetIt sl) {
-    // sl.registerLazySingleton<AuthRepository>(
-    //       () => AuthRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //     storageService: sl(),
-    //   ),
-    // );
+    sl.registerLazySingleton<AuthRepository>(
+          () => AuthRepositoryImpl(
+        remoteDataSource: sl(),
+        storageService: sl(),
+      ),
+    );
     //
     // sl.registerLazySingleton<ProductRepository>(
     //       () => ProductRepositoryImpl(

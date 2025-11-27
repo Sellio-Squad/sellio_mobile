@@ -48,7 +48,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
     newCtrl = TextEditingController();
     confirmCtrl = TextEditingController();
 
-    /// Connect controllers to cubit
+    /// Connect controllers to cubits
     currentCtrl.addListener(() {
       context.read<ResetPasswordCubit>().updateCurrentPassword(currentCtrl.text);
     });

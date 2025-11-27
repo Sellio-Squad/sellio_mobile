@@ -35,9 +35,11 @@ class ConfirmPasswordArgs {
 class SignupOtpArgs {
   SignupOtpArgs({
     required this.phoneNumber,
+    required this.sessionId
   });
 
   final String phoneNumber;
+  String sessionId;
 }
 
 class CustomizeProductArgs {

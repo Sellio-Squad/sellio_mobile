@@ -1,4 +1,5 @@
 import '../../../models/user_model.dart';
+import '../../../models/user_token.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login({
@@ -7,7 +8,7 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  Future<UserModel> register({
+  Future<String> createAccount({
     required String firstName,
     required String lastName,
     required String phoneNumber,
@@ -17,9 +18,8 @@ abstract class AuthRemoteDataSource {
     required String city,
   });
 
-  Future<bool> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
+  Future<UserToken> verifyOtp({
+    required String sessionId,
     required String otpCode,
   });
 

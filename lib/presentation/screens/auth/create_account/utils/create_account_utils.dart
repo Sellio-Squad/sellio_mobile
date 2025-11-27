@@ -6,7 +6,7 @@ import '../cubits/form/create_account_form_cubit.dart';
 
 // Form submission handler
 void handleCreateAccountSubmit(BuildContext context) {
-  context.read<CreateAccountFormCubit>().submitForm();
+  context.read<CreateAccountFormCubit>().createAccount();
 }
 
 void navigateToLogin(BuildContext context) {

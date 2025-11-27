@@ -41,8 +41,9 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<User>> register({
-    required String fullName,
+  Future<Result<String>> createAccount({
+    required String firstName,
+    required String lastName,
     required String phoneNumber,
     required String countryCode,
     required String password,
@@ -50,12 +51,8 @@ class AuthRepositoryImpl implements AuthRepository {
     required String city,
     String? profilePhotoUrl,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
-      final names = fullName.split(' ');
-      final firstName = names.first;
-      final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
-
-      final userModel = await _remoteDataSource.register(
+    return RepositoryCallHandler.call<String>(() async {
+      final sessionId = await _remoteDataSource.createAccount(
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
@@ -65,25 +62,26 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
       );
 
-      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
-
-      return userModel.toEntity();
+      return sessionId;
     });
   }
 
   @override
   Future<Result<bool>> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
+    required String sessionId,
     required String otpCode,
   }) async {
-    return RepositoryCallHandler.call<bool>(
-          () => _remoteDataSource.verifyOtp(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
+    return RepositoryCallHandler.call<bool>(() async {
+      final result = await _remoteDataSource.verifyOtp(
+        sessionId: sessionId,
         otpCode: otpCode,
-      ),
-    );
+      );
+      return Future.wait([
+        _storageService.save<bool>(StorageKeys.isLoggedIn, true),
+        _storageService.save<String>(StorageKeys.authToken, result.accessToken),
+        _storageService.save<String>(StorageKeys.refreshToken, result.refreshToken),
+      ]).then((_) => true);
+    });
   }
 
   @override
@@ -92,7 +90,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String countryCode,
   }) async {
     return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.resendOtp(
+      () => _remoteDataSource.resendOtp(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
       ),
@@ -105,7 +103,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String countryCode,
   }) async {
     return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.sendForgotPasswordOtp(
+      () => _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
       ),
@@ -120,7 +118,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String newPassword,
   }) async {
     return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.resetPassword(
+      () => _remoteDataSource.resetPassword(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         otpCode: otpCode,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/auth/create_account/FieldType.dart';
 
 import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
@@ -67,57 +68,57 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
           .updateConfirmPassword(confirmPasswordController.text);
     });
 
-    phoneFocusNode.addListener(() => _onFocusChange('phone'));
-    nameFocusNode.addListener(() => _onFocusChange('name'));
-    countryFocusNode.addListener(() => _onFocusChange('country'));
-    cityFocusNode.addListener(() => _onFocusChange('city'));
-    passwordFocusNode.addListener(() => _onFocusChange('password'));
+    phoneFocusNode.addListener(() => _onFocusChange(FieldType.phone));
+    nameFocusNode.addListener(() => _onFocusChange(FieldType.name));
+    countryFocusNode.addListener(() => _onFocusChange(FieldType.country));
+    cityFocusNode.addListener(() => _onFocusChange(FieldType.city));
+    passwordFocusNode.addListener(() => _onFocusChange(FieldType.password));
     confirmPasswordFocusNode
-        .addListener(() => _onFocusChange('confirmPassword'));
+        .addListener(() => _onFocusChange(FieldType.confirmPassword));
   }
 
-  void _onFocusChange(String fieldType) {
+  void _onFocusChange(FieldType fieldType) {
     switch (fieldType) {
-      case 'phone':
+      case FieldType.phone:
         if (!phoneFocusNode.hasFocus && phoneController.text.isNotEmpty) {
           context
               .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('phone', phoneController.text);
+              .validateFieldOnFocusChange(FieldType.phone, phoneController.text);
         }
         break;
-      case 'name':
+      case FieldType.name:
         if (!nameFocusNode.hasFocus && nameController.text.isNotEmpty) {
           context
               .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('name', nameController.text);
+              .validateFieldOnFocusChange(FieldType.name, nameController.text);
         }
         break;
-      case 'country':
+      case FieldType.country:
         if (!countryFocusNode.hasFocus && countryController.text.isNotEmpty) {
           context
               .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('country', countryController.text);
+              .validateFieldOnFocusChange(FieldType.country, countryController.text);
         }
         break;
-      case 'city':
+      case FieldType.city:
         if (!cityFocusNode.hasFocus && cityController.text.isNotEmpty) {
           context
               .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('city', cityController.text);
+              .validateFieldOnFocusChange(FieldType.city, cityController.text);
         }
         break;
-      case 'password':
+      case FieldType.password:
         if (!passwordFocusNode.hasFocus && passwordController.text.isNotEmpty) {
           context
               .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('password', passwordController.text);
+              .validateFieldOnFocusChange(FieldType.password, passwordController.text);
         }
         break;
-      case 'confirmPassword':
+      case FieldType.confirmPassword:
         if (!confirmPasswordFocusNode.hasFocus &&
             confirmPasswordController.text.isNotEmpty) {
           context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-              'confirmPassword', confirmPasswordController.text);
+              FieldType.confirmPassword, confirmPasswordController.text);
         }
         break;
     }
@@ -225,6 +226,12 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                           BlendMode.srcIn,
                         ),
                       ),
+                      dropdownItems: ['Egypt', 'Iraq'],
+                      selectedDropdownItem: null,
+                      onDropdownChanged: (String newValue) {
+                        countryController.text = newValue;
+                      },
+                      enabled: false,
                     ),
                   ),
                 ),
@@ -249,6 +256,12 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                           BlendMode.srcIn,
                         ),
                       ),
+                      dropdownItems: ['Cairo', 'Alexandria', 'Red Sea'],
+                      selectedDropdownItem: null,
+                      onDropdownChanged: (String newValue) {
+                        cityController.text = newValue;
+                      },
+                      enabled: false,
                     ),
                   ),
                 ),
@@ -290,7 +303,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 ),
               ),
             ),
-            buildProfilePictureSection(context),
+            // const Spacer()
           ],
         );
       },

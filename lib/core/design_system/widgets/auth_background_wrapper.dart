@@ -65,6 +65,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
   Widget _buildTopLogo(BuildContext context) {
     return SafeArea(
       bottom: false,
+      top: false,
       child: Padding(
         padding: EdgeInsets.only(top: 70 ,bottom: bottomPadding),
         child: Align(

@@ -8,8 +8,9 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<Result<User>> register({
-    required String fullName,
+  Future<Result<String>> createAccount({
+    required String firstName,
+    required String lastName,
     required String phoneNumber,
     required String countryCode,
     required String password,
@@ -19,8 +20,7 @@ abstract class AuthRepository {
   });
 
   Future<Result<bool>> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
+    required String sessionId,
     required String otpCode,
   });
 

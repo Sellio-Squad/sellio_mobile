@@ -34,6 +34,12 @@ class SellioTextField extends StatefulWidget {
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;
 
+  // New dropdown parameters
+  final List<String>? dropdownItems;
+  final String? selectedDropdownItem; // Now nullable
+  final ValueChanged<String>? onDropdownChanged;
+  final bool enabled;
+
   const SellioTextField({
     super.key,
     this.isParagraph = false,
@@ -45,7 +51,7 @@ class SellioTextField extends StatefulWidget {
     this.maxLine,
     this.isTextFieldFilled = true,
     this.fillColor,
-    this.hintText = 'Full name',
+    this.hintText = '',
     this.hintStyle,
     this.prefixIconPadding = const EdgeInsets.only(left: 16, right: 12),
     this.prefixIcon,
@@ -61,6 +67,10 @@ class SellioTextField extends StatefulWidget {
     this.selectedCountry,
     this.countries,
     this.onChangeCountry,
+    this.dropdownItems,
+    this.selectedDropdownItem,
+    this.onDropdownChanged,
+    this.enabled = true,
   });
 
   @override
@@ -100,6 +110,12 @@ class _SellioTextFieldState extends State<SellioTextField> {
     super.dispose();
   }
 
+  // Modified to allow null selectedDropdownItem
+  bool get _hasDropdown =>
+      widget.dropdownItems != null &&
+          widget.dropdownItems!.isNotEmpty &&
+          widget.onDropdownChanged != null;
+
   @override
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
@@ -116,60 +132,54 @@ class _SellioTextFieldState extends State<SellioTextField> {
         ? context.theme.colors.primary
         : context.theme.colors.body;
 
-    final Color hintColor = isFocused
-        ? context.theme.colors.title
-        : context.theme.colors.body;
+    final Color hintColor =
+    isFocused ? context.theme.colors.title : context.theme.colors.body;
 
     final List<BoxShadow> textFieldShadow = isFocused && !isError
         ? [
-            BoxShadow(
-              color: widget.shadowColor,
-              blurRadius: 8,
-              offset: Offset(0, 4),
-            ),
-          ]
+      BoxShadow(
+        color: widget.shadowColor,
+        blurRadius: 8,
+        offset: Offset(0, 4),
+      ),
+    ]
         : [];
 
-    final textFieldStyle =
-        widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(color: context.theme.colors.title);
+    final textFieldStyle = widget.textStyle ??
+        context.theme.typography.textTheme.bodyMedium
+            .copyWith(color: context.theme.colors.title);
 
-    final maxLines = widget.isParagraph
-        ? (widget.maxLine ?? 5)
-        : (widget.maxLine ?? 1);
+    final maxLines =
+    widget.isParagraph ? (widget.maxLine ?? 5) : (widget.maxLine ?? 1);
 
     final filledColor = widget.fillColor ?? context.theme.colors.surface;
 
-    final hintTextStyle =
-        widget.hintStyle ??
+    final hintTextStyle = widget.hintStyle ??
         context.theme.typography.textTheme.labelMedium.copyWith(
           color: hintColor,
         );
 
-    final String? errorText = widget.isParagraph
-        ? null
-        : (isError ? 'Should not be empty' : null);
+    final String? errorText =
+    widget.isParagraph ? null : (isError ? 'Should not be empty' : null);
 
-    final errorStyle =
-        widget.errorStyle ??
+    final errorStyle = widget.errorStyle ??
         context.theme.typography.textTheme.labelSmall.copyWith(
           color: context.theme.colors.semanticError,
         );
 
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: widget.cornerRadius,
-        boxShadow: textFieldShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        decoration: BoxDecoration(
+          borderRadius: widget.cornerRadius,
+          boxShadow: textFieldShadow,
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextField(
             keyboardType: widget.inputType ?? TextInputType.text,
             focusNode: _focusNode,
             controller: _effectiveController,
-            inputFormatters:
-            widget.inputFormatter ??
+            readOnly: _hasDropdown && !widget.enabled,
+            cursorColor: context.theme.colors.primary,
+            inputFormatters: widget.inputFormatter ??
                 [
                   TextInputFormatter.withFunction((oldValue, newValue) {
                     final lineCount = '\n'.allMatches(newValue.text).length + 1;
@@ -179,12 +189,14 @@ class _SellioTextFieldState extends State<SellioTextField> {
                     return newValue;
                   }),
                 ],
-
             onChanged: (value) {
               setState(() {
                 isError = value.isEmpty;
               });
             },
+            onTap: _hasDropdown && !widget.enabled
+                ? () => _showDropdownMenu(context)
+                : null,
             obscureText: isObscured,
             obscuringCharacter: '●',
             style: textFieldStyle,
@@ -212,25 +224,70 @@ class _SellioTextFieldState extends State<SellioTextField> {
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
+                borderSide:
+                BorderSide(color: context.theme.colors.semanticError),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   widget.focusedErrorBorderRadius,
                 ),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
+                borderSide:
+                BorderSide(color: context.theme.colors.semanticError),
               ),
               errorStyle: errorStyle,
             ),
           ),
-          Text(
-            isError ? (errorText ?? '') : '',
-            style: errorStyle,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Text(
+              isError ? (errorText ?? '') : '',
+              style: errorStyle,
+            ),
           )
-        ]
-      )
+        ]));
+  }
 
+  void _showDropdownMenu(BuildContext context) async {
+    if (!_hasDropdown) return;
+
+    setState(() {
+      isError = false;
+    });
+
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
+
+    final selected = await showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy + size.height,
+        position.dx + size.width,
+        position.dy + size.height + 300,
+      ),
+      items: widget.dropdownItems!.map((String item) {
+        return PopupMenuItem<String>(
+          value: item,
+          child: SizedBox(
+            width: size.width - 32,
+            child: Text(
+              item,
+              style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
+
+    if (selected != null && widget.onDropdownChanged != null) {
+      widget.onDropdownChanged!(selected);
+      setState(() {
+        isError = _effectiveController.text.isEmpty;
+      });
+    }
   }
 
   Widget? _buildPrefixIcon(Color iconColor, String icon) {
@@ -261,6 +318,34 @@ class _SellioTextFieldState extends State<SellioTextField> {
   Widget? _buildSuffixIcon(Color iconColor) {
     if (widget.isParagraph) return null;
 
+    // Show dropdown in suffix if enabled
+    if (_hasDropdown && widget.enabled) {
+      // If no item selected, show arrow only
+      if (widget.selectedDropdownItem == null) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: SvgPicture.asset(
+            AppImages.arrowDown,
+            width: 16,
+            height: 16,
+            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+          ),
+        );
+      }
+
+      return Padding(
+        padding: const EdgeInsets.only(right: 8),
+        child: _buildStringDropdownButton(
+          context: context,
+          items: widget.dropdownItems!,
+          selectedItem: widget.selectedDropdownItem!,
+          onChanged: widget.onDropdownChanged!,
+          iconColor: iconColor,
+        ),
+      );
+    }
+
+    // Show password toggle
     if (widget.inputType == TextInputType.visiblePassword) {
       return IconButton(
         icon: SvgPicture.asset(
@@ -274,9 +359,24 @@ class _SellioTextFieldState extends State<SellioTextField> {
         },
       );
     }
-    return null;
+
+    // Show dropdown arrow if not in suffix
+    if (_hasDropdown && !widget.enabled) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 12),
+        child: SvgPicture.asset(
+          AppImages.arrowDown,
+          width: 16,
+          height: 16,
+          colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+        ),
+      );
+    }
+
+    return widget.suffixIcon;
   }
 }
+
 // todo : it's need update and remove Country parameter
 Widget _buildCountryDropdown({
   required Country selectedCountry,
@@ -327,6 +427,55 @@ Widget _buildCountryDropdown({
                 ),
               ),
             ],
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
+
+// String dropdown as a button in suffix
+Widget _buildStringDropdownButton({
+  required BuildContext context,
+  required List<String> items,
+  required String selectedItem,
+  required ValueChanged<String> onChanged,
+  required Color iconColor,
+}) {
+  return DropdownButtonHideUnderline(
+    child: DropdownButton<String>(
+      value: selectedItem,
+      isDense: true,
+      icon: SvgPicture.asset(
+        AppImages.arrowDown,
+        width: 16,
+        height: 16,
+        colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+      ),
+      onChanged: (String? newValue) {
+        if (newValue != null){ onChanged(newValue);}
+      },
+      selectedItemBuilder: (context) {
+        return items.map((item) {
+          return Container(
+            alignment: Alignment.centerRight,
+            child: Text(
+              item,
+              style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                color: context.theme.colors.title,
+              ),
+            ),
+          );
+        }).toList();
+      },
+      items: items.map((item) {
+        return DropdownMenuItem<String>(
+          value: item,
+          child: Text(
+            item,
+            style: context.theme.typography.textTheme.bodyMedium.copyWith(
+              color: context.theme.colors.body,
+            ),
           ),
         );
       }).toList(),
