@@ -22,11 +22,12 @@ class CreateAccountListeners extends StatelessWidget {
           listener: (context, state) {
             if (state is CreateAccountFormSuccess) {
               _handleSuccess(context, state);
-            } else if (state is CreateAccountFormError) {
-              _handleGeneralError(context, state.message);
-            } else if (state is CreateAccountFormChanged &&
-                state.currentFieldError != null) {
-              _handleFieldValidationError(context, state);
+            }
+            else if (state is CreateAccountFormError) {
+              _showError(context, state.message);
+            }
+            else if (state is CreateAccountFormChanged && state.currentFieldError != null) {
+              _handleFieldError(context, state);
             }
           },
         ),
@@ -35,41 +36,37 @@ class CreateAccountListeners extends StatelessWidget {
     );
   }
 
+  //----------------------- SUCCESS → NAVIGATE OTP -----------------------//
   void _handleSuccess(BuildContext context, CreateAccountFormSuccess state) {
     context.navigator.pushSignupOtp(
       SignupOtpArgs(
         phoneNumber: state.phoneNumber,
+        countryCode: state.countryCode,            // ← REQUIRED & FIXED
       ),
     );
   }
 
-  void _handleGeneralError(BuildContext context, String message) {
-    _showErrorSnackBar(context, message);
-  }
+  //----------------------- ERROR HANDLING -----------------------//
+  void _handleFieldError(BuildContext context, CreateAccountFormChanged state) {
+    _showError(context, state.currentFieldError!);
 
-  void _handleFieldValidationError(
-      BuildContext context, CreateAccountFormChanged state) {
-    _showErrorSnackBar(context, state.currentFieldError!);
-
-    // Clear the field error after showing the snackbar
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 150), () {
       if (context.mounted) {
         context.read<CreateAccountFormCubit>().clearCurrentFieldError();
       }
     });
   }
 
-  void _showErrorSnackBar(BuildContext context, String message) {
+  void _showError(BuildContext context, String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     final overlay = Overlay.of(context);
-    late OverlayEntry overlayEntry;
+    late OverlayEntry entry;
 
-    overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
+    entry = OverlayEntry(
+      builder: (_) => Positioned(
         top: MediaQuery.of(context).padding.top + 26,
-        left: 0,
-        right: 0,
+        left: 0, right: 0,
         child: Material(
           color: Colors.transparent,
           child: Padding(
@@ -77,21 +74,16 @@ class CreateAccountListeners extends StatelessWidget {
             child: SellioSnackBar(
               isError: true,
               message: message,
-              onCancelTap: () {
-                overlayEntry.remove();
-              },
+              onCancelTap: () => entry.remove(),
             ),
           ),
         ),
       ),
     );
 
-    overlay.insert(overlayEntry);
-
+    overlay.insert(entry);
     Future.delayed(const Duration(seconds: 4), () {
-      if (overlayEntry.mounted) {
-        overlayEntry.remove();
-      }
+      if (entry.mounted) entry.remove();
     });
   }
 }

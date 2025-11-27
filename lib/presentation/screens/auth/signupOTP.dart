@@ -5,12 +5,13 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_otp_card.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/auth_background_wrapper.dart';
 
 class ConfirmAccountScreen extends StatefulWidget {
-  const ConfirmAccountScreen({super.key});
+  const ConfirmAccountScreen({super.key, required SignupOtpArgs args});
 
   @override
   State<ConfirmAccountScreen> createState() => _ConfirmAccountScreenState();

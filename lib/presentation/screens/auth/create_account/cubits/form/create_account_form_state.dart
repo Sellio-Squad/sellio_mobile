@@ -100,24 +100,24 @@ class CreateAccountFormChanged extends CreateAccountFormState {
 
   @override
   List<Object?> get props => [
-        phoneNumber,
-        fullName,
-        country,
-        city,
-        password,
-        confirmPassword,
-        selectedCountry,
-        selectedProfileImage,
-        isFormValid,
-        isLoading,
-        phoneError,
-        nameError,
-        countryError,
-        cityError,
-        passwordError,
-        confirmPasswordError,
-        currentFieldError,
-      ];
+    phoneNumber,
+    fullName,
+    country,
+    city,
+    password,
+    confirmPassword,
+    selectedCountry,
+    selectedProfileImage,
+    isFormValid,
+    isLoading,
+    phoneError,
+    nameError,
+    countryError,
+    cityError,
+    passwordError,
+    confirmPasswordError,
+    currentFieldError,
+  ];
 }
 
 class CreateAccountFormError extends CreateAccountFormState {
@@ -131,11 +131,15 @@ class CreateAccountFormError extends CreateAccountFormState {
 
 class CreateAccountFormSuccess extends CreateAccountFormState {
   final String phoneNumber;
+  final String countryCode;   // <-- REQUIRED ✔
 
-  const CreateAccountFormSuccess({required this.phoneNumber});
+  const CreateAccountFormSuccess({
+    required this.phoneNumber,
+    required this.countryCode,
+  });
 
   @override
-  List<Object?> get props => [phoneNumber];
+  List<Object?> get props => [phoneNumber, countryCode];
 }
 
 class CreateAccountFormFieldError extends CreateAccountFormState {
