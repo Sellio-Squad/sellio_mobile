@@ -25,17 +25,13 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<Result<void>> toggleProductFavorite(String productId) async {
-    return RepositoryCallHandler.call<void>(
-      () => _remoteDataSource.toggleProductFavorite(productId: productId),
-    );
+  Future<void> toggleProductFavorite(String productId) async {
+    await _remoteDataSource.toggleProductFavorite(productId: productId);
   }
 
   @override
-  Future<Result<void>> toggleStoreFavorite(String storeId) async {
-    return RepositoryCallHandler.call<void>(
-      () => _remoteDataSource.toggleStoreFavorite(storeId: storeId),
-    );
+  Future<void> toggleStoreFavorite(String storeId) async {
+    await _remoteDataSource.toggleStoreFavorite(storeId: storeId);
   }
 
   @override
@@ -59,50 +55,34 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
-  Future<Result<void>> addProductToFavorites(String productId) async {
-    return RepositoryCallHandler.call<void>(
-      () async {
-        final favoriteIds = await _remoteDataSource.getFavoriteProductIds();
-        if (!favoriteIds.contains(productId)) {
-          await _remoteDataSource.toggleProductFavorite(productId: productId);
-        }
-      },
-    );
+  Future<void> addProductToFavorites(String productId) async {
+    final favoriteIds = await _remoteDataSource.getFavoriteProductIds();
+    if (!favoriteIds.contains(productId)) {
+      await _remoteDataSource.toggleProductFavorite(productId: productId);
+    }
   }
 
   @override
-  Future<Result<void>> removeProductFromFavorites(String productId) async {
-    return RepositoryCallHandler.call<void>(
-      () async {
-        final favoriteIds = await _remoteDataSource.getFavoriteProductIds();
-        if (favoriteIds.contains(productId)) {
-          await _remoteDataSource.toggleProductFavorite(productId: productId);
-        }
-      },
-    );
+  Future<void> removeProductFromFavorites(String productId) async {
+    final favoriteIds = await _remoteDataSource.getFavoriteProductIds();
+    if (favoriteIds.contains(productId)) {
+      await _remoteDataSource.toggleProductFavorite(productId: productId);
+    }
   }
 
   @override
-  Future<Result<void>> addStoreToFavorites(String storeId) async {
-    return RepositoryCallHandler.call<void>(
-      () async {
-        final favoriteIds = await _remoteDataSource.getFavoriteStoreIds();
-        if (!favoriteIds.contains(storeId)) {
-          await _remoteDataSource.toggleStoreFavorite(storeId: storeId);
-        }
-      },
-    );
+  Future<void> addStoreToFavorites(String storeId) async {
+    final favoriteIds = await _remoteDataSource.getFavoriteStoreIds();
+    if (!favoriteIds.contains(storeId)) {
+      await _remoteDataSource.toggleStoreFavorite(storeId: storeId);
+    }
   }
 
   @override
-  Future<Result<void>> removeStoreFromFavorites(String storeId) async {
-    return RepositoryCallHandler.call<void>(
-      () async {
-        final favoriteIds = await _remoteDataSource.getFavoriteStoreIds();
-        if (favoriteIds.contains(storeId)) {
-          await _remoteDataSource.toggleStoreFavorite(storeId: storeId);
-        }
-      },
-    );
+  Future<void> removeStoreFromFavorites(String storeId) async {
+    final favoriteIds = await _remoteDataSource.getFavoriteStoreIds();
+    if (favoriteIds.contains(storeId)) {
+      await _remoteDataSource.toggleStoreFavorite(storeId: storeId);
+    }
   }
 }
