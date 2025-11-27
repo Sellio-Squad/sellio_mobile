@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'special_offers_shimmer.dart';
 import 'cubit/home_special_offers_cubit.dart';
 import 'cubit/home_special_offers_state.dart';
 import 'widgets/special_offers_list.dart';
@@ -65,7 +66,7 @@ class _LoadingWidget extends StatelessWidget {
     return const Center(
       child: Padding(
         padding: EdgeInsets.all(24.0),
-        child: CircularProgressIndicator(),
+        child: SpecialOffersShimmer(),
       ),
     );
   }
