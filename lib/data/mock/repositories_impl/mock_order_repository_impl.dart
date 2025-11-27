@@ -17,6 +17,8 @@ class MockOrderRepositoryImpl implements OrderRepository {
     required String storeId,
     required List<OrderItem> items,
     required Address deliveryAddress,
+    required String storeName,
+    String? storeLogoUrl,
     String? note,
   }) async {
     await _simulateDelay();
@@ -27,21 +29,14 @@ class MockOrderRepositoryImpl implements OrderRepository {
       );
     }
 
-    final store = MockDataGenerator.generateStore(
-      index: int.tryParse(storeId.replaceAll('store_', '')) ?? 0,
-    );
-
     final order = Order(
-      id: 'order_${DateTime.now().millisecondsSinceEpoch}',
-      userId: 'user_0',
-      storeId: storeId,
-      storeName: store.name,
-      storeImage: store.profileImage,
-      items: items,
+      orderId: 'order_${DateTime.now().millisecondsSinceEpoch}',
+      orderDate:DateTime.now(),
       status: OrderStatus.pending,
-      deliveryAddress: deliveryAddress,
-      note: note,
-      createdAt: DateTime.now(),
+      totalPrice: items.fold(0, (sum, item) => sum + item.price * item.quantity),
+      storeName: storeName,
+      storeLogoUrl: storeLogoUrl,
+      items: items,
     );
 
     _orders.insert(0, order);
@@ -56,17 +51,13 @@ class MockOrderRepositoryImpl implements OrderRepository {
   }) async {
     await _simulateDelay();
 
-    // If no orders exist, generate some mock ones
     if (_orders.isEmpty) {
       _orders.addAll(MockDataGenerator.generateOrders(count: 15));
     }
 
     var filteredOrders = _orders;
-
     if (status != null) {
-      filteredOrders = _orders
-          .where((order) => order.status == status)
-          .toList();
+      filteredOrders = _orders.where((order) => order.status == status).toList();
     }
 
     final startIndex = (page - 1) * limit;
@@ -85,7 +76,7 @@ class MockOrderRepositoryImpl implements OrderRepository {
     await _simulateDelay();
 
     final order = _orders.firstWhere(
-          (o) => o.id == orderId,
+          (o) => o.orderId == orderId,
       orElse: () => MockDataGenerator.generateOrder(index: 0),
     );
 
@@ -96,7 +87,7 @@ class MockOrderRepositoryImpl implements OrderRepository {
   Future<Result<Order>> cancelOrder(String orderId) async {
     await _simulateDelay();
 
-    final orderIndex = _orders.indexWhere((o) => o.id == orderId);
+    final orderIndex = _orders.indexWhere((o) => o.orderId == orderId);
 
     if (orderIndex == -1) {
       return const ResultFailure(
@@ -106,13 +97,25 @@ class MockOrderRepositoryImpl implements OrderRepository {
 
     final order = _orders[orderIndex];
 
-    if (!order.canBeCancelled) {
+    final canBeCancelled = order.status == OrderStatus.pending ||
+        order.status == OrderStatus.processing;
+
+    if (!canBeCancelled) {
       return const ResultFailure(
         ValidationFailure(message: 'Order cannot be cancelled'),
       );
     }
 
-    final cancelledOrder = order.copyWith(status: OrderStatus.cancelled);
+    final cancelledOrder = Order(
+      orderId: order.orderId,
+      orderDate: order.orderDate,
+      status: OrderStatus.cancelled,
+      totalPrice: order.totalPrice,
+      storeName: order.storeName,
+      storeLogoUrl: order.storeLogoUrl,
+      items: order.items,
+    );
+
     _orders[orderIndex] = cancelledOrder;
 
     return Success(cancelledOrder);

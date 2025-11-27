@@ -30,11 +30,11 @@ class RepositoryModule {
     //   ),
     // );
     //
-    // sl.registerLazySingleton<CategoryRepository>(
-    //       () => CategoryRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<CategoryRepository>(
+          () => CategoryRepositoryImpl(
+        remoteDataSource: sl()
+      ),
+    );
     //
     // sl.registerLazySingleton<CartRepository>(
     //       () => CartRepositoryImpl(

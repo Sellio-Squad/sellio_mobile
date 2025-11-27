@@ -7,6 +7,8 @@ abstract class OrderRepository {
     required String storeId,
     required List<OrderItem> items,
     required Address deliveryAddress,
+    required String storeName,
+    String? storeLogoUrl,
     String? note,
   });
 
