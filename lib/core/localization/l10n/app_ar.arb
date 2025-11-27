@@ -11,6 +11,7 @@
   "phone_number": "رقم الهاتف",
   "login": "تسجيل الدخول",
   "or": "أو",
+  "updated_successfully": "تم التحديث بنجاح",
   "password_must_be_at_least_characters": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
   "password_changed_successfully": "تم تغيير كلمة المرور بنجاح",
   "saving": "جارٍ الحفظ...",

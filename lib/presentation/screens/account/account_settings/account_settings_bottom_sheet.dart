@@ -11,6 +11,7 @@ import 'package:sellio_mobile/presentation/screens/account/account_settings/cubi
 
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
+import '../../../../core/design_system/widgets/sellio_snack_bar.dart';
 import '../../../../presentation/screens/auth/country.dart';
 import 'cubit/account_settings_state.dart';
 
@@ -72,6 +73,7 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
     return BlocConsumer<AccountSettingsCubit, AccountSettingsState>(
         listener: (context, state) {
           if (state.isSuccess) {
+            _showErrorSnackBar(context, context.local.updated_successfully);
             Navigator.of(context).pop(state);
           }
         },
@@ -182,4 +184,41 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
     nameController.dispose();
     super.dispose();
   }
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: MediaQuery.of(context).padding.top + 26,
+        left: 0,
+        right: 0,
+        child: Material(
+          color: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SellioSnackBar(
+              isError: false,
+              message: message,
+              onCancelTap: () {
+                overlayEntry.remove();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    Future.delayed(const Duration(seconds: 4), () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
+    });
+  }
+
 }
