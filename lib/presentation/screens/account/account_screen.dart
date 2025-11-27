@@ -310,13 +310,15 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  void _showAccountSettingsBottomSheet(BuildContext context) {
-    AccountSettingsBottomSheet.show(
+  void _showAccountSettingsBottomSheet(BuildContext context) async {
+    final result = await AccountSettingsBottomSheet.show(
       context: context,
-      onSave: () {
-        debugPrint('Account settings saved');
-      },
+      onSave: () {}
     );
+
+    if (result != null) {
+      context.read<AccountCubit>().loadAccountDetails();
+    }
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {
