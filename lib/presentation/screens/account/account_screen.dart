@@ -6,6 +6,7 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/themes/sellio_typography.dart';
 import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_switch.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_app_bar.dart';
+import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
@@ -42,14 +43,12 @@ class _AccountScreenState extends State<AccountScreen> {
             extendBodyBehindAppBar: true,
             backgroundColor: colors.surfaceLow,
             appBar: SellioAppBar(
-              title: context.local.account,
+              title: context.local.account_screen,
               actions: [
                 GestureDetector(
-                  onTap: () {
-                    _showAccountOptionsBottomSheet(context);
-                  },
+                  onTap: () => _showAccountOptionsBottomSheet(context),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 14),
+                    padding: const EdgeInsets.symmetric(horizontal: 14),
                     child: SvgPicture.asset(
                       AppImages.moreHorizontalSquare,
                       width: 24,
@@ -62,136 +61,146 @@ class _AccountScreenState extends State<AccountScreen> {
             body: _buildBody(context, state),
           );
         },
-      )
+      ),
     );
   }
 
   Widget _buildBody(BuildContext context, AccountState state) {
-    SellioColorScheme colors = context.theme.colors;
-    SellioTextTheme themeText = context.theme.typography.textTheme;
+    return SafeArea(
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (state is AccountLoading || state is AccountInitial)
+                _buildLoadingInfo(context)
+              else if (state is AccountError)
+                _buildErrorInfo(context, state.message)
+              else if (state is AccountLoaded)
+                  _buildLoadedInfo(context, state),
 
-    if (state is AccountLoading || state is AccountInitial) {
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: _buildInfoBody(context, state)
-                ),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state)
-              ],
-            ),
+              const SizedBox(height: 24),
+
+              _buildOptionBody(context),
+            ],
           ),
         ),
-      );
-    }
-
-    if (state is AccountError) {
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildInfoBody(context, state),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state)
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (state is AccountLoaded){
-      return SafeArea(
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      uploadImageCard(
-                        imagePath: state.imagePath ?? AppImages.cat,
-                        editIconPath: AppImages.pencilEdit,
-                        context: context,
-                        onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        '${state.firstName} ${state.lastName}',
-                        style: themeText.titleSmall
-                            .copyWith(color: colors.title),
-                      ),
-                      Text(
-                        state.email,
-                        style:
-                        themeText.labelSmall.copyWith(color: colors.body),
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                _buildOptionBody(context, state)
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
+      ),
+    );
   }
 
-  Widget _buildInfoBody(BuildContext context, AccountState state){
+  Widget _buildLoadingInfo(BuildContext context) {
+    SellioColorScheme colors = context.theme.colors;
+
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Center(
+        child: Column(
+          children: [
+            Container(
+              width: 136,
+              height: 136,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colors.surface,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              width: 150,
+              height: 20,
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Container(
+              width: 200,
+              height: 16,
+              decoration: BoxDecoration(
+                color: colors.surface,
+                borderRadius: BorderRadius.circular(4),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildErrorInfo(BuildContext context, String errorMessage) {
     SellioColorScheme colors = context.theme.colors;
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
-    return  Center(
+    return Center(
+      child: Column(
+        children: [
+          Container(
+            width: 136,
+            height: 136,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: colors.surface,
+            ),
+            child: Icon(
+              Icons.error_outline,
+              size: 64,
+              color: colors.red,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            context.local.something_went_wrong,
+            style: themeText.titleSmall.copyWith(color: colors.title),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            errorMessage,
+            style: themeText.labelSmall.copyWith(color: colors.red),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () => context.read<AccountCubit>().loadAccountDetails(),
+            child: Text(context.local.try_again),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadedInfo(BuildContext context, AccountLoaded state) {
+    SellioColorScheme colors = context.theme.colors;
+    SellioTextTheme themeText = context.theme.typography.textTheme;
+
+    return Center(
       child: Column(
         children: [
           uploadImageCard(
-            imagePath: AppImages.cat,
+            imagePath: state.imagePath ?? AppImages.cat,
             editIconPath: AppImages.pencilEdit,
             context: context,
             onEditTap: () => context.read<AccountCubit>().updateProfilePicture(),
           ),
           const SizedBox(height: 12),
           Text(
-            'firstName lastName',
-            style: themeText.titleSmall
-                .copyWith(color: colors.title),
+            '${state.firstName} ${state.lastName}',
+            style: themeText.titleSmall.copyWith(color: colors.title),
           ),
           Text(
-            "email",
-            style:
-            themeText.labelSmall.copyWith(color: colors.body),
-          )
+            state.email,
+            style: themeText.labelSmall.copyWith(color: colors.body),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildOptionBody(BuildContext context, AccountState state) {
+  Widget _buildOptionBody(BuildContext context) {
     SellioColorScheme colors = context.theme.colors;
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
@@ -221,28 +230,39 @@ class _AccountScreenState extends State<AccountScreen> {
         AccountOptionCard(
           prefixIcon: AppImages.repair,
           orderTitle: context.local.account_settings,
-          onCardClicked: () {
-            _showAccountSettingsBottomSheet(context);
-          },
+          onCardClicked: () => _showAccountSettingsBottomSheet(context),
           trailing: SvgPicture.asset(AppImages.arrowRightCustom),
         ),
         const SizedBox(height: 12),
         AccountOptionCard(
           prefixIcon: AppImages.circleLockAdd,
           orderTitle: context.local.reset_password,
-          onCardClicked: () {
-            _showResetPasswordBottomSheet(context);
-          },
+          onCardClicked: () => _showResetPasswordBottomSheet(context),
           trailing: SvgPicture.asset(AppImages.arrowRightCustom),
         ),
         const SizedBox(height: 12),
-        AccountOptionCard(
-          prefixIcon: AppImages.languageCircle,
-          orderTitle: context.local.language,
-          onCardClicked: () {
-            _showLanguageBottomSheet(context);
+
+        BlocBuilder<LocaleCubit, LocaleState>(
+          builder: (context, localeState) {
+            final localeCubit = context.read<LocaleCubit>();
+
+            return AccountOptionCard(
+              prefixIcon: AppImages.languageCircle,
+              orderTitle: context.local.language,
+              onCardClicked: () => _showLanguageBottomSheet(context),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    localeCubit.getLocaleName(localeState.locale),
+                    style: themeText.labelSmall.copyWith(color: colors.body),
+                  ),
+                  const SizedBox(width: 8),
+                  SvgPicture.asset(AppImages.arrowRightCustom),
+                ],
+              ),
+            );
           },
-          trailing: SvgPicture.asset(AppImages.arrowRightCustom),
         ),
         const SizedBox(height: 12),
         AccountOptionCard(
@@ -261,9 +281,7 @@ class _AccountScreenState extends State<AccountScreen> {
           onCardClicked: () {},
           trailing: Text(
             '1.2',
-            style: themeText.labelSmall.copyWith(
-              color: colors.body,
-            ),
+            style: themeText.labelSmall.copyWith(color: colors.body),
           ),
         ),
         const SizedBox(height: 12),
@@ -275,59 +293,52 @@ class _AccountScreenState extends State<AccountScreen> {
     AccountSettingsBottomSheet.show(
       context: context,
       onSave: () {
-        print('saved..');
+        debugPrint('Account settings saved');
       },
     );
   }
 
   void _showResetPasswordBottomSheet(BuildContext context) {
     ResetPasswordBottomSheet.show(
-      onSave: () {},
+      onSave: () {
+        debugPrint('Password reset');
+      },
       context: context,
     );
   }
-}
 
-void _showLanguageBottomSheet(BuildContext context) {
-  ChangeLanguageBottomSheet.show(
-    context: context,
-    onSave: (String language) {
-      print('Selected language: $language');
-    },
-    selectedLanguage: context.local.english,
-  );
-}
+  void _showLanguageBottomSheet(BuildContext context) {
+    ChangeLanguageBottomSheet.show(context: context);
+  }
 
-void _showLogoutBottomSheet(BuildContext context) {
-  LogoutBottomSheet.show(
-    context: context,
-    onLogout: () {
-      print('Logging out...');
-    },
-  );
-}
-
-void _showDeleteAccountBottomSheet(BuildContext context) {
-  DeleteAccountBottomSheet.show(
-    context: context,
-    onDeleteAccount: () {
-      print('Logging out...');
-    },
-  );
-}
-
-void _showAccountOptionsBottomSheet(BuildContext context) {
-  AccountOptionsBottomSheet.show(
+  void _showLogoutBottomSheet(BuildContext context) {
+    LogoutBottomSheet.show(
+      context: context,
       onLogout: () {
-        _showLogoutBottomSheet(context);
+        debugPrint('Logging out...');
       },
+    );
+  }
+
+  void _showDeleteAccountBottomSheet(BuildContext context) {
+    DeleteAccountBottomSheet.show(
+      context: context,
       onDeleteAccount: () {
-        _showDeleteAccountBottomSheet(context);
+        debugPrint('Deleting account...');
       },
+    );
+  }
+
+  void _showAccountOptionsBottomSheet(BuildContext context) {
+    AccountOptionsBottomSheet.show(
+      onLogout: () => _showLogoutBottomSheet(context),
+      onDeleteAccount: () => _showDeleteAccountBottomSheet(context),
       context: context,
       onDismiss: () {
-        print('Dismissing bottom sheet...');
-      });
+        debugPrint('Dismissing bottom sheet...');
+      },
+    );
+  }
 }
 
 Widget uploadImageCard({
@@ -367,10 +378,7 @@ Widget uploadImageCard({
               children: [
                 CircleAvatar(
                   radius: 68,
-                  backgroundImage: Image.network(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  ).image,
+                  backgroundImage: _getImageProvider(imagePath),
                   backgroundColor: context.theme.colors.surface,
                 ),
                 Positioned(
@@ -382,11 +390,9 @@ Widget uploadImageCard({
                     child: Container(
                       width: 118,
                       height: 32,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         boxShadow: [
-                          const BoxShadow(
-                            color: Color(0x70000000),
-                          ),
+                          BoxShadow(color: Color(0x70000000)),
                         ],
                       ),
                       child: Center(
@@ -412,6 +418,14 @@ Widget uploadImageCard({
   );
 }
 
+ImageProvider _getImageProvider(String imagePath) {
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return NetworkImage(imagePath);
+  } else {
+    return AssetImage(imagePath);
+  }
+}
+
 class AccountCustomCard extends StatelessWidget {
   final Color? cardColor;
   final double borderRadius;
@@ -434,6 +448,7 @@ class AccountCustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(borderRadius),
       child: Container(
         height: 90,
         width: 160,

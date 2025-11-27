@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/design_system/widgets/sellio_chip.dart';
 
 import 'cubit/order_history_cubit.dart';
 import 'cubit/order_history_state.dart';
@@ -22,17 +23,17 @@ class OrderHistoryTabs extends StatelessWidget {
             child: Row(
               children: List.generate(
                 state.tabs.length,
-                (index) {
+                    (index) {
                   final isSelected = state.selectedTabIndex == index;
+
                   return Padding(
                     padding: const EdgeInsets.only(right: 8),
-                    child: ChoiceChip(
-                      label: Text(state.tabs[index]),
+                    child: SellioChip(
+                      label: state.tabs[index],
                       selected: isSelected,
-                      onSelected: (selected) {
-                        if (selected) {
-                          context.read<OrderHistoryCubit>().selectTab(index);
-                        }
+                      assetIcon: null,
+                      onTap: () {
+                        context.read<OrderHistoryCubit>().selectTab(index);
                       },
                     ),
                   );

@@ -31,11 +31,11 @@ class RepositoryModule {
           storageService: sl()),
     );
     //
-    // sl.registerLazySingleton<CategoryRepository>(
-    //       () => CategoryRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<CategoryRepository>(
+          () => CategoryRepositoryImpl(
+        remoteDataSource: sl()
+      ),
+    );
     //
     // sl.registerLazySingleton<CartRepository>(
     //       () => CartRepositoryImpl(
@@ -44,11 +44,11 @@ class RepositoryModule {
     //   ),
     // );
     //
-    // sl.registerLazySingleton<OrderRepository>(
-    //       () => OrderRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<OrderRepository>(
+          () => OrderRepositoryImpl(
+        remoteDataSource: sl()
+      ),
+    );
 
     sl.registerLazySingleton<UserRepository>(
           () => UserRepositoryImpl(

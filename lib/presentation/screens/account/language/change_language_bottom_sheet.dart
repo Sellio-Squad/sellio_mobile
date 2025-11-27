@@ -1,109 +1,117 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/sellio_bottom_sheet.dart';
 
 import '../../../../core/design_system/widgets/buttons/sellio_button.dart';
+import '../../../../core/design_system/widgets/checkbox/sellio_radio_button.dart';
+import '../../../../core/localization/cubit/locale_cubit.dart';
 import '../../../../core/localization/l10n/localization_service.dart';
 
 class ChangeLanguageBottomSheet extends StatefulWidget {
-  final String selectedLanguage;
-  final Function(String) onSave;
-
-  const ChangeLanguageBottomSheet({
-    super.key,
-    required this.onSave,
-    required this.selectedLanguage,
-  });
+  const ChangeLanguageBottomSheet({super.key});
 
   @override
   State<ChangeLanguageBottomSheet> createState() =>
       _ChangeLanguageBottomSheetState();
 
-  static Future<void> show(
-      {required BuildContext context,
-      required ValueChanged<String> onSave,
-      required String selectedLanguage}) {
+  static Future<void> show({required BuildContext context}) {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      child: ChangeLanguageBottomSheet(
-        onSave: onSave,
-        selectedLanguage: selectedLanguage,
+      child: BlocProvider.value(
+        value: context.localeCubit,
+        child: const ChangeLanguageBottomSheet(),
       ),
     );
   }
 }
 
 class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
-  late String currentSelectedLanguage;
+  late Locale currentSelectedLocale;
   bool _isFormValid = false;
 
   @override
   void initState() {
     super.initState();
-    currentSelectedLanguage = widget.selectedLanguage;
+    currentSelectedLocale = context.read<LocaleCubit>().state.locale;
     _updateSaveButtonState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          context.local.change_language,
-          style: context.theme.typography.textTheme.titleMedium,
-        ),
-        const SizedBox(height: 24),
-        RadioGroup<String>(
-          groupValue: currentSelectedLanguage,
-          onChanged: (String? value) {
-            if (value != null) {
-              setState(() {
-                currentSelectedLanguage = value;
-              });
-              _updateSaveButtonState();
-            }
-          },
-          child: Row(
-            children: [
-              Expanded(
-                child: _buildLanguageOption(
-                  language: context.local.english,
-                  context: context,
+    return BlocBuilder<LocaleCubit, LocaleState>(
+      builder: (context, state) {
+        context.read<LocaleCubit>();
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              context.local.change_language,
+              style: context.theme.typography.textTheme.titleMedium,
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildLanguageOption(
+                    locale: const Locale('en'),
+                    languageName: context.local.english,
+                    context: context,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildLanguageOption(
-                  language: context.local.arabic,
-                  context: context,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _buildLanguageOption(
+                    locale: const Locale('ar'),
+                    languageName: context.local.arabic,
+                    context: context,
+                  ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 24),
+
+            SizedBox(
+              width: double.infinity,
+              child: SellioButton(
+                text: context.local.save,
+                onTap: _isFormValid
+                    ? () async {
+                  await _handleSave(context);
+                }
+                    : null,
+                isEnabled: _isFormValid,
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        SizedBox(
-          width: double.infinity,
-          child: SellioButton(
-            text: context.local.save,
-            onTap: _isFormValid
-                ? () {
-                    widget.onSave(currentSelectedLanguage);
-                  }
-                : null,
-            isEnabled: _isFormValid,
-            verticalPadding: 13,
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 
+  Future<void> _handleSave(BuildContext context) async {
+    try {
+      final cubit = context.read<LocaleCubit>();
+      await cubit.changeLocale(currentSelectedLocale);
+
+      if (context.mounted) {
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to change language: $e')),
+        );
+      }
+    }
+  }
+
   void _updateSaveButtonState() {
-    final isValid = currentSelectedLanguage != widget.selectedLanguage;
+    final currentLocale = context.read<LocaleCubit>().state.locale;
+    final isValid = currentSelectedLocale != currentLocale;
 
     if (isValid != _isFormValid) {
       setState(() {
@@ -113,20 +121,22 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
   }
 
   Widget _buildLanguageOption({
-    required String language,
+    required Locale locale,
+    required String languageName,
     required BuildContext context,
   }) {
-    final isSelected = currentSelectedLanguage == language;
+    final isSelected = currentSelectedLocale == locale;
 
     return InkWell(
       onTap: () {
         setState(() {
-          currentSelectedLanguage = language;
+          currentSelectedLocale = locale;
         });
         _updateSaveButtonState();
       },
       borderRadius: BorderRadius.circular(8),
       child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
           color: isSelected
               ? context.theme.colors.primaryVariant
@@ -136,28 +146,24 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Radio<String>(
-              value: language,
-              fillColor:
-                  WidgetStateColor.resolveWith((Set<WidgetState> states) {
-                if (states.contains(WidgetState.selected)) {
-                  return context.theme.colors.surface;
-                }
-                return Colors.transparent;
-              }),
-              backgroundColor:
-                  WidgetStateColor.resolveWith((Set<WidgetState> states) {
-                if (states.contains(WidgetState.selected)) {
-                  return context.theme.colors.primary;
-                }
-                return Colors.transparent;
-              }),
-              innerRadius: const WidgetStatePropertyAll<double>(3),
+            SellioRadioButton(
+              state: isSelected ? RadioState.checked : RadioState.unchecked,
+              onChanged: (RadioState newState) {
+                setState(() {
+                  currentSelectedLocale = locale;
+                });
+                _updateSaveButtonState();
+              },
+              size: 20.0,
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 12),
             Text(
-              language,
-              style: context.theme.typography.textTheme.labelLarge,
+              languageName,
+              style: context.theme.typography.textTheme.labelLarge?.copyWith(
+                color: isSelected
+                    ? context.theme.colors.primary
+                    : context.theme.typography.textTheme.labelLarge?.color,
+              ),
             ),
           ],
         ),

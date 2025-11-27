@@ -1,12 +1,14 @@
 import 'package:sellio_mobile/data/mappers/order_mapper.dart';
 
 import '../../core/error/result.dart';
-import '../../domain/entities/address.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/order_remote_datasource.dart';
-import '../models/order_model.dart';
+import '../models/order_create_item_model.dart';
+import '../models/response/create_order_response.dart';
+
+
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource _remoteDataSource;
@@ -15,33 +17,29 @@ class OrderRepositoryImpl implements OrderRepository {
     required OrderRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;
 
-  @override
-  Future<Result<Order>> createOrder({
-    required String storeId,
-    required List<OrderItem> items,
-    required Address deliveryAddress,
-    String? note,
-  }) async {
-    return RepositoryCallHandler.call<Order>(() async {
-      final orderItems = items
-          .map((item) => OrderItemModel(
-        id: item.id,
-        productId: item.productId,
-        productName: item.productName,
-        productImage: item.productImage,
-        price: item.price,
-        quantity: item.quantity,
-      ))
-          .toList();
 
-      final orderModel = await _remoteDataSource.createOrder(
-        storeId: storeId,
-        items: orderItems,
-        addressId: deliveryAddress.id ?? '',
-        note: note,
+  String? _statusToString(OrderStatus? status) {
+    return status?.name.toUpperCase();
+  }
+
+  @override
+  Future<Result<CreateOrderResponse>> createOrder({
+    required List<OrderItem> items
+  }) async {
+    return RepositoryCallHandler.call<CreateOrderResponse>(() async {
+      final response = await _remoteDataSource.createOrder(
+        items: items
+            .map((item) => OrderCreateItemModel(
+          productItemId: item.id,
+          quantity: item.quantity,
+        ))
+            .toList(),
       );
 
-      return orderModel.toEntity();
+      return CreateOrderResponse(
+        message: response.message,
+        orderIds: response.orderIds,
+      );
     });
   }
 
@@ -53,14 +51,12 @@ class OrderRepositoryImpl implements OrderRepository {
   }) async {
     return RepositoryCallHandler.call<List<Order>>(() async {
       final paginatedResponse = await _remoteDataSource.getOrders(
-        status: status,
+        status: _statusToString(status),
         page: page - 1,
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 

@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../../core/navigate/navigation_extensions.dart';
+import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/store.dart';
-import '../../product_details/product_details_screen.dart';
-import '../../store_details/store_details_screen.dart';
 
 void navigateToStoreDetails(BuildContext context, Store store) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => StoreDetailsScreen(storeId: store.id),
-    ),
-  );
+  context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: store.id));
+
 }
 
 void navigateToProductDetails(BuildContext context, String productId) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-        builder: (context) => ProductDetailsScreen(productId: productId)
-    )
-  );
+  context.navigator.pushProductDetails(ProductDetailsArgs(productId: productId));
 }
 
 void navigateToNotifications(BuildContext context) {

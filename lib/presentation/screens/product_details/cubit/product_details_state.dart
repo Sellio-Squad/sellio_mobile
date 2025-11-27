@@ -3,64 +3,70 @@ import '../../../../../../domain/entities/product.dart';
 
 sealed class ProductDetailsState extends Equatable {
   const ProductDetailsState();
-}
 
-class ProductDetailsInitial extends ProductDetailsState {
-  const ProductDetailsInitial();
   @override
   List<Object?> get props => [];
 }
 
+class ProductDetailsInitial extends ProductDetailsState {
+  const ProductDetailsInitial();
+}
+
 class ProductDetailsLoading extends ProductDetailsState {
   final String productId;
-  final Product? product;
+
+  const ProductDetailsLoading({required this.productId});
+
+  @override
+  List<Object?> get props => [productId];
+}
+
+class ProductDetailsLoaded extends ProductDetailsState {
+  final Product product;
   final int productCount;
   final bool isFavorite;
   final String note;
   final String? cartMessage;
 
-
-  const ProductDetailsLoading({
-    required this.productId,
-    this.product,
-    this.productCount =0,
+  const ProductDetailsLoaded({
+    required this.product,
+    this.productCount = 0,
     this.isFavorite = false,
     this.note = '',
     this.cartMessage,
   });
 
-  ProductDetailsLoading copyWith({
-    String? productId,
+  ProductDetailsLoaded copyWith({
     Product? product,
-    bool? isFavorite,
     int? productCount,
+    bool? isFavorite,
     String? note,
     String? cartMessage,
   }) {
-    return ProductDetailsLoading(
-      productId: productId ?? this.productId,
+    return ProductDetailsLoaded(
       product: product ?? this.product,
-      isFavorite: isFavorite ?? this.isFavorite,
       productCount: productCount ?? this.productCount,
+      isFavorite: isFavorite ?? this.isFavorite,
       note: note ?? this.note,
       cartMessage: cartMessage ?? this.cartMessage,
     );
   }
 
   @override
-  List<Object?> get props => [product, productCount, isFavorite, note , cartMessage];
+  List<Object?> get props => [product, productCount, isFavorite, note, cartMessage];
 }
 
 class ProductDetailsError extends ProductDetailsState {
   final String message;
+
   const ProductDetailsError({required this.message});
+
   @override
   List<Object?> get props => [message];
 }
 
-class ProductDetailsAddToCartSuccess extends ProductDetailsLoading {
+class ProductDetailsAddToCartSuccess extends ProductDetailsLoaded {
   const ProductDetailsAddToCartSuccess({
-    required super.productId,
     required super.product,
     required super.productCount,
     required super.isFavorite,
