@@ -150,6 +150,6 @@ class AppNavigatorImpl implements AppNavigator {
 
   @override
   void goToSearch() {
-    context.go(AppRoutes.search.path);
+    context.pushNamed(AppRoutes.search.name);
   }
 }
