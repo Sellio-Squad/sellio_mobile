@@ -26,6 +26,8 @@ class ApiEndpoints {
   static String userAddress() => '$apiVersion/user/address';
   static String userChangePassword() => '$apiVersion/user/change-password';
 
+  static String userDelete() => '$apiVersion/user/delete';
+
   // Products
   static const String products = '$apiVersion/products';
   static const String productsUsed = '$apiVersion/products/used';
