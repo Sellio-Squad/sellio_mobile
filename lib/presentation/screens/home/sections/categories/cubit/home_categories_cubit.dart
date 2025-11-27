@@ -13,16 +13,20 @@ class HomeCategoriesCubit extends Cubit<HomeCategoriesState> {
 
   Future<void> loadCategories() async {
     emit(const HomeCategoriesLoading());
-    try {
-      final categories = await _categoryRepository.getCategories();
-      final categoriesWithIcons = categories.data.map((category) {
-        final icon = _getCategoryIcon(category.name);
-        return CategoryPresentation(category: category, icon: icon);
-      }).toList();
-      emit(HomeCategoriesLoaded(categories: categoriesWithIcons));
-    } catch (e) {
-      emit(HomeCategoriesError(message: e.toString()));
-    }
+    final result = await _categoryRepository.getCategories();
+    
+    result.fold(
+      onFailure: (failure) {
+        emit(HomeCategoriesError(message: failure.message));
+      },
+      onSuccess: (categories) {
+        final categoriesWithIcons = categories.map((category) {
+          final icon = _getCategoryIcon(category.name);
+          return CategoryPresentation(category: category, icon: icon);
+        }).toList();
+        emit(HomeCategoriesLoaded(categories: categoriesWithIcons));
+      },
+    );
   }
 
   void selectCategory(int index) {

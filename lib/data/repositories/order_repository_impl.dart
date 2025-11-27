@@ -15,32 +15,42 @@ class OrderRepositoryImpl implements OrderRepository {
     required OrderRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;
 
+  List<OrderItemModel> _mapOrderItems(List<OrderItem> items) {
+    return items
+        .map((item) => OrderItemModel(
+      id: item.id,
+      productId: item.productId,
+      quantity: item.quantity,
+      productName: item.productName,
+      price: item.price,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
+    ))
+        .toList();
+  }
+
+  String? _statusToString(OrderStatus? status) {
+    return status?.name.toUpperCase();
+  }
+
   @override
   Future<Result<Order>> createOrder({
     required String storeId,
     required List<OrderItem> items,
     required Address deliveryAddress,
+    required String storeName,
+    String? storeLogoUrl,
     String? note,
   }) async {
     return RepositoryCallHandler.call<Order>(() async {
-      final orderItems = items
-          .map((item) => OrderItemModel(
-        id: item.id,
-        productId: item.productId,
-        productName: item.productName,
-        productImage: item.productImage,
-        price: item.price,
-        quantity: item.quantity,
-      ))
-          .toList();
-
       final orderModel = await _remoteDataSource.createOrder(
         storeId: storeId,
-        items: orderItems,
+        storeName: storeName,
+        storeLogoUrl: storeLogoUrl,
+        items: _mapOrderItems(items),
         addressId: deliveryAddress.id ?? '',
         note: note,
       );
-
       return orderModel.toEntity();
     });
   }
@@ -53,14 +63,12 @@ class OrderRepositoryImpl implements OrderRepository {
   }) async {
     return RepositoryCallHandler.call<List<Order>>(() async {
       final paginatedResponse = await _remoteDataSource.getOrders(
-        status: status,
+        status: _statusToString(status),
         page: page - 1,
         pageSize: limit,
       );
 
-      return paginatedResponse.data
-          .map((model) => model.toEntity())
-          .toList();
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
 
