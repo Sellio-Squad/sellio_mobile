@@ -1,7 +1,7 @@
 import '../../../models/address_model.dart';
 import '../../../models/request/add_address_request.dart';
 import '../../../models/request/change_password_request.dart';
-import '../../../models/requests/reset_password_request.dart';
+import '../../../models/request/reset_password_request.dart';
 import '../../../models/request/update_address_request.dart';
 import '../../../models/request/update_user_profile_request.dart';
 import '../../../models/user_model.dart';

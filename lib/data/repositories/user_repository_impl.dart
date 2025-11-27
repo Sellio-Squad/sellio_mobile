@@ -11,7 +11,7 @@ import '../models/request/add_address_request.dart';
 import '../models/request/change_password_request.dart';
 import '../models/request/reset_password_request.dart';
 import '../models/request/update_address_request.dart';
-import '../models/requests/update_user_profile_request.dart';
+import '../models/request/update_user_profile_request.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource _remoteDataSource;

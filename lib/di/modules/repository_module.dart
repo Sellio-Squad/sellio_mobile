@@ -6,8 +6,10 @@ import '../../../domain/repositories/auth_repository.dart';
 import '../../../domain/repositories/user_repository.dart';
 import '../../data/repositories/category_repository_impl.dart';
 import '../../data/repositories/favorites_repository_impl.dart';
+import '../../data/repositories/order_repository_impl.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../../domain/repositories/favorites_repository.dart';
+import '../../domain/repositories/order_repository.dart';
 
 class RepositoryModule {
   static void register(GetIt sl) {
