@@ -18,6 +18,7 @@
   "account_deleted_successfully": "تم حذف حسابك بنجاح",
   "this_action_cannot_be_undone": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف جميع بياناتك بشكل دائم.",
   "deleting_account": "جارٍ حذف الحساب...",
+  "retry": "إعادة المحاولة",
   "not_registered": "أنت لست مستخدمًا مسجلاً",
   "login_to_access_your_account": "يرجى تسجيل الدخول للوصول إلى تفاصيل حسابك والميزات الأخرى!",
   "create_account": "انشاء حساب",
