@@ -5,7 +5,6 @@ import '../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../core/design_system/widgets/sellio_app_bar.dart';
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../core/utils/price_calculator.dart';
-import '../../../data/models/requests/order_request_model.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 import 'constants/cart_constants.dart';
@@ -166,20 +165,6 @@ class _CartScreenState extends State<CartScreen> {
     final cart = context.read<CartCubit>().state.cart;
     if (cart == null || cart.items.isEmpty) return;
 
-    final orderRequest = OrderRequestModel(
-      items: cart.items
-          .map((item) => OrderItemModel(
-        productId: item.productId,
-        quantity: item.quantity,
-      ))
-          .toList(),
-      note: _noteController.text.trim().isNotEmpty
-          ? _noteController.text.trim()
-          : null,
-    );
-
-    // TODO: Send orderRequest.toJson() to backend
-    print('Order Request: ${orderRequest.toJson()}');
 
     OrderConfirmationDialog.show(context, '#2002124');
 
