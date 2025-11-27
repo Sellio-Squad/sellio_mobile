@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import '../cubits/form/create_account_form_cubit.dart';
 
 import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
-import '../../country.dart';
+import 'package:sellio_mobile/domain/services/country_service.dart';
+import 'package:sellio_mobile/di/injection_container.dart';
 import '../cubits/form/create_account_form_cubit.dart';
 import '../cubits/form/create_account_form_state.dart';
 import 'profile_picture_builder.dart';
@@ -67,57 +69,70 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
           .updateConfirmPassword(confirmPasswordController.text);
     });
 
-    phoneFocusNode.addListener(() => _onFocusChange('phone'));
-    nameFocusNode.addListener(() => _onFocusChange('name'));
-    countryFocusNode.addListener(() => _onFocusChange('country'));
-    cityFocusNode.addListener(() => _onFocusChange('city'));
-    passwordFocusNode.addListener(() => _onFocusChange('password'));
+    phoneFocusNode.addListener(() => _onFocusChange(CreateAccountFieldType.phone));
+    nameFocusNode.addListener(() => _onFocusChange(CreateAccountFieldType.name));
+    countryFocusNode.addListener(() => _onFocusChange(CreateAccountFieldType.country));
+    cityFocusNode.addListener(() => _onFocusChange(CreateAccountFieldType.city));
+    passwordFocusNode.addListener(() => _onFocusChange(CreateAccountFieldType.password));
     confirmPasswordFocusNode
-        .addListener(() => _onFocusChange('confirmPassword'));
+        .addListener(() => _onFocusChange(CreateAccountFieldType.confirmPassword));
   }
 
-  void _onFocusChange(String fieldType) {
+  void _onFocusChange(CreateAccountFieldType fieldType) {
     switch (fieldType) {
-      case 'phone':
+      case CreateAccountFieldType.phone:
         if (!phoneFocusNode.hasFocus && phoneController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('phone', phoneController.text);
+          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+                CreateAccountFieldType.phone,
+                phoneController.text,
+                context.local,
+              );
         }
         break;
-      case 'name':
+      case CreateAccountFieldType.name:
         if (!nameFocusNode.hasFocus && nameController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('name', nameController.text);
+          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+                CreateAccountFieldType.name,
+                nameController.text,
+                context.local,
+              );
         }
         break;
-      case 'country':
+      case CreateAccountFieldType.country:
         if (!countryFocusNode.hasFocus && countryController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('country', countryController.text);
+          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+                CreateAccountFieldType.country,
+                countryController.text,
+                context.local,
+              );
         }
         break;
-      case 'city':
+      case CreateAccountFieldType.city:
         if (!cityFocusNode.hasFocus && cityController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('city', cityController.text);
+          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+                CreateAccountFieldType.city,
+                cityController.text,
+                context.local,
+              );
         }
         break;
-      case 'password':
+      case CreateAccountFieldType.password:
         if (!passwordFocusNode.hasFocus && passwordController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('password', passwordController.text);
+          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+                CreateAccountFieldType.password,
+                passwordController.text,
+                context.local,
+              );
         }
         break;
-      case 'confirmPassword':
+      case CreateAccountFieldType.confirmPassword:
         if (!confirmPasswordFocusNode.hasFocus &&
             confirmPasswordController.text.isNotEmpty) {
           context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-              'confirmPassword', confirmPasswordController.text);
+                CreateAccountFieldType.confirmPassword,
+                confirmPasswordController.text,
+                context.local,
+              );
         }
         break;
     }
@@ -177,7 +192,7 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
                 ],
                 controller: phoneController,
                 selectedCountry: state.selectedCountry,
-                countries: mockCountries,
+                countries: sl<CountryService>().getAvailableCountries(),
                 onChangeCountry: (c) => context
                     .read<CreateAccountFormCubit>()
                     .updateSelectedCountry(c),

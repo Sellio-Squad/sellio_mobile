@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../cubits/form/create_account_form_cubit.dart';
 
 // Form submission handler
 void handleCreateAccountSubmit(BuildContext context) {
-  context.read<CreateAccountFormCubit>().submitForm();
+  context.read<CreateAccountFormCubit>().submitForm(context.local);
 }
 
 void navigateToLogin(BuildContext context) {

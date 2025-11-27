@@ -35,7 +35,7 @@ class CreateAccountButtonBuilder extends StatelessWidget {
               ? context.theme.colors.primary
               : context.theme.colors.disabled,
           onTap: () {
-            context.read<CreateAccountFormCubit>().submitForm();
+            context.read<CreateAccountFormCubit>().submitForm(context.local);
           },
         );
       },
