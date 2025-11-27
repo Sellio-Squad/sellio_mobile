@@ -10,7 +10,6 @@ class CartConstants {
   static const double confirmationIconSize = 112.0;
   static const double confirmationIconPadding = 24.0;
   static const double bottomSheetRadius = 24.0;
-
   static const int maxNoteLines = 5;
   static const int minQuantity = 1;
 }

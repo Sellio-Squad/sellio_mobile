@@ -47,6 +47,7 @@ class CartBottomBar extends StatelessWidget {
           _buildPriceRow(context, textTheme, colors),
           const Gap(12),
           _buildConfirmButton(context, colors),
+          const Gap(24),
         ],
       ),
     );
