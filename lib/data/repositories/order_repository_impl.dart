@@ -1,12 +1,14 @@
 import 'package:sellio_mobile/data/mappers/order_mapper.dart';
 
 import '../../core/error/result.dart';
-import '../../domain/entities/address.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/order_remote_datasource.dart';
-import '../models/order_model.dart';
+import '../models/order_create_item_model.dart';
+import '../models/response/create_order_response.dart';
+
+
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource _remoteDataSource;
@@ -15,43 +17,29 @@ class OrderRepositoryImpl implements OrderRepository {
     required OrderRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;
 
-  List<OrderItemModel> _mapOrderItems(List<OrderItem> items) {
-    return items
-        .map((item) => OrderItemModel(
-      id: item.id,
-      productId: item.productId,
-      quantity: item.quantity,
-      productName: item.productName,
-      price: item.price,
-      createdAt: item.createdAt,
-      updatedAt: item.updatedAt,
-    ))
-        .toList();
-  }
 
   String? _statusToString(OrderStatus? status) {
     return status?.name.toUpperCase();
   }
 
   @override
-  Future<Result<Order>> createOrder({
-    required String storeId,
-    required List<OrderItem> items,
-    required Address deliveryAddress,
-    required String storeName,
-    String? storeLogoUrl,
-    String? note,
+  Future<Result<CreateOrderResponse>> createOrder({
+    required List<OrderItem> items
   }) async {
-    return RepositoryCallHandler.call<Order>(() async {
-      final orderModel = await _remoteDataSource.createOrder(
-        storeId: storeId,
-        storeName: storeName,
-        storeLogoUrl: storeLogoUrl,
-        items: _mapOrderItems(items),
-        addressId: deliveryAddress.id ?? '',
-        note: note,
+    return RepositoryCallHandler.call<CreateOrderResponse>(() async {
+      final response = await _remoteDataSource.createOrder(
+        items: items
+            .map((item) => OrderCreateItemModel(
+          productItemId: item.id,
+          quantity: item.quantity,
+        ))
+            .toList(),
       );
-      return orderModel.toEntity();
+
+      return CreateOrderResponse(
+        message: response.message,
+        orderIds: response.orderIds,
+      );
     });
   }
 
