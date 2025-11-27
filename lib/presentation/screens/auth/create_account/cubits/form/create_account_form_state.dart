@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
-import '../../../country.dart';
+import '../../../../../../domain/entities/country.dart';
 
 sealed class CreateAccountFormState extends Equatable {
   const CreateAccountFormState();

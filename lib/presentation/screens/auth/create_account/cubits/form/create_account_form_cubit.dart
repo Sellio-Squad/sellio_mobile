@@ -1,14 +1,41 @@
 import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/app_localizations.dart';
+import 'package:sellio_mobile/core/validation/auth_validators.dart';
+import 'package:sellio_mobile/domain/entities/country.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/domain/services/country_service.dart';
 
-import '../../../country.dart';
 import 'create_account_form_state.dart';
 
+enum CreateAccountFieldType {
+  phone,
+  name,
+  country,
+  city,
+  password,
+  confirmPassword,
+}
+
 class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
-  CreateAccountFormCubit() : super(CreateAccountFormInitial()) {
-    final defaultCountry = mockCountries.firstWhere((c) => c.code == '+964');
-    emit(CreateAccountFormChanged(selectedCountry: defaultCountry));
+  final AuthRepository _authRepository;
+  final CountryService _countryService;
+
+  CreateAccountFormCubit({
+    required AuthRepository authRepository,
+    required CountryService countryService,
+  })  : _authRepository = authRepository,
+        _countryService = countryService,
+        super(const CreateAccountFormInitial()) {
+    _initializeDefaultCountry();
+  }
+
+  void _initializeDefaultCountry() {
+    final defaultCountry = _countryService.getDefaultCountry();
+    if (defaultCountry != null) {
+      emit(CreateAccountFormChanged(selectedCountry: defaultCountry));
+    }
   }
 
   void updatePhoneNumber(String phoneNumber) {
@@ -96,30 +123,38 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
     }
   }
 
-  void validateFieldOnFocusChange(String fieldType, String value) {
+  void validateFieldOnFocusChange(
+    CreateAccountFieldType fieldType,
+    String value,
+    AppLocalizations localizations,
+  ) {
     if (value.isEmpty) return;
     if (state is! CreateAccountFormChanged) return;
 
     String? error;
     switch (fieldType) {
-      case 'phone':
-        error = _validatePhoneNumber(value);
+      case CreateAccountFieldType.phone:
+        error = AuthValidators.validatePhone(value, localizations);
         break;
-      case 'name':
-        error = _validateFullName(value);
+      case CreateAccountFieldType.name:
+        error = AuthValidators.validateFullName(value, localizations);
         break;
-      case 'country':
-        error = _validateCountry(value);
+      case CreateAccountFieldType.country:
+        error = AuthValidators.validateCountry(value, localizations);
         break;
-      case 'city':
-        error = _validateCity(value);
+      case CreateAccountFieldType.city:
+        error = AuthValidators.validateCity(value, localizations);
         break;
-      case 'password':
-        error = _validatePassword(value);
+      case CreateAccountFieldType.password:
+        error = AuthValidators.validatePassword(value, localizations);
         break;
-      case 'confirmPassword':
+      case CreateAccountFieldType.confirmPassword:
         final currentState = state as CreateAccountFormChanged;
-        error = _validateConfirmPassword(currentState.password, value);
+        error = AuthValidators.validateConfirmPassword(
+          currentState.password,
+          value,
+          localizations,
+        );
         break;
     }
 
@@ -136,67 +171,95 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
     }
   }
 
-  Future<void> submitForm() async {
+  Future<void> submitForm(AppLocalizations localizations) async {
     if (state is! CreateAccountFormChanged) return;
     final currentState = state as CreateAccountFormChanged;
-    if (!_validateAllFieldsForSubmission(currentState)) {
+
+    final validationError = _validateAllFieldsForSubmission(
+      currentState,
+      localizations,
+    );
+    if (validationError != null) {
+      emit(currentState.copyWith(currentFieldError: validationError));
       return;
     }
 
     emit(currentState.copyWith(isLoading: true));
 
     try {
-      await Future.delayed(const Duration(seconds: 2));
+      final result = await _authRepository.register(
+        fullName: currentState.fullName,
+        phoneNumber: currentState.phoneNumber,
+        countryCode: currentState.selectedCountry.code,
+        password: currentState.password,
+        country: currentState.country,
+        city: currentState.city,
+        profilePhotoUrl: null, // TODO: Handle image upload
+      );
 
-      final phoneNumber =
-          '${currentState.selectedCountry.code}${currentState.phoneNumber}';
-      emit(CreateAccountFormSuccess(phoneNumber: phoneNumber));
+      result.fold(
+        onSuccess: (user) {
+          final phoneNumber =
+              '${currentState.selectedCountry.code}${currentState.phoneNumber}';
+          emit(CreateAccountFormSuccess(phoneNumber: phoneNumber));
+        },
+        onFailure: (error) {
+          emit(CreateAccountFormError(
+            message: error.message,
+          ));
+          emit(currentState.copyWith(isLoading: false));
+        },
+      );
     } catch (e) {
       emit(CreateAccountFormError(
-          message: 'Failed to create account. Please try again.'));
+        message: localizations.failed_to_create_account,
+      ));
       emit(currentState.copyWith(isLoading: false));
     }
   }
 
-  bool _validateAllFieldsForSubmission(CreateAccountFormChanged state) {
-    final phoneError = _validatePhoneNumber(state.phoneNumber);
-    if (phoneError != null) {
-      emit(state.copyWith(currentFieldError: phoneError));
-      return false;
-    }
+  String? _validateAllFieldsForSubmission(
+    CreateAccountFormChanged state,
+    AppLocalizations localizations,
+  ) {
+    final phoneError = AuthValidators.validatePhone(
+      state.phoneNumber,
+      localizations,
+    );
+    if (phoneError != null) return phoneError;
 
-    final nameError = _validateFullName(state.fullName);
-    if (nameError != null) {
-      emit(state.copyWith(currentFieldError: nameError));
-      return false;
-    }
+    final nameError = AuthValidators.validateFullName(
+      state.fullName,
+      localizations,
+    );
+    if (nameError != null) return nameError;
 
-    final countryError = _validateCountry(state.country);
-    if (countryError != null) {
-      emit(state.copyWith(currentFieldError: countryError));
-      return false;
-    }
+    final countryError = AuthValidators.validateCountry(
+      state.country,
+      localizations,
+    );
+    if (countryError != null) return countryError;
 
-    final cityError = _validateCity(state.city);
-    if (cityError != null) {
-      emit(state.copyWith(currentFieldError: cityError));
-      return false;
-    }
+    final cityError = AuthValidators.validateCity(
+      state.city,
+      localizations,
+    );
+    if (cityError != null) return cityError;
 
-    final passwordError = _validatePassword(state.password);
-    if (passwordError != null) {
-      // Update the form state to include the current field error
-      emit(state.copyWith(currentFieldError: passwordError));
-      return false;
-    }
+    final passwordError = AuthValidators.validatePassword(
+      state.password,
+      localizations,
+    );
+    if (passwordError != null) return passwordError;
 
-    final confirmPasswordError =
-        _validateConfirmPassword(state.password, state.confirmPassword);
-    if (confirmPasswordError != null) {
-      emit(state.copyWith(currentFieldError: confirmPasswordError));
-      return false;
-    }
-    return true;
+    final confirmPasswordError = AuthValidators.validateConfirmPassword(
+      state.password,
+      state.confirmPassword,
+      localizations,
+    );
+    if (confirmPasswordError != null) return confirmPasswordError;
+
+    return null;
   }
 
   CreateAccountFormChanged _updateFormValidation(
@@ -218,50 +281,5 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
         state.city.length >= 2 &&
         state.password.length >= 6 &&
         state.password == state.confirmPassword;
-  }
-
-  String? _validatePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length < 10) {
-      return 'Phone number must be at least 10 digits';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(phoneNumber)) {
-      return 'Phone number must contain only digits';
-    }
-    return null;
-  }
-
-  String? _validateFullName(String fullName) {
-    if (fullName.length < 2) return 'Full name must be at least 2 characters';
-    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(fullName)) {
-      return 'Full name must contain only letters and spaces';
-    }
-    return null;
-  }
-
-  String? _validateCountry(String country) {
-    if (country.length < 2) return 'Country must be at least 2 characters';
-    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(country)) {
-      return 'Country must contain only letters and spaces';
-    }
-    return null;
-  }
-
-  String? _validateCity(String city) {
-    if (city.length < 2) return 'City must be at least 2 characters';
-    if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(city)) {
-      return 'City must contain only letters and spaces';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String password) {
-    if (password.length < 6) return 'Password must be at least 6 characters';
-    if (password.length > 20) return 'Password must be less than 20 characters';
-    return null;
-  }
-
-  String? _validateConfirmPassword(String password, String confirmPassword) {
-    if (password != confirmPassword) return 'Passwords do not match';
-    return null;
   }
 }
