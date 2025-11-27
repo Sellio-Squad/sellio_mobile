@@ -6,6 +6,7 @@ import '../../../core/network/network_info.dart';
 import '../../../data/core/api/api_client.dart';
 import '../../../data/core/api/api_endpoints.dart';
 import '../../../data/core/api/dio_client.dart';
+import '../../../domain/services/country_service.dart';
 
 class CoreModule {
   static Future<void> register(GetIt sl) async {
@@ -28,6 +29,10 @@ class CoreModule {
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),
+    );
+
+    sl.registerLazySingleton<CountryService>(
+          () => CountryServiceImpl(),
     );
   }
 }
