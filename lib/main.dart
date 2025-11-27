@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'core/design_system/themes/sellio_theme_provider.dart';
 import 'core/localization/cubit/locale_cubit.dart';
 import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
+import 'domain/repositories/auth_repository.dart'; // Add this import
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider(create: (_) => sl<AuthRepository>()),
+        // Add this line
         RepositoryProvider(create: (_) => sl<ProductRepository>()),
         RepositoryProvider(create: (_) => sl<CategoryRepository>()),
         RepositoryProvider(create: (_) => sl<StoreRepository>()),

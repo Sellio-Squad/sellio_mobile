@@ -16,6 +16,7 @@ class ApiEndpoints {
   static const String verifyOtp = '$apiVersion/auth/create/verify-otp';
   static const String createUser = '$apiVersion/auth/create';
   static const String refreshToken = '$apiVersion/auth/refresh-token';
+  static const String logout = '$apiVersion/auth/logout';
 
   // User
   static const String userInsert = '$apiVersion/user/insert';
@@ -24,6 +25,8 @@ class ApiEndpoints {
   static String userAvatar() => '$apiVersion/user/avatar';
   static String userAddress() => '$apiVersion/user/address';
   static String userChangePassword() => '$apiVersion/user/change-password';
+
+  static String userDelete() => '$apiVersion/user/delete';
 
   // Products
   static const String products = '$apiVersion/products';

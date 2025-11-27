@@ -26,6 +26,8 @@ abstract class UserRepository {
     required String confirmPassword,
   });
 
+  Future<Result<void>> deleteAccount();
+
   Future<Result<Address>> getUserAddress();
 
   Future<Result<Address>> addAddress({
