@@ -8,7 +8,9 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../../../core/design_system/constants/app_images.dart';
 import '../../../../core/design_system/widgets/sellio_bottom_sheet.dart';
-import '../../../../presentation/screens/auth/country.dart';
+import '../../../../domain/entities/country.dart';
+import '../../../../domain/services/country_service.dart';
+import '../../../../di/injection_container.dart';
 
 class AccountSettingsBottomSheet extends StatefulWidget {
   final VoidCallback? onSave;
@@ -33,14 +35,16 @@ class AccountSettingsBottomSheet extends StatefulWidget {
 class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet> {
   final phoneController = TextEditingController();
   final nameController = TextEditingController();
-  final List<Country> _countries = mockCountries;
+  late final List<Country> _countries;
   late Country _selectedCountry;
   bool _isFormValid = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedCountry = _countries.firstWhere((c) => c.code == '+964');
+    final countryService = sl<CountryService>();
+    _countries = countryService.getAvailableCountries();
+    _selectedCountry = countryService.getDefaultCountry() ?? _countries.first;
     phoneController.addListener(_validateForm);
     nameController.addListener(_validateForm);
   }
