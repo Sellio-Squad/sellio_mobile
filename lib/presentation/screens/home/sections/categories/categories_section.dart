@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'category_tabs_shimmer.dart';
 import 'cubit/home_categories_cubit.dart';
 import 'cubit/home_categories_state.dart';
 import 'widgets/category_tabs.dart';
@@ -30,10 +31,10 @@ class CategoriesSection extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is HomeCategoriesLoading) {
-          return const SliverToBoxAdapter(
+          return SliverToBoxAdapter(
             child: SizedBox(
               height: 40,
-              child: Center(child: CircularProgressIndicator()),
+              child: Center(child: CategoryTabsShimmer()),
             ),
           );
         }

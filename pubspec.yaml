@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   flutter_localizations:
     sdk: flutter
 
@@ -20,6 +19,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   flutter_gap: ^1.0.2
   intl: ^0.20.0
+  shimmer: ^3.0.0
 
   # Networking
   dio: ^5.7.0
