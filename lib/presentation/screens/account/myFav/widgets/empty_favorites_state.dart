@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../../core/design_system/constants/app_images.dart';
-import '../../../../../core/design_system/themes/sellio_colors.dart';
+import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 
 class EmptyFavoritesWidget extends StatelessWidget {
   const EmptyFavoritesWidget({super.key});
@@ -18,7 +20,7 @@ class EmptyFavoritesWidget extends StatelessWidget {
             width: 112,
             height: 112,
             decoration: BoxDecoration(
-              color: SellioColors.light.primaryVariant,
+              color: context.theme.colors.primaryVariant,
               borderRadius: BorderRadius.circular(1000),
             ),
             child: Center(
@@ -26,11 +28,16 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 AppImages.heartRemove,
                 width: 64,
                 height: 64,
+                colorFilter: ColorFilter.mode(
+                  context.theme.colors.primary,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
+          const SizedBox(height: 24),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,59 +45,41 @@ class EmptyFavoritesWidget extends StatelessWidget {
                 Text(
                   context.local.no_favourite_items,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'Rubik',
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    height: 1.5,
-                    color: Color(0xE01F1F1F),
+                  style: context.theme.typography.textTheme.titleSmall.copyWith(
+                    color: context.theme.colors.title,
                   ),
                 ),
-                const SizedBox(height: 4),
-                SizedBox(
-                  width: 320,
-                  child: Text(
-                    context.local.start_exploring_and_saving_your_favorite_items_here,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: 'Rubik',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      height: 1.57,
-                      color: Color.fromARGB(255, 117, 117, 117),
-                    ),
+                const SizedBox(height: 8),
+                Text(
+                  context.local
+                      .start_exploring_and_saving_your_favorite_items_here,
+                  textAlign: TextAlign.center,
+                  style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                    color: context.theme.colors.body,
                   ),
                 ),
-
               ],
             ),
           ),
-
-          const SizedBox(height: 12),
+          const SizedBox(height: 24),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: SellioColors.light.primary,
+              backgroundColor: context.theme.colors.primary,
               padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 24,
+                vertical: 12,
+                horizontal: 32,
               ),
-              fixedSize: const Size(180, 55),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
-              shadowColor: Colors.black.withOpacity(0.1),
-              elevation: 4,
             ),
             onPressed: () {
+              context.go('/home');
             },
             child: Text(
               context.local.start_exploring,
-              style: const TextStyle(
-                fontFamily: 'Rubik',
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                height: 1.57,
-                color: Colors.white,
+              style: context.theme.typography.textTheme.labelMedium.copyWith(
+                color: context.theme.colors.onPrimary,
               ),
             ),
           ),
