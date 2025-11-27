@@ -1,7 +1,7 @@
 import '../../core/api/api_client.dart';
 import '../../core/api/api_endpoints.dart';
 import '../../models/common/paginated_response.dart';
-import '../../models/order_create_Item_model.dart';
+import '../../models/order_create_item_model.dart';
 import '../../models/order_model.dart';
 import '../../models/response/order_confirmation_response.dart';
 
