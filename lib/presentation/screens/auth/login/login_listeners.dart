@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/constants/auth_constants.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
 import '../../../../core/design_system/widgets/sellio_snack_bar.dart';
@@ -36,14 +38,13 @@ class LoginListeners extends StatelessWidget {
   }
 
   void _handleSuccess(BuildContext context, LoginFormSuccess state) {
-    _showSuccessSnackBar(context, 'Login successful!');
+    _showSuccessSnackBar(context, context.local.login_successful);
 
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    Future.delayed(AuthConstants.navigationDelay, () {
       if (context.mounted) {
         context.navigator.goToHome();
       }
-    }
-    );
+    });
   }
 
   void _handleGeneralError(BuildContext context, String message) {
@@ -54,12 +55,11 @@ class LoginListeners extends StatelessWidget {
       LoginFormChanged state) {
     _showErrorSnackBar(context, state.currentFieldError!);
 
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(AuthConstants.errorClearDelay, () {
       if (context.mounted) {
         context.read<LoginFormCubit>().clearCurrentFieldError();
       }
-    }
-    );
+    });
   }
 
   void _showErrorSnackBar(BuildContext context, String message) {
@@ -95,7 +95,7 @@ class LoginListeners extends StatelessWidget {
 
     overlay.insert(overlayEntry);
 
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(AuthConstants.snackBarDisplayDuration, () {
       if (overlayEntry.mounted) {
         overlayEntry.remove();
       }
@@ -135,11 +135,10 @@ class LoginListeners extends StatelessWidget {
 
     overlay.insert(overlayEntry);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(AuthConstants.successSnackBarDisplayDuration, () {
       if (overlayEntry.mounted) {
         overlayEntry.remove();
       }
-    }
-    );
+    });
   }
 }

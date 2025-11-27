@@ -29,7 +29,7 @@ class LoginFooter extends StatelessWidget {
             SellioButton(
               text: context.local.login,
               onTap: state.isFormValid && !state.isLoading
-                  ? () => context.read<LoginFormCubit>().submitForm()
+                  ? () => context.read<LoginFormCubit>().submitForm(context.local)
                   : null,
               textColor: state.isFormValid ? colors.onPrimary : colors.hint,
               backgroundColor:

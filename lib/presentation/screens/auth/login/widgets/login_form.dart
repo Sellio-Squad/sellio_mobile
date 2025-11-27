@@ -10,7 +10,9 @@ import '../../../../../core/design_system/constants/app_images.dart';
 import '../../../../../core/design_system/themes/sellio_theme_provider.dart';
 import '../../../../../core/design_system/widgets/buttons/sellio_button.dart';
 import '../../../../../core/design_system/widgets/sellio_text_field.dart';
-import '../../country.dart';
+import 'package:sellio_mobile/domain/services/country_service.dart';
+import 'package:sellio_mobile/di/injection_container.dart';
+
 import '../cubits/form/login_form_cubit.dart';
 import '../cubits/form/login_form_state.dart';
 
@@ -27,21 +29,25 @@ class _LoginFormState extends State<LoginForm> {
   final _phoneFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  void _onFocusChange(String fieldType) {
+  void _onFocusChange(AuthFieldType fieldType) {
     switch (fieldType) {
-      case 'phone':
+      case AuthFieldType.phone:
         if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-          context
-              .read<LoginFormCubit>()
-              .validateFieldOnFocusChange('phone', _phoneController.text);
+          context.read<LoginFormCubit>().validateFieldOnFocusChange(
+                AuthFieldType.phone,
+                _phoneController.text,
+                context.local,
+              );
         }
         break;
-      case 'password':
+      case AuthFieldType.password:
         if (!_passwordFocusNode.hasFocus &&
             _passwordController.text.isNotEmpty) {
-          context
-              .read<LoginFormCubit>()
-              .validateFieldOnFocusChange('password', _passwordController.text);
+          context.read<LoginFormCubit>().validateFieldOnFocusChange(
+                AuthFieldType.password,
+                _passwordController.text,
+                context.local,
+              );
         }
         break;
     }
@@ -58,8 +64,8 @@ class _LoginFormState extends State<LoginForm> {
       context.read<LoginFormCubit>().updatePassword(_passwordController.text);
     });
 
-    _phoneFocusNode.addListener(() => _onFocusChange('phone'));
-    _passwordFocusNode.addListener(() => _onFocusChange('password'));
+    _phoneFocusNode.addListener(() => _onFocusChange(AuthFieldType.phone));
+    _passwordFocusNode.addListener(() => _onFocusChange(AuthFieldType.password));
   }
 
   @override
@@ -107,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
                   LengthLimitingTextInputFormatter(11),
                 ],
                 selectedCountry: state.selectedCountry,
-                countries: mockCountries,
+                countries: sl<CountryService>().getAvailableCountries(),
                 onChangeCountry: (country) {
                   context.read<LoginFormCubit>().updateSelectedCountry(country);
                 },
@@ -120,7 +126,7 @@ class _LoginFormState extends State<LoginForm> {
               focusNode: _passwordFocusNode,
               child: SellioTextField(
                 controller: _passwordController,
-                hintText: 'Password',
+                hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
                 prefixIcon: SvgPicture.asset(
                   AppImages.password,
@@ -137,7 +143,7 @@ class _LoginFormState extends State<LoginForm> {
             Align(
               alignment: Alignment.centerRight,
               child: SellioButton(
-                text: 'Forget Password?',
+                text: context.local.forget_password,
                 textColor: colors.primary,
                 backgroundColor: Colors.transparent,
                 fullWidth: false,
