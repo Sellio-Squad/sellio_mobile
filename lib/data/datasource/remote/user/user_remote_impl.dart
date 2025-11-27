@@ -49,6 +49,11 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   }
 
   @override
+  Future<void> deleteAccount() async {
+    await _httpClient.delete(ApiEndpoints.userDelete());
+  }
+
+  @override
   Future<AddressModel> getUserAddress() async {
     final response = await _httpClient.get(ApiEndpoints.userAddress());
     return AddressModel.fromJson(response.data);

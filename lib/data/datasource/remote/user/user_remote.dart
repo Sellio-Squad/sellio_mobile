@@ -15,6 +15,8 @@ abstract class UserRemoteDataSource {
 
   Future<void> resetPassword(ResetPasswordRequest request);
 
+  Future<void> deleteAccount();
+
   Future<AddressModel> getUserAddress();
 
   Future<AddressModel> addAddress(AddAddressRequest request);
