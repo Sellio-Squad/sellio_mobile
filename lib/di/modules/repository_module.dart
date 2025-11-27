@@ -45,11 +45,11 @@ class RepositoryModule {
     //   ),
     // );
     //
-    // sl.registerLazySingleton<OrderRepository>(
-    //       () => OrderRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
+    sl.registerLazySingleton<OrderRepository>(
+          () => OrderRepositoryImpl(
+        remoteDataSource: sl()
+      ),
+    );
 
     sl.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(remoteDataSource: sl()),

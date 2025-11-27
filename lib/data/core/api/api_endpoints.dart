@@ -72,6 +72,7 @@ class ApiEndpoints {
 
   // Orders
   static const String orders = '$apiVersion/orders';
+  static const String orderConfirm = '$apiVersion/orders/confirm';
   static const String ordersHistory = '$apiVersion/orders/history';
   static String orderById(String orderId) => '$apiVersion/orders/$orderId';
   static String orderCancel(String orderId) => '$apiVersion/orders/$orderId/cancel';

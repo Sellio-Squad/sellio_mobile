@@ -3,10 +3,10 @@ import 'package:sellio_mobile/data/datasource/remote/user/user_remote.dart';
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../models/address_model.dart';
-import '../../../models/requests/add_address_request.dart';
-import '../../../models/requests/change_password_request.dart';
-import '../../../models/requests/reset_password_request.dart'; // Add this
-import '../../../models/requests/update_address_request.dart';
+import '../../../models/request/add_address_request.dart';
+import '../../../models/request/change_password_request.dart';
+import '../../../models/request/reset_password_request.dart'; // Add this
+import '../../../models/request/update_address_request.dart';
 import '../../../models/requests/update_user_profile_request.dart';
 import '../../../models/user_model.dart';
 
