@@ -1,16 +1,13 @@
 import '../../core/api/api_endpoints.dart';
 import '../../core/api/api_client.dart';
 import '../../models/common/paginated_response.dart';
+import '../../models/order_create_Item_model.dart';
 import '../../models/order_model.dart';
+import '../../models/response/order_confirmation_response.dart';
 
 abstract class OrderRemoteDataSource {
-  Future<OrderModel> createOrder({
-    required String storeId,
-    required String storeName,
-    String? storeLogoUrl,
-    required List<OrderItemModel> items,
-    required String addressId,
-    String? note,
+  Future<OrderConfirmationResponse> createOrder({
+    required List<OrderCreateItemModel> items,
   });
 
   Future<PaginatedResponse<OrderModel>> getOrders({
@@ -31,27 +28,17 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   OrderRemoteDataSourceImpl(this._httpClient);
 
   @override
-  Future<OrderModel> createOrder({
-    required String storeId,
-    required String storeName,
-    String? storeLogoUrl,
-    required List<OrderItemModel> items,
-    required String addressId,
-    String? note,
+  Future<OrderConfirmationResponse> createOrder({
+    required List<OrderCreateItemModel> items,
   }) async {
     final response = await _httpClient.post(
-      ApiEndpoints.orders,
+      ApiEndpoints.orderConfirm,
       data: {
-        'storeId': storeId,
-        'storeName': storeName,
-        if (storeLogoUrl != null) 'storeLogoUrl': storeLogoUrl,
-        'items': items.map((i) => i.toJson()).toList(),
-        'addressId': addressId,
-        if (note != null) 'note': note,
+        'items': items
       },
     );
 
-    return OrderModel.fromJson(response.data);
+    return OrderConfirmationResponse.fromJson(response.data);
   }
 
   @override
@@ -88,5 +75,4 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
     final response = await _httpClient.put(ApiEndpoints.orderCancel(orderId));
     return OrderModel.fromJson(response.data);
   }
-
 }
