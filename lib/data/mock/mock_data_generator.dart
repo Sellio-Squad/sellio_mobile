@@ -98,7 +98,7 @@ class MockDataGenerator {
     final int? discountValue = index % 3 == 0 ? 10 + _random.nextInt(40) : null;
 
     return Product(
-      id: 'product_$index',
+      id: '0c507375-ca24-40b1-9364-91f2f9c4e0a7',
       name: productNames[index % productNames.length],
       description: descriptions[index % descriptions.length],
       price: 19.99 + (_random.nextDouble() * 500),
@@ -280,31 +280,6 @@ class MockDataGenerator {
 
   static double _calculateTotal({required List<OrderItem> items}) {
     return items.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
-  }
-
-  // Cart Mock Data
-  static Cart generateCart({int itemCount = 3}) {
-    return Cart(
-      id: 'cart_0',
-      userId: 'user_0',
-      items: List.generate(itemCount, (i) => generateCartItem(index: i)),
-      totalPrice: 0, // Will be calculated
-    );
-  }
-
-  static CartItem generateCartItem({int index = 0}) {
-    final product = generateProduct(index: index);
-    final quantity = 1 + _random.nextInt(3);
-
-    return CartItem(
-      id: 'cart_item_$index',
-      productId: product.id,
-      productName: product.name,
-      productImage: product.images.first,
-      price: product.price,
-      quantity: quantity,
-      currency: product.currency,
-    );
   }
 
   // Special Offer Mock Data

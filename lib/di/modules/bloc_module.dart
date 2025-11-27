@@ -14,7 +14,10 @@ import '../../presentation/screens/product_details/cubit/product_details_cubit.d
 
 class BlocModule {
   static void register(GetIt sl) {
-    sl.registerFactory(() => CartCubit(sl())..loadCart());
+    sl.registerFactory(() => CartCubit(
+      cartRepository: sl(),
+      orderRepository: sl()
+    )..loadCart());
     sl.registerFactory(() => FavoritesCubit(sl())..loadFavorites());
     sl.registerFactory(() => UserCubit(sl())..loadUserInfo());
     sl.registerFactory(() => OrderHistoryCubit(sl())..loadOrders());

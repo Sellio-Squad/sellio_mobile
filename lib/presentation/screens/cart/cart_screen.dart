@@ -46,7 +46,8 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       backgroundColor: context.theme.colors.surfaceLow,
       appBar: _buildAppBar(),
-      body: BlocBuilder<CartCubit, CartState>(
+      body: BlocConsumer<CartCubit, CartState>(
+        listener: _handleStateChanges,
         builder: (context, state) => _buildBody(state),
       ),
       bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
@@ -66,6 +67,27 @@ class _CartScreenState extends State<CartScreen> {
             onConfirmOrder: _handleConfirmOrder,
           );
         },
+      ),
+    );
+  }
+
+  void _handleStateChanges(BuildContext context, CartState state) {
+    if (state is CartOrderSuccess) {
+      OrderConfirmationDialog.show(context, '#${DateTime.now().millisecondsSinceEpoch}');
+      Future.delayed(const Duration(milliseconds: 500), () {
+        context.read<CartCubit>().loadCart();
+      });
+    } else if (state is CartError) {
+      _showErrorSnackBar(state.message);
+    }
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: context.theme.colors.red,
+        duration: const Duration(seconds: 3),
       ),
     );
   }
@@ -162,12 +184,9 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _handleConfirmOrder() {
-    final cart = context.read<CartCubit>().state.cart;
-    if (cart == null || cart.items.isEmpty) return;
-
-
-    OrderConfirmationDialog.show(context, '#2002124');
-
-    context.read<CartCubit>().clearCart();
+    final note = _noteController.text.trim();
+    context.read<CartCubit>().confirmOrder(
+      note.isNotEmpty ? note : null,
+    );
   }
 }

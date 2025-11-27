@@ -1,12 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/entities/cart.dart';
+import '../../../../domain/entities/order.dart';
 import '../../../../domain/repositories/cart_repository.dart';
+import '../../../../domain/repositories/order_repository.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final CartRepository _repository;
+  final CartRepository _cartRepository;
+  final OrderRepository _orderRepository;
 
-  CartCubit(this._repository) : super(const CartInitial());
+  CartCubit({
+    required CartRepository cartRepository,
+    required OrderRepository orderRepository,
+  })  : _cartRepository = cartRepository,
+        _orderRepository = orderRepository,
+        super(const CartInitial());
 
   Future<void> loadCart() async {
     emit(CartLoading(
@@ -14,7 +22,7 @@ class CartCubit extends Cubit<CartState> {
       productCounts: state.productCounts,
     ));
 
-    final result = await _repository.getCart();
+    final result = await _cartRepository.getCart();
 
     result.fold(
       onSuccess: (cart) => _emitLoadedState(cart),
@@ -30,7 +38,7 @@ class CartCubit extends Cubit<CartState> {
     required String currency,
     int quantity = 1,
   }) async {
-    final result = await _repository.addToCart(
+    final result = await _cartRepository.addToCart(
       productId: productId,
       productName: productName,
       productImage: productImage,
@@ -49,7 +57,7 @@ class CartCubit extends Cubit<CartState> {
     if (state is! CartLoaded) return;
 
     final currentState = state as CartLoaded;
-    final result = await _repository.removeFromCart(productId);
+    final result = await _cartRepository.removeFromCart(productId);
 
     result.fold(
       onSuccess: _emitLoadedState,
@@ -63,7 +71,7 @@ class CartCubit extends Cubit<CartState> {
     final currentState = state as CartLoaded;
     final currentQty = currentState.productCounts[productId] ?? 0;
 
-    final result = await _repository.updateQuantity(productId, currentQty + 1);
+    final result = await _cartRepository.updateQuantity(productId, currentQty + 1);
 
     result.fold(
       onSuccess: _emitLoadedState,
@@ -79,7 +87,7 @@ class CartCubit extends Cubit<CartState> {
 
     if (currentQty <= 1) return;
 
-    final result = await _repository.updateQuantity(productId, currentQty - 1);
+    final result = await _cartRepository.updateQuantity(productId, currentQty - 1);
 
     result.fold(
       onSuccess: _emitLoadedState,
@@ -87,8 +95,44 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
+  Future<void> confirmOrder(String? note) async {
+    if (state.cart == null || state.cart!.items.isEmpty) {
+      _emitErrorState('Cart is empty');
+      return;
+    }
+
+    emit(CartLoading(
+      cart: state.cart,
+      productCounts: state.productCounts,
+    ));
+
+    final orderItems = state.cart!.items.map((cartItem) {
+      return OrderItem(
+        id: cartItem.id,
+        productId: cartItem.productId,
+        productName: cartItem.productName,
+        quantity: cartItem.quantity,
+        price: cartItem.price,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+    }).toList();
+
+    final result = await _orderRepository.createOrder(items: orderItems);
+
+    await result.fold(
+      onSuccess: (_) async {
+        await _cartRepository.clearCart();
+        emit(const CartOrderSuccess());
+      },
+      onFailure: (failure) {
+        _emitErrorState(failure.message);
+      },
+    );
+  }
+
   Future<void> clearCart() async {
-    final result = await _repository.clearCart();
+    final result = await _cartRepository.clearCart();
 
     result.fold(
       onSuccess: (_) => loadCart(),

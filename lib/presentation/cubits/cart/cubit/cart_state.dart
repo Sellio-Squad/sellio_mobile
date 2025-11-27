@@ -42,6 +42,10 @@ class CartLoaded extends CartState {
   }
 }
 
+class CartOrderSuccess extends CartState {
+  const CartOrderSuccess();
+}
+
 class CartError extends CartState {
   final String message;
 
