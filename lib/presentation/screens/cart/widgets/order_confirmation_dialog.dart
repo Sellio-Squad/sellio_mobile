@@ -10,8 +10,8 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -27,7 +27,6 @@ class OrderConfirmationDialog {
 }
 
 class _OrderConfirmationContent extends StatelessWidget {
-
   const _OrderConfirmationContent();
 
   @override
@@ -45,7 +44,7 @@ class _OrderConfirmationContent extends StatelessWidget {
           const Gap(8),
           Text(
             context.local.order_received,
-            style: textTheme.titleSmall.copyWith(color: colors.body),
+            style: textTheme.titleSmall.copyWith(color: colors.title),
           ),
           const Gap(24),
           _buildBackButton(context, theme),
@@ -76,10 +75,10 @@ class _OrderConfirmationContent extends StatelessWidget {
   Widget _buildBackButton(BuildContext context, dynamic theme) {
     return SellioButton(
       text: context.local.back_to_shopping,
-      backgroundColor: theme.colors.primaryVariant,
-      textStyle: theme.typography.textTheme.labelMedium.copyWith(
-        color: theme.colors.primary,
+      textStyle: context.theme.typography.textTheme.labelMedium.copyWith(
+        color: context.theme.colors.primary,
       ),
+       //backgroundColor: context.theme.colors.primaryVariant,
       onTap: () => context.navigator.goToHome(),
       fullWidth: true,
     );
