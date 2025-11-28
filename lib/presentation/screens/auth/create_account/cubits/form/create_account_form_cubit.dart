@@ -1,289 +1,165 @@
 import 'dart:io';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/localization/l10n/app_localizations.dart';
-import 'package:sellio_mobile/core/validation/auth_validators.dart';
-import 'package:sellio_mobile/domain/entities/country.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
-import 'package:sellio_mobile/domain/services/country_service.dart';
-
+import '../../../country.dart';
 import 'create_account_form_state.dart';
 
-enum CreateAccountFieldType {
-  phone,
-  name,
-  country,
-  city,
-  password,
-  confirmPassword,
-}
-
 class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
-  final AuthRepository _authRepository;
-  final CountryService _countryService;
-
-  CreateAccountFormCubit({
-    required AuthRepository authRepository,
-    required CountryService countryService,
-  })  : _authRepository = authRepository,
-        _countryService = countryService,
-        super(const CreateAccountFormInitial()) {
-    _initializeDefaultCountry();
+  CreateAccountFormCubit() : super(const CreateAccountFormInitial()) {
+    final defaultCountry = mockCountries.firstWhere((c) => c.code == '+964');
+    emit(CreateAccountFormChanged(selectedCountry: defaultCountry));
   }
 
-  void _initializeDefaultCountry() {
-    final defaultCountry = _countryService.getDefaultCountry();
-    if (defaultCountry != null) {
-      emit(CreateAccountFormChanged(selectedCountry: defaultCountry));
-    }
-  }
+  // -------------------- FIELD UPDATING -------------------- //
 
-  void updatePhoneNumber(String phoneNumber) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        phoneNumber: phoneNumber,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updatePhoneNumber(String value) => _update((s) => s.copyWith(
+    phoneNumber: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updateFullName(String fullName) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        fullName: fullName,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateFullName(String value) => _update((s) => s.copyWith(
+    fullName: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updateCountry(String country) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        country: country,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateCountry(String value) => _update((s) => s.copyWith(
+    country: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updateCity(String city) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        city: city,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateCity(String value) => _update((s) => s.copyWith(
+    city: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updatePassword(String password) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        password: password,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updatePassword(String value) => _update((s) => s.copyWith(
+    password: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updateConfirmPassword(String confirmPassword) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        confirmPassword: confirmPassword,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateConfirmPassword(String value) => _update((s) => s.copyWith(
+    confirmPassword: value,
+    clearCurrentFieldError: true,
+  ));
 
-  void updateSelectedCountry(Country country) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(selectedCountry: country);
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateSelectedCountry(Country country) =>
+      _update((s) => s.copyWith(selectedCountry: country));
 
-  void updateProfileImage(File? image) {
-    if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      final newState = currentState.copyWith(
-        selectedProfileImage: image,
-        clearProfileImage: image == null,
-      );
-      emit(_updateFormValidation(newState));
-    }
-  }
+  void updateProfileImage(File? image) => _update((s) => s.copyWith(
+    selectedProfileImage: image,
+    clearProfileImage: image == null,
+  ));
 
-  void validateFieldOnFocusChange(
-    CreateAccountFieldType fieldType,
-    String value,
-    AppLocalizations localizations,
-  ) {
-    if (value.isEmpty) return;
+  // Unified update helper
+  void _update(CreateAccountFormChanged Function(CreateAccountFormChanged) change) {
     if (state is! CreateAccountFormChanged) return;
+    final newState = change(state as CreateAccountFormChanged);
+    emit(_applyValidation(newState));
+  }
 
+  // -------------------- VALIDATION -------------------- //
+
+  void validateFieldOnFocusChange(String field, String value) {
+    if (value.isEmpty || state is! CreateAccountFormChanged) return;
     String? error;
-    switch (fieldType) {
-      case CreateAccountFieldType.phone:
-        error = AuthValidators.validatePhone(value, localizations);
-        break;
-      case CreateAccountFieldType.name:
-        error = AuthValidators.validateFullName(value, localizations);
-        break;
-      case CreateAccountFieldType.country:
-        error = AuthValidators.validateCountry(value, localizations);
-        break;
-      case CreateAccountFieldType.city:
-        error = AuthValidators.validateCity(value, localizations);
-        break;
-      case CreateAccountFieldType.password:
-        error = AuthValidators.validatePassword(value, localizations);
-        break;
-      case CreateAccountFieldType.confirmPassword:
-        final currentState = state as CreateAccountFormChanged;
-        error = AuthValidators.validateConfirmPassword(
-          currentState.password,
-          value,
-          localizations,
-        );
+
+    switch (field) {
+      case 'phone': error = _validatePhone(value); break;
+      case 'name': error = _validateName(value); break;
+      case 'country': error = _validateCountry(value); break;
+      case 'city': error = _validateCity(value); break;
+      case 'password': error = _validatePassword(value); break;
+      case 'confirmPassword':
+        final s = state as CreateAccountFormChanged;
+        error = _validatePasswordMatch(s.password, value);
         break;
     }
 
     if (error != null) {
-      final currentState = state as CreateAccountFormChanged;
-      emit(currentState.copyWith(currentFieldError: error));
+      emit((state as CreateAccountFormChanged)
+          .copyWith(currentFieldError: error));
     }
   }
 
   void clearCurrentFieldError() {
     if (state is CreateAccountFormChanged) {
-      final currentState = state as CreateAccountFormChanged;
-      emit(currentState.copyWith(clearCurrentFieldError: true));
+      emit((state as CreateAccountFormChanged)
+          .copyWith(clearCurrentFieldError: true));
     }
   }
 
-  Future<void> submitForm(AppLocalizations localizations) async {
+  // -------------------- FORM SUBMISSION -------------------- //
+
+  Future<void> submitForm() async {
     if (state is! CreateAccountFormChanged) return;
-    final currentState = state as CreateAccountFormChanged;
+    final s = state as CreateAccountFormChanged;
 
-    final validationError = _validateAllFieldsForSubmission(
-      currentState,
-      localizations,
-    );
-    if (validationError != null) {
-      emit(currentState.copyWith(currentFieldError: validationError));
-      return;
-    }
+    if (!_validateAllSubmitFields(s)) return;
 
-    emit(currentState.copyWith(isLoading: true));
+    emit(s.copyWith(isLoading: true));
 
     try {
-      final result = await _authRepository.register(
-        fullName: currentState.fullName,
-        phoneNumber: currentState.phoneNumber,
-        countryCode: currentState.selectedCountry.code,
-        password: currentState.password,
-        country: currentState.country,
-        city: currentState.city,
-        region: currentState.selectedCountry.code,
-        profilePhotoUrl: null,
-      );
+      await Future.delayed(const Duration(seconds: 2));
 
-      result.fold(
-        onSuccess: (sessionId) {
-          final phoneNumber =
-              '${currentState.selectedCountry.code}${currentState.phoneNumber}';
-          emit(CreateAccountFormSuccess(
-            sessionId: sessionId,
-            phoneNumber: phoneNumber,
-          ));
-        },
-        onFailure: (error) {
-          emit(CreateAccountFormError(
-            message: error.message,
-          ));
-          emit(currentState.copyWith(isLoading: false));
-        },
-      );
-    } catch (e) {
-      emit(CreateAccountFormError(
-        message: localizations.failed_to_create_account,
+      emit(CreateAccountFormSuccess(
+        phoneNumber: '${s.selectedCountry.code}${s.phoneNumber}',
+        countryCode: s.selectedCountry.code, //<-- REQUIRED & FIXED
       ));
-      emit(currentState.copyWith(isLoading: false));
+    } catch (_) {
+      emit(const CreateAccountFormError(
+          message: 'Failed to create account. Please try again.'));
+      emit(s.copyWith(isLoading: false));
     }
   }
 
-  String? _validateAllFieldsForSubmission(
-    CreateAccountFormChanged state,
-    AppLocalizations localizations,
-  ) {
-    final phoneError = AuthValidators.validatePhone(
-      state.phoneNumber,
-      localizations,
-    );
-    if (phoneError != null) return phoneError;
+  bool _validateAllSubmitFields(CreateAccountFormChanged s) {
+    final checks = [
+      _validatePhone(s.phoneNumber),
+      _validateName(s.fullName),
+      _validateCountry(s.country),
+      _validateCity(s.city),
+      _validatePassword(s.password),
+      _validatePasswordMatch(s.password, s.confirmPassword),
+    ];
 
-    final nameError = AuthValidators.validateFullName(
-      state.fullName,
-      localizations,
-    );
-    if (nameError != null) return nameError;
-
-    final countryError = AuthValidators.validateCountry(
-      state.country,
-      localizations,
-    );
-    if (countryError != null) return countryError;
-
-    final cityError = AuthValidators.validateCity(
-      state.city,
-      localizations,
-    );
-    if (cityError != null) return cityError;
-
-    final passwordError = AuthValidators.validatePassword(
-      state.password,
-      localizations,
-    );
-    if (passwordError != null) return passwordError;
-
-    final confirmPasswordError = AuthValidators.validateConfirmPassword(
-      state.password,
-      state.confirmPassword,
-      localizations,
-    );
-    if (confirmPasswordError != null) return confirmPasswordError;
-
-    return null;
+    for (final error in checks) {
+      if (error != null) {
+        emit(s.copyWith(currentFieldError: error));
+        return false;
+      }
+    }
+    return true;
   }
 
-  CreateAccountFormChanged _updateFormValidation(
-      CreateAccountFormChanged state) {
-    final isValid = _isFormValid(state);
-    return state.copyWith(isFormValid: isValid);
-  }
+  // -------------------- AUTO VALIDATION -------------------- //
 
-  bool _isFormValid(CreateAccountFormChanged state) {
-    return state.phoneNumber.isNotEmpty &&
-        state.fullName.isNotEmpty &&
-        state.country.isNotEmpty &&
-        state.city.isNotEmpty &&
-        state.password.isNotEmpty &&
-        state.confirmPassword.isNotEmpty &&
-        state.phoneNumber.length >= 10 &&
-        state.fullName.length >= 2 &&
-        state.country.length >= 2 &&
-        state.city.length >= 2 &&
-        state.password.length >= 6 &&
-        state.password == state.confirmPassword;
-  }
+  CreateAccountFormChanged _applyValidation(CreateAccountFormChanged s) =>
+      s.copyWith(isFormValid: _isValid(s));
+
+  bool _isValid(CreateAccountFormChanged s) =>
+      s.phoneNumber.length >= 10 &&
+          s.fullName.length >= 2 &&
+          s.country.length >= 2 &&
+          s.city.length >= 2 &&
+          s.password.length >= 6 &&
+          s.password == s.confirmPassword;
+
+  // -------------------- INPUT VALIDATORS -------------------- //
+
+  String? _validatePhone(String v) =>
+      v.length < 10 ? 'Phone must be at least 10 digits' : null;
+
+  String? _validateName(String v) =>
+      v.length < 2 ? 'Name must be at least 2 characters' : null;
+
+  String? _validateCountry(String v) =>
+      v.length < 2 ? 'Country must be at least 2 characters' : null;
+
+  String? _validateCity(String v) =>
+      v.length < 2 ? 'City must be at least 2 characters' : null;
+
+  String? _validatePassword(String v) =>
+      v.length < 6 ? 'Password must be at least 6 characters' : null;
+
+  String? _validatePasswordMatch(String p, String c) =>
+      p != c ? 'Passwords do not match' : null;
 }

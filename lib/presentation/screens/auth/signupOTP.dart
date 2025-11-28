@@ -5,18 +5,19 @@ import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.da
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_otp_card.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/auth_background_wrapper.dart';
 
-class ConfirmAccountScreenOld extends StatefulWidget {
-  const ConfirmAccountScreenOld({super.key});
+class ConfirmAccountScreen extends StatefulWidget {
+  const ConfirmAccountScreen({super.key, required SignupOtpArgs args});
 
   @override
-  State<ConfirmAccountScreenOld> createState() => _ConfirmAccountScreenState();
+  State<ConfirmAccountScreen> createState() => _ConfirmAccountScreenState();
 }
 
-class _ConfirmAccountScreenState extends State<ConfirmAccountScreenOld> {
+class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
   final GlobalKey<OTPInputFieldState> _otpKey = GlobalKey<OTPInputFieldState>();
   String _otpValue = '';
   bool _isOtpComplete = false;
