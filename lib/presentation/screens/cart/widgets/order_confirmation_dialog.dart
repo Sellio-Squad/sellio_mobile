@@ -11,7 +11,6 @@ import '../constants/cart_constants.dart';
 class OrderConfirmationDialog {
   static Future<void> show(
       BuildContext context,
-      String orderNumber,
       ) {
     return showModalBottomSheet(
       context: context,
@@ -22,15 +21,14 @@ class OrderConfirmationDialog {
           top: Radius.circular(CartConstants.bottomSheetRadius),
         ),
       ),
-      builder: (_) => _OrderConfirmationContent(orderNumber: orderNumber),
+      builder: (_) => _OrderConfirmationContent(),
     );
   }
 }
 
 class _OrderConfirmationContent extends StatelessWidget {
-  final String orderNumber;
 
-  const _OrderConfirmationContent({required this.orderNumber});
+  const _OrderConfirmationContent();
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +42,6 @@ class _OrderConfirmationContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildIcon(colors),
-          const Gap(16),
-          Text(
-            '${context.local.order} $orderNumber',
-            style: textTheme.labelMedium.copyWith(color: colors.title),
-          ),
           const Gap(8),
           Text(
             context.local.order_received,

@@ -73,7 +73,7 @@ class _CartScreenState extends State<CartScreen> {
 
   void _handleStateChanges(BuildContext context, CartState state) {
     if (state is CartOrderSuccess) {
-      OrderConfirmationDialog.show(context, '#${DateTime.now().millisecondsSinceEpoch}');
+      OrderConfirmationDialog.show(context);
       Future.delayed(const Duration(milliseconds: 500), () {
         context.read<CartCubit>().loadCart();
       });
