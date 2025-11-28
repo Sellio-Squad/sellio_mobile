@@ -9,14 +9,14 @@ import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import '../../../core/design_system/themes/sellio_typography.dart';
 import '../../../core/design_system/widgets/auth_background_wrapper.dart';
 
-class ConfirmAccountScreen extends StatefulWidget {
-  const ConfirmAccountScreen({super.key});
+class ConfirmAccountScreenOld extends StatefulWidget {
+  const ConfirmAccountScreenOld({super.key});
 
   @override
-  State<ConfirmAccountScreen> createState() => _ConfirmAccountScreenState();
+  State<ConfirmAccountScreenOld> createState() => _ConfirmAccountScreenState();
 }
 
-class _ConfirmAccountScreenState extends State<ConfirmAccountScreen> {
+class _ConfirmAccountScreenState extends State<ConfirmAccountScreenOld> {
   final GlobalKey<OTPInputFieldState> _otpKey = GlobalKey<OTPInputFieldState>();
   String _otpValue = '';
   bool _isOtpComplete = false;

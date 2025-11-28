@@ -6,7 +6,7 @@ import 'package:sellio_mobile/presentation/screens/auth/forget_password/confirm_
 import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
 import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:sellio_mobile/presentation/screens/auth/login/login_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/signupOTP.dart';
+import 'package:sellio_mobile/presentation/screens/auth/signup_otp/signup_otp_screen.dart';
 import 'package:sellio_mobile/presentation/screens/cart/cart_screen.dart';
 import 'package:sellio_mobile/presentation/screens/customize_product/customize_your_product_screen.dart';
 import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
@@ -80,9 +80,11 @@ class RouteGenerator {
         name: AppRoutes.confirmPassword.name,
         path: AppRoutes.confirmPassword.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
+          // Extract the arguments to pass to the screen.
+          final args = state.extra as ConfirmPasswordArgs;
           return MaterialPage(
             key: state.pageKey,
-            child: const SetNewPasswordScreen(),
+            child: SetNewPasswordScreen(args: args),
           );
         },
       ),
@@ -90,9 +92,12 @@ class RouteGenerator {
         name: AppRoutes.signupOtp.name,
         path: AppRoutes.signupOtp.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
+          final args = state.extra as SignupOtpArgs?;
           return MaterialPage(
             key: state.pageKey,
-            child: const ConfirmAccountScreen(),
+            child: ConfirmAccountScreen(
+              args: args,
+            ),
           );
         },
       ),

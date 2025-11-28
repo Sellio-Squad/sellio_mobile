@@ -20,7 +20,7 @@ import '../../domain/repositories/store_repository.dart';
 
 class MockRepositoryModule {
   static void register(GetIt sl) {
-    sl.registerLazySingleton<AuthRepository>(() => MockAuthRepositoryImpl());
+    //sl.registerLazySingleton<AuthRepository>(() => MockAuthRepositoryImpl());
     sl.registerLazySingleton<ProductRepository>(() => MockProductRepositoryImpl());
     sl.registerLazySingleton<StoreRepository>(() => MockStoreRepositoryImpl());
     sl.registerLazySingleton<CartRepository>(() => MockCartRepositoryImpl());

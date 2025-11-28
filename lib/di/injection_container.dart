@@ -13,6 +13,6 @@ Future<void> init() async {
   StorageModule.register(sl);
   DataSourceModule.register(sl);
   RepositoryModule.register(sl);
-  MockRepositoryModule.register(sl);
+  // MockRepositoryModule.register(sl);
   BlocModule.register(sl);
 }

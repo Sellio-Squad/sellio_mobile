@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
 import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_otp_card.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
+import 'package:sellio_mobile/presentation/screens/auth/forget_password/cubit/forgot_password_cubit.dart';
+import 'package:sellio_mobile/presentation/screens/auth/forget_password/cubit/forgot_password_state.dart';
 
 import '../../../../core/design_system/themes/sellio_typography.dart';
 import 'widget/lock_icon.dart';
@@ -66,16 +69,19 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
   }
 
   void _handleResendCode() {
-    // Clear OTP fields
     _otpKey.currentState?.clear();
     setState(() {
       _otpValue = '';
       _isOtpComplete = false;
     });
     _startResendCountdown();
+  }
 
-    // TODO: Call API to resend OTP
-    // await authService.resendOTP();
+  void _confirmOtp() {
+    context.read<ForgotPasswordCubit>().verifyOtp(
+          sessionId: widget.args.sessionId,
+          otp: _otpValue,
+        );
   }
 
   @override
@@ -113,96 +119,113 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
         backgroundColor: colors.surfaceLow,
         elevation: 0,
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 24),
-                    Center(child: buildLockIcon(colors)),
-                    const SizedBox(height: 40),
-                    SizedBox(
-                      width: 328,
-                      child: Text(
-                        context.local.enter_code,
-                        style: typography.titleMedium.copyWith(
-                          color: colors.title,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: 328,
-                      child: Text(
-                        context.local.enter_the_4_digit_sent_to(widget.args.phoneNumber),
-                        style: typography.bodySmall.copyWith(
-                          color: colors.body,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                    OTPInputField(
-                      key: _otpKey,
-                      length: 4,
-                      onChanged: (value) {
-                        setState(() {
-                          _otpValue = value;
-                          _isOtpComplete = value.length == 4;
-                        });
-                      },
-                      onCompleted: (value) {
-                        _handleOTPComplete(value);
-                      },
-                    ),
-                    const SizedBox(height: 24),
-                    _buildResendSection(colors, typography),
-                  ],
-                ),
+      body: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
+        listener: (context, state) {
+          if (state is ForgotPasswordOtpVerified) {
+            context.navigator.pushConfirmPassword(
+              ConfirmPasswordArgs(
+                sessionId: state.sessionId,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: 328,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: _isOtpComplete
-                      ? () {
-                          context.navigator.pushConfirmPassword(
-                            ConfirmPasswordArgs(
-                              phoneNumber: widget.args.phoneNumber,
-                              otp: _otpValue,
+            );
+          } else if (state is ForgotPasswordFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        builder: (context, state) {
+          final isLoading = state is ForgotPasswordLoading;
+          return SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 24),
+                        Center(child: buildLockIcon(colors)),
+                        const SizedBox(height: 40),
+                        SizedBox(
+                          width: 328,
+                          child: Text(
+                            context.local.enter_code,
+                            style: typography.titleMedium.copyWith(
+                              color: colors.title,
                             ),
-                          );
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _isOtpComplete
-                        ? colors.primary
-                        : colors.disabled,
-                    disabledBackgroundColor: colors.disabled,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 24,
-                    ),
-                  ),
-                  child: Text(
-                    context.local.confirm,
-                    style: typography.labelMedium.copyWith(
-                      color: _isOtpComplete ? colors.onPrimary : colors.hint,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: 328,
+                          child: Text(
+                            context.local.enter_the_4_digit_sent_to(
+                                widget.args.phoneNumber),
+                            style: typography.bodySmall.copyWith(
+                              color: colors.body,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                        OTPInputField(
+                          key: _otpKey,
+                          length: 4,
+                          onChanged: (value) {
+                            setState(() {
+                              _otpValue = value;
+                              _isOtpComplete = value.length == 4;
+                            });
+                          },
+                          onCompleted: (value) {
+                            _handleOTPComplete(value);
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        _buildResendSection(colors, typography),
+                      ],
                     ),
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    width: 328,
+                    height: 48,
+                    child: ElevatedButton(
+                      onPressed: _isOtpComplete && !isLoading
+                          ? _confirmOtp
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            _isOtpComplete && !isLoading
+                                ? colors.primary
+                                : colors.disabled,
+                        disabledBackgroundColor: colors.disabled,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 24,
+                        ),
+                      ),
+                      child: isLoading
+                          ? const CircularProgressIndicator()
+                          : Text(
+                              context.local.confirm,
+                              style: typography.labelMedium.copyWith(
+                                color: _isOtpComplete && !isLoading
+                                    ? colors.onPrimary
+                                    : colors.hint,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -221,7 +244,10 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
         GestureDetector(
           onTap: canResend ? _handleResendCode : null,
           child: Text(
-            canResend ? context.local.re_send : context.local.re_send_in_resend_countdown_Sec(_resendCountdown),
+            canResend
+                ? context.local.re_send
+                : context.local
+                    .re_send_in_resend_countdown_Sec(_resendCountdown),
             style: typography.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.body,
               decoration: canResend ? TextDecoration.underline : null,

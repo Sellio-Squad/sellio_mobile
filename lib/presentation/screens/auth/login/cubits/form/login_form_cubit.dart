@@ -96,7 +96,7 @@ class LoginFormCubit extends Cubit<LoginFormState> {
   Future<void> submitForm(AppLocalizations localizations) async {
     if (state is! LoginFormChanged) return;
     final currentState = state as LoginFormChanged;
-    
+
     final validationError = _validateAllFieldsForSubmission(
       currentState,
       localizations,
@@ -116,7 +116,7 @@ class LoginFormCubit extends Cubit<LoginFormState> {
       );
 
       result.fold(
-        onSuccess: (user) {
+        onSuccess: (authTokens) {
           final phoneNumber =
               '${currentState.selectedCountry.code}${currentState.phoneNumber}';
           emit(LoginFormSuccess(phoneNumber: phoneNumber));

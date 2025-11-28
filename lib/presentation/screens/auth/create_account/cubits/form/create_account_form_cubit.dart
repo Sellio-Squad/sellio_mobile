@@ -194,14 +194,18 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
         password: currentState.password,
         country: currentState.country,
         city: currentState.city,
-        profilePhotoUrl: null, // TODO: Handle image upload
+        region: currentState.selectedCountry.code,
+        profilePhotoUrl: null,
       );
 
       result.fold(
-        onSuccess: (user) {
+        onSuccess: (sessionId) {
           final phoneNumber =
               '${currentState.selectedCountry.code}${currentState.phoneNumber}';
-          emit(CreateAccountFormSuccess(phoneNumber: phoneNumber));
+          emit(CreateAccountFormSuccess(
+            sessionId: sessionId,
+            phoneNumber: phoneNumber,
+          ));
         },
         onFailure: (error) {
           emit(CreateAccountFormError(

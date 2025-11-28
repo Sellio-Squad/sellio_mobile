@@ -9,9 +9,10 @@ class ApiEndpoints {
 
   // Auth
   static const String login = '$apiVersion/auth/login';
-  static const String resendOtp = '$apiVersion/auth/resend-otp';
-  static const String forgotPassword = '$apiVersion/auth/forgot-password';
-  static const String resetPassword = '$apiVersion/auth/reset-password';
+  static const String resendOtp = '$apiVersion/auth/create/resend-otp';
+  static const String forgotPasswordRequest = '$apiVersion/forgot-password/request';
+  static const String forgotPasswordVerify = '$apiVersion/forgot-password/verify';
+  static const String forgotPasswordReset = '$apiVersion/forgot-password/reset';
   static const String requestOtp = '$apiVersion/auth/create/request-otp';
   static const String verifyOtp = '$apiVersion/auth/create/verify-otp';
   static const String createUser = '$apiVersion/auth/create';

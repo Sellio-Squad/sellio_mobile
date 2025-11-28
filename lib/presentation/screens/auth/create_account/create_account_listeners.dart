@@ -38,6 +38,7 @@ class CreateAccountListeners extends StatelessWidget {
   void _handleSuccess(BuildContext context, CreateAccountFormSuccess state) {
     context.navigator.pushSignupOtp(
       SignupOtpArgs(
+        sessionId: state.sessionId,
         phoneNumber: state.phoneNumber,
       ),
     );
@@ -51,7 +52,6 @@ class CreateAccountListeners extends StatelessWidget {
       BuildContext context, CreateAccountFormChanged state) {
     _showErrorSnackBar(context, state.currentFieldError!);
 
-    // Clear the field error after showing the snackbar
     Future.delayed(const Duration(milliseconds: 100), () {
       if (context.mounted) {
         context.read<CreateAccountFormCubit>().clearCurrentFieldError();

@@ -1,13 +1,15 @@
+import '../../../models/auth/auth_tokens_response_model.dart';
+import '../../../models/auth/register_response_model.dart';
 import '../../../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<UserModel> login({
+  Future<AuthTokensResponseModel> login({
     required String phoneNumber,
     required String countryCode,
     required String password,
   });
 
-  Future<UserModel> register({
+  Future<RegisterResponseModel> register({
     required String firstName,
     required String lastName,
     required String phoneNumber,
@@ -15,29 +17,32 @@ abstract class AuthRemoteDataSource {
     required String password,
     required String country,
     required String city,
+    required String region,
   });
 
-  Future<bool> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+  Future<AuthTokensResponseModel> verifyOtp({
+    required String sessionId,
+    required String otp,
   });
 
   Future<void> resendOtp({
-    required String phoneNumber,
-    required String countryCode,
+    required String sessionId,
   });
 
-  Future<void> sendForgotPasswordOtp({
+  Future<String> sendForgotPasswordOtp({
     required String phoneNumber,
-    required String countryCode,
+    required String defaultRegion,
+  });
+
+  Future<void> verifyForgotPasswordOtp({
+    required String sessionId,
+    required String otp,
   });
 
   Future<void> resetPassword({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+    required String sessionId,
     required String newPassword,
+    required String confirmPassword,
   });
 
   Future<UserModel?> getCurrentUser(String userId);

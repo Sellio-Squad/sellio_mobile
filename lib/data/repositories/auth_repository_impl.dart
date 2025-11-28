@@ -1,6 +1,8 @@
+import 'package:sellio_mobile/data/mappers/auth_tokens_mapper.dart';
 import 'package:sellio_mobile/data/mappers/user_mapper.dart';
 
 import '../../core/error/result.dart';
+import '../../domain/entities/auth_tokens.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../core/storage/storage_keys.dart';
@@ -19,43 +21,53 @@ class AuthRepositoryImpl implements AuthRepository {
         _storageService = storageService;
 
   @override
-  Future<Result<User>> login({
+  Future<Result<AuthTokens>> login({
     required String phoneNumber,
     required String countryCode,
     required String password,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
-      final userModel = await _remoteDataSource.login(
+    return RepositoryCallHandler.call<AuthTokens>(() async {
+      final response = await _remoteDataSource.login(
         phoneNumber: phoneNumber,
         countryCode: countryCode,
         password: password,
       );
 
-      // Save auth data
-      // TODO: Update your API response to include token
-      // await _storageService.save<String>(StorageKeys.authToken, userModel.token);
+      final authTokens = response.toEntity();
+
+      // Save tokens
+      await _storageService.save<String>(StorageKeys.authToken, authTokens.accessToken);
+      await _storageService.save<String>(StorageKeys.refreshToken, authTokens.refreshToken);
       await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
 
-      return userModel.toEntity();
+      // Save user ID if available
+      if (response.user != null) {
+        // Extract userId from user data if available, or use phoneNumber as identifier
+        // Adjust based on your API response structure
+        await _storageService.save<String>(StorageKeys.userId, response.user!.phoneNumber);
+      }
+
+      return authTokens;
     });
   }
 
   @override
-  Future<Result<User>> register({
+  Future<Result<String>> register({
     required String fullName,
     required String phoneNumber,
     required String countryCode,
     required String password,
     required String country,
     required String city,
+    required String region,
     String? profilePhotoUrl,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
+    return RepositoryCallHandler.call<String>(() async {
       final names = fullName.split(' ');
       final firstName = names.first;
       final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
 
-      final userModel = await _remoteDataSource.register(
+      final response = await _remoteDataSource.register(
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
@@ -63,68 +75,89 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         country: country,
         city: city,
+        region: region,
       );
 
-      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
-
-      return userModel.toEntity();
+      // Return sessionId - don't save tokens yet (wait for OTP verification)
+      return response.sessionId;
     });
   }
 
   @override
-  Future<Result<bool>> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+  Future<Result<AuthTokens>> verifyOtp({
+    required String sessionId,
+    required String otp,
   }) async {
-    return RepositoryCallHandler.call<bool>(
-          () => _remoteDataSource.verifyOtp(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
-        otpCode: otpCode,
-      ),
-    );
+    return RepositoryCallHandler.call<AuthTokens>(() async {
+      final response = await _remoteDataSource.verifyOtp(
+        sessionId: sessionId,
+        otp: otp,
+      );
+
+      final authTokens = response.toEntity();
+
+      // Save tokens
+      await _storageService.save<String>(StorageKeys.authToken, authTokens.accessToken);
+      await _storageService.save<String>(StorageKeys.refreshToken, authTokens.refreshToken);
+      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
+
+      // Save user ID if available
+      if (response.user != null) {
+        await _storageService.save<String>(StorageKeys.userId, response.user!.phoneNumber);
+      }
+
+      return authTokens;
+    });
   }
 
   @override
   Future<Result<void>> resendOtp({
-    required String phoneNumber,
-    required String countryCode,
+    required String sessionId,
   }) async {
     return RepositoryCallHandler.callVoid(
           () => _remoteDataSource.resendOtp(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
+        sessionId: sessionId,
       ),
     );
   }
 
   @override
-  Future<Result<void>> sendForgotPasswordOtp({
+  Future<Result<String>> sendForgotPasswordOtp({
     required String phoneNumber,
-    required String countryCode,
+    required String defaultRegion,
   }) async {
-    return RepositoryCallHandler.callVoid(
+    return RepositoryCallHandler.call<String>(
           () => _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
-        countryCode: countryCode,
+        defaultRegion: defaultRegion,
+      ),
+    );
+  }
+  
+    @override
+  Future<Result<void>> verifyForgotPasswordOtp({
+    required String sessionId,
+    required String otp,
+  }) async {
+    return RepositoryCallHandler.callVoid(
+          () => _remoteDataSource.verifyForgotPasswordOtp(
+        sessionId: sessionId,
+        otp: otp,
       ),
     );
   }
 
   @override
   Future<Result<void>> resetPassword({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+    required String sessionId,
     required String newPassword,
+    required String confirmPassword,
   }) async {
     return RepositoryCallHandler.callVoid(
           () => _remoteDataSource.resetPassword(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
-        otpCode: otpCode,
+        sessionId: sessionId,
         newPassword: newPassword,
+        confirmPassword: confirmPassword,
       ),
     );
   }

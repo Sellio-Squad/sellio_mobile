@@ -130,12 +130,16 @@ class CreateAccountFormError extends CreateAccountFormState {
 }
 
 class CreateAccountFormSuccess extends CreateAccountFormState {
+  final String sessionId;
   final String phoneNumber;
 
-  const CreateAccountFormSuccess({required this.phoneNumber});
+  const CreateAccountFormSuccess({
+    required this.sessionId,
+    required this.phoneNumber,
+  });
 
   @override
-  List<Object?> get props => [phoneNumber];
+  List<Object?> get props => [sessionId, phoneNumber];
 }
 
 class CreateAccountFormFieldError extends CreateAccountFormState {
