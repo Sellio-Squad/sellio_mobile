@@ -167,20 +167,26 @@ abstract class AppLocalizations {
   /// No description provided for @title_forget_password.
   ///
   /// In en, this message translates to:
-  /// **'Forget your Password?'**
+  /// **'Forgot your Password?'**
   String get title_forget_password;
 
   /// No description provided for @subtitle_forget_password.
   ///
   /// In en, this message translates to:
-  /// **'We will send 4-digit code to your below phone number.'**
+  /// **'We will send a 4-digit code to your number.'**
   String get subtitle_forget_password;
 
   /// No description provided for @send.
   ///
   /// In en, this message translates to:
-  /// **'send'**
+  /// **'Send'**
   String get send;
+
+  /// No description provided for @enter_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter code'**
+  String get enter_code;
 
   /// No description provided for @set_new_password.
   ///
@@ -191,13 +197,13 @@ abstract class AppLocalizations {
   /// No description provided for @subtitle_set_new_password.
   ///
   /// In en, this message translates to:
-  /// **'Please enter your new password and make sure to remember it in next time'**
+  /// **'Please enter your new password and remember it next time'**
   String get subtitle_set_new_password;
 
   /// No description provided for @enter_your_information_to_create_account.
   ///
   /// In en, this message translates to:
-  /// **'Enter your information to create account'**
+  /// **'Enter your information to create an account'**
   String get enter_your_information_to_create_account;
 
   /// No description provided for @country.
@@ -227,7 +233,7 @@ abstract class AppLocalizations {
   /// No description provided for @already_have_account.
   ///
   /// In en, this message translates to:
-  /// **'Already have account?'**
+  /// **'Already have an account?'**
   String get already_have_account;
 
   /// No description provided for @search.
@@ -323,7 +329,7 @@ abstract class AppLocalizations {
   /// No description provided for @empty_cart.
   ///
   /// In en, this message translates to:
-  /// **'empty Cart'**
+  /// **'Empty Cart'**
   String get empty_cart;
 
   /// No description provided for @store_details.
@@ -365,7 +371,7 @@ abstract class AppLocalizations {
   /// No description provided for @facebook_title.
   ///
   /// In en, this message translates to:
-  /// **'Our account on facebook'**
+  /// **'Our Facebook page'**
   String get facebook_title;
 
   /// No description provided for @whatsapp_title.
@@ -403,36 +409,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No internet connection'**
   String get error_no_internet;
-
-  /// No description provided for @could_not_launch_email.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch email'**
-  String get could_not_launch_email;
-
-  /// No description provided for @could_not_launch_phone.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch phone'**
-  String get could_not_launch_phone;
-
-  /// No description provided for @could_not_launch_facebook.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch Facebook'**
-  String get could_not_launch_facebook;
-
-  /// No description provided for @could_not_launch_whatsapp.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch WhatsApp'**
-  String get could_not_launch_whatsapp;
-
-  /// No description provided for @could_not_launch_website.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch website'**
-  String get could_not_launch_website;
 
   /// No description provided for @welcome.
   ///
@@ -545,7 +521,7 @@ abstract class AppLocalizations {
   /// No description provided for @note_optional.
   ///
   /// In en, this message translates to:
-  /// **'Note  (Optional)'**
+  /// **'Note (Optional)'**
   String get note_optional;
 
   /// No description provided for @all.
@@ -581,7 +557,7 @@ abstract class AppLocalizations {
   /// No description provided for @furniture.
   ///
   /// In en, this message translates to:
-  /// **'furniture'**
+  /// **'Furniture'**
   String get furniture;
 
   /// No description provided for @books.
@@ -595,12 +571,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Electronics'**
   String get electronics;
-
-  /// No description provided for @notifications.
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get notifications;
 
   /// No description provided for @account_screen.
   ///
@@ -623,19 +593,19 @@ abstract class AppLocalizations {
   /// No description provided for @has_been_placed_successfully.
   ///
   /// In en, this message translates to:
-  /// **'has been placed successfully'**
+  /// **'Has been placed successfully'**
   String get has_been_placed_successfully;
 
   /// No description provided for @has_been_delivered_successfully.
   ///
   /// In en, this message translates to:
-  /// **'has been delivered successfully'**
+  /// **'Has been delivered successfully'**
   String get has_been_delivered_successfully;
 
   /// No description provided for @has_been_cancelled.
   ///
   /// In en, this message translates to:
-  /// **'has been cancelled'**
+  /// **'Has been cancelled'**
   String get has_been_cancelled;
 
   /// No description provided for @today.
@@ -650,29 +620,11 @@ abstract class AppLocalizations {
   /// **'Yesterday'**
   String get yesterday;
 
-  /// No description provided for @our_friendly_team_is_here_to_help.
+  /// No description provided for @notifications.
   ///
   /// In en, this message translates to:
-  /// **'Our friendly team is here to help'**
-  String get our_friendly_team_is_here_to_help;
-
-  /// No description provided for @store_location.
-  ///
-  /// In en, this message translates to:
-  /// **'store_location'**
-  String get store_location;
-
-  /// No description provided for @design_editor.
-  ///
-  /// In en, this message translates to:
-  /// **'Design editor'**
-  String get design_editor;
-
-  /// No description provided for @try_again.
-  ///
-  /// In en, this message translates to:
-  /// **'Try Again'**
-  String get try_again;
+  /// **'Notifications'**
+  String get notifications;
 
   /// No description provided for @notifications_will_appear_here.
   ///
@@ -685,12 +637,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notifications yet'**
   String get no_notifications_yet;
-
-  /// No description provided for @something_went_wrong.
-  ///
-  /// In en, this message translates to:
-  /// **'Something went wrong'**
-  String get something_went_wrong;
 
   /// No description provided for @notification_dismissed.
   ///
@@ -749,7 +695,7 @@ abstract class AppLocalizations {
   /// No description provided for @home_and_decore.
   ///
   /// In en, this message translates to:
-  /// **'Home & Decore'**
+  /// **'Home & Decor'**
   String get home_and_decore;
 
   /// No description provided for @tech_accessories.
@@ -773,7 +719,7 @@ abstract class AppLocalizations {
   /// No description provided for @choose_a_product_to_customize_it.
   ///
   /// In en, this message translates to:
-  /// **'Choose_a_product_to_customize_it'**
+  /// **'Choose a product to customize it'**
   String get choose_a_product_to_customize_it;
 
   /// No description provided for @upload_logo_or_image.
@@ -827,7 +773,7 @@ abstract class AppLocalizations {
   /// No description provided for @account_options.
   ///
   /// In en, this message translates to:
-  /// **'account options'**
+  /// **'Account options'**
   String get account_options;
 
   /// No description provided for @are_you_sure_to_continue_deleting_account.
@@ -845,7 +791,7 @@ abstract class AppLocalizations {
   /// No description provided for @are_you_sure_to_continue_logout.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure to continue logout?'**
+  /// **'Are you sure you want to logout?'**
   String get are_you_sure_to_continue_logout;
 
   /// No description provided for @start_exploring_and_saving_your_favorite_items_here.
@@ -914,6 +860,12 @@ abstract class AppLocalizations {
   /// **'Iraq'**
   String get iraq;
 
+  /// No description provided for @egypt.
+  ///
+  /// In en, this message translates to:
+  /// **'Egypt'**
+  String get egypt;
+
   /// No description provided for @processing.
   ///
   /// In en, this message translates to:
@@ -974,47 +926,11 @@ abstract class AppLocalizations {
   /// **'Full name'**
   String get full_name;
 
-  /// No description provided for @egypt.
-  ///
-  /// In en, this message translates to:
-  /// **'Egypt'**
-  String get egypt;
-
-  /// No description provided for @confirm_your_account.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm your account'**
-  String get confirm_your_account;
-
-  /// No description provided for @confirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get confirm;
-
-  /// No description provided for @dont_received_code.
-  ///
-  /// In en, this message translates to:
-  /// **'Don\\\'t received code?'**
-  String get dont_received_code;
-
-  /// No description provided for @re_send.
-  ///
-  /// In en, this message translates to:
-  /// **'Re-Send'**
-  String get re_send;
-
   /// No description provided for @confirm_password.
   ///
   /// In en, this message translates to:
   /// **'Confirm Password'**
   String get confirm_password;
-
-  /// No description provided for @enter_code.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter code'**
-  String get enter_code;
 
   /// No description provided for @password.
   ///
@@ -1049,7 +965,7 @@ abstract class AppLocalizations {
   /// No description provided for @full_name_letters_only.
   ///
   /// In en, this message translates to:
-  /// **'Full name must contain only letters and spaces'**
+  /// **'Full name must contain only letters'**
   String get full_name_letters_only;
 
   /// No description provided for @country_at_least_2_characters.
@@ -1061,7 +977,7 @@ abstract class AppLocalizations {
   /// No description provided for @country_letters_only.
   ///
   /// In en, this message translates to:
-  /// **'Country must contain only letters and spaces'**
+  /// **'Country must contain only letters'**
   String get country_letters_only;
 
   /// No description provided for @city_at_least_2_characters.
@@ -1073,7 +989,7 @@ abstract class AppLocalizations {
   /// No description provided for @city_letters_only.
   ///
   /// In en, this message translates to:
-  /// **'City must contain only letters and spaces'**
+  /// **'City must contain only letters'**
   String get city_letters_only;
 
   /// No description provided for @password_min_6_characters.
@@ -1097,7 +1013,7 @@ abstract class AppLocalizations {
   /// No description provided for @failed_to_create_account.
   ///
   /// In en, this message translates to:
-  /// **'Failed to create account. Please try again.'**
+  /// **'Failed to create account. Try again.'**
   String get failed_to_create_account;
 
   /// No description provided for @profile_photo_optional.
@@ -1109,8 +1025,14 @@ abstract class AppLocalizations {
   /// No description provided for @enter_the_4digit.
   ///
   /// In en, this message translates to:
-  /// **'Please enter the 4-digit code sent to your phone number.'**
+  /// **'Please enter the 4-digit code sent to your number.'**
   String get enter_the_4digit;
+
+  /// No description provided for @enter_the_4_digit_sent_to.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the 4-digit code sent to \${phone_number}.'**
+  String enter_the_4_digit_sent_to(Object phone_number);
 
   /// No description provided for @no_order_history.
   ///
@@ -1127,38 +1049,70 @@ abstract class AppLocalizations {
   /// No description provided for @start_exploring_favorite_items.
   ///
   /// In en, this message translates to:
-  /// **'Start exploring and purchasing your favorite items'**
+  /// **'Start exploring your favorite items'**
   String get start_exploring_favorite_items;
 
-  /// Total number of reviews for a store
+  /// No description provided for @total_reviews.
   ///
   /// In en, this message translates to:
   /// **'(\$totalReviews reviews)'**
   String total_reviews(Object totalReviews);
 
-  /// A message appears when no products match the search.
+  /// No description provided for @no_products_found_for.
   ///
   /// In en, this message translates to:
   /// **'No product found for {search_query}'**
   String no_products_found_for(Object search_query);
 
-  /// Message showing the order ID
+  /// No description provided for @your_order_from.
   ///
   /// In en, this message translates to:
-  /// **'Your order {orderId} from '**
+  /// **'Your order {orderId} from'**
   String your_order_from(Object orderId);
 
-  /// Countdown timer for re-sending the confirmation code
+  /// No description provided for @re_send_in_resend_countdown_Sec.
   ///
   /// In en, this message translates to:
   /// **'Re-Send in \$resendCountdown Sec'**
   String re_send_in_resend_countdown_Sec(Object resendCountdown);
 
-  /// Instruction to enter the 4-digit code sent to the user's phone number
+  /// No description provided for @dont_received_code.
   ///
   /// In en, this message translates to:
-  /// **'Please enter the 4-digit code sent to \${phone_number}.'**
-  String enter_the_4_digit_sent_to(Object phone_number);
+  /// **'Didn\'t receive code?'**
+  String get dont_received_code;
+
+  /// No description provided for @re_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-send'**
+  String get re_send;
+
+  /// No description provided for @login_successful.
+  ///
+  /// In en, this message translates to:
+  /// **'Login successful!'**
+  String get login_successful;
+
+  /// No description provided for @login_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please try again.'**
+  String get login_failed;
+
+  /// No description provided for @default_country_code.
+  ///
+  /// In en, this message translates to:
+  /// **'+964'**
+  String get default_country_code;
+
+  String get confirm_your_account => "confirm your acc";
+
+  String get confirm => "confirmed";
+
+  String get try_again => "try again";
+
+  String get something_went_wrong => "something went wrong";
 }
 
 class _AppLocalizationsDelegate
