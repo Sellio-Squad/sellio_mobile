@@ -17,10 +17,10 @@ class BlocModule {
     sl.registerFactory(() => CartCubit(
       cartRepository: sl(),
       orderRepository: sl()
-    )..loadCart());
-    sl.registerFactory(() => FavoritesCubit(sl())..loadFavorites());
-    sl.registerFactory(() => UserCubit(sl())..loadUserInfo());
-    sl.registerFactory(() => OrderHistoryCubit(sl())..loadOrders());
+    ));
+    sl.registerFactory(() => FavoritesCubit(sl()));
+    sl.registerFactory(() => UserCubit(sl()));
+    sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeCategoriesCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl()));
     sl.registerFactory(() => HomeTopStoresCubit(sl()));
