@@ -1094,6 +1094,17 @@ abstract class AppLocalizations {
   /// **'Login successful!'**
   String get login_successful;
 
+  /// --- New Contact Launch Error Strings ---
+  String get could_not_launch_email;
+  String get could_not_launch_phone;
+  String get could_not_launch_whatsapp;
+  String get could_not_launch_facebook;
+  String get could_not_launch_website;
+
+  /// --- New Map Label ---
+  String get store_location;
+
+
   /// No description provided for @login_failed.
   ///
   /// In en, this message translates to:
