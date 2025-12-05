@@ -1,49 +1,42 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/cart.dart';
 import 'cart_item_model.dart';
 
-class CartModel extends Cart {
-  const CartModel({
-    required super.id,
-    required super.userId,
-    required super.items,
-    required super.totalPrice,
-  });
+part 'cart_model.freezed.dart';
+part 'cart_model.g.dart';
 
-  factory CartModel.fromJson(Map<String, dynamic> json) {
-    return CartModel(
-      id: json['id'] as String,
-      userId: json['userId'] as String,
-      items: (json['items'] as List<dynamic>)
-          .map((e) => CartItemModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalPrice: (json['totalPrice'] as num).toDouble(),
+@freezed
+class CartModel with _$CartModel {
+  const CartModel._();
+
+  const factory CartModel({
+    required List<CartItemModel> items,
+  }) = _CartModel;
+
+  factory CartModel.fromJson(Map<String, dynamic> json) =>
+      _$CartModelFromJson(json);
+
+  // Mapper to domain entity
+  Cart toEntity() {
+    final totalPrice = items.fold(
+      0.0,
+          (sum, item) => sum + (item.price * item.quantity),
+    );
+
+    return Cart(
+      id: '',
+      userId: '',
+      items: items.map((item) => item.toEntity()).toList(),
+      totalPrice: totalPrice,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'userId': userId,
-      'items': items.map((e) => (e as CartItemModel).toJson()).toList(),
-      'totalPrice': totalPrice,
-    };
-  }
-
+  // Mapper from domain entity
   factory CartModel.fromEntity(Cart cart) {
     return CartModel(
-      id: cart.id,
-      userId: cart.userId,
-      items: cart.items,
-      totalPrice: cart.totalPrice,
-    );
-  }
-
-  Cart toEntity() {
-    return Cart(
-      id: id,
-      userId: userId,
-      items: items,
-      totalPrice: totalPrice,
+      items: cart.items
+          .map((item) => CartItemModel.fromEntity(item))
+          .toList(),
     );
   }
 }

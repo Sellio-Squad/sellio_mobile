@@ -1,10 +1,9 @@
 
 import '../../core/error/result.dart';
-import '../../data/models/response/create_order_response.dart';
 import '../entities/order.dart';
 
 abstract class OrderRepository {
-  Future<Result<CreateOrderResponse>> createOrder({
+  Future<Result<void>> createOrder({
     required List<OrderItem> items,
   });
 
