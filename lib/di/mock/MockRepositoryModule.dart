@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import '../../data/mock/repositories_impl/mock_auth_repository_impl.dart';
-import '../../data/mock/repositories_impl/mock_cart_repository_impl.dart';
 import '../../data/mock/repositories_impl/mock_category_repository_impl.dart';
 import '../../data/mock/repositories_impl/mock_favorites_repository_impl.dart';
 import '../../data/mock/repositories_impl/mock_notification_repository_impl.dart';
@@ -19,7 +18,6 @@ class MockRepositoryModule {
   static void register(GetIt sl) {
     // sl.registerLazySingleton<AuthRepository>(() => MockAuthRepositoryImpl());
     // sl.registerLazySingleton<StoreRepository>(() => MockStoreRepositoryImpl());
-    sl.registerLazySingleton<CartRepository>(() => MockCartRepositoryImpl());
     // sl.registerLazySingleton<CategoryRepository>(() => MockCategoryRepositoryImpl());
     sl.registerLazySingleton<FavoritesRepository>(() => MockFavoritesRepositoryImpl());
     sl.registerLazySingleton<OffersRepository>(() => MockOffersRepositoryImpl());

@@ -14,10 +14,13 @@ import '../../presentation/screens/product_details/cubit/product_details_cubit.d
 
 class BlocModule {
   static void register(GetIt sl) {
-    sl.registerFactory(() => CartCubit(sl())..loadCart());
-    sl.registerFactory(() => FavoritesCubit(sl())..loadFavorites());
-    sl.registerFactory(() => UserCubit(sl())..loadUserInfo());
-    sl.registerFactory(() => OrderHistoryCubit(sl())..loadOrders());
+    sl.registerFactory(() => CartCubit(
+      cartRepository: sl(),
+      orderRepository: sl()
+    ));
+    sl.registerFactory(() => FavoritesCubit(sl()));
+    sl.registerFactory(() => UserCubit(sl()));
+    sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeCategoriesCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl()));
     sl.registerFactory(() => HomeTopStoresCubit(sl()));

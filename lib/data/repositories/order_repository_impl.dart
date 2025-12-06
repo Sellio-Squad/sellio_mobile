@@ -1,14 +1,10 @@
 import 'package:sellio_mobile/data/mappers/order_mapper.dart';
-
 import '../../core/error/result.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/order_remote_datasource.dart';
 import '../models/order_create_item_model.dart';
-import '../models/response/create_order_response.dart';
-
-
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderRemoteDataSource _remoteDataSource;
@@ -23,22 +19,17 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<Result<CreateOrderResponse>> createOrder({
+  Future<Result<void>> createOrder({
     required List<OrderItem> items
   }) async {
-    return RepositoryCallHandler.call<CreateOrderResponse>(() async {
-      final response = await _remoteDataSource.createOrder(
+    return RepositoryCallHandler.callVoid(() async {
+       _remoteDataSource.createOrder(
         items: items
             .map((item) => OrderCreateItemModel(
           productItemId: item.id,
           quantity: item.quantity,
         ))
             .toList(),
-      );
-
-      return CreateOrderResponse(
-        message: response.message,
-        orderIds: response.orderIds,
       );
     });
   }

@@ -6,9 +6,11 @@ import '../../../data/repositories/user_repository_impl.dart';
 import '../../../domain/repositories/auth_repository.dart';
 import '../../../domain/repositories/store_repository.dart';
 import '../../../domain/repositories/user_repository.dart';
+import '../../data/repositories/cart_repository_impl.dart';
 import '../../data/repositories/category_repository_impl.dart';
 import '../../data/repositories/order_repository_impl.dart';
 import '../../data/repositories/product_repository_impl.dart';
+import '../../domain/repositories/cart_repository.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../../domain/repositories/product_repository.dart';
@@ -39,28 +41,21 @@ class RepositoryModule {
     );
     //
     sl.registerLazySingleton<CategoryRepository>(
-          () => CategoryRepositoryImpl(
-        remoteDataSource: sl()
+      () => CategoryRepositoryImpl(remoteDataSource: sl()),
+    );
+    //
+    sl.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(
+        localDataSource: sl(),
       ),
     );
     //
-    // sl.registerLazySingleton<CartRepository>(
-    //       () => CartRepositoryImpl(
-    //     remoteDataSource: sl(),
-    //     storageService: sl()
-    //   ),
-    // );
-    //
     sl.registerLazySingleton<OrderRepository>(
-          () => OrderRepositoryImpl(
-        remoteDataSource: sl()
-      ),
+      () => OrderRepositoryImpl(remoteDataSource: sl()),
     );
 
     sl.registerLazySingleton<UserRepository>(
-          () => UserRepositoryImpl(
-        remoteDataSource: sl()
-      ),
+      () => UserRepositoryImpl(remoteDataSource: sl()),
     );
 
     // sl.registerLazySingleton<FavoritesRepository>(

@@ -90,7 +90,7 @@ class TrendingProductsSection extends StatelessWidget {
                     productCounts: cartState.productCounts,
                     favoriteProductIds: favState.productIds,
                     onIncrement: (productId) =>
-                        context.read<CartCubit>().incrementProduct(productId),
+                        context.read<CartCubit>().addToCart,
                     onDecrement: (productId) =>
                         context.read<CartCubit>().decrementProduct(productId),
                     onFavorite: (productId) => context

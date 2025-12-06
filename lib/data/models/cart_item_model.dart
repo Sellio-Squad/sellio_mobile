@@ -1,61 +1,47 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../domain/entities/cart.dart';
 
-class CartItemModel extends CartItem {
-  const CartItemModel({
-    required super.id,
-    required super.productId,
-    required super.productName,
-    required super.productImage,
-    required super.price,
-    required super.quantity,
-    required super.currency,
-  });
+part 'cart_item_model.freezed.dart';
+part 'cart_item_model.g.dart';
 
-  factory CartItemModel.fromJson(Map<String, dynamic> json) {
-    return CartItemModel(
-      id: json['id'] as String,
-      productId: json['productId'] as String,
-      productName: json['productName'] as String,
-      productImage: json['productImage'] as String,
-      price: (json['price'] as num).toDouble(),
-      quantity: json['quantity'] as int,
-      currency: json['currency'] as String,
-    );
-  }
+@freezed
+class CartItemModel with _$CartItemModel {
+  const CartItemModel._();
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'productId': productId,
-      'productName': productName,
-      'productImage': productImage,
-      'price': price,
-      'quantity': quantity,
-      'currency': currency,
-    };
-  }
+  const factory CartItemModel({
+    required String productId,
+    required String productName,
+    required String productImage,
+    required double price,
+    required int quantity,
+    required String currency,
+  }) = _CartItemModel;
 
-  factory CartItemModel.fromEntity(CartItem item) {
-    return CartItemModel(
-      id: item.id,
-      productId: item.productId,
-      productName: item.productName,
-      productImage: item.productImage,
-      price: item.price,
-      quantity: item.quantity,
-      currency: item.currency,
-    );
-  }
+  factory CartItemModel.fromJson(Map<String, dynamic> json) =>
+      _$CartItemModelFromJson(json);
 
+  // Mapper to domain entity
   CartItem toEntity() {
     return CartItem(
-      id: id,
+      id: productId,
       productId: productId,
       productName: productName,
       productImage: productImage,
       price: price,
       quantity: quantity,
       currency: currency,
+    );
+  }
+
+  // Mapper from domain entity
+  factory CartItemModel.fromEntity(CartItem item) {
+    return CartItemModel(
+      productId: item.productId,
+      productName: item.productName,
+      productImage: item.productImage,
+      price: item.price,
+      quantity: item.quantity,
+      currency: item.currency,
     );
   }
 }
