@@ -25,18 +25,30 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap Workspace
+        run: melos bootstrap
 
       - name: Generate Freezed & JSON serialization files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+        run: melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Build Android APK
+      - name: Build Customer App APK
         run: flutter build apk --debug -t lib/main.dart
+        working-directory: apps/customer
+
+      - name: Build Seller App APK
+        run: flutter build apk --debug -t lib/main.dart
+        working-directory: apps/seller
+
+      - name: Build Admin App APK
+        run: flutter build apk --debug -t lib/main.dart
+        working-directory: apps/admin
 
   autoupdate:
     name: Auto Update
