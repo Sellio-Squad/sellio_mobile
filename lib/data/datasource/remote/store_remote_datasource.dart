@@ -1,5 +1,7 @@
-import '../../core/api/api_endpoints.dart';
+import 'package:sellio_mobile/data/models/store_top_rating_model.dart';
+
 import '../../core/api/api_client.dart';
+import '../../core/api/api_endpoints.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
 import '../../models/review_model.dart';
@@ -14,7 +16,7 @@ abstract class StoreRemoteDataSource {
 
   Future<StoreModel> getStoreById(String storeId);
 
-  Future<PaginatedResponse<StoreModel>> getTopStores({
+  Future<PaginatedResponse<StoreTopRatingModel>> getTopStores({
     int page = 0,
     int pageSize = 10,
   });
@@ -84,7 +86,7 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
   }
 
   @override
-  Future<PaginatedResponse<StoreModel>> getTopStores({
+  Future<PaginatedResponse<StoreTopRatingModel>> getTopStores({
     int page = 0,
     int pageSize = 10,
   }) async {
@@ -98,7 +100,7 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => StoreModel.fromJson(json),
+      (json) => StoreTopRatingModel.fromJson(json),
     );
   }
 
