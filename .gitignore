@@ -1,51 +1,50 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# ------------------------------------------------------------
+# Melos / Monorepo Specific
+# ------------------------------------------------------------
+.melos_tool/
+melos_logs/
+# Ignore pubspec.lock in shared packages (libraries), but keep them for apps
+packages/**/pubspec.lock
 
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
+# ------------------------------------------------------------
+# Global System & IDE Files (Recursive)
+# ------------------------------------------------------------
+# These patterns use **/ to ensure they are ignored in every sub-folder
+**/.DS_Store
+**/.history
+**/.svn/
+**/.atom/
+**/.idea/
+**/.vscode/
+**/*.iml
+**/*.ipr
+**/*.iws
+**/*.swp
+**/*.class
+**/*.log
+**/*.pyc
+**/migrate_working_dir/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
+# ------------------------------------------------------------
+# Global Flutter/Dart Build Artifacts (Recursive)
+# ------------------------------------------------------------
+**/build/
+**/.dart_tool/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.pub-cache/
+**/.pub/
 **/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-/build/
-pubspec.lock
+**/coverage/
 
-# Symbolication related
-app.*.symbols
-
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-
-# Ignore generated localization files
-lib/core/localization/l10n/app_localizations.dart
-lib/core/localization/l10n/app_localizations_ar.dart
-lib/core/localization/l10n/app_localizations_en.dart
+# ------------------------------------------------------------
+# Global Mobile Artifacts (Recursive Safety)
+# ------------------------------------------------------------
+**/android/.gradle
+**/android/captures/
+**/android/**/*.jks
+**/android/local.properties
+**/android/key.properties
+**/ios/.generated/
+**/ios/Pods/
+**/ios/Podfile.lock
