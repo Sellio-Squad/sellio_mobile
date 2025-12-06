@@ -1,0 +1,8 @@
+name: sellio_monorepo
+description: The monorepo for Sellio mobile applications.
+publish_to: 'none'
+environment:
+  sdk: ^3.0.0
+
+dev_dependencies:
+  melos: ^6.0.0

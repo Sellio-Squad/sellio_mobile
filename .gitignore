@@ -3,6 +3,8 @@
 # ------------------------------------------------------------
 .melos_tool/
 melos_logs/
+**/pubspec_overrides.yaml
+
 # Ignore pubspec.lock in shared packages (libraries), but keep them for apps
 packages/**/pubspec.lock
 
