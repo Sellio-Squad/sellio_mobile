@@ -1,110 +1,38 @@
-# ------------------------------------------------------------
-# Miscellaneous
-# ------------------------------------------------------------
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# ---------------------------------
+# Android
+# ---------------------------------
+android/app/debug
+android/app/profile
+android/app/release
+android/app/intermediates/
+android/app/generated/
+android/app/.cxx/
 
-# ------------------------------------------------------------
-# IntelliJ related
-# ------------------------------------------------------------
-*.iml
-*.ipr
-*.iws
-.idea/
+# ---------------------------------
+# iOS & macOS
+# ---------------------------------
+ios/Flutter/Flutter.framework
+ios/Flutter/App.framework
+ios/Flutter/engine/
+ios/Flutter/flutter_export_environment.sh
+ios/Runner.build/
+ios/Build/
+ios/.symlinks/
+macos/Flutter/ephemeral/
 
-# VS Code (optional)
-/.vscode/
+# ---------------------------------
+# Windows / Linux
+# ---------------------------------
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
 
-# ------------------------------------------------------------
-# Flutter / Dart / Pub
-# ------------------------------------------------------------
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-
-# All Flutter build outputs (apps + packages)
-/build/
-**/build/
-
-# Coverage
-/coverage/
-
-# ------------------------------------------------------------
-# Symbolication
-# ------------------------------------------------------------
-app.*.symbols
-
-# Obfuscation
-app.*.map.json
-
-# ------------------------------------------------------------
-# Android build artifacts
-# ------------------------------------------------------------
-/android/.gradle
-/android/captures
-/android/app/debug
-/android/app/profile
-/android/app/release
-**/android/app/intermediates/
-**/android/app/generated/
-**/android/app/.cxx/
-**/android/local.properties
-
-# ------------------------------------------------------------
-# iOS build artifacts
-# ------------------------------------------------------------
-**/ios/Pods/
-**/ios/Podfile.lock
-**/ios/Flutter/Flutter.framework
-**/ios/Flutter/App.framework
-**/ios/Flutter/engine/
-**/ios/Flutter/flutter_export_environment.sh
-**/ios/Runner.build/
-**/ios/Build/
-**/ios/.symlinks/
-
-# ------------------------------------------------------------
-# macOS
-# ------------------------------------------------------------
-**/macos/Pods/
-**/macos/Podfile.lock
-**/macos/Flutter/ephemeral/
-
-# ------------------------------------------------------------
-# Windows
-# ------------------------------------------------------------
-**/windows/flutter/ephemeral/
-
-# ------------------------------------------------------------
-# Linux
-# ------------------------------------------------------------
-**/linux/flutter/ephemeral/
-
-# ------------------------------------------------------------
+# ---------------------------------
 # Web
-# ------------------------------------------------------------
-**/web/.dart_tool/
+# ---------------------------------
+web/.dart_tool/
 
-# ------------------------------------------------------------
-# Monorepo / Melos related
-# ------------------------------------------------------------
-.melos_tool/
-melos_logs/
-
-# Do not commit pubspec.lock inside shared packages
-packages/**/pubspec.lock
-
+# ---------------------------------
+# Symbols & Obfuscation
+# ---------------------------------
+app.*.symbols
+app.*.map.json
