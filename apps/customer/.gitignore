@@ -108,3 +108,18 @@ melos_logs/
 # Do not commit pubspec.lock inside shared packages
 packages/**/pubspec.lock
 
+# ------------------------------------------------------------
+# Generated code
+# ------------------------------------------------------------
+# Freezed
+*.freezed.dart
+
+# JSON Serializable
+*.g.dart
+*.g.part.dart
+
+# Flutter localizations
+app_localizations*.dart
+
+# Optional: Mockito generated files
+*.mocks.dart
