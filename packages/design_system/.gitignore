@@ -1,0 +1,9 @@
+# Library packages should NOT commit pubspec.lock
+pubspec.lock
+
+# Coverage reports for this package
+coverage/
+test/coverage/
+
+# Documentation
+doc/api/

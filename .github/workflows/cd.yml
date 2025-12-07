@@ -42,40 +42,92 @@ jobs:
               :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
               PR created by: ${{ github.event.pull_request.user.login || github.actor }}
               Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
-              Starting Android build...
+              Starting Android builds for Customer, Seller, and Admin apps...
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap Workspace
+        run: melos bootstrap
 
       - name: Generate Freezed & JSON serialization files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+        run: melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Decode Keystore
+      - name: Decode Keystore & Setup Keys
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
+          # Decode keystore to a temporary file
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > upload-keystore.jks
+          
+          # Function to setup keys for an app
+          setup_keys() {
+            local app_dir=$1
+            mkdir -p $app_dir/android/app
+            cp upload-keystore.jks $app_dir/android/app/upload-keystore.jks
+            
+            echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > $app_dir/android/key.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> $app_dir/android/key.properties
+            echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> $app_dir/android/key.properties
+            echo "storeFile=upload-keystore.jks" >> $app_dir/android/key.properties
+          }
+          
+          setup_keys "apps/customer"
+          setup_keys "apps/seller"
+          setup_keys "apps/admin"
+          
+          rm upload-keystore.jks
 
-      - name: Create key.properties
-        run: |
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=upload-keystore.jks" >> android/key.properties
-
-      - name: Build release APK
+      - name: Build Customer App Release APK
         run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/customer
 
-      - name: Upload APK to latest Slack thread
+      - name: Build Seller App Release APK
+        run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/seller
+
+      - name: Build Admin App Release APK
+        run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/admin
+
+      - name: Upload Customer APK to Slack
         uses: slackapi/slack-github-action@v2.1.1
         with:
           method: files.uploadV2
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: ":white_check_mark: Build successful for commit `${{ github.sha }}` on `${{ github.ref_name }}`."
-            file: "build/app/outputs/flutter-apk/app-release.apk"
-            filename: "sellio-${{ github.sha }}.apk"
+            initial_comment: ":white_check_mark: Customer App Build successful for commit `${{ github.sha }}`."
+            file: "apps/customer/build/app/outputs/flutter-apk/app-release.apk"
+            filename: "sellio-customer-${{ github.sha }}.apk"
+            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Upload Seller APK to Slack
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: files.uploadV2
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+            initial_comment: ":white_check_mark: Seller App Build successful for commit `${{ github.sha }}`."
+            file: "apps/seller/build/app/outputs/flutter-apk/app-release.apk"
+            filename: "sellio-seller-${{ github.sha }}.apk"
+            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Upload Admin APK to Slack
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          method: files.uploadV2
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+            initial_comment: ":white_check_mark: Admin App Build successful for commit `${{ github.sha }}`."
+            file: "apps/admin/build/app/outputs/flutter-apk/app-release.apk"
+            filename: "sellio-admin-${{ github.sha }}.apk"
             thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

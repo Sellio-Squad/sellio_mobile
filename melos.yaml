@@ -1,0 +1,9 @@
+name: sellio_monorepo
+
+packages:
+  - apps/*
+  - packages/*
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
