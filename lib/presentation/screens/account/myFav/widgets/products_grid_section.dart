@@ -93,7 +93,12 @@ class ProductsGridSection extends StatelessWidget {
                       onIncrement: () {
                         if (count == 0) {
                           // Add to cart if not in cart
-                          cartCubit.addToCart(product.id);
+                          cartCubit.addToCart(
+                              productId: product.id,
+                              productName: product.name,
+                              productImage: product.images[0],
+                              price: product.price,
+                              currency: product.currency);
                         } else {
                           // Increment if already in cart
                           cartCubit.incrementProduct(product.id);
