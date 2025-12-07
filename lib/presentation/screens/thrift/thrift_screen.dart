@@ -161,9 +161,12 @@ class ThriftContent extends StatelessWidget {
                 final count = cart.state.productCounts[productId] ?? 0;
                 final isFavorite = favorites.state.productIds.contains(productId);
 
+                final imageUrl =
+                    product.images.isNotEmpty ? product.images.first : '';
+
                 return SellioProductVerticalCard(
                   key: ValueKey(productId),
-                  imageUrl: product.images.first,
+                  imageUrl: imageUrl,
                   title: product.name,
                   price: product.price.toString(),
                   count: count,

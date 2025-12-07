@@ -271,7 +271,7 @@ class ProductRepositoryImpl implements ProductRepository {
     return PaginatedData<Product>(
       items: response.data.map((model) => model.toEntity()).toList(),
       totalElements: response.totalElements,
-      currentPage: response.page,
+      currentPage: response.page + 1,
       pageSize: response.pageSize,
       totalPages: response.totalPages,
     );
@@ -283,8 +283,10 @@ class ProductRepositoryImpl implements ProductRepository {
     int limit = 20,
   }) async {
     return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
+      final normalizedCategoryId =
+          (categoryId == null || categoryId.isEmpty) ? null : categoryId;
       final paginatedResponse = await _remoteDataSource.getThriftProducts(
-        categoryId: categoryId ?? '',
+        categoryId: normalizedCategoryId,
         page: page - 1,
         pageSize: limit,
       );

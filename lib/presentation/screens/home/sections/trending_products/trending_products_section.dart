@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'product_list_shimmer.dart';
 import '../../../../cubits/cart/cubit/cart_cubit.dart';
 import '../../../../cubits/cart/cubit/cart_state.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
@@ -39,10 +40,7 @@ class TrendingProductsSection extends StatelessWidget {
         if (productsState is HomeTrendingProductsLoading ||
             productsState is HomeTrendingProductsSearching) {
           return const SliverToBoxAdapter(
-            child: SizedBox(
-              height: 272,
-              child: Center(child: CircularProgressIndicator()),
-            ),
+            child: ProductsListShimmer(),
           );
         }
 
@@ -92,7 +90,7 @@ class TrendingProductsSection extends StatelessWidget {
                     productCounts: cartState.productCounts,
                     favoriteProductIds: favState.productIds,
                     onIncrement: (productId) =>
-                        context.read<CartCubit>().incrementProduct(productId),
+                        context.read<CartCubit>().addToCart,
                     onDecrement: (productId) =>
                         context.read<CartCubit>().decrementProduct(productId),
                     onFavorite: (productId) => context

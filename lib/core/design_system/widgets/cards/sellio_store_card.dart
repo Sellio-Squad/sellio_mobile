@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
+
 import '../../constants/app_images.dart';
 import '../discount_tag.dart';
 
@@ -46,9 +47,9 @@ class SellioStoreCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      if (imageUrl.startsWith('AppImages/'))
+                      if (imageUrl.startsWith('assets/'))
                         Image.asset(imageUrl, fit: BoxFit.cover, height: 133,)
-                      else
+                      else if (imageUrl.isNotEmpty)
                         Image.network(imageUrl, fit: BoxFit.cover, height: 133),
                       Container(
                         width: double.infinity,

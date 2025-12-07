@@ -1,3 +1,4 @@
+/*
 import '../../../core/error/failure.dart';
 import '../../../core/error/result.dart';
 import '../../../domain/entities/common/paginated_data.dart';
@@ -240,4 +241,4 @@ class MockProductRepositoryImpl implements ProductRepository {
 
     return Success(data);
   }
-}
+}*/
