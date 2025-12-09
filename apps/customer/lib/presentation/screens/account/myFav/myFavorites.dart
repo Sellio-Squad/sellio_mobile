@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:design_system/design_system.dart';
-import 'models/favorite_product_model.dart';
-import 'models/favorite_store_model.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'widgets/products_grid_section.dart';

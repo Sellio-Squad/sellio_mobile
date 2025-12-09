@@ -9,11 +9,12 @@ import 'package:sellio_mobile/presentation/screens/account/navigation/account_na
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../domain/repositories/user_repository.dart';
-import 'AccountOptionCard.dart';
+import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'account_settings/account_settings_bottom_sheet.dart';
 import 'cubit/account_state.dart';
 import 'delete_account/delete_account_bottom_sheet.dart';
+import 'empty_section.dart';
 import 'language/change_language_bottom_sheet.dart';
 import 'logout/logout_bottom_sheet.dart';
 

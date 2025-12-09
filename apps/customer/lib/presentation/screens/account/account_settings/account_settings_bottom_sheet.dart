@@ -102,9 +102,9 @@ class _AccountSettingsBottomSheetState extends State<AccountSettingsBottomSheet>
                   inputType: TextInputType.phone,
                   isPhoneNumber: true,
                   controller: phoneController,
-                  selectedCountry: _selectedCountry,
+        /*          selectedCountry: _selectedCountry,
                   countries: _countries,
-                  onChangeCountry: (c) => setState(() => _selectedCountry = c),
+                  onChangeCountry: (c) => setState(() => _selectedCountry = c),*/
                 ),
                 const SizedBox(height: 6),
 

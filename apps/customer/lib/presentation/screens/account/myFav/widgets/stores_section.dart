@@ -1,10 +1,9 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/design_system/widgets/cards/sellio_store_card.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
-
 import 'logout_state.dart';
 
 class LogoutCubit extends Cubit<LogoutState> {

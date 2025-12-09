@@ -1,13 +1,7 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/design_system/constants/app_images.dart';
-import 'package:sellio_mobile/core/design_system/themes/sellio_theme_provider.dart';
-import 'package:sellio_mobile/core/design_system/widgets/buttons/sellio_button.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-import '../../../../core/design_system/themes/sellio_colors.dart';
-import '../../../../core/design_system/themes/sellio_typography.dart';
 
 class EmptySection extends StatelessWidget {
   final String icon;
