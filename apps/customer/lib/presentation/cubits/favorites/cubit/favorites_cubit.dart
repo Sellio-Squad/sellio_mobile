@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../domain/repositories/favorites_repository.dart';
 import 'favorites_state.dart';
 
@@ -16,6 +18,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     try {
       final productIds = await _favoritesRepository.getFavoriteProductIds();
       final storeIds = await _favoritesRepository.getFavoriteStoreIds();
+      debugPrint("fav $productIds ,$storeIds");
 
       emit(FavoritesLoaded(
         productIds: productIds.data.toSet(),

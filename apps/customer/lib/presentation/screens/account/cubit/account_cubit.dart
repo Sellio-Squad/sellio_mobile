@@ -18,8 +18,9 @@ class AccountCubit extends Cubit<AccountState> {
           firstName: result.data.firstName,
           lastName: result.data.lastName,
           email: result.data.email,
-          imagePath: result.data.avatarUrl
-        )
+        imagePath: result.data.avatarUrl,
+        notificationsEnabled: true,
+      )
       );
     } else {
       final errorMessage = _extractErrorMessage([result]);
@@ -27,31 +28,44 @@ class AccountCubit extends Cubit<AccountState> {
     }
   }
 
+  void toggleNotifications(bool enabled) {
+    if (state is AccountLoaded) {
+      final currentState = state as AccountLoaded;
+      emit(currentState.copyWith(notificationsEnabled: enabled));
+
+      // _repository.updateNotificationSettings(enabled);
+    }
+  }
+
   Future<void> updateProfilePicture() async {
     final ImagePicker picker = ImagePicker();
     final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    // if (pickedFile != null) {
-    //   emit(const AccountLoading());
-    //   final uploadResult = await _repository.uploadProfilePhoto(pickedFile.path);
-    //   if (uploadResult is Success) {
-    //     final updateResult = await _repository.updateUserProfile(avatarUrl: uploadResult.data);
-    //     if (updateResult is Success) {
-    //       emit(AccountLoaded(
-    //         firstName: updateResult.data.firstName,
-    //         lastName: updateResult.data.lastName,
-    //         email: updateResult.data.email,
-    //         imagePath: updateResult.data.avatarUrl,
-    //       ));
-    //     } else {
-    //       final errorMessage = _extractErrorMessage([updateResult]);
-    //       emit(AccountError(message: errorMessage));
-    //     }
-    //   } else {
-    //     final errorMessage = _extractErrorMessage([uploadResult]);
-    //     emit(AccountError(message: errorMessage));
-    //   }
-    // }
+    if (pickedFile != null) {
+      emit(const AccountLoading());
+
+      final uploadResult = await _repository.uploadProfilePhoto(pickedFile.path);
+      if (uploadResult is Success) {
+
+        final loadUserData = await _repository.getUserProfile();
+        if (loadUserData is Success) {
+          emit(AccountLoaded(
+            firstName: loadUserData.data.firstName,
+            lastName: loadUserData.data.lastName,
+            email: loadUserData.data.email,
+            imagePath: loadUserData.data.avatarUrl,
+          ));
+
+        } else {
+          final errorMessage = _extractErrorMessage([loadUserData]);
+          emit(AccountError(message: errorMessage));
+        }
+      } else {
+        final errorMessage = _extractErrorMessage([uploadResult]);
+        emit(AccountError(message: errorMessage));
+        // emit(AvatarNotUploaded());
+      }
+    }
 
   }
 

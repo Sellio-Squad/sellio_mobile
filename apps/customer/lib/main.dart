@@ -7,7 +7,9 @@ import 'core/localization/cubit/locale_cubit.dart';
 import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
+import 'domain/repositories/auth_repository.dart';
 import 'domain/repositories/category_repository.dart';
+import 'domain/repositories/favorites_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
 import 'domain/repositories/user_repository.dart';
@@ -41,6 +43,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider(create: (_) => sl<AuthRepository>()),
+        RepositoryProvider(create: (_) => sl<FavoritesRepository>()),
         RepositoryProvider(create: (_) => sl<ProductRepository>()),
         RepositoryProvider(create: (_) => sl<CategoryRepository>()),
         RepositoryProvider(create: (_) => sl<StoreRepository>()),

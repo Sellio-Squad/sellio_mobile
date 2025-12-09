@@ -1,5 +1,5 @@
-import '../../../core/api/api_endpoints.dart';
 import '../../../core/api/api_client.dart';
+import '../../../core/api/api_endpoints.dart';
 import '../../../models/user_model.dart';
 import 'auth_remote.dart';
 
@@ -120,5 +120,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<UserModel?> getCurrentUser(String userId) async {
     final response = await _httpClient.get(ApiEndpoints.userProfile());
     return UserModel.fromJson(response.data);
+  }
+
+  @override
+  Future<void> logout() async {
+    await _httpClient.post(ApiEndpoints.logout);
   }
 }
