@@ -1,35 +1,82 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:sellio_mobile/presentation/screens/home/widgets/top_stores_section.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/error/result.dart';
+import 'package:sellio_mobile/domain/entities/store.dart';
+import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {
-  final List<Store> stores;
-  final void Function(int) onToggleFavorite;
+  final List<String> favoriteStoreIds;
+  final void Function(String) onToggleFavorite;
 
   const StoresSection({
     super.key,
-    required this.stores,
+    required this.favoriteStoreIds,
     required this.onToggleFavorite,
   });
 
   @override
   Widget build(BuildContext context) {
-    final favoriteStores = stores.where((store) => store.isFavorite).toList();
-
-    if (favoriteStores.isEmpty) {
+    if (favoriteStoreIds.isEmpty) {
       return const SliverToBoxAdapter(
         child: EmptyFavoritesWidget(),
       );
     }
 
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 24),
-        child: TopStoresSection(
-          topStores: favoriteStores,
-          onLikePressed: (storeId) => onToggleFavorite(int.parse(storeId)),
-          onCardPressed: (storeId) => onToggleFavorite(int.parse(storeId)),
-        ),
+      child: FutureBuilder<Result<List<Store>>>(
+        future: context.read<StoreRepository>().getFavoriteStores(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(48.0),
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
+          if (snapshot.hasError || !snapshot.hasData) {
+            return const EmptyFavoritesWidget();
+          }
+
+          final result = snapshot.data!;
+
+          if (result is! Success<List<Store>>) {
+            return const EmptyFavoritesWidget();
+          }
+
+          final stores = result.data;
+
+          if (stores.isEmpty) {
+            return const EmptyFavoritesWidget();
+          }
+
+          return Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: stores.length,
+              itemBuilder: (context, index) {
+                final store = stores[index];
+
+                return SellioStoreCard(
+                  imageUrl: store.coverImage,
+                  title: store.name,
+                  discountText: store.sale,
+                  isFavorite: true,
+                  onLikePressed: () => onToggleFavorite(store.id),
+                  onCardPressed: () {
+                    // Navigate to store details
+                    // Example: context.push('/store/${store.id}');
+                  },
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

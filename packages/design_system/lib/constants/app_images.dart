@@ -105,6 +105,7 @@ class AppImages {
   static const String arrowRightCustom = '$iconsPath/ic_arrow_right_custom.svg';
   static const String pencilEdit = '$iconsPath/ic_pencil_edit.svg';
   static const String cat = '$imagesPath/cat.webp';
+  static const String notLoggedIn = '$iconsPath/ic_user_minus.svg';
 
   // -----------------------------
   // Bottom Navigation Icons
