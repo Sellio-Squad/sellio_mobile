@@ -28,23 +28,29 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
 
-      - name: Notify Slack
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          method: chat.postMessage
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel: ${{ secrets.SLACK_CHANNEL_ID }}
-            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
-            text: |
-              :rocket: Pull Request *${{ github.event.pull_request.title || 'Manual Trigger' }}* merged into `${{ github.base_ref || github.ref_name }}`.
-              PR created by: ${{ github.event.pull_request.user.login || github.actor }}
-              Merged by: ${{ github.event.pull_request.merged_by.login || github.actor }}
-              Starting Android builds for Customer, Seller, and Admin apps...
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+   
+      - name: Notify Discord (PR merged)
+        if: github.event_name == 'pull_request'
+        run: |
+          MESSAGE="Pull Request **${{ github.event.pull_request.title }}** merged into \`${{ github.base_ref }}\`.\n
+          PR Author: **${{ github.event.pull_request.user.login }}**\n
+          Merged by: **${{ github.event.pull_request.merged_by.login }}**\n
+          Starting Android builds for Customer, Seller, and Admin..."
+          
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"$MESSAGE\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_RELEASES_URL }}
+
+      - name: Notify Discord (Manual trigger)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          MESSAGE="Manual trigger started by **${{ github.actor }}**.\nBuilding Customer, Seller, and Admin apps..."
+          
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"$MESSAGE\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_RELEASES_URL }}
 
       - name: Install Melos
         run: dart pub global activate melos
@@ -57,15 +63,13 @@ jobs:
 
       - name: Decode Keystore & Setup Keys
         run: |
-          # Decode keystore to a temporary file
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > upload-keystore.jks
           
-          # Function to setup keys for an app
           setup_keys() {
             local app_dir=$1
             mkdir -p $app_dir/android/app
             cp upload-keystore.jks $app_dir/android/app/upload-keystore.jks
-            
+          
             echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > $app_dir/android/key.properties
             echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> $app_dir/android/key.properties
             echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> $app_dir/android/key.properties
@@ -90,44 +94,21 @@ jobs:
         run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
         working-directory: apps/admin
 
-      - name: Upload Customer APK to Slack
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          method: files.uploadV2
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: ":white_check_mark: Customer App Build successful for commit `${{ github.sha }}`."
-            file: "apps/customer/build/app/outputs/flutter-apk/app-release.apk"
-            filename: "sellio-customer-${{ github.sha }}.apk"
-            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+   
+      - name: Send Customer APK to Discord
+        run: |
+          curl -X POST -F "file=@apps/customer/build/app/outputs/flutter-apk/app-release.apk" \
+          -F "payload_json={\"content\": \"✅ Customer App Build successful for commit \`${{ github.sha }}\`.\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_RELEASES_URL }}
 
-      - name: Upload Seller APK to Slack
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          method: files.uploadV2
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: ":white_check_mark: Seller App Build successful for commit `${{ github.sha }}`."
-            file: "apps/seller/build/app/outputs/flutter-apk/app-release.apk"
-            filename: "sellio-seller-${{ github.sha }}.apk"
-            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Send Seller APK to Discord
+        run: |
+          curl -X POST -F "file=@apps/seller/build/app/outputs/flutter-apk/app-release.apk" \
+          -F "payload_json={\"content\": \"✅ Seller App Build successful for commit \`${{ github.sha }}\`.\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_RELEASES_URL }}
 
-      - name: Upload Admin APK to Slack
-        uses: slackapi/slack-github-action@v2.1.1
-        with:
-          method: files.uploadV2
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: ":white_check_mark: Admin App Build successful for commit `${{ github.sha }}`."
-            file: "apps/admin/build/app/outputs/flutter-apk/app-release.apk"
-            filename: "sellio-admin-${{ github.sha }}.apk"
-            thread_ts: ${{ secrets.SLACK_MASTER_THREAD_TS }}
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Send Admin APK to Discord
+        run: |
+          curl -X POST -F "file=@apps/admin/build/app/outputs/flutter-apk/app-release.apk" \
+          -F "payload_json={\"content\": \"✅ Admin App Build successful for commit \`${{ github.sha }}\`.\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_RELEASES_URL }}
