@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
@@ -15,7 +10,6 @@ import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubi
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
-import 'package:sellio_mobile/presentation/screens/product_details/product_details_listeners.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_image_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_price_section.dart';
@@ -32,20 +26,28 @@ class ProductDetailsScreen extends StatelessWidget {
         context.read<ProductRepository>(),
         context.read<CartCubit>(),
       )..loadProductDetails(productId),
-      child: ProductDetailsListener(
+      child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
+        listenWhen: (previous, current) => current is ProductDetailsAddToCartSuccess,
+        listener: (context, state) {
+          if (state is ProductDetailsAddToCartSuccess) {
+            SellioSnackBar(
+              isError: false,
+              message: state.message,
+              onCancelTap: () {},
+            );
+          }
+        },
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             backgroundColor: context.theme.colors.surfaceLow,
 
-            // AppBar
+            // ---------------- APP BAR ----------------
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(56),
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
-                  final title = (state is ProductDetailsLoaded)
-                      ? state.product.name
-                      : null;
+                  final title = (state is ProductDetailsLoaded) ? state.product.name : null;
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
@@ -55,6 +57,7 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
             ),
 
+            // ---------------- BODY ----------------
             body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is ProductDetailsLoading) {
@@ -67,15 +70,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       return SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 100),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight),
+                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               productImagesSection(),
                               Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -97,9 +98,8 @@ class ProductDetailsScreen extends StatelessWidget {
               },
             ),
 
-            // Bottom Button
-            bottomNavigationBar:
-            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+            // ---------------- BOTTOM BUTTON ----------------
+            bottomNavigationBar: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is! ProductDetailsLoaded) return const SizedBox();
                 return SafeArea(
@@ -162,11 +162,10 @@ Widget _buildNoteTextField(
 Widget _buildAddToCartButton(BuildContext context) {
   return BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
     listener: (context, state) {
-      if (state is ProductDetailsAddToCartSuccess &&
-          state.cartMessage != null) {
+      if (state is ProductDetailsAddToCartSuccess) {
         SellioSnackBar(
           isError: false,
-          message: state.cartMessage!,
+          message: state.message,
           onCancelTap: () {},
         );
       }

@@ -3,37 +3,49 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
-
+import 'product_details_state.dart';
 
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   final ProductRepository _repository;
   final CartCubit _cartCubit;
 
-  ProductDetailsCubit(this._repository, this._cartCubit)
-      : super(const ProductDetailsInitial());
+  ProductDetailsCubit(
+      this._repository,
+      this._cartCubit,
+      ) : super(const ProductDetailsInitial());
 
   final TextEditingController noteController = TextEditingController();
 
+  // ---------------------------------------------------------
+  // LOAD PRODUCT DETAILS
+  // ---------------------------------------------------------
   Future<void> loadProductDetails(String productId) async {
+    debugPrint('Loading product details for productId: $productId');
     emit(ProductDetailsLoading(productId: productId));
 
     final productResult = await _repository.getProductById(productId);
     final favoriteResult = await _repository.isFavorite(productId);
 
-    if (productResult is Success && favoriteResult is Success) {
+    debugPrint('Product result: $productResult');
+    debugPrint('Favorite result: $favoriteResult');
 
+    if (productResult is Success && favoriteResult is Success) {
       final cartState = _cartCubit.state;
-      int count = 0;
-      count = cartState.productCounts[productId] ?? 0;
+      final count = cartState.productCounts[productId] ?? 0;
+
+      debugPrint('Cart count for productId $productId: $count');
 
       emit(ProductDetailsLoaded(
         product: productResult.data,
         isFavorite: favoriteResult.data,
         productCount: count,
+        note: noteController.text,
       ));
+
+      debugPrint('ProductDetailsLoaded emitted with product: ${productResult.data}');
     } else {
       final errorMessage = _extractErrorMessage([productResult, favoriteResult]);
+      debugPrint('Error loading product details: $errorMessage');
       emit(ProductDetailsError(message: errorMessage));
     }
   }
@@ -42,11 +54,13 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   // UPDATE NOTE
   // ---------------------------------------------------------
   void updateNote(String newNote) {
+    debugPrint('Updating note to: $newNote');
     final currentState = state;
     if (currentState is! ProductDetailsLoaded) return;
 
     noteController.text = newNote;
     emit(currentState.copyWith(note: newNote));
+    debugPrint('Note updated, new state: $currentState');
   }
 
   // ---------------------------------------------------------
@@ -56,35 +70,48 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final currentState = state;
     if (currentState is! ProductDetailsLoaded) return;
 
-    final productId = currentState.product.id;
+    final product = currentState.product;
+    debugPrint('Adding product to cart: ${product.name}');
 
     _cartCubit.addToCart(
-      productId: productId,
-      productName: currentState.product.name,
-      productImage: currentState.product.images[0],
-      price: currentState.product.price,
-      currency: currentState.product.currency,
+      productId: product.id,
+      productName: product.name,
+      productImage: product.images.first,
+      price: product.price,
+      currency: product.currency,
       quantity: 1,
     );
 
-    emit(ProductDetailsAddToCartSuccess(
-      product: currentState.product,
-      productCount: currentState.productCount + 1,
-      isFavorite: currentState.isFavorite,
-      note: currentState.note,
-      cartMessage: "Product added successfully",
+    // 🔥 1) Emit SIDE EFFECT
+    emit(const ProductDetailsAddToCartSuccess(
+      message: 'Product added successfully',
     ));
+    debugPrint('ProductDetailsAddToCartSuccess emitted');
+
+    // 🔥 2) Re-emit UI state to keep screen stable
+    emit(currentState.copyWith(
+      productCount: currentState.productCount + 1,
+    ));
+    debugPrint('Product count incremented, new state: $currentState');
   }
 
   // ---------------------------------------------------------
   // ERROR HANDLING
   // ---------------------------------------------------------
   String _extractErrorMessage(List<Result> results) {
-    for (final r in results) {
-      if (r is ResultFailure) {
-        return r.failure.message;
+    for (final result in results) {
+      if (result is ResultFailure) {
+        debugPrint('Error result: ${result.failure.message}');
+        return result.failure.message;
       }
     }
     return 'Something went wrong';
+  }
+
+  @override
+  Future<void> close() {
+    debugPrint('Closing ProductDetailsCubit');
+    noteController.dispose();
+    return super.close();
   }
 }
