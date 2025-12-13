@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/data/repositories/favorites_repository_impl.dart';
 
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/store_repository_impl.dart';
@@ -12,6 +13,7 @@ import '../../data/repositories/order_repository_impl.dart';
 import '../../data/repositories/product_repository_impl.dart';
 import '../../domain/repositories/cart_repository.dart';
 import '../../domain/repositories/category_repository.dart';
+import '../../domain/repositories/favorites_repository.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../../domain/repositories/product_repository.dart';
 
@@ -26,11 +28,9 @@ class RepositoryModule {
     //
 
     sl.registerLazySingleton<ProductRepository>(
-          () => ProductRepositoryImpl(
+      () => ProductRepositoryImpl(
           remoteDataSource: sl(),
-          favoritesRemoteDataSource: sl(),
-          storageService: sl()
-      ),
+          favoritesRemoteDataSource: sl()),
     );
     //
     sl.registerLazySingleton<StoreRepository>(
@@ -57,6 +57,9 @@ class RepositoryModule {
     sl.registerLazySingleton<UserRepository>(
       () => UserRepositoryImpl(remoteDataSource: sl()),
     );
+
+    sl.registerLazySingleton<FavoritesRepository>(
+        () => FavoritesRepositoryImpl(remoteDataSource: sl()));
 
     // sl.registerLazySingleton<OffersRepository>(
     //       () => OffersRepositoryImpl(

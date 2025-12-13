@@ -1,3 +1,4 @@
+import 'package:design_system/constants/app_images.dart' show AppImages;
 import 'package:flutter/material.dart';
 
 class SpecialOfferCard extends StatelessWidget {
@@ -15,7 +16,7 @@ class SpecialOfferCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Image.asset(
-        "assets/images/image_placeholder.png",
+        AppImages.offerPlaceholder,
       ),
     );
   }

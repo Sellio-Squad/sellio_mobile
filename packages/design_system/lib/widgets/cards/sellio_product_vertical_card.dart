@@ -1,7 +1,7 @@
 import 'dart:ui';
+import 'package:design_system/constants/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../constants/app_images.dart';
 import '../../themes/sellio_theme.dart';
 import '../utils/widgets_utils.dart';
 

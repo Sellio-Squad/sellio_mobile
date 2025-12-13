@@ -2,8 +2,6 @@ import '../../core/error/result.dart';
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../core/storage/storage_keys.dart';
-import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/product_remote_datasource.dart';
@@ -13,18 +11,13 @@ import '../models/product_model.dart';
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final StorageService _storageService;
 
   ProductRepositoryImpl({
     required ProductRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required StorageService storageService,
   })  : _remoteDataSource = remoteDataSource,
-        _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _storageService = storageService;
+        _favoritesRemoteDataSource = favoritesRemoteDataSource;
 
-  Future<String?> _getUserId() =>
-      _storageService.get<String>(StorageKeys.userId);
 
   @override
   Future<Result<PaginatedData<Product>>> getProductsPaginated({
@@ -221,9 +214,8 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Result<void>> toggleFavoriteProduct(String productId) async {
-    return RepositoryCallHandler.callWithAuth<void>(
-      _getUserId,
-      (userId) => _favoritesRemoteDataSource.toggleProductFavorite(
+    return RepositoryCallHandler.call<void>(
+          () => _favoritesRemoteDataSource.toggleProductFavorite(
         productId: productId,
       ),
     );
@@ -231,37 +223,29 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Result<List<Product>>> getFavoriteProducts() async {
-    return RepositoryCallHandler.callWithAuth<List<Product>>(
-      _getUserId,
-      (userId) async {
-        final productIds =
-            await _favoritesRemoteDataSource.getFavoriteProductIds();
+    return RepositoryCallHandler.call<List<Product>>(() async {
+      final productIds = await _favoritesRemoteDataSource.getFavoriteProductIds();
 
-        final products = <Product>[];
-        for (final productId in productIds) {
-          try {
-            final model = await _remoteDataSource.getProductById(productId);
-            products.add(model.toEntity());
-          } catch (e) {
-            continue;
-          }
+      final products = <Product>[];
+      for (final productId in productIds) {
+        try {
+          final model = await _remoteDataSource.getProductById(productId);
+          products.add(model.toEntity());
+        } catch (e) {
+          continue;
         }
+      }
 
-        return products;
-      },
-    );
+      return products;
+    });
   }
 
   @override
   Future<Result<bool>> isFavorite(String productId) async {
-    return RepositoryCallHandler.callWithAuth<bool>(
-      _getUserId,
-      (userId) async {
-        final favoriteIds =
-            await _favoritesRemoteDataSource.getFavoriteProductIds();
-        return favoriteIds.contains(productId);
-      },
-    );
+    return RepositoryCallHandler.call<bool>(() async {
+      final favoriteIds = await _favoritesRemoteDataSource.getFavoriteProductIds();
+      return favoriteIds.contains(productId);
+    });
   }
 
 

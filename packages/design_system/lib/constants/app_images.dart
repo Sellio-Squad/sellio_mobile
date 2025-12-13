@@ -156,4 +156,6 @@ class AppImages {
 
   // Placeholder
   static const String placeholder = '$imagesPath/placeholder.png';
+  static const String offerPlaceholder = '$imagesPath/image_placeholder.png';
+
 }
