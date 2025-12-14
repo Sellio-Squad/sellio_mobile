@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import '../../../../../core/enums/validation_error_type.dart';
+
+extension ValidationErrorLocalization on ValidationErrorType {
+  String toLocalizedString(BuildContext context) {
+    return switch (this) {
+    // Phone errors
+      ValidationErrorType.phoneMinLength =>
+      context.local.phone_number_must_be_at_least_10_digits,
+      ValidationErrorType.phoneDigitsOnly =>
+      context.local.phone_number_digits_only,
+
+    // Password errors
+      ValidationErrorType.passwordMinLength =>
+      context.local.password_min_6_characters,
+      ValidationErrorType.passwordMaxLength =>
+      context.local.password_max_20_characters,
+      ValidationErrorType.passwordsDoNotMatch =>
+      context.local.passwords_do_not_match,
+
+    // First Name errors
+      ValidationErrorType.firstNameMinLength =>
+      context.local.first_name_at_least_2_characters,
+      ValidationErrorType.firstNameLettersOnly =>
+      context.local.first_name_letters_only,
+
+    // Last Name errors
+      ValidationErrorType.lastNameMinLength =>
+      context.local.last_name_at_least_2_characters,
+      ValidationErrorType.lastNameLettersOnly =>
+      context.local.last_name_letters_only,
+
+    // Email errors
+      ValidationErrorType.emailEmpty =>
+      context.local.email_required,
+      ValidationErrorType.emailInvalid =>
+      context.local.email_invalid,
+
+    // City errors
+      ValidationErrorType.cityMinLength =>
+      context.local.city_at_least_2_characters,
+      ValidationErrorType.cityLettersOnly =>
+      context.local.city_letters_only,
+    };
+  }
+}
