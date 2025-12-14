@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../cubits/form/create_account_form_cubit.dart';
 import '../cubits/form/create_account_form_state.dart';
 import '../widgets/profile_picture_picker.dart';
@@ -8,7 +7,7 @@ import '../widgets/profile_picture_picker.dart';
 Widget buildProfilePictureSection(BuildContext context) {
   return BlocBuilder<CreateAccountFormCubit, CreateAccountFormState>(
     builder: (context, state) {
-      if (state is! CreateAccountFormChanged) {
+      if (state is! CreateAccountFormLoaded) {
         return const SizedBox.shrink();
       }
 
