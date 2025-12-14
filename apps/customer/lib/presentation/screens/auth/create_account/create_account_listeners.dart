@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
-import 'package:design_system/design_system.dart';
+import '../../../../core/utils/snackbar_helper.dart';
+import '../shared/extensions/validation_error_extension.dart';
 import 'cubits/form/create_account_form_cubit.dart';
 import 'cubits/form/create_account_form_state.dart';
 
@@ -16,82 +17,47 @@ class CreateAccountListeners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<CreateAccountFormCubit, CreateAccountFormState>(
-          listener: (context, state) {
-            if (state is CreateAccountFormSuccess) {
-              _handleSuccess(context, state);
-            } else if (state is CreateAccountFormError) {
-              _handleGeneralError(context, state.message);
-            } else if (state is CreateAccountFormChanged &&
-                state.currentFieldError != null) {
-              _handleFieldValidationError(context, state);
-            }
-          },
-        ),
-      ],
+    return BlocListener<CreateAccountFormCubit, CreateAccountFormState>(
+      listener: (context, state) {
+        if (state is CreateAccountFormSuccess) {
+          _handleSuccess(context);
+        } else if (state is CreateAccountFormError) {
+          _handleGeneralError(context, state);
+        } else if (state is CreateAccountFormLoaded && state.fieldError != null) {
+          _handleFieldValidationError(context, state);
+        }
+      },
       child: child,
     );
   }
 
-  void _handleSuccess(BuildContext context, CreateAccountFormSuccess state) {
-    context.navigator.pushSignupOtp(
-      SignupOtpArgs(
-        phoneNumber: state.phoneNumber,
-      ),
-    );
+  void _handleSuccess(BuildContext context) {
+    context.navigator.pushSignupOtp();
   }
 
-  void _handleGeneralError(BuildContext context, String message) {
-    _showErrorSnackBar(context, message);
+  void _handleGeneralError(BuildContext context, CreateAccountFormError state) {
+    final message = _getLocalizedErrorMessage(context, state.messageKey);
+    SnackBarHelper.showError(context, message);
   }
 
   void _handleFieldValidationError(
-      BuildContext context, CreateAccountFormChanged state) {
-    _showErrorSnackBar(context, state.currentFieldError!);
+      BuildContext context,
+      CreateAccountFormLoaded state,
+      ) {
+    final errorMessage = state.fieldError!.toLocalizedString(context);
+    SnackBarHelper.showError(context, errorMessage);
 
-    // Clear the field error after showing the snackbar
     Future.delayed(const Duration(milliseconds: 100), () {
       if (context.mounted) {
-        context.read<CreateAccountFormCubit>().clearCurrentFieldError();
+        context.read<CreateAccountFormCubit>().clearFieldError();
       }
     });
   }
 
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-
-    final overlay = Overlay.of(context);
-    late OverlayEntry overlayEntry;
-
-    overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 26,
-        left: 0,
-        right: 0,
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SellioSnackBar(
-              isError: true,
-              message: message,
-              onCancelTap: () {
-                overlayEntry.remove();
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    Future.delayed(const Duration(seconds: 4), () {
-      if (overlayEntry.mounted) {
-        overlayEntry.remove();
-      }
-    });
+  String _getLocalizedErrorMessage(BuildContext context, String messageKey) {
+    return switch (messageKey) {
+      'failed_to_create_account' => context.local.failed_to_create_account,
+      _ => context.local.something_went_wrong,
+    };
   }
 }

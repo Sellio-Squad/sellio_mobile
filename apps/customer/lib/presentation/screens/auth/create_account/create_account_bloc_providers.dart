@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../di/injection_container.dart';
+import '../../../../domain/repositories/auth_repository.dart';
 import 'cubits/form/create_account_form_cubit.dart';
 
 class CreateAccountBlocProviders extends StatelessWidget {
@@ -16,7 +17,9 @@ class CreateAccountBlocProviders extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => CreateAccountFormCubit(),
+          create: (context) => CreateAccountFormCubit(
+            authRepository: sl<AuthRepository>(),
+          ),
         ),
       ],
       child: child,

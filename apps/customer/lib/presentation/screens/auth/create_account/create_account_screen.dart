@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:design_system/design_system.dart';
 import 'builders/create_account_sections_builder.dart';
 import 'create_account_bloc_providers.dart';

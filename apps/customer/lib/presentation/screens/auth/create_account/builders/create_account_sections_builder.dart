@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:design_system/design_system.dart';
 import '../widgets/create_account_footer.dart';
 import '../widgets/create_account_header.dart';
 import 'create_account_button_builder.dart';
-import 'create_account_form_builder.dart' show CreateAccountFormWidget;
+import 'create_account_form_builder.dart';
 
 Widget buildCreateAccountContent(BuildContext context) {
   return Column(
@@ -12,12 +11,13 @@ Widget buildCreateAccountContent(BuildContext context) {
     mainAxisSize: MainAxisSize.min,
     children: [
       Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: buildCreateAccountHeader(context)),
-      const SizedBox(height: 24),
-      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: const CreateAccountFormWidget(),
+        child: buildCreateAccountHeader(context),
+      ),
+      const SizedBox(height: 24),
+      const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: CreateAccountFormWidget(),
       ),
       Container(
         decoration: BoxDecoration(

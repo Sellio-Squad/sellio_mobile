@@ -3,11 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import '../../country.dart';
+import '../../../../../core/enums/form_field_type.dart';
+import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubits/form/create_account_form_cubit.dart';
 import '../cubits/form/create_account_form_state.dart';
 import 'profile_picture_builder.dart';
@@ -16,128 +14,163 @@ class CreateAccountFormWidget extends StatefulWidget {
   const CreateAccountFormWidget({super.key});
 
   @override
-  State<CreateAccountFormWidget> createState() =>
-      _CreateAccountFormWidgetState();
+  State<CreateAccountFormWidget> createState() => _CreateAccountFormWidgetState();
 }
 
 class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
-  final phoneController = TextEditingController();
-  final nameController = TextEditingController();
-  final countryController = TextEditingController();
-  final cityController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _cityController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
 
-  final phoneFocusNode = FocusNode();
-  final nameFocusNode = FocusNode();
-  final countryFocusNode = FocusNode();
-  final cityFocusNode = FocusNode();
-  final passwordFocusNode = FocusNode();
-  final confirmPasswordFocusNode = FocusNode();
+  late final FocusNode _firstNameFocusNode;
+  late final FocusNode _lastNameFocusNode;
+  late final FocusNode _phoneFocusNode;
+  late final FocusNode _emailFocusNode;
+  late final FocusNode _cityFocusNode;
+  late final FocusNode _passwordFocusNode;
+  late final FocusNode _confirmPasswordFocusNode;
 
   @override
   void initState() {
     super.initState();
-    phoneController.addListener(() {
-      context
-          .read<CreateAccountFormCubit>()
-          .updatePhoneNumber(phoneController.text);
-    });
-    nameController.addListener(() {
-      context
-          .read<CreateAccountFormCubit>()
-          .updateFullName(nameController.text);
-    });
-    countryController.addListener(() {
-      context
-          .read<CreateAccountFormCubit>()
-          .updateCountry(countryController.text);
-    });
-    cityController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateCity(cityController.text);
-    });
-    passwordController.addListener(() {
-      context
-          .read<CreateAccountFormCubit>()
-          .updatePassword(passwordController.text);
-    });
-    confirmPasswordController.addListener(() {
-      context
-          .read<CreateAccountFormCubit>()
-          .updateConfirmPassword(confirmPasswordController.text);
-    });
-
-    phoneFocusNode.addListener(() => _onFocusChange('phone'));
-    nameFocusNode.addListener(() => _onFocusChange('name'));
-    countryFocusNode.addListener(() => _onFocusChange('country'));
-    cityFocusNode.addListener(() => _onFocusChange('city'));
-    passwordFocusNode.addListener(() => _onFocusChange('password'));
-    confirmPasswordFocusNode
-        .addListener(() => _onFocusChange('confirmPassword'));
+    _initializeControllers();
+    _initializeFocusNodes();
+    _setupListeners();
   }
 
-  void _onFocusChange(String fieldType) {
-    switch (fieldType) {
-      case 'phone':
-        if (!phoneFocusNode.hasFocus && phoneController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('phone', phoneController.text);
-        }
-        break;
-      case 'name':
-        if (!nameFocusNode.hasFocus && nameController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('name', nameController.text);
-        }
-        break;
-      case 'country':
-        if (!countryFocusNode.hasFocus && countryController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('country', countryController.text);
-        }
-        break;
-      case 'city':
-        if (!cityFocusNode.hasFocus && cityController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('city', cityController.text);
-        }
-        break;
-      case 'password':
-        if (!passwordFocusNode.hasFocus && passwordController.text.isNotEmpty) {
-          context
-              .read<CreateAccountFormCubit>()
-              .validateFieldOnFocusChange('password', passwordController.text);
-        }
-        break;
-      case 'confirmPassword':
-        if (!confirmPasswordFocusNode.hasFocus &&
-            confirmPasswordController.text.isNotEmpty) {
-          context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-              'confirmPassword', confirmPasswordController.text);
-        }
-        break;
-    }
+  void _initializeControllers() {
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _emailController = TextEditingController();
+    _cityController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
+  void _initializeFocusNodes() {
+    _firstNameFocusNode = FocusNode();
+    _lastNameFocusNode = FocusNode();
+    _phoneFocusNode = FocusNode();
+    _emailFocusNode = FocusNode();
+    _cityFocusNode = FocusNode();
+    _passwordFocusNode = FocusNode();
+    _confirmPasswordFocusNode = FocusNode();
+  }
+
+  void _setupListeners() {
+    _firstNameController.addListener(() {
+      context.read<CreateAccountFormCubit>().updateFirstName(_firstNameController.text);
+    });
+    _lastNameController.addListener(() {
+      context.read<CreateAccountFormCubit>().updateLastName(_lastNameController.text);
+    });
+    _phoneController.addListener(() {
+      context.read<CreateAccountFormCubit>().updatePhoneNumber(_phoneController.text);
+    });
+    _emailController.addListener(() {
+      context.read<CreateAccountFormCubit>().updateEmail(_emailController.text);
+    });
+    _cityController.addListener(() {
+      context.read<CreateAccountFormCubit>().updateCity(_cityController.text);
+    });
+    _passwordController.addListener(() {
+      context.read<CreateAccountFormCubit>().updatePassword(_passwordController.text);
+    });
+    _confirmPasswordController.addListener(() {
+      context.read<CreateAccountFormCubit>().updateConfirmPassword(_confirmPasswordController.text);
+    });
+
+    _setupFocusListeners();
+  }
+
+  void _setupFocusListeners() {
+    _firstNameFocusNode.addListener(() {
+      if (!_firstNameFocusNode.hasFocus && _firstNameController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.firstName,
+          _firstNameController.text,
+        );
+      }
+    });
+
+    _lastNameFocusNode.addListener(() {
+      if (!_lastNameFocusNode.hasFocus && _lastNameController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.lastName,
+          _lastNameController.text,
+        );
+      }
+    });
+
+    _phoneFocusNode.addListener(() {
+      if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.phone,
+          _phoneController.text,
+        );
+      }
+    });
+
+    _emailFocusNode.addListener(() {
+      if (!_emailFocusNode.hasFocus && _emailController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.email,
+          _emailController.text,
+        );
+      }
+    });
+
+    _cityFocusNode.addListener(() {
+      if (!_cityFocusNode.hasFocus && _cityController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.city,
+          _cityController.text,
+        );
+      }
+    });
+
+    _passwordFocusNode.addListener(() {
+      if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.password,
+          _passwordController.text,
+        );
+      }
+    });
+
+    _confirmPasswordFocusNode.addListener(() {
+      if (!_confirmPasswordFocusNode.hasFocus &&
+          _confirmPasswordController.text.isNotEmpty) {
+        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
+          FormFieldType.confirmPassword,
+          _confirmPasswordController.text,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
-    phoneController.dispose();
-    nameController.dispose();
-    countryController.dispose();
-    cityController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _cityController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
 
-    phoneFocusNode.dispose();
-    nameFocusNode.dispose();
-    countryFocusNode.dispose();
-    cityFocusNode.dispose();
-    passwordFocusNode.dispose();
-    confirmPasswordFocusNode.dispose();
+    _firstNameFocusNode.dispose();
+    _lastNameFocusNode.dispose();
+    _phoneFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _cityFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
 
     super.dispose();
   }
@@ -146,158 +179,159 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<CreateAccountFormCubit, CreateAccountFormState>(
       builder: (context, state) {
-        if (state is! CreateAccountFormChanged) {
+        if (state is! CreateAccountFormLoaded) {
           return const SizedBox.shrink();
         }
+
+        final colors = context.theme.colors;
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Focus(
-              focusNode: phoneFocusNode,
-              child: SellioTextField(
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: SvgPicture.asset(
-                    AppImages.phone,
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                      context.theme.colors.body,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                hintText: context.local.phone_number,
-                inputType: TextInputType.phone,
-                isPhoneNumber: true,
-                inputFormatter: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
-                  LengthLimitingTextInputFormatter(11),
-                ],
-                controller: phoneController,
-         /*       selectedCountry: state.selectedCountry,
-                countries: mockCountries,
-                onChangeCountry: (c) => context
-                    .read<CreateAccountFormCubit>()
-                    .updateSelectedCountry(c),*/
-              ),
+            _buildNameFields(colors),
+            const SizedBox(height: 16),
+            PhoneInputWithCountry(
+              controller: _phoneController,
+              focusNode: _phoneFocusNode,
+              selectedCountry: state.selectedCountry,
+              onCountrySelected: (country) {
+                context.read<CreateAccountFormCubit>().updateSelectedCountry(country);
+              },
             ),
-            Focus(
-              focusNode: nameFocusNode,
-              child: SellioTextField(
-                controller: nameController,
-                hintText: context.local.full_name,
-                inputFormatter: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
-                ],
-                prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-                prefixIcon: SvgPicture.asset(
-                  AppImages.account,
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colors.body,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Focus(
-                    focusNode: countryFocusNode,
-                    child: SellioTextField(
-                      controller: countryController,
-                      hintText: context.local.country,
-                      inputFormatter: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
-                      ],
-                      prefixIconPadding:
-                          const EdgeInsets.only(left: 16, right: 8),
-                      prefixIcon: SvgPicture.asset(
-                        AppImages.location,
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          context.theme.colors.body,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Focus(
-                    focusNode: cityFocusNode,
-                    child: SellioTextField(
-                      controller: cityController,
-                      hintText: context.local.city,
-                      inputFormatter: [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
-                      ],
-                      prefixIconPadding:
-                          const EdgeInsets.only(left: 16, right: 8),
-                      prefixIcon: SvgPicture.asset(
-                        AppImages.location,
-                        width: 24,
-                        height: 24,
-                        colorFilter: ColorFilter.mode(
-                          context.theme.colors.body,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Focus(
-              focusNode: passwordFocusNode,
-              child: SellioTextField(
-                controller: passwordController,
-                hintText: context.local.password,
-                prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-                inputType: TextInputType.visiblePassword,
-                prefixIcon: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colors.body,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-            Focus(
-              focusNode: confirmPasswordFocusNode,
-              child: SellioTextField(
-                controller: confirmPasswordController,
-                hintText: context.local.confirm_password,
-                prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-                inputType: TextInputType.visiblePassword,
-                prefixIcon: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                    context.theme.colors.body,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
+            const SizedBox(height: 16),
+            _buildEmailField(colors),
+            const SizedBox(height: 16),
+            _buildCityField(colors),
+            const SizedBox(height: 16),
+            _buildPasswordField(colors),
+            const SizedBox(height: 16),
+            _buildConfirmPasswordField(colors),
+            const SizedBox(height: 16),
             buildProfilePictureSection(context),
           ],
         );
       },
     );
   }
-}
 
-Widget buildCreateAccountForm(BuildContext context) {
-  return CreateAccountFormWidget();
+  Widget _buildNameFields(dynamic colors) {
+    return Row(
+      children: [
+        Expanded(
+          child: Focus(
+            focusNode: _firstNameFocusNode,
+            child: SellioTextField(
+              controller: _firstNameController,
+              hintText: context.local.first_name,
+              inputFormatter: [
+                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+              ],
+              prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+              prefixIcon: SvgPicture.asset(
+                AppImages.account,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Focus(
+            focusNode: _lastNameFocusNode,
+            child: SellioTextField(
+              controller: _lastNameController,
+              hintText: context.local.last_name,
+              inputFormatter: [
+                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+              ],
+              prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+              prefixIcon: SvgPicture.asset(
+                AppImages.account,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmailField(dynamic colors) {
+    return Focus(
+      focusNode: _emailFocusNode,
+      child: SellioTextField(
+        controller: _emailController,
+        hintText: context.local.email,
+        inputType: TextInputType.emailAddress,
+        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+        prefixIcon: SvgPicture.asset(
+          AppImages.email,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCityField(dynamic colors) {
+    return Focus(
+      focusNode: _cityFocusNode,
+      child: SellioTextField(
+        controller: _cityController,
+        hintText: context.local.city,
+        inputFormatter: [
+          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+        ],
+        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+        prefixIcon: SvgPicture.asset(
+          AppImages.location,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(dynamic colors) {
+    return Focus(
+      focusNode: _passwordFocusNode,
+      child: SellioTextField(
+        controller: _passwordController,
+        hintText: context.local.password,
+        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+        inputType: TextInputType.visiblePassword,
+        prefixIcon: SvgPicture.asset(
+          AppImages.password,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConfirmPasswordField(dynamic colors) {
+    return Focus(
+      focusNode: _confirmPasswordFocusNode,
+      child: SellioTextField(
+        controller: _confirmPasswordController,
+        hintText: context.local.confirm_password,
+        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+        inputType: TextInputType.visiblePassword,
+        prefixIcon: SvgPicture.asset(
+          AppImages.password,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+        ),
+      ),
+    );
+  }
 }
