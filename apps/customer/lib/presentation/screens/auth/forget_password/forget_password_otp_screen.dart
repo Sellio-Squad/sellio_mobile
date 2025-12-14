@@ -1,13 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:design_system/design_system.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
-import 'package:design_system/design_system.dart';
-import 'widget/lock_icon.dart';
+import '../shared/mixins/otp_countdown_mixin.dart';
+import '../shared/widgets/otp_resend_section.dart';
+import 'widgets/lock_icon.dart';
 
 class ForgetPasswordOTPScreen extends StatefulWidget {
   final ForgetPasswordOtpArgs args;
@@ -18,27 +15,26 @@ class ForgetPasswordOTPScreen extends StatefulWidget {
   });
 
   @override
-  State<ForgetPasswordOTPScreen> createState() =>
-      _ForgetPasswordOTPScreenState();
+  State<ForgetPasswordOTPScreen> createState() => _ForgetPasswordOTPScreenState();
 }
 
-class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
+class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen>
+    with OtpCountdownMixin {
   final GlobalKey<OTPInputFieldState> _otpKey = GlobalKey<OTPInputFieldState>();
   String _otpValue = '';
   bool _isOtpComplete = false;
-  int _resendCountdown = 0;
-  Timer? _countdownTimer;
 
   @override
   void initState() {
     super.initState();
-    _startResendCountdown();
+    startResendCountdown();
   }
 
-  @override
-  void dispose() {
-    _countdownTimer?.cancel();
-    super.dispose();
+  void _handleOTPChanged(String value) {
+    setState(() {
+      _otpValue = value;
+      _isOtpComplete = value.length == 4;
+    });
   }
 
   void _handleOTPComplete(String otp) {
@@ -48,71 +44,35 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
     });
   }
 
-  void _startResendCountdown() {
-    setState(() {
-      _resendCountdown = 55;
-    });
-
-    _countdownTimer?.cancel();
-    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_resendCountdown > 0) {
-          _resendCountdown--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
   void _handleResendCode() {
-    // Clear OTP fields
     _otpKey.currentState?.clear();
     setState(() {
       _otpValue = '';
       _isOtpComplete = false;
     });
-    _startResendCountdown();
-
+    startResendCountdown();
     // TODO: Call API to resend OTP
-    // await authService.resendOTP();
+  }
+
+  void _handleConfirm() {
+    if (!_isOtpComplete) return;
+
+    context.navigator.pushConfirmPassword(
+      ConfirmPasswordArgs(
+        phoneNumber: widget.args.phoneNumber,
+        otp: _otpValue,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
-    final typography = context.theme.typography.textTheme;
+    final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-      appBar: AppBar(
-        toolbarHeight: 68,
-        leadingWidth: 40,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: colors.surfaceLow,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              icon: Icon(Icons.arrow_back, color: colors.title, size: 24),
-              onPressed: () => context.navigator.pop(),
-            ),
-          ),
-        ),
-        title: Text(
-          context.local.forget_password,
-          style: typography.titleMedium.copyWith(color: colors.title),
-        ),
-        centerTitle: false,
-        titleSpacing: 8,
-        backgroundColor: colors.surfaceLow,
-        elevation: 0,
-      ),
+      appBar: _buildAppBar(colors, textTheme),
       body: SafeArea(
         child: Column(
           children: [
@@ -123,112 +83,113 @@ class _ForgetPasswordOTPScreenState extends State<ForgetPasswordOTPScreen> {
                     const SizedBox(height: 24),
                     Center(child: buildLockIcon(colors)),
                     const SizedBox(height: 40),
-                    SizedBox(
-                      width: 328,
-                      child: Text(
-                        context.local.enter_code,
-                        style: typography.titleMedium.copyWith(
-                          color: colors.title,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      width: 328,
-                      child: Text(
-                        context.local.enter_the_4_digit_sent_to(widget.args.phoneNumber),
-                        style: typography.bodySmall.copyWith(
-                          color: colors.body,
-                        ),
-                      ),
-                    ),
+                    _buildHeader(textTheme, colors),
                     const SizedBox(height: 32),
                     OTPInputField(
                       key: _otpKey,
                       length: 4,
-                      onChanged: (value) {
-                        setState(() {
-                          _otpValue = value;
-                          _isOtpComplete = value.length == 4;
-                        });
-                      },
-                      onCompleted: (value) {
-                        _handleOTPComplete(value);
-                      },
+                      onChanged: _handleOTPChanged,
+                      onCompleted: _handleOTPComplete,
                     ),
                     const SizedBox(height: 24),
-                    _buildResendSection(colors, typography),
+                    OtpResendSection(
+                      resendCountdown: resendCountdown,
+                      canResend: canResend,
+                      onResend: _handleResendCode,
+                    ),
                   ],
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: 328,
-                height: 48,
-                child: ElevatedButton(
-                  onPressed: _isOtpComplete
-                      ? () {
-                          context.navigator.pushConfirmPassword(
-                            ConfirmPasswordArgs(
-                              phoneNumber: widget.args.phoneNumber,
-                              otp: _otpValue,
-                            ),
-                          );
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _isOtpComplete
-                        ? colors.primary
-                        : colors.disabled,
-                    disabledBackgroundColor: colors.disabled,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 24,
-                    ),
-                  ),
-                  child: Text(
-                    context.local.confirm,
-                    style: typography.labelMedium.copyWith(
-                      color: _isOtpComplete ? colors.onPrimary : colors.hint,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            _buildConfirmButton(colors, textTheme),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildResendSection(dynamic colors, SellioTextTheme typography) {
-    final canResend = _resendCountdown == 0;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          context.local.dont_received_code,
-          style: typography.labelMedium.copyWith(color: colors.body),
+  PreferredSizeWidget _buildAppBar(dynamic colors, SellioTextTheme textTheme) {
+    return AppBar(
+      toolbarHeight: 68,
+      leadingWidth: 40,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: colors.surfaceLow,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            icon: Icon(Icons.arrow_back, color: colors.title, size: 24),
+            onPressed: () => context.navigator.pop(),
+          ),
         ),
-        const SizedBox(width: 8),
-        GestureDetector(
-          onTap: canResend ? _handleResendCode : null,
+      ),
+      title: Text(
+        context.local.forget_password,
+        style: textTheme.titleMedium.copyWith(color: colors.title),
+      ),
+      centerTitle: false,
+      titleSpacing: 8,
+      backgroundColor: colors.surfaceLow,
+      elevation: 0,
+    );
+  }
+
+  Widget _buildHeader(SellioTextTheme textTheme, dynamic colors) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 328,
+            child: Text(
+              context.local.enter_code,
+              style: textTheme.titleMedium.copyWith(color: colors.title),
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 328,
+            child: Text(
+              context.local.enter_the_4_digit_sent_to(widget.args.phoneNumber),
+              style: textTheme.bodySmall.copyWith(color: colors.body),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConfirmButton(dynamic colors, SellioTextTheme textTheme) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SizedBox(
+        width: 328,
+        height: 48,
+        child: ElevatedButton(
+          onPressed: _isOtpComplete ? _handleConfirm : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: _isOtpComplete ? colors.primary : colors.disabled,
+            disabledBackgroundColor: colors.disabled,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 24),
+          ),
           child: Text(
-            canResend ? context.local.re_send : context.local.re_send_in_resend_countdown_Sec(_resendCountdown),
-            style: typography.labelMedium.copyWith(
-              color: canResend ? colors.primary : colors.body,
-              decoration: canResend ? TextDecoration.underline : null,
+            context.local.confirm,
+            style: textTheme.labelMedium.copyWith(
+              color: _isOtpComplete ? colors.onPrimary : colors.hint,
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

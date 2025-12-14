@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:design_system/design_system.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import '../country.dart';
-import 'widget/lock_icon.dart';
+import '../shared/widgets/phone_input_with_country.dart';
+import 'widgets/lock_icon.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -23,17 +17,33 @@ class ForgetPasswordScreen extends StatefulWidget {
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final _phoneController = TextEditingController();
   bool _isPhoneFilled = false;
-  final List<Country> _countries = mockCountries;
-  late Country _selectedCountry;
+  Country? _selectedCountry;
 
   @override
   void initState() {
     super.initState();
-    _selectedCountry = _countries.firstWhere((c) => c.code == '+964');
-    _phoneController.addListener(() {
-      setState(() {
-        _isPhoneFilled = _phoneController.text.isNotEmpty;
-      });
+    _initializeDefaultCountry();
+    _phoneController.addListener(_onPhoneChanged);
+  }
+
+  void _initializeDefaultCountry() {
+    _selectedCountry = Country(
+      phoneCode: '964',
+      countryCode: 'IQ',
+      e164Sc: 0,
+      geographic: true,
+      level: 1,
+      name: 'Iraq',
+      example: '7912345678',
+      displayName: 'Iraq (IQ) [+964]',
+      displayNameNoCountryCode: 'Iraq (IQ)',
+      e164Key: '964-IQ-0',
+    );
+  }
+
+  void _onPhoneChanged() {
+    setState(() {
+      _isPhoneFilled = _phoneController.text.isNotEmpty;
     });
   }
 
@@ -43,13 +53,25 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     super.dispose();
   }
 
+  void _handleSend() {
+    if (!_isPhoneFilled) return;
+
+    final phoneNumber = '+${_selectedCountry?.phoneCode ?? '964'}${_phoneController.text}';
+    context.navigator.pushForgetPasswordOtp(
+      ForgetPasswordOtpArgs(phoneNumber: phoneNumber),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: context.local.title_par_forget_password,showBackButton: true,),
+      appBar: SellioAppBar(
+        title: context.local.title_par_forget_password,
+        showBackButton: true,
+      ),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -75,30 +97,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         style: textTheme.bodyMedium.copyWith(color: colors.body),
                       ),
                       const Gap(24),
-                      SellioTextField(
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 4),
-                          child: SvgPicture.asset(
-                            AppImages.phone,
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(
-                              colors.body,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                        hintText: context.local.phone_number,
-                        inputType: TextInputType.phone,
-                        isPhoneNumber: true,
-                        inputFormatter: [
-                          FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
-                          LengthLimitingTextInputFormatter(11),
-                        ],
+                      PhoneInputWithCountry(
                         controller: _phoneController,
-         /*               selectedCountry: _selectedCountry,
-                        countries: _countries,
-                        onChangeCountry: (c) => setState(() => _selectedCountry = c),*/
+                        selectedCountry: _selectedCountry,
+                        onCountrySelected: (country) {
+                          setState(() => _selectedCountry = country);
+                        },
                       ),
                     ],
                   ),
@@ -106,20 +110,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               ),
               SellioButton(
                 text: context.local.send,
-                onTap: _isPhoneFilled
-                    ? () {
-                        final phoneNumber =
-                            '${_selectedCountry.code}${_phoneController.text}';
-                        context.navigator.pushForgetPasswordOtp(
-                          ForgetPasswordOtpArgs(
-                            phoneNumber: phoneNumber,
-                          ),
-                        );
-                      }
-                    : null,
-                backgroundColor: _isPhoneFilled
-                    ? colors.primary
-                    : colors.disabled,
+                onTap: _isPhoneFilled ? _handleSend : null,
+                backgroundColor: _isPhoneFilled ? colors.primary : colors.disabled,
                 textColor: _isPhoneFilled ? colors.onPrimary : colors.hint,
               ),
               const Gap(10),
