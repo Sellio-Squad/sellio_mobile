@@ -1,84 +1,79 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
-import '../../../country.dart';
+import '../../../../../../core/enums/validation_error_type.dart';
 
-abstract class LoginFormState extends Equatable {
+sealed class LoginFormState extends Equatable {
   const LoginFormState();
+}
+
+class LoginFormInitial extends LoginFormState {
+  const LoginFormInitial();
 
   @override
   List<Object?> get props => [];
 }
 
-class LoginFormInitial extends LoginFormState {
-  const LoginFormInitial();
-}
-
-class LoginFormChanged extends LoginFormState {
+class LoginFormLoaded extends LoginFormState {
   final String phoneNumber;
   final String password;
-  final Country selectedCountry;
+  final Country? selectedCountry;
   final bool isFormValid;
   final bool isLoading;
-  final String? currentFieldError;
+  final ValidationErrorType? fieldError;
 
-  const LoginFormChanged({
+  const LoginFormLoaded({
     this.phoneNumber = '',
     this.password = '',
-    required this.selectedCountry,
+    this.selectedCountry,
     this.isFormValid = false,
     this.isLoading = false,
-    this.currentFieldError,
+    this.fieldError,
   });
 
-  LoginFormChanged copyWith({
+  LoginFormLoaded copyWith({
     String? phoneNumber,
     String? password,
     Country? selectedCountry,
     bool? isFormValid,
     bool? isLoading,
-    String? currentFieldError,
-    bool clearCurrentFieldError = false,
+    ValidationErrorType? fieldError,
+    bool clearFieldError = false,
   }) {
-    return LoginFormChanged(
+    return LoginFormLoaded(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
       isLoading: isLoading ?? this.isLoading,
-      currentFieldError: clearCurrentFieldError ? null : (currentFieldError ??
-          this.currentFieldError),
+      fieldError: clearFieldError ? null : (fieldError ?? this.fieldError),
     );
   }
 
   @override
-  List<Object?> get props =>
-      [
-        phoneNumber,
-        password,
-        selectedCountry,
-        isFormValid,
-        isLoading,
-        currentFieldError,
-      ];
+  List<Object?> get props => [
+    phoneNumber,
+    password,
+    selectedCountry,
+    isFormValid,
+    isLoading,
+    fieldError,
+  ];
 }
 
 class LoginFormSuccess extends LoginFormState {
   final String phoneNumber;
 
-  const LoginFormSuccess({
-    required this.phoneNumber,
-  });
+  const LoginFormSuccess({required this.phoneNumber});
 
   @override
   List<Object> get props => [phoneNumber];
 }
 
 class LoginFormError extends LoginFormState {
-  final String message;
+  final String messageKey;
 
-  const LoginFormError({
-    required this.message,
-  });
+  const LoginFormError({required this.messageKey});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [messageKey];
 }

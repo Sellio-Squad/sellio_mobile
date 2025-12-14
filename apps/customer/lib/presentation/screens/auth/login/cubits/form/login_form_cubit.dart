@@ -1,131 +1,122 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../country.dart';
+import '../../../../../../core/enums/form_field_type.dart';
+import '../../../../../../core/utils/validators/form_validators.dart';
+import '../../../../../../domain/repositories/auth_repository.dart';
 import 'login_form_state.dart';
 
 class LoginFormCubit extends Cubit<LoginFormState> {
-  LoginFormCubit() : super(const LoginFormInitial()) {
-    final defaultCountry = mockCountries.firstWhere((c) => c.code == '+964');
-    emit(LoginFormChanged(selectedCountry: defaultCountry));
+  final AuthRepository _authRepository;
+
+  LoginFormCubit({
+    required AuthRepository authRepository,
+  })  : _authRepository = authRepository,
+        super(const LoginFormInitial()) {
+    _initialize();
   }
 
-  void updatePhoneNumber(String phoneNumber) {
-    if (state is LoginFormChanged) {
-      final currentState = state as LoginFormChanged;
-      final newState = currentState.copyWith(
-        phoneNumber: phoneNumber,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
+  void _initialize() {
+    final defaultCountry = Country(
+      phoneCode: '964',
+      countryCode: 'IQ',
+      e164Sc: 0,
+      geographic: true,
+      level: 1,
+      name: 'Iraq',
+      example: '7912345678',
+      displayName: 'Iraq (IQ) [+964]',
+      displayNameNoCountryCode: 'Iraq (IQ)',
+      e164Key: '964-IQ-0',
+    );
+
+    emit(LoginFormLoaded(selectedCountry: defaultCountry));
   }
 
-  void updatePassword(String password) {
-    if (state is LoginFormChanged) {
-      final currentState = state as LoginFormChanged;
-      final newState = currentState.copyWith(
-        password: password,
-        clearCurrentFieldError: true,
-      );
-      emit(_updateFormValidation(newState));
-    }
+  void updatePhoneNumber(String value) {
+    _updateField((state) => state.copyWith(
+      phoneNumber: value,
+      clearFieldError: true,
+    ));
+  }
+
+  void updatePassword(String value) {
+    _updateField((state) => state.copyWith(
+      password: value,
+      clearFieldError: true,
+    ));
   }
 
   void updateSelectedCountry(Country country) {
-    if (state is LoginFormChanged) {
-      final currentState = state as LoginFormChanged;
-      final newState = currentState.copyWith(selectedCountry: country);
-      emit(_updateFormValidation(newState));
-    }
+    _updateField((state) => state.copyWith(selectedCountry: country));
   }
 
-  void validateFieldOnFocusChange(String fieldType, String value) {
+  void _updateField(LoginFormLoaded Function(LoginFormLoaded) updater) {
+    final currentState = state;
+    if (currentState is! LoginFormLoaded) return;
+
+    final newState = updater(currentState);
+    emit(newState.copyWith(isFormValid: _isFormValid(newState)));
+  }
+
+  void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
     if (value.isEmpty) return;
-    if (state is! LoginFormChanged) return;
+    final currentState = state;
+    if (currentState is! LoginFormLoaded) return;
 
-    String? error;
-    switch (fieldType) {
-      case 'phone':
-        error = _validatePhoneNumber(value);
-        break;
-      case 'password':
-        error = _validatePassword(value);
-        break;
-    }
+    final result = FormValidators.validateField(fieldType, value);
 
-    if (error != null) {
-      final currentState = state as LoginFormChanged;
-      emit(currentState.copyWith(currentFieldError: error));
+    if (!result.isValid && result.errorType != null) {
+      emit(currentState.copyWith(fieldError: result.errorType));
     }
   }
 
-  void clearCurrentFieldError() {
-    if (state is LoginFormChanged) {
-      final currentState = state as LoginFormChanged;
-      emit(currentState.copyWith(clearCurrentFieldError: true));
+  void clearFieldError() {
+    final currentState = state;
+    if (currentState is LoginFormLoaded) {
+      emit(currentState.copyWith(clearFieldError: true));
     }
   }
 
   Future<void> submitForm() async {
-    if (state is! LoginFormChanged) return;
-    final currentState = state as LoginFormChanged;
-    if (!_validateAllFieldsForSubmission(currentState)) {
+    final currentState = state;
+    if (currentState is! LoginFormLoaded) return;
+
+    final validationError = FormValidators.validateLoginFields(
+      phone: currentState.phoneNumber,
+      password: currentState.password,
+    );
+
+    if (validationError != null) {
+      emit(currentState.copyWith(fieldError: validationError));
       return;
     }
 
     emit(currentState.copyWith(isLoading: true));
 
-    try {
-      await Future.delayed(const Duration(seconds: 2));
-      final phoneNumber =
-          '${currentState.selectedCountry.code}${currentState.phoneNumber}';
-      emit(LoginFormSuccess(phoneNumber: phoneNumber));
-    } catch (e) {
-      emit(const LoginFormError(message: 'Login failed. Please try again.'));
-      emit(currentState.copyWith(isLoading: false));
-    }
+    final countryCode = '+${currentState.selectedCountry?.phoneCode ?? '964'}';
+    final phoneNumber = '$countryCode${currentState.phoneNumber}';
+
+    final result = await _authRepository.login(
+      phoneNumber: phoneNumber,
+      password: currentState.password,
+    );
+
+    result.fold(
+      onSuccess: (_) {
+        final phoneNumber = '$countryCode${currentState.phoneNumber}';
+        emit(LoginFormSuccess(phoneNumber: phoneNumber));
+      },
+      onFailure: (failure) {
+        emit(const LoginFormError(messageKey: 'login_failed'));
+        emit(currentState.copyWith(isLoading: false));
+      },
+    );
   }
 
-  bool _validateAllFieldsForSubmission(LoginFormChanged state) {
-    final phoneError = _validatePhoneNumber(state.phoneNumber);
-    if (phoneError != null) {
-      emit(state.copyWith(currentFieldError: phoneError));
-      return false;
-    }
-
-    final passwordError = _validatePassword(state.password);
-    if (passwordError != null) {
-      emit(state.copyWith(currentFieldError: passwordError));
-      return false;
-    }
-
-    return true;
-  }
-
-  LoginFormChanged _updateFormValidation(LoginFormChanged state) {
-    final isValid = _isFormValid(state);
-    return state.copyWith(isFormValid: isValid);
-  }
-
-  bool _isFormValid(LoginFormChanged state) {
-    return state.phoneNumber.isNotEmpty &&
-        state.password.isNotEmpty &&
-        state.phoneNumber.length >= 10 &&
-        state.password.length >= 6;
-  }
-
-  String? _validatePhoneNumber(String phoneNumber) {
-    if (phoneNumber.length < 10) {
-      return 'Phone number must be at least 10 digits';
-    }
-    if (!RegExp(r'^[0-9]+$').hasMatch(phoneNumber)) {
-      return 'Phone number must contain only digits';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String password) {
-    if (password.length < 6) return 'Password must be at least 6 characters';
-    return null;
+  bool _isFormValid(LoginFormLoaded state) {
+    return FormValidators.isLoginFormValid(
+      phone: state.phoneNumber,
+      password: state.password,
+    );
   }
 }

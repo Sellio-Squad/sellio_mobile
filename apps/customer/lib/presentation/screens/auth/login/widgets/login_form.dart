@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import '../../country.dart';
+import '../../../../../core/enums/form_field_type.dart';
+import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubits/form/login_form_cubit.dart';
 import '../cubits/form/login_form_state.dart';
 
@@ -27,39 +23,43 @@ class _LoginFormState extends State<LoginForm> {
   final _phoneFocusNode = FocusNode();
   final _passwordFocusNode = FocusNode();
 
-  void _onFocusChange(String fieldType) {
-    switch (fieldType) {
-      case 'phone':
-        if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-          context
-              .read<LoginFormCubit>()
-              .validateFieldOnFocusChange('phone', _phoneController.text);
-        }
-        break;
-      case 'password':
-        if (!_passwordFocusNode.hasFocus &&
-            _passwordController.text.isNotEmpty) {
-          context
-              .read<LoginFormCubit>()
-              .validateFieldOnFocusChange('password', _passwordController.text);
-        }
-        break;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _phoneController.addListener(() {
-      context.read<LoginFormCubit>().updatePhoneNumber(_phoneController.text);
-    });
+    _setupListeners();
+  }
 
-    _passwordController.addListener(() {
-      context.read<LoginFormCubit>().updatePassword(_passwordController.text);
-    });
+  void _setupListeners() {
+    _phoneController.addListener(_onPhoneChanged);
+    _passwordController.addListener(_onPasswordChanged);
+    _phoneFocusNode.addListener(_onPhoneFocusChanged);
+    _passwordFocusNode.addListener(_onPasswordFocusChanged);
+  }
 
-    _phoneFocusNode.addListener(() => _onFocusChange('phone'));
-    _passwordFocusNode.addListener(() => _onFocusChange('password'));
+  void _onPhoneChanged() {
+    context.read<LoginFormCubit>().updatePhoneNumber(_phoneController.text);
+  }
+
+  void _onPasswordChanged() {
+    context.read<LoginFormCubit>().updatePassword(_passwordController.text);
+  }
+
+  void _onPhoneFocusChanged() {
+    if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
+      context.read<LoginFormCubit>().validateFieldOnFocusChange(
+        FormFieldType.phone,
+        _phoneController.text,
+      );
+    }
+  }
+
+  void _onPasswordFocusChanged() {
+    if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
+      context.read<LoginFormCubit>().validateFieldOnFocusChange(
+        FormFieldType.password,
+        _passwordController.text,
+      );
+    }
   }
 
   @override
@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginFormCubit, LoginFormState>(
       builder: (context, state) {
-        if (state is! LoginFormChanged) {
+        if (state is! LoginFormLoaded) {
           return const SizedBox.shrink();
         }
 
@@ -83,72 +83,55 @@ class _LoginFormState extends State<LoginForm> {
 
         return Column(
           children: [
-            Focus(
+            PhoneInputWithCountry(
+              controller: _phoneController,
               focusNode: _phoneFocusNode,
-              child: SellioTextField(
-                controller: _phoneController,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(right: 4),
-                  child: SvgPicture.asset(
-                    AppImages.phone,
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                      colors.body,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                hintText: context.local.phone_number,
-                inputType: TextInputType.phone,
-                isPhoneNumber: true,
-                inputFormatter: [
-                  FilteringTextInputFormatter.allow(RegExp(r'[+\d]')),
-                  LengthLimitingTextInputFormatter(11),
-                ],
-              /*  selectedCountry: state.selectedCountry,
-                countries: mockCountries,
-                onChangeCountry: (country) {
-                  context.read<LoginFormCubit>().updateSelectedCountry(country);
-                },*/
-              ),
+              selectedCountry: state.selectedCountry,
+              onCountrySelected: (country) {
+                context.read<LoginFormCubit>().updateSelectedCountry(country);
+              },
             ),
-
-             const Gap(16),
-
-             Focus(
-              focusNode: _passwordFocusNode,
-              child: SellioTextField(
-                controller: _passwordController,
-                hintText: 'Password',
-                inputType: TextInputType.visiblePassword,
-                prefixIcon: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
-                  colorFilter: ColorFilter.mode(
-                    colors.body,
-                    BlendMode.srcIn,
-                  ),
-                ),
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.centerRight,
-              child: SellioButton(
-                text: 'Forget Password?',
-                textColor: colors.primary,
-                backgroundColor: Colors.transparent,
-                fullWidth: false,
-                horizontalPadding: 0,
-                verticalPadding: 8,
-                onTap: () => context.navigator.pushForgetPassword(),
-              ),
-            ),
+            const Gap(16),
+            _buildPasswordField(colors),
+            _buildForgetPasswordButton(colors),
           ],
         );
       },
+    );
+  }
+
+  Widget _buildPasswordField(dynamic colors) {
+    return Focus(
+      focusNode: _passwordFocusNode,
+      child: SellioTextField(
+        controller: _passwordController,
+        hintText: context.local.password,
+        inputType: TextInputType.visiblePassword,
+        prefixIcon: SvgPicture.asset(
+          AppImages.password,
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(
+            colors.body,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildForgetPasswordButton(dynamic colors) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: SellioButton(
+        text: context.local.forget_password,
+        textColor: colors.primary,
+        backgroundColor: Colors.transparent,
+        fullWidth: false,
+        horizontalPadding: 0,
+        verticalPadding: 8,
+        onTap: () => context.navigator.pushForgetPassword(),
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:design_system/design_system.dart';
 import 'builders/login_sections_builder.dart';
 import 'login_bloc_providers.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../di/injection_container.dart';
+import '../../../../domain/repositories/auth_repository.dart';
 import 'cubits/form/login_form_cubit.dart';
 
 class LoginBlocProviders extends StatelessWidget {
@@ -9,15 +10,16 @@ class LoginBlocProviders extends StatelessWidget {
   const LoginBlocProviders({
     super.key,
     required this.child,
-  }
-  );
+  });
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LoginFormCubit(),
+          create: (context) => LoginFormCubit(
+            authRepository: sl<AuthRepository>(),
+          ),
         ),
       ],
       child: child,
