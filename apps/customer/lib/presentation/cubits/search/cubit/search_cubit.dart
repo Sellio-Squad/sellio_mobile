@@ -10,13 +10,30 @@ class SearchCubit extends Cubit<SearchState> {
   final List<String> _recentSearches = [
     "Cake",
     "shoes",
-
   ];
-
-
-   final List<Product> _products = [
-    Product(id: "12", name: "name", description: "description", price: 2.5, currency: "currency", images: [], storeId: "123", categoryId: "123" , isAvailable: true, stockQuantity: 123),
-    Product(id: "12", name: "name", description: "description", price: 2.5, currency: "currency", images: [], storeId: "123", categoryId: "123" , isAvailable: true, stockQuantity: 123),
+  final List<Product> _products = [
+    Product(
+        id: "123",
+        name: "T-Shirt",
+        description: "This is T-Shirt",
+        price: 2.5,
+        currency: "currency",
+        images: [],
+        storeId: "123",
+        categoryId: "123",
+        isAvailable: true,
+        stockQuantity: 123),
+    Product(
+        id: "456",
+        name: "Shoes",
+        description: "This is Shoes",
+        price: 2.5,
+        currency: "currency",
+        images: [],
+        storeId: "123",
+        categoryId: "123",
+        isAvailable: true,
+        stockQuantity: 123),
   ];
 
   void init() {
@@ -33,14 +50,13 @@ class SearchCubit extends Cubit<SearchState> {
       return;
     }
 
-
     //mock logic
-    final hasResults = text.isNotEmpty;
+    final hasResults = _products.where((product) => product.name == text);
 
-    if (hasResults) {
-      emit( SearchSuccess(_products));
+    if (hasResults.isNotEmpty) {
+      emit(SearchSuccess(_products));
     } else {
-      emit(const SearchEmpty());
+      emit(SearchEmpty());
     }
   }
 
