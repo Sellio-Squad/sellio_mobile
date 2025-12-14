@@ -1,12 +1,9 @@
-import 'package:sellio_mobile/data/mappers/user_mapper.dart';
-
 import '../../core/error/result.dart';
-import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../core/storage/storage_keys.dart';
 import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
-import '../datasource/remote/auth/auth_remote.dart';
+import '../datasource/remote/auth/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -19,114 +16,136 @@ class AuthRepositoryImpl implements AuthRepository {
         _storageService = storageService;
 
   @override
-  Future<Result<User>> login({
+  Future<Result<void>> login({
     required String phoneNumber,
-    required String countryCode,
     required String password,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
-      final userModel = await _remoteDataSource.login(
+    return RepositoryCallHandler.callVoid(() async {
+      final response = await _remoteDataSource.login(
         phoneNumber: phoneNumber,
-        countryCode: countryCode,
         password: password,
       );
 
-      // Save auth data
-      // TODO: Update your API response to include token
-      // await _storageService.save<String>(StorageKeys.authToken, userModel.token);
-      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
-
-      return userModel.toEntity();
+      await _saveAuthTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
     });
   }
 
   @override
-  Future<Result<User>> register({
-    required String fullName,
+  Future<Result<void>> register({
+    required String firstName,
+    required String lastName,
     required String phoneNumber,
-    required String countryCode,
     required String password,
-    required String country,
     required String city,
-    String? profilePhotoUrl,
+    required String country,
+    required String email,
+    required String region,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
-      final names = fullName.split(' ');
-      final firstName = names.first;
-      final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
-
-      final userModel = await _remoteDataSource.register(
+    return RepositoryCallHandler.callVoid(() async {
+      final response = await _remoteDataSource.register(
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
-        countryCode: countryCode,
         password: password,
-        country: country,
         city: city,
+        country: country,
+        email: email,
+        region: region,
       );
 
-      await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
-
-      return userModel.toEntity();
+      await _savePendingRegistration(
+        sessionId: response.sessionId,
+        phoneNumber: phoneNumber,
+      );
     });
   }
 
   @override
-  Future<Result<bool>> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+  Future<Result<void>> verifyRegistrationOtp({
+    required String otp,
   }) async {
-    return RepositoryCallHandler.call<bool>(
-          () => _remoteDataSource.verifyOtp(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
-        otpCode: otpCode,
-      ),
-    );
+    return RepositoryCallHandler.callVoid(() async {
+      final sessionId = await _storageService.get<String>(
+        StorageKeys.registrationSessionId,
+      );
+
+      if (sessionId == null || sessionId.isEmpty) {
+        throw Exception('No pending registration found');
+      }
+
+      final response = await _remoteDataSource.verifyOtp(
+        otp: otp,
+        sessionId: sessionId,
+      );
+
+      await _saveAuthTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
+
+      await clearPendingRegistration();
+    });
   }
 
   @override
-  Future<Result<void>> resendOtp({
-    required String phoneNumber,
-    required String countryCode,
-  }) async {
-    return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.resendOtp(
-        phoneNumber: phoneNumber,
-        countryCode: countryCode,
-      ),
-    );
+  Future<Result<void>> resendRegistrationOtp() async {
+    return RepositoryCallHandler.callVoid(() async {
+      final sessionId = await _storageService.get<String>(
+        StorageKeys.registrationSessionId,
+      );
+
+      if (sessionId == null || sessionId.isEmpty) {
+        throw Exception('No pending registration found');
+      }
+
+      final response = await _remoteDataSource.resendOtp(
+        sessionId: sessionId,
+      );
+
+      await _storageService.save<String>(
+        StorageKeys.registrationSessionId,
+        response.sessionId,
+      );
+    });
   }
 
   @override
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
-    required String countryCode,
   }) async {
-    return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.sendForgotPasswordOtp(
+    return RepositoryCallHandler.callVoid(() async {
+      await _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
-        countryCode: countryCode,
-      ),
-    );
+      );
+    });
+  }
+
+  @override
+  Future<Result<void>> verifyForgotPasswordOtp({
+    required String phoneNumber,
+    required String otp,
+  }) async {
+    // This can be implemented based on your API
+    // Some APIs combine verify and reset in one call
+    return const Success(null);
   }
 
   @override
   Future<Result<void>> resetPassword({
     required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+    required String otp,
     required String newPassword,
   }) async {
-    return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.resetPassword(
+    return RepositoryCallHandler.callVoid(() async {
+      await _remoteDataSource.resetPassword(
         phoneNumber: phoneNumber,
-        countryCode: countryCode,
-        otpCode: otpCode,
+        otp: otp,
         newPassword: newPassword,
-      ),
-    );
+      );
+    });
   }
 
   @override
@@ -134,48 +153,57 @@ class AuthRepositoryImpl implements AuthRepository {
     return RepositoryCallHandler.callVoid(() async {
       try {
         await _remoteDataSource.logout();
-      } catch (e) {
-        // Even if API call fails, still clear local data
-        // This ensures user can logout even with network issues
+      } catch (_) {
       } finally {
-        await _clearLocalData();
+        await _clearAuthData();
       }
     });
   }
 
-  Future<Result<void>> _clearLocalData() async {
-    return RepositoryCallHandler.callVoid(() async {
-      await _storageService.remove(StorageKeys.authToken);
-      await _storageService.remove(StorageKeys.refreshToken);
-      await _storageService.remove(StorageKeys.userId);
-      await _storageService.remove(StorageKeys.isLoggedIn);
-    });
+  @override
+  Future<bool> isLoggedIn() async {
+    final token = await _storageService.get<String>(StorageKeys.authToken);
+    return token != null && token.isNotEmpty;
   }
 
   @override
-  Future<Result<User?>> getCurrentUser() async {
-    return RepositoryCallHandler.call<User?>(() async {
-      final userId = await _storageService.get<String>(StorageKeys.userId);
-      if (userId == null) return null;
-
-      final userModel = await _remoteDataSource.getCurrentUser(userId);
-      return userModel?.toEntity();
-    });
+  Future<String?> getPendingRegistrationPhone() async {
+    return _storageService.get<String>(StorageKeys.registrationPhoneNumber);
   }
 
   @override
-  Future<Result<bool>> isLoggedIn() async {
-    return RepositoryCallHandler.call<bool>(() async {
-      final token = await _storageService.get<String>(StorageKeys.authToken);
-      final userId = await _storageService.get<String>(StorageKeys.userId);
-      return token != null && token.isNotEmpty && userId != null;
-    });
+  Future<void> clearPendingRegistration() async {
+    await _storageService.remove(StorageKeys.registrationSessionId);
+    await _storageService.remove(StorageKeys.registrationPhoneNumber);
   }
 
-  @override
-  Future<Result<String?>> getAuthToken() async {
-    return RepositoryCallHandler.call<String?>(
-      () => _storageService.get<String>(StorageKeys.authToken),
+  Future<void> _saveAuthTokens({
+    required String accessToken,
+    required String refreshToken,
+  }) async {
+    await _storageService.save<String>(StorageKeys.authToken, accessToken);
+    await _storageService.save<String>(StorageKeys.refreshToken, refreshToken);
+    await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
+  }
+
+  Future<void> _savePendingRegistration({
+    required String sessionId,
+    required String phoneNumber,
+  }) async {
+    await _storageService.save<String>(
+      StorageKeys.registrationSessionId,
+      sessionId,
     );
+    await _storageService.save<String>(
+      StorageKeys.registrationPhoneNumber,
+      phoneNumber,
+    );
+  }
+
+  Future<void> _clearAuthData() async {
+    await _storageService.remove(StorageKeys.authToken);
+    await _storageService.remove(StorageKeys.refreshToken);
+    await _storageService.remove(StorageKeys.isLoggedIn);
+    await clearPendingRegistration();
   }
 }
