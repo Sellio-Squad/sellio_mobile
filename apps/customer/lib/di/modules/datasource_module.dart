@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
-import '../../data/datasource/remote/auth/auth_remote.dart';
-import '../../data/datasource/remote/auth/auth_remote_impl.dart';
+import '../../data/datasource/remote/auth/auth_remote_datasource.dart';
+import '../../data/datasource/remote/auth/auth_remote_datasource_impl.dart';
 import '../../../data/datasource/local/cart_local_datasource.dart';
 import '../../../data/datasource/remote/category_remote_datasource.dart';
 import '../../../data/datasource/remote/favorites_remote_datasource.dart';

@@ -4,11 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'widget/lock_icon.dart';
+import 'widgets/lock_icon.dart';
 
 class SetNewPasswordScreen extends StatefulWidget {
   const SetNewPasswordScreen({super.key});
@@ -50,7 +46,7 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
 
   void _handleSave() {
     if (!_isFormValid) return;
-
+    // TODO: Call API to reset password
     context.navigator.goToHome();
   }
 
@@ -60,7 +56,10 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
     final textTheme = context.theme.typography.textTheme;
 
     return Scaffold(
-      appBar: SellioAppBar(title: context.local.title_par_forget_password,showBackButton: true,),
+      appBar: SellioAppBar(
+        title: context.local.title_par_forget_password,
+        showBackButton: true,
+      ),
       backgroundColor: colors.surfaceLow,
       body: SafeArea(
         child: Padding(
@@ -78,47 +77,17 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
                       const SizedBox(height: 40),
                       Text(
                         context.local.set_new_password,
-                        style: textTheme.headlineSmall.copyWith(
-                          color: colors.title,
-                        ),
+                        style: textTheme.headlineSmall.copyWith(color: colors.title),
                       ),
                       const Gap(8),
                       Text(
                         context.local.subtitle_set_new_password,
-                        style: textTheme.bodyMedium.copyWith(
-                          color: colors.body,
-                        ),
+                        style: textTheme.bodyMedium.copyWith(color: colors.body),
                       ),
                       const Gap(32),
-
-                      SellioTextField(
-                        controller: _passwordController,
-                        hintText: context.local.password,
-                        inputType: TextInputType.visiblePassword,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 12),
-                          child: SvgPicture.asset(
-                            AppImages.password,
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
+                      _buildPasswordField(colors),
                       const Gap(16),
-
-                      SellioTextField(
-                        controller: _confirmPasswordController,
-                        hintText: context.local.confirm_password,
-                        inputType: TextInputType.visiblePassword,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(left: 16, right: 12),
-                          child: SvgPicture.asset(
-                            AppImages.password,
-                            width: 24,
-                            height: 24,
-                          ),
-                        ),
-                      ),
+                      _buildConfirmPasswordField(colors),
                     ],
                   ),
                 ),
@@ -131,6 +100,38 @@ class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
               const Gap(16),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(dynamic colors) {
+    return SellioTextField(
+      controller: _passwordController,
+      hintText: context.local.password,
+      inputType: TextInputType.visiblePassword,
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 12),
+        child: SvgPicture.asset(
+          AppImages.password,
+          width: 24,
+          height: 24,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConfirmPasswordField(dynamic colors) {
+    return SellioTextField(
+      controller: _confirmPasswordController,
+      hintText: context.local.confirm_password,
+      inputType: TextInputType.visiblePassword,
+      prefixIcon: Padding(
+        padding: const EdgeInsets.only(left: 16, right: 12),
+        child: SvgPicture.asset(
+          AppImages.password,
+          width: 24,
+          height: 24,
         ),
       ),
     );

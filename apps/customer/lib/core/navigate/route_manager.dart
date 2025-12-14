@@ -6,7 +6,6 @@ import 'package:sellio_mobile/presentation/screens/auth/forget_password/confirm_
 import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
 import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:sellio_mobile/presentation/screens/auth/login/login_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/signupOTP.dart';
 import 'package:sellio_mobile/presentation/screens/cart/cart_screen.dart';
 import 'package:sellio_mobile/presentation/screens/customize_product/customize_your_product_screen.dart';
 import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
@@ -17,6 +16,7 @@ import 'package:sellio_mobile/presentation/screens/store_details/about_store/abo
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
 import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/account/myFav/myFavorites.dart';
+import '../../presentation/screens/auth/signup_otp/signup_otp_screen.dart';
 import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
 import 'app_routes.dart';
@@ -92,7 +92,9 @@ class RouteGenerator {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const ConfirmAccountScreen(),
+            child: const ConfirmAccountScreen(
+              phoneNumber: '' ,
+            ),
           );
         },
       ),

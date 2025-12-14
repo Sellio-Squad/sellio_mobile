@@ -14,7 +14,7 @@ class ApiEndpoints {
   static const String resetPassword = '$apiVersion/auth/reset-password';
   static const String requestOtp = '$apiVersion/auth/create/request-otp';
   static const String verifyOtp = '$apiVersion/auth/create/verify-otp';
-  static const String createUser = '$apiVersion/auth/create';
+  static const String register = '$apiVersion/auth/create';
   static const String refreshToken = '$apiVersion/auth/refresh-token';
   static const String logout = '$apiVersion/auth/logout';
 

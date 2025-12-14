@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
-
 
 Widget buildLockIcon(dynamic colors) {
   return Container(
