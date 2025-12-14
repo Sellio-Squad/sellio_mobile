@@ -7,7 +7,7 @@ import 'package:sellio_mobile/presentation/screens/search/widgets/no_result.dart
 import 'package:sellio_mobile/presentation/screens/search/widgets/recent_search.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/search_bar.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/success_search.dart';
-import '../../cubits/search/cubit/search_cubit.dart';
+import 'cubit/search_cubit.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

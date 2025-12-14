@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
 
 import '../../../../core/localization/l10n/localization_service.dart';
-import '../../../cubits/search/cubit/search_cubit.dart';
+import '../cubit/search_cubit.dart';
 
 class RecentSearchSection extends StatelessWidget {
   final List<String> recentSearches;
