@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
-
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -52,10 +51,9 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushSignupOtp(SignupOtpArgs args) {
+  void pushSignupOtp() {
     context.pushNamed(
       AppRoutes.signupOtp.name,
-      extra: args,
     );
   }
 
@@ -131,7 +129,6 @@ class AppNavigatorImpl implements AppNavigator {
     context.go(AppRoutes.account.path);
   }
 
-  // Navigation utilities
   @override
   void pop<T extends Object?>([T? result]) {
     context.pop<T>(result);

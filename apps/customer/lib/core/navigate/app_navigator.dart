@@ -15,7 +15,7 @@ abstract class AppNavigator {
 
   void pushConfirmPassword(ConfirmPasswordArgs args);
 
-  void pushSignupOtp(SignupOtpArgs args);
+  void pushSignupOtp();
 
   void pushProductDetails(ProductDetailsArgs args);
 
