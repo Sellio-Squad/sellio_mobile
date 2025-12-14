@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../auth/country.dart';
+import '../country.dart';
 
 class AccountSettingsState extends Equatable {
   final String phoneNumber;

@@ -6,7 +6,7 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/account_settings/cubit/account_settings_cubit.dart';
-import '../../../../presentation/screens/auth/country.dart';
+import 'country.dart';
 import 'cubit/account_settings_state.dart';
 
 class AccountSettingsBottomSheet extends StatefulWidget {
