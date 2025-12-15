@@ -1,4 +1,6 @@
 import '../../core/error/result.dart';
+import '../entities/product.dart';
+import '../entities/store.dart';
 
 abstract class FavoritesRepository {
   Future<Result<List<String>>> getFavoriteProductIds();
@@ -20,4 +22,8 @@ abstract class FavoritesRepository {
   Future<void> addStoreToFavorites(String storeId);
 
   Future<void> removeStoreFromFavorites(String storeId);
+
+  Future<Result<List<Product>>> getFavoriteProductsFull();
+
+  Future<Result<List<Store>>> getFavoriteStoresFull();
 }
