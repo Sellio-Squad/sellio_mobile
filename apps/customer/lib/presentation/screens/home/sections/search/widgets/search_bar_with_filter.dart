@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final Function(String text) onTextSubmitted;
   final TextEditingController? controller;
+  final Function()? onTextFiledClicked;
+  final bool isReadOnly;
 
   const SearchBarWidget(
-      {super.key, required this.onTextSubmitted, this.controller});
+      {super.key, required this.onTextSubmitted, this.controller , this.onTextFiledClicked , this.isReadOnly = false});
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -48,6 +49,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         Expanded(
           child: TextField(
             maxLines: 1,
+            readOnly: widget.isReadOnly,
+            onTap: widget.onTextFiledClicked,
             cursorColor: context.theme.colors.primary,
             controller: _searchController,
             textInputAction: TextInputAction.search,

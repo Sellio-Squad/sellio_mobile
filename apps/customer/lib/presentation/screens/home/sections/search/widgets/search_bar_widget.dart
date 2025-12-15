@@ -7,12 +7,16 @@ class SearchBarWithFilter extends StatelessWidget {
   final Function() onFilterIconClicked;
   final Function(String text) onTextSubmitted;
   final TextEditingController? controller;
+  final Function()? onTextFiledClicked;
+  final bool isReadOnly;
 
   const SearchBarWithFilter({
     super.key,
     required this.onFilterIconClicked,
     required this.onTextSubmitted,
     this.controller,
+    this.onTextFiledClicked,
+    this.isReadOnly = false,
   });
 
   @override
@@ -34,8 +38,10 @@ class SearchBarWithFilter extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child:
               SearchBarWidget(
+                isReadOnly: isReadOnly,
                 onTextSubmitted: (String text) { onTextSubmitted(text); },
                 controller: controller,
+                onTextFiledClicked: onTextFiledClicked,
               ),
             ),
           ),
