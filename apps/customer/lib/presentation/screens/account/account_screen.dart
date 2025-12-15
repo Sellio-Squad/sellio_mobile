@@ -14,7 +14,6 @@ import 'account_options/account_options_bottom_sheet.dart';
 import 'account_settings/account_settings_bottom_sheet.dart';
 import 'cubit/account_state.dart';
 import 'delete_account/delete_account_bottom_sheet.dart';
-import 'empty_section.dart';
 import 'language/change_language_bottom_sheet.dart';
 import 'logout/logout_bottom_sheet.dart';
 
