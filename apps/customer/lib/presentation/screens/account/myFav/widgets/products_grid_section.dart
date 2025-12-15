@@ -1,6 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
@@ -10,18 +10,18 @@ import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import 'empty_favorites_state.dart';
 
 class ProductsGridSection extends StatelessWidget {
-  final List<String> favoriteProductIds;
+  final List<Product> products;
   final void Function(String) onToggleFavorite;
 
   const ProductsGridSection({
     super.key,
-    required this.favoriteProductIds,
+    required this.products,
     required this.onToggleFavorite,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (favoriteProductIds.isEmpty) {
+    if (products.isEmpty) {
       return const SliverToBoxAdapter(
         child: EmptyFavoritesWidget(),
       );

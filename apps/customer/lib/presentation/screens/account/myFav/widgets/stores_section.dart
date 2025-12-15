@@ -4,21 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
+
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {
-  final List<String> favoriteStoreIds;
+  final List<Store> stores;
   final void Function(String) onToggleFavorite;
 
   const StoresSection({
     super.key,
-    required this.favoriteStoreIds,
+    required this.stores,
     required this.onToggleFavorite,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (favoriteStoreIds.isEmpty) {
+    if (stores.isEmpty) {
       return const SliverToBoxAdapter(
         child: EmptyFavoritesWidget(),
       );

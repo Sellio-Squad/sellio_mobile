@@ -1,4 +1,7 @@
+import 'package:sellio_mobile/domain/entities/product.dart';
+
 import '../../../core/error/result.dart';
+import '../../../domain/entities/store.dart';
 import '../../../domain/repositories/favorites_repository.dart';
 
 class MockFavoritesRepositoryImpl implements FavoritesRepository {
@@ -77,5 +80,17 @@ class MockFavoritesRepositoryImpl implements FavoritesRepository {
   Future<void> removeStoreFromFavorites(String storeId) async {
     await _simulateDelay();
     _favoriteStoreIds.remove(storeId);
+  }
+
+  @override
+  Future<Result<List<Product>>> getFavoriteProductsFull() {
+    // TODO: implement getFavoriteProductsFull
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Result<List<Store>>> getFavoriteStoresFull() {
+    // TODO: implement getFavoriteStoresFull
+    throw UnimplementedError();
   }
 }
