@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gap/flutter_gap.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
-import 'package:design_system/design_system.dart';
 import '../../../domain/entities/order.dart';
 import 'cubit/order_history_cubit.dart';
 import 'cubit/order_history_state.dart';
+import 'order_details_card.dart';
 import 'order_history_tabs.dart';
 
 class OrderHistoryScreen extends StatelessWidget {
@@ -35,12 +30,14 @@ class OrderHistoryScreen extends StatelessWidget {
             } else if (state is OrderHistoryError) {
               return Center(child: Text(state.message));
             } else if (state is OrderHistoryLoaded) {
-              final orders = state.orders;
-              return CustomScrollView(
-                slivers: [
-                  const OrderHistoryTabs(),
-                  OrderSection(orders: orders),
-                ],
+              if (!state.hasAnyOrders) {
+                return Center(
+                  child: emptyOrderHistory(context),
+                );
+              }
+
+              return OrderSection(
+                orders: state.orders,
               );
             }
             return const SizedBox.shrink();
@@ -58,62 +55,46 @@ class OrderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (orders.isEmpty) {
-      return SliverToBoxAdapter(child: emptyOrderHistory(context));
-    }
-
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-            (context, index) {
-          final order = orders[index];
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: OrderDetailsCard(
-              //order: order,
-              onCancelClick: () {
-
-              },
-              onViewDetailsClick: () {},
-              onOrderAgainClick: () {},
+    return CustomScrollView(
+      slivers: [
+        const OrderHistoryTabs(),
+        if (orders.isEmpty)
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: emptyOrderHistory(context),
             ),
-          );
-        },
-        childCount: orders.length,
-      ),
+          )
+        else
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                final order = orders[index];
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: OrderDetailsCard(
+                    order: order,
+                    onCancelClick: () {},
+                    onViewDetailsClick: () {},
+                    onOrderAgainClick: () {},
+                  ),
+                );
+              },
+              childCount: orders.length,
+            ),
+          ),
+      ],
     );
   }
 }
 
 Widget emptyOrderHistory(BuildContext context) {
-  return SizedBox(
-    height: MediaQuery.of(context).size.height * 0.6,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(AppImages.noOrderHistory, width: 112, height: 112),
-        Text(
-          context.local.no_order_history,
-          style: context.theme.typography.textTheme.titleSmall.copyWith(
-            color: context.theme.colors.title,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Text(
-            context.local.start_exploring_favorite_items,
-            style: context.theme.typography.textTheme.bodySmall.copyWith(
-              color: context.theme.colors.body,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        const Gap(12),
-        SellioButton(
-          text: context.local.start_exploring,
-          fullWidth: false,
-          onTap: () {},
-        ),
-      ],
-    ),
+  return EmptySection(
+    buttonText: context.local.start_exploring,
+    icon: AppImages.noOrderHistory,
+    title: context.local.no_order_history,
+    description: context.local.start_exploring_favorite_items,
+    color: context.theme.colors.purpleVariant,
+    onTap: () {},
   );
 }
