@@ -68,6 +68,10 @@ enum AppRoutes {
     name: 'notifications',
     path: '/notifications',
   ),
+  search(
+    name: 'search',
+    path: '/search',
+  ),
   myOrders(
     name: 'myOrders',
     path: '/myOrders',
