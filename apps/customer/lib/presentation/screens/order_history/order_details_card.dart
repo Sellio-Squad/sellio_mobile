@@ -1,19 +1,22 @@
+import 'package:design_system/constants/app_images.dart';
+import 'package:design_system/themes/sellio_theme_provider.dart';
+import 'package:design_system/widgets/buttons/sellio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../constants/app_images.dart';
-import '../../themes/sellio_theme_provider.dart';
-import '../buttons/sellio_button.dart';
+import '../../../core/localization/l10n/localization_service.dart';
+import '../../../domain/entities/order.dart';
+import '../../utils/date_format.dart';
 
 
 class OrderDetailsCard extends StatefulWidget {
-  //final Order order;
+  final Order order;
   final VoidCallback? onCancelClick;
   final VoidCallback onViewDetailsClick;
   final VoidCallback onOrderAgainClick;
 
   const OrderDetailsCard({
     super.key,
-    //required this.order,
+    required this.order,
     this.onCancelClick,
     required this.onViewDetailsClick,
     required this.onOrderAgainClick,
@@ -27,12 +30,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
   bool _isExpanded = false;
 
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
-/*  @override
   Widget build(BuildContext context) {
     final order = widget.order;
 
@@ -70,17 +67,23 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            mainAxisSize: MainAxisSize.max,
             children: [
               SvgPicture.asset(AppImages.orderIcon, width: 20, height: 20),
               const SizedBox(width: 4),
-              Text(
-                "${context.local.order} #${order.orderId}",
-                style: context.theme.typography.textTheme.labelMedium.copyWith(
-                  color: context.theme.colors.title,
+              Expanded(
+                child: Text(
+                  "${context.local.order} #${order.orderId}",
+                  style: context.theme.typography.textTheme.labelMedium.copyWith(
+                    color: context.theme.colors.title,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 8),
               Container(
+                alignment: Alignment.centerRight,
                 padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
@@ -216,6 +219,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
         ],
       ),
     );
-  }*/
+  }
 
 }
