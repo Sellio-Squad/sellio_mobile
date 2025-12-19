@@ -18,7 +18,7 @@ class SearchCubit extends Cubit<SearchState> {
         description: "This is T-Shirt",
         price: 2.5,
         currency: "currency",
-        images: [],
+        images: ['https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dCUyMHNoaXJ0fGVufDB8fDB8fHww'],
         storeId: "123",
         categoryId: "123",
         isAvailable: true,
@@ -29,7 +29,7 @@ class SearchCubit extends Cubit<SearchState> {
         description: "This is Shoes",
         price: 2.5,
         currency: "currency",
-        images: [],
+        images: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfsKcLtcDvagrqCxPXwH7LG9Nddg1K83l6tQ&s'],
         storeId: "123",
         categoryId: "123",
         isAvailable: true,
@@ -53,7 +53,7 @@ class SearchCubit extends Cubit<SearchState> {
     //mock logic
     final hasResults = _products.where((product) => product.name.toLowerCase().contains(text.toLowerCase()),);
     if (hasResults.isNotEmpty) {
-      emit(SearchSuccess(_products));
+      emit(SearchSuccess(hasResults.toList()));
     } else {
       emit(SearchEmpty());
     }
