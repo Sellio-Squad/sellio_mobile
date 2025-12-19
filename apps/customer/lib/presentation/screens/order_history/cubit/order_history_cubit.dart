@@ -7,7 +7,7 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
   final OrderRepository _orderRepository;
 
   final List<OrderStatus?> tabs = [null, OrderStatus.pending, OrderStatus.processing, OrderStatus.completed, OrderStatus.cancelled];
-
+  bool _hasAnyOrders = false;
   OrderHistoryCubit(this._orderRepository) : super(const OrderHistoryInitial());
 
   Future<void> loadOrders({OrderStatus? status, int page = 1, int limit = 20}) async {
@@ -21,9 +21,13 @@ class OrderHistoryCubit extends Cubit<OrderHistoryState> {
 
     result.fold(
       onSuccess: (orders) {
+        if (status == null) {
+          _hasAnyOrders = orders.isNotEmpty;
+        }
         emit(OrderHistoryLoaded(
           orders: orders,
           selectedTabIndex: tabs.indexOf(status),
+          hasAnyOrders: _hasAnyOrders,
         ));
       },
       onFailure: (failure) {

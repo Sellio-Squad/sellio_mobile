@@ -8,6 +8,8 @@ sealed class ProductDetailsState extends Equatable {
   List<Object?> get props => [];
 }
 
+// -------------------- UI STATES --------------------
+
 class ProductDetailsInitial extends ProductDetailsState {
   const ProductDetailsInitial();
 }
@@ -26,14 +28,12 @@ class ProductDetailsLoaded extends ProductDetailsState {
   final int productCount;
   final bool isFavorite;
   final String note;
-  final String? cartMessage;
 
   const ProductDetailsLoaded({
     required this.product,
     this.productCount = 0,
     this.isFavorite = false,
     this.note = '',
-    this.cartMessage,
   });
 
   ProductDetailsLoaded copyWith({
@@ -41,19 +41,28 @@ class ProductDetailsLoaded extends ProductDetailsState {
     int? productCount,
     bool? isFavorite,
     String? note,
-    String? cartMessage,
   }) {
     return ProductDetailsLoaded(
       product: product ?? this.product,
       productCount: productCount ?? this.productCount,
       isFavorite: isFavorite ?? this.isFavorite,
       note: note ?? this.note,
-      cartMessage: cartMessage ?? this.cartMessage,
     );
   }
 
   @override
-  List<Object?> get props => [product, productCount, isFavorite, note, cartMessage];
+  List<Object?> get props => [product, productCount, isFavorite, note];
+}
+
+// -------------------- SIDE EFFECT STATES --------------------
+
+class ProductDetailsAddToCartSuccess extends ProductDetailsState {
+  final String message;
+
+  const ProductDetailsAddToCartSuccess({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class ProductDetailsError extends ProductDetailsState {
@@ -63,14 +72,4 @@ class ProductDetailsError extends ProductDetailsState {
 
   @override
   List<Object?> get props => [message];
-}
-
-class ProductDetailsAddToCartSuccess extends ProductDetailsLoaded {
-  const ProductDetailsAddToCartSuccess({
-    required super.product,
-    required super.productCount,
-    required super.isFavorite,
-    required super.note,
-    required super.cartMessage,
-  });
 }

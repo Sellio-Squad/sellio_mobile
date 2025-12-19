@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
+
 import 'widgets/products_grid_section.dart';
 import 'widgets/stores_section.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class FavoritesScreen extends StatefulWidget {
@@ -89,20 +90,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   else if (state is FavoritesLoaded)
                     _selectedTabIndex == 0
                         ? ProductsGridSection(
-                            favoriteProductIds: state.productIds.toList(),
-                            onToggleFavorite: (productId) {
-                              context
-                                  .read<FavoritesCubit>()
-                                  .toggleProductFavorite(productId);
-                            },
+                            products: state.favoriteProducts ?? [],
+                            onToggleFavorite: (productId) => context
+                                .read<FavoritesCubit>()
+                                .toggleProductFavorite(productId),
                           )
                         : StoresSection(
-                            favoriteStoreIds: state.storeIds.toList(),
-                            onToggleFavorite: (storeId) {
-                              context
-                                  .read<FavoritesCubit>()
-                                  .toggleStoreFavorite(storeId);
-                            },
+                            stores: state.favoriteStores ?? [],
+                            onToggleFavorite: (storeId) => context
+                                .read<FavoritesCubit>()
+                                .toggleStoreFavorite(storeId),
                           )
 
                   // Error state

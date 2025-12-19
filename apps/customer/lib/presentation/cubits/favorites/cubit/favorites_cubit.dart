@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../domain/repositories/favorites_repository.dart';
+import '../../../../domain/entities/product.dart';
+import '../../../../domain/entities/store.dart';
 import 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
@@ -13,22 +15,40 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     emit(FavoritesLoading(
       productIds: state.productIds,
       storeIds: state.storeIds,
+      favoriteProducts: state.favoriteProducts,
+      favoriteStores: state.favoriteStores,
     ));
 
     try {
-      final productIds = await _favoritesRepository.getFavoriteProductIds();
-      final storeIds = await _favoritesRepository.getFavoriteStoreIds();
-      debugPrint("fav $productIds ,$storeIds");
+      final productIdsResult =
+          await _favoritesRepository.getFavoriteProductIds();
+      final storeIdsResult = await _favoritesRepository.getFavoriteStoreIds();
+
+      final productsResult =
+          await _favoritesRepository.getFavoriteProductsFull();
+      final storesResult = await _favoritesRepository.getFavoriteStoresFull();
+
+      debugPrint("fav IDs: ${productIdsResult.data}, ${storeIdsResult.data}");
+      debugPrint(
+          "fav full: ${productsResult.data?.length ?? 0} products, ${storesResult.data?.length ?? 0} stores");
 
       emit(FavoritesLoaded(
-        productIds: productIds.data.toSet(),
-        storeIds: storeIds.data.toSet(),
+        productIds: productIdsResult.data.toSet(),
+        storeIds: storeIdsResult.data.toSet(),
+        favoriteProducts: productsResult.isSuccess
+            ? (productsResult.data as List<Product>?) ?? <Product>[]
+            : null,
+        favoriteStores: storesResult.isSuccess
+            ? (storesResult.data as List<Store>?) ?? <Store>[]
+            : null,
       ));
     } catch (e) {
       emit(FavoritesError(
         message: e.toString(),
         productIds: state.productIds,
         storeIds: state.storeIds,
+        favoriteProducts: state.favoriteProducts,
+        favoriteStores: state.favoriteStores,
       ));
     }
   }
@@ -46,7 +66,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       updatedIds.add(productId);
     }
 
-    // Optimistic update
     emit(currentState.copyWith(productIds: updatedIds));
 
     try {
@@ -59,7 +78,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         productIds: currentState.productIds,
         storeIds: currentState.storeIds,
       ));
-
       // Restore state after showing error
       emit(currentState);
     }
@@ -78,7 +96,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       updatedIds.add(storeId);
     }
 
-    // Optimistic update
     emit(currentState.copyWith(storeIds: updatedIds));
 
     try {
@@ -91,7 +108,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         productIds: currentState.productIds,
         storeIds: currentState.storeIds,
       ));
-
       // Restore state after showing error
       emit(currentState);
     }
@@ -104,4 +120,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   bool isStoreFavorite(String storeId) {
     return state.storeIds.contains(storeId);
   }
+
+  List<Product> get favoriteProductsList => state.favoriteProducts ?? [];
+
+  List<Store> get favoriteStoresList => state.favoriteStores ?? [];
 }
