@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
+import '../../../../di/injection_container.dart';
+import '../../../../domain/repositories/auth_repository.dart';
 import 'builders/create_account_sections_builder.dart';
-import 'create_account_bloc_providers.dart';
+import 'cubits/form/create_account_form_cubit.dart';
 import 'create_account_listeners.dart';
 
 class CreateAccountScreen extends StatelessWidget {
@@ -9,8 +12,11 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CreateAccountBlocProviders(
-      child: _CreateAccountScreenContent(),
+    return BlocProvider(
+      create: (context) => CreateAccountFormCubit(
+        authRepository: sl<AuthRepository>(),
+      ),
+      child: const _CreateAccountScreenContent(),
     );
   }
 }

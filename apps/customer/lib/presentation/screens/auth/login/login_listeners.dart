@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/utils/snackbar_helper.dart';
-import '../shared/extensions/validation_error_extension.dart';
+import '../shared/extensions.dart';
 import 'cubits/form/login_form_cubit.dart';
 import 'cubits/form/login_form_state.dart';
 
@@ -41,7 +41,7 @@ class LoginListeners extends StatelessWidget {
   }
 
   void _handleGeneralError(BuildContext context, LoginFormError state) {
-    final message = _getLocalizedErrorMessage(context, state.messageKey);
+    final message = state.errorType.toLocalizedString(context);
     SnackBarHelper.showError(context, message);
   }
 
@@ -57,12 +57,5 @@ class LoginListeners extends StatelessWidget {
         context.read<LoginFormCubit>().clearFieldError();
       }
     });
-  }
-
-  String _getLocalizedErrorMessage(BuildContext context, String messageKey) {
-    return switch (messageKey) {
-      'login_failed' => context.local.something_went_wrong,
-      _ => context.local.something_went_wrong,
-    };
   }
 }

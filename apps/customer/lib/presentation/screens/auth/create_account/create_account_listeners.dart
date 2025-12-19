@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/utils/snackbar_helper.dart';
-import '../shared/extensions/validation_error_extension.dart';
+import '../shared/extensions.dart';
 import 'cubits/form/create_account_form_cubit.dart';
 import 'cubits/form/create_account_form_state.dart';
 
@@ -36,7 +35,7 @@ class CreateAccountListeners extends StatelessWidget {
   }
 
   void _handleGeneralError(BuildContext context, CreateAccountFormError state) {
-    final message = _getLocalizedErrorMessage(context, state.messageKey);
+    final message = state.errorType.toLocalizedString(context);
     SnackBarHelper.showError(context, message);
   }
 
@@ -52,12 +51,5 @@ class CreateAccountListeners extends StatelessWidget {
         context.read<CreateAccountFormCubit>().clearFieldError();
       }
     });
-  }
-
-  String _getLocalizedErrorMessage(BuildContext context, String messageKey) {
-    return switch (messageKey) {
-      'failed_to_create_account' => context.local.failed_to_create_account,
-      _ => context.local.something_went_wrong,
-    };
   }
 }

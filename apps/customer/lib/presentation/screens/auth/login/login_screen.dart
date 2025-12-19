@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'login_bloc_providers.dart';
+import '../../../../di/injection_container.dart';
+import '../../../../domain/repositories/auth_repository.dart';
+import 'cubits/form/login_form_cubit.dart';
 import 'login_listeners.dart';
 import 'widgets/login_footer.dart';
 import 'widgets/login_form.dart';
@@ -12,8 +15,11 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LoginBlocProviders(
-      child: _LoginScreenContent(),
+    return BlocProvider(
+      create: (context) => LoginFormCubit(
+        authRepository: sl<AuthRepository>(),
+      ),
+      child: const _LoginScreenContent(),
     );
   }
 }

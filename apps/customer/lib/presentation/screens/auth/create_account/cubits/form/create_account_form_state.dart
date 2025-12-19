@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../../core/enums/validation_error_type.dart';
+import '../../../../../../core/enums/auth_error_type.dart';
 
 sealed class CreateAccountFormState extends Equatable {
   const CreateAccountFormState();
@@ -102,10 +103,10 @@ class CreateAccountFormSuccess extends CreateAccountFormState {
 }
 
 class CreateAccountFormError extends CreateAccountFormState {
-  final String messageKey;
+  final AuthErrorType errorType;
 
-  const CreateAccountFormError({required this.messageKey});
+  const CreateAccountFormError({required this.errorType});
 
   @override
-  List<Object?> get props => [messageKey];
+  List<Object?> get props => [errorType];
 }
