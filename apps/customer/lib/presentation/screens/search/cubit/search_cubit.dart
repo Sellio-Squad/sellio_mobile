@@ -51,8 +51,7 @@ class SearchCubit extends Cubit<SearchState> {
     }
 
     //mock logic
-    final hasResults = _products.where((product) => product.name == text);
-
+    final hasResults = _products.where((product) => product.name.toLowerCase().contains(text.toLowerCase()),);
     if (hasResults.isNotEmpty) {
       emit(SearchSuccess(_products));
     } else {
