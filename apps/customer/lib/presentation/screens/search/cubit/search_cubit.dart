@@ -33,11 +33,12 @@ class SearchCubit extends Cubit<SearchState> {
 
     if (result.isSuccess) {
       final products = (result as Success<List<Product>>).data;
-      if (products.isEmpty) {
+      if (products.isNotEmpty) {
+        emit(SearchSuccess(products));
+      }else {
         emit(SearchEmpty());
-
       }
-      emit(SearchSuccess(products));
+
 
     }
   }
