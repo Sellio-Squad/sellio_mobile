@@ -58,8 +58,11 @@ class RepositoryModule {
       () => UserRepositoryImpl(remoteDataSource: sl()),
     );
 
-    sl.registerLazySingleton<FavoritesRepository>(
-        () => FavoritesRepositoryImpl(remoteDataSource: sl()));
+    sl.registerLazySingleton<FavoritesRepository>(() => FavoritesRepositoryImpl(
+          remoteDataSource: sl(),
+          productRemoteDataSource: sl(),
+          storeRemoteDataSource: sl(),
+        ));
 
     // sl.registerLazySingleton<OffersRepository>(
     //       () => OffersRepositoryImpl(
