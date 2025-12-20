@@ -2,11 +2,13 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/initial_search.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/no_result.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/recent_search.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/search_bar.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/success_search.dart';
+import '../../../di/injection_container.dart';
 import 'cubit/search_cubit.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -15,7 +17,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SearchCubit()..init(),
+      create: (_) => SearchCubit(sl<ProductRepository>())..init(),
       child: const _SearchView(),
     );
   }
