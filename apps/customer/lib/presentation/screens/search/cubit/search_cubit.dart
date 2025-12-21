@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:sellio_mobile/domain/entities/product.dart';
-import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/result.dart';
