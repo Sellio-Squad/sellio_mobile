@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:sellio_mobile/data/repositories/favorites_repository_impl.dart';
+import 'package:sellio_mobile/data/repositories/search_repository_impl.dart';
+import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 
 import '../../../data/repositories/auth_repository_impl.dart';
 import '../../../data/repositories/store_repository_impl.dart';
@@ -30,7 +32,9 @@ class RepositoryModule {
     sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(
           remoteDataSource: sl(),
-          favoritesRemoteDataSource: sl()),
+          favoritesRemoteDataSource: sl(),
+          searchRemoteDataSource: sl()
+      ),
     );
     //
     sl.registerLazySingleton<StoreRepository>(
@@ -63,6 +67,12 @@ class RepositoryModule {
           productRemoteDataSource: sl(),
           storeRemoteDataSource: sl(),
         ));
+
+    sl.registerLazySingleton<SearchRepository>(
+        () => SearchRepositoryImpl(
+            remoteDataSource: sl()
+        )
+    );
 
     // sl.registerLazySingleton<OffersRepository>(
     //       () => OffersRepositoryImpl(

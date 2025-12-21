@@ -22,7 +22,7 @@ class BlocModule {
     sl.registerFactory(() => UserCubit(sl()));
     sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeCategoriesCubit(sl()));
-    sl.registerFactory(() => HomeTrendingProductsCubit(sl()));
+    sl.registerFactory(() => HomeTrendingProductsCubit(sl(), sl()));
     sl.registerFactory(() => HomeTopStoresCubit(sl()));
     sl.registerFactory(() => HomeSpecialOffersCubit(sl()));
     sl.registerFactory(() => NotificationCubit(sl()));

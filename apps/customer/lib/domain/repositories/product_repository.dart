@@ -36,15 +36,6 @@ abstract class ProductRepository {
     int limit = 20,
   });
 
-  Future<Result<List<Product>>> searchProducts({
-    required String query,
-    String? categoryId,
-    double? minPrice,
-    double? maxPrice,
-    int page = 1,
-    int limit = 20,
-  });
-
   Future<Result<PaginatedData<Product>>> getFeaturedProductsPaginated({
     int page = 1,
     int limit = 20,

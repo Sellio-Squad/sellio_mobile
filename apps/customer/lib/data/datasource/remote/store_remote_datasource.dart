@@ -28,12 +28,6 @@ abstract class StoreRemoteDataSource {
     int pageSize = 20,
   });
 
-  Future<PaginatedResponse<StoreModel>> searchStores({
-    required String query,
-    int page = 0,
-    int pageSize = 20,
-  });
-
   Future<PaginatedResponse<ReviewModel>> getStoreReviews({
     required String storeId,
     int page = 0,
@@ -123,27 +117,6 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
     return PaginatedResponse.fromJson(
       response.data,
           (json) => ProductModel.fromJson(json),
-    );
-  }
-
-  @override
-  Future<PaginatedResponse<StoreModel>> searchStores({
-    required String query,
-    int page = 0,
-    int pageSize = 20,
-  }) async {
-    final response = await _httpClient.get(
-      ApiEndpoints.storesSearch,
-      queryParameters: {
-        'query': query,
-        'page': page,
-        'size': pageSize,
-      },
-    );
-
-    return PaginatedResponse.fromJson(
-      response.data,
-          (json) => StoreModel.fromJson(json),
     );
   }
 
