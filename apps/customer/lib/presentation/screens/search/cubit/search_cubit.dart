@@ -54,9 +54,8 @@ class SearchCubit extends Cubit<SearchState> {
     final prefs = await SharedPreferences.getInstance();
 
     final List<String> recent = prefs.getStringList('recent_search') ?? [];
-
+    recent.removeWhere((item) => item == query);
     recent.insert(0, query);
-
     await prefs.setStringList('recent_search', recent);
   }
 
