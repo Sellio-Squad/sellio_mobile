@@ -19,4 +19,10 @@ abstract class SearchRepository {
     int limit = 20,
   });
 
+  Future<Result<void>> addToRecentSearch(String query);
+
+  Future<Result<List<String>>> getRecentSearches();
+
+  Future<Result<void>> clearAllRecentSearches();
+
 }

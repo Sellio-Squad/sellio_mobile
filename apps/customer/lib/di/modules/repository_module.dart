@@ -70,7 +70,8 @@ class RepositoryModule {
 
     sl.registerLazySingleton<SearchRepository>(
         () => SearchRepositoryImpl(
-            remoteDataSource: sl()
+            remoteDataSource: sl(),
+            localDataSource: sl()
         )
     );
 

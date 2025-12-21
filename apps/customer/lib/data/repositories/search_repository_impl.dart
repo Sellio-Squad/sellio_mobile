@@ -2,6 +2,7 @@ import '../../core/error/result.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../core/utils/repository_call_handler.dart';
+import '../datasource/local/search_local_datasource.dart';
 import '../datasource/remote/search_remote_datasource.dart';
 import 'package:sellio_mobile/data/mappers/store_mapper.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
@@ -9,11 +10,13 @@ import 'package:design_system/design_system.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
   final SearchRemoteDateSource _remoteDataSource;
+  final SearchLocalDatasource _localDataSource;
 
-  SearchRepositoryImpl({
-    required SearchRemoteDateSource remoteDataSource
-  }) : _remoteDataSource = remoteDataSource;
-
+  SearchRepositoryImpl(
+      {required SearchRemoteDateSource remoteDataSource,
+      required SearchLocalDatasource localDataSource})
+      : _remoteDataSource = remoteDataSource,
+        _localDataSource = localDataSource;
 
   @override
   Future<Result<List<Product>>> searchProducts({
@@ -64,4 +67,24 @@ class SearchRepositoryImpl implements SearchRepository {
     });
   }
 
+  @override
+  Future<Result<List<String>>> getRecentSearches() async {
+    return RepositoryCallHandler.call<List<String>>(() async {
+      return await _localDataSource.getRecentSearch();
+    });
+  }
+
+  @override
+  Future<Result<void>> addToRecentSearch(String query) {
+    return RepositoryCallHandler.call<void>(() async {
+      await _localDataSource.addToRecentSearch(query);
+    });
+  }
+
+  @override
+  Future<Result<void>> clearAllRecentSearches() {
+    return RepositoryCallHandler.call<void>(() async {
+      await _localDataSource.clearAllRecentSearches();
+    });
+  }
 }
