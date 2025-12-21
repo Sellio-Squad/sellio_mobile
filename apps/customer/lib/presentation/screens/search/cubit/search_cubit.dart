@@ -2,15 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
+import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/error/result.dart';
 
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  final ProductRepository _productRepository;
+  final SearchRepository _searchRepository;
 
-  SearchCubit(this._productRepository) : super(const SearchInitial());
+  SearchCubit(this._searchRepository) : super(const SearchInitial());
 
   late List<String> _recentSearches;
 
@@ -28,7 +29,7 @@ class SearchCubit extends Cubit<SearchState> {
       init();
       return;
     }
-    final result = await _productRepository.searchProducts(query: text);
+    final result = await _searchRepository.searchProducts(query: text);
 
     if (result.isSuccess) {
       final products = (result as Success<List<Product>>).data;
