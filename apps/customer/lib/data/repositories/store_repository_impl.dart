@@ -106,23 +106,6 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   @override
-  Future<Result<List<Store>>> searchStores({
-    required String query,
-    int page = RepositoryConstants.defaultPage,
-    int limit = RepositoryConstants.defaultPageSize,
-  }) async {
-    return RepositoryCallHandler.call<List<Store>>(() async {
-      final paginatedResponse = await _remoteDataSource.searchStores(
-        query: query,
-        page: page - 1,
-        pageSize: limit,
-      );
-
-      return paginatedResponse.data.map((model) => model.toEntity()).toList();
-    });
-  }
-
-  @override
   Future<Result<void>> toggleFavoriteStore(String storeId) async {
     return RepositoryCallHandler.callWithAuth<void>(
       _getUserId,

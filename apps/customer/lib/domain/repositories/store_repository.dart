@@ -28,12 +28,6 @@ abstract class StoreRepository {
     int limit = 10,
   });
 
-  Future<Result<List<Store>>> searchStores({
-    required String query,
-    int page = 1,
-    int limit = 20,
-  });
-
   Future<Result<void>> toggleFavoriteStore(String storeId);
 
   Future<Result<List<Store>>> getFavoriteStores();
