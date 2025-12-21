@@ -18,11 +18,7 @@ class OffersRepositoryImpl implements OffersRepository {
 
   @override
   Future<List<Offer>> getActiveOffers() async {
-    try {
-      final offers = await _remoteDataSource.getActiveOffers();
-      return offers.map((offer) => offer.toEntity()).toList();
-    } catch (e) {
-      return [];
-    }
+    final offers = await _remoteDataSource.getActiveOffers();
+    return offers.map((offer) => offer.toEntity()).toList();
   }
 }
