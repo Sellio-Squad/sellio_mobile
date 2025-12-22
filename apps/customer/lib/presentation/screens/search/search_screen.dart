@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/search/widgets/filter_bottom_sheet.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/initial_search.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/no_result.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/recent_search.dart';
@@ -53,7 +54,7 @@ class _SearchViewState extends State<_SearchView> {
             builder: (context, state) {
               return SearchBarSection(
                 searchController: _searchController,
-                  isShowFilterIcon: state is SearchSuccess
+                  isShowFilterIcon: state is SearchSuccess, onFilterIconClicked: () { _showFilterBottomSheet(); },
               );
             },
           ),
@@ -76,6 +77,13 @@ class _SearchViewState extends State<_SearchView> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showFilterBottomSheet(){
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => const FilterBottomSheet(),
     );
   }
 }

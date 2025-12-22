@@ -7,11 +7,15 @@ import '../../home/sections/search/widgets/search_bar_widget.dart';
 class SearchBarSection extends StatelessWidget {
   final TextEditingController searchController;
   final bool isShowFilterIcon;
+  final Function() onFilterIconClicked;
 
   const SearchBarSection(
       {super.key,
       required this.searchController,
-      this.isShowFilterIcon = false});
+      this.isShowFilterIcon = false,
+       required this.onFilterIconClicked
+      }
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,9 @@ class SearchBarSection extends StatelessWidget {
         child: isShowFilterIcon
             ? SearchBarWithFilter(
                 controller: searchController,
-                onFilterIconClicked: () {},
+                onFilterIconClicked : (){
+                  onFilterIconClicked();
+                },
                 onTextSubmitted: cubit.search,
               )
             : SearchBarWidget(

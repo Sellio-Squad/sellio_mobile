@@ -182,6 +182,9 @@
   "password_max_20_characters": "Password must be less than 20 characters",
   "passwords_do_not_match": "Passwords do not match",
   "failed_to_create_account": "Failed to create account. Please try again.",
+  "filter": "Filter",
+  "near_by_you": "Near by you",
+  "high_rating": "High Rating",
 
   "profile_photo_optional": "Profile photo (optional)",
   "enter_the_4digit": "Please enter the 4-digit code sent to your phone number.",
