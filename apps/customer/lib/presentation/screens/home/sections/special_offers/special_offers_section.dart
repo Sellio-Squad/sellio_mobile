@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'special_offers_shimmer.dart';
+import 'package:sellio_mobile/domain/entities/offer.dart';
+import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
+
 import 'cubit/home_special_offers_cubit.dart';
 import 'cubit/home_special_offers_state.dart';
+import 'special_offers_shimmer.dart';
 import 'widgets/special_offers_list.dart';
 
 class SpecialOffersSection extends StatelessWidget {
@@ -40,18 +43,26 @@ class SpecialOffersSection extends StatelessWidget {
           }
 
           return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-            child: SpecialOffersList(
-              offers: state.offers,
-              currentPage: state.currentPage,
-              onPageChanged: (page) {
-                context.read<HomeSpecialOffersCubit>().setCurrentPage(page);
-              },
-              onOfferTap: (offerId) {
-                // TODO: Navigate to offer details
-              },
-            ),
-          );
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+              child: SpecialOffersList(
+                offers: state.offers,
+                currentPage: state.currentPage,
+                onPageChanged: (page) {
+                  context.read<HomeSpecialOffersCubit>().setCurrentPage(page);
+                },
+                onOfferTap: ({required id, required offerType}) {
+                  switch (offerType) {
+                    case OfferActionType.product:
+                      navigateToProductDetails(context, id);
+                      break;
+                    case OfferActionType.store:
+                      navigateToStoreDetails(context, id);
+                      break;
+                    default:
+                      break;
+                  }
+                },
+              ));
         },
       ),
     );
