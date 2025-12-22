@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../../../../../../domain/entities/special_offer.dart';
+import 'package:sellio_mobile/domain/entities/offer.dart';
 
 sealed class HomeSpecialOffersState extends Equatable {
   const HomeSpecialOffersState();
@@ -21,7 +20,7 @@ class HomeSpecialOffersLoading extends HomeSpecialOffersState {
 }
 
 class HomeSpecialOffersLoaded extends HomeSpecialOffersState {
-  final List<SpecialOffer> offers;
+  final List<Offer> offers;
   final int currentPage;
 
   const HomeSpecialOffersLoaded({
@@ -30,7 +29,7 @@ class HomeSpecialOffersLoaded extends HomeSpecialOffersState {
   });
 
   HomeSpecialOffersLoaded copyWith({
-    List<SpecialOffer>? offers,
+    List<Offer>? offers,
     int? currentPage,
   }) {
     return HomeSpecialOffersLoaded(

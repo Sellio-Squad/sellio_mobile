@@ -39,11 +39,15 @@ class AppImages {
   static const String sellioWhite = '$imagesPath/sellio_white.webp';
   static const String loginTopSection = '$imagesPath/login_top_section.webp';
 
+  //Home Screen Banner
+  static const String defaultHomeBanner = '$imagesPath/sellio_offer.webp';
+
   // General images
   static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
   static const String cartProduct = '$imagesPath/product_3.webp';
   static const String searchIcon = '$imagesPath/ic_search.png';
-  static const String noResultSearchIcon = '$imagesPath/ic_search_no_result.png';
+  static const String noResultSearchIcon =
+      '$imagesPath/ic_search_no_result.png';
 
   // Product card icons
   static const String upload = '$iconsPath/ic_uplod.svg';
@@ -51,7 +55,8 @@ class AppImages {
   static const String remove = '$iconsPath/ic_minus.svg';
   static const String favorite = '$iconsPath/ic_favourite.svg';
   static const String cartSmall = '$iconsPath/ic_small_cart.svg';
-  static const String unselectedFavorite = '$iconsPath/ic_unselected-favourite.svg';
+  static const String unselectedFavorite =
+      '$iconsPath/ic_unselected-favourite.svg';
 
   // Categories
   static const String allCategories = '$iconsPath/ic_all.svg';
@@ -76,7 +81,8 @@ class AppImages {
 
   // Order history
   static const String noOrderHistory = '$iconsPath/package_remove.svg';
-  static const String storeDiscountFrame = '$iconsPath/store-discount-frame.svg';
+  static const String storeDiscountFrame =
+      '$iconsPath/store-discount-frame.svg';
   static const String alertCircleOld = '$iconsPath/alert-circle.svg';
 
   // Product customization
@@ -94,12 +100,14 @@ class AppImages {
   static const String cartEmpty = '$iconsPath/ic_cart_empty.svg';
 
   // Account screen
-  static const String moreHorizontalSquare = '$iconsPath/ic_more_horizontal_square.svg';
+  static const String moreHorizontalSquare =
+      '$iconsPath/ic_more_horizontal_square.svg';
   static const String package = '$iconsPath/ic_package.svg';
   static const String heartCheck = '$iconsPath/ic_heart_check.svg';
   static const String circleLockAdd = '$iconsPath/ic_circle_lock_add.svg';
   static const String languageCircle = '$iconsPath/ic_language_circle.svg';
-  static const String mobileProgramming = '$iconsPath/ic_mobile_programming.svg';
+  static const String mobileProgramming =
+      '$iconsPath/ic_mobile_programming.svg';
   static const String notification = '$iconsPath/ic_notification.svg';
   static const String repair = '$iconsPath/ic_repair.svg';
   static const String arrowRightCustom = '$iconsPath/ic_arrow_right_custom.svg';
@@ -157,5 +165,4 @@ class AppImages {
   // Placeholder
   static const String placeholder = '$imagesPath/placeholder.png';
   static const String offerPlaceholder = '$imagesPath/image_placeholder.png';
-
 }

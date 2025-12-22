@@ -1,15 +1,18 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../../../domain/entities/special_offer.dart';
+import 'package:sellio_mobile/domain/entities/offer.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/special_offers/carouselLayout.dart';
+
 import 'special_offer_card.dart';
 
 class SpecialOffersList extends StatefulWidget {
-  final List<SpecialOffer> offers;
+  final List<Offer> offers;
   final int currentPage;
   final Function(int page) onPageChanged;
-  final Function(String offerId)? onOfferTap;
+  final void Function({required String id, required OfferActionType offerType})?
+      onOfferTap;
   final VoidCallback? onSeeAllTap;
 
   const SpecialOffersList({
@@ -26,44 +29,6 @@ class SpecialOffersList extends StatefulWidget {
 }
 
 class _SpecialOffersListState extends State<SpecialOffersList> {
-  late PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController(
-      viewportFraction: 1.0,
-      initialPage: widget.currentPage,
-    );
-    _pageController.addListener(_onPageChanged);
-  }
-
-  @override
-  void didUpdateWidget(SpecialOffersList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentPage != widget.currentPage) {
-      _pageController.animateToPage(
-        widget.currentPage,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  void _onPageChanged() {
-    final page = _pageController.page?.round() ?? 0;
-    if (page != widget.currentPage) {
-      widget.onPageChanged(page);
-    }
-  }
-
-  @override
-  void dispose() {
-    _pageController.removeListener(_onPageChanged);
-    _pageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -78,22 +43,37 @@ class _SpecialOffersListState extends State<SpecialOffersList> {
           ),
         ),
         const SizedBox(height: 12),
-        SizedBox(
-          height: 200,
-          child: PageView.builder(
-            controller: _pageController,
-            itemCount: widget.offers.length,
-            itemBuilder: (context, index) {
-              final offer = widget.offers[index];
-              return SpecialOfferCard(
-                imageUrl: offer.imageUrl,
-                onTap: () => widget.onOfferTap?.call(offer.id),
-              );
-            },
-          ),
-        ),
+        _buildCarousel(),
         const SizedBox(height: 12),
       ],
+    );
+  }
+
+  Widget _buildCarousel() {
+    final layout = CarouselLayout.of(context);
+    return CarouselSlider(
+      items: widget.offers
+          .map(
+            (offer) => SpecialOfferCard(
+              imageUrl: offer.imageUrl,
+              onTap: () => widget.onOfferTap
+                  ?.call(id: offer.actionId, offerType: offer.actionType),
+            ),
+          )
+          .toList(),
+      options: CarouselOptions(
+        onPageChanged: (index, reason) => widget.onPageChanged(index),
+        height: layout.height,
+        viewportFraction: layout.viewportFraction,
+        animateToClosest: true,
+        enlargeCenterPage: layout.enlargeCenterPage,
+        autoPlay: true,
+        enlargeStrategy: layout.strategy,
+        enlargeFactor: 0.5,
+        autoPlayCurve: Curves.easeInOutQuint,
+        enableInfiniteScroll: true,
+        initialPage: widget.currentPage,
+      ),
     );
   }
 }

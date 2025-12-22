@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/navigate/navigation_extensions.dart';
 import '../../../../core/navigate/route_args.dart';
-import '../../../../domain/entities/store.dart';
 
-void navigateToStoreDetails(BuildContext context, Store store) {
-  context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: store.id));
-
+void navigateToStoreDetails(BuildContext context, String storeId) {
+  context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: storeId));
 }
 
 void navigateToProductDetails(BuildContext context, String productId) {
-  context.navigator.pushProductDetails(ProductDetailsArgs(productId: productId));
+  context.navigator
+      .pushProductDetails(ProductDetailsArgs(productId: productId));
 }
 
 void navigateToNotifications(BuildContext context) {
