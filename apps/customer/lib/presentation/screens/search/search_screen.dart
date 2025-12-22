@@ -32,6 +32,7 @@ class _SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<_SearchView> {
   final TextEditingController _searchController = TextEditingController();
+
   @override
   void dispose() {
     _searchController.dispose();
@@ -48,14 +49,23 @@ class _SearchViewState extends State<_SearchView> {
       ),
       body: CustomScrollView(
         slivers: [
-          SearchBarSection(searchController: _searchController,),
+          BlocBuilder<SearchCubit, SearchState>(
+            builder: (context, state) {
+              return SearchBarSection(
+                searchController: _searchController,
+                  isShowFilterIcon: state is SearchSuccess
+              );
+            },
+          ),
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               return SliverToBoxAdapter(
                 child: switch (state) {
                   SearchInitial() => InitialSearch(context),
-                  SearchRecent(:final recentSearches) =>
-                    RecentSearchSection(recentSearches: recentSearches, searchController: _searchController,),
+                  SearchRecent(:final recentSearches) => RecentSearchSection(
+                      recentSearches: recentSearches,
+                      searchController: _searchController,
+                    ),
                   SearchSuccess() => SuccessSearch(),
                   SearchEmpty() => NoResult(),
                   // TODO: Handle this case.
