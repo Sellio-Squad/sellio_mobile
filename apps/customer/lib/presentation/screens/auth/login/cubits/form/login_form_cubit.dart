@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/enums/form_field_type.dart';
+import '../../../../../../core/enums/auth_error_type.dart';
 import '../../../../../../core/utils/validators/form_validators.dart';
 import '../../../../../../domain/repositories/auth_repository.dart';
 import 'login_form_state.dart';
@@ -107,7 +108,7 @@ class LoginFormCubit extends Cubit<LoginFormState> {
         emit(LoginFormSuccess(phoneNumber: phoneNumber));
       },
       onFailure: (failure) {
-        emit(const LoginFormError(messageKey: 'login_failed'));
+        emit(const LoginFormError(errorType: AuthErrorType.loginFailed));
         emit(currentState.copyWith(isLoading: false));
       },
     );

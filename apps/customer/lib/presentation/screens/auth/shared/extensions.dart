@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../core/enums/validation_error_type.dart';
+import '../../../../../core/enums/auth_error_type.dart';
 
 extension ValidationErrorLocalization on ValidationErrorType {
   String toLocalizedString(BuildContext context) {
@@ -42,6 +43,33 @@ extension ValidationErrorLocalization on ValidationErrorType {
       context.local.city_at_least_2_characters,
       ValidationErrorType.cityLettersOnly =>
       context.local.city_letters_only,
+    };
+  }
+}
+
+extension AuthErrorLocalization on AuthErrorType {
+  String toLocalizedString(BuildContext context) {
+    return switch (this) {
+      // Login errors
+      AuthErrorType.loginFailed => context.local.something_went_wrong,
+
+      // Account creation errors
+      AuthErrorType.accountCreationFailed =>
+        context.local.failed_to_create_account,
+
+      // OTP errors
+      AuthErrorType.otpVerificationFailed =>
+        context.local.something_went_wrong,
+      AuthErrorType.otpExpired => context.local.something_went_wrong,
+      AuthErrorType.otpInvalid => context.local.something_went_wrong,
+
+      // Password reset errors
+      AuthErrorType.passwordResetFailed => context.local.something_went_wrong,
+      AuthErrorType.invalidResetToken => context.local.something_went_wrong,
+
+      // General errors
+      AuthErrorType.networkError => context.local.something_went_wrong,
+      AuthErrorType.unknownError => context.local.something_went_wrong,
     };
   }
 }

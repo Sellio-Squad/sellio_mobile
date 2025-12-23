@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../../../core/enums/validation_error_type.dart';
+import '../../../../../../core/enums/auth_error_type.dart';
 
 sealed class LoginFormState extends Equatable {
   const LoginFormState();
@@ -70,10 +71,10 @@ class LoginFormSuccess extends LoginFormState {
 }
 
 class LoginFormError extends LoginFormState {
-  final String messageKey;
+  final AuthErrorType errorType;
 
-  const LoginFormError({required this.messageKey});
+  const LoginFormError({required this.errorType});
 
   @override
-  List<Object> get props => [messageKey];
+  List<Object> get props => [errorType];
 }

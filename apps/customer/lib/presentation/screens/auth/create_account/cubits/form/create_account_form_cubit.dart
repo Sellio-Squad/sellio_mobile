@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../../core/enums/auth_error_type.dart';
 import '../../../../../../core/enums/form_field_type.dart';
 import '../../../../../../core/utils/validators/form_validators.dart';
 import '../../../../../../domain/repositories/auth_repository.dart';
@@ -167,7 +168,7 @@ class CreateAccountFormCubit extends Cubit<CreateAccountFormState> {
         emit(const CreateAccountFormSuccess());
       },
       onFailure: (failure) {
-        emit(const CreateAccountFormError(messageKey: 'failed_to_create_account'));
+        emit(const CreateAccountFormError(errorType: AuthErrorType.accountCreationFailed));
         emit(currentState.copyWith(isLoading: false));
       },
     );
