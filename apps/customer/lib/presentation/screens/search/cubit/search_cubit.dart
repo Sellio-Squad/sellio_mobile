@@ -19,6 +19,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   Future<void> init() async {
     final result = await _searchRepository.getRecentSearches();
+    if(result.data.isEmpty) return;
 
     if (result.isSuccess) {
       emit(SearchRecent(
@@ -29,6 +30,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> search(String query) async {
+    _searchRepository.addToRecentSearch(query);
     _lastQuery = query;
 
     if (query.isEmpty) {
