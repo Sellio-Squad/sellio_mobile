@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
-import 'package:sellio_mobile/domain/entities/address.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import '../../../../core/error/result.dart';
@@ -69,7 +68,6 @@ class SearchCubit extends Cubit<SearchState> {
 
     if (result.isSuccess) {
       final stores = (result as Success<List<Store>>).data;
-      print("store: searchCubit result = $stores");
 
       emit(
         stores.isEmpty
@@ -85,7 +83,6 @@ class SearchCubit extends Cubit<SearchState> {
   void selectTab(SearchType type) {
 
     if (_currentType == type) return;
-    print("selectedTab: $type");
 
     _currentType = type;
 
