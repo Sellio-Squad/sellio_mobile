@@ -2,6 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/top_stores/top_stores_list_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/trending_products/product_list_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/filter_bottom_sheet.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/initial_search.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/no_result.dart';
@@ -67,10 +69,9 @@ class _SearchViewState extends State<_SearchView> {
                   SearchInitial() =>
                       InitialSearch(context),
 
-                  SearchLoading() =>
-                      Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                  SearchLoading() => state.selectedType == SearchType.products
+                      ? ProductsListShimmer()
+                      : const TopStoresShimmer(),
 
                   SearchRecent(:final recentSearches) =>
                       RecentSearchSection(

@@ -43,7 +43,6 @@ class StoreList extends StatelessWidget {
       itemCount: stores.length,
       itemBuilder: (context, index) {
         final store = stores[index];
-        print("stores: UI ${store.name} , ${store.coverImage}");
         return SellioStoreCard(
           imageUrl: store.coverImage,
           title: store.name,

@@ -47,6 +47,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> _searchProducts(String query) async {
+    emit(SearchLoading(selectedType: _currentType));
     final result = await _searchRepository.searchProducts(query: query);
 
     if (result.isSuccess) {
@@ -64,6 +65,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   Future<void> _searchStores(String query) async {
+    emit(SearchLoading(selectedType: _currentType));
     final result = await _searchRepository.searchStores(query: query);
 
     if (result.isSuccess) {
@@ -85,9 +87,6 @@ class SearchCubit extends Cubit<SearchState> {
     if (_currentType == type) return;
 
     _currentType = type;
-
-    emit(SearchLoading(selectedType: _currentType));
-
     if (_lastQuery.isNotEmpty) {
     search(_lastQuery);
     }
