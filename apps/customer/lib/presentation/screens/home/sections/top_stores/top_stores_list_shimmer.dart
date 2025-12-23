@@ -5,10 +5,12 @@ import 'package:design_system/design_system.dart';
 import '../../widgets/section_header_shimmer.dart';
 
 class TopStoresShimmer extends StatelessWidget {
+  final int itemCount;
 
 
   const TopStoresShimmer({
     super.key,
+    this.itemCount = 2,
   });
 
   @override
@@ -24,7 +26,7 @@ class TopStoresShimmer extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 2,
+            itemCount: itemCount,
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),

@@ -70,8 +70,8 @@ class _SearchViewState extends State<_SearchView> {
                       InitialSearch(context),
 
                   SearchLoading() => state.selectedType == SearchType.products
-                      ? ProductsListShimmer()
-                      : const TopStoresShimmer(),
+                      ? ProductsListShimmerVertical()
+                      : const TopStoresShimmer(itemCount: 10),
 
                   SearchRecent(:final recentSearches) =>
                       RecentSearchSection(
