@@ -9,11 +9,13 @@ import '../../../domain/repositories/store_repository.dart';
 import '../../../domain/repositories/user_repository.dart';
 import '../../data/repositories/cart_repository_impl.dart';
 import '../../data/repositories/category_repository_impl.dart';
+import '../../data/repositories/offers_repository_impl.dart';
 import '../../data/repositories/order_repository_impl.dart';
 import '../../data/repositories/product_repository_impl.dart';
 import '../../domain/repositories/cart_repository.dart';
 import '../../domain/repositories/category_repository.dart';
 import '../../domain/repositories/favorites_repository.dart';
+import '../../domain/repositories/offers_repository.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../../domain/repositories/product_repository.dart';
 
@@ -29,8 +31,7 @@ class RepositoryModule {
 
     sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(
-          remoteDataSource: sl(),
-          favoritesRemoteDataSource: sl()),
+          remoteDataSource: sl(), favoritesRemoteDataSource: sl()),
     );
     //
     sl.registerLazySingleton<StoreRepository>(
@@ -58,15 +59,16 @@ class RepositoryModule {
       () => UserRepositoryImpl(remoteDataSource: sl()),
     );
 
-    sl.registerLazySingleton<FavoritesRepository>(
-        () => FavoritesRepositoryImpl(remoteDataSource: sl()));
+    sl.registerLazySingleton<FavoritesRepository>(() => FavoritesRepositoryImpl(
+          remoteDataSource: sl(),
+          productRemoteDataSource: sl(),
+          storeRemoteDataSource: sl(),
+        ));
 
-    // sl.registerLazySingleton<OffersRepository>(
-    //       () => OffersRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
-    //
+    sl.registerLazySingleton<OffersRepository>(
+      () => OffersRepositoryImpl(remoteDataSource: sl()),
+    );
+
     // sl.registerLazySingleton<NotificationRepository>(
     //       () => NotificationRepositoryImpl()
     // );

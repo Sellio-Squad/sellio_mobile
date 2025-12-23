@@ -1,10 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../constants/app_images.dart';
 import '../../themes/sellio_theme_provider.dart';
 import '../discount_tag.dart';
 
-class SellioStoreCard extends StatelessWidget {
+class SellioStoreCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String? discountText;
@@ -23,7 +26,30 @@ class SellioStoreCard extends StatelessWidget {
   });
 
   @override
+  State<SellioStoreCard> createState() => _SellioStoreCardState();
+}
+
+class _SellioStoreCardState extends State<SellioStoreCard> {
+  late bool _isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    widget.onLikePressed?.call();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final theme = context.theme;
+    final colors = theme.colors;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
       child: SizedBox(
@@ -35,7 +61,7 @@ class SellioStoreCard extends StatelessWidget {
             Positioned.fill(
               left: 8,
               child: GestureDetector(
-                onTap: onCardPressed,
+                onTap: widget.onCardPressed,
                 child: Card(
                   margin: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
@@ -46,10 +72,18 @@ class SellioStoreCard extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      if (imageUrl.startsWith('assets/'))
-                        Image.asset(imageUrl, fit: BoxFit.cover, height: 133,)
-                      else if (imageUrl.isNotEmpty)
-                        Image.network(imageUrl, fit: BoxFit.cover, height: 133),
+                      if (widget.imageUrl.startsWith('assets/'))
+                        Image.asset(
+                          widget.imageUrl,
+                          fit: BoxFit.cover,
+                          height: 133,
+                        )
+                      else if (widget.imageUrl.isNotEmpty)
+                        Image.network(
+                          widget.imageUrl,
+                          fit: BoxFit.cover,
+                          height: 133,
+                        ),
                       Container(
                         width: double.infinity,
                         height: double.infinity,
@@ -69,36 +103,54 @@ class SellioStoreCard extends StatelessWidget {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Text(
-                              title,
+                              widget.title,
                               textAlign: TextAlign.center,
-                              style: context
-                                  .theme
-                                  .typography
-                                  .textTheme
-                                  .titleSmall
-                                  .copyWith(
-                                    color: context.theme.colors.onPrimary,
-                                  ),
+                              style: theme.typography.textTheme.titleSmall
+                                  .copyWith(color: colors.onPrimary),
                             ),
                           ),
                         ),
                       ),
+
                       Positioned(
-                        top: -4,
-                        right: -4,
-                        child: IconButton(
-                          icon: isFavorite
-                              ? SvgPicture.asset(
-                                  AppImages.favouriteIcon,
-                                  width: 24,
-                                  height: 24,
-                                )
-                              : SvgPicture.asset(
-                                  AppImages.favorite,
-                                  width: 24,
-                                  height: 24,
+                        top: 4,
+                        right: 4,
+                        child: ClipOval(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaX: 12.0,
+                              sigmaY: 12.0,
+                            ),
+                            child: Container(
+                              width: 32,
+                              height: 32,
+                              decoration: const BoxDecoration(
+                                color: Color(0x99FFFFFF),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Material(
+                                type: MaterialType.transparency,
+                                child: InkWell(
+                                  customBorder: const CircleBorder(),
+                                  onTap: _toggleFavorite,
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      _isFavorite
+                                          ? AppImages.favorite
+                                          : AppImages.unselectedFavorite,
+                                      colorFilter: ColorFilter.mode(
+                                        colors.primary,
+                                        BlendMode.srcIn,
+                                      ),
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
                                 ),
-                          onPressed: onLikePressed,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -106,11 +158,11 @@ class SellioStoreCard extends StatelessWidget {
                 ),
               ),
             ),
-            if (discountText != null)
+            if (widget.discountText != null)
               Positioned(
                 top: 8,
                 left: 0,
-                child: DiscountTag(discountText: discountText!),
+                child: DiscountTag(discountText: widget.discountText!),
               ),
           ],
         ),
