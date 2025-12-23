@@ -10,17 +10,17 @@ part 'store_model.g.dart';
 class StoreModel with _$StoreModel {
   const factory StoreModel({
     required String id,
-    required String name,
-    required String description,
-    required String coverImage,
-    required String profileImage,
+    @JsonKey(name: 'title') String? name,
+    required String? description,
+    @JsonKey(name: 'coverImageURL') String? coverImage,
+    required String? profileImage,
     String? sale,
     double? rating,
-    required AddressModel address,
-    required List<ContactInfoModel> contactInfoList,
-    required List<CategoryModel> categories,
-    @Default([]) List<ReviewModel> reviews,
-    @Default(true) bool isActive,
+    required AddressModel? address,
+    required List<ContactInfoModel>? contactInfoList,
+    required List<CategoryModel>? categories,
+    @Default([]) List<ReviewModel> ?reviews,
+    @Default(true) bool? isActive,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
