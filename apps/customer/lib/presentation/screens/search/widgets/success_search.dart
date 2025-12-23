@@ -1,61 +1,91 @@
-import 'package:design_system/widgets/cards/sellio_product_vertical_card.dart';
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/category_section.dart';
+import '../../../../domain/entities/product.dart';
+import '../../../../domain/entities/store.dart';
 import '../cubit/search_cubit.dart';
 
 class SuccessSearch extends StatelessWidget {
-  const SuccessSearch({super.key});
+  final SearchState state;
+
+  const SuccessSearch({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CategorySection(),
-        GridProductsSection(),
+        const CategorySection(),
+        switch (state) {
+          SearchProductsSuccess(:final products) =>
+              GridProductsSection(products: products),
+
+          SearchStoresSuccess(:final stores) =>
+              StoreList(stores: stores),
+
+          _ => const SizedBox.shrink(),
+        }
       ],
     );
   }
 }
 
-class GridProductsSection extends StatelessWidget {
-  const GridProductsSection({super.key});
+
+class StoreList extends StatelessWidget {
+  final List<Store> stores;
+
+  const StoreList({super.key, required this.stores});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        if (state is! SearchSuccess) return const SizedBox();
-
-        final products = state.products;
-
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          itemCount: products.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 12,
-            childAspectRatio: 170 / 272,
-          ),
-          itemBuilder: (context, index) {
-            final product = products[index];
-
-            return SellioProductVerticalCard(
-              imageUrl: product.images.isNotEmpty ? product.images.first : 'assets/images/product_3.webp',
-              title: product.name,
-              price: "${product.currency}${product.price}",
-              count: 0,
-              isFavorite: false,
-              onIncrement: () {},
-              onDecrement: () {},
-              onFavorite: () {},
-            );
-          },
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: stores.length,
+      itemBuilder: (context, index) {
+        final store = stores[index];
+        print("stores: UI ${store.name} , ${store.coverImage}");
+        return SellioStoreCard(
+          imageUrl: store.coverImage,
+          title: store.name,
         );
       },
     );
+  }
+}
+
+
+class GridProductsSection extends StatelessWidget {
+  final List<Product> products;
+  const GridProductsSection({super.key, required this.products});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      itemCount: products.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 12,
+        childAspectRatio: 170 / 272,
+      ),
+      itemBuilder: (context, index) {
+        final product = products[index];
+
+        return SellioProductVerticalCard(
+          imageUrl: product.images.isNotEmpty ? product.images.first : 'assets/images/product_3.webp',
+          title: product.name,
+          price: "${product.currency}${product.price}",
+          count: 0,
+          isFavorite: false,
+          onIncrement: () {},
+          onDecrement: () {},
+          onFavorite: () {},
+        );
+      },
+    );
+
   }
 }

@@ -54,23 +54,38 @@ class _SearchViewState extends State<_SearchView> {
             builder: (context, state) {
               return SearchBarSection(
                 searchController: _searchController,
-                  isShowFilterIcon: state is SearchSuccess, onFilterIconClicked: () { _showFilterBottomSheet(); },
+                isShowFilterIcon: state.hasResults,
+                onFilterIconClicked: _showFilterBottomSheet,
               );
             },
           ),
+
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               return SliverToBoxAdapter(
                 child: switch (state) {
-                  SearchInitial() => InitialSearch(context),
-                  SearchRecent(:final recentSearches) => RecentSearchSection(
-                      recentSearches: recentSearches,
-                      searchController: _searchController,
-                    ),
-                  SearchSuccess() => SuccessSearch(),
-                  SearchEmpty() => NoResult(),
-                  // TODO: Handle this case.
-                  SearchState() => throw UnimplementedError(),
+                  SearchInitial() =>
+                      InitialSearch(context),
+
+                  SearchLoading() =>
+                      Center(
+                        child: CircularProgressIndicator(),
+                      ),
+
+                  SearchRecent(:final recentSearches) =>
+                      RecentSearchSection(
+                        recentSearches: recentSearches,
+                        searchController: _searchController,
+                      ),
+
+                  SearchProductsSuccess() || SearchStoresSuccess() =>
+                      SuccessSearch(state: state),
+
+
+                  SearchEmpty() =>
+                  const NoResult(),
+                  _ =>
+                  const SizedBox.shrink(),
                 },
               );
             },
@@ -80,10 +95,15 @@ class _SearchViewState extends State<_SearchView> {
     );
   }
 
-  void _showFilterBottomSheet(){
+  void _showFilterBottomSheet() {
     showModalBottomSheet(
       context: context,
       builder: (_) => const FilterBottomSheet(),
     );
   }
+}
+
+extension SearchStateX on SearchState {
+  bool get hasResults =>
+      this is SearchProductsSuccess || this is SearchStoresSuccess;
 }
