@@ -10,12 +10,12 @@ class SearchBarSection extends StatelessWidget {
   final Function() onFilterIconClicked;
 
   const SearchBarSection(
-      {super.key,
-      required this.searchController,
-      this.isShowFilterIcon = false,
-       required this.onFilterIconClicked
-      }
-      );
+      {
+        super.key,
+        required this.searchController,
+        this.isShowFilterIcon = false,
+        required this.onFilterIconClicked
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class SearchBarSection extends StatelessWidget {
 
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: isShowFilterIcon
             ? SearchBarWithFilter(
                 controller: searchController,

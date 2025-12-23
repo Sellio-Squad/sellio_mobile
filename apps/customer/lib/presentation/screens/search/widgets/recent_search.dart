@@ -28,12 +28,19 @@ class RecentSearchSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(context.local.recent_searches),
+              Text(
+                context.local.recent_searches,
+                style: context.theme.typography.textTheme.titleSmall.copyWith(
+                  color: context.theme.colors.title,
+                ),
+              ),
               GestureDetector(
                 onTap: cubit.clearRecent,
                 child: Text(
                   context.local.clear_all,
-                  style: TextStyle(color: context.theme.colors.primary),
+                  style: context.theme.typography.textTheme.labelMedium.copyWith(
+                    color: context.theme.colors.primary,
+                  ),
                 ),
               ),
             ],

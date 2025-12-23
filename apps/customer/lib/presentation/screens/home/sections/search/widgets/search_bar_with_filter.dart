@@ -35,7 +35,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
@@ -60,7 +60,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
             decoration: InputDecoration(
               hintText: context.local.search_your_favorite_items,
               counterText: '',
-              hintStyle: context.theme.typography.textTheme.labelXSmall
+              hintStyle: context.theme.typography.textTheme.labelMedium
                   .copyWith(color: context.theme.colors.body),
               border: InputBorder.none,
             ),
