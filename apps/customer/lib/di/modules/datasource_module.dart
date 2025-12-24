@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/data/datasource/local/search_local_datasource.dart';
+import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
 import '../../data/datasource/remote/auth/auth_remote.dart';
 import '../../data/datasource/remote/auth/auth_remote_impl.dart';
 import '../../../data/datasource/local/cart_local_datasource.dart';
@@ -47,6 +49,13 @@ class DataSourceModule {
 
     sl.registerLazySingleton<OffersRemoteDataSource>(
           () => OffersRemoteDataSourceImpl(sl()),
+    );
+
+    sl.registerLazySingleton<SearchRemoteDateSource>(
+          () => SearchRemoteDatasourceImpl(sl()),
+    );
+    sl.registerLazySingleton<SearchLocalDatasource>(
+          () => SearchLocalDataSourceImpl(),
     );
   }
 }

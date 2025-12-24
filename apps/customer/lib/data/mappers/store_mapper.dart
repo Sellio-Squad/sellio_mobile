@@ -11,17 +11,17 @@ import 'contact_info_mapper.dart';
 extension StoreModelMapper on StoreModel {
   Store toEntity() => Store(
     id: id,
-    name: name,
-    description: description,
-    coverImage: coverImage,
-    profileImage: profileImage,
+    name: name ?? '',
+    description: description ?? '',
+    coverImage: coverImage ?? '',
+    profileImage: profileImage ?? '',
     sale: sale,
     rating: rating ?? 0.0,
-    address: address.toEntity(),
-    contactInfoList: contactInfoList.map((e) => e.toEntity()).toList(),
-    categories: categories.map((e) => e.toEntity()).toList(),
-    reviews: reviews.map((e) => e.toEntity()).toList(),
-    isActive: isActive,
+    address: address?.toEntity() ?? Address(country: '', city: ''),
+    contactInfoList: contactInfoList?.map((e) => e.toEntity()).toList() ?? [],
+    categories: categories?.map((e) => e.toEntity()).toList() ?? [],
+    reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],
+    isActive: isActive ?? false,
   );
 }
 

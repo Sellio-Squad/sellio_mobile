@@ -183,6 +183,11 @@
   "failed_to_create_account": "فشل إنشاء الحساب. يرجى المحاولة مرة أخرى.",
   "profile_photo_optional": "صورة الملف الشخصي (اختياري)",
   "enter_the_4digit": "يرجى إدخال الرمز المكون من 4 أرقام المرسل إلى رقم هاتفك.",
+  "filter": "فلتر",
+  "near_by_you": "القريب لك",
+  "high_rating": "الأعلى تقييم",
+
+
   "no_order_history": "لا يوجد سجل طلبات!",
   "start_exploring": "ابدأ الاستكشاف",
   "start_exploring_favorite_items": "ابدأ استكشاف وشراء العناصر المفضلة لديك",

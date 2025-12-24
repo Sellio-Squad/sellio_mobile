@@ -97,6 +97,11 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
+  void pushSearch() {
+    context.pushNamed(AppRoutes.search.name);
+  }
+
+  @override
   void pushMyFavorites() {
     context.pushNamed(AppRoutes.myFavorites.name);
   }

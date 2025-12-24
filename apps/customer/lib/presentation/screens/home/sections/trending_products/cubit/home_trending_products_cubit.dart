@@ -1,12 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import '../../../../../../domain/repositories/product_repository.dart';
 import '../models/trending_product_ui_model.dart';
 import 'home_trending_products_state.dart';
 
 class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
   final ProductRepository _productRepository;
+  final SearchRepository _searchRepository;
 
-  HomeTrendingProductsCubit(this._productRepository)
+  HomeTrendingProductsCubit(this._productRepository, this._searchRepository)
       : super(const HomeTrendingProductsInitial());
 
   Future<void> loadTrendingProducts({int limit = 10}) async {
@@ -72,7 +74,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
 
     emit(HomeTrendingProductsSearching(query: query));
 
-    final result = await _productRepository.searchProducts(
+    final result = await _searchRepository.searchProducts(
       query: query.trim(),
       page: 1,
       limit: limit,
