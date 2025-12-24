@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:design_system/design_system.dart';
-import '../../../../../core/enums/form_field_type.dart';
+import '../../enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubits/form/login_form_cubit.dart';
 import '../cubits/form/login_form_state.dart';

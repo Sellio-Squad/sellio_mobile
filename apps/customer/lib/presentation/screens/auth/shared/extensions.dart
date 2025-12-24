@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../../core/enums/validation_error_type.dart';
-import '../../../../../core/enums/auth_error_type.dart';
+import '../enums/auth_error_type.dart';
+import '../enums/validation_error_type.dart';
 
 extension ValidationErrorLocalization on ValidationErrorType {
   String toLocalizedString(BuildContext context) {

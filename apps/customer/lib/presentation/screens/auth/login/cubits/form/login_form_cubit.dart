@@ -1,8 +1,8 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../../core/enums/form_field_type.dart';
-import '../../../../../../core/enums/auth_error_type.dart';
-import '../../../../../../core/utils/validators/form_validators.dart';
+import '../../../enums/auth_error_type.dart';
+import '../../../enums/form_field_type.dart';
+import '../../../validators/form_validators.dart';
 import '../../../../../../domain/repositories/auth_repository.dart';
 import 'login_form_state.dart';
 

@@ -5,12 +5,12 @@ enum AuthErrorType {
   // Account creation errors
   accountCreationFailed,
 
-  // OTP errors (for future use)
+  // OTP errors
   otpVerificationFailed,
   otpExpired,
   otpInvalid,
 
-  // Password reset errors (for future use)
+  // Password reset errors
   passwordResetFailed,
   invalidResetToken,
 

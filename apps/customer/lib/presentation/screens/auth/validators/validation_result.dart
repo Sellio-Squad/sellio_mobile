@@ -1,4 +1,4 @@
-import '../../enums/validation_error_type.dart';
+import '../enums/validation_error_type.dart';
 
 class ValidationResult {
   final bool isValid;
