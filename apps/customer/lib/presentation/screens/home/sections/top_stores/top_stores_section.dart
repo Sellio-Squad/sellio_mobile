@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'top_stores_list_shimmer.dart';
+
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
 import '../../utils/home_navigation.dart';
 import 'cubit/home_top_stores_cubit.dart';
 import 'cubit/home_top_stores_state.dart';
+import 'top_stores_list_shimmer.dart';
 import 'widgets/stores_list.dart';
 
 class TopStoresSection extends StatelessWidget {
@@ -34,9 +35,10 @@ class TopStoresSection extends StatelessWidget {
       },
       builder: (context, storesState) {
         if (storesState is HomeTopStoresLoading) {
-          return const SliverToBoxAdapter(child:Padding(padding: EdgeInsets.only(top: 24),
-          child:  TopStoresShimmer())
-          );
+          return const SliverToBoxAdapter(
+              child: Padding(
+                  padding: EdgeInsets.only(top: 24),
+                  child: TopStoresShimmer()));
         }
 
         if (storesState is! HomeTopStoresLoaded || storesState.stores.isEmpty) {
@@ -66,7 +68,7 @@ class TopStoresSection extends StatelessWidget {
                     context.read<FavoritesCubit>().toggleStoreFavorite(storeId);
                   },
                   onStorePressed: (store) {
-                    navigateToStoreDetails(context, store);
+                    navigateToStoreDetails(context, store.id);
                   },
                 ),
               ),
