@@ -1,3 +1,5 @@
+import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
+
 import '../../core/error/result.dart';
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
@@ -11,12 +13,15 @@ import '../models/product_model.dart';
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
+  final SearchRemoteDateSource _searchRemoteDataSource;
 
   ProductRepositoryImpl({
     required ProductRemoteDataSource remoteDataSource,
     required FavoritesRemoteDataSource favoritesRemoteDataSource,
+    required SearchRemoteDateSource searchRemoteDataSource,
   })  : _remoteDataSource = remoteDataSource,
-        _favoritesRemoteDataSource = favoritesRemoteDataSource;
+        _favoritesRemoteDataSource = favoritesRemoteDataSource,
+        _searchRemoteDataSource = searchRemoteDataSource;
 
 
   @override
@@ -59,7 +64,7 @@ class ProductRepositoryImpl implements ProductRepository {
     int limit = 20,
   }) async {
     return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
-      final paginatedResponse = await _remoteDataSource.searchProducts(
+      final paginatedResponse = await _searchRemoteDataSource.searchProducts(
         query: query,
         page: page - 1,
         pageSize: limit,
@@ -140,38 +145,6 @@ class ProductRepositoryImpl implements ProductRepository {
         pageSize: limit,
       );
       return paginatedResponse.data.map((model) => model.toEntity()).toList();
-    });
-  }
-
-  @override
-  Future<Result<List<Product>>> searchProducts({
-    required String query,
-    String? categoryId,
-    double? minPrice,
-    double? maxPrice,
-    int page = 1,
-    int limit = 20,
-  }) async {
-    return RepositoryCallHandler.call<List<Product>>(() async {
-      final paginatedResponse = await _remoteDataSource.searchProducts(
-        query: query,
-        page: page - 1,
-        pageSize: limit,
-      );
-
-      var products = paginatedResponse.data.map((m) => m.toEntity()).toList();
-
-      if (categoryId != null) {
-        products = products.where((p) => p.categoryId == categoryId).toList();
-      }
-      if (minPrice != null) {
-        products = products.where((p) => p.price >= minPrice).toList();
-      }
-      if (maxPrice != null) {
-        products = products.where((p) => p.price <= maxPrice).toList();
-      }
-
-      return products;
     });
   }
 

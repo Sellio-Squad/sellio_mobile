@@ -34,6 +34,30 @@ class ProductsListShimmer extends StatelessWidget {
   }
 }
 
+class ProductsListShimmerVertical extends StatelessWidget {
+  const ProductsListShimmerVertical({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      itemCount: 10,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 12,
+        childAspectRatio: 170 / 272,
+      ),
+      itemBuilder: (context, index) {
+
+        return SellioProductVerticalCardShimmer();
+      },
+    );
+  }
+}
+
 class SellioProductVerticalCardShimmer extends StatelessWidget {
   const SellioProductVerticalCardShimmer({super.key});
 

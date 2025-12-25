@@ -17,12 +17,6 @@ abstract class ProductRemoteDataSource {
 
   Future<ProductModel> getProductById(String productId);
 
-  Future<PaginatedResponse<ProductModel>> searchProducts({
-    required String query,
-    int page = 0,
-    int pageSize = 20,
-  });
-
   Future<PaginatedResponse<ProductModel>> getFeaturedProducts({
     int page = 0,
     int pageSize = 20,
@@ -91,27 +85,6 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     );
 
     return ProductModel.fromJson(response.data);
-  }
-
-  @override
-  Future<PaginatedResponse<ProductModel>> searchProducts({
-    required String query,
-    int page = 0,
-    int pageSize = 20,
-  }) async {
-    final response = await _httpClient.get(
-      ApiEndpoints.productsSearch,
-      queryParameters: {
-        'query': query,
-        'page': page,
-        'size': pageSize,
-      },
-    );
-
-    return PaginatedResponse.fromJson(
-      response.data,
-          (json) => ProductModel.fromJson(json),
-    );
   }
 
   @override
