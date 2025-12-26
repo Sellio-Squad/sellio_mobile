@@ -169,12 +169,7 @@ class ThriftContent extends StatelessWidget {
                   imageUrl: imageUrl,
                   title: product.name,
                   price: product.price.toString(),
-                  count: count,
                   isFavorite: isFavorite,
-                  onIncrement: () =>
-                      context.read<CartCubit>().incrementProduct(productId),
-                  onDecrement: () =>
-                      context.read<CartCubit>().decrementProduct(productId),
                   onFavorite: () =>
                       context.read<FavoritesCubit>().toggleProductFavorite(productId),
                   onTap: () {

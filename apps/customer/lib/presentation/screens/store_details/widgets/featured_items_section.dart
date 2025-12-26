@@ -78,17 +78,10 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                                 : '',
                             title: product.name,
                             price: '\$${product.price}',
-                            count: cartState.productCounts[product.id] ?? 0,
                             isFavorite: isFavorite,
                             onFavorite: () => context
                                 .read<FavoritesCubit>()
                                 .toggleProductFavorite(product.id),
-                            onIncrement: () => context
-                                .read<CartCubit>()
-                                .incrementProduct(product.id),
-                            onDecrement: () => context
-                                .read<CartCubit>()
-                                .decrementProduct(product.id),
                           );
                         },
                       );

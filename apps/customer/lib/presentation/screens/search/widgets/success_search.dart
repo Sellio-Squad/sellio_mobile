@@ -77,10 +77,7 @@ class GridProductsSection extends StatelessWidget {
           imageUrl: product.images.isNotEmpty ? product.images.first : 'assets/images/product_3.webp',
           title: product.name,
           price: "${product.currency}${product.price}",
-          count: 0,
           isFavorite: false,
-          onIncrement: () {},
-          onDecrement: () {},
           onFavorite: () {},
         );
       },

@@ -9,9 +9,6 @@ class SellioProductVerticalCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String price;
-  final int count;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
   final VoidCallback? onFavorite;
   final bool isFavorite;
   final VoidCallback? onTap;
@@ -21,9 +18,6 @@ class SellioProductVerticalCard extends StatefulWidget {
     required this.imageUrl,
     required this.title,
     required this.price,
-    this.count = 0,
-    required this.onIncrement,
-    required this.onDecrement,
     this.onFavorite,
     this.isFavorite = false,
     this.onTap,
@@ -143,15 +137,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: widget.count == 0
-                      ? _buildSingleAddButton(context)
-                      : _buildCounter(context),
-                ),
-              ),
+              const SizedBox(height: 4),
             ],
           ),
         ),
@@ -183,115 +169,6 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               fit: BoxFit.cover,
             );
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSingleAddButton(BuildContext context) {
-    final colors = SellioTheme.of(context).colors;
-    return Container(
-      width: double.infinity,
-      height: 32,
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: widget.onIncrement,
-          child: SvgPicture.asset(
-            AppImages.add,
-            colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
-            width: 16,
-            height: 16,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCounter(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final colors = theme.colors;
-    final textTheme = theme.typography.textTheme;
-
-    return Container(
-      width: double.infinity,
-      height: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: widget.onDecrement,
-                child: SvgPicture.asset(
-                  AppImages.remove,
-                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            ),
-          ),
-          Text(
-            widget.count.toString().padLeft(2, '0'),
-            style: textTheme.labelSmall.copyWith(color: colors.title),
-          ),
-          _buildCounterButton(
-            onTap: widget.onIncrement,
-            icon: AppImages.add,
-            background: colors.primaryVariant,
-            iconColor: colors.primary,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCounterButton({
-    required VoidCallback onTap,
-    required String icon,
-    required Color background,
-    required Color iconColor,
-  }) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: onTap,
-          child: SvgPicture.asset(
-            icon,
-            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            width: 16,
-            height: 16,
-            fit: BoxFit.scaleDown,
-          ),
         ),
       ),
     );
