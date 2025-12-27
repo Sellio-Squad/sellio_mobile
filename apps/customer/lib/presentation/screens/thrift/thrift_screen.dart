@@ -167,7 +167,7 @@ class ThriftContent extends StatelessWidget {
                 return SellioProductVerticalCard(
                   key: ValueKey(productId),
                   imageUrl: imageUrl,
-                  title: product.name,
+                  title: product.title,
                   price: product.price.toString(),
                   isFavorite: isFavorite,
                   onFavorite: () =>

@@ -81,7 +81,7 @@ class ProductsGridSection extends StatelessWidget {
                     return SellioProductVerticalCard(
                       imageUrl:
                           product.images.isNotEmpty ? product.images.first : '',
-                      title: product.name,
+                      title: product.title,
                       price:
                           '${product.currency}${product.price.toStringAsFixed(2)}',
                       isFavorite: true,

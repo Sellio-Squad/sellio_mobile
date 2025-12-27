@@ -29,7 +29,10 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     debugPrint('Product result: $productResult');
     debugPrint('Favorite result: $favoriteResult');
 
-    if (productResult is Success && favoriteResult is Success) {
+    if (productResult is Success) {
+      // If favorites check fails, default to false - it shouldn't block product loading
+      final isFavorite = favoriteResult is Success ? favoriteResult.data : false;
+      
       final cartState = _cartCubit.state;
       final count = cartState.productCounts[productId] ?? 0;
 
@@ -37,14 +40,14 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
 
       emit(ProductDetailsLoaded(
         product: productResult.data,
-        isFavorite: favoriteResult.data,
+        isFavorite: isFavorite,
         productCount: count,
         note: noteController.text,
       ));
 
       debugPrint('ProductDetailsLoaded emitted with product: ${productResult.data}');
     } else {
-      final errorMessage = _extractErrorMessage([productResult, favoriteResult]);
+      final errorMessage = _extractErrorMessage([productResult]);
       debugPrint('Error loading product details: $errorMessage');
       emit(ProductDetailsError(message: errorMessage));
     }
@@ -71,11 +74,11 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     if (currentState is! ProductDetailsLoaded) return;
 
     final product = currentState.product;
-    debugPrint('Adding product to cart: ${product.name}');
+    debugPrint('Adding product to cart: ${product.title}');
 
     _cartCubit.addToCart(
       productId: product.id,
-      productName: product.name,
+      productName: product.title,
       productImage: product.images.first,
       price: product.price,
       currency: product.currency,

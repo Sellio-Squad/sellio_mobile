@@ -99,7 +99,7 @@ class MockDataGenerator {
 
     return Product(
       id: '0c507375-ca24-40b1-9364-91f2f9c4e0a7',
-      name: productNames[index % productNames.length],
+      title: productNames[index % productNames.length],
       description: descriptions[index % descriptions.length],
       price: 19.99 + (_random.nextDouble() * 500),
       currency: 'USD',
@@ -111,7 +111,7 @@ class MockDataGenerator {
       storeId: storeId ?? 'store_${index % 10}',
       categoryId: categoryId ?? 'category_${index % 8}',
       isAvailable: index % 10 != 9,
-      stockQuantity: _random.nextInt(100),
+      stockQuantity: _random.nextInt(100), items: [], isFavorite: false, isUsed: false, isFeatured: false,
     );
   }
 
@@ -273,7 +273,7 @@ class MockDataGenerator {
       price: product.price,
       createdAt: DateTime.now().subtract(Duration(days: index)),
       updatedAt: DateTime.now(),
-      productName: product.name,
+      productName: product.title,
       quantity: 1 + _random.nextInt(3),
     );
   }

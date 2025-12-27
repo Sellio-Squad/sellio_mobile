@@ -23,7 +23,7 @@ class TrendingProductUIModel {
       imageUrl: product.images.isNotEmpty
           ? product.images.first
           : 'assets/images/product_3.webp',
-      title: product.name,
+      title: product.title,
       price: product.price.toString(),
       hasDiscount: product.discount != null,
       discountText: product.discount,

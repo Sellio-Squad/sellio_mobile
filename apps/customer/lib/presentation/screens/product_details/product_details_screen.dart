@@ -47,7 +47,7 @@ class ProductDetailsScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(56),
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
-                  final title = (state is ProductDetailsLoaded) ? state.product.name : null;
+                  final title = (state is ProductDetailsLoaded) ? state.product.title : null;
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
@@ -127,7 +127,7 @@ Widget _buildPriceAndCounterRow(
       return Row(
         children: [
           productPriceSection(context, state),
-          const Expanded(child: Spacer()),
+          const Spacer(),
           productCounterSection(context, productId, count),
         ],
       );

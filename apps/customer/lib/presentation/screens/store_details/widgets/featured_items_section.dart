@@ -76,7 +76,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                             imageUrl: product.images.isNotEmpty
                                 ? product.images.first
                                 : '',
-                            title: product.name,
+                            title: product.title,
                             price: '\$${product.price}',
                             isFavorite: isFavorite,
                             onFavorite: () => context
