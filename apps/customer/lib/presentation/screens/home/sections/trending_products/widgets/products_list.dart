@@ -11,7 +11,7 @@ class ProductsList extends StatelessWidget {
   final Set<String> favoriteProductIds;
   final Function(String) onIncrement;
   final Function(String) onDecrement;
-  final Function(String) onFavorite;
+  final Future<void> Function(String) onFavorite;
 
   const ProductsList({
     super.key,
@@ -77,11 +77,15 @@ class ProductsList extends StatelessWidget {
           return SizedBox(
             width: 160,
             child: SellioProductVerticalCard(
+              productId: product.id,
               imageUrl: product.imageUrl,
               title: product.title,
               price: product.price,
               isFavorite: isFavorite,
-              onFavorite: () => onFavorite(product.id),
+              onFavoriteToggle: () async {
+                await onFavorite(product.id);
+                return true;
+              },
               onTap: () => navigateToProductDetails(context, product.id),
             ),
           );

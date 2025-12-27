@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
@@ -185,13 +184,15 @@ Widget productFavorite(BuildContext context, String productId) {
     builder: (context, favoritesState) {
       final isFavorite = favoritesState.productIds.contains(productId);
 
-      return IconButton(
-        icon: SvgPicture.asset(
-          isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
-        ),
-        onPressed: () async {
+      return FavoriteToggleButton(
+        productId: productId,
+        isFavorite: isFavorite,
+        onToggle: () async {
           await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+          return true;
         },
+        size: 24,
+        showBackground: false,
       );
     },
   );

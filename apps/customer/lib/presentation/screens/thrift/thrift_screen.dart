@@ -166,12 +166,15 @@ class ThriftContent extends StatelessWidget {
 
                 return SellioProductVerticalCard(
                   key: ValueKey(productId),
+                  productId: productId,
                   imageUrl: imageUrl,
                   title: product.title,
                   price: product.price.toString(),
                   isFavorite: isFavorite,
-                  onFavorite: () =>
-                      context.read<FavoritesCubit>().toggleProductFavorite(productId),
+                  onFavoriteToggle: () async {
+                    await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+                    return true;
+                  },
                   onTap: () {
                     GoRouter.of(context).push(
                       AppRoutes.productDetails.path,

@@ -79,13 +79,17 @@ class ProductsGridSection extends StatelessWidget {
                     final product = products[index];
 
                     return SellioProductVerticalCard(
+                      productId: product.id,
                       imageUrl:
                           product.images.isNotEmpty ? product.images.first : '',
                       title: product.title,
                       price:
                           '${product.currency}${product.price.toStringAsFixed(2)}',
                       isFavorite: true,
-                      onFavorite: () => onToggleFavorite(product.id),
+                      onFavoriteToggle: () async {
+                        onToggleFavorite(product.id);
+                        return true;
+                      },
                       onTap: () {
                         // Navigate to product details
                         // Example: context.push('/product/${product.id}');

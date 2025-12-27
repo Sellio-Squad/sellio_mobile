@@ -73,15 +73,19 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                         builder: (BuildContext context, favState) {
                           final isFavorite = favState.productIds.contains(product.id);
                           return SellioProductVerticalCard(
+                            productId: product.id,
                             imageUrl: product.images.isNotEmpty
                                 ? product.images.first
                                 : '',
                             title: product.title,
                             price: '\$${product.price}',
                             isFavorite: isFavorite,
-                            onFavorite: () => context
-                                .read<FavoritesCubit>()
-                                .toggleProductFavorite(product.id),
+                            onFavoriteToggle: () async {
+                              await context
+                                  .read<FavoritesCubit>()
+                                  .toggleProductFavorite(product.id);
+                              return true;
+                            },
                           );
                         },
                       );

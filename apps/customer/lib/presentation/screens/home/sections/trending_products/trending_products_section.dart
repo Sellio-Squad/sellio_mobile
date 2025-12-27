@@ -80,9 +80,10 @@ class TrendingProductsSection extends StatelessWidget {
                     context.read<CartCubit>().addToCart,
                 onDecrement: (productId) =>
                     context.read<CartCubit>().decrementProduct(productId),
-                onFavorite: (productId) => context
-                    .read<FavoritesCubit>()
-                    .toggleProductFavorite(productId),
+                onFavorite: (productId) async => 
+                    await context
+                        .read<FavoritesCubit>()
+                        .toggleProductFavorite(productId),
               ),
             );
           },
