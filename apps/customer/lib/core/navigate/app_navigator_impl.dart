@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
-
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -9,14 +8,8 @@ class AppNavigatorImpl implements AppNavigator {
   AppNavigatorImpl(this.context);
 
   final BuildContext context;
-
   @override
-  void pushLogin() {
-    context.pushNamed(AppRoutes.login.name);
-  }
-
-  @override
-  void replaceWithLogin() {
+  void pushReplacementLogin() {
     context.go(AppRoutes.login.path);
   }
 
@@ -36,25 +29,9 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushForgetPasswordOtp(ForgetPasswordOtpArgs args) {
-    context.pushNamed(
-      AppRoutes.forgetPasswordOtp.name,
-      extra: args,
-    );
-  }
-
-  @override
   void pushConfirmPassword(ConfirmPasswordArgs args) {
     context.pushNamed(
       AppRoutes.confirmPassword.name,
-      extra: args,
-    );
-  }
-
-  @override
-  void pushSignupOtp(SignupOtpArgs args) {
-    context.pushNamed(
-      AppRoutes.signupOtp.name,
       extra: args,
     );
   }
@@ -136,7 +113,6 @@ class AppNavigatorImpl implements AppNavigator {
     context.go(AppRoutes.account.path);
   }
 
-  // Navigation utilities
   @override
   void pop<T extends Object?>([T? result]) {
     context.pop<T>(result);

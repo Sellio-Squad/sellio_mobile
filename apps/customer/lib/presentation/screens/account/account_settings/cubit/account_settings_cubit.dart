@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/error/result.dart';
 import '../../../../../domain/repositories/user_repository.dart';
-import '../../../auth/country.dart';
+import '../country.dart';
 import 'account_settings_state.dart';
 
 class AccountSettingsCubit extends Cubit<AccountSettingsState> {

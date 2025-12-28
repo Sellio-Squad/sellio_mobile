@@ -1,51 +1,47 @@
 import '../../core/error/result.dart';
-import '../entities/user.dart';
 
 abstract class AuthRepository {
-  Future<Result<User>> login({
+  Future<Result<void>> login({
     required String phoneNumber,
-    required String countryCode,
     required String password,
   });
 
-  Future<Result<User>> register({
-    required String fullName,
+  Future<Result<void>> register({
+    required String firstName,
+    required String lastName,
     required String phoneNumber,
-    required String countryCode,
     required String password,
-    required String country,
     required String city,
-    String? profilePhotoUrl,
+    required String country,
+    required String email,
+    required String region,
   });
 
-  Future<Result<bool>> verifyOtp({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
+  Future<Result<void>> verifyRegistrationOtp({
+    required String otp,
   });
 
-  Future<Result<void>> resendOtp({
-    required String phoneNumber,
-    required String countryCode,
-  });
+  Future<Result<void>> resendRegistrationOtp();
 
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
-    required String countryCode,
+    required String defaultRegion,
+  });
+
+  Future<Result<void>> verifyForgotPasswordOtp({
+    required String otp,
   });
 
   Future<Result<void>> resetPassword({
-    required String phoneNumber,
-    required String countryCode,
-    required String otpCode,
     required String newPassword,
+    required String confirmPassword,
   });
 
   Future<Result<void>> logout();
 
-  Future<Result<User?>> getCurrentUser();
+  Future<bool> isLoggedIn();
 
-  Future<Result<bool>> isLoggedIn();
+  Future<String?> getPendingRegistrationPhone();
 
-  Future<Result<String?>> getAuthToken();
+  Future<void> clearPendingRegistration();
 }

@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/presentation/screens/auth/create_account/create_account_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/forget_password/confirm_password_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_otp_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/forget_password/forget_password_screen.dart';
 import 'package:sellio_mobile/presentation/screens/auth/login/login_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/signupOTP.dart';
 import 'package:sellio_mobile/presentation/screens/cart/cart_screen.dart';
 import 'package:sellio_mobile/presentation/screens/customize_product/customize_your_product_screen.dart';
 import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
@@ -19,6 +15,8 @@ import 'package:sellio_mobile/presentation/screens/store_details/store_details_s
 import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/account/myFav/myFavorites.dart';
 import '../../presentation/screens/more_trending/more_trending_screen.dart';
+import '../../presentation/screens/auth/forgot_password/confirm_password_screen.dart';
+import '../../presentation/screens/auth/forgot_password/forget_password_screen.dart';
 import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
 import 'app_routes.dart';
@@ -66,35 +64,12 @@ class RouteGenerator {
         },
       ),
       GoRoute(
-        name: AppRoutes.forgetPasswordOtp.name,
-        path: AppRoutes.forgetPasswordOtp.path,
-        pageBuilder: (BuildContext context, GoRouterState state) {
-          final args = state.extra as ForgetPasswordOtpArgs;
-          return MaterialPage(
-            key: state.pageKey,
-            child: ForgetPasswordOTPScreen(
-              args: args,
-            ),
-          );
-        },
-      ),
-      GoRoute(
         name: AppRoutes.confirmPassword.name,
         path: AppRoutes.confirmPassword.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
             child: const SetNewPasswordScreen(),
-          );
-        },
-      ),
-      GoRoute(
-        name: AppRoutes.signupOtp.name,
-        path: AppRoutes.signupOtp.path,
-        pageBuilder: (BuildContext context, GoRouterState state) {
-          return MaterialPage(
-            key: state.pageKey,
-            child: const ConfirmAccountScreen(),
           );
         },
       ),
@@ -287,5 +262,10 @@ class RouteGenerator {
         },
       ),
     ],
+    errorBuilder: (context, state) => Scaffold(
+      body: Center(
+        child: Text('Error: ${state.error}'),
+      ),
+    ),
   );
 }

@@ -6,15 +6,18 @@ import '../../../core/network/network_info.dart';
 import '../../../data/core/api/api_client.dart';
 import '../../../data/core/api/api_endpoints.dart';
 import '../../../data/core/api/dio_client.dart';
+import '../../core/services/image_picker_service.dart';
+import '../../core/services/image_picker_service_impl.dart';
 
 class CoreModule {
   static Future<void> register(GetIt sl) async {
 
-    final sharedPreferences = await SharedPreferences.getInstance();
-    sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-
     sl.registerLazySingleton<InternetConnectionChecker>(
           () => InternetConnectionChecker(),
+    );
+
+    sl.registerLazySingleton<ImagePickerService>(
+          () => ImagePickerServiceImpl(),
     );
 
     sl.registerLazySingleton<NetworkInfo>(

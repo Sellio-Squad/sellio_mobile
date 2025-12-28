@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
-import 'package:design_system/design_system.dart';
-import 'cubits/form/create_account_form_cubit.dart';
-import 'cubits/form/create_account_form_state.dart';
+import '../../../../core/utils/snackbar_helper.dart';
+import '../shared/extensions.dart';
+import '../shared/otp/otp_screen.dart';
+import 'cubit/registration_cubit.dart';
+import 'cubit/registration_state.dart';
 
 class CreateAccountListeners extends StatelessWidget {
   final Widget child;
@@ -16,81 +18,64 @@ class CreateAccountListeners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<CreateAccountFormCubit, CreateAccountFormState>(
-          listener: (context, state) {
-            if (state is CreateAccountFormSuccess) {
-              _handleSuccess(context, state);
-            } else if (state is CreateAccountFormError) {
-              _handleGeneralError(context, state.message);
-            } else if (state is CreateAccountFormChanged &&
-                state.currentFieldError != null) {
-              _handleFieldValidationError(context, state);
-            }
-          },
-        ),
-      ],
+    return BlocListener<RegistrationCubit, RegistrationState>(
+      listener: (context, state) {
+        if (state is RegistrationOtpRequired) {
+          _navigateToOtpScreen(context, state);
+        } else if (state is RegistrationSuccess) {
+          _handleSuccess(context);
+        } else if (state is RegistrationFailure) {
+          _handleError(context, state);
+        } else if (state is RegistrationIdle && state.validationError != null) {
+          _handleValidationError(context, state);
+        }
+      },
       child: child,
     );
   }
 
-  void _handleSuccess(BuildContext context, CreateAccountFormSuccess state) {
-    context.navigator.pushSignupOtp(
-      SignupOtpArgs(
-        phoneNumber: state.phoneNumber,
+  void _navigateToOtpScreen(BuildContext context, RegistrationOtpRequired state) {
+    final cubit = context.read<RegistrationCubit>();
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => OtpScreen(
+          title: context.local.confirm_your_account,
+          subtitle: context.local.enter_the_4_digit_sent_to(state.phoneNumber),
+          phoneNumber: state.phoneNumber,
+          onVerify: (otp) => cubit.verifyOtp(otp),
+          onResend: () => cubit.resendOtp(),
+          onVerifySuccess: () {
+            Navigator.pop(context);
+            _handleSuccess(context);
+          },
+        ),
       ),
     );
   }
 
-  void _handleGeneralError(BuildContext context, String message) {
-    _showErrorSnackBar(context, message);
-  }
-
-  void _handleFieldValidationError(
-      BuildContext context, CreateAccountFormChanged state) {
-    _showErrorSnackBar(context, state.currentFieldError!);
-
-    // Clear the field error after showing the snackbar
-    Future.delayed(const Duration(milliseconds: 100), () {
+  void _handleSuccess(BuildContext context) {
+    SnackBarHelper.showSuccess(context, context.local.account_created_successfully);
+    Future.delayed(const Duration(milliseconds: 1500), () {
       if (context.mounted) {
-        context.read<CreateAccountFormCubit>().clearCurrentFieldError();
+        context.navigator.goToHome();
       }
     });
   }
 
-  void _showErrorSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).clearSnackBars();
+  void _handleError(BuildContext context, RegistrationFailure state) {
+    final message = state.errorMessage ?? context.local.registration_failed;
+    SnackBarHelper.showError(context, message);
+  }
 
-    final overlay = Overlay.of(context);
-    late OverlayEntry overlayEntry;
+  void _handleValidationError(BuildContext context, RegistrationIdle state) {
+    final errorMessage = state.validationError!.toLocalizedString(context);
+    SnackBarHelper.showError(context, errorMessage);
 
-    overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: MediaQuery.of(context).padding.top + 26,
-        left: 0,
-        right: 0,
-        child: Material(
-          color: Colors.transparent,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: SellioSnackBar(
-              isError: true,
-              message: message,
-              onCancelTap: () {
-                overlayEntry.remove();
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-
-    overlay.insert(overlayEntry);
-
-    Future.delayed(const Duration(seconds: 4), () {
-      if (overlayEntry.mounted) {
-        overlayEntry.remove();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (context.mounted) {
+        context.read<RegistrationCubit>().clearValidationError();
       }
     });
   }

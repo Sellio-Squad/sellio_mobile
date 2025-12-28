@@ -10,6 +10,20 @@
   "subtitle_login": "أدخل معلوماتك لتسجيل الدخول",
   "phone_number": "رقم الهاتف",
   "login": "تسجيل الدخول",
+  "login_successful": "تم تسجيل الدخول بنجاح!",
+  "login_failed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+  "first_name": "الاسم الأول",
+  "last_name": "اسم العائلة",
+  "email": "البريد الإلكتروني",
+  "first_name_at_least_2_characters": "يجب أن يكون الاسم الأول حرفين على الأقل",
+  "first_name_letters_only": "يجب أن يحتوي الاسم الأول على أحرف فقط",
+  "last_name_at_least_2_characters": "يجب أن يكون اسم العائلة حرفين على الأقل",
+  "last_name_letters_only": "يجب أن يحتوي اسم العائلة على أحرف فقط",
+  "email_required": "البريد الإلكتروني مطلوب",
+  "email_invalid": "يرجى إدخال بريد إلكتروني صحيح",
+  "otp_verification_failed": "فشل التحقق من الرمز. يرجى المحاولة مرة أخرى.",
+  "resend_otp_failed": "فشل إعادة إرسال الرمز. يرجى المحاولة مرة أخرى.",
+  "otp_resent_successfully": "تم إعادة إرسال الرمز بنجاح",
   "or": "أو",
   "updated_successfully": "تم التحديث بنجاح",
   "password_must_be_at_least_characters": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
@@ -225,5 +239,12 @@
     "placeholders": {
       "phone_number": {}
     }
-  }
+  },
+  "verify_phone_number": "تعريف رقم الهاتف",
+  "continue_text": "استمرار",
+  "password_reset_successfully": "تم تغير الباسورد بنجاح",
+  "account_created_successfully": "تم انشاء الحساب بنجاح",
+  "registration_failed": "فشل التسجيل",
+  "password_cannot_be_empty": "حقول كلمة المرور لا يمكن أن تكون فارغة",
+  "phone_number_not_available": "رقم الهاتف غير متاح"
 }

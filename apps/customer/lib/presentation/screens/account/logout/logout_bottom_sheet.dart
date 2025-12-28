@@ -66,8 +66,7 @@ class LogoutBottomSheet extends StatelessWidget {
                   : context.local.logout,
               backgroundColor: context.theme.colors.errorVariant,
               suffixIconColor: context.theme.colors.red,
-              onTap:
-                  isLoading ? null : () => context.read<LogoutCubit>().logout(),
+              onTap: isLoading ? null : () => context.read<LogoutCubit>().logout(),
               textColor: context.theme.colors.red,
               verticalPadding: 13,
               isEnabled: !isLoading,

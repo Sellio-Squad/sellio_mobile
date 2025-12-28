@@ -32,14 +32,6 @@ class ConfirmPasswordArgs {
   final String otp;
 }
 
-class SignupOtpArgs {
-  SignupOtpArgs({
-    required this.phoneNumber,
-  });
-
-  final String phoneNumber;
-}
-
 class CustomizeProductArgs {
   CustomizeProductArgs({
     required this.productId,
