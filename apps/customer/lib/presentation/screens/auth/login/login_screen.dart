@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
-import 'cubits/form/login_form_cubit.dart';
+import 'cubit/login_cubit.dart';
 import 'login_listeners.dart';
-import 'widgets/login_footer.dart';
-import 'widgets/login_form.dart';
-import 'widgets/login_header.dart';
+import 'widgets/login_body.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -16,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginFormCubit(
+      create: (context) => LoginCubit(
         authRepository: sl<AuthRepository>(),
       ),
       child: const _LoginScreenContent(),
@@ -34,17 +31,7 @@ class _LoginScreenContent extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
           showLogo: true,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              LoginHeader(),
-              Gap(40),
-              LoginForm(),
-              Gap(175),
-              LoginFooter(),
-              Gap(16),
-            ],
-            ),
+          child: const LoginBody(),
         ),
       ),
     );
