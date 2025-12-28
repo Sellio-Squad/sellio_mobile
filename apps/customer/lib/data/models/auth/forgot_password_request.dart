@@ -7,6 +7,7 @@ part 'forgot_password_request.g.dart';
 class ForgotPasswordRequest with _$ForgotPasswordRequest {
   const factory ForgotPasswordRequest({
     required String phoneNumber,
+    required String defaultRegion,
   }) = _ForgotPasswordRequest;
 
   factory ForgotPasswordRequest.fromJson(Map<String, dynamic> json) =>
