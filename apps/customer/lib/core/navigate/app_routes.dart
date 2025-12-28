@@ -12,17 +12,9 @@ enum AppRoutes {
     name: 'forget_password',
     path: '/forget_password',
   ),
-  forgetPasswordOtp(
-    name: 'forgetPasswordOtp',
-    path: '/forgetPasswordOtp',
-  ),
   confirmPassword(
     name: 'confirmPassword',
     path: '/confirmPassword',
-  ),
-  signupOtp(
-    name: 'signupOtp',
-    path: '/signupOtp',
   ),
 
   // Main routes (StatefulShellRoute branches)

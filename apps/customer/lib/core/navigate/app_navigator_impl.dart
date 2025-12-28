@@ -8,14 +8,8 @@ class AppNavigatorImpl implements AppNavigator {
   AppNavigatorImpl(this.context);
 
   final BuildContext context;
-
   @override
-  void pushLogin() {
-    context.pushNamed(AppRoutes.login.name);
-  }
-
-  @override
-  void replaceWithLogin() {
+  void pushReplacementLogin() {
     context.go(AppRoutes.login.path);
   }
 
@@ -35,25 +29,10 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushForgetPasswordOtp(ForgetPasswordOtpArgs args) {
-    context.pushNamed(
-      AppRoutes.forgetPasswordOtp.name,
-      extra: args,
-    );
-  }
-
-  @override
   void pushConfirmPassword(ConfirmPasswordArgs args) {
     context.pushNamed(
       AppRoutes.confirmPassword.name,
       extra: args,
-    );
-  }
-
-  @override
-  void pushSignupOtp() {
-    context.pushNamed(
-      AppRoutes.signupOtp.name,
     );
   }
 

@@ -1,9 +1,7 @@
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 abstract class AppNavigator {
-  void pushLogin();
-
-  void replaceWithLogin();
+  void pushReplacementLogin();
 
   void pushCreateAccount();
 
@@ -11,11 +9,7 @@ abstract class AppNavigator {
 
   void pushForgetPassword();
 
-  void pushForgetPasswordOtp(ForgetPasswordOtpArgs args);
-
   void pushConfirmPassword(ConfirmPasswordArgs args);
-
-  void pushSignupOtp();
 
   void pushProductDetails(ProductDetailsArgs args);
 
