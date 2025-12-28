@@ -239,5 +239,12 @@
     "placeholders": {
       "phone_number": {}
     }
-  }
+  },
+  "verify_phone_number": "Verify phone number",
+  "continue_text": "Continue",
+  "password_reset_successfully": "Password reset successfully",
+  "account_created_successfully": "Account created successfully",
+  "registration_failed": "Registration failed",
+  "password_cannot_be_empty": "Password fields cannot be empty",
+  "phone_number_not_available": "Phone number not available"
 }

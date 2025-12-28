@@ -9,4 +9,5 @@ abstract class StorageKeys {
   static const String cartItems = 'cart_items';
   static const String registrationSessionId = 'registration_session_id';
   static const String registrationPhoneNumber = 'registration_phone_number';
+  static const String forgotPasswordSessionId = 'forgot_password_session_id';
 }

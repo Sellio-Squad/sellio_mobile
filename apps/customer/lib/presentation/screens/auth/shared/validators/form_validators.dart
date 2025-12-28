@@ -1,4 +1,4 @@
-import '../constants/validation_constants.dart';
+import '../constants/auth_constants.dart';
 import '../enums/form_field_type.dart';
 import '../enums/validation_error_type.dart';
 import 'validation_result.dart';
@@ -24,20 +24,20 @@ abstract class FormValidators {
   }
 
   static ValidationResult validatePhone(String phone) {
-    if (phone.length < ValidationConstants.minPhoneLength) {
+    if (phone.length < AuthConstants.minPhoneLength) {
       return const ValidationResult.invalid(ValidationErrorType.phoneMinLength);
     }
-    if (!ValidationConstants.digitsOnly.hasMatch(phone)) {
+    if (!AuthConstants.digitsOnly.hasMatch(phone)) {
       return const ValidationResult.invalid(ValidationErrorType.phoneDigitsOnly);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validatePassword(String password) {
-    if (password.length < ValidationConstants.minPasswordLength) {
+    if (password.length < AuthConstants.minPasswordLength) {
       return const ValidationResult.invalid(ValidationErrorType.passwordMinLength);
     }
-    if (password.length > ValidationConstants.maxPasswordLength) {
+    if (password.length > AuthConstants.maxPasswordLength) {
       return const ValidationResult.invalid(ValidationErrorType.passwordMaxLength);
     }
     return const ValidationResult.valid();
@@ -54,20 +54,20 @@ abstract class FormValidators {
   }
 
   static ValidationResult validateFirstName(String name) {
-    if (name.length < ValidationConstants.minNameLength) {
+    if (name.length < AuthConstants.minNameLength) {
       return const ValidationResult.invalid(ValidationErrorType.firstNameMinLength);
     }
-    if (!ValidationConstants.lettersAndSpaces.hasMatch(name)) {
+    if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
       return const ValidationResult.invalid(ValidationErrorType.firstNameLettersOnly);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validateLastName(String name) {
-    if (name.length < ValidationConstants.minNameLength) {
+    if (name.length < AuthConstants.minNameLength) {
       return const ValidationResult.invalid(ValidationErrorType.lastNameMinLength);
     }
-    if (!ValidationConstants.lettersAndSpaces.hasMatch(name)) {
+    if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
       return const ValidationResult.invalid(ValidationErrorType.lastNameLettersOnly);
     }
     return const ValidationResult.valid();
@@ -77,17 +77,17 @@ abstract class FormValidators {
     if (email.isEmpty) {
       return const ValidationResult.invalid(ValidationErrorType.emailEmpty);
     }
-    if (!ValidationConstants.emailRegex.hasMatch(email)) {
+    if (!AuthConstants.emailRegex.hasMatch(email)) {
       return const ValidationResult.invalid(ValidationErrorType.emailInvalid);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validateCity(String city) {
-    if (city.length < ValidationConstants.minLocationLength) {
+    if (city.length < AuthConstants.minLocationLength) {
       return const ValidationResult.invalid(ValidationErrorType.cityMinLength);
     }
-    if (!ValidationConstants.lettersAndSpaces.hasMatch(city)) {
+    if (!AuthConstants.lettersAndSpaces.hasMatch(city)) {
       return const ValidationResult.invalid(ValidationErrorType.cityLettersOnly);
     }
     return const ValidationResult.valid();

@@ -13,7 +13,6 @@ class LocaleCubit extends Cubit<LocaleState> {
     _loadSavedLocale();
   }
 
-  // Supported locales
   static const List<Locale> supportedLocales = [
     Locale('en'),
     Locale('ar'),
@@ -28,7 +27,6 @@ class LocaleCubit extends Cubit<LocaleState> {
         emit(LocaleState(locale: locale));
       }
     } catch (e) {
-      // Fallback to English on error
       emit(const LocaleState(locale: Locale('en')));
     }
   }
@@ -42,7 +40,6 @@ class LocaleCubit extends Cubit<LocaleState> {
       await _prefs.setString(_languageCodeKey, newLocale.languageCode);
       emit(LocaleState(locale: newLocale));
     } catch (e) {
-      // Handle error, maybe show snackbar
       rethrow;
     }
   }

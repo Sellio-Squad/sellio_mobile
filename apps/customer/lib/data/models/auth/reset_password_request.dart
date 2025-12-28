@@ -6,9 +6,9 @@ part 'reset_password_request.g.dart';
 @freezed
 class ResetPasswordRequest with _$ResetPasswordRequest {
   const factory ResetPasswordRequest({
-    required String phoneNumber,
-    required String otp,
+    required String sessionId,
     required String newPassword,
+    required String confirmPassword,
   }) = _ResetPasswordRequest;
 
   factory ResetPasswordRequest.fromJson(Map<String, dynamic> json) =>

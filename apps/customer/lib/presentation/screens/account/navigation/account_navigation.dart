@@ -12,7 +12,7 @@ void navigateToMyFavourites(BuildContext context) {
 }
 
 void navigateToLoginScreen(BuildContext context) {
-  context.navigator.replaceWithLogin();
+  context.navigator.pushReplacementLogin();
 }
 
 void navigateToAppVersion(BuildContext context) {

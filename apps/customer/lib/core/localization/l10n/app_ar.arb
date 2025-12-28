@@ -239,5 +239,12 @@
     "placeholders": {
       "phone_number": {}
     }
-  }
+  },
+  "verify_phone_number": "تعريف رقم الهاتف",
+  "continue_text": "استمرار",
+  "password_reset_successfully": "تم تغير الباسورد بنجاح",
+  "account_created_successfully": "تم انشاء الحساب بنجاح",
+  "registration_failed": "فشل التسجيل",
+  "password_cannot_be_empty": "حقول كلمة المرور لا يمكن أن تكون فارغة",
+  "phone_number_not_available": "رقم الهاتف غير متاح"
 }
