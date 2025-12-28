@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/utils/snackbar_helper.dart';
 import '../shared/extensions.dart';
-import 'cubits/form/create_account_form_cubit.dart';
-import 'cubits/form/create_account_form_state.dart';
+import '../shared/otp/otp_screen.dart';
+import 'cubit/registration_cubit.dart';
+import 'cubit/registration_state.dart';
 
 class CreateAccountListeners extends StatelessWidget {
   final Widget child;
@@ -16,39 +18,64 @@ class CreateAccountListeners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CreateAccountFormCubit, CreateAccountFormState>(
+    return BlocListener<RegistrationCubit, RegistrationState>(
       listener: (context, state) {
-        if (state is CreateAccountFormSuccess) {
+        if (state is RegistrationOtpRequired) {
+          _navigateToOtpScreen(context, state);
+        } else if (state is RegistrationSuccess) {
           _handleSuccess(context);
-        } else if (state is CreateAccountFormError) {
-          _handleGeneralError(context, state);
-        } else if (state is CreateAccountFormLoaded && state.fieldError != null) {
-          _handleFieldValidationError(context, state);
+        } else if (state is RegistrationFailure) {
+          _handleError(context, state);
+        } else if (state is RegistrationIdle && state.validationError != null) {
+          _handleValidationError(context, state);
         }
       },
       child: child,
     );
   }
 
-  void _handleSuccess(BuildContext context) {
-    context.navigator.pushSignupOtp();
+  void _navigateToOtpScreen(BuildContext context, RegistrationOtpRequired state) {
+    final cubit = context.read<RegistrationCubit>();
+    
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => OtpScreen(
+          title: context.local.confirm_your_account,
+          subtitle: context.local.enter_the_4_digit_sent_to(state.phoneNumber),
+          phoneNumber: state.phoneNumber,
+          onVerify: (otp) => cubit.verifyOtp(otp),
+          onResend: () => cubit.resendOtp(),
+          onVerifySuccess: () {
+            Navigator.pop(context);
+            _handleSuccess(context);
+          },
+        ),
+      ),
+    );
   }
 
-  void _handleGeneralError(BuildContext context, CreateAccountFormError state) {
-    final message = state.errorType.toLocalizedString(context);
+  void _handleSuccess(BuildContext context) {
+    SnackBarHelper.showSuccess(context, context.local.account_created_successfully);
+    Future.delayed(const Duration(milliseconds: 1500), () {
+      if (context.mounted) {
+        context.navigator.goToHome();
+      }
+    });
+  }
+
+  void _handleError(BuildContext context, RegistrationFailure state) {
+    final message = state.errorMessage ?? context.local.registration_failed;
     SnackBarHelper.showError(context, message);
   }
 
-  void _handleFieldValidationError(
-      BuildContext context,
-      CreateAccountFormLoaded state,
-      ) {
-    final errorMessage = state.fieldError!.toLocalizedString(context);
+  void _handleValidationError(BuildContext context, RegistrationIdle state) {
+    final errorMessage = state.validationError!.toLocalizedString(context);
     SnackBarHelper.showError(context, errorMessage);
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (context.mounted) {
-        context.read<CreateAccountFormCubit>().clearFieldError();
+        context.read<RegistrationCubit>().clearValidationError();
       }
     });
   }

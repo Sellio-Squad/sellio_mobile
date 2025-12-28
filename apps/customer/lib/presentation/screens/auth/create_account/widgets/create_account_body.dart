@@ -4,20 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:design_system/design_system.dart';
-import '../../enums/form_field_type.dart';
+import '../../shared/enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
-import '../cubits/form/create_account_form_cubit.dart';
-import '../cubits/form/create_account_form_state.dart';
-import 'profile_picture_builder.dart';
+import '../cubit/registration_cubit.dart';
+import '../cubit/registration_state.dart';
+import 'create_account_footer.dart';
+import 'create_account_header.dart';
+import 'profile_picture_picker.dart';
 
-class CreateAccountFormWidget extends StatefulWidget {
-  const CreateAccountFormWidget({super.key});
+class CreateAccountBody extends StatefulWidget {
+  const CreateAccountBody({super.key});
 
   @override
-  State<CreateAccountFormWidget> createState() => _CreateAccountFormWidgetState();
+  State<CreateAccountBody> createState() => _CreateAccountBodyState();
 }
 
-class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
+class _CreateAccountBodyState extends State<CreateAccountBody> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
@@ -63,93 +65,28 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
   }
 
   void _setupListeners() {
-    _firstNameController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateFirstName(_firstNameController.text);
-    });
-    _lastNameController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateLastName(_lastNameController.text);
-    });
-    _phoneController.addListener(() {
-      context.read<CreateAccountFormCubit>().updatePhoneNumber(_phoneController.text);
-    });
-    _emailController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateEmail(_emailController.text);
-    });
-    _cityController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateCity(_cityController.text);
-    });
-    _passwordController.addListener(() {
-      context.read<CreateAccountFormCubit>().updatePassword(_passwordController.text);
-    });
-    _confirmPasswordController.addListener(() {
-      context.read<CreateAccountFormCubit>().updateConfirmPassword(_confirmPasswordController.text);
-    });
+    final cubit = context.read<RegistrationCubit>();
+    _firstNameController.addListener(() => cubit.updateFirstName(_firstNameController.text));
+    _lastNameController.addListener(() => cubit.updateLastName(_lastNameController.text));
+    _phoneController.addListener(() => cubit.updatePhoneNumber(_phoneController.text));
+    _emailController.addListener(() => cubit.updateEmail(_emailController.text));
+    _cityController.addListener(() => cubit.updateCity(_cityController.text));
+    _passwordController.addListener(() => cubit.updatePassword(_passwordController.text));
+    _confirmPasswordController.addListener(() => cubit.updateConfirmPassword(_confirmPasswordController.text));
 
-    _setupFocusListeners();
+    _setupFocusListener(_firstNameFocusNode, _firstNameController, FormFieldType.firstName);
+    _setupFocusListener(_lastNameFocusNode, _lastNameController, FormFieldType.lastName);
+    _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
+    _setupFocusListener(_emailFocusNode, _emailController, FormFieldType.email);
+    _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
+    _setupFocusListener(_passwordFocusNode, _passwordController, FormFieldType.password);
+    _setupFocusListener(_confirmPasswordFocusNode, _confirmPasswordController, FormFieldType.confirmPassword);
   }
 
-  void _setupFocusListeners() {
-    _firstNameFocusNode.addListener(() {
-      if (!_firstNameFocusNode.hasFocus && _firstNameController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.firstName,
-          _firstNameController.text,
-        );
-      }
-    });
-
-    _lastNameFocusNode.addListener(() {
-      if (!_lastNameFocusNode.hasFocus && _lastNameController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.lastName,
-          _lastNameController.text,
-        );
-      }
-    });
-
-    _phoneFocusNode.addListener(() {
-      if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.phone,
-          _phoneController.text,
-        );
-      }
-    });
-
-    _emailFocusNode.addListener(() {
-      if (!_emailFocusNode.hasFocus && _emailController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.email,
-          _emailController.text,
-        );
-      }
-    });
-
-    _cityFocusNode.addListener(() {
-      if (!_cityFocusNode.hasFocus && _cityController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.city,
-          _cityController.text,
-        );
-      }
-    });
-
-    _passwordFocusNode.addListener(() {
-      if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.password,
-          _passwordController.text,
-        );
-      }
-    });
-
-    _confirmPasswordFocusNode.addListener(() {
-      if (!_confirmPasswordFocusNode.hasFocus &&
-          _confirmPasswordController.text.isNotEmpty) {
-        context.read<CreateAccountFormCubit>().validateFieldOnFocusChange(
-          FormFieldType.confirmPassword,
-          _confirmPasswordController.text,
-        );
+  void _setupFocusListener(FocusNode focusNode, TextEditingController controller, FormFieldType fieldType) {
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus && controller.text.isNotEmpty) {
+        context.read<RegistrationCubit>().validateFieldOnFocusChange(fieldType, controller.text);
       }
     });
   }
@@ -177,11 +114,49 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateAccountFormCubit, CreateAccountFormState>(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: buildCreateAccountHeader(context),
+        ),
+        const SizedBox(height: 24),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _buildForm(context),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: context.theme.colors.surfaceLow,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                offset: const Offset(0, -2),
+                blurRadius: 8,
+              ),
+            ],
+          ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildSubmitButton(context),
+              const SizedBox(height: 12),
+              buildCreateAccountFooter(context),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
+    return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        if (state is! CreateAccountFormLoaded) {
-          return const SizedBox.shrink();
-        }
+        final selectedCountry = (state is RegistrationIdle) ? state.selectedCountry : null;
+        final selectedProfileImage = (state is RegistrationIdle) ? state.selectedProfileImage : null;
 
         final colors = context.theme.colors;
 
@@ -194,9 +169,9 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
             PhoneInputWithCountry(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
-              selectedCountry: state.selectedCountry,
+              selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<CreateAccountFormCubit>().updateSelectedCountry(country);
+                context.read<RegistrationCubit>().updateSelectedCountry(country);
               },
             ),
             const SizedBox(height: 16),
@@ -208,8 +183,29 @@ class _CreateAccountFormWidgetState extends State<CreateAccountFormWidget> {
             const SizedBox(height: 16),
             _buildConfirmPasswordField(colors),
             const SizedBox(height: 16),
-            buildProfilePictureSection(context),
+            ProfilePicturePickerWidget(
+              selectedImage: selectedProfileImage,
+              onImageSelected: (image) {
+                context.read<RegistrationCubit>().updateProfileImage(image);
+              },
+            ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSubmitButton(BuildContext context) {
+    return BlocBuilder<RegistrationCubit, RegistrationState>(
+      builder: (context, state) {
+        final isFormValid = state is RegistrationIdle && state.isFormValid;
+        final isLoading = state is RegistrationSubmitting;
+
+        return SellioButton(
+          text: context.local.continue_text,
+          onTap: isFormValid && !isLoading ? context.read<RegistrationCubit>().register : null,
+          isLoading: isLoading,
+          isEnabled: isFormValid,
         );
       },
     );
