@@ -81,10 +81,11 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                             price: '\$${product.price}',
                             isFavorite: isFavorite,
                             onFavoriteToggle: () async {
-                              await context
+                              // Pessimistic update: wait for API response before updating UI
+                              final success = await context
                                   .read<FavoritesCubit>()
                                   .toggleProductFavorite(product.id);
-                              return true;
+                              return success;
                             },
                           );
                         },

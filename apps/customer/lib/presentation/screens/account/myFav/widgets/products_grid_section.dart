@@ -11,7 +11,7 @@ import 'empty_favorites_state.dart';
 
 class ProductsGridSection extends StatelessWidget {
   final List<Product> products;
-  final void Function(String) onToggleFavorite;
+  final Future<bool> Function(String) onToggleFavorite;
 
   const ProductsGridSection({
     super.key,
@@ -87,8 +87,9 @@ class ProductsGridSection extends StatelessWidget {
                           '${product.currency}${product.price.toStringAsFixed(2)}',
                       isFavorite: true,
                       onFavoriteToggle: () async {
-                        onToggleFavorite(product.id);
-                        return true;
+                        // Pessimistic update: wait for API response before updating UI
+                        final success = await onToggleFavorite(product.id);
+                        return success;
                       },
                       onTap: () {
                         // Navigate to product details

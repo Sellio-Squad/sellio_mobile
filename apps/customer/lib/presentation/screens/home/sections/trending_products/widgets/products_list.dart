@@ -8,18 +8,12 @@ import '../models/trending_product_ui_model.dart';
 class ProductsList extends StatelessWidget {
   final List<TrendingProductUIModel> products;
   final String? searchQuery;
-  final Set<String> favoriteProductIds;
-  final Function(String) onIncrement;
-  final Function(String) onDecrement;
-  final Future<void> Function(String) onFavorite;
+  final Future<bool> Function(String) onFavorite;
 
   const ProductsList({
     super.key,
     required this.products,
     this.searchQuery,
-    required this.favoriteProductIds,
-    required this.onIncrement,
-    required this.onDecrement,
     required this.onFavorite,
   });
 
@@ -72,7 +66,6 @@ class ProductsList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final product = products[index];
-          final isFavorite = favoriteProductIds.contains(product.id);
 
           return SizedBox(
             width: 160,
@@ -81,10 +74,10 @@ class ProductsList extends StatelessWidget {
               imageUrl: product.imageUrl,
               title: product.title,
               price: product.price,
-              isFavorite: isFavorite,
+              isFavorite: product.isFavorite,
               onFavoriteToggle: () async {
-                await onFavorite(product.id);
-                return true;
+                final success = await onFavorite(product.id);
+                return success;
               },
               onTap: () => navigateToProductDetails(context, product.id),
             ),

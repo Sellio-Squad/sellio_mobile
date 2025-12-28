@@ -172,8 +172,9 @@ class ThriftContent extends StatelessWidget {
                   price: product.price.toString(),
                   isFavorite: isFavorite,
                   onFavoriteToggle: () async {
-                    await context.read<FavoritesCubit>().toggleProductFavorite(productId);
-                    return true;
+                    // Pessimistic update: wait for API response before updating UI
+                    final success = await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+                    return success;
                   },
                   onTap: () {
                     GoRouter.of(context).push(

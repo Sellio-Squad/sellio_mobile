@@ -91,7 +91,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     _selectedTabIndex == 0
                         ? ProductsGridSection(
                             products: state.favoriteProducts ?? [],
-                            onToggleFavorite: (productId) => context
+                            onToggleFavorite: (productId) async => await context
                                 .read<FavoritesCubit>()
                                 .toggleProductFavorite(productId),
                           )

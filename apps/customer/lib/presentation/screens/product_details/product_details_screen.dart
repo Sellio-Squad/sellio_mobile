@@ -188,8 +188,9 @@ Widget productFavorite(BuildContext context, String productId) {
         productId: productId,
         isFavorite: isFavorite,
         onToggle: () async {
-          await context.read<FavoritesCubit>().toggleProductFavorite(productId);
-          return true;
+          // Pessimistic update: wait for API response before updating UI
+          final success = await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+          return success;
         },
         size: 24,
         showBackground: false,

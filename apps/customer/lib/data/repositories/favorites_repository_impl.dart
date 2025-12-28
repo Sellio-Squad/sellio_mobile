@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 
 import '../../core/error/result.dart';
@@ -36,7 +37,12 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
   @override
   Future<void> toggleProductFavorite(String productId) async {
-    await remoteDataSource.toggleProductFavorite(productId: productId);
+    debugPrint('toggleProductFavorite :: repo impl');
+    RepositoryCallHandler.call<void>(
+          () async {
+            await remoteDataSource.toggleProductFavorite(productId: productId);
+      },
+    );
   }
 
   @override
