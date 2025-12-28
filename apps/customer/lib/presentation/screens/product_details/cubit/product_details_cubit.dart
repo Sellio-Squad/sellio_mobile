@@ -76,10 +76,13 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final product = currentState.product;
     debugPrint('Adding product to cart: ${product.title}');
 
+    // Get product image, use empty string if no images available
+    final productImage = product.images.isNotEmpty ? product.images.first : '';
+
     _cartCubit.addToCart(
       productId: product.id,
       productName: product.title,
-      productImage: product.images.first,
+      productImage: productImage,
       price: product.price,
       currency: product.currency,
       quantity: 1,

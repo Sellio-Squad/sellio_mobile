@@ -47,10 +47,11 @@ class ProductDetailsScreen extends StatelessWidget {
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
                   final title = (state is ProductDetailsLoaded) ? state.product.title : null;
+                  final isFavorite = (state is ProductDetailsLoaded) ? state.product.isFavorite : false;
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
-                    actions: [productFavorite(context, productId)],
+                    actions: [productFavorite(context, productId,isFavorite)],
                   );
                 },
               ),
@@ -179,10 +180,10 @@ Widget _buildAddToCartButton(BuildContext context) {
   );
 }
 
-Widget productFavorite(BuildContext context, String productId) {
+Widget productFavorite(BuildContext context, String productId, bool isFavorite) {
   return BlocBuilder<FavoritesCubit, FavoritesState>(
     builder: (context, favoritesState) {
-      final isFavorite = favoritesState.productIds.contains(productId);
+      //final isFavorite = favoritesState.productIds.contains(productId);
 
       return FavoriteToggleButton(
         productId: productId,
