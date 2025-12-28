@@ -115,36 +115,64 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
+    required String defaultRegion,
   }) async {
     return RepositoryCallHandler.callVoid(() async {
-      await _remoteDataSource.sendForgotPasswordOtp(
+      final response = await _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
+        defaultRegion: defaultRegion,
+      );
+      
+      // Store sessionId for subsequent operations
+      await _storageService.save<String>(
+        StorageKeys.forgotPasswordSessionId,
+        response.sessionId,
       );
     });
   }
 
   @override
   Future<Result<void>> verifyForgotPasswordOtp({
-    required String phoneNumber,
     required String otp,
   }) async {
-    // This can be implemented based on your API
-    // Some APIs combine verify and reset in one call
-    return const Success(null);
+    return RepositoryCallHandler.callVoid(() async {
+      final sessionId = await _storageService.get<String>(
+        StorageKeys.forgotPasswordSessionId,
+      );
+
+      if (sessionId == null || sessionId.isEmpty) {
+        throw Exception('No forgot password session found');
+      }
+
+      await _remoteDataSource.verifyForgotPasswordOtp(
+        otp: otp,
+        sessionId: sessionId,
+      );
+    });
   }
 
   @override
   Future<Result<void>> resetPassword({
-    required String phoneNumber,
-    required String otp,
     required String newPassword,
+    required String confirmPassword,
   }) async {
     return RepositoryCallHandler.callVoid(() async {
-      await _remoteDataSource.resetPassword(
-        phoneNumber: phoneNumber,
-        otp: otp,
-        newPassword: newPassword,
+      final sessionId = await _storageService.get<String>(
+        StorageKeys.forgotPasswordSessionId,
       );
+
+      if (sessionId == null || sessionId.isEmpty) {
+        throw Exception('No forgot password session found');
+      }
+
+      await _remoteDataSource.resetPassword(
+        sessionId: sessionId,
+        newPassword: newPassword,
+        confirmPassword: confirmPassword,
+      );
+      
+      // Clear the session after successful reset
+      await _storageService.remove(StorageKeys.forgotPasswordSessionId);
     });
   }
 

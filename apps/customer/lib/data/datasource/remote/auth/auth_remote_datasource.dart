@@ -1,3 +1,4 @@
+import '../../../models/auth/forgot_password_otp_response.dart';
 import '../../../models/auth/login_response.dart';
 import '../../../models/auth/register_response.dart';
 import '../../../models/auth/resend_otp_response.dart';
@@ -29,14 +30,20 @@ abstract class AuthRemoteDataSource {
     required String sessionId,
   });
 
-  Future<void> sendForgotPasswordOtp({
+  Future<ForgotPasswordOtpResponse> sendForgotPasswordOtp({
     required String phoneNumber,
+    required String defaultRegion,
+  });
+
+  Future<void> verifyForgotPasswordOtp({
+    required String otp,
+    required String sessionId,
   });
 
   Future<void> resetPassword({
-    required String phoneNumber,
-    required String otp,
+    required String sessionId,
     required String newPassword,
+    required String confirmPassword,
   });
 
   Future<void> logout();

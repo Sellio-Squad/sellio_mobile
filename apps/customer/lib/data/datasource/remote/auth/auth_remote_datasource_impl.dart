@@ -1,15 +1,16 @@
 import '../../../core/api/api_client.dart';
 import '../../../core/api/api_endpoints.dart';
+import '../../../models/auth/forgot_password_otp_response.dart';
+import '../../../models/auth/forgot_password_request.dart';
 import '../../../models/auth/login_request.dart';
 import '../../../models/auth/login_response.dart';
 import '../../../models/auth/register_request.dart';
 import '../../../models/auth/register_response.dart';
 import '../../../models/auth/resend_otp_request.dart';
 import '../../../models/auth/resend_otp_response.dart';
+import '../../../models/auth/reset_password_request.dart';
 import '../../../models/auth/verify_otp_request.dart';
 import '../../../models/auth/verify_otp_response.dart';
-import '../../../models/auth/forgot_password_request.dart';
-import '../../../models/auth/reset_password_request.dart';
 import 'auth_remote_datasource.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -98,27 +99,49 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> sendForgotPasswordOtp({
+  Future<ForgotPasswordOtpResponse> sendForgotPasswordOtp({
     required String phoneNumber,
+    required String defaultRegion,
   }) async {
-    final request = ForgotPasswordRequest(phoneNumber: phoneNumber);
+    final request = ForgotPasswordRequest(
+      phoneNumber: phoneNumber,
+      defaultRegion: defaultRegion,
+    );
 
-    await _apiClient.post(
+    final response = await _apiClient.post(
       ApiEndpoints.forgotPassword,
       data: request.toJson(),
+    );
+    
+    return ForgotPasswordOtpResponse.fromJson(response.data);
+  }
+
+  @override
+  Future<void> verifyForgotPasswordOtp({
+    required String otp,
+    required String sessionId,
+  }) async {
+    final data = {
+      'otp': otp,
+      'sessionId': sessionId,
+    };
+
+    await _apiClient.post(
+      ApiEndpoints.verifyForgotPasswordOtp,
+      data: data,
     );
   }
 
   @override
   Future<void> resetPassword({
-    required String phoneNumber,
-    required String otp,
+    required String sessionId,
     required String newPassword,
+    required String confirmPassword,
   }) async {
     final request = ResetPasswordRequest(
-      phoneNumber: phoneNumber,
-      otp: otp,
+      sessionId: sessionId,
       newPassword: newPassword,
+      confirmPassword: confirmPassword,
     );
 
     await _apiClient.post(

@@ -25,17 +25,16 @@ abstract class AuthRepository {
 
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
+    required String defaultRegion,
   });
 
   Future<Result<void>> verifyForgotPasswordOtp({
-    required String phoneNumber,
     required String otp,
   });
 
   Future<Result<void>> resetPassword({
-    required String phoneNumber,
-    required String otp,
     required String newPassword,
+    required String confirmPassword,
   });
 
   Future<Result<void>> logout();
