@@ -59,46 +59,26 @@ class TrendingProductsSection extends StatelessWidget {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        return BlocConsumer<CartCubit, CartState>(
-          listener: (context, cartState) {
-            if (cartState is CartError) {
+        return BlocConsumer<FavoritesCubit, FavoritesState>(
+          listener: (context, favState) {
+            if (favState is FavoritesError) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(cartState.message),
+                  content: Text(favState.message),
                   backgroundColor: Colors.red,
                 ),
               );
             }
           },
-          builder: (context, cartState) {
-            return BlocConsumer<FavoritesCubit, FavoritesState>(
-              listener: (context, favState) {
-                if (favState is FavoritesError) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(favState.message),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              builder: (context, favState) {
-                return SliverToBoxAdapter(
-                  child: ProductsList(
-                    products: productsState.products,
-                    searchQuery: productsState.searchQuery,
-                    productCounts: cartState.productCounts,
-                    favoriteProductIds: favState.productIds,
-                    onIncrement: (productId) =>
-                        context.read<CartCubit>().addToCart,
-                    onDecrement: (productId) =>
-                        context.read<CartCubit>().decrementProduct(productId),
-                    onFavorite: (productId) => context
-                        .read<FavoritesCubit>()
-                        .toggleProductFavorite(productId),
-                  ),
-                );
-              },
+          builder: (context, favState) {
+            return SliverToBoxAdapter(
+              child: ProductsList(
+                products: productsState.products,
+                searchQuery: productsState.searchQuery,
+                onFavorite: (productId) async => await context
+                    .read<FavoritesCubit>()
+                    .toggleProductFavorite(productId),
+              ),
             );
           },
         );

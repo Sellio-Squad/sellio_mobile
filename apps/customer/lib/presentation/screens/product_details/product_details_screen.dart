@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
@@ -47,11 +46,12 @@ class ProductDetailsScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(56),
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
-                  final title = (state is ProductDetailsLoaded) ? state.product.name : null;
+                  final title = (state is ProductDetailsLoaded) ? state.product.title : null;
+                  final isFavorite = (state is ProductDetailsLoaded) ? state.product.isFavorite : false;
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
-                    actions: [productFavorite(context, productId)],
+                    actions: [productFavorite(context, productId,isFavorite)],
                   );
                 },
               ),
@@ -127,7 +127,7 @@ Widget _buildPriceAndCounterRow(
       return Row(
         children: [
           productPriceSection(context, state),
-          const Expanded(child: Spacer()),
+          const Spacer(),
           productCounterSection(context, productId, count),
         ],
       );
@@ -180,18 +180,21 @@ Widget _buildAddToCartButton(BuildContext context) {
   );
 }
 
-Widget productFavorite(BuildContext context, String productId) {
+Widget productFavorite(BuildContext context, String productId, bool isFavorite) {
   return BlocBuilder<FavoritesCubit, FavoritesState>(
     builder: (context, favoritesState) {
-      final isFavorite = favoritesState.productIds.contains(productId);
+      //final isFavorite = favoritesState.productIds.contains(productId);
 
-      return IconButton(
-        icon: SvgPicture.asset(
-          isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
-        ),
-        onPressed: () async {
-          await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+      return FavoriteToggleButton(
+        productId: productId,
+        isFavorite: isFavorite,
+        onToggle: () async {
+          // Pessimistic update: wait for API response before updating UI
+          final success = await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+          return success;
         },
+        size: 24,
+        showBackground: false,
       );
     },
   );

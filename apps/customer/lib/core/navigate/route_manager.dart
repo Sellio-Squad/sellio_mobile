@@ -18,6 +18,7 @@ import 'package:sellio_mobile/presentation/screens/store_details/about_store/abo
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
 import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/account/myFav/myFavorites.dart';
+import '../../presentation/screens/more_trending/more_trending_screen.dart';
 import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
 import 'app_routes.dart';
@@ -272,6 +273,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const FavoritesScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.moreTrending.name,
+        path: AppRoutes.moreTrending.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const MoreTrendingScreen(),
           );
         },
       ),
