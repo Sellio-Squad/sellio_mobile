@@ -8,6 +8,7 @@ export 'themes/sellio_theme_provider.dart';
 export 'themes/sellio_typography.dart';
 export 'widgets/auth_background_wrapper.dart';
 export 'widgets/buttons/animated_loading_dots.dart';
+export 'widgets/buttons/favorite_toggle_button.dart';
 export 'widgets/buttons/sellio_button.dart';
 export 'widgets/buttons/sellio_switch.dart';
 export 'widgets/cards/sellio_otp_card.dart';

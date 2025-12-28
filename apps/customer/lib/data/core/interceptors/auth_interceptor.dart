@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:sellio_mobile/data/core/api/api_endpoints.dart';
 import '../storage/storage_keys.dart';
 import '../storage/storage_service.dart';
@@ -20,7 +21,6 @@ class AuthInterceptor extends Interceptor {
   ) async {
     try {
       final token = await _storageService.get<String>(StorageKeys.authToken);
-
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }
@@ -73,6 +73,7 @@ class AuthInterceptor extends Interceptor {
       if (response.statusCode == 200) {
         final newAccessToken = response.data['accessToken'] as String;
         final newRefreshToken = response.data['refreshToken'] as String?;
+        debugPrint("newAccessToken newAccessToken");
 
         await _storageService.save<String>(
             StorageKeys.authToken, newAccessToken);

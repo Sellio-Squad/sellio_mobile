@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 
 Widget productCounterSection(
     BuildContext context, String productId, int count) {
@@ -44,7 +44,15 @@ Widget productCounterSection(
         ),
       ),
       GestureDetector(
-        onTap: () => context.read<CartCubit>().incrementProduct(productId),
+        onTap: () {
+          // If product not in cart (count is 0), add it to cart
+          // Otherwise, increment the quantity
+          if (count == 0) {
+            context.read<ProductDetailsCubit>().addToCart();
+          } else {
+            context.read<CartCubit>().incrementProduct(productId);
+          }
+        },
         child: Container(
           width: 28,
           height: 28,

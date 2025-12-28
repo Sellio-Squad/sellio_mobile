@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
@@ -8,20 +9,12 @@ import '../models/trending_product_ui_model.dart';
 class ProductsList extends StatelessWidget {
   final List<TrendingProductUIModel> products;
   final String? searchQuery;
-  final Map<String, int> productCounts;
-  final Set<String> favoriteProductIds;
-  final Function(String) onIncrement;
-  final Function(String) onDecrement;
-  final Function(String) onFavorite;
+  final Future<bool> Function(String) onFavorite;
 
   const ProductsList({
     super.key,
     required this.products,
     this.searchQuery,
-    required this.productCounts,
-    required this.favoriteProductIds,
-    required this.onIncrement,
-    required this.onDecrement,
     required this.onFavorite,
   });
 
@@ -32,14 +25,17 @@ class ProductsList extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: SectionHeader(
-            title: searchQuery == null
-                ? context.local.trending_products
-                : context.local.search_results,
-            trailing: SvgPicture.asset(
-              AppImages.arrowRight,
-              width: 20,
-              height: 20,
+          child: GestureDetector(
+            onTap: () => _navigateToMoreTrending(context),
+            child: SectionHeader(
+              title: searchQuery == null
+                  ? context.local.trending_products
+                  : context.local.search_results,
+              trailing: SvgPicture.asset(
+                AppImages.arrowRight,
+                width: 20,
+                height: 20,
+              ),
             ),
           ),
         ),
@@ -48,6 +44,13 @@ class ProductsList extends StatelessWidget {
             : _buildProductsList(),
       ],
     );
+  }
+
+  void _navigateToMoreTrending(BuildContext context) {
+    // Only navigate for trending products, not search results
+    if (searchQuery == null) {
+      context.push('/moreTrending');
+    }
   }
 
   Widget _buildEmptyState(BuildContext context) {
@@ -74,20 +77,19 @@ class ProductsList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final product = products[index];
-          final count = productCounts[product.id] ?? 0;
-          final isFavorite = favoriteProductIds.contains(product.id);
 
           return SizedBox(
             width: 160,
             child: SellioProductVerticalCard(
+              productId: product.id,
               imageUrl: product.imageUrl,
               title: product.title,
               price: product.price,
-              count: count,
-              isFavorite: isFavorite,
-              onIncrement: () => onIncrement(product.id),
-              onDecrement: () => onDecrement(product.id),
-              onFavorite: () => onFavorite(product.id),
+              isFavorite: product.isFavorite,
+              onFavoriteToggle: () async {
+                final success = await onFavorite(product.id);
+                return success;
+              },
               onTap: () => navigateToProductDetails(context, product.id),
             ),
           );

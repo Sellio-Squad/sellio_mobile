@@ -7,6 +7,7 @@ class TrendingProductUIModel {
   final String price;
   final bool hasDiscount;
   final String? discountText;
+  final bool isFavorite;
 
   const TrendingProductUIModel({
     required this.id,
@@ -15,6 +16,7 @@ class TrendingProductUIModel {
     required this.price,
     this.hasDiscount = false,
     this.discountText,
+    required this.isFavorite,
   });
 
   factory TrendingProductUIModel.fromEntity(Product product) {
@@ -23,10 +25,11 @@ class TrendingProductUIModel {
       imageUrl: product.images.isNotEmpty
           ? product.images.first
           : 'assets/images/product_3.webp',
-      title: product.name,
+      title: product.title,
       price: product.price.toString(),
       hasDiscount: product.discount != null,
       discountText: product.discount,
+      isFavorite: product.isFavorite,
     );
   }
 

@@ -11,7 +11,7 @@ import 'empty_favorites_state.dart';
 
 class ProductsGridSection extends StatelessWidget {
   final List<Product> products;
-  final void Function(String) onToggleFavorite;
+  final Future<bool> Function(String) onToggleFavorite;
 
   const ProductsGridSection({
     super.key,
@@ -77,39 +77,20 @@ class ProductsGridSection extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final product = products[index];
-                    final cartCubit = context.read<CartCubit>();
-
-                    // Get count from cart state
-                    final count = cartState.productCounts[product.id] ?? 0;
 
                     return SellioProductVerticalCard(
+                      productId: product.id,
                       imageUrl:
                           product.images.isNotEmpty ? product.images.first : '',
-                      title: product.name,
+                      title: product.title,
                       price:
                           '${product.currency}${product.price.toStringAsFixed(2)}',
                       isFavorite: true,
-                      count: count,
-                      onIncrement: () {
-                        if (count == 0) {
-                          // Add to cart if not in cart
-                          cartCubit.addToCart(
-                              productId: product.id,
-                              productName: product.name,
-                              productImage: product.images[0],
-                              price: product.price,
-                              currency: product.currency);
-                        } else {
-                          // Increment if already in cart
-                          cartCubit.incrementProduct(product.id);
-                        }
+                      onFavoriteToggle: () async {
+                        // Pessimistic update: wait for API response before updating UI
+                        final success = await onToggleFavorite(product.id);
+                        return success;
                       },
-                      onDecrement: () {
-                        if (count > 0) {
-                          cartCubit.decrementProduct(product.id);
-                        }
-                      },
-                      onFavorite: () => onToggleFavorite(product.id),
                       onTap: () {
                         // Navigate to product details
                         // Example: context.push('/product/${product.id}');

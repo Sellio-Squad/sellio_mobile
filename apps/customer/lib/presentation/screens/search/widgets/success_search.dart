@@ -74,14 +74,12 @@ class GridProductsSection extends StatelessWidget {
         final product = products[index];
 
         return SellioProductVerticalCard(
+          productId: product.id,
           imageUrl: product.images.isNotEmpty ? product.images.first : 'assets/images/product_3.webp',
-          title: product.name,
+          title: product.title,
           price: "${product.currency}${product.price}",
-          count: 0,
           isFavorite: false,
-          onIncrement: () {},
-          onDecrement: () {},
-          onFavorite: () {},
+          onFavoriteToggle: null,
         );
       },
     );

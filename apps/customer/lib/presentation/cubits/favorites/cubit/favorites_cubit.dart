@@ -53,63 +53,92 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     }
   }
 
-  Future<void> toggleProductFavorite(String productId) async {
-    if (state is! FavoritesLoaded) return;
-
-    final currentState = state as FavoritesLoaded;
-    final isFavorite = currentState.productIds.contains(productId);
-
-    final updatedIds = Set<String>.from(currentState.productIds);
-    if (isFavorite) {
-      updatedIds.remove(productId);
-    } else {
-      updatedIds.add(productId);
-    }
-
-    emit(currentState.copyWith(productIds: updatedIds));
+  Future<bool> toggleProductFavorite(String productId) async {
+    emit(const FavoritesLoading());
 
     try {
       await _favoritesRepository.toggleProductFavorite(productId);
+      debugPrint('Succeded to toggle product favorite:}');
+      emit(FavoritesLoaded(productIds:Set(),storeIds: Set()));
+
+      return true;
     } catch (e) {
-      // Revert on error
-      emit(currentState);
+
+      debugPrint('Failed to toggle product favorite: ${e.toString()}');
       emit(FavoritesError(
-        message: 'Failed to update product favorite: ${e.toString()}',
-        productIds: currentState.productIds,
-        storeIds: currentState.storeIds,
+        message: 'Failed to update favorite: ${e.toString()}',
+        productIds: Set(),
+        storeIds:Set(),
+        favoriteProducts:[],
+        favoriteStores:[],
+        loadingProductIds: Set(),
+        loadingStoreIds: Set(),
       ));
-      // Restore state after showing error
-      emit(currentState);
+      return false;
     }
   }
 
-  Future<void> toggleStoreFavorite(String storeId) async {
-    if (state is! FavoritesLoaded) return;
+  Future<bool> toggleStoreFavorite(String storeId) async {
+    if (state is! FavoritesLoaded) return false;
 
     final currentState = state as FavoritesLoaded;
-    final isFavorite = currentState.storeIds.contains(storeId);
-
-    final updatedIds = Set<String>.from(currentState.storeIds);
-    if (isFavorite) {
-      updatedIds.remove(storeId);
-    } else {
-      updatedIds.add(storeId);
+    
+    // Prevent duplicate requests for the same store
+    if (currentState.loadingStoreIds.contains(storeId)) {
+      debugPrint('Toggle already in progress for store: $storeId');
+      return false;
     }
 
-    emit(currentState.copyWith(storeIds: updatedIds));
+    // Step 1: Add to loading set (show loader in UI)
+    final loadingIds = Set<String>.from(currentState.loadingStoreIds)..add(storeId);
+    emit(currentState.copyWith(loadingStoreIds: loadingIds));
 
     try {
+      // Step 2: Make API call and wait for response
       await _favoritesRepository.toggleStoreFavorite(storeId);
+      
+      // Step 3: On success, toggle the favorite state
+      final isFavorite = currentState.storeIds.contains(storeId);
+      final updatedIds = Set<String>.from(currentState.storeIds);
+      
+      if (isFavorite) {
+        updatedIds.remove(storeId);
+        debugPrint('Store $storeId removed from favorites');
+      } else {
+        updatedIds.add(storeId);
+        debugPrint('Store $storeId added to favorites');
+      }
+
+      // Remove from loading and update storeIds
+      final finalLoadingIds = Set<String>.from(loadingIds)..remove(storeId);
+      emit(currentState.copyWith(
+        storeIds: updatedIds,
+        loadingStoreIds: finalLoadingIds,
+      ));
+
+      return true;
     } catch (e) {
-      // Revert on error
-      emit(currentState);
+      // Step 4: On error, remove from loading but keep original state
+      debugPrint('Failed to toggle store favorite: ${e.toString()}');
+      
+      final finalLoadingIds = Set<String>.from(loadingIds)..remove(storeId);
+      emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
+      
+      // Emit error state briefly
       emit(FavoritesError(
-        message: 'Failed to update store favorite: ${e.toString()}',
+        message: 'Failed to update favorite: ${e.toString()}',
         productIds: currentState.productIds,
         storeIds: currentState.storeIds,
+        favoriteProducts: currentState.favoriteProducts,
+        favoriteStores: currentState.favoriteStores,
+        loadingProductIds: currentState.loadingProductIds,
+        loadingStoreIds: finalLoadingIds,
       ));
-      // Restore state after showing error
-      emit(currentState);
+      
+      // Restore to loaded state
+      emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
+      
+      return false;
     }
   }
 
@@ -119,6 +148,14 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   bool isStoreFavorite(String storeId) {
     return state.storeIds.contains(storeId);
+  }
+
+  bool isProductLoading(String productId) {
+    return state.loadingProductIds.contains(productId);
+  }
+
+  bool isStoreLoading(String storeId) {
+    return state.loadingStoreIds.contains(storeId);
   }
 
   List<Product> get favoriteProductsList => state.favoriteProducts ?? [];

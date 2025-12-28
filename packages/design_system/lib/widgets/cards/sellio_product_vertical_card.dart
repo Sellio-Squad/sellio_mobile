@@ -1,18 +1,15 @@
-import 'dart:ui';
 import 'package:design_system/constants/app_images.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import '../../themes/sellio_theme.dart';
+import '../buttons/favorite_toggle_button.dart';
 import '../utils/widgets_utils.dart';
 
-class SellioProductVerticalCard extends StatefulWidget {
+class SellioProductVerticalCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String price;
-  final int count;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
-  final VoidCallback? onFavorite;
+  final String productId;
+  final Future<bool> Function()? onFavoriteToggle;
   final bool isFavorite;
   final VoidCallback? onTap;
 
@@ -21,34 +18,11 @@ class SellioProductVerticalCard extends StatefulWidget {
     required this.imageUrl,
     required this.title,
     required this.price,
-    this.count = 0,
-    required this.onIncrement,
-    required this.onDecrement,
-    this.onFavorite,
+    required this.productId,
+    this.onFavoriteToggle,
     this.isFavorite = false,
     this.onTap,
   });
-
-  @override
-  State<SellioProductVerticalCard> createState() =>
-      _SellioProductVerticalCardState();
-}
-
-class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
-  late bool _isFavorite;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFavorite = widget.isFavorite;
-  }
-
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-    widget.onFavorite?.call();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +35,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: widget.onTap,
+        onTap: onTap,
         child: SizedBox(
           width: 160,
           height: 272,
@@ -75,43 +49,16 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                     padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
                     child: _buildImage(colors),
                   ),
-                  if (widget.onFavorite != null)
+                  if (onFavoriteToggle != null)
                     Positioned(
                       top: 8,
                       right: 8,
-                      child: ClipOval(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              color: Color(0x99FFFFFF),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Material(
-                              type: MaterialType.transparency,
-                              child: InkWell(
-                                customBorder: const CircleBorder(),
-                                onTap: _toggleFavorite,
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    _isFavorite
-                                        ? AppImages.favorite
-                                        : AppImages.unselectedFavorite,
-                                    colorFilter: ColorFilter.mode(
-                                      colors.primary,
-                                      BlendMode.srcIn,
-                                    ),
-                                    width: 20,
-                                    height: 20,
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      child: FavoriteToggleButton(
+                        productId: productId,
+                        isFavorite: isFavorite,
+                        onToggle: onFavoriteToggle!,
+                        size: 32,
+                        showBackground: true,
                       ),
                     ),
                 ],
@@ -123,7 +70,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   width: double.infinity,
                   height: 44,
                   child: Text(
-                    widget.title,
+                    title,
                     style: textTheme.labelMedium.copyWith(color: colors.title),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -137,21 +84,13 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   width: double.infinity,
                   height: 23,
                   child: Text(
-                    "\$${formatPrice(widget.price)}",
+                    "\$${formatPrice(price)}",
                     style: textTheme.titleSmall.copyWith(color: colors.primary),
                     maxLines: 1,
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(4),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: widget.count == 0
-                      ? _buildSingleAddButton(context)
-                      : _buildCounter(context),
-                ),
-              ),
+              const SizedBox(height: 4),
             ],
           ),
         ),
@@ -165,7 +104,7 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.network(
-          widget.imageUrl,
+          imageUrl,
           fit: BoxFit.cover,
           loadingBuilder: (context, child, progress) {
             return progress == null
@@ -183,115 +122,6 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               fit: BoxFit.cover,
             );
           },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSingleAddButton(BuildContext context) {
-    final colors = SellioTheme.of(context).colors;
-    return Container(
-      width: double.infinity,
-      height: 32,
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: widget.onIncrement,
-          child: SvgPicture.asset(
-            AppImages.add,
-            colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
-            width: 16,
-            height: 16,
-            fit: BoxFit.scaleDown,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCounter(BuildContext context) {
-    final theme = SellioTheme.of(context);
-    final colors = theme.colors;
-    final textTheme = theme.typography.textTheme;
-
-    return Container(
-      width: double.infinity,
-      height: 32,
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              color: colors.surface,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: Material(
-              type: MaterialType.transparency,
-              child: InkWell(
-                onTap: widget.onDecrement,
-                child: SvgPicture.asset(
-                  AppImages.remove,
-                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            ),
-          ),
-          Text(
-            widget.count.toString().padLeft(2, '0'),
-            style: textTheme.labelSmall.copyWith(color: colors.title),
-          ),
-          _buildCounterButton(
-            onTap: widget.onIncrement,
-            icon: AppImages.add,
-            background: colors.primaryVariant,
-            iconColor: colors.primary,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCounterButton({
-    required VoidCallback onTap,
-    required String icon,
-    required Color background,
-    required Color iconColor,
-  }) {
-    return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(4),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: onTap,
-          child: SvgPicture.asset(
-            icon,
-            colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            width: 16,
-            height: 16,
-            fit: BoxFit.scaleDown,
-          ),
         ),
       ),
     );
