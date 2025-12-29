@@ -36,9 +36,7 @@ class SellioChip extends StatelessWidget {
         onTap: onTap,
         customBorder: shape,
         child: Container(
-          padding: assetIcon == null
-              ? const EdgeInsets.fromLTRB(16, 11, 16, 11)
-              : const EdgeInsets.fromLTRB(4, 5, 16, 5),
+          padding: const EdgeInsetsDirectional.only(start: 4, end: 8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

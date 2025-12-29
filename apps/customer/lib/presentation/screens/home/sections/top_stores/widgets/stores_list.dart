@@ -29,7 +29,7 @@ class StoresList extends StatelessWidget {
           onTap: () {
 
           },
-          trailing: SvgPicture.asset(AppImages.arrowRight, width: 20, height: 20),
+          trailing: SvgPicture.asset(AppImages.arrowRight, width: 20, height: 20, matchTextDirection: true),
         ),
         ListView.builder(
           shrinkWrap: true,

@@ -54,9 +54,9 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     if (showBackButton) {
             return Padding(
-        padding: const EdgeInsets.only(left: _leadingPadding),
+        padding: const EdgeInsetsDirectional.only(start: _leadingPadding),
         child: IconButton(
-          icon: SvgPicture.asset(AppImages.arrowLeft),
+          icon: SvgPicture.asset(AppImages.arrowLeft, matchTextDirection: true),
           onPressed: (){
             Navigator.of(context).pop();
           },
