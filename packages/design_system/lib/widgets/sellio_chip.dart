@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../themes/sellio_theme_provider.dart';
 
 class SellioChip extends StatelessWidget {
@@ -37,8 +38,8 @@ class SellioChip extends StatelessWidget {
         customBorder: shape,
         child: Container(
           padding: assetIcon == null
-              ? const EdgeInsets.fromLTRB(16, 11, 16, 11)
-              : const EdgeInsets.fromLTRB(4, 5, 16, 5),
+              ? const EdgeInsetsDirectional.fromSTEB(16, 11, 16, 11)
+              : const EdgeInsetsDirectional.fromSTEB(4, 5, 16, 5),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/presentation/screens/main/sellio_bottom_nav_bar.dart';
 
-import 'package:design_system/design_system.dart';
 import '../account/account_screen.dart';
 import '../cart/cart_screen.dart';
 import '../customize_product/customize_your_product_screen.dart';

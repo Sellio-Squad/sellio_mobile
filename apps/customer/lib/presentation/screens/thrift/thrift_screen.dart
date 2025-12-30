@@ -1,18 +1,18 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../domain/repositories/product_repository.dart';
+
 import '../../../../domain/repositories/category_repository.dart';
-import 'package:design_system/design_system.dart';
+import '../../../../domain/repositories/product_repository.dart';
 import '../../../core/navigate/app_routes.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
-import '../home/sections/categories/widgets/category_tabs.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
+import 'widgets/category_tabs.dart';
 
 class ThriftScreen extends StatefulWidget {
   const ThriftScreen({super.key});
