@@ -232,14 +232,14 @@ class _AccountScreenState extends State<AccountScreen> {
             prefixIcon: AppImages.repair,
             orderTitle: context.local.account_settings,
             onCardClicked: () => _showAccountSettingsBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom),
+            trailing: SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
           ),
           const SizedBox(height: 12),
           AccountOptionCard(
             prefixIcon: AppImages.circleLockAdd,
             orderTitle: context.local.reset_password,
             onCardClicked: () => _showResetPasswordBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom),
+            trailing: SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
           ),
           const SizedBox(height: 12),
           BlocBuilder<LocaleCubit, LocaleState>(
@@ -258,7 +258,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: themeText.labelSmall.copyWith(color: colors.body),
                     ),
                     const SizedBox(width: 8),
-                    SvgPicture.asset(AppImages.arrowRightCustom),
+                    SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
                   ],
                 ),
               );
@@ -484,7 +484,7 @@ class AccountCustomCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 12),
+          padding: const EdgeInsetsDirectional.only(start: 12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

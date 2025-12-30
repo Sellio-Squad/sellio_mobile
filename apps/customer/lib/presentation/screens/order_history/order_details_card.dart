@@ -38,7 +38,6 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
     String statusText;
 
     switch (order.status) {
-      case OrderStatus.pending:
       case OrderStatus.processing:
         bgColor = context.theme.colors.secondaryVariant;
         textColor = context.theme.colors.secondary;

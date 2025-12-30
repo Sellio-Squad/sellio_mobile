@@ -35,6 +35,7 @@ class OrderHistoryTabs extends StatelessWidget {
                       onTap: () {
                         context.read<OrderHistoryCubit>().selectTab(index);
                       },
+                      padding: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10, bottom: 10),
                     ),
                   );
                 },
