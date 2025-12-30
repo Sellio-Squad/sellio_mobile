@@ -27,7 +27,7 @@ class OrderHistoryLoaded extends OrderHistoryState {
     required this.selectedTabIndex,
     required this.hasAnyOrders,
     List<String>? tabs,
-  }) : tabs = tabs ?? ['All', 'Processing', 'Completed', 'Cancelled'];
+  }) : tabs = tabs ?? ['All Orders', 'Processing', 'Completed', 'Cancelled'];
 
 
   OrderHistoryLoaded copyWith({
