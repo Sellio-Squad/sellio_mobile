@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 enum OrderStatus {
-  pending,
   processing,
   completed,
   cancelled;

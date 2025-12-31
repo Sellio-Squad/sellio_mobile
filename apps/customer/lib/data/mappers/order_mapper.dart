@@ -28,8 +28,6 @@ extension OrderItemModelMapper on OrderItemModel {
 
 OrderStatus _mapStatus(String value) {
   switch (value) {
-    case 'PENDING':
-      return OrderStatus.pending;
     case 'IN_PROGRESS':
       return OrderStatus.processing;
     case 'COMPLETED':
@@ -37,6 +35,6 @@ OrderStatus _mapStatus(String value) {
     case 'CANCELLED':
       return OrderStatus.cancelled;
     default:
-      return OrderStatus.pending;
+      return OrderStatus.processing;
   }
 }
