@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
+
 import 'home_bloc_providers.dart';
-import 'home_listeners.dart';
-import 'sections/categories/categories_section.dart';
 import 'sections/search/search_section.dart';
 import 'sections/special_offers/special_offers_section.dart';
 import 'sections/top_stores/top_stores_section.dart';
@@ -29,21 +28,20 @@ class _HomeScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = SellioTheme.of(context).colors;
 
-    return HomeListeners(
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          appBar: HomeAppBar(
-            onNotificationTap: () => navigateToNotifications(context),
-          ),
-          extendBodyBehindAppBar: true,
-          backgroundColor: colors.surfaceLow,
-          body: _HomeBody(colors: colors),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: HomeAppBar(
+          onNotificationTap: () => navigateToNotifications(context),
         ),
+        extendBodyBehindAppBar: true,
+        backgroundColor: colors.surfaceLow,
+        body: _HomeBody(colors: colors),
       ),
     );
   }
 }
+
 class _HomeBody extends StatelessWidget {
   final dynamic colors;
 
@@ -69,7 +67,6 @@ class _HomeBody extends StatelessWidget {
   List<Widget> _buildSections() {
     return const [
       SearchSection(),
-      CategoriesSection(),
       SpecialOffersSection(),
       TrendingProductsSection(),
       TopStoresSection(),

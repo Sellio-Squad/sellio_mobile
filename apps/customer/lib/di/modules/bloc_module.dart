@@ -4,7 +4,6 @@ import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.d
 import '../../../presentation/cubits/cart/cubit/cart_cubit.dart';
 import '../../../presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../presentation/cubits/user/cubit/user_cubit.dart';
-import '../../../presentation/screens/home/sections/categories/cubit/home_categories_cubit.dart';
 import '../../../presentation/screens/home/sections/special_offers/cubit/home_special_offers_cubit.dart';
 import '../../../presentation/screens/home/sections/top_stores/cubit/home_top_stores_cubit.dart';
 import '../../../presentation/screens/home/sections/trending_products/cubit/home_trending_products_cubit.dart';
@@ -21,7 +20,6 @@ class BlocModule {
     sl.registerFactory(() => FavoritesCubit(sl()));
     sl.registerFactory(() => UserCubit(sl()));
     sl.registerFactory(() => OrderHistoryCubit(sl()));
-    sl.registerFactory(() => HomeCategoriesCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl(), sl()));
     sl.registerFactory(() => HomeTopStoresCubit(sl()));
     sl.registerFactory(() => HomeSpecialOffersCubit(sl()));

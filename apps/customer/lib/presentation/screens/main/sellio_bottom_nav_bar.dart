@@ -1,7 +1,9 @@
+import 'package:design_system/constants/app_images.dart';
+import 'package:design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../themes/sellio_theme_provider.dart';
-import '../constants/app_images.dart';
+
+import '../../../core/localization/l10n/localization_service.dart';
 
 class SellioBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -72,16 +74,14 @@ class _NavigationItems extends StatelessWidget {
           _NavBarItem(
             iconPath: AppImages.home,
             selectedIconPath: AppImages.homeSelected,
-            label: "home",
-            //label: context.local.home,
+            label: context.local.home,
             isSelected: currentIndex == 0,
             onTap: () => onTap(0),
           ),
           _NavBarItem(
             iconPath: AppImages.cart,
             selectedIconPath: AppImages.cartSelected,
-            label: "cart",
-            //label: context.local.cart,
+            label: context.local.cart,
             isSelected: currentIndex == 1,
             onTap: () => onTap(1),
           ),
@@ -89,16 +89,14 @@ class _NavigationItems extends StatelessWidget {
           _NavBarItem(
             iconPath: AppImages.thrift,
             selectedIconPath: AppImages.thriftSelected,
-            label: "thrift",
-            // label: context.local.thrift,
+            label: context.local.thrift,
             isSelected: currentIndex == 3,
             onTap: () => onTap(3),
           ),
           _NavBarItem(
             iconPath: AppImages.account,
             selectedIconPath: AppImages.accountSelected,
-            label: "account",
-            // label: context.local.account,
+            label: context.local.account,
             isSelected: currentIndex == 4,
             onTap: () => onTap(4),
           ),
