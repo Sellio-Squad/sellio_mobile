@@ -1,4 +1,4 @@
-class ApiException implements Exception {
+abstract class ApiException implements Exception {
   final String message;
   final int statusCode;
   final String? code;
@@ -16,20 +16,21 @@ class ApiException implements Exception {
       'ApiException(message: $message, code: $code, status: $statusCode)';
 }
 
+class UnknownApiException extends ApiException {
+  UnknownApiException({
+    required super.message,
+    required super.statusCode,
+    super.code,
+    super.data,
+  });
+}
+
+
 class NetworkException extends ApiException {
   NetworkException({
     required super.message,
     required super.statusCode,
     super.code,
-  });
-}
-
-class ServerException extends ApiException {
-  ServerException({
-    required super.message,
-    required super.statusCode,
-    super.code,
-    super.data,
   });
 }
 
@@ -71,5 +72,14 @@ class ConflictException extends ApiException {
     required super.message,
     required super.statusCode,
     super.code,
+  });
+}
+
+class ServerException extends ApiException {
+  ServerException({
+    required super.message,
+    required super.statusCode,
+    super.code,
+    super.data,
   });
 }

@@ -23,7 +23,7 @@ class OrderRepositoryImpl implements OrderRepository {
     required List<OrderItem> items
   }) async {
     return RepositoryCallHandler.callVoid(() async {
-       _remoteDataSource.createOrder(
+      await _remoteDataSource.createOrder(
         items: items
             .map((item) => OrderCreateItemModel(
           productItemId: item.id,
@@ -33,6 +33,7 @@ class OrderRepositoryImpl implements OrderRepository {
       );
     });
   }
+
 
   @override
   Future<Result<List<Order>>> getOrders({

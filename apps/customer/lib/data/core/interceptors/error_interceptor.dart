@@ -4,18 +4,19 @@ import '../exceptions/api_exception.dart';
 class ErrorInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final exception = _handleError(err);
+    final exception = _mapError(err);
+
     handler.reject(
       DioException(
         requestOptions: err.requestOptions,
-        error: exception,
         response: err.response,
         type: err.type,
+        error: exception
       ),
     );
   }
 
-  ApiException _handleError(DioException error) {
+  ApiException _mapError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -25,31 +26,31 @@ class ErrorInterceptor extends Interceptor {
           statusCode: 408,
         );
 
-      case DioExceptionType.badResponse:
-        return _handleResponseError(error.response);
-
-      case DioExceptionType.cancel:
-        return ApiException(
-          message: 'Request cancelled',
-          statusCode: 0,
-        );
-
       case DioExceptionType.connectionError:
         return NetworkException(
           message: 'No internet connection',
           statusCode: 0,
         );
 
+      case DioExceptionType.badResponse:
+        return _mapResponseError(error.response);
+
+      case DioExceptionType.cancel:
+        return UnknownApiException(
+          message: 'Request cancelled',
+          statusCode: 0,
+        );
+
       case DioExceptionType.unknown:
       default:
-        return ApiException(
-          message: 'An unexpected error occurred',
+        return UnknownApiException(
+          message: 'Unexpected error occurred',
           statusCode: 0,
         );
     }
   }
 
-  ApiException _handleResponseError(Response? response) {
+  ApiException _mapResponseError(Response? response) {
     final statusCode = response?.statusCode ?? 0;
     final data = response?.data;
 
@@ -67,6 +68,7 @@ class ErrorInterceptor extends Interceptor {
           message: message,
           statusCode: statusCode,
           code: code,
+          data: data,
         );
       case 401:
         return UnauthorizedException(
@@ -99,12 +101,14 @@ class ErrorInterceptor extends Interceptor {
           message: message,
           statusCode: statusCode,
           code: code,
+          data: data,
         );
       default:
-        return ApiException(
+        return UnknownApiException(
           message: message,
           statusCode: statusCode,
           code: code,
+          data: data,
         );
     }
   }
