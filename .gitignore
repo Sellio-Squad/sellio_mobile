@@ -26,6 +26,7 @@ packages/**/pubspec.lock
 **/*.log
 **/*.pyc
 **/migrate_working_dir/
+**/google-services.json
 
 # ------------------------------------------------------------
 # Global Flutter/Dart Build Artifacts (Recursive)
