@@ -102,7 +102,7 @@ jobs:
 
       - name: Notify Discord (Release Success)
         run: |
-          MESSAGE="✅ Firebase Release successful!\nCommit: \`${{ github.sha }}\`\nBranch: **${{ github.base_ref || github.ref_name }}**"
+          MESSAGE="✅ Firebase Release successful!\nAuthor: \`${{ github.actor }}\`\nBranch: **${{ github.base_ref || github.ref_name }}**"
           curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"$MESSAGE\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
