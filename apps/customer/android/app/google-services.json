@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "923830702888",
+    "project_id": "sellio-app-customer",
+    "storage_bucket": "sellio-app-customer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923830702888:android:1e02412ad50a9ee37bb61d",
+        "android_client_info": {
+          "package_name": "shanghai.sellio.sellio_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ttbGPrA-vMpe_BqHI-MMLfEcVMIjt9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
