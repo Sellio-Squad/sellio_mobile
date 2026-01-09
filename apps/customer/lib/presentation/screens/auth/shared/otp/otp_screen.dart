@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../core/utils/snackbar_helper.dart';
+import '../constants/auth_constants.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';
 import 'widgets/otp_resend_section.dart';
@@ -24,7 +25,7 @@ class OtpScreen extends StatelessWidget {
     required this.onVerifySuccess,
     required this.onVerify,
     required this.onResend,
-    this.otpLength = 4,
+    this.otpLength = AuthConstants.otpLength,
   });
 
   @override

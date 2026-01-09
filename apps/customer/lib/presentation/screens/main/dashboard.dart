@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/presentation/screens/main/sellio_bottom_nav_bar.dart';
 
 class Dashboard extends StatefulWidget {
   final int screenIndex;
