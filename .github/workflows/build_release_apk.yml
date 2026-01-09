@@ -78,6 +78,7 @@ jobs:
           mkdir -p apps/customer/android/app
           echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
   
+  
 
       - name: Build Customer App Release APK
         run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
