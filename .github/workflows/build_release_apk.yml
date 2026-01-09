@@ -33,7 +33,8 @@ jobs:
 
       - name: Notify Discord (Start Release)
         run: |
-          MESSAGE="🛠️ Release build is starting" \
+          MESSAGE="🛠️ Release build is starting"
+          curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"$MESSAGE\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
