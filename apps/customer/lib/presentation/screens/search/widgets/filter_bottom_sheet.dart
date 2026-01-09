@@ -36,6 +36,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _selectedFilter = 'all';
                   });
                 }, selected: _selectedFilter == 'all',
+                padding: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10, bottom: 10),
               ),
               Gap(8),
               SellioChip(
@@ -44,10 +45,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 onTap: (){
                   setState(() {
                     _selectedFilter = 'near_by_you';
-
                   });
                 },
-
+                padding: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10, bottom: 10),
               ),
               Gap(8),
               SellioChip(
@@ -58,7 +58,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     _selectedFilter = 'high_rating';
                   });
                 },
-
+                padding: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10, bottom: 10),
               ),
             ],
           ),

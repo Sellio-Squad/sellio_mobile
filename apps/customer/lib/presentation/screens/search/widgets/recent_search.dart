@@ -57,6 +57,7 @@ class RecentSearchSection extends StatelessWidget {
                   searchController.text = text;
                   cubit.selectRecent(text);
                 },
+                padding: EdgeInsetsDirectional.only(start: 16, end: 16, top: 11, bottom: 11),
               );
             }).toList(),
           ),
