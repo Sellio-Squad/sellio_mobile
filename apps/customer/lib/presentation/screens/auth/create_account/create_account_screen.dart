@@ -6,17 +6,33 @@ import '../../../../domain/repositories/auth_repository.dart';
 import 'cubit/registration_cubit.dart';
 import 'create_account_listeners.dart';
 import 'widgets/create_account_body.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/initial_country_provider.dart';
+import 'package:country_picker/country_picker.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => RegistrationCubit(
-        authRepository: sl<AuthRepository>(),
-      ),
-      child: const _CreateAccountScreenContent(),
+    return FutureBuilder<Country>(
+      future: InitialCountryProvider.getInitialCountry(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final initialCountry = snapshot.data!;
+
+        return BlocProvider(
+          create: (context) => RegistrationCubit(
+            authRepository: sl<AuthRepository>(),
+            initialCountry: initialCountry,
+          ),
+          child: const _CreateAccountScreenContent(),
+        );
+      },
     );
   }
 }

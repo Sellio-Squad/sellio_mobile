@@ -71,6 +71,8 @@ dev_dependencies:
   json_serializable: ^6.7.1
 
   country_picker: ^2.0.27
+  country_detector: ^1.0.2+1
+
 
 
 flutter:
