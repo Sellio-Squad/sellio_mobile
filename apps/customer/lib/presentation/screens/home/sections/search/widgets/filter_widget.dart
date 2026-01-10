@@ -1,7 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 
 class FilterWidget extends StatelessWidget {
   final Function() onFilterIconClicked;
@@ -12,16 +11,13 @@ class FilterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: context.theme.colors.primaryVariant,
-      borderRadius: const BorderRadius.only(
-        topRight: Radius.circular(12),
-        bottomRight: Radius.circular(12),
+      borderRadius: const BorderRadiusDirectional.only(
+        topEnd: Radius.circular(12),
+        bottomEnd: Radius.circular(12),
       ),
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onFilterIconClicked,
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        ),
         child: SizedBox(
           height: 48,
           width: 48,
