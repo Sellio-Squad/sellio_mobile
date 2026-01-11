@@ -1,6 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 class SearchBarWidget extends StatefulWidget {
@@ -39,7 +39,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 8.0),
+          padding: const EdgeInsetsDirectional.only(end: 8),
           child: SvgPicture.asset(
             AppImages.search,
             width: 24,
