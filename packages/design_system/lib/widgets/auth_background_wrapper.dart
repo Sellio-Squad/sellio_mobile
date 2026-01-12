@@ -85,13 +85,16 @@ class AuthBackgroundWrapper extends StatelessWidget {
       bottom: 0,
       child: Container(
         width: double.infinity,
-        padding: containerPadding,
         decoration: BoxDecoration(
           color: colors.surfaceLow,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         ),
-        child: SingleChildScrollView(
-          child: child,
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: EdgeInsets.only(top: containerPadding.top),
+            child: child, // Remove SingleChildScrollView
+          ),
         ),
       ),
     );

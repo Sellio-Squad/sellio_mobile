@@ -43,13 +43,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         ));
   }
 
-  void updateEmail(String value) {
-    _updateField((state) => state.copyWith(
-          email: value,
-          clearValidationError: true,
-        ));
-  }
-
   void updateCity(String value) {
     _updateField((state) => state.copyWith(
           city: value,
@@ -73,13 +66,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   void updateSelectedCountry(Country country) {
     _updateField((state) => state.copyWith(selectedCountry: country));
-  }
-
-  void updateProfileImage(File? image) {
-    _updateField((state) => state.copyWith(
-          selectedProfileImage: image,
-          clearProfileImage: image == null,
-        ));
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -120,7 +106,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       firstName: state.firstName,
       lastName: state.lastName,
       phone: state.phoneNumber,
-      email: state.email,
       city: state.city,
       password: state.password,
       confirmPassword: state.confirmPassword,
@@ -139,7 +124,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       firstName: currentState.firstName,
       lastName: currentState.lastName,
       phone: currentState.phoneNumber,
-      email: currentState.email,
       city: currentState.city,
       password: currentState.password,
       confirmPassword: currentState.confirmPassword,
@@ -163,7 +147,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       password: currentState.password,
       city: currentState.city,
       country: countryCode,
-      email: currentState.email,
       region: countryCode,
     );
 
