@@ -234,4 +234,9 @@ class AuthRepositoryImpl implements AuthRepository {
     await _storageService.remove(StorageKeys.isLoggedIn);
     await clearPendingRegistration();
   }
+
+  @override
+  Future<void> clearAuthData() async {
+    await _clearAuthData();
+  }
 }

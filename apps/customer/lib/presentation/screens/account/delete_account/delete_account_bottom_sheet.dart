@@ -6,6 +6,8 @@ import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_state.dart';
 
+import '../../../../domain/repositories/auth_repository.dart';
+
 class DeleteAccountBottomSheet extends StatelessWidget {
   const DeleteAccountBottomSheet({super.key});
 
@@ -19,6 +21,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
         create: (context) {
           return DeleteAccountCubit(
             userRepository: context.read<UserRepository>(),
+            authRepository: context.read<AuthRepository>(),
           );
         },
         child: const DeleteAccountBottomSheet(),

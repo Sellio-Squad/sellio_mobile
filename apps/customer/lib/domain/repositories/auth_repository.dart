@@ -39,6 +39,8 @@ abstract class AuthRepository {
 
   Future<Result<void>> logout();
 
+  Future<void> clearAuthData();
+
   Future<bool> isLoggedIn();
 
   Future<String?> getPendingRegistrationPhone();
