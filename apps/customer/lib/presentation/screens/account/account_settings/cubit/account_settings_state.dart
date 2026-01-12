@@ -23,19 +23,6 @@ class AccountSettingsState extends Equatable {
     this.selectedCountry,
   });
 
-  bool isPhoneNumberValid(Country country, String phone) {
-    if (country.countryCode == 'EG') {
-      return RegExp(r'^(0?1\d{9})$').hasMatch(phone);
-    } else if (country.countryCode == 'PS') {
-      return RegExp(r'^(0?5\d{8})$').hasMatch(phone);
-    } else if (country.countryCode == 'IQ') {
-      return RegExp(r'^(0?7\d{9,10})$').hasMatch(phone);
-    } else if (country.countryCode == 'SY') {
-      return RegExp(r'^(0?9\d{8})$').hasMatch(phone);
-    }
-    return RegExp(r'^\d{8,15}$').hasMatch(phone);
-  }
-
   AccountSettingsState copyWith({
     String? phoneNumber,
     String? fullName,

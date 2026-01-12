@@ -150,9 +150,7 @@ class _AccountSettingsBottomSheetState
               onTap: () => cubit.updateAccountDetails(
                 state.selectedCountry!,
               ),
-              isEnabled: state.isFormValid &&
-                  state.isPhoneNumberValid(
-                      state.selectedCountry!, _phoneController.text),
+              isEnabled: state.isFormValid && state.isPhoneValid,
               verticalPadding: 13,
               fullWidth: true,
               isLoading: state.isLoading,

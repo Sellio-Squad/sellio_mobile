@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/domain/phone_validation.dart';
 
 import '../../../../../core/error/result.dart';
 import '../../../../../domain/repositories/user_repository.dart';
@@ -31,10 +32,11 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
   }
 
   void updatePhoneNumber(String value, {required Country selectedCountry}) {
+    final isValid = PhoneValidator.validate(selectedCountry.countryCode, value);
     emit(
       state.copyWith(
         phoneNumber: value,
-        isPhoneValid: state.isPhoneNumberValid(selectedCountry, value),
+        isPhoneValid: isValid,
         errorMessage: null,
       ),
     );
@@ -50,7 +52,9 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
   }
 
   void updateSelectedCountry(Country country) {
-    emit(state.copyWith(selectedCountry: country));
+    final isValid =
+        PhoneValidator.validate(country.countryCode, state.phoneNumber);
+    emit(state.copyWith(selectedCountry: country, isPhoneValid: isValid));
     updatePhoneNumber(state.phoneNumber, selectedCountry: country);
   }
 
