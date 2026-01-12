@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 class PhoneInputWithCountry extends StatelessWidget {
@@ -46,10 +46,10 @@ class PhoneInputWithCountry extends StatelessWidget {
   }
 
   Widget _buildCountrySelector(
-      BuildContext context,
-      dynamic colors,
-      SellioTextTheme textTheme,
-      ) {
+    BuildContext context,
+    dynamic colors,
+    SellioTextTheme textTheme,
+  ) {
     return GestureDetector(
       onTap: () => _showCountryPicker(context),
       child: Padding(
@@ -93,7 +93,8 @@ class PhoneInputWithCountry extends StatelessWidget {
         hintText: context.local.phone_number,
         hintStyle: TextStyle(color: colors.hint),
         border: InputBorder.none,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       ),
     );
   }
@@ -103,7 +104,12 @@ class PhoneInputWithCountry extends StatelessWidget {
       context: context,
       showPhoneCode: true,
       onSelect: onCountrySelected,
-      favorite: ['IQ', 'EG'], // Iraq and Egypt as favorites
+      favorite: [
+        'IQ',
+        'EG',
+        'PS',
+        'SY',
+      ],
       countryListTheme: CountryListThemeData(
         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
         inputDecoration: InputDecoration(

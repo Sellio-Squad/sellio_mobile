@@ -30,18 +30,22 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   void _setupListeners() {
-    _phoneController.addListener(() => context.read<LoginCubit>().updatePhoneNumber(_phoneController.text));
-    _passwordController.addListener(() => context.read<LoginCubit>().updatePassword(_passwordController.text));
-    
+    _phoneController.addListener(() =>
+        context.read<LoginCubit>().updatePhoneNumber(_phoneController.text));
+    _passwordController.addListener(() =>
+        context.read<LoginCubit>().updatePassword(_passwordController.text));
+
     _phoneFocusNode.addListener(() {
       if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-        context.read<LoginCubit>().validateFieldOnFocusChange(FormFieldType.phone, _phoneController.text);
+        context.read<LoginCubit>().validateFieldOnFocusChange(
+            FormFieldType.phone, _phoneController.text);
       }
     });
 
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
-        context.read<LoginCubit>().validateFieldOnFocusChange(FormFieldType.password, _passwordController.text);
+        context.read<LoginCubit>().validateFieldOnFocusChange(
+            FormFieldType.password, _passwordController.text);
       }
     });
   }
@@ -60,16 +64,27 @@ class _LoginBodyState extends State<LoginBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeader(context),
-        const Gap(40),
-        _buildForm(context),
-        const Gap(175),
-        _buildFooter(context),
-        const Gap(16),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildHeader(context),
+                const Gap(40),
+                _buildForm(context),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: _buildFooter(context),
+        ),
       ],
     );
   }
-
   Widget _buildHeader(BuildContext context) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
@@ -77,7 +92,6 @@ class _LoginBodyState extends State<LoginBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Gap(24),
         Text(
           context.local.title_login,
           style: textTheme.headlineSmall.copyWith(color: colors.title),
@@ -94,7 +108,8 @@ class _LoginBodyState extends State<LoginBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        final selectedCountry = (state is LoginIdle) ? state.selectedCountry : null;
+        final selectedCountry =
+            (state is LoginIdle) ? state.selectedCountry : null;
         final colors = context.theme.colors;
 
         return Column(
@@ -150,58 +165,62 @@ class _LoginBodyState extends State<LoginBody> {
         final isFormValid = (state is LoginIdle) && state.isFormValid;
         final isLoading = state is LoginSubmitting;
 
-        return Column(
-          children: [
-            SellioButton(
-              text: context.local.login,
-              onTap: isFormValid && !isLoading
-                  ? () => context.read<LoginCubit>().login()
-                  : null,
-              textColor: isFormValid ? colors.onPrimary : colors.hint,
-              backgroundColor: isFormValid ? colors.primary : colors.disabled,
-              isLoading: isLoading,
-              suffixSvgPath: AppImages.outlineArrow,
-              iconWidth: 10,
-              iconHeight: 10,
-              suffixIconColor: isFormValid ? colors.onPrimary : colors.hint,
-            ),
-            const Gap(12),
-            Row(
-              children: [
-                Expanded(child: Divider(color: colors.stroke)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    'OR',
-                    style: textTheme.labelSmall.copyWith(color: colors.body),
+        return SafeArea(
+          top: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SellioButton(
+                text: context.local.login,
+                onTap: isFormValid && !isLoading
+                    ? () => context.read<LoginCubit>().login()
+                    : null,
+                textColor: isFormValid ? colors.onPrimary : colors.hint,
+                backgroundColor: isFormValid ? colors.primary : colors.disabled,
+                isLoading: isLoading,
+                suffixSvgPath: AppImages.outlineArrow,
+                iconWidth: 10,
+                iconHeight: 10,
+                suffixIconColor: isFormValid ? colors.onPrimary : colors.hint,
+              ),
+              const Gap(12),
+              Row(
+                children: [
+                  Expanded(child: Divider(color: colors.stroke)),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      'OR',
+                      style: textTheme.labelSmall.copyWith(color: colors.body),
+                    ),
                   ),
-                ),
-                Expanded(child: Divider(color: colors.stroke)),
-              ],
-            ),
-            const Gap(12),
-            Row(
-              children: [
-                Expanded(
-                  child: SellioButton(
-                    text: context.local.create_account,
-                    backgroundColor: colors.primaryVariant,
-                    textColor: colors.primary,
-                    onTap: () => context.navigator.pushCreateAccount(),
+                  Expanded(child: Divider(color: colors.stroke)),
+                ],
+              ),
+              const Gap(12),
+              Row(
+                children: [
+                  Expanded(
+                    child: SellioButton(
+                      text: context.local.create_account,
+                      backgroundColor: colors.primaryVariant,
+                      textColor: colors.primary,
+                      onTap: () => context.navigator.pushCreateAccount(),
+                    ),
                   ),
-                ),
-                const Gap(16),
-                Expanded(
-                  child: SellioButton(
-                    text: context.local.continue_as_guest,
-                    backgroundColor: colors.primaryVariant,
-                    textColor: colors.primary,
-                    onTap: () => context.navigator.goToHome(),
+                  const Gap(16),
+                  Expanded(
+                    child: SellioButton(
+                      text: context.local.continue_as_guest,
+                      backgroundColor: colors.primaryVariant,
+                      textColor: colors.primary,
+                      onTap: () => context.navigator.goToHome(),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

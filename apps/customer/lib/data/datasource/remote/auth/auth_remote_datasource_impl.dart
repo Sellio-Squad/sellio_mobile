@@ -44,7 +44,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String password,
     required String city,
     required String country,
-    required String email,
     required String region,
   }) async {
     final request = RegisterRequest(
@@ -54,7 +53,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: password,
       city: city,
       country: country,
-      email: email,
       region: region,
     );
 
@@ -148,10 +146,5 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ApiEndpoints.resetPassword,
       data: request.toJson(),
     );
-  }
-
-  @override
-  Future<void> logout() async {
-    await _apiClient.post(ApiEndpoints.logout);
   }
 }

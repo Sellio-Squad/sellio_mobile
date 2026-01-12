@@ -8,7 +8,6 @@ import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.d
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../domain/repositories/user_repository.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -325,7 +324,7 @@ class _AccountScreenState extends State<AccountScreen> {
     LogoutBottomSheet.show(
       context: context,
       onLogout: () {
-        debugPrint('Logging out...');
+        navigateToLoginScreen(context);
       },
     );
   }
