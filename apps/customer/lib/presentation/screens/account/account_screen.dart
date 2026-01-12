@@ -1,13 +1,14 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../domain/repositories/user_repository.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -34,7 +35,6 @@ class _AccountScreenState extends State<AccountScreen> {
           AccountCubit(context.read<UserRepository>())..loadAccountDetails(),
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
-
           if (state is AccountError) {
             return Scaffold(
                 appBar: SellioAppBar(
@@ -42,18 +42,16 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
                 backgroundColor: colors.surfaceLow,
                 body: EmptySection(
-                    icon: AppImages.notLoggedIn,
-                    title: context.local.not_registered,
-                    description: context.local.login_to_access_your_account,
-                    buttonText: context.local.login,
-                    color: context.theme.colors.redVariant,
+                  icon: AppImages.notLoggedIn,
+                  title: context.local.not_registered,
+                  description: context.local.login_to_access_your_account,
+                  buttonText: context.local.login,
+                  color: context.theme.colors.redVariant,
                   onTap: () => navigateToLoginScreen(context),
-                )
-            );
+                ));
           }
 
           if (state is AccountLoading || state is AccountInitial) {
-
             return Scaffold(
                 extendBodyBehindAppBar: true,
                 backgroundColor: colors.surfaceLow,
@@ -80,11 +78,8 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 24),
                     _buildOptionBody(context)
                   ],
-                )
-            );
-
+                ));
           } else if (state is AccountLoaded) {
-
             return Scaffold(
                 extendBodyBehindAppBar: true,
                 backgroundColor: colors.surfaceLow,
@@ -111,9 +106,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     const SizedBox(height: 24),
                     _buildOptionBody(context)
                   ],
-                )
-            );
-
+                ));
           }
 
           return Column(
@@ -124,7 +117,6 @@ class _AccountScreenState extends State<AccountScreen> {
               _buildOptionBody(context)
             ],
           );
-
         },
       ),
     );
@@ -204,8 +196,8 @@ class _AccountScreenState extends State<AccountScreen> {
     SellioTextTheme themeText = context.theme.typography.textTheme;
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
@@ -232,14 +224,16 @@ class _AccountScreenState extends State<AccountScreen> {
             prefixIcon: AppImages.repair,
             orderTitle: context.local.account_settings,
             onCardClicked: () => _showAccountSettingsBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
+            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
+                matchTextDirection: true),
           ),
           const SizedBox(height: 12),
           AccountOptionCard(
             prefixIcon: AppImages.circleLockAdd,
             orderTitle: context.local.reset_password,
             onCardClicked: () => _showResetPasswordBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
+            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
+                matchTextDirection: true),
           ),
           const SizedBox(height: 12),
           BlocBuilder<LocaleCubit, LocaleState>(
@@ -258,7 +252,8 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: themeText.labelSmall.copyWith(color: colors.body),
                     ),
                     const SizedBox(width: 8),
-                    SvgPicture.asset(AppImages.arrowRightCustom, matchTextDirection: true),
+                    SvgPicture.asset(AppImages.arrowRightCustom,
+                        matchTextDirection: true),
                   ],
                 ),
               );
@@ -304,10 +299,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   void _showAccountSettingsBottomSheet(BuildContext context) async {
-    final result = await AccountSettingsBottomSheet.show(
-      context: context,
-      onSave: () {}
-    );
+    final result =
+        await AccountSettingsBottomSheet.show(context: context, onSave: () {});
 
     if (result != null) {
       context.read<AccountCubit>().loadAccountDetails();
@@ -337,23 +330,24 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  void _showDeleteAccountBottomSheet(BuildContext context) {
-    DeleteAccountBottomSheet.show(
+  void _showDeleteAccountBottomSheet(BuildContext context) async {
+    final result = await DeleteAccountBottomSheet.show(
       context: context,
-      onDeleteAccount: () {
-        debugPrint('Account deleted successfully');
-
-        navigateToLoginScreen(context);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(context.local.account_deleted_successfully ??
-                'Your account has been deleted successfully'),
-            backgroundColor: context.theme.colors.body,
-          ),
-        );
-      },
     );
+    if (result == true && context.mounted) {
+      navigateToLoginScreen(context);
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.local.account_deleted_successfully ??
+                  'Your account has been deleted successfully'),
+              backgroundColor: context.theme.colors.body,
+            ),
+          );
+        }
+      });
+    }
   }
 
   void _showAccountOptionsBottomSheet(BuildContext context) {
