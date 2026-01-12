@@ -177,7 +177,7 @@
   "egypt": "Egypt",
   "confirm_your_account": "Confirm your account",
   "confirm": "Confirm",
-  "dont_received_code": "Don\\'t received code?",
+  "dont_received_code": "Don't received code?",
   "re_send": "Re-Send",
   "confirm_password": "Confirm Password",
 
@@ -226,14 +226,14 @@
       "orderId": {}
     }
   },
-  "re_send_in_resend_countdown_Sec": "Re-Send in $resendCountdown Sec",
+  "re_send_in_resend_countdown_Sec": "Re-Send in {resendCountdown} Sec",
   "@re_send_in_resend_countdown_Sec": {
     "description": "Countdown timer for re-sending the confirmation code",
     "placeholders": {
     "resendCountdown": {}
   }
   },
-  "enter_the_4_digit_sent_to": "Please enter the 4-digit code sent to ${phone_number}.",
+  "enter_the_4_digit_sent_to": "Please enter the 4-digit code sent to {phone_number}.",
   "@enter_the_4_digit_sent_to": {
     "description": "Instruction to enter the 4-digit code sent to the user's phone number",
     "placeholders": {
