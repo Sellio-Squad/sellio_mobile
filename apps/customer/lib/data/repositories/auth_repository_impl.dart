@@ -179,12 +179,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> logout() async {
     return RepositoryCallHandler.callVoid(() async {
-      try {
-        await _remoteDataSource.logout();
-      } catch (_) {
-      } finally {
-        await _clearAuthData();
-      }
+      await _clearAuthData();
     });
   }
 

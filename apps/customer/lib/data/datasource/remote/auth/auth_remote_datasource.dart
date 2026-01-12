@@ -45,6 +45,4 @@ abstract class AuthRemoteDataSource {
     required String newPassword,
     required String confirmPassword,
   });
-
-  Future<void> logout();
 }
