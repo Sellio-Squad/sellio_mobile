@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
+
 import '../../shared/enums/validation_error_type.dart';
 
 /// Base class for all registration states
@@ -13,12 +15,10 @@ class RegistrationIdle extends RegistrationState {
   final String firstName;
   final String lastName;
   final String phoneNumber;
-  final String email;
   final String city;
   final String password;
   final String confirmPassword;
   final Country? selectedCountry;
-  final File? selectedProfileImage;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
@@ -26,12 +26,10 @@ class RegistrationIdle extends RegistrationState {
     this.firstName = '',
     this.lastName = '',
     this.phoneNumber = '',
-    this.email = '',
     this.city = '',
     this.password = '',
     this.confirmPassword = '',
     this.selectedCountry,
-    this.selectedProfileImage,
     this.isFormValid = false,
     this.validationError,
   });
@@ -55,12 +53,10 @@ class RegistrationIdle extends RegistrationState {
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      email: email ?? this.email,
       city: city ?? this.city,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       selectedCountry: selectedCountry ?? this.selectedCountry,
-      selectedProfileImage: clearProfileImage ? null : (selectedProfileImage ?? this.selectedProfileImage),
       isFormValid: isFormValid ?? this.isFormValid,
       validationError: clearValidationError ? null : (validationError ?? this.validationError),
     );
@@ -71,12 +67,10 @@ class RegistrationIdle extends RegistrationState {
         firstName,
         lastName,
         phoneNumber,
-        email,
         city,
         password,
         confirmPassword,
         selectedCountry,
-        selectedProfileImage,
         isFormValid,
         validationError,
       ];

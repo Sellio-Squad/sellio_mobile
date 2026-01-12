@@ -9,6 +9,7 @@ Widget buildCreateAccountHeader(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      const SizedBox(height: 8),
       Text(
         context.local.create_account,
         style: textTheme.headlineSmall.copyWith(color: colors.title),
