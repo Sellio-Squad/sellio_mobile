@@ -17,13 +17,10 @@ class DeleteAccountBottomSheet extends StatelessWidget {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      child: BlocProvider(
-        create: (context) {
-          return DeleteAccountCubit(
+      child: BlocProvider<DeleteAccountCubit>(
+        create: (context) => DeleteAccountCubit(
             userRepository: context.read<UserRepository>(),
-            authRepository: context.read<AuthRepository>(),
-          );
-        },
+            authRepository: context.read<AuthRepository>()),
         child: const DeleteAccountBottomSheet(),
       ),
     ).then((value) {
