@@ -18,7 +18,6 @@ abstract class FormValidators {
           validateConfirmPassword(password ?? '', value),
       FormFieldType.firstName => validateFirstName(value),
       FormFieldType.lastName => validateLastName(value),
-      FormFieldType.email => validateEmail(value),
       FormFieldType.city => validateCity(value),
     };
   }
@@ -73,16 +72,6 @@ abstract class FormValidators {
     return const ValidationResult.valid();
   }
 
-  static ValidationResult validateEmail(String email) {
-    if (email.isEmpty) {
-      return const ValidationResult.invalid(ValidationErrorType.emailEmpty);
-    }
-    if (!AuthConstants.emailRegex.hasMatch(email)) {
-      return const ValidationResult.invalid(ValidationErrorType.emailInvalid);
-    }
-    return const ValidationResult.valid();
-  }
-
   static ValidationResult validateCity(String city) {
     if (city.length < AuthConstants.minLocationLength) {
       return const ValidationResult.invalid(ValidationErrorType.cityMinLength);
@@ -107,7 +96,6 @@ abstract class FormValidators {
     required String firstName,
     required String lastName,
     required String phone,
-    required String email,
     required String city,
     required String password,
     required String confirmPassword,
@@ -115,14 +103,12 @@ abstract class FormValidators {
     return firstName.isNotEmpty &&
         lastName.isNotEmpty &&
         phone.isNotEmpty &&
-        email.isNotEmpty &&
         city.isNotEmpty &&
         password.isNotEmpty &&
         confirmPassword.isNotEmpty &&
         validateFirstName(firstName).isValid &&
         validateLastName(lastName).isValid &&
         validatePhone(phone).isValid &&
-        validateEmail(email).isValid &&
         validateCity(city).isValid &&
         validatePassword(password).isValid &&
         validateConfirmPassword(password, confirmPassword).isValid;
@@ -132,7 +118,6 @@ abstract class FormValidators {
     required String firstName,
     required String lastName,
     required String phone,
-    required String email,
     required String city,
     required String password,
     required String confirmPassword,
@@ -141,7 +126,6 @@ abstract class FormValidators {
       validateFirstName(firstName),
       validateLastName(lastName),
       validatePhone(phone),
-      validateEmail(email),
       validateCity(city),
       validatePassword(password),
       validateConfirmPassword(password, confirmPassword),

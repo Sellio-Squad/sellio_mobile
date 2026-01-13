@@ -41,7 +41,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
     required String city,
     required String country,
-    required String email,
     required String region,
   }) async {
     return RepositoryCallHandler.callVoid(() async {
@@ -52,7 +51,6 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
         city: city,
         country: country,
-        email: email,
         region: region,
       );
 
@@ -179,12 +177,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Result<void>> logout() async {
     return RepositoryCallHandler.callVoid(() async {
-      try {
-        await _remoteDataSource.logout();
-      } catch (_) {
-      } finally {
-        await _clearAuthData();
-      }
+      await _clearAuthData();
     });
   }
 

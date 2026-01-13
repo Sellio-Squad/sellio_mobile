@@ -332,7 +332,7 @@ class _AccountScreenState extends State<AccountScreen> {
     LogoutBottomSheet.show(
       context: context,
       onLogout: () {
-        debugPrint('Logging out...');
+        navigateToLoginScreen(context);
       },
     );
   }
@@ -341,14 +341,11 @@ class _AccountScreenState extends State<AccountScreen> {
     DeleteAccountBottomSheet.show(
       context: context,
       onDeleteAccount: () {
-        debugPrint('Account deleted successfully');
-
         navigateToLoginScreen(context);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.local.account_deleted_successfully ??
-                'Your account has been deleted successfully'),
+            content: Text(context.local.account_deleted_successfully),
             backgroundColor: context.theme.colors.body,
           ),
         );
