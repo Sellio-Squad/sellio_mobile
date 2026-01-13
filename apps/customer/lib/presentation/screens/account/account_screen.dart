@@ -8,6 +8,7 @@ import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.d
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../domain/repositories/user_repository.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
@@ -34,91 +35,76 @@ class _AccountScreenState extends State<AccountScreen> {
           AccountCubit(context.read<UserRepository>())..loadAccountDetails(),
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
-          if (state is AccountError) {
-            return Scaffold(
-                appBar: SellioAppBar(
-                  title: context.local.account_screen,
-                ),
-                backgroundColor: colors.surfaceLow,
-                body: EmptySection(
-                  icon: AppImages.notLoggedIn,
-                  title: context.local.not_registered,
-                  description: context.local.login_to_access_your_account,
-                  buttonText: context.local.login,
-                  color: context.theme.colors.redVariant,
-                  onTap: () => navigateToLoginScreen(context),
-                ));
-          }
-
-          if (state is AccountLoading || state is AccountInitial) {
-            return Scaffold(
-                extendBodyBehindAppBar: true,
-                backgroundColor: colors.surfaceLow,
-                appBar: SellioAppBar(
-                  title: context.local.account_screen,
-                  actions: [
-                    GestureDetector(
-                      onTap: () => _showAccountOptionsBottomSheet(context),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: SvgPicture.asset(
-                          AppImages.moreHorizontalSquare,
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildLoadingInfo(context),
-                    const SizedBox(height: 24),
-                    _buildOptionBody(context)
-                  ],
-                ));
-          } else if (state is AccountLoaded) {
-            return Scaffold(
-                extendBodyBehindAppBar: true,
-                backgroundColor: colors.surfaceLow,
-                appBar: SellioAppBar(
-                  title: context.local.account_screen,
-                  actions: [
-                    GestureDetector(
-                      onTap: () => _showAccountOptionsBottomSheet(context),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 14),
-                        child: SvgPicture.asset(
-                          AppImages.moreHorizontalSquare,
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildLoadedInfo(context, state),
-                    const SizedBox(height: 24),
-                    _buildOptionBody(context)
-                  ],
-                ));
-          }
-
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildLoadingInfo(context),
-              const SizedBox(height: 24),
-              _buildOptionBody(context)
-            ],
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: colors.surfaceLow,
+            appBar: _buildAppBar(context, state),
+            body: _buildBody(context, state),
           );
         },
       ),
     );
+  }
+
+  PreferredSizeWidget _buildAppBar(BuildContext context, AccountState state) {
+    if (state is AccountError) {
+      return SellioAppBar(
+        title: context.local.account_screen,
+      );
+    }
+
+    return SellioAppBar(
+      title: context.local.account_screen,
+      actions: [
+        GestureDetector(
+          onTap: () => _showAccountOptionsBottomSheet(context),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: SvgPicture.asset(
+              AppImages.moreHorizontalSquare,
+              width: 24,
+              height: 24,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBody(BuildContext context, AccountState state) {
+    if (state is AccountError) {
+      return _buildErrorState(context);
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buildUserInfoSection(context, state),
+        const SizedBox(height: 24),
+        _buildOptionBody(context)
+      ],
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context) {
+    return EmptySection(
+      icon: AppImages.notLoggedIn,
+      title: context.local.not_registered,
+      description: context.local.login_to_access_your_account,
+      buttonText: context.local.login,
+      color: context.theme.colors.redVariant,
+      onTap: () => navigateToLoginScreen(context),
+    );
+  }
+
+  Widget _buildUserInfoSection(BuildContext context, AccountState state) {
+    if (state is AccountLoading || state is AccountInitial) {
+      return _buildLoadingInfo(context);
+    } else if (state is AccountLoaded) {
+      return _buildLoadedInfo(context, state);
+    }
+
+    return _buildLoadingInfo(context);
   }
 
   Widget _buildLoadingInfo(BuildContext context) {
