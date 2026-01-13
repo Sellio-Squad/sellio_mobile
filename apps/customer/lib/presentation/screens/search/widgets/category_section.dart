@@ -21,12 +21,20 @@ class CategorySection extends StatelessWidget {
             children: [
               SellioChip(
                 label: context.local.products,
+                assetIcon: AppImages.product,
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  8, 6, 12, 6,
+                ),
                 selected: state.selectedType == SearchType.products,
                 onTap: () => cubit.selectTab(SearchType.products),
               ),
               const Gap(8),
               SellioChip(
                 label: context.local.stores,
+                assetIcon: AppImages.storeIcon,
+                padding: const EdgeInsetsDirectional.fromSTEB(
+                  8, 6, 12, 6,
+                ),
                 selected: state.selectedType == SearchType.stores,
                 onTap: () => cubit.selectTab(SearchType.stores),
               ),
