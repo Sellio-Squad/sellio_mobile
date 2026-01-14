@@ -12,9 +12,21 @@ jobs:
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app: [ customer, seller, admin ]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          df -h
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -46,17 +58,9 @@ jobs:
           mkdir -p apps/customer/android/app
           echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
 
-      - name: Build Customer App APK
-        run: flutter build apk --debug -t lib/main.dart
-        working-directory: apps/customer
-
-      - name: Build Seller App APK
-        run: flutter build apk --debug -t lib/main.dart
-        working-directory: apps/seller
-
-      - name: Build Admin App APK
-        run: flutter build apk --debug -t lib/main.dart
-        working-directory: apps/admin
+      - name: Build ${{ matrix.app }}
+        run: flutter build apk --release
+        working-directory: apps/${{ matrix.app }}
 
   autoupdate:
     name: Auto Update
