@@ -48,8 +48,12 @@ jobs:
         run: melos bootstrap
 
       - name: Generate Freezed & JSON serialization files
-        run: melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
-
+        run: |
+          if git diff --name-only ${{ github.base_ref }} | grep -E 'lib/.*\.dart'; then
+          melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
+          else
+          echo "No source changes, skipping build_runner"
+          fi
 
       - name: Create google-services.json (Customer)
         env:
