@@ -1,0 +1,195 @@
+/**
+ * Main Dashboard Class
+ * @module core/dashboard
+ */
+
+import { DEFAULT_ACTIVE_TAB, TABS, STORAGE_KEYS } from '../config/constants.js';
+import { STRINGS } from '../resources/strings.js';
+import { loadSettings } from '../config/settings.js';
+import { generateMockPRData } from '../utils/mockDataGenerator.js';
+import { formatWeekHeader } from '../utils/dateUtils.js';
+import * as AnalyticsService from '../services/analyticsService.js';
+import { renderKPICards, renderSpotlightCard } from '../components/kpiCards.js';
+import { renderBottlenecks } from '../components/bottleneckPanel.js';
+import { renderMergeProcessHealth } from '../components/mergeHealth.js';
+import { renderDailyActivity, renderPRTypes, renderCollaboration, renderDiscussedPRs } from '../components/otherComponents.js';
+import { initSettingsPanel } from '../components/settingsPanel.js';
+import { notificationSystem } from '../components/notifications.js';
+
+export class Dashboard {
+    constructor() {
+        this.prData = [];
+        this.settings = loadSettings();
+        this.currentTheme = localStorage.getItem(STORAGE_KEYS.THEME) || 'light';
+        this.currentTab = DEFAULT_ACTIVE_TAB;
+        this.filterState = {
+            week: 'all',
+            developer: 'all'
+        };
+    }
+
+    async initialize() {
+        console.log(STRINGS.console.loading);
+
+        this.setupTheme();
+        this.setupTabs();
+        initSettingsPanel();
+        await this.loadData();
+
+        setTimeout(() => {
+            document.getElementById('loading-indicator').style.display = 'none';
+            document.getElementById('content-area').classList.remove('hidden');
+            this.showTab(this.currentTab);
+            console.log(STRINGS.console.dashboardReady);
+        }, 1000);
+    }
+
+    setupTheme() {
+        const html = document.documentElement;
+        const themeBtn = document.getElementById('theme-toggle-btn');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+
+        if (this.currentTheme === 'dark') {
+            html.classList.add('dark');
+            if (sunIcon) sunIcon.classList.remove('hidden');
+            if (moonIcon) moonIcon.classList.add('hidden');
+        } else {
+            html.classList.remove('dark');
+            if (sunIcon) sunIcon.classList.add('hidden');
+            if (moonIcon) moonIcon.classList.remove('hidden');
+        }
+
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    this.currentTheme = 'light';
+                    if (sunIcon) sunIcon.classList.add('hidden');
+                    if (moonIcon) moonIcon.classList.remove('hidden');
+                } else {
+                    html.classList.add('dark');
+                    this.currentTheme = 'dark';
+                    if (sunIcon) sunIcon.classList.remove('hidden');
+                    if (moonIcon) moonIcon.classList.add('hidden');
+                }
+                localStorage.setItem(STORAGE_KEYS.THEME, this.currentTheme);
+            });
+        }
+    }
+
+    setupTabs() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tab = button.getAttribute('data-tab');
+                this.showTab(tab);
+            });
+        });
+    }
+
+    showTab(tabName) {
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            if (btn.getAttribute('data-tab') === tabName) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        TABS.forEach(tab => {
+            const content = document.getElementById(`${tab}-content`);
+            if (content) {
+                if (tab === tabName) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            }
+        });
+
+        this.currentTab = tabName;
+    }
+
+    async loadData() {
+        try {
+            console.log(STRINGS.console.dataGenerated);
+            localStorage.clear();
+            this.prData = generateMockPRData();
+            console.log(STRINGS.console.dataLoaded);
+
+            this.renderAnalytics();
+        } catch (error) {
+            console.error('❌ Error loading data:', error);
+        }
+    }
+
+    renderAnalytics() {
+        this.setupAnalyticsFilters();
+        this.updateAnalytics();
+    }
+
+    setupAnalyticsFilters() {
+        const weekFilter = document.getElementById('analytics-week-filter');
+        const developerFilter = document.getElementById('analytics-developer-filter');
+
+        if (!weekFilter || !developerFilter) return;
+
+        const weekKeys = AnalyticsService.getUniqueWeeks(this.prData);
+        weekFilter.innerHTML = `<option value="all">${STRINGS.filters.allTime}</option>`;
+        weekKeys.forEach((key, index) => {
+            const weekStart = new Date(key);
+            const label = index === 0 ? STRINGS.filters.currentWeek : formatWeekHeader(weekStart);
+            weekFilter.innerHTML += `<option value="${key}">${label}</option>`;
+        });
+
+        const developers = AnalyticsService.getUniqueDevelopers(this.prData);
+        developerFilter.innerHTML = `<option value="all">${STRINGS.filters.allTeam}</option>`;
+        developers.forEach(dev => {
+            developerFilter.innerHTML += `<option value="${dev}">${dev}</option>`;
+        });
+
+        weekFilter.addEventListener('change', () => {
+            this.filterState.week = weekFilter.value;
+            this.updateAnalytics();
+        });
+
+        developerFilter.addEventListener('change', () => {
+            this.filterState.developer = developerFilter.value;
+            this.updateAnalytics();
+        });
+    }
+
+    updateAnalytics() {
+        const filteredData = AnalyticsService.filterByWeek(this.prData, this.filterState.week);
+        const kpis = AnalyticsService.calculateKPIs(filteredData, this.filterState.developer);
+
+        renderKPICards(kpis);
+
+        const spotlight = AnalyticsService.calculateSpotlightMetrics(filteredData, this.filterState.developer);
+        renderSpotlightCard('hot-streak-card', spotlight.hotStreak, '🔥');
+        renderSpotlightCard('fastest-reviewer-card', spotlight.fastestReviewer, '⚡');
+        renderSpotlightCard('top-commenter-card', spotlight.topCommenter, '💬');
+
+        const bottlenecks = AnalyticsService.identifyBottlenecks(filteredData, this.settings.bottleneck.thresholdHours);
+        renderBottlenecks(filteredData);
+
+        // Notify if bottlenecks found and notifications enabled
+        if (this.settings.bottleneck.enableNotifications && bottlenecks.length > 0) {
+            const highSeverity = bottlenecks.filter(b => b.severity === 'high').length;
+            if (highSeverity > 0) {
+                notificationSystem.show(
+                    `⚠️ ${highSeverity} high-severity bottleneck${highSeverity > 1 ? 's' : ''} detected!`,
+                    'warning',
+                    8000
+                );
+            }
+        }
+
+        renderMergeProcessHealth(filteredData, this.prData);
+        renderDailyActivity(filteredData);
+        renderPRTypes(filteredData);
+        renderCollaboration(filteredData);
+        renderDiscussedPRs(filteredData);
+    }
+}

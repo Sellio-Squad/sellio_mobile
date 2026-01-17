@@ -7,7 +7,7 @@
 (function () {
     'use strict';
 
-    console.log('🚀 Loading Complete Novix Dashboard...');
+    console.log('🚀 Loading Complete Dashboard...');
 
     // ============= CONSTANTS =============
     const PR_TYPE_PATTERNS = {
