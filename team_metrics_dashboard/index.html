@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sellio Team Metrics Dashboard - Real PR metrics and team performance tracking">
     <title>Sellio Team Metrics Dashboard</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    
+
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -38,12 +41,71 @@
         </div>
     </header>
 
+
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            
-            <!-- Metrics Cards -->
-            <section class="metrics-section">
+
+            <!-- Analytics Filter Bar -->
+            <div id="analyticsFilterBar" class="analytics-filter-bar"></div>
+
+            <!-- KPI Cards Section -->
+            <section class="analytics-section">
+                <h2 class="section-title">📊 Key Performance Indicators</h2>
+                <div id="kpiCardsGrid" class="kpi-cards-grid"></div>
+            </section>
+
+            <!-- Merge Process Health -->
+            <section class="analytics-section">
+                <div id="mergeProcessHealthContainer" class="panel"></div>
+            </section>
+
+            <!-- Timing KPIs -->
+            <section class="analytics-section">
+                <div id="timingKPIsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <!-- Spotlight Cards -->
+            <section class="analytics-section">
+                <h2 class="section-title">🏆 Top Performers</h2>
+                <div id="spotlightCardsGrid" class="spotlight-grid"></div>
+            </section>
+
+            <!-- Daily Activity Breakdown -->
+            <section class="analytics-section">
+                <div class="panel">
+                    <h3 class="panel-header panel-title">📅 Daily Activity Breakdown</h3>
+                    <div class="panel-body" id="dailyBreakdownContainer">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- PR Type Analysis -->
+            <section class="analytics-section">
+                <div id="prTypeAnalysisContainer" class="panel"></div>
+            </section>
+
+            <!-- Collaboration & Discussion -->
+            <section class="analytics-section">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="panel">
+                        <h3 class="panel-header panel-title">🤝 Top Collaboration Pairs</h3>
+                        <div class="panel-body">
+                            <ul id="collaborationList" class="collaboration-list"></ul>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <h3 class="panel-header panel-title">💬 Most Discussed PRs</h3>
+                        <div class="panel-body">
+                            <ul id="mostDiscussedPRsList" class="discussed-prs-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Original Metrics Cards (Keep for compatibility) -->
+            <section class="metrics-section" style="display: none;">
                 <div class="metrics-grid">
                     <div class="metric-card">
                         <div class="metric-icon">✅</div>
@@ -104,7 +166,7 @@
             <!-- Charts Section -->
             <section class="charts-section">
                 <div class="charts-grid">
-                    
+
                     <!-- PR Velocity Chart -->
                     <div class="chart-card large">
                         <div class="chart-header">
@@ -197,4 +259,5 @@
     <!-- Scripts -->
     <script type="module" src="app.js"></script>
 </body>
+
 </html>
