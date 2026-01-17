@@ -6,10 +6,7 @@ import 'package:sellio_mobile/domain/entities/review.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/entities/store_rating.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
 import 'package:design_system/design_system.dart';
-import '../core/storage/storage_keys.dart';
-import '../core/storage/storage_service.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/store_remote_datasource.dart';
@@ -17,18 +14,12 @@ import '../datasource/remote/store_remote_datasource.dart';
 class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
-  final StorageService _storageService;
 
   StoreRepositoryImpl({
     required StoreRemoteDataSource remoteDataSource,
-    required FavoritesRemoteDataSource favoritesRemoteDataSource,
-    required StorageService storageService,
+    required FavoritesRemoteDataSource favoritesRemoteDataSource
   })  : _remoteDataSource = remoteDataSource,
-        _favoritesRemoteDataSource = favoritesRemoteDataSource,
-        _storageService = storageService;
-
-  Future<String?> _getUserId() =>
-      _storageService.get<String>(StorageKeys.userId);
+        _favoritesRemoteDataSource = favoritesRemoteDataSource;
 
   @override
   Future<Result<List<Store>>> getStores({
@@ -107,19 +98,19 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<Result<void>> toggleFavoriteStore(String storeId) async {
-    return RepositoryCallHandler.callWithAuth<void>(
-      _getUserId,
-      (userId) => _favoritesRemoteDataSource.toggleStoreFavorite(
-        storeId: storeId,
-      ),
+    return RepositoryCallHandler.callVoid(
+      () async {
+        await _favoritesRemoteDataSource.toggleStoreFavorite(
+          storeId: storeId,
+        );
+      },
     );
   }
 
   @override
   Future<Result<List<Store>>> getFavoriteStores() async {
-    return RepositoryCallHandler.callWithAuth<List<Store>>(
-      _getUserId,
-      (userId) async {
+    return RepositoryCallHandler.call<List<Store>>(
+      () async {
         final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds();
 
         final stores = <Store>[];
@@ -131,7 +122,6 @@ class StoreRepositoryImpl implements StoreRepository {
             continue;
           }
         }
-
         return stores;
       },
     );
@@ -139,9 +129,8 @@ class StoreRepositoryImpl implements StoreRepository {
 
   @override
   Future<Result<bool>> isFavorite(String storeId) async {
-    return RepositoryCallHandler.callWithAuth<bool>(
-      _getUserId,
-      (userId) async {
+    return RepositoryCallHandler.call<bool>(
+      () async {
         final favoriteIds =
             await _favoritesRemoteDataSource.getFavoriteStoreIds();
         return favoriteIds.contains(storeId);
