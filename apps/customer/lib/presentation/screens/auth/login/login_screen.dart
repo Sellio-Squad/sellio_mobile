@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/initial_country_provider.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import 'cubit/login_cubit.dart';
@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Country>(
-      future: InitialCountryProvider.getInitialCountry(),
+      future: sl<CountryRepository>().getInitialCountry(),
       builder: (context, snapshot) {
         final initialCountry = snapshot.data!;
         return BlocProvider(
