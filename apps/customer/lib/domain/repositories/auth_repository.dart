@@ -13,7 +13,6 @@ abstract class AuthRepository {
     required String password,
     required String city,
     required String country,
-    required String email,
     required String region,
   });
 
@@ -38,6 +37,8 @@ abstract class AuthRepository {
   });
 
   Future<Result<void>> logout();
+
+  Future<void> clearAuthData();
 
   Future<bool> isLoggedIn();
 

@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:design_system/themes/sellio_colors.dart';
+import 'package:design_system/themes/sellio_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -58,106 +60,7 @@ class _SellioStoreCardState extends State<SellioStoreCard> {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            Positioned.fill(
-              left: 8,
-              child: GestureDetector(
-                onTap: widget.onCardPressed,
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  elevation: 0,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      if (widget.imageUrl.startsWith('assets/'))
-                        Image.asset(
-                          widget.imageUrl,
-                          fit: BoxFit.cover,
-                          height: 133,
-                        )
-                      else if (widget.imageUrl.isNotEmpty)
-                        Image.network(
-                          widget.imageUrl,
-                          fit: BoxFit.cover,
-                          height: 133,
-                        ),
-                      Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Color(0x00000000),
-                              Color(0xFF000000),
-                            ],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Text(
-                              widget.title,
-                              textAlign: TextAlign.center,
-                              style: theme.typography.textTheme.titleSmall
-                                  .copyWith(color: colors.onPrimary),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Positioned(
-                        top: 4,
-                        right: 4,
-                        child: ClipOval(
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(
-                              sigmaX: 12.0,
-                              sigmaY: 12.0,
-                            ),
-                            child: Container(
-                              width: 32,
-                              height: 32,
-                              decoration: const BoxDecoration(
-                                color: Color(0x99FFFFFF),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: InkWell(
-                                  customBorder: const CircleBorder(),
-                                  onTap: _toggleFavorite,
-                                  child: Center(
-                                    child: SvgPicture.asset(
-                                      _isFavorite
-                                          ? AppImages.favorite
-                                          : AppImages.unselectedFavorite,
-                                      colorFilter: ColorFilter.mode(
-                                        colors.primary,
-                                        BlendMode.srcIn,
-                                      ),
-                                      width: 20,
-                                      height: 20,
-                                      fit: BoxFit.scaleDown,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            _buildStoreCard(colors, theme),
             if (widget.discountText != null)
               Positioned(
                 top: 8,
@@ -165,6 +68,114 @@ class _SellioStoreCardState extends State<SellioStoreCard> {
                 child: DiscountTag(discountText: widget.discountText!),
               ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStoreCard(SellioColorScheme colors, SellioTheme theme) {
+    return Positioned.fill(
+      left: 8,
+      child: GestureDetector(
+        onTap: widget.onCardPressed,
+        child: Card(
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          clipBehavior: Clip.antiAlias,
+          elevation: 0,
+          color: theme.colors.surface,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _buildStoreBackground(),
+              _buildStoreTitle(colors, theme),
+              _buildFavoriteButton(colors, theme),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStoreBackground() {
+    if (widget.imageUrl.startsWith('assets/')) {
+      return Image.asset(widget.imageUrl, fit: BoxFit.cover, height: 133);
+    } else if (widget.imageUrl.isNotEmpty) {
+      return Image.network(widget.imageUrl, fit: BoxFit.cover, height: 133);
+    } else {
+      return Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: SvgPicture.asset(
+            width: 75,
+            height: 75,
+            AppImages.emptyStoreImage,
+            fit: BoxFit.scaleDown,
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget _buildStoreTitle(SellioColorScheme colors, SellioTheme theme) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
+          widget.title,
+          textAlign: TextAlign.center,
+          style: widget.imageUrl.isNotEmpty
+              ? theme.typography.textTheme.titleSmall.copyWith(
+                  color: colors.onPrimary,
+                )
+              : theme.typography.textTheme.titleSmall.copyWith(
+                  color: colors.title,
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFavoriteButton(SellioColorScheme colors, SellioTheme theme) {
+    return Positioned(
+      top: 4,
+      right: 4,
+      child: ClipOval(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: const BoxDecoration(
+              color: Color(0x99FFFFFF),
+              shape: BoxShape.circle,
+            ),
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: _toggleFavorite,
+                child: Center(
+                  child: SvgPicture.asset(
+                    _isFavorite
+                        ? AppImages.favorite
+                        : AppImages.unselectedFavorite,
+                    colorFilter: ColorFilter.mode(
+                      colors.primary,
+                      BlendMode.srcIn,
+                    ),
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );

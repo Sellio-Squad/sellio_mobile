@@ -66,7 +66,9 @@ class SellioChip extends StatelessWidget {
               ],
               Text(
                 label,
-                style: TextStyle(color: contentColor),
+                style: context.theme.typography.textTheme.labelSmall.copyWith(
+                  color: contentColor,
+                ),
               ),
             ],
           ),

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {
@@ -14,7 +15,7 @@ class OtpCubit extends Cubit<OtpState> {
     required this.onVerify,
     required this.onResend,
     this.otpLength = 4,
-    this.countdownDuration = 55,
+    this.countdownDuration = AuthConstants.otpResendCountdown,
   }) : super(const OtpIdle()) {
     startCountdown();
   }
