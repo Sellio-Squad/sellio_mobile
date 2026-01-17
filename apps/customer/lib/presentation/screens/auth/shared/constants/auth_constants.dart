@@ -8,8 +8,8 @@ abstract class AuthConstants {
 
   static const int authTimeout = 30;
 
-  static const int minPhoneLength = 10;
-  static const int maxPhoneLength = 15;
+  static const int minPhoneLength = 7;
+  static const int maxPhoneLength = 12;
   static const int minPasswordLength = 6;
   static const int maxPasswordLength = 20;
   static const int minNameLength = 2;

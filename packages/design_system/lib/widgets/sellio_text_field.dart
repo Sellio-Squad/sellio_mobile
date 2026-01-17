@@ -28,7 +28,7 @@ class SellioTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool isPhoneNumber;
   final String? countryFlag;
-/*  final Country? selectedCountry;
+  /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
 
@@ -56,7 +56,7 @@ class SellioTextField extends StatefulWidget {
     this.controller,
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
- /*   this.selectedCountry,
+    /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
   });
@@ -123,14 +123,16 @@ class _SellioTextFieldState extends State<SellioTextField> {
             BoxShadow(
               color: widget.shadowColor,
               blurRadius: 8,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ]
         : [];
 
     final textFieldStyle =
         widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(color: context.theme.colors.title);
+        context.theme.typography.textTheme.bodyMedium.copyWith(
+          color: context.theme.colors.title,
+        );
 
     final maxLines = widget.isParagraph
         ? (widget.maxLine ?? 5)
@@ -163,11 +165,14 @@ class _SellioTextFieldState extends State<SellioTextField> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextField(
+            onTapOutside: (event) {
+              FocusScope.of(context).unfocus();
+            },
             keyboardType: widget.inputType ?? TextInputType.text,
             focusNode: _focusNode,
             controller: _effectiveController,
             inputFormatters:
-            widget.inputFormatter ??
+                widget.inputFormatter ??
                 [
                   TextInputFormatter.withFunction((oldValue, newValue) {
                     final lineCount = '\n'.allMatches(newValue.text).length + 1;
@@ -192,6 +197,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
               fillColor: filledColor,
               hintText: widget.hintText,
               hintStyle: hintTextStyle,
+
               prefixIcon: widget.isParagraph
                   ? null
                   : _buildPrefixIcon(iconColor, AppImages.iconsPath),
@@ -210,24 +216,24 @@ class _SellioTextFieldState extends State<SellioTextField> {
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
+                borderSide: BorderSide(
+                  color: context.theme.colors.semanticError,
+                ),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   widget.focusedErrorBorderRadius,
                 ),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
+                borderSide: BorderSide(
+                  color: context.theme.colors.semanticError,
+                ),
               ),
               errorStyle: errorStyle,
             ),
           ),
-          Text(
-            isError ? (errorText ?? '') : '',
-            style: errorStyle,
-          )
-        ]
-      )
-
+          Text(isError ? (errorText ?? '') : '', style: errorStyle),
+        ],
+      ),
     );
   }
 
@@ -239,18 +245,18 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-/*          if (widget.prefixIcon != null) ...[widget.prefixIcon!],
-          if (widget.isPhoneNumber &&
-              widget.selectedCountry != null &&
-              widget.countries != null &&
-              widget.onChangeCountry != null)
-            _buildCountryDropdown(
-              context: context,
-              selectedCountry: widget.selectedCountry!,
-              countries: widget.countries!,
-              onChanged: widget.onChangeCountry!,
-              countryFlag: widget.countryFlag ?? AppImages.flagIraq,
-            ),*/
+          if (widget.prefixIcon != null) ...[widget.prefixIcon!],
+          // if (widget.isPhoneNumber &&
+          //     widget.selectedCountry != null &&
+          //     widget.countries != null &&
+          //     widget.onChangeCountry != null)
+          //   _buildCountryDropdown(
+          //     context: context,
+          //     selectedCountry: widget.selectedCountry!,
+          //     countries: widget.countries!,
+          //     onChanged: widget.onChangeCountry!,
+          //     countryFlag: widget.countryFlag ?? AppImages.flagIraq,
+          //   ),
         ],
       ),
     );
@@ -275,6 +281,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     return null;
   }
 }
+
 /*
 // todo : it's need update and remove Country parameter
 Widget _buildCountryDropdown({

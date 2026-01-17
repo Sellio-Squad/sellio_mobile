@@ -176,6 +176,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         final selectedCountry =
             (state is RegistrationIdle) ? state.selectedCountry : null;
         final colors = context.theme.colors;
+        final typography = context.theme.typography;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,8 +195,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             ),
             const SizedBox(height: 12),
             _buildCityField(colors),
-            _buildPasswordField(colors),
-            _buildConfirmPasswordField(colors),
+            _buildPasswordField(colors, typography),
+            _buildConfirmPasswordField(colors, typography),
           ],
         );
       },
@@ -288,10 +289,12 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     );
   }
 
-  Widget _buildPasswordField(dynamic colors) {
+  Widget _buildPasswordField(dynamic colors, dynamic typography) {
     return Focus(
       focusNode: _passwordFocusNode,
       child: SellioTextField(
+        textStyle:
+            typography.textTheme.labelSmall.copyWith(color: colors.title),
         controller: _passwordController,
         hintText: context.local.password,
         prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
@@ -306,10 +309,12 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     );
   }
 
-  Widget _buildConfirmPasswordField(dynamic colors) {
+  Widget _buildConfirmPasswordField(dynamic colors, dynamic typography) {
     return Focus(
       focusNode: _confirmPasswordFocusNode,
       child: SellioTextField(
+        textStyle:
+            typography.textTheme.labelSmall.copyWith(color: colors.title),
         controller: _confirmPasswordController,
         hintText: context.local.confirm_password,
         prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),

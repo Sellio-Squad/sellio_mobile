@@ -4,20 +4,23 @@ import 'package:equatable/equatable.dart';
 import '../../shared/enums/validation_error_type.dart';
 
 sealed class LoginState extends Equatable {
-  const LoginState();
+  final Country? selectedCountry;
+  const LoginState({this.selectedCountry});
+
+  @override
+  List<Object?> get props => [selectedCountry];
 }
 
 class LoginIdle extends LoginState {
   final String phoneNumber;
   final String password;
-  final Country? selectedCountry;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
   const LoginIdle({
     this.phoneNumber = '',
     this.password = '',
-    this.selectedCountry,
+    super.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
@@ -35,7 +38,9 @@ class LoginIdle extends LoginState {
       password: password ?? this.password,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError ? null : (validationError ?? this.validationError),
+      validationError: clearValidationError
+          ? null
+          : (validationError ?? this.validationError),
     );
   }
 
@@ -50,10 +55,10 @@ class LoginIdle extends LoginState {
 }
 
 class LoginSubmitting extends LoginState {
-  const LoginSubmitting();
+  const LoginSubmitting({super.selectedCountry});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [selectedCountry];
 }
 
 class LoginSuccess extends LoginState {
@@ -66,8 +71,8 @@ class LoginSuccess extends LoginState {
 class LoginFailure extends LoginState {
   final String? errorMessage;
 
-  const LoginFailure({this.errorMessage});
+  const LoginFailure({this.errorMessage, super.selectedCountry});
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [errorMessage, selectedCountry];
 }

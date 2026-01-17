@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import '../../../../../domain/repositories/auth_repository.dart';
-
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
@@ -15,7 +15,9 @@ class LoginCubit extends Cubit<LoginState> {
   })  : _authRepository = authRepository,
         super(LoginIdle(selectedCountry: initialCountry));
 
-  void updatePhoneNumber(String value) {
+  void updatePhoneNumber(
+    String value,
+  ) {
     _updateField((state) => state.copyWith(
           phoneNumber: value,
           clearValidationError: true,
@@ -48,6 +50,17 @@ class LoginCubit extends Cubit<LoginState> {
 
     final result = FormValidators.validateField(fieldType, value);
 
+    FormValidators.validateField(
+      fieldType,
+      value,
+      minPhoneLength: currentState.selectedCountry != null
+          ? intl_countries.countries
+              .firstWhere(
+                  (c) => c.code == currentState.selectedCountry!.countryCode)
+              .maxLength
+          : 0,
+    );
+
     if (!result.isValid && result.errorType != null) {
       emit(currentState.copyWith(validationError: result.errorType));
     }
@@ -61,12 +74,22 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   bool _isFormValid(LoginIdle state) {
+    final requiredLength = _getRequiredPhoneLength(state);
     return FormValidators.isLoginFormValid(
       phone: state.phoneNumber,
       password: state.password,
+      minPhoneLength: requiredLength,
     );
   }
 
+  int? _getRequiredPhoneLength(LoginIdle state) {
+    if (state.selectedCountry == null) return null;
+    final countryData = intl_countries.countries.firstWhere(
+      (c) => c.code == state.selectedCountry!.countryCode,
+      orElse: () => intl_countries.countries.firstWhere((c) => c.code == 'IQ'),
+    );
+    return countryData.maxLength;
+  }
 
   Future<void> login() async {
     final currentState = state;
@@ -82,7 +105,7 @@ class LoginCubit extends Cubit<LoginState> {
       return;
     }
 
-    emit(const LoginSubmitting());
+    emit(LoginSubmitting(selectedCountry: currentState.selectedCountry));
 
     final countryCode = currentState.selectedCountry?.phoneCode ?? '';
     final phoneNumber = '+$countryCode${currentState.phoneNumber}';

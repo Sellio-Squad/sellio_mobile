@@ -26,6 +26,7 @@ dependencies:
   intl: ^0.20.0
   shimmer: ^3.0.0
   carousel_slider: ^5.1.1
+  flutter_intl_phone_field: ^0.0.7
 
   # Networking
   dio: ^5.7.0
@@ -55,6 +56,8 @@ dependencies:
   # Freezed Serialization
   freezed_annotation: ^2.4.4
   json_annotation: ^4.9.0
+  device_preview: ^1.2.0
+  country_flags: ^4.1.1
 
 dev_dependencies:
   flutter_test:

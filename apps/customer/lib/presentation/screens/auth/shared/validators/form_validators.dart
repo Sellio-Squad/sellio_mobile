@@ -7,67 +7,76 @@ abstract class FormValidators {
   FormValidators._();
 
   static ValidationResult validateField(
-      FormFieldType fieldType,
-      String value, {
-        String? password,
-      }) {
+    FormFieldType fieldType,
+    String value, {
+    String? password,
+    int? minPhoneLength,
+  }) {
     return switch (fieldType) {
-      FormFieldType.phone => validatePhone(value),
+      FormFieldType.phone => validatePhone(value, minLength: minPhoneLength),
       FormFieldType.password => validatePassword(value),
       FormFieldType.confirmPassword =>
-          validateConfirmPassword(password ?? '', value),
+        validateConfirmPassword(password ?? '', value),
       FormFieldType.firstName => validateFirstName(value),
       FormFieldType.lastName => validateLastName(value),
       FormFieldType.city => validateCity(value),
     };
   }
 
-  static ValidationResult validatePhone(String phone) {
-    if (phone.length < AuthConstants.minPhoneLength) {
-      return const ValidationResult.invalid(ValidationErrorType.phoneMinLength);
-    }
+  static ValidationResult validatePhone(String phone, {int? minLength}) {
     if (!AuthConstants.digitsOnly.hasMatch(phone)) {
-      return const ValidationResult.invalid(ValidationErrorType.phoneDigitsOnly);
+      return const ValidationResult.invalid(
+          ValidationErrorType.phoneDigitsOnly);
+    }
+    if (minLength != null && phone.length != minLength) {
+      return const ValidationResult.invalid(ValidationErrorType.phoneMinLength);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validatePassword(String password) {
     if (password.length < AuthConstants.minPasswordLength) {
-      return const ValidationResult.invalid(ValidationErrorType.passwordMinLength);
+      return const ValidationResult.invalid(
+          ValidationErrorType.passwordMinLength);
     }
     if (password.length > AuthConstants.maxPasswordLength) {
-      return const ValidationResult.invalid(ValidationErrorType.passwordMaxLength);
+      return const ValidationResult.invalid(
+          ValidationErrorType.passwordMaxLength);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validateConfirmPassword(
-      String password,
-      String confirmPassword,
-      ) {
+    String password,
+    String confirmPassword,
+  ) {
     if (password != confirmPassword) {
-      return const ValidationResult.invalid(ValidationErrorType.passwordsDoNotMatch);
+      return const ValidationResult.invalid(
+          ValidationErrorType.passwordsDoNotMatch);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validateFirstName(String name) {
     if (name.length < AuthConstants.minNameLength) {
-      return const ValidationResult.invalid(ValidationErrorType.firstNameMinLength);
+      return const ValidationResult.invalid(
+          ValidationErrorType.firstNameMinLength);
     }
     if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
-      return const ValidationResult.invalid(ValidationErrorType.firstNameLettersOnly);
+      return const ValidationResult.invalid(
+          ValidationErrorType.firstNameLettersOnly);
     }
     return const ValidationResult.valid();
   }
 
   static ValidationResult validateLastName(String name) {
     if (name.length < AuthConstants.minNameLength) {
-      return const ValidationResult.invalid(ValidationErrorType.lastNameMinLength);
+      return const ValidationResult.invalid(
+          ValidationErrorType.lastNameMinLength);
     }
     if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
-      return const ValidationResult.invalid(ValidationErrorType.lastNameLettersOnly);
+      return const ValidationResult.invalid(
+          ValidationErrorType.lastNameLettersOnly);
     }
     return const ValidationResult.valid();
   }
@@ -77,7 +86,8 @@ abstract class FormValidators {
       return const ValidationResult.invalid(ValidationErrorType.cityMinLength);
     }
     if (!AuthConstants.lettersAndSpaces.hasMatch(city)) {
-      return const ValidationResult.invalid(ValidationErrorType.cityLettersOnly);
+      return const ValidationResult.invalid(
+          ValidationErrorType.cityLettersOnly);
     }
     return const ValidationResult.valid();
   }
@@ -85,10 +95,11 @@ abstract class FormValidators {
   static bool isLoginFormValid({
     required String phone,
     required String password,
+    int? minPhoneLength,
   }) {
     return phone.isNotEmpty &&
         password.isNotEmpty &&
-        validatePhone(phone).isValid &&
+        validatePhone(phone, minLength: minPhoneLength).isValid &&
         validatePassword(password).isValid;
   }
 

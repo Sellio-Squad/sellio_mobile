@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
+import 'package:flutter_intl_phone_field/countries.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
@@ -85,6 +86,7 @@ class _LoginBodyState extends State<LoginBody> {
       ],
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
@@ -108,9 +110,9 @@ class _LoginBodyState extends State<LoginBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        final selectedCountry =
-            (state is LoginIdle) ? state.selectedCountry : null;
+        final selectedCountry = state.selectedCountry;
         final colors = context.theme.colors;
+        final typography = context.theme.typography;
 
         return Column(
           children: [
@@ -126,6 +128,8 @@ class _LoginBodyState extends State<LoginBody> {
             Focus(
               focusNode: _passwordFocusNode,
               child: SellioTextField(
+                textStyle: typography.textTheme.labelSmall
+                    .copyWith(color: colors.title),
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
