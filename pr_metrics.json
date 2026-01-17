@@ -1,1 +1,39 @@
-[]
+[
+  {
+    "pr_number": 390,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/390",
+    "title": "refactor(auth): Remove unused userId handling from storage and reposi…",
+    "opened_at": "2026-01-17T20:00:41Z",
+    "head_ref": "refactor/remove-unused-userId",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
+    "assignees": [
+      {
+        "login": "abdo-essam",
+        "id": 92235360,
+        "url": "https://github.com/abdo-essam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W03",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 13,
+      "deletions": 48,
+      "changed_files": 6
+    }
+  }
+]
