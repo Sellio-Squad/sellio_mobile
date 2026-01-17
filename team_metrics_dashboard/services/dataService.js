@@ -2,7 +2,7 @@
 // Data Service - Handles API calls
 // ===========================
 
-import CONFIG from './config.js';
+import CONFIG from '../config.js';
 
 class DataService {
     constructor() {

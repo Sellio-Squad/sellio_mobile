@@ -70,6 +70,14 @@ The GitHub workflow (`sellio-metrics-bot.yml`) automatically collects:
 - PR status (pending, approved, merged, closed)
 - Week-based grouping for trends
 
+## 🌐 Live Demo
+
+The dashboard is automatically deployed to GitHub Pages: **https://sellio-squad.github.io/sellio_mobile/**
+
+The deployment updates automatically when changes are pushed to the `develop` branch.
+
+---
+
 ## 🚀 Setup
 
 ### 1. GitHub Workflow
