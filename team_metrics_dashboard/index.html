@@ -1,263 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sellio Team Metrics Dashboard - Real PR metrics and team performance tracking">
-    <title>Sellio Team Metrics Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sellio Squad - Team Dashboard</title>
 
-    <!-- Fonts -->
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-    <!-- Styles -->
+    <!-- Local Stylesheet -->
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <h1 class="logo">📊 Sellio Metrics</h1>
-                    <p class="subtitle">Real-Time PR Performance Dashboard</p>
+    <div class="container">
+        <div class="main-header">
+            <div class="header-container">
+                <h1 class="text-4xl font-extrabold">
+                    <span class="bg-gradient-to-r from-indigo-500 to-purple-600 text-transparent bg-clip-text">
+                        Sellio Squad Dashboard
+                    </span>
+                </h1>
+
+                <nav class="header-tabs">
+                    <button class="tab-button" data-tab="projects">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                        Projects
+                    </button>
+                    <button class="tab-button" data-tab="metrics">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 20V10M12 20V4M6 20v-6"></path>
+                        </svg>
+                        Metrics
+                    </button>
+                    <button class="tab-button active" data-tab="analytics">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Analytics
+                    </button>
+                    <button class="tab-button" data-tab="feedback">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Feedbacks
+                    </button>
+                </nav>
+
+                <button id="theme-toggle-btn" class="theme-toggle-btn" title="Toggle theme">
+                    <svg id="theme-icon-sun" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                    <svg id="theme-icon-moon" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="status-area">
+            <div class="loading-container" id="loading-indicator">
+                <div class="spinner"></div>
+                <p class="text-secondary">Loading dashboard data...</p>
+            </div>
+        </div>
+
+        <div id="content-area" class="hidden">
+            <div id="projects-content" class="tab-content">
+                <div class="text-center py-12">
+                    <h2 class="text-2xl font-bold" style="color: #9ca3af;">Projects View</h2>
+                    <p style="color: #6b7280;" class="mt-2">Project management features coming soon...</p>
                 </div>
-                <div class="header-controls">
-                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-                        <span class="theme-icon">🌙</span>
-                    </button>
-                    <button class="refresh-btn" id="refreshBtn" aria-label="Refresh data">
-                        <span>🔄</span> Refresh
-                    </button>
+            </div>
+
+            <div id="metrics-content" class="tab-content hidden">
+                <div class="text-center py-12">
+                    <h2 class="text-2xl font-bold" style="color: #9ca3af;">Metrics View</h2>
+                    <p style="color: #6b7280;" class="mt-2">Detailed metrics coming soon...</p>
+                </div>
+            </div>
+
+            <div id="analytics-content" class="tab-content hidden space-y-8">
+                <div class="analytics-filter-bar">
+                    <label for="analytics-week-filter" class="font-semibold">Filter by Week:</label>
+                    <select id="analytics-week-filter" class="control-input"></select>
+                    <label for="analytics-developer-filter" class="font-semibold">View as:</label>
+                    <select id="analytics-developer-filter" class="control-input"></select>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-fuchsia-500">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="18" r="3"></circle>
+                                <circle cx="6" cy="6" r="3"></circle>
+                                <path d="M13 6h3a2 2 0 0 1 2 2v7"></path>
+                                <line x1="6" y1="9" x2="6" y2="21"></line>
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-total-prs" class="kpi-value">-</div>
+                            <div class="kpi-label">Total PRs</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-purple-500">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="18" cy="18" r="3"></circle>
+                                <circle cx="6" cy="6" r="3"></circle>
+                                <path d="M6 21V9a9 9 0 0 0 9 9"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-total-merged" class="kpi-value">-</div>
+                            <div class="kpi-label">Merged PRs</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-red-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41L8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-total-closed" class="kpi-value">-</div>
+                            <div class="kpi-label">Total Closed PRs</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-blue-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12,6L17,11H7L12,6M7,13H17V15H7V13M7,17H17V19H7V17Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-avg-pr-size" class="kpi-value">-</div>
+                            <div class="kpi-label">Avg. PR Size</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-cyan-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M18,14H19V15H18V14M18,11H21V12H18V11M18,8H21V9H18V8M5,14H6V15H5V14M5,11H8V12H5V11M5,8H8V9H5V8M12,4C7.58,4 4,7.58 4,12C4,16.42 7.58,20 12,20C16.42,20 20,16.42 20,12C20,7.58 16.42,4 12,4Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-total-comments" class="kpi-value">-</div>
+                            <div class="kpi-label">Total Comments</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-pink-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9M10,16V19.08L13.08,16H20V4H4V16H10M6,7H18V9H6V7M6,11H15V13H6V11Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-avg-comments" class="kpi-value">-</div>
+                            <div class="kpi-label">Avg. Comments / PR</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bottleneck-container" class="panel">
+                    <h3 class="panel-header panel-title">🚨 Bottleneck Analysis</h3>
+                    <div class="panel-body">
+                        <div id="bottleneck-list" class="bottleneck-list">
+                            <!-- Bottleneck PRs will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="merge-process-health-container" class="panel"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-sky-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-avg-approval-time" class="kpi-value">-</div>
+                            <div class="kpi-label">Avg. Time to 1st Approval</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon bg-green-500">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="kpi-avg-lifespan" class="kpi-value">-</div>
+                            <div class="kpi-label">Avg. PR Lifespan</div>
+                        </div>
+                    </div>
+
+                    <div id="hot-streak-card" class="kpi-card spotlight-card"></div>
+                    <div id="fastest-reviewer-card" class="kpi-card spotlight-card"></div>
+                    <div id="top-commenter-card" class="kpi-card spotlight-card"></div>
+                </div>
+
+                <div class="panel">
+                    <h3 class="panel-header panel-title">Daily Activity Breakdown</h3>
+                    <div class="panel-body" id="daily-breakdown-container">
+                        <!-- Interactive daily breakdown will be rendered here -->
+                    </div>
+                </div>
+
+                <div id="pr-type-trends-container" class="panel"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="panel lg:col-span-2">
+                        <h3 class="panel-header panel-title">Top Collaboration Pairs</h3>
+                        <div class="panel-body">
+                            <ul id="collaboration-list" class="collaboration-list"></ul>
+                        </div>
+                    </div>
+                    <div class="panel lg:col-span-2">
+                        <h3 class="panel-header panel-title">Most Discussed PRs</h3>
+                        <div class="panel-body">
+                            <ul id="most-discussed-prs-list" class="discussed-prs-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="feedback-content" class="tab-content hidden">
+                <div class="text-center py-12">
+                    <h2 class="text-2xl font-bold" style="color: #9ca3af;">Feedback View</h2>
+                    <p style="color: #6b7280;" class="mt-2">Feedback features coming soon...</p>
                 </div>
             </div>
         </div>
-    </header>
+    </div>
 
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-
-            <!-- Analytics Filter Bar -->
-            <div id="analyticsFilterBar" class="analytics-filter-bar"></div>
-
-            <!-- KPI Cards Section -->
-            <section class="analytics-section">
-                <h2 class="section-title">📊 Key Performance Indicators</h2>
-                <div id="kpiCardsGrid" class="kpi-cards-grid"></div>
-            </section>
-
-            <!-- Merge Process Health -->
-            <section class="analytics-section">
-                <div id="mergeProcessHealthContainer" class="panel"></div>
-            </section>
-
-            <!-- Timing KPIs -->
-            <section class="analytics-section">
-                <div id="timingKPIsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </section>
-
-            <!-- Spotlight Cards -->
-            <section class="analytics-section">
-                <h2 class="section-title">🏆 Top Performers</h2>
-                <div id="spotlightCardsGrid" class="spotlight-grid"></div>
-            </section>
-
-            <!-- Daily Activity Breakdown -->
-            <section class="analytics-section">
-                <div class="panel">
-                    <h3 class="panel-header panel-title">📅 Daily Activity Breakdown</h3>
-                    <div class="panel-body" id="dailyBreakdownContainer">
-                        <!-- Populated by JavaScript -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- PR Type Analysis -->
-            <section class="analytics-section">
-                <div id="prTypeAnalysisContainer" class="panel"></div>
-            </section>
-
-            <!-- Collaboration & Discussion -->
-            <section class="analytics-section">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="panel">
-                        <h3 class="panel-header panel-title">🤝 Top Collaboration Pairs</h3>
-                        <div class="panel-body">
-                            <ul id="collaborationList" class="collaboration-list"></ul>
-                        </div>
-                    </div>
-                    <div class="panel">
-                        <h3 class="panel-header panel-title">💬 Most Discussed PRs</h3>
-                        <div class="panel-body">
-                            <ul id="mostDiscussedPRsList" class="discussed-prs-list"></ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Original Metrics Cards (Keep for compatibility) -->
-            <section class="metrics-section" style="display: none;">
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">✅</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">PRs Merged</h3>
-                            <p class="metric-value" id="prsMerged">0</p>
-                            <span class="metric-change positive" id="prsMergedChange">+0%</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon">⚡</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">Avg Time to Merge</h3>
-                            <p class="metric-value" id="timeToMerge">0h</p>
-                            <span class="metric-change negative" id="timeToMergeChange">+0%</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon">🚀</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">PR Velocity</h3>
-                            <p class="metric-value" id="prVelocity">0</p>
-                            <span class="metric-change positive" id="prVelocityChange">+0%</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card alert">
-                        <div class="metric-icon">🚧</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">PRs Awaiting Review</h3>
-                            <p class="metric-value" id="prsAwaitingReview">0</p>
-                            <span class="metric-change" id="prsAwaitingChange">Active</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon">📈</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">Review Efficiency</h3>
-                            <p class="metric-value" id="reviewEfficiency">0%</p>
-                            <span class="metric-change positive" id="reviewEfficiencyChange">+0%</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-icon">📋</div>
-                        <div class="metric-content">
-                            <h3 class="metric-label">Active PRs</h3>
-                            <p class="metric-value" id="activePRs">0</p>
-                            <span class="metric-change neutral" id="activePRsChange">In Progress</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Charts Section -->
-            <section class="charts-section">
-                <div class="charts-grid">
-
-                    <!-- PR Velocity Chart -->
-                    <div class="chart-card large">
-                        <div class="chart-header">
-                            <h2 class="chart-title">PR Velocity Trend</h2>
-                            <p class="chart-subtitle">PRs opened vs merged by week</p>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="velocityChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Time to Merge Distribution -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h2 class="chart-title">Time to Merge Distribution</h2>
-                            <p class="chart-subtitle">How long PRs take to merge</p>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="timeToMergeChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- PR Distribution by Author -->
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h2 class="chart-title">PR Distribution</h2>
-                            <p class="chart-subtitle">Top contributors</p>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="prDistChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- PR Status Flow -->
-                    <div class="chart-card large">
-                        <div class="chart-header">
-                            <h2 class="chart-title">PR Status Flow</h2>
-                            <p class="chart-subtitle">PR states over time</p>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="statusFlowChart"></canvas>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <!-- Bottleneck Analysis -->
-            <section class="bottleneck-section">
-                <h2 class="section-title">🚧 Bottleneck Analysis</h2>
-                <p class="section-subtitle">PRs waiting longest for review or merge</p>
-                <div class="bottleneck-grid" id="bottleneckGrid">
-                    <!-- Populated by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Team Performance -->
-            <section class="team-section">
-                <h2 class="section-title">👥 Team Performance</h2>
-                <p class="section-subtitle">Individual contributor metrics</p>
-                <div class="team-table-container">
-                    <table class="team-table" id="teamTable">
-                        <thead>
-                            <tr>
-                                <th>Team Member</th>
-                                <th>PRs Created</th>
-                                <th>PRs Merged</th>
-                                <th>PRs Reviewed</th>
-                                <th>Avg Review Time</th>
-                                <th>Productivity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Sellio Team Metrics Dashboard | Last updated: <span id="lastUpdated"></span></p>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script type="module" src="app.js"></script>
+    <!-- Complete Novix Features -->
+    <script src="complete-app.js"></script>
 </body>
 
 </html>
