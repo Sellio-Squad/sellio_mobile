@@ -32,7 +32,6 @@ class DashboardApp {
         try {
             UIManager.showLoading();
 
-            // Fetch PR data
             this.prData = await DataService.fetchPRMetrics();
 
             // Calculate metrics
