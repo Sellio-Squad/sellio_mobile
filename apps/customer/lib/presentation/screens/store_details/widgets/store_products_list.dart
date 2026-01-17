@@ -59,7 +59,9 @@ class _StoreProductsListState extends State<StoreProductsList> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: _itemSpacing),
               child: SellioProductHorizontalCard(
-                imageUrl: product.images.isNotEmpty ? product.images.first : '',
+                imageUrl: product.images.isNotEmpty 
+                    ? product.images.first 
+                    : AppImages.cartProduct,
                 title: product.title,
                 description: product.description,
                 price: product.price.toString(),

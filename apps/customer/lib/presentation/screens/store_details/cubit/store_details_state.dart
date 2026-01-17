@@ -52,9 +52,13 @@ class StoreDetailsLoaded extends StoreDetailsState {
 
 class StoreDetailsError extends StoreDetailsState {
   final String message;
+  final String? failedCall;
 
-  const StoreDetailsError({required this.message});
+  const StoreDetailsError({
+    required this.message,
+    this.failedCall,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, failedCall];
 }

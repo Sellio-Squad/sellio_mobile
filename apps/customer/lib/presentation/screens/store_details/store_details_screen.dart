@@ -63,7 +63,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     }
 
     if (state is StoreDetailsError) {
-      return Center(child: Text(state.message));
+      return _buildErrorView(context, state);
     }
 
     if (state is StoreDetailsLoaded) {
@@ -76,10 +76,13 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         slivers: [
           _buildStoreHeader(store),
           _buildStoreInfoCard(store, rating),
-          _buildFeaturedItemsSection(products),
+          if (products.isNotEmpty) _buildFeaturedItemsSection(products),
           _buildSectionSpacing(),
-          _buildCategoryTabs(store),
-          _buildProductsList(products, categories),
+          if (categories.isNotEmpty) _buildCategoryTabs(store),
+          if (products.isNotEmpty)
+            _buildProductsList(products, categories)
+          else
+            _buildNoProductsMessage(),
         ],
       );
     }
@@ -87,12 +90,105 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return const SizedBox.shrink();
   }
 
+  Widget _buildErrorView(BuildContext context, StoreDetailsError state) {
+    final theme = context.theme;
+    final colors = theme.colors;
+    final textTheme = theme.typography.textTheme;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: 64,
+              color: colors.red,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Unable to load store details',
+              style: textTheme.headlineSmall.copyWith(
+                color: colors.title,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              state.message,
+              style: textTheme.bodyMedium.copyWith(
+                color: colors.body,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            if (state.failedCall != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'Failed to load: ${state.failedCall}',
+                style: textTheme.bodySmall.copyWith(
+                  color: colors.hint,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                context.read<StoreDetailsCubit>().retry();
+              },
+              icon: const Icon(Icons.refresh),
+              label: const Text('Retry'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: colors.primary,
+                foregroundColor: colors.onPrimary,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoProductsMessage() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Icon(
+              Icons.inventory_2_outlined,
+              size: 48,
+              color: Colors.grey[400],
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No products available',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.grey[600],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildStoreHeader(Store store) {
     return SliverToBoxAdapter(
       child: StoreHeader(
-        coverImage: store.coverImage,
-        profileImage: store.profileImage,
-        storeName: store.name,
+        coverImage: store.coverImage.isNotEmpty 
+            ? store.coverImage 
+            : AppImages.storeSweet,
+        profileImage: store.profileImage.isNotEmpty 
+            ? store.profileImage 
+            : AppImages.placeholder,
+        storeName: store.name.isNotEmpty ? store.name : 'Store',
         discount: store.sale ?? '',
       ),
     );
@@ -108,10 +204,10 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           LayoutConstants.paddingVertical,
         ),
         child: StoreInfoOverview(
-          location: store.address.city,
-          rating: rating.averageRating,
+          location: store.address.city.isNotEmpty ? store.address.city : 'Unknown',
+          rating: rating.averageRating.clamp(0.0, 5.0),
           tags: store.categories.map((category) => category.name).toList(),
-          description: store.description,
+          description: store.description.isNotEmpty ? store.description : 'No description available',
         ),
       ),
     );
@@ -138,26 +234,40 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildProductsList(List<Product> products, List<Category> categories) {
+    if (products.isEmpty) {
+      return _buildNoProductsMessage();
+    }
+
     return BlocBuilder<CartCubit, CartState>(
       builder: (BuildContext context, cartState) {
         return SliverPadding(
           padding: const EdgeInsets.all(LayoutConstants.paddingHorizontal),
           sliver: StoreProductsList(
-            onTap: () => context.navigator.pushProductDetails(
-              ProductDetailsArgs(
-                productId: products[0].id,
-              ),
-            ),
+            onTap: () {
+              if (products.isNotEmpty) {
+                context.navigator.pushProductDetails(
+                  ProductDetailsArgs(
+                    productId: products[0].id,
+                  ),
+                );
+              }
+            },
             categoryIndex: _selectedCategoryIndex,
             products: products,
             categories: categories.map((c) => c.id).toList(),
             onIncrement: () {
-              context.read<CartCubit>().incrementProduct(products[0].id);
+              if (products.isNotEmpty) {
+                context.read<CartCubit>().incrementProduct(products[0].id);
+              }
             },
             onDecrement: () {
-              context.read<CartCubit>().decrementProduct(products[0].id);
+              if (products.isNotEmpty) {
+                context.read<CartCubit>().decrementProduct(products[0].id);
+              }
             },
-            count: cartState.productCounts[products[0].id] ?? 0,
+            count: products.isNotEmpty 
+                ? (cartState.productCounts[products[0].id] ?? 0)
+                : 0,
           ),
         );
       },

@@ -68,6 +68,7 @@ class TopStoresSection extends StatelessWidget {
                     context.read<FavoritesCubit>().toggleStoreFavorite(storeId);
                   },
                   onStorePressed: (store) {
+                    debugPrint('Navigating to store details with ID: ${store.id}');
                     navigateToStoreDetails(context, store.id);
                   },
                 ),

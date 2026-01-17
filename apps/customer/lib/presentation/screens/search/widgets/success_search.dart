@@ -75,7 +75,7 @@ class GridProductsSection extends StatelessWidget {
 
         return SellioProductVerticalCard(
           productId: product.id,
-          imageUrl: product.images.isNotEmpty ? product.images.first : 'assets/images/product_3.webp',
+          imageUrl: product.images.isNotEmpty ? product.images.first : AppImages.cartProduct,
           title: product.title,
           price: "${product.currency}${product.price}",
           isFavorite: false,
