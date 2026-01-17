@@ -19,10 +19,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "devsadeq",
+          "id": 64174395,
+          "url": "https://github.com/devsadeq"
+        },
+        "submitted_at": "2026-01-17T20:04:52Z",
+        "commit_id": "6f038eaaa77027f50f6a2d58e497f49491f31d7e"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-17T20:04:52Z",
+    "time_to_first_approval_minutes": 4.183333333333334,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
