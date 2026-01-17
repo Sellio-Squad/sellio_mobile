@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sellio Team Metrics Dashboard - Real PR metrics and team performance tracking">
+    <title>Sellio Team Metrics Dashboard</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <h1 class="logo">📊 Sellio Metrics</h1>
+                    <p class="subtitle">Real-Time PR Performance Dashboard</p>
+                </div>
+                <div class="header-controls">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="refresh-btn" id="refreshBtn" aria-label="Refresh data">
+                        <span>🔄</span> Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- Metrics Cards -->
+            <section class="metrics-section">
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">✅</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">PRs Merged</h3>
+                            <p class="metric-value" id="prsMerged">0</p>
+                            <span class="metric-change positive" id="prsMergedChange">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">⚡</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">Avg Time to Merge</h3>
+                            <p class="metric-value" id="timeToMerge">0h</p>
+                            <span class="metric-change negative" id="timeToMergeChange">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">🚀</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">PR Velocity</h3>
+                            <p class="metric-value" id="prVelocity">0</p>
+                            <span class="metric-change positive" id="prVelocityChange">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card alert">
+                        <div class="metric-icon">🚧</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">PRs Awaiting Review</h3>
+                            <p class="metric-value" id="prsAwaitingReview">0</p>
+                            <span class="metric-change" id="prsAwaitingChange">Active</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">📈</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">Review Efficiency</h3>
+                            <p class="metric-value" id="reviewEfficiency">0%</p>
+                            <span class="metric-change positive" id="reviewEfficiencyChange">+0%</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-icon">📋</div>
+                        <div class="metric-content">
+                            <h3 class="metric-label">Active PRs</h3>
+                            <p class="metric-value" id="activePRs">0</p>
+                            <span class="metric-change neutral" id="activePRsChange">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <div class="charts-grid">
+                    
+                    <!-- PR Velocity Chart -->
+                    <div class="chart-card large">
+                        <div class="chart-header">
+                            <h2 class="chart-title">PR Velocity Trend</h2>
+                            <p class="chart-subtitle">PRs opened vs merged by week</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="velocityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Time to Merge Distribution -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h2 class="chart-title">Time to Merge Distribution</h2>
+                            <p class="chart-subtitle">How long PRs take to merge</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="timeToMergeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- PR Distribution by Author -->
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h2 class="chart-title">PR Distribution</h2>
+                            <p class="chart-subtitle">Top contributors</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="prDistChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- PR Status Flow -->
+                    <div class="chart-card large">
+                        <div class="chart-header">
+                            <h2 class="chart-title">PR Status Flow</h2>
+                            <p class="chart-subtitle">PR states over time</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="statusFlowChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Bottleneck Analysis -->
+            <section class="bottleneck-section">
+                <h2 class="section-title">🚧 Bottleneck Analysis</h2>
+                <p class="section-subtitle">PRs waiting longest for review or merge</p>
+                <div class="bottleneck-grid" id="bottleneckGrid">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Team Performance -->
+            <section class="team-section">
+                <h2 class="section-title">👥 Team Performance</h2>
+                <p class="section-subtitle">Individual contributor metrics</p>
+                <div class="team-table-container">
+                    <table class="team-table" id="teamTable">
+                        <thead>
+                            <tr>
+                                <th>Team Member</th>
+                                <th>PRs Created</th>
+                                <th>PRs Merged</th>
+                                <th>PRs Reviewed</th>
+                                <th>Avg Review Time</th>
+                                <th>Productivity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Sellio Team Metrics Dashboard | Last updated: <span id="lastUpdated"></span></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
