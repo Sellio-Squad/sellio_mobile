@@ -4,7 +4,6 @@ import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store_rating.dart';
 import '../../../../core/error/result.dart';
 import 'store_details_state.dart';
-import 'dart:developer' as developer;
 
 class StoreDetailsCubit extends Cubit<StoreDetailsState> {
   final StoreRepository _repository;
@@ -16,8 +15,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     _lastStoreId = storeId;
     emit(const StoreDetailsLoading());
 
-    developer.log('Loading store details for storeId: $storeId', name: 'StoreDetailsCubit');
-
     // Fetch store details - this is the critical one
     final storeResult = await _repository.getStoreDetails(storeId);
     
@@ -25,21 +22,16 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
       final errorMessage = storeResult is ResultFailure 
           ? storeResult.failure.message 
           : 'Failed to load store details';
-      developer.log('Store fetch failed: $errorMessage', name: 'StoreDetailsCubit', error: errorMessage);
       emit(StoreDetailsError(message: errorMessage, failedCall: 'Store Details'));
       return;
     }
-
-    developer.log('Store details loaded successfully', name: 'StoreDetailsCubit');
 
     // Fetch rating - pass null if fails (section will be hidden)
     final ratingResult = await _repository.getStoreRating(storeId);
     StoreRating? rating;
     if (ratingResult is Success) {
       rating = ratingResult.data;
-      developer.log('Store rating loaded successfully', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Store rating failed, section will be hidden', name: 'StoreDetailsCubit');
       rating = null;
     }
 
@@ -48,9 +40,7 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     List<Product>? products;
     if (productsResult is Success) {
       products = productsResult.data;
-      developer.log('Store products loaded: ${products.length} items', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Store products failed, section will be hidden', name: 'StoreDetailsCubit');
       products = null;
     }
 
@@ -59,9 +49,7 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     List<Product>? featuredProducts;
     if (featuredProductsResult is Success) {
       featuredProducts = featuredProductsResult.data;
-      developer.log('Featured products loaded: ${featuredProducts.length} items', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Featured products failed, section will be hidden', name: 'StoreDetailsCubit');
       featuredProducts = null;
     }
 
@@ -71,8 +59,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
       featuredProducts: featuredProducts,
       rating: rating,
     ));
-
-    developer.log('Store details screen loaded successfully', name: 'StoreDetailsCubit');
   }
 
   Future<void> retry() async {

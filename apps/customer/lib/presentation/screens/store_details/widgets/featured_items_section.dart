@@ -52,13 +52,6 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
             itemBuilder: (context, index) {
               final product = widget.products[index];
 
-              // Log the first image of each product
-              if (product.images.isNotEmpty) {
-                debugPrint('Product ${product.id} image: ${product.images.first}');
-              } else {
-                debugPrint('Product ${product.id} has no images.');
-              }
-
               return GestureDetector(
                 onTap: () => context.navigator.pushProductDetails(
                   ProductDetailsArgs(
