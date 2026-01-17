@@ -63,6 +63,9 @@ class ApiEndpoints {
   static const String storesSearch = '$apiVersion/stores/search';
 
   static String storeById(String storeId) => '$apiVersion/stores/$storeId';
+  
+  static String storeDetails(String storeId) => 
+      '$apiVersion/stores/store-details/$storeId';
 
   static String storeImages(String storeId) =>
       '$apiVersion/stores/$storeId/images';
