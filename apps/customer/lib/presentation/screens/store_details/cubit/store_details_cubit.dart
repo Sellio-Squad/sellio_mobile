@@ -32,42 +32,37 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
 
     developer.log('Store details loaded successfully', name: 'StoreDetailsCubit');
 
-    // Fetch rating - use default if fails
+    // Fetch rating - pass null if fails (section will be hidden)
     final ratingResult = await _repository.getStoreRating(storeId);
-    StoreRating rating;
+    StoreRating? rating;
     if (ratingResult is Success) {
       rating = ratingResult.data;
       developer.log('Store rating loaded successfully', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Store rating failed, using default', name: 'StoreDetailsCubit');
-      rating = const StoreRating(
-        storeId: '',
-        averageRating: 0.0,
-        totalReviews: 0,
-        ratingDistribution: {},
-      );
+      developer.log('Store rating failed, section will be hidden', name: 'StoreDetailsCubit');
+      rating = null;
     }
 
-    // Fetch products - use empty list if fails
+    // Fetch products - pass null if fails (section will be hidden)
     final productsResult = await _repository.getStoreProducts(storeId: storeId);
-    List<Product> products;
+    List<Product>? products;
     if (productsResult is Success) {
       products = productsResult.data;
       developer.log('Store products loaded: ${products.length} items', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Store products failed, using empty list', name: 'StoreDetailsCubit');
-      products = [];
+      developer.log('Store products failed, section will be hidden', name: 'StoreDetailsCubit');
+      products = null;
     }
 
-    // Fetch featured products - use empty list if fails
+    // Fetch featured products - pass null if fails (section will be hidden)
     final featuredProductsResult = await _repository.getStoreFeaturedProducts(storeId: storeId);
-    List<Product> featuredProducts;
+    List<Product>? featuredProducts;
     if (featuredProductsResult is Success) {
       featuredProducts = featuredProductsResult.data;
       developer.log('Featured products loaded: ${featuredProducts.length} items', name: 'StoreDetailsCubit');
     } else {
-      developer.log('Featured products failed, using empty list', name: 'StoreDetailsCubit');
-      featuredProducts = [];
+      developer.log('Featured products failed, section will be hidden', name: 'StoreDetailsCubit');
+      featuredProducts = null;
     }
 
     emit(StoreDetailsLoaded(
