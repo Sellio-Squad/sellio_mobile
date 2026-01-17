@@ -1,4 +1,6 @@
 import 'package:design_system/design_system.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -26,11 +28,14 @@ void main() async {
   await init();
 
   runApp(
-    BlocProvider(
-      create: (context) => LocaleCubit(prefs),
-      child: SellioThemeProvider(
-        brightness: Brightness.light,
-        child: const MyApp(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => BlocProvider(
+        create: (context) => LocaleCubit(prefs),
+        child: SellioThemeProvider(
+          brightness: Brightness.light,
+          child: const MyApp(),
+        ),
       ),
     ),
   );
@@ -61,6 +66,9 @@ class MyApp extends StatelessWidget {
         child: BlocBuilder<LocaleCubit, LocaleState>(
           builder: (context, localeState) {
             return MaterialApp.router(
+              useInheritedMediaQuery: true,
+              // locale: DevicePreview.locale(context),
+              builder: DevicePreview.appBuilder,
               debugShowCheckedModeBanner: false,
               routerConfig: RouteGenerator.router,
               title: 'Sellio app',
