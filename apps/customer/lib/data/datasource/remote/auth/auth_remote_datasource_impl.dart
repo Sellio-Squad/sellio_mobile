@@ -143,7 +143,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     await _apiClient.post(
-      ApiEndpoints.resetPassword,
+      ApiEndpoints.resetForgotPassword,
       data: request.toJson(),
     );
   }
