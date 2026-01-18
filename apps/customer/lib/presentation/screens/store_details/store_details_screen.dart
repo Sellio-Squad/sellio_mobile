@@ -76,16 +76,12 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       return CustomScrollView(
         slivers: [
           _buildStoreHeader(store),
-          // Only show info card if rating is available
           if (rating != null) _buildStoreInfoCard(store, rating),
-          // Only show featured items if featured products are available and not empty
           if (featuredProducts != null && featuredProducts.isNotEmpty) 
             _buildFeaturedItemsSection(featuredProducts),
           _buildSectionSpacing(),
-          // Only show category tabs if products are available and categories exist
           if (products != null && categories.isNotEmpty) 
             _buildCategoryTabs(store),
-          // Only show products list if products are available
           if (products != null && products.isNotEmpty)
             _buildProductsList(products, categories),
         ],

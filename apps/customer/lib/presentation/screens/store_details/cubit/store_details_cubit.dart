@@ -15,7 +15,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     _lastStoreId = storeId;
     emit(const StoreDetailsLoading());
 
-    // Fetch store details - this is the critical one
     final storeResult = await _repository.getStoreDetails(storeId);
     
     if (storeResult is! Success) {
@@ -26,7 +25,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
       return;
     }
 
-    // Fetch rating - pass null if fails (section will be hidden)
     final ratingResult = await _repository.getStoreRating(storeId);
     StoreRating? rating;
     if (ratingResult is Success) {
@@ -35,7 +33,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
       rating = null;
     }
 
-    // Fetch products - pass null if fails (section will be hidden)
     final productsResult = await _repository.getStoreProducts(storeId: storeId);
     List<Product>? products;
     if (productsResult is Success) {
@@ -44,7 +41,6 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
       products = null;
     }
 
-    // Fetch featured products - pass null if fails (section will be hidden)
     final featuredProductsResult = await _repository.getStoreFeaturedProducts(storeId: storeId);
     List<Product>? featuredProducts;
     if (featuredProductsResult is Success) {
