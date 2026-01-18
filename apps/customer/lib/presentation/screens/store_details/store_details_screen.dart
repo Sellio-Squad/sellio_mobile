@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../../domain/repositories/store_repository.dart';
-import 'package:design_system/design_system.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
 import '../../../domain/entities/store_rating.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:design_system/design_system.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';
@@ -109,7 +107,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Unable to load store details',
+              context.local.unable_to_load_store_details,
               style: textTheme.headlineSmall.copyWith(
                 color: colors.title,
               ),
@@ -117,7 +115,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              state.message,
+              state.message.isNotEmpty ? state.message : context.local.error_generic,
               style: textTheme.bodyMedium.copyWith(
                 color: colors.body,
               ),
@@ -126,7 +124,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             if (state.failedCall != null) ...[
               const SizedBox(height: 8),
               Text(
-                'Failed to load: ${state.failedCall}',
+                '${context.local.failed_to_load}: ${state.failedCall}',
                 style: textTheme.bodySmall.copyWith(
                   color: colors.hint,
                 ),
@@ -139,7 +137,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                 context.read<StoreDetailsCubit>().retry();
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(context.local.retry),
               style: ElevatedButton.styleFrom(
                 backgroundColor: colors.primary,
                 foregroundColor: colors.onPrimary,
@@ -168,7 +166,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No products available',
+              context.local.no_products_available,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -189,7 +187,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         profileImage: store.profileImage.isNotEmpty 
             ? store.profileImage 
             : AppImages.placeholder,
-        storeName: store.name.isNotEmpty ? store.name : 'Store',
+        storeName: store.name.isNotEmpty ? store.name : context.local.store,
         discount: store.sale ?? '',
       ),
     );
@@ -205,10 +203,10 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           LayoutConstants.paddingVertical,
         ),
         child: StoreInfoOverview(
-          location: store.address.city.isNotEmpty ? store.address.city : 'Unknown',
+          location: store.address.city.isNotEmpty ? store.address.city : context.local.unknown,
           rating: rating.averageRating.clamp(0.0, 5.0),
           tags: store.categories.map((category) => category.name).toList(),
-          description: store.description.isNotEmpty ? store.description : 'No description available',
+          description: store.description.isNotEmpty ? store.description : context.local.no_description_available,
         ),
       ),
     );

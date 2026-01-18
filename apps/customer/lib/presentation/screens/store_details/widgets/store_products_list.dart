@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../../domain/entities/product.dart';
 
 class StoreProductsList extends StatefulWidget {
@@ -40,11 +41,11 @@ class _StoreProductsListState extends State<StoreProductsList> {
   @override
   Widget build(BuildContext context) {
     if (filteredProducts.isEmpty) {
-      return const SliverToBoxAdapter(
+      return SliverToBoxAdapter(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(32.0),
-            child: Text('No products available'),
+            padding: const EdgeInsets.all(32.0),
+            child: Text(context.local.no_products_available),
           ),
         ),
       );

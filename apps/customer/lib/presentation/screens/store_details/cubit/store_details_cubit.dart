@@ -20,8 +20,8 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     if (storeResult is! Success) {
       final errorMessage = storeResult is ResultFailure 
           ? storeResult.failure.message 
-          : 'Failed to load store details';
-      emit(StoreDetailsError(message: errorMessage, failedCall: 'Store Details'));
+          : '';
+      emit(StoreDetailsError(message: errorMessage, failedCall: 'store_details'));
       return;
     }
 
