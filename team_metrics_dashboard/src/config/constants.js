@@ -95,5 +95,42 @@ export const DEFAULT_ACTIVE_TAB = 'analytics';
 export const STORAGE_KEYS = {
     THEME: 'theme',
     SETTINGS: 'dashboard_settings',
-    FILTER_STATE: 'filter_state'
+    FILTER_STATE: 'filter_state',
+    GITHUB_CACHE: 'github_pr_cache',
+    GITHUB_CACHE_TIMESTAMP: 'github_cache_timestamp'
+};
+
+/**
+ * GitHub API Configuration
+ */
+export const GITHUB_API = {
+    /**
+     * Cache time-to-live in milliseconds (15 minutes)
+     */
+    CACHE_TTL_MS: 15 * 60 * 1000,
+
+    /**
+     * Number of PRs to fetch per page
+     */
+    PER_PAGE: 100,
+
+    /**
+     * Maximum number of pages to fetch
+     */
+    MAX_PAGES: 3,
+
+    /**
+     * Days to look back for PRs
+     */
+    DAYS_LOOKBACK: 90,
+
+    /**
+     * Rate limit warning threshold (requests remaining)
+     */
+    RATE_LIMIT_WARNING_THRESHOLD: 100,
+
+    /**
+     * Request timeout in milliseconds
+     */
+    TIMEOUT_MS: 30000
 };

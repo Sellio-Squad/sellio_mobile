@@ -70,3 +70,23 @@ export function getRelativeTime(date) {
     if (diffHours < 24) return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`;
     return `${diffDays} day${diffDays !== 1 ? 's' : ''} ago`;
 }
+
+/**
+ * Format distance to now (e.g., "5 minutes", "2 hours", "3 days")
+ * @param {Date|string} date - Date to format
+ * @returns {string} Distance string
+ */
+export function formatDistanceToNow(date) {
+    const now = new Date();
+    const target = new Date(date);
+    const diffMs = Math.abs(now - target);
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffMins < 1) return 'just now';
+    if (diffMins < 60) return `${diffMins} min${diffMins !== 1 ? 's' : ''}`;
+    if (diffHours < 24) return `${diffHours} hr${diffHours !== 1 ? 's' : ''}`;
+    return `${diffDays} day${diffDays !== 1 ? 's' : ''}`;
+}
+

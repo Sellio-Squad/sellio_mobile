@@ -15,6 +15,7 @@ import { renderMergeProcessHealth } from '../components/mergeHealth.js';
 import { renderDailyActivity, renderPRTypes, renderCollaboration, renderDiscussedPRs } from '../components/otherComponents.js';
 import { initSettingsPanel } from '../components/settingsPanel.js';
 import { notificationSystem } from '../components/notifications.js';
+import { loadPRMetrics, isDataAvailable } from '../services/dataLoader.js';
 
 export class Dashboard {
     constructor() {
@@ -26,6 +27,7 @@ export class Dashboard {
             week: 'all',
             developer: 'all'
         };
+        this.dataSource = 'unknown'; // 'github' or 'mock'
     }
 
     async initialize() {
@@ -113,14 +115,23 @@ export class Dashboard {
 
     async loadData() {
         try {
-            console.log(STRINGS.console.dataGenerated);
-            localStorage.clear();
-            this.prData = generateMockPRData();
-            console.log(STRINGS.console.dataLoaded);
+            // Try to load from pr_metrics.json first
+            console.log('� Attempting to load PR metrics from workflow JSON...');
+            try {
+                this.prData = await loadPRMetrics();
+                this.dataSource = 'workflow';
+                console.log(`✅ Loaded ${this.prData.length} PRs from pr_metrics.json`);
+            } catch (error) {
+                console.warn('⚠️ Could not load pr_metrics.json, using mock data');
+                console.error('Error details:', error.message);
+                this.prData = generateMockPRData();
+                this.dataSource = 'mock';
+            }
 
             this.renderAnalytics();
         } catch (error) {
             console.error('❌ Error loading data:', error);
+            this.dataSource = 'error';
         }
     }
 

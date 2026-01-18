@@ -146,5 +146,29 @@ export const STRINGS = {
         thresholdExceeded: 'PR has exceeded the bottleneck threshold',
         prMerged: 'PR merged successfully',
         reviewNeeded: 'Review needed for PR'
+    },
+
+    // GitHub API
+    github: {
+        connected: 'Connected to GitHub',
+        notConfigured: 'Not Configured',
+        connectionError: 'Connection Error',
+        usingCache: 'Using Cached Data',
+        fetchingData: 'Fetching data from GitHub...',
+        refreshing: 'Refreshing...',
+        refresh: 'Refresh',
+        lastUpdated: 'Last updated',
+        apiLimit: 'API Limit:',
+        resetsIn: 'resets in',
+        errors: {
+            notConfigured: 'GitHub service is not properly configured. Please check github-config.js',
+            authFailed: 'GitHub authentication failed. Please check your access token.',
+            rateLimitExceeded: 'GitHub API rate limit exceeded. Please try again later.',
+            repoNotFound: 'Repository not found. Please check the owner and repo name.',
+            networkError: 'Network error. Please check your connection.',
+            timeout: 'Request timed out. Please try again.',
+            unknownError: 'An unknown error occurred while fetching data.'
+        }
     }
 };
+
