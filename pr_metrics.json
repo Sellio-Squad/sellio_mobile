@@ -54,5 +54,42 @@
       "deletions": 48,
       "changed_files": 6
     }
+  },
+  {
+    "pr_number": 391,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/391",
+    "title": "Fix/feedback text fields",
+    "opened_at": "2026-01-18T07:57:23Z",
+    "head_ref": "fix/feedback-text-fields",
+    "base_ref": "develop",
+    "creator": {
+      "login": "NadeenRR",
+      "id": 65049320,
+      "url": "https://github.com/NadeenRR"
+    },
+    "assignees": [
+      {
+        "login": "NadeenRR",
+        "id": 65049320,
+        "url": "https://github.com/NadeenRR"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W03",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 487,
+      "deletions": 138,
+      "changed_files": 25
+    }
   }
 ]
