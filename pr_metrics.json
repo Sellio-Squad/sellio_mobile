@@ -187,8 +187,8 @@
     "status": "pending",
     "diff_stats": {
       "additions": 3,
-      "deletions": 2,
-      "changed_files": 2
+      "deletions": 69,
+      "changed_files": 4
     }
   }
 ]
