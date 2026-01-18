@@ -78,7 +78,18 @@
         "url": "https://github.com/NadeenRR"
       }
     ],
-    "comments": [],
+    "comments": [
+      {
+        "author": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "first_comment_at": "2026-01-18T09:20:51Z",
+        "last_comment_at": "2026-01-18T09:20:51Z",
+        "count": 1
+      }
+    ],
     "approvals": [],
     "required_approvals": 2,
     "first_approved_at": null,
