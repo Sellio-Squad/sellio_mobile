@@ -45,6 +45,14 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   @override
+  Future<Result<Store>> getStoreDetails(String storeId) async {
+    return RepositoryCallHandler.call<Store>(() async {
+      final storeModel = await _remoteDataSource.getStoreDetails(storeId);
+      return storeModel.toEntity();
+    });
+  }
+
+  @override
   Future<Result<List<Store>>> getTopStores({
     int limit = RepositoryConstants.defaultTopStoresLimit,
   }) async {
