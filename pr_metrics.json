@@ -184,10 +184,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "Ahmedsayed0895",
+          "id": 195496797,
+          "url": "https://github.com/Ahmedsayed0895"
+        },
+        "submitted_at": "2026-01-18T23:20:14Z",
+        "commit_id": "ae4009d291996d3fbf09882eb5723122f16d39f7"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-18T23:20:14Z",
+    "time_to_first_approval_minutes": 76.66666666666667,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
