@@ -44,11 +44,15 @@
     "time_to_first_approval_minutes": 4.183333333333334,
     "required_approvals_met_at": "2026-01-18T04:17:56Z",
     "time_to_required_approvals_minutes": 497.25,
-    "closed_at": null,
-    "merged_at": null,
-    "merged_by": null,
+    "closed_at": "2026-01-18T09:10:12Z",
+    "merged_at": "2026-01-18T09:10:12Z",
+    "merged_by": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
     "week": "2026-W03",
-    "status": "approved",
+    "status": "merged",
     "diff_stats": {
       "additions": 13,
       "deletions": 48,
