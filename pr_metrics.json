@@ -116,5 +116,42 @@
       "deletions": 138,
       "changed_files": 25
     }
+  },
+  {
+    "pr_number": 392,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/392",
+    "title": "Add Code Metrics Lint Rules ",
+    "opened_at": "2026-01-18T20:42:40Z",
+    "head_ref": "feature/add-lint-rules-for-code-metrics",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W03",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 146,
+      "deletions": 62,
+      "changed_files": 5
+    }
   }
 ]
