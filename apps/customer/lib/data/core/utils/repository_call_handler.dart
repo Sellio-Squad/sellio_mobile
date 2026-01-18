@@ -43,25 +43,6 @@ class RepositoryCallHandler {
     }
   }
 
-  static Future<Result<T>> callWithAuth<T>(
-      Future<String?> Function() getUserId,
-      Future<T> Function(String userId) repositoryCall,
-      ) async {
-    try {
-      final userId = await getUserId();
-      if (userId == null) {
-        return ResultFailure(
-          const AuthenticationFailure(message: 'User not logged in'),
-        );
-      }
-
-      final result = await repositoryCall(userId);
-      return Success(result);
-    } catch (e) {
-      return ResultFailure(ExceptionHandler.handleException(e));
-    }
-  }
-
   static Future<Result<List<T>>> callMultiple<T>(
       List<Future<T> Function()> repositoryCalls,
       ) async {
