@@ -15,8 +15,8 @@ export async function loadPRMetrics() {
     try {
         console.log('📂 Loading PR metrics from JSON file...');
 
-        // Fetch the pr_metrics.json file from the parent directory
-        const response = await fetch('../pr_metrics.json');
+        // Fetch the pr_metrics.json file from the root directory
+        const response = await fetch('pr_metrics.json');
 
         if (!response.ok) {
             throw new Error(`Failed to load pr_metrics.json: ${response.status} ${response.statusText}`);
@@ -44,8 +44,10 @@ function transformPRData(pr) {
     // Extract reviewers from approvals
     const reviewers = pr.approvals.map(approval => approval.reviewer.login);
 
-    // Extract commenters from comments
-    const commenters = pr.comments.map(comment => comment.user?.login).filter(Boolean);
+    // Extract commenters and total comments from grouped comment structure
+    // Workflow provides: [{author: {login: "user1"}, count: 3}, ...]
+    const commenters = pr.comments.map(comment => comment.author?.login).filter(Boolean);
+    const totalComments = pr.comments.reduce((sum, comment) => sum + (comment.count || 0), 0);
 
     // Find first reviewer
     const firstReviewer = pr.approvals.length > 0 ? pr.approvals[0].reviewer.login : null;
@@ -55,19 +57,25 @@ function transformPRData(pr) {
         title: pr.title,
         url: pr.url,
         author: pr.creator.login,
-        status: pr.status, // 'pending', 'merged', 'closed'
+        status: pr.status, // 'pending', 'approved', 'merged', 'closed'
         createdAt: pr.opened_at,
         mergedAt: pr.merged_at,
         approvedAt: pr.first_approved_at,
         mergedBy: pr.merged_by ? pr.merged_by.login : null,
         additions: pr.diff_stats?.additions || 0,
         deletions: pr.diff_stats?.deletions || 0,
-        comments: pr.comments.length,
+        comments: totalComments, // Total count of all comments
         approvals: pr.approvals.length,
         reviewers: reviewers,
-        commenters: commenters,
+        commenters: commenters, // Unique users who commented
         timeToFirstApproval: pr.time_to_first_approval_minutes,
-        firstReviewer: firstReviewer
+        firstReviewer: firstReviewer,
+        // New fields from workflow enhancements
+        labels: pr.labels || [],
+        milestone: pr.milestone,
+        draft: pr.draft || false,
+        reviewRequests: pr.review_requests || [],
+        filesChanged: pr.files_changed || []
     };
 }
 
@@ -77,7 +85,7 @@ function transformPRData(pr) {
  */
 export async function isDataAvailable() {
     try {
-        const response = await fetch('../pr_metrics.json', { method: 'HEAD' });
+        const response = await fetch('pr_metrics.json', { method: 'HEAD' });
         return response.ok;
     } catch (error) {
         return false;

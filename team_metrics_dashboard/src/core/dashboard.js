@@ -11,11 +11,13 @@ import { formatWeekHeader } from '../utils/dateUtils.js';
 import * as AnalyticsService from '../services/analyticsService.js';
 import { renderKPICards, renderSpotlightCard } from '../components/kpiCards.js';
 import { renderBottlenecks } from '../components/bottleneckPanel.js';
-import { renderMergeProcessHealth } from '../components/mergeHealth.js';
-import { renderDailyActivity, renderPRTypes, renderCollaboration, renderDiscussedPRs } from '../components/otherComponents.js';
 import { initSettingsPanel } from '../components/settingsPanel.js';
 import { notificationSystem } from '../components/notifications.js';
 import { loadPRMetrics, isDataAvailable } from '../services/dataLoader.js';
+import { renderSearchBar, updateLabelOptions, filterPRs } from '../components/search.js';
+import { renderOpenPRs } from '../components/openPRs.js';
+import { renderLeaderboard } from '../components/leaderboard.js';
+import { renderReviewLoad } from '../components/reviewLoad.js';
 
 export class Dashboard {
     constructor() {
@@ -27,6 +29,7 @@ export class Dashboard {
             week: 'all',
             developer: 'all'
         };
+        this.searchFilters = { searchTerm: '', status: 'all', label: 'all' }; // New
         this.dataSource = 'unknown'; // 'github' or 'mock'
     }
 
@@ -35,6 +38,7 @@ export class Dashboard {
 
         this.setupTheme();
         this.setupTabs();
+        this.setupSearch(); // New
         initSettingsPanel();
         await this.loadData();
 
@@ -135,6 +139,19 @@ export class Dashboard {
         }
     }
 
+    setupSearch() {
+        // Initialize search bar with callback
+        renderSearchBar((filters) => {
+            this.searchFilters = filters;
+            this.updateAnalytics();
+        });
+
+        // Update label options when PR data changes
+        if (this.prData.length > 0) {
+            updateLabelOptions(this.prData);
+        }
+    }
+
     renderAnalytics() {
         this.setupAnalyticsFilters();
         this.updateAnalytics();
@@ -197,10 +214,15 @@ export class Dashboard {
             }
         }
 
-        renderMergeProcessHealth(filteredData, this.prData);
-        renderDailyActivity(filteredData);
-        renderPRTypes(filteredData);
-        renderCollaboration(filteredData);
-        renderDiscussedPRs(filteredData);
+        // Apply search filters if any
+        const searchFilteredData = filterPRs(filteredData, this.searchFilters);
+
+        // Render new components with filtered data
+        renderOpenPRs(searchFilteredData);
+        renderLeaderboard(filteredData); // Use full week data for accurate leaderboard
+        renderReviewLoad(filteredData); // Use full week data for review load
+
+        // Update label options in search
+        updateLabelOptions(filteredData);
     }
 }

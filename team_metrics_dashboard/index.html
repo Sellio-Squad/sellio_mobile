@@ -94,6 +94,9 @@
             </div>
 
             <div id="analytics-content" class="tab-content hidden space-y-8">
+                <!-- Search Bar -->
+                <div id="search-container"></div>
+
                 <div class="analytics-filter-bar">
                     <label for="analytics-week-filter" class="font-semibold">Filter by Week:</label>
                     <select id="analytics-week-filter" class="control-input"></select>
@@ -194,60 +197,23 @@
                     </div>
                 </div>
 
-                <div id="merge-process-health-container" class="panel"></div>
+                <!-- New Components -->
+                <div id="new-components-container" class="space-y-8">
+                    <!-- Open PRs -->
+                    <div id="open-prs-container"></div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="kpi-card">
-                        <div class="kpi-icon bg-sky-500">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div id="kpi-avg-approval-time" class="kpi-value">-</div>
-                            <div class="kpi-label">Avg. Time to 1st Approval</div>
-                        </div>
-                    </div>
-
-                    <div class="kpi-card">
-                        <div class="kpi-icon bg-green-500">
-                            <svg viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z" />
-                            </svg>
-                        </div>
-                        <div>
-                            <div id="kpi-avg-lifespan" class="kpi-value">-</div>
-                            <div class="kpi-label">Avg. PR Lifespan</div>
-                        </div>
-                    </div>
-
-                    <div id="hot-streak-card" class="kpi-card spotlight-card"></div>
-                    <div id="fastest-reviewer-card" class="kpi-card spotlight-card"></div>
-                    <div id="top-commenter-card" class="kpi-card spotlight-card"></div>
-                </div>
-
-                <div class="panel">
-                    <h3 class="panel-header panel-title">Daily Activity Breakdown</h3>
-                    <div class="panel-body" id="daily-breakdown-container">
-                        <!-- Interactive daily breakdown will be rendered here -->
+                    <!-- Leaderboard and Review Load side by side -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div id="leaderboard-container"></div>
+                        <div id="review-load-container"></div>
                     </div>
                 </div>
-
-                <div id="pr-type-trends-container" class="panel"></div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="panel lg:col-span-2">
                         <h3 class="panel-header panel-title">Top Collaboration Pairs</h3>
                         <div class="panel-body">
                             <ul id="collaboration-list" class="collaboration-list"></ul>
-                        </div>
-                    </div>
-                    <div class="panel lg:col-span-2">
-                        <h3 class="panel-header panel-title">Most Discussed PRs</h3>
-                        <div class="panel-body">
-                            <ul id="most-discussed-prs-list" class="discussed-prs-list"></ul>
                         </div>
                     </div>
                 </div>
