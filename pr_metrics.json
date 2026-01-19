@@ -248,5 +248,42 @@
       "deletions": 69,
       "changed_files": 4
     }
+  },
+  {
+    "pr_number": 395,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/395",
+    "title": "feat(localization): Enhance and refine English translations",
+    "opened_at": "2026-01-19T19:20:00Z",
+    "head_ref": "refactor/localization",
+    "base_ref": "develop",
+    "creator": {
+      "login": "baraa0abd",
+      "id": 168970211,
+      "url": "https://github.com/baraa0abd"
+    },
+    "assignees": [
+      {
+        "login": "baraa0abd",
+        "id": 168970211,
+        "url": "https://github.com/baraa0abd"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 142,
+      "deletions": 38,
+      "changed_files": 4
+    }
   }
 ]
