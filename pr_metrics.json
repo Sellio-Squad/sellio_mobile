@@ -136,7 +136,18 @@
         "url": "https://github.com/dev-bilal-azzam"
       }
     ],
-    "comments": [],
+    "comments": [
+      {
+        "author": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "first_comment_at": "2026-01-19T10:09:18Z",
+        "last_comment_at": "2026-01-19T10:09:18Z",
+        "count": 1
+      }
+    ],
     "approvals": [
       {
         "reviewer": {
