@@ -116,5 +116,174 @@
       "deletions": 138,
       "changed_files": 25
     }
+  },
+  {
+    "pr_number": 392,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/392",
+    "title": "Add Code Metrics Lint Rules ",
+    "opened_at": "2026-01-18T20:42:40Z",
+    "head_ref": "feature/add-lint-rules-for-code-metrics",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [
+      {
+        "author": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "first_comment_at": "2026-01-19T10:09:18Z",
+        "last_comment_at": "2026-01-19T10:09:18Z",
+        "count": 1
+      },
+      {
+        "author": {
+          "login": "dev-bilal-azzam",
+          "id": 75501067,
+          "url": "https://github.com/dev-bilal-azzam"
+        },
+        "first_comment_at": "2026-01-19T16:56:05Z",
+        "last_comment_at": "2026-01-19T16:56:05Z",
+        "count": 1
+      }
+    ],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "mohamedebrahem13",
+          "id": 111383089,
+          "url": "https://github.com/mohamedebrahem13"
+        },
+        "submitted_at": "2026-01-19T17:24:06Z",
+        "commit_id": "3adadcc31875d48998169c8d1a58f0c6eb02847c"
+      }
+    ],
+    "required_approvals": 2,
+    "first_approved_at": "2026-01-19T17:24:06Z",
+    "time_to_first_approval_minutes": 1241.4333333333334,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": "2026-01-19T17:34:55Z",
+    "merged_at": "2026-01-19T17:34:55Z",
+    "merged_by": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
+    "week": "2026-W03",
+    "status": "merged",
+    "diff_stats": {
+      "additions": 58,
+      "deletions": 26,
+      "changed_files": 3
+    }
+  },
+  {
+    "pr_number": 393,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/393",
+    "title": "Refactor(auth): Differentiate reset password endpoints",
+    "opened_at": "2026-01-18T22:03:34Z",
+    "head_ref": "fix/reset-password",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
+    "assignees": [
+      {
+        "login": "abdo-essam",
+        "id": 92235360,
+        "url": "https://github.com/abdo-essam"
+      }
+    ],
+    "comments": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "Ahmedsayed0895",
+          "id": 195496797,
+          "url": "https://github.com/Ahmedsayed0895"
+        },
+        "submitted_at": "2026-01-18T23:20:14Z",
+        "commit_id": "ae4009d291996d3fbf09882eb5723122f16d39f7"
+      },
+      {
+        "reviewer": {
+          "login": "mohamedebrahem13",
+          "id": 111383089,
+          "url": "https://github.com/mohamedebrahem13"
+        },
+        "submitted_at": "2026-01-19T17:36:33Z",
+        "commit_id": "ae4009d291996d3fbf09882eb5723122f16d39f7"
+      }
+    ],
+    "required_approvals": 2,
+    "first_approved_at": "2026-01-18T23:20:14Z",
+    "time_to_first_approval_minutes": 76.66666666666667,
+    "required_approvals_met_at": "2026-01-19T17:36:33Z",
+    "time_to_required_approvals_minutes": 1172.9833333333333,
+    "closed_at": "2026-01-19T17:36:55Z",
+    "merged_at": "2026-01-19T17:36:55Z",
+    "merged_by": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
+    "week": "2026-W03",
+    "status": "merged",
+    "diff_stats": {
+      "additions": 3,
+      "deletions": 69,
+      "changed_files": 4
+    }
+  },
+  {
+    "pr_number": 395,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/395",
+    "title": "feat(localization): Enhance and refine English translations",
+    "opened_at": "2026-01-19T19:20:00Z",
+    "head_ref": "refactor/localization",
+    "base_ref": "develop",
+    "creator": {
+      "login": "baraa0abd",
+      "id": 168970211,
+      "url": "https://github.com/baraa0abd"
+    },
+    "assignees": [
+      {
+        "login": "baraa0abd",
+        "id": 168970211,
+        "url": "https://github.com/baraa0abd"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 142,
+      "deletions": 38,
+      "changed_files": 4
+    }
   }
 ]
