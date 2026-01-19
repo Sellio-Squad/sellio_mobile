@@ -19,7 +19,7 @@ dependencies:
   # UI Dependencies
   image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
-  flutter_svg: ^2.0.10+1
+  flutter_svg: ^2.0.9
   flutter_gap: ^1.0.2
   intl: ^0.20.0
   shimmer: ^3.0.0
@@ -60,6 +60,7 @@ dev_dependencies:
 
   # Linting and tooling
   flutter_lints: ^5.0.0
+  dart_code_metrics: ^5.7.6
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
 
