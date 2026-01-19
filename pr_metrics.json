@@ -156,7 +156,8 @@
           "url": "https://github.com/Ahmedsayed0895"
         },
         "submitted_at": "2026-01-18T23:19:36Z",
-        "commit_id": "5393048c8284986d6fb635e0ac19c153d06ee3d6"
+        "commit_id": "5393048c8284986d6fb635e0ac19c153d06ee3d6",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
@@ -170,8 +171,8 @@
     "week": "2026-W03",
     "status": "pending",
     "diff_stats": {
-      "additions": 142,
-      "deletions": 62,
+      "additions": 62,
+      "deletions": 26,
       "changed_files": 4
     }
   },
