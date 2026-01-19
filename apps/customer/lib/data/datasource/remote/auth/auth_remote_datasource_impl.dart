@@ -53,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: password,
       city: city,
       country: country,
-      region: region,
+      region: region, email: '',
     );
 
     final response = await _apiClient.post(

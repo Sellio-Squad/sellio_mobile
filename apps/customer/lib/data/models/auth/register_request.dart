@@ -12,6 +12,7 @@ class RegisterRequest with _$RegisterRequest {
     required String password,
     required String city,
     required String country,
+    required String email,
     required String region,
   }) = _RegisterRequest;
 
