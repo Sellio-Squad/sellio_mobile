@@ -38,6 +38,17 @@ class MockStoreRepositoryImpl implements StoreRepository {
   }
 
   @override
+  Future<Result<Store>> getStoreDetails(String storeId) async {
+    await _simulateDelay();
+
+    final store = MockDataGenerator.generateStore(
+      index: int.tryParse(storeId.replaceAll('store_', '')) ?? 0,
+    );
+
+    return Success(store);
+  }
+
+  @override
   Future<Result<List<Store>>> getTopStores({int limit = 10}) async {
     await _simulateDelay();
 

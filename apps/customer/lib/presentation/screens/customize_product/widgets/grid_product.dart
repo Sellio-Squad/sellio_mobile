@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:design_system/design_system.dart';
 import '../design_editor_screen.dart';
 import 'custom_product_card.dart';
 
@@ -12,16 +12,16 @@ class GridProduct extends StatefulWidget {
 
 class _GridProductState extends State<GridProduct> {
   final List<Map<String, dynamic>> _products = [
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 1'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 2'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 3'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 4'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 5'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 6'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 7'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 8'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 9'},
-    {'imageUrl': 'assets/images/product_3.webp', 'label': 'Product 10'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 1'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 2'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 3'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 4'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 5'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 6'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 7'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 8'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 9'},
+    {'imageUrl': AppImages.cartProduct, 'label': 'Product 10'},
   ];
 
   void _navigateToDesignEditor(int index) {

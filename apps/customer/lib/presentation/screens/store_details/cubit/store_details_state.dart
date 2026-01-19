@@ -21,15 +21,15 @@ class StoreDetailsLoading extends StoreDetailsState {
 
 class StoreDetailsLoaded extends StoreDetailsState {
   final Store store;
-  final List<Product> products;
-  final List<Product> featuredProducts;
-  final StoreRating rating;
+  final List<Product>? products;
+  final List<Product>? featuredProducts;
+  final StoreRating? rating;
 
   const StoreDetailsLoaded({
     required this.store,
-    required this.products,
-    required this.featuredProducts,
-    required this.rating,
+    this.products,
+    this.featuredProducts,
+    this.rating,
   });
 
   StoreDetailsLoaded copyWith({
@@ -52,9 +52,13 @@ class StoreDetailsLoaded extends StoreDetailsState {
 
 class StoreDetailsError extends StoreDetailsState {
   final String message;
+  final String? failedCall;
 
-  const StoreDetailsError({required this.message});
+  const StoreDetailsError({
+    required this.message,
+    this.failedCall,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, failedCall];
 }

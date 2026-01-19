@@ -246,5 +246,11 @@
   "account_created_successfully": "تم انشاء الحساب بنجاح",
   "registration_failed": "فشل التسجيل",
   "password_cannot_be_empty": "حقول كلمة المرور لا يمكن أن تكون فارغة",
-  "phone_number_not_available": "رقم الهاتف غير متاح"
+  "phone_number_not_available": "رقم الهاتف غير متاح",
+  "unable_to_load_store_details": "تعذر تحميل تفاصيل المتجر",
+  "failed_to_load": "فشل التحميل",
+  "failed_to_load_store_details": "فشل تحميل تفاصيل المتجر",
+  "store": "متجر",
+  "unknown": "غير معروف",
+  "no_description_available": "لا يوجد وصف متاح"
 }

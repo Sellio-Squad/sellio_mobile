@@ -41,10 +41,12 @@ class AppImages {
 
   //Home Screen Banner
   static const String defaultHomeBanner = '$imagesPath/sellio_offer.webp';
+  static const String emptyStoreImage = '$iconsPath/ic_empty_image.svg';
 
   // General images
   static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
   static const String cartProduct = '$imagesPath/product_3.webp';
+  static const String storeSweet = '$imagesPath/store_sweet.webp';
   static const String searchIcon = '$imagesPath/ic_search.png';
   static const String noResultSearchIcon =
       '$imagesPath/ic_search_no_result.png';

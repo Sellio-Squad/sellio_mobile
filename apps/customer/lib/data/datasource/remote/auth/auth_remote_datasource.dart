@@ -17,7 +17,6 @@ abstract class AuthRemoteDataSource {
     required String password,
     required String city,
     required String country,
-    required String email,
     required String region,
   });
 
@@ -45,6 +44,4 @@ abstract class AuthRemoteDataSource {
     required String newPassword,
     required String confirmPassword,
   });
-
-  Future<void> logout();
 }

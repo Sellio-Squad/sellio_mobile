@@ -1,16 +1,16 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:design_system/design_system.dart';
+
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
-import 'profile_picture_picker.dart';
 
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
@@ -23,7 +23,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
-  late final TextEditingController _emailController;
   late final TextEditingController _cityController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
@@ -31,7 +30,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   late final FocusNode _firstNameFocusNode;
   late final FocusNode _lastNameFocusNode;
   late final FocusNode _phoneFocusNode;
-  late final FocusNode _emailFocusNode;
   late final FocusNode _cityFocusNode;
   late final FocusNode _passwordFocusNode;
   late final FocusNode _confirmPasswordFocusNode;
@@ -48,7 +46,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _phoneController = TextEditingController();
-    _emailController = TextEditingController();
     _cityController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -58,7 +55,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _firstNameFocusNode = FocusNode();
     _lastNameFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
-    _emailFocusNode = FocusNode();
     _cityFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
     _confirmPasswordFocusNode = FocusNode();
@@ -66,27 +62,37 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   void _setupListeners() {
     final cubit = context.read<RegistrationCubit>();
-    _firstNameController.addListener(() => cubit.updateFirstName(_firstNameController.text));
-    _lastNameController.addListener(() => cubit.updateLastName(_lastNameController.text));
-    _phoneController.addListener(() => cubit.updatePhoneNumber(_phoneController.text));
-    _emailController.addListener(() => cubit.updateEmail(_emailController.text));
+    _firstNameController
+        .addListener(() => cubit.updateFirstName(_firstNameController.text));
+    _lastNameController
+        .addListener(() => cubit.updateLastName(_lastNameController.text));
+    _phoneController
+        .addListener(() => cubit.updatePhoneNumber(_phoneController.text));
     _cityController.addListener(() => cubit.updateCity(_cityController.text));
-    _passwordController.addListener(() => cubit.updatePassword(_passwordController.text));
-    _confirmPasswordController.addListener(() => cubit.updateConfirmPassword(_confirmPasswordController.text));
+    _passwordController
+        .addListener(() => cubit.updatePassword(_passwordController.text));
+    _confirmPasswordController.addListener(
+        () => cubit.updateConfirmPassword(_confirmPasswordController.text));
 
-    _setupFocusListener(_firstNameFocusNode, _firstNameController, FormFieldType.firstName);
-    _setupFocusListener(_lastNameFocusNode, _lastNameController, FormFieldType.lastName);
+    _setupFocusListener(
+        _firstNameFocusNode, _firstNameController, FormFieldType.firstName);
+    _setupFocusListener(
+        _lastNameFocusNode, _lastNameController, FormFieldType.lastName);
     _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
-    _setupFocusListener(_emailFocusNode, _emailController, FormFieldType.email);
     _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
-    _setupFocusListener(_passwordFocusNode, _passwordController, FormFieldType.password);
-    _setupFocusListener(_confirmPasswordFocusNode, _confirmPasswordController, FormFieldType.confirmPassword);
+    _setupFocusListener(
+        _passwordFocusNode, _passwordController, FormFieldType.password);
+    _setupFocusListener(_confirmPasswordFocusNode, _confirmPasswordController,
+        FormFieldType.confirmPassword);
   }
 
-  void _setupFocusListener(FocusNode focusNode, TextEditingController controller, FormFieldType fieldType) {
+  void _setupFocusListener(FocusNode focusNode,
+      TextEditingController controller, FormFieldType fieldType) {
     focusNode.addListener(() {
       if (!focusNode.hasFocus && controller.text.isNotEmpty) {
-        context.read<RegistrationCubit>().validateFieldOnFocusChange(fieldType, controller.text);
+        context
+            .read<RegistrationCubit>()
+            .validateFieldOnFocusChange(fieldType, controller.text);
       }
     });
   }
@@ -96,7 +102,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _phoneController.dispose();
-    _emailController.dispose();
     _cityController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -104,7 +109,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _firstNameFocusNode.dispose();
     _lastNameFocusNode.dispose();
     _phoneFocusNode.dispose();
-    _emailFocusNode.dispose();
     _cityFocusNode.dispose();
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
@@ -116,36 +120,50 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: buildCreateAccountHeader(context),
-        ),
-        const SizedBox(height: 24),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _buildForm(context),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: context.theme.colors.surfaceLow,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                offset: const Offset(0, -2),
-                blurRadius: 8,
-              ),
-            ],
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.zero,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: buildCreateAccountHeader(context),
+                ),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: _buildForm(context),
+                ),
+                const SizedBox(height: 16), // Add bottom spacing
+              ],
+            ),
           ),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _buildSubmitButton(context),
-              const SizedBox(height: 12),
-              buildCreateAccountFooter(context),
-            ],
+        ),
+        SafeArea(
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.theme.colors.surfaceLow,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  offset: const Offset(0, -2),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildSubmitButton(context),
+                const SizedBox(height: 8),
+                buildCreateAccountFooter(context),
+              ],
+            ),
           ),
         ),
       ],
@@ -155,9 +173,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final selectedCountry = (state is RegistrationIdle) ? state.selectedCountry : null;
-        final selectedProfileImage = (state is RegistrationIdle) ? state.selectedProfileImage : null;
-
+        final selectedCountry =
+            (state is RegistrationIdle) ? state.selectedCountry : null;
         final colors = context.theme.colors;
 
         return Column(
@@ -165,30 +182,20 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildNameFields(colors),
-            const SizedBox(height: 16),
             PhoneInputWithCountry(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<RegistrationCubit>().updateSelectedCountry(country);
+                context
+                    .read<RegistrationCubit>()
+                    .updateSelectedCountry(country);
               },
             ),
-            const SizedBox(height: 16),
-            _buildEmailField(colors),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             _buildCityField(colors),
-            const SizedBox(height: 16),
             _buildPasswordField(colors),
-            const SizedBox(height: 16),
             _buildConfirmPasswordField(colors),
-            const SizedBox(height: 16),
-            ProfilePicturePickerWidget(
-              selectedImage: selectedProfileImage,
-              onImageSelected: (image) {
-                context.read<RegistrationCubit>().updateProfileImage(image);
-              },
-            ),
           ],
         );
       },
@@ -203,7 +210,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
         return SellioButton(
           text: context.local.continue_text,
-          onTap: isFormValid && !isLoading ? context.read<RegistrationCubit>().register : null,
+          onTap: isFormValid && !isLoading
+              ? context.read<RegistrationCubit>().register
+              : null,
           isLoading: isLoading,
           isEnabled: isFormValid,
         );
@@ -221,7 +230,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               controller: _firstNameController,
               hintText: context.local.first_name,
               inputFormatter: [
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
               ],
               prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
               prefixIcon: SvgPicture.asset(
@@ -241,7 +251,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               controller: _lastNameController,
               hintText: context.local.last_name,
               inputFormatter: [
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
               ],
               prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
               prefixIcon: SvgPicture.asset(
@@ -254,24 +265,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildEmailField(dynamic colors) {
-    return Focus(
-      focusNode: _emailFocusNode,
-      child: SellioTextField(
-        controller: _emailController,
-        hintText: context.local.email,
-        inputType: TextInputType.emailAddress,
-        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-        prefixIcon: SvgPicture.asset(
-          AppImages.email,
-          width: 24,
-          height: 24,
-          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-        ),
-      ),
     );
   }
 

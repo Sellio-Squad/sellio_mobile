@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../core/utils/snackbar_helper.dart';
+import '../constants/auth_constants.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';
 import 'widgets/otp_resend_section.dart';
@@ -24,7 +25,7 @@ class OtpScreen extends StatelessWidget {
     required this.onVerifySuccess,
     required this.onVerify,
     required this.onResend,
-    this.otpLength = 4,
+    this.otpLength = AuthConstants.otpLength,
   });
 
   @override
@@ -90,35 +91,43 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
           );
         }
       },
-      child: Scaffold(
-        backgroundColor: colors.surfaceLow,
-        appBar: SellioAppBar(
-          title: widget.title,
-          showBackButton: true,
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 24),
-                        _buildHeader(textTheme, colors),
-                        const SizedBox(height: 32),
-                        _buildOtpInput(),
-                        const SizedBox(height: 24),
-                        _buildResendSection(),
-                      ],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child:
+        AuthBackgroundWrapper(
+          containerPadding: const EdgeInsets.symmetric(vertical: 16),
+          showLogo: true,
+          child: Scaffold(
+            backgroundColor: colors.surfaceLow,
+            appBar: SellioAppBar(
+              title: widget.title,
+              showBackButton: true,
+            ),
+            body: SafeArea(
+              child:
+              Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildHeader(textTheme, colors),
+                            const SizedBox(height: 32),
+                            _buildOtpInput(),
+                            const SizedBox(height: 24),
+                            _buildResendSection(),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                    _buildConfirmButton(colors, textTheme),
+                    const SizedBox(height: 10),
+                  ],
                 ),
-                _buildConfirmButton(colors, textTheme),
-                const SizedBox(height: 10),
-              ],
+              ),
             ),
           ),
         ),
@@ -130,11 +139,6 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          context.local.enter_code,
-          style: textTheme.headlineSmall.copyWith(color: colors.title),
-        ),
-        const SizedBox(height: 8),
         Text(
           widget.phoneNumber != null
               ? context.local.enter_the_4_digit_sent_to(widget.phoneNumber!)

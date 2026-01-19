@@ -15,6 +15,8 @@ abstract class StoreRemoteDataSource {
   });
 
   Future<StoreModel> getStoreById(String storeId);
+  
+  Future<StoreModel> getStoreDetails(String storeId);
 
   Future<PaginatedResponse<StoreTopRatingModel>> getTopStores({
     int page = 0,
@@ -76,6 +78,12 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
   @override
   Future<StoreModel> getStoreById(String storeId) async {
     final response = await _httpClient.get(ApiEndpoints.storeById(storeId));
+    return StoreModel.fromJson(response.data);
+  }
+
+  @override
+  Future<StoreModel> getStoreDetails(String storeId) async {
+    final response = await _httpClient.get(ApiEndpoints.storeDetails(storeId));
     return StoreModel.fromJson(response.data);
   }
 

@@ -13,6 +13,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  firebase_core: ^2.30.0
+
   design_system:
     path: ../../packages/design_system
 

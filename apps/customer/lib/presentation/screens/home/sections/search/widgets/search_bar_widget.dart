@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
+
 import 'filter_widget.dart';
 import 'search_bar_with_filter.dart';
 
@@ -28,9 +29,9 @@ class SearchBarWithFilter extends StatelessWidget {
             height: 48,
             decoration: BoxDecoration(
               color: context.theme.colors.surfaceLow,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
+              borderRadius: const BorderRadiusDirectional.only(
+                topStart: Radius.circular(12),
+                bottomStart: Radius.circular(12),
               ),
             ),
             child:
