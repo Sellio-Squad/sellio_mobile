@@ -174,11 +174,15 @@
     "time_to_first_approval_minutes": 1241.4333333333334,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
-    "closed_at": null,
-    "merged_at": null,
-    "merged_by": null,
+    "closed_at": "2026-01-19T17:34:55Z",
+    "merged_at": "2026-01-19T17:34:55Z",
+    "merged_by": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
     "week": "2026-W03",
-    "status": "pending",
+    "status": "merged",
     "diff_stats": {
       "additions": 58,
       "deletions": 26,
