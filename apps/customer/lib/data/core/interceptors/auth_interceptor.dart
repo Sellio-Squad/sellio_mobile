@@ -94,7 +94,6 @@ class AuthInterceptor extends Interceptor {
   Future<void> _clearAuthData() async {
     await _storageService.remove(StorageKeys.authToken);
     await _storageService.remove(StorageKeys.refreshToken);
-    await _storageService.remove(StorageKeys.userId);
     await _storageService.remove(StorageKeys.isLoggedIn);
   }
 
