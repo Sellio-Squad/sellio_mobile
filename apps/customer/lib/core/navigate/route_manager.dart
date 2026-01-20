@@ -38,6 +38,7 @@ class RouteGenerator {
     redirect: (BuildContext context, GoRouterState state) async {
       final authRepository = sl<AuthRepository>();
       final isLoggedIn = await authRepository.isLoggedIn();
+      final isGuest = await authRepository.isGuestMode();
 
       final isLoginRoute = state.matchedLocation == AppRoutes.login.path;
       final isCreateAccountRoute =
@@ -47,12 +48,21 @@ class RouteGenerator {
           state.matchedLocation == AppRoutes.forgetPassword.path ||
           state.matchedLocation == AppRoutes.confirmPassword.path;
 
-      if (!isLoggedIn && !isAuthRoute) {
-        return AppRoutes.login.path;
+      if (isLoggedIn && !isGuest && isAuthRoute) {
+        return AppRoutes.home.path;
       }
 
-      if (isLoggedIn && isAuthRoute) {
+      if (isGuest && isLoginRoute) {
+        await authRepository.clearAuthData();
+        return null;
+      }
+
+      if (isGuest && isAuthRoute && !isLoginRoute) {
         return AppRoutes.home.path;
+      }
+
+      if (!isLoggedIn && !isGuest && !isAuthRoute) {
+        return AppRoutes.login.path;
       }
 
       return null;
