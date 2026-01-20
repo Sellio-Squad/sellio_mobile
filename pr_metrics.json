@@ -364,5 +364,42 @@
       "deletions": 2,
       "changed_files": 1
     }
+  },
+  {
+    "pr_number": 399,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/399",
+    "title": "Refactor(router): Implement user authentication redirection logic",
+    "opened_at": "2026-01-20T12:46:55Z",
+    "head_ref": "refactor/manage-user-logged-in",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MohamedOmar989",
+      "id": 175744746,
+      "url": "https://github.com/MohamedOmar989"
+    },
+    "assignees": [
+      {
+        "login": "MohamedOmar989",
+        "id": 175744746,
+        "url": "https://github.com/MohamedOmar989"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 26,
+      "deletions": 1,
+      "changed_files": 1
+    }
   }
 ]
