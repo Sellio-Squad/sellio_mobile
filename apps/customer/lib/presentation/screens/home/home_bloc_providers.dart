@@ -30,7 +30,7 @@ class HomeBlocProviders extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => sl<UserCubit>()..loadUserInfo(),
-        )
+        ),
       ],
       child: child,
     );
