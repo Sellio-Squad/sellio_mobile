@@ -414,7 +414,8 @@
           "url": "https://github.com/Arzo-zi"
         },
         "submitted_at": "2026-01-20T17:44:46Z",
-        "commit_id": "200bc43a33f25afc4c9ae83ea150cb2f057d326c"
+        "commit_id": "200bc43a33f25afc4c9ae83ea150cb2f057d326c",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
@@ -428,9 +429,9 @@
     "week": "2026-W04",
     "status": "pending",
     "diff_stats": {
-      "additions": 26,
-      "deletions": 1,
-      "changed_files": 1
+      "additions": 100,
+      "deletions": 7,
+      "changed_files": 7
     }
   },
   {
