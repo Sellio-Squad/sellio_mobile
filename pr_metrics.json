@@ -327,5 +327,42 @@
       "deletions": 332,
       "changed_files": 28
     }
+  },
+  {
+    "pr_number": 397,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/397",
+    "title": "Edit Error Messages Colors To Semantic Error Color In The Reset Password Bottom Sheet",
+    "opened_at": "2026-01-20T11:10:52Z",
+    "head_ref": "fix/394-error-message-color-should-be-red-not-grey",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 2,
+      "deletions": 2,
+      "changed_files": 1
+    }
   }
 ]
