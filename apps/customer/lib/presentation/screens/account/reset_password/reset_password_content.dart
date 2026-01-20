@@ -132,7 +132,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 child: Text(
                   context.local.password_must_be_at_least_characters,
                   style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
+                    color: context.theme.colors.semanticError,
                   ),
                 ),
               ),
@@ -159,7 +159,7 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 child: Text(
                   context.local.passwords_do_not_match,
                   style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
+                    color: context.theme.colors.semanticError,
                   ),
                 ),
               ),
