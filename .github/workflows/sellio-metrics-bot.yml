@@ -268,6 +268,11 @@ jobs:
                 "merged_by": (if $pr.merged_by then {login: $pr.merged_by.login, id: $pr.merged_by.id, url: $pr.merged_by.html_url} else null end),
                 "week": ($pr.created_at | strptime("%Y-%m-%dT%H:%M:%SZ") | strftime("%G-W%V")),
                 "status": $status,
+                "labels": ($pr.labels | map(.name)),
+                "milestone": (if $pr.milestone then {title: $pr.milestone.title, number: $pr.milestone.number} else null end),
+                "draft": ($pr.draft // false),
+                "review_requests": (($pr.requested_reviewers // []) | map(.login)),
+                "files_changed": [],
                 "diff_stats": {
                   "additions": ($pr.additions // 0),
                   "deletions": ($pr.deletions // 0),
@@ -582,6 +587,11 @@ jobs:
                 "merged_by": null,
                 "week": $week,
                 "status": "pending",
+                "labels": [],
+                "milestone": null,
+                "draft": false,
+                "review_requests": [],
+                "files_changed": [],
                 "diff_stats": {
                   "additions": $additions,
                   "deletions": $deletions,
