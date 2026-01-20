@@ -401,5 +401,42 @@
       "deletions": 1,
       "changed_files": 1
     }
+  },
+  {
+    "pr_number": 400,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/400",
+    "title": "Fix MyFavouritesScreen UI/UX Issues",
+    "opened_at": "2026-01-20T14:06:18Z",
+    "head_ref": "398-fix-uiux-issues-error-handling-in-myfavourites-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "diff_stats": {
+      "additions": 149,
+      "deletions": 134,
+      "changed_files": 3
+    }
   }
 ]
