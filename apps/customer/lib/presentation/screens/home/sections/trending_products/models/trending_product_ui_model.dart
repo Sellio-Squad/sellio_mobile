@@ -1,3 +1,4 @@
+import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
 
 class TrendingProductUIModel {
@@ -24,7 +25,7 @@ class TrendingProductUIModel {
       id: product.id,
       imageUrl: product.images.isNotEmpty
           ? product.images.first
-          : 'assets/images/product_3.webp',
+          : AppImages.cartProduct,
       title: product.title,
       price: product.price.toString(),
       hasDiscount: product.discount != null,

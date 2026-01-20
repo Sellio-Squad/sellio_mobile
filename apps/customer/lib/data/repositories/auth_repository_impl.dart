@@ -205,6 +205,7 @@ class AuthRepositoryImpl implements AuthRepository {
     await _storageService.save<String>(StorageKeys.authToken, accessToken);
     await _storageService.save<String>(StorageKeys.refreshToken, refreshToken);
     await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
+    await _storageService.remove(StorageKeys.isGuestMode);
   }
 
   Future<void> _savePendingRegistration({
@@ -225,11 +226,31 @@ class AuthRepositoryImpl implements AuthRepository {
     await _storageService.remove(StorageKeys.authToken);
     await _storageService.remove(StorageKeys.refreshToken);
     await _storageService.remove(StorageKeys.isLoggedIn);
+    await _storageService.remove(StorageKeys.isGuestMode);
     await clearPendingRegistration();
   }
 
   @override
   Future<void> clearAuthData() async {
     await _clearAuthData();
+  }
+
+  @override
+  Future<bool> isGuestMode() async {
+    final isGuest = await _storageService.get<bool>(StorageKeys.isGuestMode);
+    return isGuest ?? false;
+  }
+
+  @override
+  Future<Result<void>> loginAsGuest() async {
+    return RepositoryCallHandler.callVoid(() async {
+      await _clearAuthData();
+      await _storageService.save<bool>(StorageKeys.isGuestMode, true);
+    });
+  }
+
+  @override
+  Future<void> clearGuestMode() async {
+    await _storageService.remove(StorageKeys.isGuestMode);
   }
 }

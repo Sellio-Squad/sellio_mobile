@@ -35,7 +35,7 @@ class _ProductImageState extends State<ProductImage> {
           clipBehavior: Clip.none,
           children: [
             Image.asset(
-              'assets/images/store_sweet.webp',
+              AppImages.storeSweet,
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,

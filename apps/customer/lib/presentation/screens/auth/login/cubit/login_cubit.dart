@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../domain/repositories/auth_repository.dart';
 
+import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
@@ -67,6 +67,27 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
+  Future<void> loginAsGuest() async {
+    emit(const LoginSubmitting());
+
+    final result = await _authRepository.loginAsGuest();
+
+    result.fold(
+      onSuccess: (_) {
+        emit(const LoginSuccess());
+      },
+      onFailure: (failure) {
+        emit(LoginFailure(errorMessage: failure.message));
+
+        final currentState = state;
+        if (currentState is LoginIdle) {
+          emit(currentState);
+        } else {
+          emit(const LoginIdle());
+        }
+      },
+    );
+  }
 
   Future<void> login() async {
     final currentState = state;

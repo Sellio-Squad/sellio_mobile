@@ -94,58 +94,6 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Result<Address>> getUserAddress() async {
-    return RepositoryCallHandler.call<Address>(() async {
-      final model = await _remoteDataSource.getUserAddress();
-      return model.toEntity();
-    });
-  }
-
-  @override
-  Future<Result<Address>> addAddress({
-    required String country,
-    required String city,
-  }) async {
-    return RepositoryCallHandler.call<Address>(() async {
-      final request = AddAddressRequest(
-        country: country,
-        city: city,
-      );
-
-      final model = await _remoteDataSource.addAddress(request);
-      return model.toEntity();
-    });
-  }
-
-  @override
-  Future<Result<Address>> updateAddress({
-    required String addressId,
-    String? country,
-    String? city,
-  }) async {
-    return RepositoryCallHandler.call<Address>(() async {
-      final request = UpdateAddressRequest(
-        country: country,
-        city: city,
-      );
-
-      final model = await _remoteDataSource.updateAddress(
-        addressId: addressId,
-        request: request,
-      );
-
-      return model.toEntity();
-    });
-  }
-
-  @override
-  Future<Result<void>> deleteAddress(String addressId) async {
-    return RepositoryCallHandler.callVoid(
-          () => _remoteDataSource.deleteAddress(addressId),
-    );
-  }
-
-  @override
   Future<Result<String>> uploadProfilePhoto(String filePath) async {
     return RepositoryCallHandler.call<String>(() async {
       return await _remoteDataSource.uploadProfilePhoto(filePath: filePath);
