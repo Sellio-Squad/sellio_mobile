@@ -385,10 +385,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "Arzo-zi",
+          "id": 149817756,
+          "url": "https://github.com/Arzo-zi"
+        },
+        "submitted_at": "2026-01-20T17:44:46Z",
+        "commit_id": "200bc43a33f25afc4c9ae83ea150cb2f057d326c"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-20T17:44:46Z",
+    "time_to_first_approval_minutes": 297.85,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
