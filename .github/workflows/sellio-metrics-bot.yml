@@ -124,7 +124,8 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          PR_FILE="pr_metrics.json"
+          PR_FILE="team_metrics_dashboard/pr_metrics.json"
+          mkdir -p "$(dirname "$PR_FILE")"
           BACKFILL_DAYS="${{ github.event.inputs.backfill_days }}"
 
           echo "--- Backfilling PRs (looking back $BACKFILL_DAYS days) ---"
@@ -342,7 +343,8 @@ jobs:
           PR_DELETIONS: ${{ github.event.pull_request.deletions }}
           PR_CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
         run: |
-          PR_FILE="pr_metrics.json"
+          PR_FILE="team_metrics_dashboard/pr_metrics.json"
+          mkdir -p "$(dirname "$PR_FILE")"
           UPDATE_TYPE="${{ steps.prepare_data.outputs.UPDATE_TYPE }}"
 
           if [[ -z "$UPDATE_TYPE" ]]; then
