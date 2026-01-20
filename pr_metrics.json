@@ -423,11 +423,15 @@
     "time_to_first_approval_minutes": 297.85,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
-    "closed_at": null,
-    "merged_at": null,
-    "merged_by": null,
+    "closed_at": "2026-01-20T19:03:55Z",
+    "merged_at": "2026-01-20T19:03:55Z",
+    "merged_by": {
+      "login": "MohamedOmar989",
+      "id": 175744746,
+      "url": "https://github.com/MohamedOmar989"
+    },
     "week": "2026-W04",
-    "status": "pending",
+    "status": "merged",
     "diff_stats": {
       "additions": 100,
       "deletions": 7,
