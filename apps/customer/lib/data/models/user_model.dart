@@ -2,12 +2,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
+
 @freezed
 class UserModel with _$UserModel {
   const factory UserModel({
     required String firstName,
     required String lastName,
-    String? email,
+     String email,
     required String phoneNumber,
     required String city,
     required String country,
