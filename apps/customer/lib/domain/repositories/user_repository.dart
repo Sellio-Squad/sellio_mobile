@@ -28,20 +28,5 @@ abstract class UserRepository {
 
   Future<Result<void>> deleteAccount();
 
-  Future<Result<Address>> getUserAddress();
-
-  Future<Result<Address>> addAddress({
-    required String country,
-    required String city,
-  });
-
-  Future<Result<Address>> updateAddress({
-    required String addressId,
-    String? country,
-    String? city,
-  });
-
-  Future<Result<void>> deleteAddress(String addressId);
-
   Future<Result<String>> uploadProfilePhoto(String filePath);
 }

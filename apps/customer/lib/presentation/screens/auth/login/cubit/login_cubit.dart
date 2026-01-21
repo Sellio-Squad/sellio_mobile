@@ -78,6 +78,28 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
+  Future<void> loginAsGuest() async {
+    emit(const LoginSubmitting());
+
+    final result = await _authRepository.loginAsGuest();
+
+    result.fold(
+      onSuccess: (_) {
+        emit(const LoginSuccess());
+      },
+      onFailure: (failure) {
+        emit(LoginFailure(errorMessage: failure.message));
+
+        final currentState = state;
+        if (currentState is LoginIdle) {
+          emit(currentState);
+        } else {
+          emit(const LoginIdle());
+        }
+      },
+    );
+  }
+
   Future<void> login() async {
     final currentState = state;
     if (currentState is! LoginIdle) return;

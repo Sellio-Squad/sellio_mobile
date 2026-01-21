@@ -1,3 +1,4 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
@@ -5,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:design_system/design_system.dart';
+
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubit/login_cubit.dart';
@@ -217,7 +218,9 @@ class _LoginBodyState extends State<LoginBody> {
                       text: context.local.continue_as_guest,
                       backgroundColor: colors.primaryVariant,
                       textColor: colors.primary,
-                      onTap: () => context.navigator.goToHome(),
+                      onTap: () {
+                        context.read<LoginCubit>().loginAsGuest();
+                      },
                     ),
                   ),
                 ],
