@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "pr_number": 403,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/403",
+    "title": "Fix/402 make emial and image path in user information",
+    "opened_at": "2026-01-21T17:06:10Z",
+    "head_ref": "fix/402-make-emial-and-image-path-in-user-information",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdulazizacc",
+      "id": 174628289,
+      "url": "https://github.com/abdulazizacc"
+    },
+    "assignees": [
+      {
+        "login": "abdulazizacc",
+        "id": 174628289,
+        "url": "https://github.com/abdulazizacc"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 26,
+      "deletions": 22,
+      "changed_files": 5
+    }
+  }
+]
