@@ -1,8 +1,7 @@
-import 'dart:io';
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
+import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'registration_state.dart';
@@ -13,12 +12,23 @@ import 'registration_state.dart';
 /// Single Responsibility Principle.
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
+  final CountryRepository _countryRepository;
 
   RegistrationCubit({
     required AuthRepository authRepository,
-    Country? initialCountry,
+    required CountryRepository countryRepository,
   })  : _authRepository = authRepository,
-        super(RegistrationIdle(selectedCountry: initialCountry));
+        _countryRepository = countryRepository,
+        super(const RegistrationIdle());
+
+  Future<void> loadInitialCountry() async {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final countryCode = 'us';
+
+    emit(currentState.copyWith(selectedCountryCode: countryCode));
+  }
 
   // ==================== Field Updates ====================
 
@@ -64,8 +74,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         ));
   }
 
-  void updateSelectedCountry(Country country) {
-    _updateField((state) => state.copyWith(selectedCountry: country));
+  void updateSelectedCountryCode(String country) {
+    _updateField((state) => state.copyWith(selectedCountryCode: country));
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -136,9 +146,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     emit(const RegistrationSubmitting());
 
-    final countryCode = currentState.selectedCountry?.countryCode ?? 'EG';
+    final countryCode = currentState.selectedCountryCode;
     final fullPhoneNumber =
-        '${currentState.selectedCountry?.phoneCode ?? '20'}${currentState.phoneNumber}';
+        '${currentState.phoneCode}${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
       firstName: currentState.firstName,
@@ -166,13 +176,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   /// Verifies OTP - called by OTP screen via callback
   Future<void> verifyOtp(String otp) async {
     final result = await _authRepository.verifyRegistrationOtp(otp: otp);
-    
+
     result.fold(
       onSuccess: (_) {
         emit(const RegistrationSuccess());
       },
       onFailure: (failure) {
-        throw Exception(failure.message ?? 'OTP verification failed');
+        throw Exception(failure.message);
       },
     );
   }
@@ -180,13 +190,13 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   /// Resends OTP - called by OTP screen via callback
   Future<void> resendOtp() async {
     final result = await _authRepository.resendRegistrationOtp();
-    
+
     result.fold(
       onSuccess: (_) {
         // Success - OTP cubit will handle UI feedback
       },
       onFailure: (failure) {
-        throw Exception(failure.message ?? 'OTP resend failed');
+        throw Exception(failure.message);
       },
     );
   }

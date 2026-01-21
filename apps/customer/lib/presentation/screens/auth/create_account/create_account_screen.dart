@@ -1,38 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
-import '../../../../domain/repositories/country_repository.dart';
 import 'cubit/registration_cubit.dart';
 import 'create_account_listeners.dart';
 import 'widgets/create_account_body.dart';
-import 'package:country_picker/country_picker.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Country>(
-      future: sl<CountryRepository>().getInitialCountry(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        final initialCountry = snapshot.data!;
-
-        return BlocProvider(
-          create: (context) => RegistrationCubit(
-            authRepository: sl<AuthRepository>(),
-            initialCountry: initialCountry,
-          ),
-          child: const _CreateAccountScreenContent(),
-        );
-      },
+    return BlocProvider(
+      create: (context) => RegistrationCubit(
+        authRepository: sl<AuthRepository>(),
+        countryRepository: sl<CountryRepository>(),
+      )..loadInitialCountry(),
+      child: const _CreateAccountScreenContent(),
     );
   }
 }
