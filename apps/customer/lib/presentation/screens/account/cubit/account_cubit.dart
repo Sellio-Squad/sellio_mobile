@@ -15,13 +15,11 @@ class AccountCubit extends Cubit<AccountState> {
     final result = await _repository.getUserProfile();
     if (result is Success) {
       emit(AccountLoaded(
-          firstName: result.data.firstName,
-          lastName: result.data.lastName,
-          email: result.data.email,
+        fullName: result.data.fullName,
+        email: result.data.email,
         imagePath: result.data.avatarUrl,
         notificationsEnabled: true,
-      )
-      );
+      ));
     } else {
       final errorMessage = _extractErrorMessage([result]);
       emit(AccountError(message: errorMessage));
@@ -39,23 +37,22 @@ class AccountCubit extends Cubit<AccountState> {
 
   Future<void> updateProfilePicture() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       emit(const AccountLoading());
 
-      final uploadResult = await _repository.uploadProfilePhoto(pickedFile.path);
+      final uploadResult =
+          await _repository.uploadProfilePhoto(pickedFile.path);
       if (uploadResult is Success) {
-
         final loadUserData = await _repository.getUserProfile();
         if (loadUserData is Success) {
           emit(AccountLoaded(
-            firstName: loadUserData.data.firstName,
-            lastName: loadUserData.data.lastName,
+            fullName: loadUserData.data.fullName,
             email: loadUserData.data.email,
             imagePath: loadUserData.data.avatarUrl,
           ));
-
         } else {
           final errorMessage = _extractErrorMessage([loadUserData]);
           emit(AccountError(message: errorMessage));
@@ -66,7 +63,6 @@ class AccountCubit extends Cubit<AccountState> {
         // emit(AvatarNotUploaded());
       }
     }
-
   }
 
   String _extractErrorMessage(List<Result> results) {
@@ -75,7 +71,7 @@ class AccountCubit extends Cubit<AccountState> {
         return r.failure.message;
       }
     }
+
     return 'Something went wrong';
   }
-
 }
