@@ -3,7 +3,7 @@ import 'address.dart';
 class User {
   final String firstName;
   final String lastName;
-  final String email;
+  final String? email;
   final String phoneNumber;
   final String? avatarUrl;
   final Address address;
@@ -11,7 +11,7 @@ class User {
   const User({
     required this.firstName,
     required this.lastName,
-    required this.email,
+    this.email,
     required this.phoneNumber,
     this.avatarUrl,
     required this.address,
