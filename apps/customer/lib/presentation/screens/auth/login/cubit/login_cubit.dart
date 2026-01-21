@@ -21,7 +21,7 @@ class LoginCubit extends Cubit<LoginState> {
     final currentState = state;
     if (currentState is! LoginIdle) return;
 
-    final countryCode = 'us';
+    final countryCode = await _countryRepository.getCurrentCountryCode();
 
     emit(currentState.copyWith(selectedCountryCode: countryCode));
   }

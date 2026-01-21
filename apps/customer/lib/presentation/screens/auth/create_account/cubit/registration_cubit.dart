@@ -25,7 +25,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    final countryCode = 'us';
+    final countryCode = await _countryRepository.getCurrentCountryCode();
 
     emit(currentState.copyWith(selectedCountryCode: countryCode));
   }
