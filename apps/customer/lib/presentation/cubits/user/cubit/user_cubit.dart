@@ -14,7 +14,7 @@ class UserCubit extends Cubit<UserState> {
 
       final user = userResult.data;
       emit(UserLoaded(
-        name: user.firstName,
+        name: user.fullName,
         location: '${user.address.city}, ${user.address.country}',
       ));
     } catch (e) {
@@ -23,8 +23,7 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> updateProfile({
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? email,
     String? phoneNumber,
     String? country,
@@ -33,8 +32,7 @@ class UserCubit extends Cubit<UserState> {
   }) async {
     try {
       await _userRepository.updateUserProfile(
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         email: email,
         phoneNumber: phoneNumber,
         country: country,
