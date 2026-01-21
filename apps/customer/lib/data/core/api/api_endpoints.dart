@@ -12,7 +12,8 @@ class ApiEndpoints {
   static const String resendOtp = '$apiVersion/auth/resend-otp';
   static const String forgotPassword = '$apiVersion/forgot-password/request';
   static const String verifyForgotPasswordOtp = '$apiVersion/forgot-password/verify';
-  static const String resetPassword = '$apiVersion/forgot-password/reset';
+  static const String resetForgotPassword = '$apiVersion/forgot-password/reset';
+  static const String resetPassword = '$apiVersion/auth/reset-password';
   static const String requestOtp = '$apiVersion/auth/create/request-otp';
   static const String verifyOtp = '$apiVersion/auth/create/verify-otp';
   static const String register = '$apiVersion/auth/create';
