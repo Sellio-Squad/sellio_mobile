@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_loadingMore_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_shimmer.dart';
 
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/product_repository.dart';
@@ -72,7 +74,7 @@ class ThriftContent extends StatelessWidget {
     return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
       builder: (context, state) {
         if (state.isLoading && state.items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return ThriftScreenLoadingMoreShimmer();
         }
 
         return RefreshIndicator(
@@ -82,7 +84,7 @@ class ThriftContent extends StatelessWidget {
             slivers: [
               _buildCategoryTabs(context, state),
               _buildProductsGrid(context, state),
-              if (state.isLoadingMore) _buildLoadingMore(),
+              if (state.isLoadingMore) ThriftLoadingMoreShimmer(),
             ],
           ),
         );
@@ -133,6 +135,7 @@ class ThriftContent extends StatelessWidget {
         return AppImages.allCategories;
     }
   }
+
   Widget _buildProductsGrid(BuildContext context, ThriftProductsState state) {
     if (state.items.isEmpty) {
       return const SliverFillRemaining(
@@ -149,7 +152,7 @@ class ThriftContent extends StatelessWidget {
           final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 final product = state.items[index];
                 final productId = product.id;
 
@@ -157,7 +160,8 @@ class ThriftContent extends StatelessWidget {
                 final favorites = context.watch<FavoritesCubit>();
 
                 final count = cart.state.productCounts[productId] ?? 0;
-                final isFavorite = favorites.state.productIds.contains(productId);
+                final isFavorite =
+                    favorites.state.productIds.contains(productId);
 
                 final imageUrl =
                     product.images.isNotEmpty ? product.images.first : '';
@@ -171,7 +175,9 @@ class ThriftContent extends StatelessWidget {
                   isFavorite: isFavorite,
                   onFavoriteToggle: () async {
                     // Pessimistic update: wait for API response before updating UI
-                    final success = await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+                    final success = await context
+                        .read<FavoritesCubit>()
+                        .toggleProductFavorite(productId);
                     return success;
                   },
                   onTap: () {
@@ -192,14 +198,6 @@ class ThriftContent extends StatelessWidget {
             ),
           );
         },
-      ),
-    );
-  }
-  Widget _buildLoadingMore() {
-    return const SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: Center(child: CircularProgressIndicator()),
       ),
     );
   }
