@@ -22,18 +22,17 @@
     "approvals": [
       {
         "reviewer": {
-          "login": "dev-bilal-azzam",
-          "id": 75501067,
-          "url": "https://github.com/dev-bilal-azzam"
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
         },
-        "submitted_at": "2026-01-21T18:18:40Z",
-        "commit_id": "b247c5b2b99e76899cff5d3ef029a6800419fe0b",
-        "note": "May be for different commit"
+        "submitted_at": "2026-01-21T18:19:54Z",
+        "commit_id": "44293b5f78e63f1dd20fd0e45c6ea5701b5c888f"
       }
     ],
     "required_approvals": 2,
-    "first_approved_at": "2026-01-21T18:18:40Z",
-    "time_to_first_approval_minutes": 1261.3666666666666,
+    "first_approved_at": "2026-01-21T18:19:54Z",
+    "time_to_first_approval_minutes": 1262.6,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
