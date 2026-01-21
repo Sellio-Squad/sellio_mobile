@@ -12,8 +12,7 @@ sealed class RegistrationState extends Equatable {
 
 /// Idle state representing the registration form is ready for input
 class RegistrationIdle extends RegistrationState {
-  final String firstName;
-  final String lastName;
+  final String fullName;
   final String phoneNumber;
   final String city;
   final String password;
@@ -23,8 +22,7 @@ class RegistrationIdle extends RegistrationState {
   final ValidationErrorType? validationError;
 
   const RegistrationIdle({
-    this.firstName = '',
-    this.lastName = '',
+    this.fullName = '',
     this.phoneNumber = '',
     this.city = '',
     this.password = '',
@@ -50,8 +48,7 @@ class RegistrationIdle extends RegistrationState {
     bool clearProfileImage = false,
   }) {
     return RegistrationIdle(
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      fullName: firstName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       city: city ?? this.city,
       password: password ?? this.password,
@@ -64,8 +61,7 @@ class RegistrationIdle extends RegistrationState {
 
   @override
   List<Object?> get props => [
-        firstName,
-        lastName,
+        fullName,
         phoneNumber,
         city,
         password,

@@ -103,8 +103,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   bool _isFormValid(RegistrationIdle state) {
     return FormValidators.isRegistrationFormValid(
-      firstName: state.firstName,
-      lastName: state.lastName,
+      fullName: state.fullName,
       phone: state.phoneNumber,
       city: state.city,
       password: state.password,
@@ -121,8 +120,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     final validationError = FormValidators.validateRegistrationFields(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phone: currentState.phoneNumber,
       city: currentState.city,
       password: currentState.password,
@@ -141,8 +139,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         '${currentState.selectedCountry?.phoneCode ?? '20'}${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phoneNumber: fullPhoneNumber,
       password: currentState.password,
       city: currentState.city,

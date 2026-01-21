@@ -21,7 +21,6 @@ class CreateAccountBody extends StatefulWidget {
 
 class _CreateAccountBodyState extends State<CreateAccountBody> {
   late final TextEditingController _firstNameController;
-  late final TextEditingController _lastNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _cityController;
   late final TextEditingController _passwordController;
@@ -44,7 +43,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   void _initializeControllers() {
     _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
     _phoneController = TextEditingController();
     _cityController = TextEditingController();
     _passwordController = TextEditingController();
@@ -64,8 +62,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     final cubit = context.read<RegistrationCubit>();
     _firstNameController
         .addListener(() => cubit.updateFirstName(_firstNameController.text));
-    _lastNameController
-        .addListener(() => cubit.updateLastName(_lastNameController.text));
     _phoneController
         .addListener(() => cubit.updatePhoneNumber(_phoneController.text));
     _cityController.addListener(() => cubit.updateCity(_cityController.text));
@@ -75,9 +71,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         () => cubit.updateConfirmPassword(_confirmPasswordController.text));
 
     _setupFocusListener(
-        _firstNameFocusNode, _firstNameController, FormFieldType.firstName);
-    _setupFocusListener(
-        _lastNameFocusNode, _lastNameController, FormFieldType.lastName);
+        _firstNameFocusNode, _firstNameController, FormFieldType.fullName);
+
     _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
     _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
     _setupFocusListener(
@@ -100,7 +95,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   @override
   void dispose() {
     _firstNameController.dispose();
-    _lastNameController.dispose();
     _phoneController.dispose();
     _cityController.dispose();
     _passwordController.dispose();
@@ -137,7 +131,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: _buildForm(context),
                 ),
-                const SizedBox(height: 16), // Add bottom spacing
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -223,33 +217,13 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildNameFields(dynamic colors) {
     return Row(
       children: [
+
         Expanded(
           child: Focus(
             focusNode: _firstNameFocusNode,
             child: SellioTextField(
               controller: _firstNameController,
-              hintText: context.local.first_name,
-              inputFormatter: [
-                FilteringTextInputFormatter.allow(
-                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
-              ],
-              prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-              prefixIcon: SvgPicture.asset(
-                AppImages.account,
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Focus(
-            focusNode: _lastNameFocusNode,
-            child: SellioTextField(
-              controller: _lastNameController,
-              hintText: context.local.last_name,
+              hintText: context.local.full_name,
               inputFormatter: [
                 FilteringTextInputFormatter.allow(
                     RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
