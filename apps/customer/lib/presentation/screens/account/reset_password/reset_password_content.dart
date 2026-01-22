@@ -1,9 +1,10 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
+
 import 'cubit/reset_password_cubit.dart';
 import 'cubit/reset_password_state.dart';
 
@@ -112,57 +113,81 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
             const SizedBox(height: 12),
 
-            SellioTextField(
-              controller: newCtrl,
-              hintText: context.local.new_password,
-              inputType: TextInputType.visiblePassword,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
-                ),
-              ),
-            ),
-
-            if (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
-              Padding(
-                padding: const EdgeInsets.only(top: 4, left: 4),
-                child: Text(
-                  context.local.password_must_be_at_least_characters,
-                  style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SellioTextField(
+                  controller: newCtrl,
+                  hintText: context.local.new_password,
+                  inputType: TextInputType.visiblePassword,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(
+                      AppImages.password,
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
+                      ? null
+                      : 0,
+                  child: (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 4, left: 4),
+                          child: Text(
+                            context.local.password_must_be_at_least_characters,
+                            style: context.theme.typography.textTheme.labelSmall
+                                .copyWith(
+                              color: context.theme.colors.hint,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+              ],
+            ),
 
             const SizedBox(height: 12),
 
-            SellioTextField(
-              controller: confirmCtrl,
-              hintText: context.local.confirm_new_password,
-              inputType: TextInputType.visiblePassword,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
-                ),
-              ),
-            ),
-
-            if (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
-              Padding(
-                padding: const EdgeInsets.only(top: 4, left: 4),
-                child: Text(
-                  context.local.passwords_do_not_match,
-                  style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SellioTextField(
+                  controller: confirmCtrl,
+                  hintText: context.local.confirm_new_password,
+                  inputType: TextInputType.visiblePassword,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(
+                      AppImages.password,
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
-              ),
+                SizedBox(
+                  height: (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
+                      ? null
+                      : 0,
+                  child: (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 4, left: 4),
+                          child: Text(
+                            context.local.passwords_do_not_match,
+                            style: context.theme.typography.textTheme.labelSmall
+                                .copyWith(
+                              color: context.theme.colors.hint,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+              ],
+            ),
 
             const SizedBox(height: 16),
 
