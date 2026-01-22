@@ -21,6 +21,7 @@ class RegistrationIdle extends RegistrationState {
   final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
+  final List<String> cities;
 
   const RegistrationIdle({
     this.firstName = '',
@@ -33,6 +34,7 @@ class RegistrationIdle extends RegistrationState {
     this.phoneCode = '20',
     this.isFormValid = false,
     this.validationError,
+    this.cities = const [],
   });
 
   RegistrationIdle copyWith({
@@ -50,6 +52,7 @@ class RegistrationIdle extends RegistrationState {
     ValidationErrorType? validationError,
     bool clearValidationError = false,
     bool clearProfileImage = false,
+    List<String>? cities,
   }) {
     return RegistrationIdle(
       firstName: firstName ?? this.firstName,
@@ -64,6 +67,7 @@ class RegistrationIdle extends RegistrationState {
       validationError: clearValidationError
           ? null
           : (validationError ?? this.validationError),
+      cities: cities ?? this.cities,
     );
   }
 
@@ -79,6 +83,7 @@ class RegistrationIdle extends RegistrationState {
         phoneCode,
         isFormValid,
         validationError,
+        cities,
       ];
 }
 

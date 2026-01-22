@@ -28,6 +28,27 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final countryCode = await _countryRepository.getCurrentCountryCode();
 
     emit(currentState.copyWith(selectedCountryCode: countryCode));
+    loadCitiesForSelectedCountry(countryCode);
+  }
+
+  Future<void> loadCitiesForSelectedCountry(String iso2) async {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = await _countryRepository.getCitiesByCountryIso2(iso2);
+
+    result.fold(
+      onSuccess: (cities) {
+        final latestState = state;
+        if (latestState is RegistrationIdle &&
+            latestState.selectedCountryCode == iso2) {
+          emit(latestState.copyWith(cities: cities));
+        }
+      },
+      onFailure: (e) {
+        emit(currentState.copyWith(cities: []));
+      },
+    );
   }
 
   // ==================== Field Updates ====================
@@ -74,8 +95,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         ));
   }
 
-  void updateSelectedCountryCode(String country) {
-    _updateField((state) => state.copyWith(selectedCountryCode: country));
+  void updateSelectedCountryCode(String countryCode) {
+    _updateField((state) => state.copyWith(selectedCountryCode: countryCode));
+    loadCitiesForSelectedCountry(countryCode);
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -141,6 +163,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     if (validationError != null) {
       emit(currentState.copyWith(validationError: validationError));
+
       return;
     }
 

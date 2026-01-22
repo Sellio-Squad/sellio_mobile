@@ -12,7 +12,7 @@ import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
-
+import 'package:design_system/widgets/sellio_picker_field.dart';
 
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
@@ -74,22 +74,22 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _passwordController
         .addListener(() => cubit.updatePassword(_passwordController.text));
     _confirmPasswordController.addListener(
-        () => cubit.updateConfirmPassword(_confirmPasswordController.text));
+        () => cubit.updateConfirmPassword(_confirmPasswordController.text),);
 
     _setupFocusListener(
-        _firstNameFocusNode, _firstNameController, FormFieldType.firstName);
+        _firstNameFocusNode, _firstNameController, FormFieldType.firstName,);
     _setupFocusListener(
-        _lastNameFocusNode, _lastNameController, FormFieldType.lastName);
+        _lastNameFocusNode, _lastNameController, FormFieldType.lastName,);
     _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
     _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
     _setupFocusListener(
-        _passwordFocusNode, _passwordController, FormFieldType.password);
+        _passwordFocusNode, _passwordController, FormFieldType.password,);
     _setupFocusListener(_confirmPasswordFocusNode, _confirmPasswordController,
-        FormFieldType.confirmPassword);
+        FormFieldType.confirmPassword,);
   }
 
   void _setupFocusListener(FocusNode focusNode,
-      TextEditingController controller, FormFieldType fieldType) {
+      TextEditingController controller, FormFieldType fieldType,) {
     focusNode.addListener(() {
       if (!focusNode.hasFocus && controller.text.isNotEmpty) {
         context
@@ -235,7 +235,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               hintText: context.local.first_name,
               inputFormatter: [
                 FilteringTextInputFormatter.allow(
-                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+                    RegExp(r'[a-zA-Z\u0600-\u06FF ]'),),
               ],
               prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
               prefixIcon: SvgPicture.asset(
@@ -256,7 +256,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               hintText: context.local.last_name,
               inputFormatter: [
                 FilteringTextInputFormatter.allow(
-                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
+                    RegExp(r'[a-zA-Z\u0600-\u06FF ]'),),
               ],
               prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
               prefixIcon: SvgPicture.asset(
@@ -272,23 +272,32 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     );
   }
 
+
   Widget _buildCityField(dynamic colors) {
-    return Focus(
-      focusNode: _cityFocusNode,
-      child: SellioTextField(
-        controller: _cityController,
-        hintText: context.local.city,
-        inputFormatter: [
-          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
-        ],
-        prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-        prefixIcon: SvgPicture.asset(
-          AppImages.location,
-          width: 24,
-          height: 24,
-          colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-        ),
-      ),
+    return BlocBuilder<RegistrationCubit, RegistrationState>(
+      builder: (context, state) {
+        if (state is! RegistrationIdle) return const SizedBox();
+
+        final cityItems = state.cities
+            .map((city) => SellioPickerItem(city, city))
+            .toList();
+
+        return SellioPickerField<String>(
+          hintText: context.local.city,
+          value: state.city.isNotEmpty ? state.city : null,
+          items: cityItems,
+          onChanged: (selectedCity) {
+            if (selectedCity != null) {
+              _cityController.text = selectedCity;
+
+              context.read<RegistrationCubit>().updateCity(selectedCity);
+
+              _cityFocusNode.unfocus();
+            }
+          },
+          focusNode: _cityFocusNode,
+        );
+      },
     );
   }
 
