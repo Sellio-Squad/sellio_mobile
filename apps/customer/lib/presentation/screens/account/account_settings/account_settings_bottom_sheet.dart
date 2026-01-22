@@ -64,101 +64,104 @@ class _AccountSettingsBottomSheetState
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AccountSettingsCubit, AccountSettingsState>(
-        listener: (context, state) {
-      if (state.isSuccess) {
-        _showSnackBar(context, context.local.updated_successfully);
-        Navigator.of(context).pop(state);
-      }
-      if (!_isDataLoaded && state.fullName.isNotEmpty) {
-        _nameController.text = state.fullName;
-        _phoneController.text = state.phoneNumber;
-        _isDataLoaded = true;
-      }
-    }, builder: (context, state) {
-      final cubit = context.read<AccountSettingsCubit>();
-      return SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.local.account_settings,
-              style: context.theme.typography.textTheme.titleMedium,
-            ),
-            const SizedBox(height: 24),
-            PhoneInputWithCountry(
-              controller: _phoneController,
-              focusNode: _phoneFocusNode,
-              selectedCountry: state.selectedCountry,
-              onCountrySelected: (country) {
-                context
-                    .read<AccountSettingsCubit>()
-                    .updateSelectedCountry(country);
-              },
-            ),
-            const SizedBox(height: 6),
-            SellioTextField(
-              controller: _nameController,
-              hintText: context.local.full_name,
-              inputFormatter: [
-                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
-              ],
-              prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-              prefixIcon: SvgPicture.asset(
-                AppImages.account,
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(
-                  context.theme.colors.body,
-                  BlendMode.srcIn,
+      listener: (context, state) {
+        if (state.isSuccess) {
+          _showSnackBar(context, context.local.updated_successfully);
+          Navigator.of(context).pop(state);
+        }
+        if (!_isDataLoaded && state.fullName.isNotEmpty) {
+          _nameController.text = state.fullName;
+          _phoneController.text = state.phoneNumber;
+          _isDataLoaded = true;
+        }
+      },
+      builder: (context, state) {
+        final cubit = context.read<AccountSettingsCubit>();
+
+        return SafeArea(
+          top: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.local.account_settings,
+                style: context.theme.typography.textTheme.titleMedium,
+              ),
+              const SizedBox(height: 24),
+              PhoneInputWithCountry(
+                controller: _phoneController,
+                focusNode: _phoneFocusNode,
+                selectedCountry: state.selectedCountry,
+                onCountrySelected: (country) {
+                  context
+                      .read<AccountSettingsCubit>()
+                      .updateSelectedCountry(country);
+                },
+              ),
+              const SizedBox(height: 6),
+              SellioTextField(
+                controller: _nameController,
+                hintText: context.local.full_name,
+                inputFormatter: [
+                  FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                ],
+                prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
+                prefixIcon: SvgPicture.asset(
+                  AppImages.account,
+                  width: 24,
+                  height: 24,
+                  colorFilter: ColorFilter.mode(
+                    context.theme.colors.body,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
-            if (state.errorMessage != null) ...[
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: context.theme.colors.errorVariant,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      color: context.theme.colors.errorVariant,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        state.errorMessage!,
-                        style: context.theme.typography.textTheme.labelSmall
-                            .copyWith(
-                          color: context.theme.colors.errorVariant,
+              const SizedBox(height: 12),
+              if (state.errorMessage != null) ...[
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: context.theme.colors.errorVariant,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        color: context.theme.colors.errorVariant,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          state.errorMessage!,
+                          style: context.theme.typography.textTheme.labelSmall
+                              .copyWith(
+                            color: context.theme.colors.errorVariant,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+                const SizedBox(height: 16),
+              ],
+              SellioButton(
+                text: context.local.save_changes,
+                onTap: () => cubit.updateAccountDetails(
+                  state.selectedCountry!,
+                ),
+                isEnabled: state.isFormValid && state.isPhoneValid,
+                verticalPadding: 13,
+                fullWidth: true,
+                isLoading: state.isLoading,
               ),
-              const SizedBox(height: 16),
             ],
-            SellioButton(
-              text: context.local.save_changes,
-              onTap: () => cubit.updateAccountDetails(
-                state.selectedCountry!,
-              ),
-              isEnabled: state.isFormValid && state.isPhoneValid,
-              verticalPadding: 13,
-              fullWidth: true,
-              isLoading: state.isLoading,
-            ),
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 
   @override

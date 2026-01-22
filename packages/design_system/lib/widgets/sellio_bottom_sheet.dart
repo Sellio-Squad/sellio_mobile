@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../themes/sellio_theme_provider.dart';
 
 class SellioBottomSheet extends StatelessWidget {
@@ -57,7 +58,6 @@ class SellioBottomSheet extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: IntrinsicHeight(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -69,7 +69,6 @@ class SellioBottomSheet extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
