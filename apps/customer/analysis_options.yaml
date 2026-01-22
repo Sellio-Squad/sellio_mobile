@@ -1,0 +1,59 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - '**/*.gr.dart'
+    - '**/generated_plugin_registrant.dart'
+    - 'build/**'
+    - '.dart_tool/**'
+
+  plugins:
+    - dart_code_metrics
+
+  errors:
+    unused_local_variable: warning
+    missing_return: error
+
+dart_code_metrics:
+  anti-patterns:
+    - long-method
+    - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-executable-code: 50
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions
+    - no-equal-then-else
+
+linter:
+  rules:
+    - avoid_print: true
+    - avoid_web_libraries_in_flutter: true
+    - prefer_const_constructors: true
+    - prefer_final_locals: true
+    - lines_longer_than_80_chars: true
+    - avoid_empty_else: true
+    - always_specify_types: true
+    - avoid_unused_constructor_parameters: true
+    - unnecessary_const: true
+    - use_named_constants: true
+    - avoid_positional_boolean_parameters: true
+    - avoid_setters_without_getters: true
+    - unawaited_futures: true
+    - await_only_futures: true
+    - unrelated_type_equality_checks: true
+    - always_use_package_imports: true
+    - require_trailing_commas: true
+    - use_super_parameters: true
+    - prefer_single_quotes: true
+    - avoid_relative_lib_imports: true

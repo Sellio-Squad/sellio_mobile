@@ -12,24 +12,53 @@ jobs:
   build-android:
     name: Build Android
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app: [ customer, seller, admin ]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /opt/ghc
+          df -h
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
       - name: Cache pub dependencies
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build Android APK
-        run: flutter build apk --debug -t lib/main.dart
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap Workspace
+        run: melos bootstrap
+
+      - name: Generate Freezed & JSON serialization files
+        run: melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Create google-services.json (Customer)
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON_CUSTOMER }}
+        run: |
+          mkdir -p apps/customer/android/app
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
+
+      - name: Build ${{ matrix.app }}
+        run: flutter build apk --release
+        working-directory: apps/${{ matrix.app }}
 
   autoupdate:
     name: Auto Update

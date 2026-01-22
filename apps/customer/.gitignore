@@ -1,0 +1,55 @@
+# ---------------------------------
+# Generated Code (Specific to Customer)
+# ---------------------------------
+# Freezed
+*.freezed.dart
+
+# JSON Serializable
+*.g.dart
+*.g.part.dart
+
+# Flutter localizations (Generated)
+**/l10n/app_localizations.dart
+**/l10n/app_localizations_*.dart
+
+# Mockito
+*.mocks.dart
+
+# ---------------------------------
+# Android
+# ---------------------------------
+android/app/debug
+android/app/profile
+android/app/release
+android/app/intermediates/
+android/app/generated/
+android/app/.cxx/
+
+# ---------------------------------
+# iOS & macOS
+# ---------------------------------
+ios/Flutter/Flutter.framework
+ios/Flutter/App.framework
+ios/Flutter/engine/
+ios/Flutter/flutter_export_environment.sh
+ios/Runner.build/
+ios/Build/
+ios/.symlinks/
+macos/Flutter/ephemeral/
+
+# ---------------------------------
+# Windows / Linux
+# ---------------------------------
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+
+# ---------------------------------
+# Web
+# ---------------------------------
+web/.dart_tool/
+
+# ---------------------------------
+# Symbols & Obfuscation
+# ---------------------------------
+app.*.symbols
+app.*.map.json

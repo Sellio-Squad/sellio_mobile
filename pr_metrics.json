@@ -1,0 +1,109 @@
+[
+  {
+    "pr_number": 403,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/403",
+    "title": "Fix/402 make emial and image path in user information",
+    "opened_at": "2026-01-21T17:06:10Z",
+    "head_ref": "fix/402-make-emial-and-image-path-in-user-information",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdulazizacc",
+      "id": 174628289,
+      "url": "https://github.com/abdulazizacc"
+    },
+    "assignees": [
+      {
+        "login": "abdulazizacc",
+        "id": 174628289,
+        "url": "https://github.com/abdulazizacc"
+      }
+    ],
+    "comments": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "Arzo-zi",
+          "id": 149817756,
+          "url": "https://github.com/Arzo-zi"
+        },
+        "submitted_at": "2026-01-21T17:12:28Z",
+        "commit_id": "fcbdf8885eae2b431a33e069e4207f454214e49e"
+      },
+      {
+        "reviewer": {
+          "login": "mohamedebrahem13",
+          "id": 111383089,
+          "url": "https://github.com/mohamedebrahem13"
+        },
+        "submitted_at": "2026-01-21T17:54:00Z",
+        "commit_id": "fcbdf8885eae2b431a33e069e4207f454214e49e"
+      }
+    ],
+    "required_approvals": 2,
+    "first_approved_at": "2026-01-21T17:12:28Z",
+    "time_to_first_approval_minutes": 6.3,
+    "required_approvals_met_at": "2026-01-21T17:54:00Z",
+    "time_to_required_approvals_minutes": 47.833333333333336,
+    "closed_at": "2026-01-21T18:03:09Z",
+    "merged_at": "2026-01-21T18:03:09Z",
+    "merged_by": {
+      "login": "abdulazizacc",
+      "id": 174628289,
+      "url": "https://github.com/abdulazizacc"
+    },
+    "week": "2026-W04",
+    "status": "merged",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 26,
+      "deletions": 22,
+      "changed_files": 5
+    }
+  },
+  {
+    "pr_number": 405,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/405",
+    "title": "feat: Add localization and RTL support to order history tabs",
+    "opened_at": "2026-01-21T17:47:47Z",
+    "head_ref": "334-order-history-direction-localization",
+    "base_ref": "develop",
+    "creator": {
+      "login": "Arzo-zi",
+      "id": 149817756,
+      "url": "https://github.com/Arzo-zi"
+    },
+    "assignees": [
+      {
+        "login": "Arzo-zi",
+        "id": 149817756,
+        "url": "https://github.com/Arzo-zi"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 41,
+      "deletions": 19,
+      "changed_files": 1
+    }
+  }
+]

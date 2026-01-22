@@ -1,0 +1,118 @@
+name: CD - Build and Distribute Android (After Merge)
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - develop
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-distribute:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+
+      - name: Notify Discord (Start Release)
+        run: |
+          MESSAGE="🛠️ Release build is starting"
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"$MESSAGE\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap Workspace
+        run: melos bootstrap
+
+      - name: Generate Freezed & JSON serialization files
+        run: melos exec --depends-on="build_runner" -- flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Decode Keystore & Setup Keys
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > upload-keystore.jks
+
+          setup_keys() {
+            local app_dir=$1
+            mkdir -p $app_dir/android/app
+            cp upload-keystore.jks $app_dir/android/app/upload-keystore.jks
+
+            echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > $app_dir/android/key.properties
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> $app_dir/android/key.properties
+            echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> $app_dir/android/key.properties
+            echo "storeFile=upload-keystore.jks" >> $app_dir/android/key.properties
+          }
+
+          setup_keys "apps/customer"
+          setup_keys "apps/seller"
+          setup_keys "apps/admin"
+
+          rm upload-keystore.jks
+
+      - name: Create google-services.json (Customer)
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON_CUSTOMER }}
+        run: |
+          mkdir -p apps/customer/android/app
+          echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
+  
+  
+
+      - name: Build Customer App Release APK
+        run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/customer
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+
+      - name: Decode Firebase Service Account
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" | base64 --decode > firebase.json
+
+      - name: Set Firebase credentials
+        run: echo "GOOGLE_APPLICATION_CREDENTIALS=$PWD/firebase.json" >> $GITHUB_ENV
+
+      - name: Extract Release Notes
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B | tr -d '\n')
+          echo "$COMMIT_MSG" > release_notes.txt
+
+      - name: Upload Customer APK to Firebase App Distribution
+        run: |
+          firebase appdistribution:distribute \
+            apps/customer/build/app/outputs/flutter-apk/app-release.apk \
+            --app "1:923830702888:android:1e02412ad50a9ee37bb61d" \
+            --groups "testers" \
+            --release-notes-file release_notes.txt
+
+      - name: Notify Discord (Release Success)
+        run: |
+          MESSAGE="✅ Firebase Release successful!\nAuthor: \`${{ github.actor }}\`\nBranch: **${{ github.base_ref || github.ref_name }}**"
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"$MESSAGE\"}" \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
