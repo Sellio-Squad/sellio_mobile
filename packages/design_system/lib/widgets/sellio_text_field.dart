@@ -28,6 +28,8 @@ class SellioTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool isPhoneNumber;
   final String? countryFlag;
+  final bool readOnly;
+  final VoidCallback? onTap;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
@@ -56,6 +58,8 @@ class SellioTextField extends StatefulWidget {
     this.controller,
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
+    this.readOnly = false,
+    this.onTap,
  /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
@@ -154,82 +158,89 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: context.theme.colors.semanticError,
         );
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: widget.cornerRadius,
-        boxShadow: textFieldShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            keyboardType: widget.inputType ?? TextInputType.text,
-            focusNode: _focusNode,
-            controller: _effectiveController,
-            inputFormatters:
-            widget.inputFormatter ??
-                [
-                  TextInputFormatter.withFunction((oldValue, newValue) {
-                    final lineCount = '\n'.allMatches(newValue.text).length + 1;
-                    if (lineCount > 5) {
-                      return oldValue;
-                    }
-                    return newValue;
-                  }),
-                ],
-
-            onChanged: (value) {
-              setState(() {
-                isError = value.isEmpty;
-              });
-            },
-            obscureText: isObscured,
-            obscuringCharacter: '●',
-            style: textFieldStyle,
-            maxLines: maxLines,
-            decoration: InputDecoration(
-              filled: widget.isTextFieldFilled,
-              fillColor: filledColor,
-              hintText: widget.hintText,
-              hintStyle: hintTextStyle,
-              prefixIcon: widget.isParagraph
-                  ? null
-                  : _buildPrefixIcon(iconColor, AppImages.iconsPath),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 24,
-                minHeight: 24,
-              ),
-              suffixIcon: _buildSuffixIcon(iconColor),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
-                borderSide: BorderSide(color: borderColor, width: 0.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
-                borderSide: BorderSide(color: borderColor),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  widget.focusedErrorBorderRadius,
-                ),
-                borderSide: BorderSide(color: context.theme.colors.semanticError),
-              ),
-              errorStyle: errorStyle,
+    return GestureDetector(
+      onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
+      child: AbsorbPointer(
+        absorbing: widget.readOnly,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: widget.cornerRadius,
+              boxShadow: textFieldShadow,
             ),
-          ),
-          Text(
-            isError ? (errorText ?? '') : '',
-            style: errorStyle,
-          )
-        ]
-      )
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    keyboardType: widget.inputType ?? TextInputType.text,
+                    focusNode: _focusNode,
+                    controller: _effectiveController,
+                    inputFormatters:
+                    widget.inputFormatter ??
+                        [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            final lineCount = '\n'.allMatches(newValue.text).length + 1;
+                            if (lineCount > 5) {
+                              return oldValue;
+                            }
+                            return newValue;
+                          }),
+                        ],
 
+                    onChanged: (value) {
+                      setState(() {
+                        isError = value.isEmpty;
+                      });
+                    },
+                    obscureText: isObscured,
+                    obscuringCharacter: '●',
+                    style: textFieldStyle,
+                    maxLines: maxLines,
+                    decoration: InputDecoration(
+                      filled: widget.isTextFieldFilled,
+                      fillColor: filledColor,
+                      hintText: widget.hintText,
+                      hintStyle: hintTextStyle,
+                      prefixIcon: widget.isParagraph
+                          ? null
+                          : _buildPrefixIcon(iconColor, AppImages.iconsPath),
+                      prefixIconConstraints: const BoxConstraints(
+                        minWidth: 24,
+                        minHeight: 24,
+                      ),
+                      suffixIcon: _buildSuffixIcon(iconColor),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
+                        borderSide: BorderSide(color: borderColor, width: 0.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
+                        borderSide: BorderSide(color: borderColor),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.errorBorderRadius),
+                        borderSide: BorderSide(color: context.theme.colors.semanticError),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          widget.focusedErrorBorderRadius,
+                        ),
+                        borderSide: BorderSide(color: context.theme.colors.semanticError),
+                      ),
+                      errorStyle: errorStyle,
+                    ),
+                  ),
+                  Text(
+                    isError ? (errorText ?? '') : '',
+                    style: errorStyle,
+                  )
+                ]
+            )
+
+        ),
+      ),
     );
   }
+
 
   Widget? _buildPrefixIcon(Color iconColor, String icon) {
     if (widget.isParagraph) return null;
