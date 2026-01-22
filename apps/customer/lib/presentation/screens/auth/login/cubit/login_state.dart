@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
@@ -10,14 +9,16 @@ sealed class LoginState extends Equatable {
 class LoginIdle extends LoginState {
   final String phoneNumber;
   final String password;
-  final Country? selectedCountry;
+  final String selectedCountryCode;
+  final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
   const LoginIdle({
     this.phoneNumber = '',
     this.password = '',
-    this.selectedCountry,
+    this.selectedCountryCode = 'eg',
+    this.phoneCode = '20',
     this.isFormValid = false,
     this.validationError,
   });
@@ -25,7 +26,8 @@ class LoginIdle extends LoginState {
   LoginIdle copyWith({
     String? phoneNumber,
     String? password,
-    Country? selectedCountry,
+    String? selectedCountryCode,
+    String? phoneCode,
     bool? isFormValid,
     ValidationErrorType? validationError,
     bool clearValidationError = false,
@@ -33,9 +35,12 @@ class LoginIdle extends LoginState {
     return LoginIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
-      selectedCountry: selectedCountry ?? this.selectedCountry,
+      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError ? null : (validationError ?? this.validationError),
+      validationError: clearValidationError
+          ? null
+          : (validationError ?? this.validationError),
     );
   }
 
@@ -43,7 +48,7 @@ class LoginIdle extends LoginState {
   List<Object?> get props => [
         phoneNumber,
         password,
-        selectedCountry,
+        selectedCountryCode,
         isFormValid,
         validationError,
       ];

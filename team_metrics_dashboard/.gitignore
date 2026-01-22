@@ -11,3 +11,7 @@ yarn-error.log*
 .env.production.local
 dist/
 build/
+
+# GitHub API credentials
+src/config/github-config.js
+

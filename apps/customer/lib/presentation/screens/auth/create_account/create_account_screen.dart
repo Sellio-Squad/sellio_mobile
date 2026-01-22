@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import 'cubit/registration_cubit.dart';
@@ -15,7 +16,8 @@ class CreateAccountScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => RegistrationCubit(
         authRepository: sl<AuthRepository>(),
-      ),
+        countryRepository: sl<CountryRepository>(),
+      )..loadInitialCountry(),
       child: const _CreateAccountScreenContent(),
     );
   }

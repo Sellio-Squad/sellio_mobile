@@ -81,7 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
       children: [
         _buildUserInfoSection(context, state),
         const SizedBox(height: 24),
-        _buildOptionBody(context)
+        _buildOptionBody(context),
       ],
     );
   }
@@ -167,10 +167,11 @@ class _AccountScreenState extends State<AccountScreen> {
             '${state.firstName} ${state.lastName}',
             style: themeText.titleSmall.copyWith(color: colors.title),
           ),
-          Text(
-            state.email,
-            style: themeText.labelSmall.copyWith(color: colors.body),
-          ),
+          if (state.email != null)
+            Text(
+              state.email!,
+              style: themeText.labelSmall.copyWith(color: colors.body),
+            ),
         ],
       ),
     );
