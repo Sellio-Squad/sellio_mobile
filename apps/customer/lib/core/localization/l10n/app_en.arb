@@ -248,5 +248,11 @@
   "account_created_successfully": "Account created successfully",
   "registration_failed": "Registration failed",
   "password_cannot_be_empty": "Password fields cannot be empty",
-  "phone_number_not_available": "Phone number not available"
+  "phone_number_not_available": "Phone number not available",
+  "unable_to_load_store_details": "Unable to load store details",
+  "failed_to_load": "Failed to load",
+  "failed_to_load_store_details": "Failed to load store details",
+  "store": "Store",
+  "unknown": "Unknown",
+  "no_description_available": "No description available"
 }

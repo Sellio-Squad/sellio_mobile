@@ -1,23 +1,35 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import '../../../../../domain/repositories/auth_repository.dart';
+import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository _authRepository;
+  final CountryRepository _countryRepository;
 
   LoginCubit({
     required AuthRepository authRepository,
+    required CountryRepository countryRepository,
     Country? initialCountry,
   })  : _authRepository = authRepository,
         super(LoginIdle(selectedCountry: initialCountry));
+ // super(const LoginIdle());
 
-  void updatePhoneNumber(
-    String value,
-  ) {
+  Future<void> loadInitialCountry() async {
+    final currentState = state;
+    if (currentState is! LoginIdle) return;
+
+    final countryCode = await _countryRepository.getCurrentCountryCode();
+
+    emit(currentState.copyWith(selectedCountryCode: countryCode));
+  }
+
+
+  void updatePhoneNumber(String value) {
     _updateField((state) => state.copyWith(
           phoneNumber: value,
           clearValidationError: true,
@@ -34,6 +46,10 @@ class LoginCubit extends Cubit<LoginState> {
   void updateSelectedCountry(Country country) {
     _updateField((state) => state.copyWith(selectedCountry: country));
   }
+
+ // void updateSelectedCountryCode(String countryCode) {
+ //   _updateField((state) => state.copyWith(selectedCountryCode: countryCode));
+ // }
 
   void _updateField(LoginIdle Function(LoginIdle) updater) {
     final currentState = state;
@@ -74,21 +90,42 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   bool _isFormValid(LoginIdle state) {
-    final requiredLength = _getRequiredPhoneLength(state);
     return FormValidators.isLoginFormValid(
       phone: state.phoneNumber,
       password: state.password,
-      minPhoneLength: requiredLength,
     );
   }
 
   int? _getRequiredPhoneLength(LoginIdle state) {
     if (state.selectedCountry == null) return null;
     final countryData = intl_countries.countries.firstWhere(
-      (c) => c.code == state.selectedCountry!.countryCode,
+          (c) => c.code == state.selectedCountry!.countryCode,
       orElse: () => intl_countries.countries.firstWhere((c) => c.code == 'IQ'),
     );
     return countryData.maxLength;
+  }
+
+
+  Future<void> loginAsGuest() async {
+    emit(const LoginSubmitting());
+
+    final result = await _authRepository.loginAsGuest();
+
+    result.fold(
+      onSuccess: (_) {
+        emit(const LoginSuccess());
+      },
+      onFailure: (failure) {
+        emit(LoginFailure(errorMessage: failure.message));
+
+        final currentState = state;
+        if (currentState is LoginIdle) {
+          emit(currentState);
+        } else {
+          emit(const LoginIdle());
+        }
+      },
+    );
   }
 
   Future<void> login() async {
@@ -104,8 +141,11 @@ class LoginCubit extends Cubit<LoginState> {
       emit(currentState.copyWith(validationError: validationError));
       return;
     }
-
     emit(LoginSubmitting(selectedCountry: currentState.selectedCountry));
+
+    // emit(const LoginSubmitting());
+
+ //   final countryCode = currentState.phoneCode;
 
     final countryCode = currentState.selectedCountry?.phoneCode ?? '';
     final phoneNumber = '+$countryCode${currentState.phoneNumber}';

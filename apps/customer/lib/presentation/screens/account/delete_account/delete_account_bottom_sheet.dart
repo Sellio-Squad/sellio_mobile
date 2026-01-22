@@ -1,32 +1,31 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_state.dart';
 
+import '../../../../domain/repositories/auth_repository.dart';
+
 class DeleteAccountBottomSheet extends StatelessWidget {
-  final VoidCallback onDeleteAccount;
+  const DeleteAccountBottomSheet({super.key});
 
-  const DeleteAccountBottomSheet({super.key, required this.onDeleteAccount});
-
-  static Future<void> show({
+  static Future<bool?> show({
     required BuildContext context,
-    required VoidCallback onDeleteAccount,
   }) {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      child: BlocProvider(
+      child: BlocProvider<DeleteAccountCubit>(
         create: (context) => DeleteAccountCubit(
-          userRepository: context.read<UserRepository>(),
-          authRepository: context.read<AuthRepository>(),
-        ),
-        child: DeleteAccountBottomSheet(onDeleteAccount: onDeleteAccount),
+            userRepository: context.read<UserRepository>(),
+            authRepository: context.read<AuthRepository>()),
+        child: const DeleteAccountBottomSheet(),
       ),
-    );
+    ).then((value) {
+      return value as bool?;
+    });
   }
 
   @override
@@ -34,8 +33,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
     return BlocConsumer<DeleteAccountCubit, DeleteAccountState>(
       listener: (context, state) {
         if (state is DeleteAccountSuccess) {
-          Navigator.of(context).pop();
-          onDeleteAccount();
+          Navigator.of(context).pop(true);
         } else if (state is DeleteAccountError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -57,7 +55,6 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               style: context.theme.typography.textTheme.titleMedium,
             ),
             const SizedBox(height: 24),
-
             Text(
               context.local.are_you_sure_to_continue_deleting_account,
               style: context.theme.typography.textTheme.bodyMedium,
@@ -95,7 +92,6 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-
             SellioButton(
               text: isLoading
                   ? context.local.deleting_account ?? 'Deleting account...'
@@ -104,7 +100,9 @@ class DeleteAccountBottomSheet extends StatelessWidget {
               textColor: context.theme.colors.red,
               onTap: isLoading
                   ? null
-                  : () => context.read<DeleteAccountCubit>().deleteAccount(),
+                  : () {
+                      context.read<DeleteAccountCubit>().deleteAccount();
+                    },
               fullWidth: true,
               verticalPadding: 13,
               isEnabled: !isLoading,

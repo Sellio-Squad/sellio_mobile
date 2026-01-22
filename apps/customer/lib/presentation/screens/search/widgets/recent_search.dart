@@ -53,6 +53,10 @@ class RecentSearchSection extends StatelessWidget {
               return SellioChip(
                 label: text,
                 selected: false,
+                padding: const EdgeInsetsDirectional.symmetric(
+                  horizontal: 16,
+                  vertical: 11,
+                ),
                 onTap: () {
                   searchController.text = text;
                   cubit.selectRecent(text);

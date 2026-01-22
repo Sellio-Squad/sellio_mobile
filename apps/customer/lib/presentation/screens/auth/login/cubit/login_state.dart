@@ -14,13 +14,18 @@ sealed class LoginState extends Equatable {
 class LoginIdle extends LoginState {
   final String phoneNumber;
   final String password;
+  final String selectedCountryCode;
+  final String phoneCode;
+  final Country? selectedCountry;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
   const LoginIdle({
     this.phoneNumber = '',
     this.password = '',
-    super.selectedCountry,
+    this.selectedCountryCode = 'eg',
+    this.phoneCode = '20',
+    this.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
@@ -29,6 +34,8 @@ class LoginIdle extends LoginState {
     String? phoneNumber,
     String? password,
     Country? selectedCountry,
+    String? selectedCountryCode,
+    String? phoneCode,
     bool? isFormValid,
     ValidationErrorType? validationError,
     bool clearValidationError = false,
@@ -36,11 +43,11 @@ class LoginIdle extends LoginState {
     return LoginIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
+      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      phoneCode: phoneCode ?? this.phoneCode,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError
-          ? null
-          : (validationError ?? this.validationError),
+      validationError: clearValidationError ? null : (validationError ?? this.validationError),
     );
   }
 
@@ -55,10 +62,10 @@ class LoginIdle extends LoginState {
 }
 
 class LoginSubmitting extends LoginState {
-  const LoginSubmitting({super.selectedCountry});
+  const LoginSubmitting();
 
   @override
-  List<Object?> get props => [selectedCountry];
+  List<Object?> get props => [];
 }
 
 class LoginSuccess extends LoginState {
@@ -71,8 +78,8 @@ class LoginSuccess extends LoginState {
 class LoginFailure extends LoginState {
   final String? errorMessage;
 
-  const LoginFailure({this.errorMessage, super.selectedCountry});
+  const LoginFailure({this.errorMessage});
 
   @override
-  List<Object?> get props => [errorMessage, selectedCountry];
+  List<Object?> get props => [errorMessage];
 }
