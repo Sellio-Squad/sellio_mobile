@@ -1,9 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../shared/enums/form_field_type.dart';
@@ -139,7 +139,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: _buildForm(context),
                 ),
-                const SizedBox(height: 16), // Add bottom spacing
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -186,6 +186,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildNameFields(colors),
+            const SizedBox(height: 12),
             PhoneInputWithCountry(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
@@ -198,7 +199,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             ),
             const SizedBox(height: 12),
             _buildCityField(colors),
+            const SizedBox(height: 12),
             _buildPasswordField(colors),
+            const SizedBox(height: 12),
             _buildConfirmPasswordField(colors),
           ],
         );
