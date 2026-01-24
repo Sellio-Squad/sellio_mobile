@@ -1,9 +1,10 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
+
 import 'cubit/reset_password_cubit.dart';
 import 'cubit/reset_password_state.dart';
 
@@ -48,7 +49,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
     /// Connect controllers to cubit
     currentCtrl.addListener(() {
-      context.read<ResetPasswordCubit>().updateCurrentPassword(currentCtrl.text);
+      context
+          .read<ResetPasswordCubit>()
+          .updateCurrentPassword(currentCtrl.text);
     });
 
     newCtrl.addListener(() {
@@ -56,7 +59,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
     });
 
     confirmCtrl.addListener(() {
-      context.read<ResetPasswordCubit>().updateConfirmPassword(confirmCtrl.text);
+      context
+          .read<ResetPasswordCubit>()
+          .updateConfirmPassword(confirmCtrl.text);
     });
   }
 
@@ -85,6 +90,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
       },
       builder: (context, state) {
         final cubit = context.read<ResetPasswordCubit>();
+
+        final isErrorNewPassword = !state.isNewPasswordValid;
+        final isErrorConfirmPassword = !state.passwordsMatch;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,6 +124,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               controller: newCtrl,
               hintText: context.local.new_password,
               inputType: TextInputType.visiblePassword,
+              isError: isErrorNewPassword,
+              errorMessage: isErrorNewPassword
+                  ? context.local.password_must_be_at_least_characters
+                  : null,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
                 child: SvgPicture.asset(
@@ -125,17 +137,6 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 ),
               ),
             ),
-
-            if (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
-              Padding(
-                padding: const EdgeInsets.only(top: 4, left: 4),
-                child: Text(
-                  context.local.password_must_be_at_least_characters,
-                  style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
-                  ),
-                ),
-              ),
 
             const SizedBox(height: 12),
 
@@ -143,6 +144,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
               controller: confirmCtrl,
               hintText: context.local.confirm_new_password,
               inputType: TextInputType.visiblePassword,
+              isError: isErrorConfirmPassword,
+              errorMessage: isErrorConfirmPassword
+                  ? context.local.passwords_do_not_match
+                  : null,
               prefixIcon: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 12),
                 child: SvgPicture.asset(
@@ -152,17 +157,6 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                 ),
               ),
             ),
-
-            if (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
-              Padding(
-                padding: const EdgeInsets.only(top: 4, left: 4),
-                child: Text(
-                  context.local.passwords_do_not_match,
-                  style: context.theme.typography.textTheme.labelSmall.copyWith(
-                    color: context.theme.colors.hint,
-                  ),
-                ),
-              ),
 
             const SizedBox(height: 16),
 
