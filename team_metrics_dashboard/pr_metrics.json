@@ -290,7 +290,8 @@
           "url": "https://github.com/marah222"
         },
         "submitted_at": "2026-01-24T18:37:01Z",
-        "commit_id": "8f0f8cfdba081726d442583a9331626ad96faf97"
+        "commit_id": "8f0f8cfdba081726d442583a9331626ad96faf97",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
@@ -304,9 +305,9 @@
     "week": "2026-W04",
     "status": "pending",
     "diff_stats": {
-      "additions": 1173,
-      "deletions": 3,
-      "changed_files": 6
+      "additions": 1170,
+      "deletions": 2,
+      "changed_files": 5
     }
   },
   {
