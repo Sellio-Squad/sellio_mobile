@@ -593,24 +593,35 @@
     "approvals": [
       {
         "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-01-24T19:33:46Z",
+        "commit_id": "00d9c60c03c7c518623c5246477afe28a671b0d0",
+        "note": "May be for different commit"
+      },
+      {
+        "reviewer": {
           "login": "baraa0abd",
           "id": 168970211,
           "url": "https://github.com/baraa0abd"
         },
         "submitted_at": "2026-01-24T22:56:55Z",
-        "commit_id": "42717a14699d7f340b5f496a8c4c05230eb8338b"
+        "commit_id": "42717a14699d7f340b5f496a8c4c05230eb8338b",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
-    "first_approved_at": "2026-01-24T22:56:55Z",
-    "time_to_first_approval_minutes": 242.01666666666668,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "first_approved_at": "2026-01-24T19:33:46Z",
+    "time_to_first_approval_minutes": 38.86666666666667,
+    "required_approvals_met_at": "2026-01-24T22:56:55Z",
+    "time_to_required_approvals_minutes": 242.01666666666668,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W04",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
