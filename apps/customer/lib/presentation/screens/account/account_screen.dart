@@ -156,7 +156,7 @@ class _AccountScreenState extends State<AccountScreen> {
       child: Column(
         children: [
           uploadImageCard(
-            imagePath: state.imagePath ?? AppImages.cat,
+            imagePath: state.imagePath ?? AppImages.user,
             editIconPath: AppImages.pencilEdit,
             context: context,
             onEditTap: () =>
