@@ -675,5 +675,47 @@
       "deletions": 21,
       "changed_files": 1
     }
+  },
+  {
+    "pr_number": 415,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/415",
+    "title": "Fix/some issue",
+    "opened_at": "2026-01-24T22:30:03Z",
+    "head_ref": "fix/some-issue",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MuhammedWael9991",
+      "id": 190773582,
+      "url": "https://github.com/MuhammedWael9991"
+    },
+    "assignees": [
+      {
+        "login": "MuhammedWael9991",
+        "id": 190773582,
+        "url": "https://github.com/MuhammedWael9991"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 193,
+      "deletions": 59,
+      "changed_files": 20
+    }
   }
 ]
