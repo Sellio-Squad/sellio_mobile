@@ -184,23 +184,6 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
-                      ? null
-                      : 0,
-                  child: (confirmCtrl.text.isNotEmpty && !state.passwordsMatch)
-                      ? Padding(
-                          padding: const EdgeInsets.only(top: 4, left: 4),
-                          child: Text(
-                            context.local.passwords_do_not_match,
-                            style: context.theme.typography.textTheme.labelSmall
-                                .copyWith(
-                              color: context.theme.colors.hint,
-                            ),
-                          ),
-                        )
-                      : null,
-                ),
               ],
             ),
 
