@@ -260,11 +260,42 @@
         "url": "https://github.com/baraa0abd"
       }
     ],
-    "comments": [],
-    "approvals": [],
+    "comments": [
+      {
+        "author": {
+          "login": "baraa0abd",
+          "id": 168970211,
+          "url": "https://github.com/baraa0abd"
+        },
+        "first_comment_at": "2026-01-23T14:51:44Z",
+        "last_comment_at": "2026-01-23T14:52:15Z",
+        "count": 2
+      },
+      {
+        "author": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "first_comment_at": "2026-01-23T14:26:10Z",
+        "last_comment_at": "2026-01-23T14:28:00Z",
+        "count": 3
+      }
+    ],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-01-24T18:37:01Z",
+        "commit_id": "8f0f8cfdba081726d442583a9331626ad96faf97"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-24T18:37:01Z",
+    "time_to_first_approval_minutes": 7157.016666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
