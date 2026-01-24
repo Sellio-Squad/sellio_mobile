@@ -139,7 +139,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: _buildForm(context),
                 ),
-                const SizedBox(height: 16), // Add bottom spacing
+                const SizedBox(height: 16),
               ],
             ),
           ),
