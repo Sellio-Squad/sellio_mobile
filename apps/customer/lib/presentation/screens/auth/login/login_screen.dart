@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
+import '../../../../domain/repositories/country_repository.dart';
 import 'cubit/login_cubit.dart';
 import 'login_listeners.dart';
 import 'widgets/login_body.dart';
@@ -15,7 +16,8 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => LoginCubit(
         authRepository: sl<AuthRepository>(),
-      ),
+        countryRepository: sl<CountryRepository>(),
+      )..loadInitialCountry(),
       child: const _LoginScreenContent(),
     );
   }
