@@ -72,7 +72,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ steps.app-token.outputs.token }}
-          ref: metrics
+
+      - name: Switch to metrics branch
+        run: |
+          if git fetch origin metrics; then
+            echo "Metrics branch exists, checking it out..."
+            git checkout metrics
+          else
+            echo "Metrics branch does not exist, creating orphan branch..."
+            git checkout --orphan metrics
+            git rm -rf .
+          fi
 
       - name: Determine Update Type
         id: prepare_data
@@ -114,7 +124,8 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          PR_FILE="pr_metrics.json"
+          PR_FILE="team_metrics_dashboard/pr_metrics.json"
+          mkdir -p "$(dirname "$PR_FILE")"
           BACKFILL_DAYS="${{ github.event.inputs.backfill_days }}"
 
           echo "--- Backfilling PRs (looking back $BACKFILL_DAYS days) ---"
@@ -332,7 +343,8 @@ jobs:
           PR_DELETIONS: ${{ github.event.pull_request.deletions }}
           PR_CHANGED_FILES: ${{ github.event.pull_request.changed_files }}
         run: |
-          PR_FILE="pr_metrics.json"
+          PR_FILE="team_metrics_dashboard/pr_metrics.json"
+          mkdir -p "$(dirname "$PR_FILE")"
           UPDATE_TYPE="${{ steps.prepare_data.outputs.UPDATE_TYPE }}"
 
           if [[ -z "$UPDATE_TYPE" ]]; then

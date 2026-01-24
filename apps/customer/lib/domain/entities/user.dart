@@ -2,14 +2,14 @@ import 'address.dart';
 
 class User {
   final String fullName;
-  final String email;
+  final String? email;
   final String phoneNumber;
   final String? avatarUrl;
   final Address address;
 
   const User({
     required this.fullName,
-    required this.email,
+    this.email,
     required this.phoneNumber,
     this.avatarUrl,
     required this.address,

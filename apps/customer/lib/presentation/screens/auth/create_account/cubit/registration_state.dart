@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
@@ -17,7 +16,8 @@ class RegistrationIdle extends RegistrationState {
   final String city;
   final String password;
   final String confirmPassword;
-  final Country? selectedCountry;
+  final String selectedCountryCode;
+  final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
@@ -27,7 +27,8 @@ class RegistrationIdle extends RegistrationState {
     this.city = '',
     this.password = '',
     this.confirmPassword = '',
-    this.selectedCountry,
+    this.selectedCountryCode = 'eg',
+    this.phoneCode = '20',
     this.isFormValid = false,
     this.validationError,
   });
@@ -40,7 +41,8 @@ class RegistrationIdle extends RegistrationState {
     String? city,
     String? password,
     String? confirmPassword,
-    Country? selectedCountry,
+    String? selectedCountryCode,
+    String? phoneCode,
     File? selectedProfileImage,
     bool? isFormValid,
     ValidationErrorType? validationError,
@@ -53,9 +55,12 @@ class RegistrationIdle extends RegistrationState {
       city: city ?? this.city,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
-      selectedCountry: selectedCountry ?? this.selectedCountry,
+      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError ? null : (validationError ?? this.validationError),
+      validationError: clearValidationError
+          ? null
+          : (validationError ?? this.validationError),
     );
   }
 
@@ -66,7 +71,8 @@ class RegistrationIdle extends RegistrationState {
         city,
         password,
         confirmPassword,
-        selectedCountry,
+        selectedCountryCode,
+        phoneCode,
         isFormValid,
         validationError,
       ];

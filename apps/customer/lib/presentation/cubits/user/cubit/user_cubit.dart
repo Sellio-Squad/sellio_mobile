@@ -9,17 +9,20 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> loadUserInfo() async {
     emit(const UserLoading());
-    try {
-      final userResult = await _userRepository.getUserProfile();
 
-      final user = userResult.data;
-      emit(UserLoaded(
-        name: user.fullName,
-        location: '${user.address.city}, ${user.address.country}',
-      ));
-    } catch (e) {
-      emit(UserError(message: e.toString()));
-    }
+    final userResult = await _userRepository.getUserProfile();
+
+    userResult.fold(
+      onSuccess: (user) {
+        emit(UserLoaded(
+          name: user.fullName,
+          location: '${user.address.city}, ${user.address.country}',
+        ));
+      },
+      onFailure: (failure) {
+        emit(UserError(message: failure.message ?? 'Failed to load user profile'));
+      },
+    );
   }
 
   Future<void> updateProfile({

@@ -16,14 +16,14 @@ class AccountLoading extends AccountState {
 
 class AccountLoaded extends AccountState {
   final String fullName;
-  final String email;
+  final String? email;
   final String? imagePath;
   final bool notificationsEnabled;
 
   const AccountLoaded({
     required this.fullName,
-    required this.email,
-    required this.imagePath,
+    this.email,
+    this.imagePath,
     this.notificationsEnabled = true,
   });
 

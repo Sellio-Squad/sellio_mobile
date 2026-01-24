@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../shared/enums/form_field_type.dart';
@@ -11,6 +12,7 @@ import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
+
 
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
@@ -167,8 +169,10 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final selectedCountry =
-            (state is RegistrationIdle) ? state.selectedCountry : null;
+        final selectedCountryCode =
+            (state is RegistrationIdle) ? state.selectedCountryCode : null;
+        final selectedCountry = selectedCountryCode != null ? Country.parse(selectedCountryCode) : null;
+
         final colors = context.theme.colors;
 
         return Column(
@@ -183,7 +187,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               onCountrySelected: (country) {
                 context
                     .read<RegistrationCubit>()
-                    .updateSelectedCountry(country);
+                    .updateSelectedCountryCode(country.countryCode);
               },
             ),
             const SizedBox(height: 12),
