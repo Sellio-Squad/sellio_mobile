@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
 import '../../../../../core/utils/snackbar_helper.dart';
 import '../constants/auth_constants.dart';
 import 'cubit/otp_cubit.dart';
@@ -31,7 +33,7 @@ class OtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OtpCubit(
+      create: (_) => OtpCubit(
         onVerify: onVerify,
         onResend: onResend,
         otpLength: otpLength,
@@ -67,7 +69,13 @@ class _OtpScreenContent extends StatefulWidget {
 }
 
 class _OtpScreenContentState extends State<_OtpScreenContent> {
-  final GlobalKey<OTPInputFieldState> _otpKey = GlobalKey<OTPInputFieldState>();
+  final TextEditingController _otpController = TextEditingController();
+
+  @override
+  void dispose() {
+    _otpController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +92,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
             state.errorMessage ?? context.local.otp_verification_failed,
           );
         } else if (state is OtpResent) {
-          _otpKey.currentState?.clear();
+          _otpController.clear();
           SnackBarHelper.showSuccess(
             context,
             context.local.otp_resent_successfully,
@@ -93,8 +101,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
       },
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child:
-        AuthBackgroundWrapper(
+        child: AuthBackgroundWrapper(
           containerPadding: const EdgeInsets.symmetric(vertical: 16),
           showLogo: true,
           child: Scaffold(
@@ -104,9 +111,8 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
               showBackButton: true,
             ),
             body: SafeArea(
-              child:
-              Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     Expanded(
@@ -136,28 +142,49 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
   }
 
   Widget _buildHeader(SellioTextTheme textTheme, dynamic colors) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.phoneNumber != null
-              ? context.local.enter_the_4_digit_sent_to(widget.phoneNumber!)
-              : widget.subtitle,
-          style: textTheme.bodyMedium.copyWith(color: colors.body),
-        ),
-      ],
+    return Text(
+      widget.phoneNumber != null
+          ? context.local.enter_the_4_digit_sent_to(widget.phoneNumber!)
+          : widget.subtitle,
+      style: textTheme.bodyMedium.copyWith(color: colors.body),
     );
   }
 
   Widget _buildOtpInput() {
     return BlocBuilder<OtpCubit, OtpState>(
       builder: (context, state) {
-        return OTPInputField(
-          key: _otpKey,
+        final colors = context.theme.colors;
+        final textTheme = context.theme.typography.textTheme;
+
+        return PinCodeTextField(
+          appContext: context,
+          controller: _otpController,
           length: widget.otpLength,
+          keyboardType: TextInputType.number,
+          autoFocus: true,
+          enableActiveFill: true,
+          autoDisposeControllers: false,
+
+          animationType: AnimationType.fade,
+          cursorColor: colors.primary,
+          textStyle: textTheme.titleLarge,
+
+          pinTheme: PinTheme(
+            shape: PinCodeFieldShape.box,
+            borderRadius: BorderRadius.circular(12),
+            fieldHeight: 56,
+            fieldWidth: 56,
+            activeFillColor: colors.surface,
+            inactiveFillColor: colors.surfaceLow,
+            selectedFillColor: colors.surface,
+            activeColor: colors.primary,
+            selectedColor: colors.primary,
+          ),
+
           onChanged: (value) {
             context.read<OtpCubit>().updateOtp(value);
           },
+
           onCompleted: (otp) {
             context.read<OtpCubit>().updateOtp(otp);
           },
