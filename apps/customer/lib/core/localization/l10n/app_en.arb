@@ -110,6 +110,7 @@
   "thrift": "Thrift",
   "furniture": "furniture",
   "books": "Books",
+  "no_products_found": "No products found",
   "electronics": "Electronics",
   "notifications": "Notifications",
   "account_screen": "Account Screen",

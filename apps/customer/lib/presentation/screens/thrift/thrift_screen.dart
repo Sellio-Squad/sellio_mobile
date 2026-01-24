@@ -135,8 +135,8 @@ class ThriftContent extends StatelessWidget {
   }
   Widget _buildProductsGrid(BuildContext context, ThriftProductsState state) {
     if (state.items.isEmpty) {
-      return const SliverFillRemaining(
-        child: Center(child: Text("No products found")),
+      return SliverFillRemaining(
+        child: Center(child: Text(context.local.no_products_found)),
       );
     }
 

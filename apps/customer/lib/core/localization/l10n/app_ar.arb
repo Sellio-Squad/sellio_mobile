@@ -110,6 +110,7 @@
   "thrift": "منتجات مستعملة",
   "furniture": "أثاث",
   "books": "كتب",
+  "no_products_found": "لم يتم العثور على منتجات",
   "electronics": "إلكترونيات",
   "notifications": "الإشعارات",
   "account_screen": "شاشة الحساب",
