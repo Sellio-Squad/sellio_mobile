@@ -10,6 +10,8 @@ class OTPInputCard extends StatefulWidget {
   final ValueChanged<String>? onCompleted;
   final FocusNode? focusNode;
   final FocusNode? nextFocusNode;
+  final FocusNode? previousFocusNode;
+  final VoidCallback? onBackspacePressed;
 
   const OTPInputCard({
     super.key,
@@ -17,6 +19,8 @@ class OTPInputCard extends StatefulWidget {
     this.onCompleted,
     this.focusNode,
     this.nextFocusNode,
+    this.previousFocusNode,
+    this.onBackspacePressed,
   });
 
   @override
@@ -50,6 +54,10 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
     setState(() {
       if (_internalFocusNode.hasFocus) {
         _currentState = SellioOTPInputState.focused;
+        _controller.text = _value;
+        _controller.selection = TextSelection.fromPosition(
+          TextPosition(offset: _controller.text.length),
+        );
       } else {
         if (_value.isEmpty) {
           _currentState = SellioOTPInputState.defaultState;
@@ -60,18 +68,70 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
     });
   }
 
+  bool _handleKeyEvent(KeyEvent event) {
+    if (event is! KeyDownEvent) return false;
+
+    if (event.logicalKey == LogicalKeyboardKey.backspace) {
+      if (_value.isEmpty) {
+        widget.onBackspacePressed?.call();
+        if (widget.previousFocusNode != null) {
+          Future.microtask(() {
+            widget.previousFocusNode!.requestFocus();
+          });
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
   void _handleInput(String value) {
-    if (value.isNotEmpty && RegExp(r'^[0-9]$').hasMatch(value)) {
+    final trimmedValue = value.trim();
+
+    if (trimmedValue.isEmpty && _value.isNotEmpty) {
       setState(() {
-        _value = value;
+        _value = '';
+        _currentState = _internalFocusNode.hasFocus
+            ? SellioOTPInputState.focused
+            : SellioOTPInputState.defaultState;
+      });
+      widget.onChanged?.call('');
+      _controller.clear();
+      return;
+    }
+
+    if (trimmedValue.length == 1 && RegExp(r'^[0-9]$').hasMatch(trimmedValue)) {
+      setState(() {
+        _value = trimmedValue;
         _currentState = SellioOTPInputState.filled;
       });
-      widget.onChanged?.call(value);
-      widget.onCompleted?.call(value);
+      widget.onChanged?.call(trimmedValue);
+      widget.onCompleted?.call(trimmedValue);
+
+      _controller.clear();
+
       if (widget.nextFocusNode != null) {
         widget.nextFocusNode!.requestFocus();
       } else {
         _internalFocusNode.unfocus();
+      }
+    } else if (trimmedValue.length > 1) {
+      // Extract only digits from pasted content
+      final digitsOnly = trimmedValue.replaceAll(RegExp(r'[^0-9]'), '');
+
+      if (digitsOnly.isNotEmpty) {
+        // Take first digit for current field
+        final firstDigit = digitsOnly[0];
+        setState(() {
+          _value = firstDigit;
+          _currentState = SellioOTPInputState.filled;
+        });
+        widget.onChanged?.call(firstDigit);
+
+        // Pass all digits to parent - let parent handle focus
+        widget.onCompleted?.call(digitsOnly);
+
+        _controller.clear();
       }
     }
   }
@@ -108,6 +168,13 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
     });
   }
 
+  void setValue(String value) {
+    setState(() {
+      _value = value;
+      _currentState = SellioOTPInputState.filled;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
@@ -139,22 +206,25 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
         child: Stack(
           children: [
             Positioned.fill(
-              child: Opacity(
-                opacity: 0.0,
-                child: TextField(
-                  controller: _controller,
-                  focusNode: _internalFocusNode,
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  maxLength: 1,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(1),
-                  ],
-                  onChanged: _handleInput,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    counterText: '',
+              child: KeyboardListener(
+                focusNode: FocusNode(),
+                onKeyEvent: _handleKeyEvent,
+                child: Opacity(
+                  opacity: 0.0,
+                  child: TextField(
+                    controller: _controller,
+                    focusNode: _internalFocusNode,
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    onChanged: _handleInput,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      counterText: '',
+                    ),
+                    enableInteractiveSelection: false,
                   ),
                 ),
               ),
@@ -236,8 +306,46 @@ class OTPInputFieldState extends State<OTPInputField> {
     final otp = _values.join();
     widget.onChanged?.call(otp);
 
-    if (otp.length == widget.length) {
+    if (otp.length == widget.length && !otp.contains('')) {
       widget.onCompleted?.call(otp);
+    }
+  }
+
+  void _handleCompleted(int index, String value) {
+    // If multiple digits were pasted, fill remaining fields
+    if (value.length > 1) {
+      final digits = value.split('');
+      for (var i = 0; i < digits.length && (index + i) < widget.length; i++) {
+        _values[index + i] = digits[i];
+        _cardKeys[index + i].currentState?.setValue(digits[i]);
+      }
+
+      final otp = _values.join();
+      widget.onChanged?.call(otp);
+
+      if (otp.length == widget.length && !otp.contains('')) {
+        widget.onCompleted?.call(otp);
+      }
+
+      // Move focus to the next empty field after pasted digits
+      final lastFilledIndex = index + digits.length - 1;
+      Future.microtask(() {
+        if (lastFilledIndex < widget.length - 1) {
+          _focusNodes[lastFilledIndex + 1].requestFocus();
+        } else {
+          _focusNodes[lastFilledIndex].unfocus();
+        }
+      });
+    }
+  }
+
+  void _handleBackspace(int index) {
+    if (index > 0) {
+      _values[index - 1] = '';
+      _cardKeys[index - 1].currentState?.clear();
+
+      final otp = _values.join();
+      widget.onChanged?.call(otp);
     }
   }
 
@@ -263,7 +371,10 @@ class OTPInputFieldState extends State<OTPInputField> {
             key: _cardKeys[index],
             focusNode: _focusNodes[index],
             nextFocusNode: index < widget.length - 1 ? _focusNodes[index + 1] : null,
+            previousFocusNode: index > 0 ? _focusNodes[index - 1] : null,
             onChanged: (value) => _handleChanged(index, value),
+            onCompleted: (value) => _handleCompleted(index, value),
+            onBackspacePressed: () => _handleBackspace(index),
           ),
         ),
       ),
