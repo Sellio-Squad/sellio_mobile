@@ -28,6 +28,8 @@ class SellioTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool isPhoneNumber;
   final String? countryFlag;
+  final bool isError;
+  final String? errorMessage;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
@@ -56,6 +58,8 @@ class SellioTextField extends StatefulWidget {
     this.controller,
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
+    this.isError = false,
+    this.errorMessage
  /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
@@ -81,7 +85,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          isError = _effectiveController.text.isEmpty;
+          isError = !widget.isError ? _effectiveController.text.isEmpty : widget.isError;
         });
       }
     });
@@ -144,9 +148,8 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: hintColor,
         );
 
-    final String? errorText = widget.isParagraph
-        ? null
-        : (isError ? 'Should not be empty' : null);
+    final String? errorText = widget.errorMessage ??
+        (isError ? 'Should not be empty' : null);
 
     final errorStyle =
         widget.errorStyle ??
