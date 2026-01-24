@@ -305,9 +305,9 @@
     "week": "2026-W04",
     "status": "pending",
     "diff_stats": {
-      "additions": 1170,
+      "additions": 1139,
       "deletions": 2,
-      "changed_files": 5
+      "changed_files": 4
     }
   },
   {
