@@ -1,19 +1,30 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../../domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
+import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository _authRepository;
+  final CountryRepository _countryRepository;
 
   LoginCubit({
     required AuthRepository authRepository,
-    Country? initialCountry,
+    required CountryRepository countryRepository,
   })  : _authRepository = authRepository,
-        super(LoginIdle(selectedCountry: initialCountry));
+        _countryRepository = countryRepository,
+        super(const LoginIdle());
+
+  Future<void> loadInitialCountry() async {
+    final currentState = state;
+    if (currentState is! LoginIdle) return;
+
+    final countryCode = await _countryRepository.getCurrentCountryCode();
+
+    emit(currentState.copyWith(selectedCountryCode: countryCode));
+  }
 
   void updatePhoneNumber(String value) {
     _updateField((state) => state.copyWith(
@@ -29,8 +40,8 @@ class LoginCubit extends Cubit<LoginState> {
         ));
   }
 
-  void updateSelectedCountry(Country country) {
-    _updateField((state) => state.copyWith(selectedCountry: country));
+  void updateSelectedCountryCode(String countryCode) {
+    _updateField((state) => state.copyWith(selectedCountryCode: countryCode));
   }
 
   void _updateField(LoginIdle Function(LoginIdle) updater) {
@@ -67,6 +78,27 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
+  Future<void> loginAsGuest() async {
+    emit(const LoginSubmitting());
+
+    final result = await _authRepository.loginAsGuest();
+
+    result.fold(
+      onSuccess: (_) {
+        emit(const LoginSuccess());
+      },
+      onFailure: (failure) {
+        emit(LoginFailure(errorMessage: failure.message));
+
+        final currentState = state;
+        if (currentState is LoginIdle) {
+          emit(currentState);
+        } else {
+          emit(const LoginIdle());
+        }
+      },
+    );
+  }
 
   Future<void> login() async {
     final currentState = state;
@@ -84,7 +116,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     emit(const LoginSubmitting());
 
-    final countryCode = currentState.selectedCountry?.phoneCode ?? '';
+    final countryCode = currentState.phoneCode;
     final phoneNumber = '+$countryCode${currentState.phoneNumber}';
 
     final result = await _authRepository.login(

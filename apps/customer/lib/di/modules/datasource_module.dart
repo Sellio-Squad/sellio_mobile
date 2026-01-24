@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/data/datasource/local/initial_country_local_datasource.dart';
 import 'package:sellio_mobile/data/datasource/local/search_local_datasource.dart';
 import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
 import '../../data/datasource/remote/auth/auth_remote_datasource.dart';
@@ -57,5 +58,9 @@ class DataSourceModule {
     sl.registerLazySingleton<SearchLocalDatasource>(
           () => SearchLocalDataSourceImpl(),
     );
+    sl.registerLazySingleton<InitialCountryLocalDataSource>(
+        () => InitialCountryLocalDataSourceImpl(),
+    );
   }
+
 }

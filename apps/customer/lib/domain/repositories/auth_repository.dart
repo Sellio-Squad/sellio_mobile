@@ -42,6 +42,12 @@ abstract class AuthRepository {
 
   Future<bool> isLoggedIn();
 
+  Future<Result<void>> loginAsGuest();
+
+  Future<bool> isGuestMode();
+
+  Future<void> clearGuestMode();
+
   Future<String?> getPendingRegistrationPhone();
 
   Future<void> clearPendingRegistration();
