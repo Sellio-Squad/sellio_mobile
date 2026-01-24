@@ -49,7 +49,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
     /// Connect controllers to cubit
     currentCtrl.addListener(() {
-      context.read<ResetPasswordCubit>().updateCurrentPassword(currentCtrl.text);
+      context
+          .read<ResetPasswordCubit>()
+          .updateCurrentPassword(currentCtrl.text);
     });
 
     newCtrl.addListener(() {
@@ -57,7 +59,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
     });
 
     confirmCtrl.addListener(() {
-      context.read<ResetPasswordCubit>().updateConfirmPassword(confirmCtrl.text);
+      context
+          .read<ResetPasswordCubit>()
+          .updateConfirmPassword(confirmCtrl.text);
     });
   }
 
@@ -86,6 +90,9 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
       },
       builder: (context, state) {
         final cubit = context.read<ResetPasswordCubit>();
+
+        final isErrorNewPassword = !state.isNewPasswordValid;
+        final isErrorConfirmPassword = !state.passwordsMatch;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,6 +128,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                   controller: newCtrl,
                   hintText: context.local.new_password,
                   inputType: TextInputType.visiblePassword,
+                  isError: isErrorNewPassword,
+                  errorMessage: isErrorNewPassword
+                      ? context.local.password_must_be_at_least_characters
+                      : null,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 12),
                     child: SvgPicture.asset(
@@ -160,6 +171,10 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
                   controller: confirmCtrl,
                   hintText: context.local.confirm_new_password,
                   inputType: TextInputType.visiblePassword,
+                  isError: isErrorConfirmPassword,
+                  errorMessage: isErrorConfirmPassword
+                      ? context.local.passwords_do_not_match
+                      : null,
                   prefixIcon: Padding(
                     padding: const EdgeInsets.only(left: 16, right: 12),
                     child: SvgPicture.asset(
