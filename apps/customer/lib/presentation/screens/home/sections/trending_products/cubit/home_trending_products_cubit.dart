@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/domain/entities/product_summary.dart';
 import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import '../../../../../../domain/repositories/product_repository.dart';
-import '../models/trending_product_ui_model.dart';
+import '../models/product_summary_ui_model.dart';
 import 'home_trending_products_state.dart';
 
 class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
@@ -18,12 +19,14 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
       page: 1,
       limit: limit,
     );
+    print('product list:${result}');
 
     result.fold(
       onSuccess: (products) {
         final uiModels = products
-            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .map((product) => ProductSummaryUIModel.fromEntity(product))
             .toList();
+        print('product list: onSuccess products: ${uiModels}');
 
         emit(HomeTrendingProductsLoaded(products: uiModels));
       },
@@ -48,7 +51,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
     result.fold(
       onSuccess: (products) {
         final uiModels = products
-            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .map((product) => ProductSummaryUIModel.fromEntity(product))
             .toList();
 
         emit(HomeTrendingProductsLoaded(products: uiModels));
@@ -83,7 +86,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
     result.fold(
       onSuccess: (products) {
         final uiModels = products
-            .map((product) => TrendingProductUIModel.fromEntity(product))
+            .map((product) => ProductSummaryUIModel.fromEntity(product as ProductSummary))
             .toList();
 
         emit(HomeTrendingProductsLoaded(

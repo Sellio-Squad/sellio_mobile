@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../models/trending_product_ui_model.dart';
+import '../models/product_summary_ui_model.dart';
 
 abstract class HomeTrendingProductsState extends Equatable {
   const HomeTrendingProductsState();
@@ -27,7 +27,7 @@ class HomeTrendingProductsSearching extends HomeTrendingProductsState {
 }
 
 class HomeTrendingProductsLoaded extends HomeTrendingProductsState {
-  final List<TrendingProductUIModel> products;
+  final List<ProductSummaryUIModel> products;
   final String? searchQuery;
 
   const HomeTrendingProductsLoaded({

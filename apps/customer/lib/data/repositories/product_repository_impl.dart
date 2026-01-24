@@ -3,12 +3,15 @@ import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.da
 import '../../core/error/result.dart';
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
+import '../../domain/entities/product_summary.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/product_remote_datasource.dart';
+import '../mappers/trending_product_mapper.dart';
 import '../models/common/paginated_response.dart';
 import '../models/product_model.dart';
+import '../models/product_summary_model.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
@@ -39,18 +42,18 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<PaginatedData<Product>>> getProductsByCategoryPaginated({
+  Future<Result<PaginatedData<ProductSummary>>> getProductsByCategoryPaginated({
     required String categoryId,
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
+    return RepositoryCallHandler.call<PaginatedData<ProductSummary>>(() async {
       final paginatedResponse = await _remoteDataSource.getProductsByCategory(
         categoryId: categoryId,
         page: page - 1,
         pageSize: limit,
       );
-      return _mapToPaginatedData(paginatedResponse);
+      return _mapToPaginatedSummaryData(paginatedResponse);
     });
   }
 
@@ -105,16 +108,16 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<PaginatedData<Product>>> getTrendingProductsPaginated({
+  Future<Result<PaginatedData<ProductSummary>>> getTrendingProductsPaginated({
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
+    return RepositoryCallHandler.call<PaginatedData<ProductSummary>>(() async {
       final paginatedResponse = await _remoteDataSource.getTrendingProducts(
         page: page - 1,
         pageSize: limit,
       );
-      return _mapToPaginatedData(paginatedResponse);
+      return _mapToPaginatedSummaryData(paginatedResponse);
     });
   }
 
@@ -133,12 +136,12 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<List<Product>>> getProductsByCategory({
+  Future<Result<List<ProductSummary>>> getProductsByCategory({
     required String categoryId,
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<List<Product>>(() async {
+    return RepositoryCallHandler.call<List<ProductSummary>>(() async {
       final paginatedResponse = await _remoteDataSource.getProductsByCategory(
         categoryId: categoryId,
         page: page - 1,
@@ -163,15 +166,17 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<List<Product>>> getTrendingProducts({
+  Future<Result<List<ProductSummary>>> getTrendingProducts({
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<List<Product>>(() async {
+    return RepositoryCallHandler.call<List<ProductSummary>>(() async {
       final paginatedResponse = await _remoteDataSource.getTrendingProducts(
         page: page - 1,
         pageSize: limit,
       );
+      // print('product list: repo impl(1) -> ${paginatedResponse.data.map((model) => model.toEntity()).toList()[0].images}');
+      print('product list: repo impl(2)-> ${paginatedResponse}');
       return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
@@ -233,6 +238,20 @@ class ProductRepositoryImpl implements ProductRepository {
       totalPages: response.totalPages,
     );
   }
+
+  PaginatedData<ProductSummary> _mapToPaginatedSummaryData(
+      PaginatedResponse<ProductSummaryModel> response,
+      ) {
+    return PaginatedData<ProductSummary>(
+      items: response.data.map((model) => model.toEntity()).toList(),
+      totalElements: response.totalElements,
+      currentPage: response.page + 1,
+      pageSize: response.pageSize,
+      totalPages: response.totalPages,
+    );
+  }
+
+
   @override
   Future<Result<PaginatedData<Product>>> getThriftProducts({
     String? categoryId,

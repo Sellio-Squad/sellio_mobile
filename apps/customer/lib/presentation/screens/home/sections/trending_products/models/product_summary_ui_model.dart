@@ -1,7 +1,8 @@
 import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
+import '../../../../../../domain/entities/product_summary.dart';
 
-class TrendingProductUIModel {
+class ProductSummaryUIModel {
   final String id;
   final String imageUrl;
   final String title;
@@ -10,7 +11,7 @@ class TrendingProductUIModel {
   final String? discountText;
   final bool isFavorite;
 
-  const TrendingProductUIModel({
+  const ProductSummaryUIModel({
     required this.id,
     required this.imageUrl,
     required this.title,
@@ -20,16 +21,16 @@ class TrendingProductUIModel {
     required this.isFavorite,
   });
 
-  factory TrendingProductUIModel.fromEntity(Product product) {
-    return TrendingProductUIModel(
+  factory ProductSummaryUIModel.fromEntity(ProductSummary product) {
+    return ProductSummaryUIModel(
       id: product.id,
-      imageUrl: product.images.isNotEmpty
-          ? product.images.first
+      imageUrl: product.imageUrl.isNotEmpty
+          ? product.imageUrl
           : AppImages.cartProduct,
       title: product.title,
       price: product.price.toString(),
-      hasDiscount: product.discount != null,
-      discountText: product.discount,
+      hasDiscount: product.discount != null, // The getter 'discount' isn't defined for the type 'ProductSummary'.
+      discountText: product.discount.toString(), // The getter 'discount' isn't defined for the type 'ProductSummary'.
       isFavorite: product.isFavorite,
     );
   }
@@ -37,7 +38,7 @@ class TrendingProductUIModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is TrendingProductUIModel &&
+          other is ProductSummaryUIModel &&
               runtimeType == other.runtimeType &&
               id == other.id;
 
