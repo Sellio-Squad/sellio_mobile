@@ -149,7 +149,7 @@ class _MoreTrendingContent extends StatelessWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 160 / 272,
+                  childAspectRatio: 160 / 200,
                 ),
               );
             },

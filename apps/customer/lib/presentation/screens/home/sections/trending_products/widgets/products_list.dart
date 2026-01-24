@@ -70,7 +70,7 @@ class ProductsList extends StatelessWidget {
 
   Widget _buildProductsList() {
     return SizedBox(
-      height: 272,
+      height: 210,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
