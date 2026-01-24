@@ -579,5 +579,47 @@
       "deletions": 0,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 413,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/413",
+    "title": "Fix/otp screen",
+    "opened_at": "2026-01-24T18:05:51Z",
+    "head_ref": "fix/otp-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 132,
+      "deletions": 21,
+      "changed_files": 1
+    }
   }
 ]
