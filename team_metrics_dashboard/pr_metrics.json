@@ -598,7 +598,8 @@
           "url": "https://github.com/marah222"
         },
         "submitted_at": "2026-01-24T19:33:46Z",
-        "commit_id": "00d9c60c03c7c518623c5246477afe28a671b0d0"
+        "commit_id": "00d9c60c03c7c518623c5246477afe28a671b0d0",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
