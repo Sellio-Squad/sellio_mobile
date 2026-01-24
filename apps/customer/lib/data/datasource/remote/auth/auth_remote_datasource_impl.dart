@@ -53,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       password: password,
       city: city,
       country: country,
-      region: region, email: '',
+      region: region,
     );
 
     final response = await _apiClient.post(
@@ -110,7 +110,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ApiEndpoints.forgotPassword,
       data: request.toJson(),
     );
-    
+
     return ForgotPasswordOtpResponse.fromJson(response.data);
   }
 
