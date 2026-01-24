@@ -117,7 +117,7 @@ class SellioProductVerticalCard extends StatelessWidget {
           },
           errorBuilder: (context, error, stackTrace) {
             return Image.asset(
-              AppImages.placeholder,
+              AppImages.imgEmptyStoreImage,
               width: double.infinity,
               fit: BoxFit.cover,
             );
