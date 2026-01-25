@@ -20,7 +20,7 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         isLoading: false,
         phoneNumber: parsedData.phoneNumber,
         selectedCountry: parsedData.country ?? state.selectedCountry,
-        fullName: "${result.data.firstName} ${result.data.lastName}",
+        fullName: result.data.fullName,
         errorMessage: null,
       ));
     } else if (result is ResultFailure) {
@@ -60,13 +60,11 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
 
   Future<void> updateAccountDetails(Country selectedCountry) async {
     emit(state.copyWith(isLoading: true, errorMessage: null));
-    final fullNameParts = splitFullName(state.fullName);
     final formattedPhone =
         _formatPhoneNumber(selectedCountry, state.phoneNumber);
     final result = await _repository.updateUserProfile(
       phoneNumber: formattedPhone,
-      firstName: fullNameParts["firstName"],
-      lastName: fullNameParts["lastName"],
+      fullName: state.fullName,
     );
     if (result is Success) {
       emit(state.copyWith(isLoading: false, isSuccess: true));
@@ -78,19 +76,6 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     }
   }
 
-  Map<String, String> splitFullName(String fullName) {
-    final parts = fullName.trim().split(RegExp(r'\s+'));
-    if (parts.isEmpty) {
-      return {"firstName": "", "lastName": ""};
-    }
-    if (parts.length == 1) {
-      return {"firstName": parts.first, "lastName": ""};
-    }
-    return {
-      "firstName": parts.first,
-      "lastName": parts.sublist(1).join(" "),
-    };
-  }
 
   String _formatPhoneNumber(Country country, String phone) {
     String normalized = phone.trim().replaceAll(' ', '');

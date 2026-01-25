@@ -35,8 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> register({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String phoneNumber,
     required String password,
     required String city,
@@ -45,8 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         phoneNumber: phoneNumber,
         password: password,
         city: city,

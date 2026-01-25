@@ -2,7 +2,6 @@ enum FormFieldType {
   phone,
   password,
   confirmPassword,
-  firstName,
-  lastName,
+  fullName,
   city,
 }

@@ -6,8 +6,7 @@ import '../models/user_model.dart';
 extension UserModelMapper on UserModel {
   User toEntity() {
     return User(
-      firstName: firstName,
-      lastName: lastName,
+      fullName: fullName,
       email: email,
       phoneNumber: phoneNumber,
       avatarUrl: avatarUrl,

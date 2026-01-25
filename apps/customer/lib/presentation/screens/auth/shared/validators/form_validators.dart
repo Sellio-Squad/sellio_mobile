@@ -16,8 +16,7 @@ abstract class FormValidators {
       FormFieldType.password => validatePassword(value),
       FormFieldType.confirmPassword =>
           validateConfirmPassword(password ?? '', value),
-      FormFieldType.firstName => validateFirstName(value),
-      FormFieldType.lastName => validateLastName(value),
+      FormFieldType.fullName => validateFullName(value),
       FormFieldType.city => validateCity(value),
     };
   }
@@ -52,25 +51,16 @@ abstract class FormValidators {
     return const ValidationResult.valid();
   }
 
-  static ValidationResult validateFirstName(String name) {
+  static ValidationResult validateFullName(String name) {
     if (name.length < AuthConstants.minNameLength) {
-      return const ValidationResult.invalid(ValidationErrorType.firstNameMinLength);
+      return const ValidationResult.invalid(ValidationErrorType.fullNameMinLength);
     }
     if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
-      return const ValidationResult.invalid(ValidationErrorType.firstNameLettersOnly);
+      return const ValidationResult.invalid(ValidationErrorType.fullNameLettersOnly);
     }
     return const ValidationResult.valid();
   }
 
-  static ValidationResult validateLastName(String name) {
-    if (name.length < AuthConstants.minNameLength) {
-      return const ValidationResult.invalid(ValidationErrorType.lastNameMinLength);
-    }
-    if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
-      return const ValidationResult.invalid(ValidationErrorType.lastNameLettersOnly);
-    }
-    return const ValidationResult.valid();
-  }
 
   static ValidationResult validateCity(String city) {
     if (city.length < AuthConstants.minLocationLength) {
@@ -93,21 +83,18 @@ abstract class FormValidators {
   }
 
   static bool isRegistrationFormValid({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String phone,
     required String city,
     required String password,
     required String confirmPassword,
   }) {
-    return firstName.isNotEmpty &&
-        lastName.isNotEmpty &&
+    return fullName.isNotEmpty &&
         phone.isNotEmpty &&
         city.isNotEmpty &&
         password.isNotEmpty &&
         confirmPassword.isNotEmpty &&
-        validateFirstName(firstName).isValid &&
-        validateLastName(lastName).isValid &&
+        validateFullName(fullName).isValid &&
         validatePhone(phone).isValid &&
         validateCity(city).isValid &&
         validatePassword(password).isValid &&
@@ -115,16 +102,14 @@ abstract class FormValidators {
   }
 
   static ValidationErrorType? validateRegistrationFields({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String phone,
     required String city,
     required String password,
     required String confirmPassword,
   }) {
     final validations = [
-      validateFirstName(firstName),
-      validateLastName(lastName),
+      validateFullName(fullName),
       validatePhone(phone),
       validateCity(city),
       validatePassword(password),
