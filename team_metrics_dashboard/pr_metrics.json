@@ -179,18 +179,27 @@
         },
         "submitted_at": "2026-01-25T19:17:37Z",
         "commit_id": "c4b2a2a46af16fab2329bfc4365a930d33eee224"
+      },
+      {
+        "reviewer": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "submitted_at": "2026-01-25T19:51:37Z",
+        "commit_id": "c4b2a2a46af16fab2329bfc4365a930d33eee224"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-01-25T19:17:37Z",
     "time_to_first_approval_minutes": 19.2,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-01-25T19:51:37Z",
+    "time_to_required_approvals_minutes": 53.2,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W04",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
