@@ -3,7 +3,6 @@ import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.da
 import '../../core/error/result.dart';
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
-import '../../domain/entities/product_summary.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
@@ -42,12 +41,12 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<PaginatedData<ProductSummary>>> getProductsByCategoryPaginated({
+  Future<Result<PaginatedData<Product>>> getProductsByCategoryPaginated({
     required String categoryId,
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<PaginatedData<ProductSummary>>(() async {
+    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getProductsByCategory(
         categoryId: categoryId,
         page: page - 1,
@@ -108,11 +107,11 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<PaginatedData<ProductSummary>>> getTrendingProductsPaginated({
+  Future<Result<PaginatedData<Product>>> getTrendingProductsPaginated({
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<PaginatedData<ProductSummary>>(() async {
+    return RepositoryCallHandler.call<PaginatedData<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getTrendingProducts(
         page: page - 1,
         pageSize: limit,
@@ -136,12 +135,12 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<List<ProductSummary>>> getProductsByCategory({
+  Future<Result<List<Product>>> getProductsByCategory({
     required String categoryId,
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<List<ProductSummary>>(() async {
+    return RepositoryCallHandler.call<List<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getProductsByCategory(
         categoryId: categoryId,
         page: page - 1,
@@ -166,11 +165,11 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Result<List<ProductSummary>>> getTrendingProducts({
+  Future<Result<List<Product>>> getTrendingProducts({
     int page = 1,
     int limit = 20,
   }) async {
-    return RepositoryCallHandler.call<List<ProductSummary>>(() async {
+    return RepositoryCallHandler.call<List<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.getTrendingProducts(
         page: page - 1,
         pageSize: limit,
@@ -239,10 +238,10 @@ class ProductRepositoryImpl implements ProductRepository {
     );
   }
 
-  PaginatedData<ProductSummary> _mapToPaginatedSummaryData(
+  PaginatedData<Product> _mapToPaginatedSummaryData(
       PaginatedResponse<ProductSummaryModel> response,
       ) {
-    return PaginatedData<ProductSummary>(
+    return PaginatedData<Product>(
       items: response.data.map((model) => model.toEntity()).toList(),
       totalElements: response.totalElements,
       currentPage: response.page + 1,

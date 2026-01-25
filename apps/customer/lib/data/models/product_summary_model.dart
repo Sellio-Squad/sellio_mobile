@@ -16,7 +16,6 @@ class ProductSummaryModel with _$ProductSummaryModel {
     @Default(false) bool isFavorite,
   }) = _ProductSummaryModel;
 
-  // --- From JSON ---
   factory ProductSummaryModel.fromJson(Map<String, dynamic> json) {
     return ProductSummaryModel(
       id: json['id']?.toString() ?? '',
@@ -27,7 +26,6 @@ class ProductSummaryModel with _$ProductSummaryModel {
     );
   }
 
-  // --- Mapping to UI Model ---
   ProductSummaryUIModel toUIModel() {
     return ProductSummaryUIModel(
       id: this.id,

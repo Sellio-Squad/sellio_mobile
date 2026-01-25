@@ -1,6 +1,5 @@
 import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
-import '../../../../../../domain/entities/product_summary.dart';
 
 class ProductSummaryUIModel {
   final String id;
@@ -21,16 +20,14 @@ class ProductSummaryUIModel {
     required this.isFavorite,
   });
 
-  factory ProductSummaryUIModel.fromEntity(ProductSummary product) {
+  factory ProductSummaryUIModel.fromEntity(Product product) {
     return ProductSummaryUIModel(
       id: product.id,
-      imageUrl: product.imageUrl.isNotEmpty
-          ? product.imageUrl
-          : AppImages.cartProduct,
+      imageUrl: product.images.first,
       title: product.title,
       price: product.price.toString(),
-      hasDiscount: product.discount != null, // The getter 'discount' isn't defined for the type 'ProductSummary'.
-      discountText: product.discount.toString(), // The getter 'discount' isn't defined for the type 'ProductSummary'.
+      hasDiscount: product.discount != null,
+      discountText: product.discount.toString(),
       isFavorite: product.isFavorite,
     );
   }

@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:sellio_mobile/domain/entities/product_summary.dart';
 import '../../../../domain/entities/product.dart';
 
 class MoreTrendingState extends Equatable {
-  final List<ProductSummary> items;
+  final List<Product> items;
   final bool isLoading;
   final bool isLoadingMore;
   final bool hasReachedEnd;
@@ -20,7 +19,7 @@ class MoreTrendingState extends Equatable {
   });
 
   MoreTrendingState copyWith({
-    List<ProductSummary>? items,
+    List<Product>? items,
     bool? isLoading,
     bool? isLoadingMore,
     bool? hasReachedEnd,

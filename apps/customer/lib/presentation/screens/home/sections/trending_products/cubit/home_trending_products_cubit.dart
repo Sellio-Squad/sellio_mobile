@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/entities/product_summary.dart';
 import 'package:sellio_mobile/domain/repositories/search_repository.dart';
 import '../../../../../../domain/repositories/product_repository.dart';
 import '../models/product_summary_ui_model.dart';
@@ -86,7 +85,7 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
     result.fold(
       onSuccess: (products) {
         final uiModels = products
-            .map((product) => ProductSummaryUIModel.fromEntity(product as ProductSummary))
+            .map((product) => ProductSummaryUIModel.fromEntity(product))
             .toList();
 
         emit(HomeTrendingProductsLoaded(

@@ -117,9 +117,7 @@ class _MoreTrendingContent extends StatelessWidget {
                     // Use FavoritesCubit as source of truth for state sync
                     final isFavorite = favState.productIds.contains(productId);
 
-                    final imageUrl = product.imageUrl.isNotEmpty
-                        ? product.imageUrl
-                        : AppImages.imgEmptyStoreImage;
+                    final imageUrl = product.images.first;
 
                     return SellioProductVerticalCard(
                       key: ValueKey(productId),
