@@ -26,16 +26,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(currentState.copyWith(selectedCountryCode: countryCode));
   }
 
-  void updateFirstName(String value) {
+  void updateFullName(String value) {
     _updateField((state) => state.copyWith(
-          firstName: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateLastName(String value) {
-    _updateField((state) => state.copyWith(
-          lastName: value,
+          fullName: value,
           clearValidationError: true,
         ));
   }

@@ -34,8 +34,7 @@ class RegistrationIdle extends RegistrationState {
   });
 
   RegistrationIdle copyWith({
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? phoneNumber,
     String? email,
     String? city,
@@ -51,7 +50,7 @@ class RegistrationIdle extends RegistrationState {
     bool clearProfileImage = false,
   }) {
     return RegistrationIdle(
-      fullName: firstName ?? this.fullName,
+      fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       city: city ?? this.city,
       password: password ?? this.password,

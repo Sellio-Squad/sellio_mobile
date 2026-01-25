@@ -21,14 +21,13 @@ class CreateAccountBody extends StatefulWidget {
 }
 
 class _CreateAccountBodyState extends State<CreateAccountBody> {
-  late final TextEditingController _firstNameController;
+  late final TextEditingController _fullNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _cityController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
 
-  late final FocusNode _firstNameFocusNode;
-  late final FocusNode _lastNameFocusNode;
+  late final FocusNode _fullNameFocusNode;
   late final FocusNode _phoneFocusNode;
   late final FocusNode _cityFocusNode;
   late final FocusNode _passwordFocusNode;
@@ -43,7 +42,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   void _initializeControllers() {
-    _firstNameController = TextEditingController();
+    _fullNameController = TextEditingController();
     _phoneController = TextEditingController();
     _cityController = TextEditingController();
     _passwordController = TextEditingController();
@@ -51,8 +50,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   void _initializeFocusNodes() {
-    _firstNameFocusNode = FocusNode();
-    _lastNameFocusNode = FocusNode();
+    _fullNameFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
     _cityFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
@@ -61,8 +59,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   void _setupListeners() {
     final cubit = context.read<RegistrationCubit>();
-    _firstNameController
-        .addListener(() => cubit.updateFirstName(_firstNameController.text));
+    _fullNameController
+        .addListener(() => cubit.updateFullName(_fullNameController.text));
     _phoneController
         .addListener(() => cubit.updatePhoneNumber(_phoneController.text));
     _cityController.addListener(() => cubit.updateCity(_cityController.text));
@@ -72,7 +70,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         () => cubit.updateConfirmPassword(_confirmPasswordController.text));
 
     _setupFocusListener(
-        _firstNameFocusNode, _firstNameController, FormFieldType.fullName);
+        _fullNameFocusNode, _fullNameController, FormFieldType.fullName);
 
     _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
     _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
@@ -95,14 +93,13 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   @override
   void dispose() {
-    _firstNameController.dispose();
+    _fullNameController.dispose();
     _phoneController.dispose();
     _cityController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
 
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
+    _fullNameFocusNode.dispose();
     _phoneFocusNode.dispose();
     _cityFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -227,9 +224,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
         Expanded(
           child: Focus(
-            focusNode: _firstNameFocusNode,
+            focusNode: _fullNameFocusNode,
             child: SellioTextField(
-              controller: _firstNameController,
+              controller: _fullNameController,
               hintText: context.local.full_name,
               inputFormatter: [
                 FilteringTextInputFormatter.allow(
