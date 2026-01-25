@@ -1,16 +1,14 @@
 import 'address.dart';
 
 class User {
-  final String firstName;
-  final String lastName;
+  final String fullName;
   final String? email;
   final String phoneNumber;
   final String? avatarUrl;
   final Address address;
 
   const User({
-    required this.firstName,
-    required this.lastName,
+    required this.fullName,
     this.email,
     required this.phoneNumber,
     this.avatarUrl,
@@ -18,8 +16,7 @@ class User {
   });
 
   User copyWith({
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? email,
     String? phoneNumber,
     String? city,
@@ -28,8 +25,7 @@ class User {
     Address? address,
   }) {
     return User(
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       avatarUrl: avatarUrl ?? this.avatarUrl,

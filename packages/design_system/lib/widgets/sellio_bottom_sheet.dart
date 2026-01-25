@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../themes/sellio_theme_provider.dart';
 
 class SellioBottomSheet extends StatelessWidget {
   final Widget child;
   final VoidCallback? onDismiss;
 
-  const SellioBottomSheet({
-    super.key,
-    required this.child,
-    this.onDismiss,
-  });
+  const SellioBottomSheet({super.key, required this.child, this.onDismiss});
 
   static Future<T?> show<T>({
     required BuildContext context,
@@ -27,19 +24,14 @@ class SellioBottomSheet extends StatelessWidget {
       isDismissible: isDismissible,
       enableDrag: enableDrag,
       backgroundColor: Colors.transparent,
-      builder: (context) =>
-          Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery
-                  .of(context)
-                  .viewInsets
-                  .bottom,
-            ),
-            child: SellioBottomSheet(
-              onDismiss: onDismiss,
-              child: child,
-            ),
-          ),
+      builder: (context) {
+        final mediaQuery = MediaQuery.of(context);
+
+        return Padding(
+          padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
+          child: SellioBottomSheet(onDismiss: onDismiss, child: child),
+        );
+      },
     ).then((value) {
       onDismiss?.call();
       return value;
@@ -48,26 +40,31 @@ class SellioBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxHeight = MediaQuery.of(context).size.height * 0.9;
+
     return Container(
+      constraints: BoxConstraints(maxHeight: maxHeight),
       decoration: BoxDecoration(
         color: context.theme.colors.surfaceLow,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(16),
-        ),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: SafeArea(
         top: false,
-        child: IntrinsicHeight(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _CustomDragHandle(),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24,horizontal: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const _CustomDragHandle(),
+
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 24,
+                  horizontal: 16,
+                ),
                 child: child,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -75,6 +72,7 @@ class SellioBottomSheet extends StatelessWidget {
 }
 
 class _CustomDragHandle extends StatelessWidget {
+  const _CustomDragHandle();
   @override
   Widget build(BuildContext context) {
     return Center(

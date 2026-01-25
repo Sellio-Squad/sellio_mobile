@@ -21,16 +21,10 @@ extension ValidationErrorLocalization on ValidationErrorType {
       context.local.passwords_do_not_match,
 
     // First Name errors
-      ValidationErrorType.firstNameMinLength =>
-      context.local.first_name_at_least_2_characters,
-      ValidationErrorType.firstNameLettersOnly =>
-      context.local.first_name_letters_only,
-
-    // Last Name errors
-      ValidationErrorType.lastNameMinLength =>
-      context.local.last_name_at_least_2_characters,
-      ValidationErrorType.lastNameLettersOnly =>
-      context.local.last_name_letters_only,
+      ValidationErrorType.fullNameMinLength =>
+      context.local.full_name_at_least_2_characters,
+      ValidationErrorType.fullNameLettersOnly =>
+      context.local.full_name_letters_only,
 
     // Email errors
       ValidationErrorType.emailEmpty =>

@@ -120,42 +120,71 @@ class _ResetPasswordBottomSheetState extends State<ResetPasswordBottomSheet> {
 
             const SizedBox(height: 12),
 
-            SellioTextField(
-              controller: newCtrl,
-              hintText: context.local.new_password,
-              inputType: TextInputType.visiblePassword,
-              isError: isErrorNewPassword,
-              errorMessage: isErrorNewPassword
-                  ? context.local.password_must_be_at_least_characters
-                  : null,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SellioTextField(
+                  controller: newCtrl,
+                  hintText: context.local.new_password,
+                  inputType: TextInputType.visiblePassword,
+                  isError: isErrorNewPassword,
+                  errorMessage: isErrorNewPassword
+                      ? context.local.password_must_be_at_least_characters
+                      : null,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(
+                      AppImages.password,
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(
+                  height: (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
+                      ? null
+                      : 0,
+                  child: (newCtrl.text.isNotEmpty && !state.isNewPasswordValid)
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 4, left: 4),
+                          child: Text(
+                            context.local.password_must_be_at_least_characters,
+                            style: context.theme.typography.textTheme.labelSmall
+                                .copyWith(
+                              color: context.theme.colors.hint,
+                            ),
+                          ),
+                        )
+                      : null,
+                ),
+              ],
             ),
 
             const SizedBox(height: 12),
 
-            SellioTextField(
-              controller: confirmCtrl,
-              hintText: context.local.confirm_new_password,
-              inputType: TextInputType.visiblePassword,
-              isError: isErrorConfirmPassword,
-              errorMessage: isErrorConfirmPassword
-                  ? context.local.passwords_do_not_match
-                  : null,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 12),
-                child: SvgPicture.asset(
-                  AppImages.password,
-                  width: 24,
-                  height: 24,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SellioTextField(
+                  controller: confirmCtrl,
+                  hintText: context.local.confirm_new_password,
+                  inputType: TextInputType.visiblePassword,
+                  isError: isErrorConfirmPassword,
+                  errorMessage: isErrorConfirmPassword
+                      ? context.local.passwords_do_not_match
+                      : null,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 12),
+                    child: SvgPicture.asset(
+                      AppImages.password,
+                      width: 24,
+                      height: 24,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
 
             const SizedBox(height: 16),

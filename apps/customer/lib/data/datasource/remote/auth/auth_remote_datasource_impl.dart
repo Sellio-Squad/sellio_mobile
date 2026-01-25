@@ -38,8 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<RegisterResponse> register({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String phoneNumber,
     required String password,
     required String city,
@@ -47,8 +46,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String region,
   }) async {
     final request = RegisterRequest(
-      firstName: firstName,
-      lastName: lastName,
+      fullName: fullName,
       phoneNumber: phoneNumber,
       password: password,
       city: city,
