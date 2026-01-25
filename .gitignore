@@ -50,4 +50,3 @@ packages/**/pubspec.lock
 **/android/key.properties
 **/ios/.generated/
 **/ios/Pods/
-**/ios/Podfile.lock
