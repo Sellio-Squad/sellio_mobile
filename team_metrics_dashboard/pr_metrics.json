@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "pr_number": 416,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/416",
+    "title": "Refactor/384 replace first name last name with full name field",
+    "opened_at": "2026-01-25T16:52:30Z",
+    "head_ref": "refactor/384-replace-first-name-last-name-with-full-name-field",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdulazizacc",
+      "id": 174628289,
+      "url": "https://github.com/abdulazizacc"
+    },
+    "assignees": [
+      {
+        "login": "abdulazizacc",
+        "id": 174628289,
+        "url": "https://github.com/abdulazizacc"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 98,
+      "deletions": 200,
+      "changed_files": 25
+    }
+  }
+]
