@@ -19,10 +19,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "baraa0abd",
+          "id": 168970211,
+          "url": "https://github.com/baraa0abd"
+        },
+        "submitted_at": "2026-01-25T17:21:24Z",
+        "commit_id": "13ea27856644e8a641d15fc774e562c261973cd3"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-25T17:21:24Z",
+    "time_to_first_approval_minutes": 28.9,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
