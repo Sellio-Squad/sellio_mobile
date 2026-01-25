@@ -58,7 +58,8 @@
           "url": "https://github.com/baraa0abd"
         },
         "submitted_at": "2026-01-25T17:21:24Z",
-        "commit_id": "13ea27856644e8a641d15fc774e562c261973cd3"
+        "commit_id": "13ea27856644e8a641d15fc774e562c261973cd3",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
@@ -77,8 +78,8 @@
     "review_requests": [],
     "files_changed": [],
     "diff_stats": {
-      "additions": 110,
-      "deletions": 205,
+      "additions": 123,
+      "deletions": 229,
       "changed_files": 27
     }
   }
