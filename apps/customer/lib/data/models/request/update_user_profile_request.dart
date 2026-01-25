@@ -8,8 +8,7 @@ part 'update_user_profile_request.g.dart';
 @freezed
 class UpdateUserProfileRequest with _$UpdateUserProfileRequest {
   const factory UpdateUserProfileRequest({
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? email,
     String? phoneNumber,
     String? city,

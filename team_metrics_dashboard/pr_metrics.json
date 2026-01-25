@@ -260,11 +260,43 @@
         "url": "https://github.com/baraa0abd"
       }
     ],
-    "comments": [],
-    "approvals": [],
+    "comments": [
+      {
+        "author": {
+          "login": "baraa0abd",
+          "id": 168970211,
+          "url": "https://github.com/baraa0abd"
+        },
+        "first_comment_at": "2026-01-23T14:51:44Z",
+        "last_comment_at": "2026-01-23T14:52:15Z",
+        "count": 2
+      },
+      {
+        "author": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "first_comment_at": "2026-01-23T14:26:10Z",
+        "last_comment_at": "2026-01-23T14:28:00Z",
+        "count": 3
+      }
+    ],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-01-24T18:37:01Z",
+        "commit_id": "8f0f8cfdba081726d442583a9331626ad96faf97",
+        "note": "May be for different commit"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-01-24T18:37:01Z",
+    "time_to_first_approval_minutes": 7157.016666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
@@ -273,8 +305,8 @@
     "week": "2026-W04",
     "status": "pending",
     "diff_stats": {
-      "additions": 142,
-      "deletions": 38,
+      "additions": 1139,
+      "deletions": 2,
       "changed_files": 4
     }
   },
@@ -536,6 +568,164 @@
       "additions": 13,
       "deletions": 48,
       "changed_files": 6
+    }
+  },
+  {
+    "pr_number": 414,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/414",
+    "title": "ci(metrics): Configure Git user for metrics bot",
+    "opened_at": "2026-01-24T18:54:54Z",
+    "head_ref": "metrics",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
+    "assignees": [
+      {
+        "login": "abdo-essam",
+        "id": 92235360,
+        "url": "https://github.com/abdo-essam"
+      }
+    ],
+    "comments": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-01-24T19:33:46Z",
+        "commit_id": "00d9c60c03c7c518623c5246477afe28a671b0d0",
+        "note": "May be for different commit"
+      },
+      {
+        "reviewer": {
+          "login": "baraa0abd",
+          "id": 168970211,
+          "url": "https://github.com/baraa0abd"
+        },
+        "submitted_at": "2026-01-24T22:56:55Z",
+        "commit_id": "42717a14699d7f340b5f496a8c4c05230eb8338b",
+        "note": "May be for different commit"
+      }
+    ],
+    "required_approvals": 2,
+    "first_approved_at": "2026-01-24T19:33:46Z",
+    "time_to_first_approval_minutes": 38.86666666666667,
+    "required_approvals_met_at": "2026-01-24T22:56:55Z",
+    "time_to_required_approvals_minutes": 242.01666666666668,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "approved",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 199,
+      "deletions": 6,
+      "changed_files": 2
+    }
+  },
+  {
+    "pr_number": 413,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/413",
+    "title": "Fix/otp screen",
+    "opened_at": "2026-01-24T18:05:51Z",
+    "head_ref": "fix/otp-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [
+      {
+        "author": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "first_comment_at": "2026-01-24T19:11:14Z",
+        "last_comment_at": "2026-01-24T19:19:30Z",
+        "count": 2
+      }
+    ],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 132,
+      "deletions": 21,
+      "changed_files": 1
+    }
+  },
+  {
+    "pr_number": 415,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/415",
+    "title": "Fix/some issue",
+    "opened_at": "2026-01-24T22:30:03Z",
+    "head_ref": "fix/some-issue",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MuhammedWael9991",
+      "id": 190773582,
+      "url": "https://github.com/MuhammedWael9991"
+    },
+    "assignees": [
+      {
+        "login": "MuhammedWael9991",
+        "id": 190773582,
+        "url": "https://github.com/MuhammedWael9991"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 193,
+      "deletions": 59,
+      "changed_files": 20
     }
   }
 ]

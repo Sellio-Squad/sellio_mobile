@@ -164,7 +164,7 @@ class _AccountScreenState extends State<AccountScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            '${state.firstName} ${state.lastName}',
+            state.fullName,
             style: themeText.titleSmall.copyWith(color: colors.title),
           ),
           if (state.email != null)
