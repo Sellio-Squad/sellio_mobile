@@ -108,7 +108,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       ApiEndpoints.forgotPassword,
       data: request.toJson(),
     );
-    
+
     return ForgotPasswordOtpResponse.fromJson(response.data);
   }
 

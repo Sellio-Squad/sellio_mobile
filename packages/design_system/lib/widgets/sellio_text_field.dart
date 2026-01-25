@@ -30,6 +30,7 @@ class SellioTextField extends StatefulWidget {
   final String? countryFlag;
   final bool isError;
   final String? errorMessage;
+  final String? emptyValidationMessage;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
@@ -59,7 +60,8 @@ class SellioTextField extends StatefulWidget {
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
     this.isError = false,
-    this.errorMessage
+    this.errorMessage,
+    this.emptyValidationMessage,
  /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
@@ -149,7 +151,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
         );
 
     final String? errorText = widget.errorMessage ??
-        (isError ? 'Should not be empty' : null);
+        (isError ? (widget.emptyValidationMessage ?? 'Should not be empty') : null);
 
     final errorStyle =
         widget.errorStyle ??

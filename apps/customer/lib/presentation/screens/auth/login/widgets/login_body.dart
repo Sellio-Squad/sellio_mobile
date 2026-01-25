@@ -139,6 +139,7 @@ class _LoginBodyState extends State<LoginBody> {
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
+                emptyValidationMessage: context.local.field_required,
                 prefixIcon: SvgPicture.asset(
                   AppImages.password,
                   width: 24,
@@ -151,7 +152,7 @@ class _LoginBodyState extends State<LoginBody> {
             Align(
               alignment: Alignment.centerRight,
               child: SellioButton(
-                text: context.local.forget_password,
+                text: context.local.title_par_forget_password,
                 textColor: colors.primary,
                 backgroundColor: Colors.transparent,
                 fullWidth: false,
