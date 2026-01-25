@@ -85,5 +85,47 @@
       "deletions": 229,
       "changed_files": 27
     }
+  },
+  {
+    "pr_number": 417,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/417",
+    "title": "fix: Improve account screen UI and iOS configuration",
+    "opened_at": "2026-01-25T18:17:01Z",
+    "head_ref": "fix/account-screen-design",
+    "base_ref": "develop",
+    "creator": {
+      "login": "Arzo-zi",
+      "id": 149817756,
+      "url": "https://github.com/Arzo-zi"
+    },
+    "assignees": [
+      {
+        "login": "Arzo-zi",
+        "id": 149817756,
+        "url": "https://github.com/Arzo-zi"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W04",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 30,
+      "deletions": 10,
+      "changed_files": 4
+    }
   }
 ]
