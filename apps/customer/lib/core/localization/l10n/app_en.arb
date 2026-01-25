@@ -252,5 +252,6 @@
   "failed_to_load_store_details": "Failed to load store details",
   "store": "Store",
   "unknown": "Unknown",
-  "no_description_available": "No description available"
+  "no_description_available": "No description available",
+  "field_required": "Should not be empty"
 }
