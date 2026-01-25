@@ -252,5 +252,6 @@
   "failed_to_load_store_details": "فشل تحميل تفاصيل المتجر",
   "store": "متجر",
   "unknown": "غير معروف",
-  "no_description_available": "لا يوجد وصف متاح"
+  "no_description_available": "لا يوجد وصف متاح",
+  "field_required": "هذا الحقل مطلوب"
 }
