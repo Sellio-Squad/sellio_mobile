@@ -6,10 +6,6 @@ import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'registration_state.dart';
 
-/// Cubit for handling registration operations.
-///
-/// This cubit is focused solely on registration functionality, following the
-/// Single Responsibility Principle.
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
@@ -29,8 +25,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     emit(currentState.copyWith(selectedCountryCode: countryCode));
   }
-
-  // ==================== Field Updates ====================
 
   void updateFirstName(String value) {
     _updateField((state) => state.copyWith(
@@ -74,8 +68,16 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         ));
   }
 
-  void updateSelectedCountryCode(String country) {
-    _updateField((state) => state.copyWith(selectedCountryCode: country));
+  void updateSelectedCountryCode(
+    String country,
+    String phoneCode,
+    String countryName,
+  ) {
+    _updateField((state) => state.copyWith(
+          selectedCountryCode: country,
+          phoneCode: phoneCode,
+          countryName: countryName,
+        ));
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -85,8 +87,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final newState = updater(currentState);
     emit(newState.copyWith(isFormValid: _isFormValid(newState)));
   }
-
-  // ==================== Validation ====================
 
   void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
     if (value.isEmpty) return;
@@ -121,10 +121,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  // ==================== Registration Operations ====================
-
-  /// Performs registration operation
-  /// On success, emits RegistrationOtpRequired state which triggers navigation to OTP screen
   Future<void> register() async {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
@@ -145,6 +141,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(const RegistrationSubmitting());
 
     final countryCode = currentState.selectedCountryCode;
+    final countryName = currentState.countryName;
     final fullPhoneNumber =
         '${currentState.phoneCode}${currentState.phoneNumber}';
 
@@ -153,7 +150,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       phoneNumber: fullPhoneNumber,
       password: currentState.password,
       city: currentState.city,
-      country: countryCode,
+      country: countryName,
       region: countryCode,
     );
 
@@ -170,7 +167,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  /// Verifies OTP - called by OTP screen via callback
   Future<void> verifyOtp(String otp) async {
     final result = await _authRepository.verifyRegistrationOtp(otp: otp);
 
@@ -184,7 +180,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  /// Resends OTP - called by OTP screen via callback
   Future<void> resendOtp() async {
     final result = await _authRepository.resendRegistrationOtp();
 

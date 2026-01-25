@@ -4,12 +4,10 @@ import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
 
-/// Base class for all registration states
 sealed class RegistrationState extends Equatable {
   const RegistrationState();
 }
 
-/// Idle state representing the registration form is ready for input
 class RegistrationIdle extends RegistrationState {
   final String fullName;
   final String phoneNumber;
@@ -18,6 +16,7 @@ class RegistrationIdle extends RegistrationState {
   final String confirmPassword;
   final String selectedCountryCode;
   final String phoneCode;
+  final String countryName;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
@@ -26,6 +25,7 @@ class RegistrationIdle extends RegistrationState {
     this.phoneNumber = '',
     this.city = '',
     this.password = '',
+    this.countryName = 'North korea',
     this.confirmPassword = '',
     this.selectedCountryCode = 'eg',
     this.phoneCode = '20',
@@ -42,6 +42,7 @@ class RegistrationIdle extends RegistrationState {
     String? password,
     String? confirmPassword,
     String? selectedCountryCode,
+    String? countryName,
     String? phoneCode,
     File? selectedProfileImage,
     bool? isFormValid,
@@ -56,6 +57,7 @@ class RegistrationIdle extends RegistrationState {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      countryName: countryName ?? this.countryName,
       phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
       validationError: clearValidationError

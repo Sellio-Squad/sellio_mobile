@@ -1,9 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../shared/enums/form_field_type.dart';
@@ -12,7 +12,6 @@ import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
-
 
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
@@ -171,7 +170,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
       builder: (context, state) {
         final selectedCountryCode =
             (state is RegistrationIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null ? Country.parse(selectedCountryCode) : null;
+        final selectedCountry = selectedCountryCode != null
+            ? Country.parse(selectedCountryCode)
+            : null;
 
         final colors = context.theme.colors;
 
@@ -185,9 +186,11 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context
-                    .read<RegistrationCubit>()
-                    .updateSelectedCountryCode(country.countryCode);
+                context.read<RegistrationCubit>().updateSelectedCountryCode(
+                      country.countryCode,
+                      country.phoneCode,
+                      country.name,
+                    );
               },
             ),
             const SizedBox(height: 12),
