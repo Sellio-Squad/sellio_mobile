@@ -178,6 +178,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildNameFields(colors),
+            const SizedBox(height: 12),
             PhoneInputWithCountry(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
@@ -192,7 +193,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             ),
             const SizedBox(height: 12),
             _buildCityField(colors),
+            const SizedBox(height: 12),
             _buildPasswordField(colors),
+            const SizedBox(height: 12),
             _buildConfirmPasswordField(colors),
           ],
         );
