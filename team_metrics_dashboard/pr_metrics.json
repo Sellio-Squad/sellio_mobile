@@ -28,6 +28,16 @@
         "first_comment_at": "2026-01-25T17:26:44Z",
         "last_comment_at": "2026-01-25T17:27:30Z",
         "count": 2
+      },
+      {
+        "author": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "first_comment_at": "2026-01-25T17:33:45Z",
+        "last_comment_at": "2026-01-25T17:33:45Z",
+        "count": 1
       }
     ],
     "approvals": [
