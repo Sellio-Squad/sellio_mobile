@@ -18,7 +18,18 @@
         "url": "https://github.com/abdulazizacc"
       }
     ],
-    "comments": [],
+    "comments": [
+      {
+        "author": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "first_comment_at": "2026-01-25T17:26:44Z",
+        "last_comment_at": "2026-01-25T17:27:30Z",
+        "count": 2
+      }
+    ],
     "approvals": [
       {
         "reviewer": {
