@@ -120,18 +120,17 @@
     "approvals": [
       {
         "reviewer": {
-          "login": "abdo-essam",
-          "id": 92235360,
-          "url": "https://github.com/abdo-essam"
+          "login": "MohamedOmar989",
+          "id": 175744746,
+          "url": "https://github.com/MohamedOmar989"
         },
-        "submitted_at": "2026-01-25T18:23:37Z",
-        "commit_id": "a1051262305776fe0af3c2c7fe705d139af924bf",
-        "note": "May be for different commit"
+        "submitted_at": "2026-01-26T17:30:39Z",
+        "commit_id": "2cc435ef07f4f1db21bf202c3908c85350b9c1d9"
       }
     ],
     "required_approvals": 2,
-    "first_approved_at": "2026-01-25T18:23:37Z",
-    "time_to_first_approval_minutes": 6.6,
+    "first_approved_at": "2026-01-26T17:30:39Z",
+    "time_to_first_approval_minutes": 1393.6333333333334,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
