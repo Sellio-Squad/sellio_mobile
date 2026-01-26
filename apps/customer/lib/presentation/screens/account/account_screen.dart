@@ -36,7 +36,7 @@ class _AccountScreenState extends State<AccountScreen> {
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
           return Scaffold(
-            extendBodyBehindAppBar: true,
+            extendBodyBehindAppBar: false,
             backgroundColor: colors.surfaceLow,
             appBar: _buildAppBar(context, state),
             body: _buildBody(context, state),
@@ -76,13 +76,15 @@ class _AccountScreenState extends State<AccountScreen> {
       return _buildErrorState(context);
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildUserInfoSection(context, state),
-        const SizedBox(height: 24),
-        _buildOptionBody(context),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _buildUserInfoSection(context, state),
+          const SizedBox(height: 24),
+          _buildOptionBody(context),
+        ],
+      ),
     );
   }
 
