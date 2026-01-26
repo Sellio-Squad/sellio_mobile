@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
+import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
 import '../../../../../domain/repositories/auth_repository.dart';
@@ -27,7 +31,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     final countryCode = await _countryRepository.getCurrentCountryCode();
 
-    emit(currentState.copyWith(selectedCountryCode: countryCode));
+    emit(currentState.copyWith(
+      selectedCountryCode: countryCode,
+      selectedCountry: Country.parse(countryCode),
+    ));
   }
 
   // ==================== Field Updates ====================
@@ -75,7 +82,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   void updateSelectedCountryCode(String country) {
-    _updateField((state) => state.copyWith(selectedCountryCode: country));
+    _updateField((state) => state.copyWith(
+          selectedCountryCode: country,
+          selectedCountry: Country.parse(country),
+        ));
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -87,6 +97,19 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   // ==================== Validation ====================
+
+  int? _getRequiredPhoneLength(RegistrationIdle state) {
+    if (state.selectedCountryCode.isEmpty) return null;
+    try {
+      final countryData = intl_countries.countries.firstWhere(
+        (c) => c.code.toUpperCase() == state.selectedCountryCode.toUpperCase(),
+      );
+      return countryData.maxLength;
+    } catch (e) {
+      log("Country not found for code: ${state.selectedCountryCode}");
+      return 10;
+    }
+  }
 
   void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
     if (value.isEmpty) return;
@@ -112,6 +135,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   bool _isFormValid(RegistrationIdle state) {
+    final requiredLength = _getRequiredPhoneLength(state);
     return FormValidators.isRegistrationFormValid(
       firstName: state.firstName,
       lastName: state.lastName,
@@ -119,6 +143,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       city: state.city,
       password: state.password,
       confirmPassword: state.confirmPassword,
+      minPhoneLength: requiredLength,
     );
   }
 
@@ -144,7 +169,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       return;
     }
 
-    emit(const RegistrationSubmitting());
+    emit(RegistrationSubmitting(
+      selectedCountryCode: currentState.selectedCountryCode,
+      selectedCountry: currentState.selectedCountry,
+    ));
 
     final countryCode = currentState.selectedCountryCode;
     final fullPhoneNumber =
@@ -164,10 +192,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       onSuccess: (_) {
         // Repository stores sessionId internally
         // Emit state to trigger navigation to OTP screen
-        emit(RegistrationOtpRequired(phoneNumber: fullPhoneNumber));
+        emit(RegistrationOtpRequired(
+          phoneNumber: fullPhoneNumber,
+          selectedCountryCode: currentState.selectedCountryCode,
+          selectedCountry: currentState.selectedCountry,
+        ));
       },
       onFailure: (failure) {
-        emit(RegistrationFailure(errorMessage: failure.message));
+        emit(RegistrationFailure(
+          errorMessage: failure.message,
+          selectedCountryCode: currentState.selectedCountryCode,
+          selectedCountry: currentState.selectedCountry,
+        ));
         emit(currentState);
       },
     );

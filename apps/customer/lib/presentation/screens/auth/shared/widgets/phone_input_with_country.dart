@@ -30,8 +30,12 @@ class PhoneInputWithCountry extends StatelessWidget {
     int? fieldMaxLength = 10;
 
     if (selectedCountry != null) {
-      final countryPhoneNumberLength = intl_countries.countries
-          .firstWhere((c) => c.code == selectedCountry!.countryCode);
+      final countryPhoneNumberLength = intl_countries.countries.firstWhere(
+        (c) =>
+            c.code.toUpperCase() == selectedCountry!.countryCode.toUpperCase(),
+        orElse: () =>
+            intl_countries.countries.firstWhere((c) => c.code == "IQ"),
+      );
       displayMaxLength = countryPhoneNumberLength.maxLength;
       fieldMaxLength = countryPhoneNumberLength.maxLength;
     } else {
@@ -49,6 +53,7 @@ class PhoneInputWithCountry extends StatelessWidget {
     bool isSuccess = controller.text.isNotEmpty &&
         controller.text.length == displayMaxLength;
     bool isFocused = focusNode?.hasFocus ?? false;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -63,7 +68,7 @@ class PhoneInputWithCountry extends StatelessWidget {
                       blurRadius: 8,
                       offset: Offset(0, 4),
                       color: colors.primary.withValues(alpha: 0.12),
-                    )
+                    ),
                   ]
                 : [],
             border: Border.all(
@@ -95,20 +100,20 @@ class PhoneInputWithCountry extends StatelessWidget {
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 6, right: 4),
-            child: Text(
-              '${controller.text.length}/$displayMaxLength',
-              style: textTheme.labelSmall.copyWith(
-                color: isError
-                    ? colors.red
-                    : isSuccess
-                        ? colors.green
-                        : colors.body,
-                fontWeight: (isError || isSuccess)
-                    ? FontWeight.bold
-                    : FontWeight.normal,
-              ),
-            )),
+          padding: const EdgeInsets.only(top: 6, right: 4),
+          child: Text(
+            '${controller.text.length}/$displayMaxLength',
+            style: textTheme.labelSmall.copyWith(
+              color: isError
+                  ? colors.red
+                  : isSuccess
+                      ? colors.green
+                      : colors.body,
+              fontWeight:
+                  (isError || isSuccess) ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -134,11 +139,9 @@ class PhoneInputWithCountry extends StatelessWidget {
             Gap(4),
             CountryFlag.fromCountryCode(
               selectedCountry?.countryCode ?? "IQ",
-              theme: const ImageTheme(
-                shape: Circle(),
-                width: 20,
-                height: 20,
-              ),
+              shape: Circle(),
+              width: 20,
+              height: 20,
             ),
             Gap(4),
             Text(

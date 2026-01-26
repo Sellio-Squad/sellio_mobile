@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
@@ -16,8 +18,8 @@ class LoginCubit extends Cubit<LoginState> {
     required CountryRepository countryRepository,
     Country? initialCountry,
   })  : _authRepository = authRepository,
+        _countryRepository = countryRepository,
         super(LoginIdle(selectedCountry: initialCountry));
- // super(const LoginIdle());
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -27,7 +29,6 @@ class LoginCubit extends Cubit<LoginState> {
 
     emit(currentState.copyWith(selectedCountryCode: countryCode));
   }
-
 
   void updatePhoneNumber(String value) {
     _updateField((state) => state.copyWith(
@@ -47,9 +48,14 @@ class LoginCubit extends Cubit<LoginState> {
     _updateField((state) => state.copyWith(selectedCountry: country));
   }
 
- // void updateSelectedCountryCode(String countryCode) {
- //   _updateField((state) => state.copyWith(selectedCountryCode: countryCode));
- // }
+  void updateSelectedCountryCode(String countryCode) {
+    _updateField(
+      (state) => state.copyWith(
+        selectedCountryCode: countryCode,
+        selectedCountry: Country.parse(countryCode),
+      ),
+    );
+  }
 
   void _updateField(LoginIdle Function(LoginIdle) updater) {
     final currentState = state;
@@ -65,16 +71,16 @@ class LoginCubit extends Cubit<LoginState> {
     if (currentState is! LoginIdle) return;
 
     final result = FormValidators.validateField(fieldType, value);
+    final int minPhoneLength = currentState.selectedCountry != null
+        ? intl_countries.countries
+            .firstWhere((c) => c.code == currentState.selectedCountryCode)
+            .maxLength
+        : 0;
 
     FormValidators.validateField(
       fieldType,
       value,
-      minPhoneLength: currentState.selectedCountry != null
-          ? intl_countries.countries
-              .firstWhere(
-                  (c) => c.code == currentState.selectedCountry!.countryCode)
-              .maxLength
-          : 0,
+      minPhoneLength: minPhoneLength,
     );
 
     if (!result.isValid && result.errorType != null) {
@@ -90,24 +96,33 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   bool _isFormValid(LoginIdle state) {
-    return FormValidators.isLoginFormValid(
+    final requiredLength = _getRequiredPhoneLength(state);
+    final bool isValid = FormValidators.isLoginFormValid(
       phone: state.phoneNumber,
       password: state.password,
+      minPhoneLength: requiredLength,
     );
+    log("requiredLength $requiredLength");
+    log('isValid $isValid');
+    return isValid;
   }
 
   int? _getRequiredPhoneLength(LoginIdle state) {
-    if (state.selectedCountry == null) return null;
+    if (state.selectedCountryCode.isEmpty) return null;
+
     final countryData = intl_countries.countries.firstWhere(
-          (c) => c.code == state.selectedCountry!.countryCode,
-      orElse: () => intl_countries.countries.firstWhere((c) => c.code == 'IQ'),
+      (c) => c.code.toUpperCase() == state.selectedCountryCode.toUpperCase(),
     );
+    log("Country not found for code: ${state.selectedCountryCode}");
     return countryData.maxLength;
   }
 
-
   Future<void> loginAsGuest() async {
-    emit(const LoginSubmitting());
+    final currentState = state;
+    emit(LoginSubmitting(
+      selectedCountryCode: state.selectedCountryCode,
+      selectedCountry: state.selectedCountry,
+    ));
 
     final result = await _authRepository.loginAsGuest();
 
@@ -116,13 +131,19 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginSuccess());
       },
       onFailure: (failure) {
-        emit(LoginFailure(errorMessage: failure.message));
+        emit(LoginFailure(
+          errorMessage: failure.message,
+          selectedCountryCode: state.selectedCountryCode,
+          selectedCountry: state.selectedCountry,
+        ));
 
-        final currentState = state;
         if (currentState is LoginIdle) {
           emit(currentState);
         } else {
-          emit(const LoginIdle());
+          emit(LoginIdle(
+            selectedCountryCode: state.selectedCountryCode,
+            selectedCountry: state.selectedCountry,
+          ));
         }
       },
     );
@@ -141,11 +162,14 @@ class LoginCubit extends Cubit<LoginState> {
       emit(currentState.copyWith(validationError: validationError));
       return;
     }
-    emit(LoginSubmitting(selectedCountry: currentState.selectedCountry));
+    emit(LoginSubmitting(
+      selectedCountryCode: currentState.selectedCountryCode,
+      selectedCountry: currentState.selectedCountry,
+    ));
 
     // emit(const LoginSubmitting());
 
- //   final countryCode = currentState.phoneCode;
+    //   final countryCode = currentState.phoneCode;
 
     final countryCode = currentState.selectedCountry?.phoneCode ?? '';
     final phoneNumber = '+$countryCode${currentState.phoneNumber}';
@@ -160,7 +184,11 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginSuccess());
       },
       onFailure: (failure) {
-        emit(LoginFailure(errorMessage: failure.message));
+        emit(LoginFailure(
+          selectedCountryCode: state.selectedCountryCode,
+          selectedCountry: state.selectedCountry,
+          errorMessage: failure.message,
+        ));
         emit(currentState);
       },
     );

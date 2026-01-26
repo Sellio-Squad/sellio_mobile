@@ -1,12 +1,21 @@
 import 'dart:io';
-
+import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
 
 /// Base class for all registration states
 sealed class RegistrationState extends Equatable {
-  const RegistrationState();
+  final String selectedCountryCode;
+  final Country? selectedCountry;
+
+  const RegistrationState({
+    this.selectedCountryCode = 'eg',
+    this.selectedCountry,
+  });
+
+  @override
+  List<Object?> get props => [selectedCountryCode, selectedCountry];
 }
 
 /// Idle state representing the registration form is ready for input
@@ -17,7 +26,8 @@ class RegistrationIdle extends RegistrationState {
   final String city;
   final String password;
   final String confirmPassword;
-  final String selectedCountryCode;
+
+  // final String selectedCountryCode;
   final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
@@ -29,8 +39,9 @@ class RegistrationIdle extends RegistrationState {
     this.city = '',
     this.password = '',
     this.confirmPassword = '',
-    this.selectedCountryCode = 'eg',
+    super.selectedCountryCode,
     this.phoneCode = '20',
+    super.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
@@ -44,6 +55,7 @@ class RegistrationIdle extends RegistrationState {
     String? password,
     String? confirmPassword,
     String? selectedCountryCode,
+    Country? selectedCountry,
     String? phoneCode,
     File? selectedProfileImage,
     bool? isFormValid,
@@ -59,6 +71,7 @@ class RegistrationIdle extends RegistrationState {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      selectedCountry: selectedCountry ?? this.selectedCountry,
       phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
       validationError: clearValidationError
@@ -69,13 +82,13 @@ class RegistrationIdle extends RegistrationState {
 
   @override
   List<Object?> get props => [
+        ...super.props,
         firstName,
         lastName,
         phoneNumber,
         city,
         password,
         confirmPassword,
-        selectedCountryCode,
         phoneCode,
         isFormValid,
         validationError,
@@ -84,10 +97,10 @@ class RegistrationIdle extends RegistrationState {
 
 /// State indicating registration operation is in progress
 class RegistrationSubmitting extends RegistrationState {
-  const RegistrationSubmitting();
-
-  @override
-  List<Object?> get props => [];
+  const RegistrationSubmitting({
+    required super.selectedCountryCode,
+    super.selectedCountry,
+  });
 }
 
 /// State indicating OTP is required for registration
@@ -95,10 +108,14 @@ class RegistrationSubmitting extends RegistrationState {
 class RegistrationOtpRequired extends RegistrationState {
   final String phoneNumber;
 
-  const RegistrationOtpRequired({required this.phoneNumber});
+  const RegistrationOtpRequired({
+    required this.phoneNumber,
+    required super.selectedCountryCode,
+    super.selectedCountry,
+  });
 
   @override
-  List<Object> get props => [phoneNumber];
+  List<Object?> get props => [...super.props, phoneNumber];
 }
 
 /// State indicating registration was successful
@@ -113,8 +130,12 @@ class RegistrationSuccess extends RegistrationState {
 class RegistrationFailure extends RegistrationState {
   final String? errorMessage;
 
-  const RegistrationFailure({this.errorMessage});
+  const RegistrationFailure({
+    this.errorMessage,
+    required super.selectedCountryCode,
+    super.selectedCountry,
+  });
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [...super.props, errorMessage];
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_intl_phone_field/countries.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
@@ -111,11 +110,10 @@ class _LoginBodyState extends State<LoginBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        final selectedCountryCode =
-            (state is LoginIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null ? Country.parse(selectedCountryCode) : null;
+        final selectedCountryCode = state.selectedCountryCode;
+        final selectedCountry =
+            state.selectedCountry ?? Country.parse(selectedCountryCode);
 
-     //   final selectedCountry = state.selectedCountry;
         final colors = context.theme.colors;
         final typography = context.theme.typography;
 
@@ -126,7 +124,9 @@ class _LoginBodyState extends State<LoginBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<LoginCubit>().updateSelectedCountryCode(country.countryCode);
+                context
+                    .read<LoginCubit>()
+                    .updateSelectedCountryCode(country.countryCode);
               },
             ),
             const Gap(16),

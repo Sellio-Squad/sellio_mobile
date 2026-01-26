@@ -175,9 +175,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildForm(BuildContext context) {
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final selectedCountryCode =
-            (state is RegistrationIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null ? Country.parse(selectedCountryCode) : null;
+        final selectedCountryCode =state.selectedCountryCode;
+        final selectedCountry =
+            state.selectedCountry ?? Country.parse(selectedCountryCode);
 
         final colors = context.theme.colors;
         final typography = context.theme.typography;
