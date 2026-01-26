@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../themes/sellio_theme_provider.dart';
+
 import '../constants/app_images.dart';
+import '../themes/sellio_theme_provider.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -28,6 +28,9 @@ class SellioTextField extends StatefulWidget {
   final TextEditingController? controller;
   final bool isPhoneNumber;
   final String? countryFlag;
+  final bool isError;
+  final String? errorMessage;
+  final String? emptyValidationMessage;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
@@ -56,6 +59,9 @@ class SellioTextField extends StatefulWidget {
     this.controller,
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
+    this.isError = false,
+    this.errorMessage,
+    this.emptyValidationMessage,
  /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
@@ -81,7 +87,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          isError = _effectiveController.text.isEmpty;
+          isError = !widget.isError ? _effectiveController.text.isEmpty : widget.isError;
         });
       }
     });
@@ -144,9 +150,8 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: hintColor,
         );
 
-    final String? errorText = widget.isParagraph
-        ? null
-        : (isError ? 'Should not be empty' : null);
+    final String? errorText = widget.errorMessage ??
+        (isError ? (widget.emptyValidationMessage ?? 'Should not be empty') : null);
 
     final errorStyle =
         widget.errorStyle ??
@@ -177,7 +182,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
                     return newValue;
                   }),
                 ],
-
             onChanged: (value) {
               setState(() {
                 isError = value.isEmpty;
@@ -192,6 +196,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
               fillColor: filledColor,
               hintText: widget.hintText,
               hintStyle: hintTextStyle,
+              isDense: true,
+              contentPadding: EdgeInsets.symmetric(
+                  vertical: 14, horizontal: 12),
               prefixIcon: widget.isParagraph
                   ? null
                   : _buildPrefixIcon(iconColor, AppImages.iconsPath),
@@ -221,13 +228,16 @@ class _SellioTextFieldState extends State<SellioTextField> {
               errorStyle: errorStyle,
             ),
           ),
-          Text(
-            isError ? (errorText ?? '') : '',
-            style: errorStyle,
-          )
-        ]
-      )
-
+          if (isError && errorText != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4, left: 4),
+              child: Text(
+                errorText,
+                style: errorStyle,
+              ),
+            ),
+        ],
+      ),
     );
   }
 

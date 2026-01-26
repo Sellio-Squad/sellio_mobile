@@ -7,8 +7,10 @@ import '../../domain/repositories/product_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/product_remote_datasource.dart';
+import '../mappers/trending_product_mapper.dart';
 import '../models/common/paginated_response.dart';
 import '../models/product_model.dart';
+import '../models/product_summary_model.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
@@ -50,7 +52,7 @@ class ProductRepositoryImpl implements ProductRepository {
         page: page - 1,
         pageSize: limit,
       );
-      return _mapToPaginatedData(paginatedResponse);
+      return _mapToPaginatedSummaryData(paginatedResponse);
     });
   }
 
@@ -114,7 +116,7 @@ class ProductRepositoryImpl implements ProductRepository {
         page: page - 1,
         pageSize: limit,
       );
-      return _mapToPaginatedData(paginatedResponse);
+      return _mapToPaginatedSummaryData(paginatedResponse);
     });
   }
 
@@ -172,6 +174,8 @@ class ProductRepositoryImpl implements ProductRepository {
         page: page - 1,
         pageSize: limit,
       );
+      // print('product list: repo impl(1) -> ${paginatedResponse.data.map((model) => model.toEntity()).toList()[0].images}');
+      print('product list: repo impl(2)-> ${paginatedResponse}');
       return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }
@@ -233,6 +237,20 @@ class ProductRepositoryImpl implements ProductRepository {
       totalPages: response.totalPages,
     );
   }
+
+  PaginatedData<Product> _mapToPaginatedSummaryData(
+      PaginatedResponse<ProductSummaryModel> response,
+      ) {
+    return PaginatedData<Product>(
+      items: response.data.map((model) => model.toEntity()).toList(),
+      totalElements: response.totalElements,
+      currentPage: response.page + 1,
+      pageSize: response.pageSize,
+      totalPages: response.totalPages,
+    );
+  }
+
+
   @override
   Future<Result<PaginatedData<Product>>> getThriftProducts({
     String? categoryId,

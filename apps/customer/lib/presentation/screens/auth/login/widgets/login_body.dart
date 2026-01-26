@@ -1,9 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 
@@ -87,6 +87,7 @@ class _LoginBodyState extends State<LoginBody> {
       ],
     );
   }
+
   Widget _buildHeader(BuildContext context) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
@@ -112,7 +113,9 @@ class _LoginBodyState extends State<LoginBody> {
       builder: (context, state) {
         final selectedCountryCode =
             (state is LoginIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null ? Country.parse(selectedCountryCode) : null;
+        final selectedCountry = selectedCountryCode != null
+            ? Country.parse(selectedCountryCode)
+            : null;
 
         final colors = context.theme.colors;
 
@@ -123,7 +126,10 @@ class _LoginBodyState extends State<LoginBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<LoginCubit>().updateSelectedCountryCode(country.countryCode);
+                context.read<LoginCubit>().updateSelectedCountryCode(
+                      country.countryCode,
+                      country.phoneCode,
+                    );
               },
             ),
             const Gap(16),
@@ -133,6 +139,7 @@ class _LoginBodyState extends State<LoginBody> {
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
+                emptyValidationMessage: context.local.field_required,
                 prefixIcon: SvgPicture.asset(
                   AppImages.password,
                   width: 24,
@@ -145,7 +152,7 @@ class _LoginBodyState extends State<LoginBody> {
             Align(
               alignment: Alignment.centerRight,
               child: SellioButton(
-                text: context.local.forget_password,
+                text: context.local.title_par_forget_password,
                 textColor: colors.primary,
                 backgroundColor: Colors.transparent,
                 fullWidth: false,
