@@ -77,6 +77,7 @@ class AppImages {
   static const String arrowDown = '$iconsPath/ic_arrow_down.svg';
   static const String password = '$iconsPath/ic_lock_password.svg';
   static const String account = '$iconsPath/ic_account.svg';
+  static const String imgAccount = '$imagesPath/img_account.png';
 
   // Store details
   static const String rate = '$iconsPath/rate.svg';
