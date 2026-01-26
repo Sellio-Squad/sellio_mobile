@@ -7,7 +7,7 @@ class UserModel with _$UserModel {
   const factory UserModel({
     required String firstName,
     required String lastName,
-    required String email,
+    String? email,
     required String phoneNumber,
     required String city,
     required String country,
