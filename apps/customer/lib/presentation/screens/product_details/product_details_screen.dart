@@ -9,11 +9,11 @@ import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubi
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
-import 'package:sellio_mobile/presentation/screens/product_details/widgets/Product_details_screen_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
-import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_details_screen_appbar_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_image_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_price_section.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/widgets/shimmer/Product_details_screen_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/widgets/shimmer/product_details_screen_appbar_shimmer.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
