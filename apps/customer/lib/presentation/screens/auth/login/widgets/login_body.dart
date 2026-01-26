@@ -1,3 +1,4 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
@@ -127,6 +128,11 @@ class _LoginBodyState extends State<LoginBody> {
                 context
                     .read<LoginCubit>()
                     .updateSelectedCountryCode(country.countryCode);
+
+                // context.read<LoginCubit>().updateSelectedCountryCode(
+                //   country.countryCode,
+                //   country.phoneCode,
+                // );
               },
             ),
             const Gap(16),
@@ -138,6 +144,7 @@ class _LoginBodyState extends State<LoginBody> {
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
+                emptyValidationMessage: context.local.field_required,
                 prefixIcon: SvgPicture.asset(
                   AppImages.password,
                   width: 24,
@@ -150,7 +157,7 @@ class _LoginBodyState extends State<LoginBody> {
             Align(
               alignment: Alignment.centerRight,
               child: SellioButton(
-                text: context.local.forget_password,
+                text: context.local.title_par_forget_password,
                 textColor: colors.primary,
                 backgroundColor: Colors.transparent,
                 fullWidth: false,

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:country_picker/country_picker.dart';
+
 import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
@@ -20,35 +20,32 @@ sealed class RegistrationState extends Equatable {
 
 /// Idle state representing the registration form is ready for input
 class RegistrationIdle extends RegistrationState {
-  final String firstName;
-  final String lastName;
+  final String fullName;
   final String phoneNumber;
   final String city;
   final String password;
   final String confirmPassword;
-
-  // final String selectedCountryCode;
+  final String selectedCountryCode;
   final String phoneCode;
+  final String countryName;
   final bool isFormValid;
   final ValidationErrorType? validationError;
 
   const RegistrationIdle({
-    this.firstName = '',
-    this.lastName = '',
+    this.fullName = '',
     this.phoneNumber = '',
     this.city = '',
     this.password = '',
+    this.countryName = 'North korea',
     this.confirmPassword = '',
-    super.selectedCountryCode,
+    this.selectedCountryCode = 'eg',
     this.phoneCode = '20',
-    super.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
 
   RegistrationIdle copyWith({
-    String? firstName,
-    String? lastName,
+    String? fullName,
     String? phoneNumber,
     String? email,
     String? city,
@@ -56,6 +53,7 @@ class RegistrationIdle extends RegistrationState {
     String? confirmPassword,
     String? selectedCountryCode,
     Country? selectedCountry,
+    String? countryName,
     String? phoneCode,
     File? selectedProfileImage,
     bool? isFormValid,
@@ -64,13 +62,13 @@ class RegistrationIdle extends RegistrationState {
     bool clearProfileImage = false,
   }) {
     return RegistrationIdle(
-      firstName: firstName ?? this.firstName,
-      lastName: lastName ?? this.lastName,
+      fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       city: city ?? this.city,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
+      countryName: countryName ?? this.countryName,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
@@ -82,9 +80,8 @@ class RegistrationIdle extends RegistrationState {
 
   @override
   List<Object?> get props => [
+        fullName,
         ...super.props,
-        firstName,
-        lastName,
         phoneNumber,
         city,
         password,

@@ -37,11 +37,8 @@ class SellioProductVerticalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: SizedBox(
-          width: 160,
-          height: 272,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Stack(
                 children: [
@@ -63,12 +60,10 @@ class SellioProductVerticalCard extends StatelessWidget {
                     ),
                 ],
               ),
-              const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 4 ,vertical: 4),
                 child: SizedBox(
                   width: double.infinity,
-                  height: 44,
                   child: Text(
                     title,
                     style: textTheme.labelMedium.copyWith(color: colors.title),
@@ -77,12 +72,10 @@ class SellioProductVerticalCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: SizedBox(
                   width: double.infinity,
-                  height: 23,
                   child: Text(
                     "\$${formatPrice(price)}",
                     style: textTheme.titleSmall.copyWith(color: colors.primary),
@@ -90,7 +83,6 @@ class SellioProductVerticalCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 4),
             ],
           ),
         ),
@@ -117,7 +109,7 @@ class SellioProductVerticalCard extends StatelessWidget {
           },
           errorBuilder: (context, error, stackTrace) {
             return Image.asset(
-              AppImages.placeholder,
+              AppImages.imgEmptyStoreImage,
               width: double.infinity,
               fit: BoxFit.cover,
             );

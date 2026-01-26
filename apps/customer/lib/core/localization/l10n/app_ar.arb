@@ -112,9 +112,12 @@
   "thrift": "منتجات مستعملة",
   "furniture": "أثاث",
   "books": "كتب",
+  "no_products_found": "لم يتم العثور على منتجات",
   "electronics": "إلكترونيات",
+  "start_exploring_more": "ابدأ في استكشاف المزيد",
+  "you_can_dicover_more_products": "يمكنك اكتشاف المزيد من المنتجات.",
   "notifications": "الإشعارات",
-  "account_screen": "شاشة الحساب",
+  "account_screen": "الحساب",
   "no_products_available": "لا توجد منتجات متاحة",
   "featured_items": "عنوانات مميزة",
   "has_been_placed_successfully": "تم الطلب بنجاح",
@@ -254,5 +257,6 @@
   "failed_to_load_store_details": "فشل تحميل تفاصيل المتجر",
   "store": "متجر",
   "unknown": "غير معروف",
-  "no_description_available": "لا يوجد وصف متاح"
+  "no_description_available": "لا يوجد وصف متاح",
+  "field_required": "هذا الحقل مطلوب"
 }

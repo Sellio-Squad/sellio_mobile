@@ -1,7 +1,7 @@
 import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
 
-class TrendingProductUIModel {
+class ProductSummaryUIModel {
   final String id;
   final String imageUrl;
   final String title;
@@ -10,7 +10,7 @@ class TrendingProductUIModel {
   final String? discountText;
   final bool isFavorite;
 
-  const TrendingProductUIModel({
+  const ProductSummaryUIModel({
     required this.id,
     required this.imageUrl,
     required this.title,
@@ -20,16 +20,14 @@ class TrendingProductUIModel {
     required this.isFavorite,
   });
 
-  factory TrendingProductUIModel.fromEntity(Product product) {
-    return TrendingProductUIModel(
+  factory ProductSummaryUIModel.fromEntity(Product product) {
+    return ProductSummaryUIModel(
       id: product.id,
-      imageUrl: product.images.isNotEmpty
-          ? product.images.first
-          : AppImages.cartProduct,
+      imageUrl: product.images.first,
       title: product.title,
       price: product.price.toString(),
       hasDiscount: product.discount != null,
-      discountText: product.discount,
+      discountText: product.discount.toString(),
       isFavorite: product.isFavorite,
     );
   }
@@ -37,7 +35,7 @@ class TrendingProductUIModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is TrendingProductUIModel &&
+          other is ProductSummaryUIModel &&
               runtimeType == other.runtimeType &&
               id == other.id;
 

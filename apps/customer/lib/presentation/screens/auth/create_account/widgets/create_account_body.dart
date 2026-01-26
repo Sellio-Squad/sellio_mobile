@@ -22,15 +22,13 @@ class CreateAccountBody extends StatefulWidget {
 }
 
 class _CreateAccountBodyState extends State<CreateAccountBody> {
-  late final TextEditingController _firstNameController;
-  late final TextEditingController _lastNameController;
+  late final TextEditingController _fullNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _cityController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
 
-  late final FocusNode _firstNameFocusNode;
-  late final FocusNode _lastNameFocusNode;
+  late final FocusNode _fullNameFocusNode;
   late final FocusNode _phoneFocusNode;
   late final FocusNode _cityFocusNode;
   late final FocusNode _passwordFocusNode;
@@ -45,8 +43,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   void _initializeControllers() {
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
+    _fullNameController = TextEditingController();
     _phoneController = TextEditingController();
     _cityController = TextEditingController();
     _passwordController = TextEditingController();
@@ -54,8 +51,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   void _initializeFocusNodes() {
-    _firstNameFocusNode = FocusNode();
-    _lastNameFocusNode = FocusNode();
+    _fullNameFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
     _cityFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
@@ -64,10 +60,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   void _setupListeners() {
     final cubit = context.read<RegistrationCubit>();
-    _firstNameController
-        .addListener(() => cubit.updateFirstName(_firstNameController.text));
-    _lastNameController
-        .addListener(() => cubit.updateLastName(_lastNameController.text));
+    _fullNameController
+        .addListener(() => cubit.updateFullName(_fullNameController.text));
     _phoneController
         .addListener(() => cubit.updatePhoneNumber(_phoneController.text));
     _cityController.addListener(() => cubit.updateCity(_cityController.text));
@@ -77,9 +71,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         () => cubit.updateConfirmPassword(_confirmPasswordController.text));
 
     _setupFocusListener(
-        _firstNameFocusNode, _firstNameController, FormFieldType.firstName);
-    _setupFocusListener(
-        _lastNameFocusNode, _lastNameController, FormFieldType.lastName);
+        _fullNameFocusNode, _fullNameController, FormFieldType.fullName);
+
     _setupFocusListener(_phoneFocusNode, _phoneController, FormFieldType.phone);
     _setupFocusListener(_cityFocusNode, _cityController, FormFieldType.city);
     _setupFocusListener(
@@ -101,15 +94,13 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
   @override
   void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
+    _fullNameController.dispose();
     _phoneController.dispose();
     _cityController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
 
-    _firstNameFocusNode.dispose();
-    _lastNameFocusNode.dispose();
+    _fullNameFocusNode.dispose();
     _phoneFocusNode.dispose();
     _cityFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -139,7 +130,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: _buildForm(context),
                 ),
-                const SizedBox(height: 16), // Add bottom spacing
+                const SizedBox(height: 16),
               ],
             ),
           ),
@@ -187,6 +178,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           mainAxisSize: MainAxisSize.min,
           children: [
             _buildNameFields(colors),
+            const SizedBox(height: 12),
             PhoneInputWithCountry(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
@@ -195,11 +187,19 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                 context
                     .read<RegistrationCubit>()
                     .updateSelectedCountryCode(country.countryCode);
+
+                // context.read<RegistrationCubit>().updateSelectedCountryCode(
+                //   country.countryCode,
+                //   country.phoneCode,
+                //   country.name,
+                // );
               },
             ),
             const SizedBox(height: 12),
             _buildCityField(colors),
+            const SizedBox(height: 12),
             _buildPasswordField(colors, typography),
+            const SizedBox(height: 12),
             _buildConfirmPasswordField(colors, typography),
           ],
         );
@@ -230,31 +230,10 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
       children: [
         Expanded(
           child: Focus(
-            focusNode: _firstNameFocusNode,
+            focusNode: _fullNameFocusNode,
             child: SellioTextField(
-              controller: _firstNameController,
-              hintText: context.local.first_name,
-              inputFormatter: [
-                FilteringTextInputFormatter.allow(
-                    RegExp(r'[a-zA-Z\u0600-\u06FF ]')),
-              ],
-              prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
-              prefixIcon: SvgPicture.asset(
-                AppImages.account,
-                width: 24,
-                height: 24,
-                colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Focus(
-            focusNode: _lastNameFocusNode,
-            child: SellioTextField(
-              controller: _lastNameController,
-              hintText: context.local.last_name,
+              controller: _fullNameController,
+              hintText: context.local.full_name,
               inputFormatter: [
                 FilteringTextInputFormatter.allow(
                     RegExp(r'[a-zA-Z\u0600-\u06FF ]')),

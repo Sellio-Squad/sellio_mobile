@@ -1,8 +1,4 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
-import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
 import '../../../../../domain/repositories/auth_repository.dart';
@@ -37,18 +33,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     ));
   }
 
-  // ==================== Field Updates ====================
-
-  void updateFirstName(String value) {
+  void updateFullName(String value) {
     _updateField((state) => state.copyWith(
-          firstName: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateLastName(String value) {
-    _updateField((state) => state.copyWith(
-          lastName: value,
+          fullName: value,
           clearValidationError: true,
         ));
   }
@@ -87,6 +74,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           selectedCountry: Country.parse(country),
         ));
   }
+
+  // void updateSelectedCountryCode(
+  //     String country,
+  //     String phoneCode,
+  //     String countryName,
+  //     ) {
+  //   _updateField((state) => state.copyWith(
+  //     selectedCountryCode: country,
+  //     phoneCode: phoneCode,
+  //     countryName: countryName,
+  //   ));
+  // }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
     final currentState = state;
@@ -137,8 +136,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   bool _isFormValid(RegistrationIdle state) {
     final requiredLength = _getRequiredPhoneLength(state);
     return FormValidators.isRegistrationFormValid(
-      firstName: state.firstName,
-      lastName: state.lastName,
+      fullName: state.fullName,
       phone: state.phoneNumber,
       city: state.city,
       password: state.password,
@@ -156,8 +154,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     final validationError = FormValidators.validateRegistrationFields(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phone: currentState.phoneNumber,
       city: currentState.city,
       password: currentState.password,
@@ -175,16 +172,16 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     ));
 
     final countryCode = currentState.selectedCountryCode;
+    final countryName = currentState.countryName;
     final fullPhoneNumber =
         '${currentState.phoneCode}${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phoneNumber: fullPhoneNumber,
       password: currentState.password,
       city: currentState.city,
-      country: countryCode,
+      country: countryName,
       region: countryCode,
     );
 

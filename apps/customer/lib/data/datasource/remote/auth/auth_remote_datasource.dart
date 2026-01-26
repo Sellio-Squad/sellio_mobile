@@ -11,8 +11,7 @@ abstract class AuthRemoteDataSource {
   });
 
   Future<RegisterResponse> register({
-    required String firstName,
-    required String lastName,
+    required String fullName,
     required String phoneNumber,
     required String password,
     required String city,

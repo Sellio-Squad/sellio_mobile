@@ -57,6 +57,11 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
+  // void updateSelectedCountryCode(String countryCode, String phoneCode) {
+  //   _updateField((state) =>
+  //       state.copyWith(selectedCountryCode: countryCode, phoneCode: phoneCode));
+  // }
+
   void _updateField(LoginIdle Function(LoginIdle) updater) {
     final currentState = state;
     if (currentState is! LoginIdle) return;
@@ -137,6 +142,7 @@ class LoginCubit extends Cubit<LoginState> {
           selectedCountry: state.selectedCountry,
         ));
 
+        final currentState = state;
         if (currentState is LoginIdle) {
           emit(currentState);
         } else {
