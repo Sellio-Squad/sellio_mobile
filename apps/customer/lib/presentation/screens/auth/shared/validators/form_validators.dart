@@ -102,7 +102,7 @@ abstract class FormValidators {
         password.isNotEmpty &&
         confirmPassword.isNotEmpty &&
         validateFullName(fullName).isValid &&
-        validatePhone(phone).isValid &&
+        validatePhone(phone,minLength: minPhoneLength).isValid &&
         validateCity(city).isValid &&
         validatePassword(password).isValid &&
         validateConfirmPassword(password, confirmPassword).isValid;

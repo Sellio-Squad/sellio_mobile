@@ -13,7 +13,6 @@ import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
 
-
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
 
@@ -164,12 +163,14 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   Widget _buildForm(BuildContext context) {
+    Country? lastValidCountry;
+
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final selectedCountryCode =state.selectedCountryCode;
-        final selectedCountry =
-            state.selectedCountry ?? Country.parse(selectedCountryCode);
-
+        if (state is RegistrationIdle) {
+          lastValidCountry = state.selectedCountry;
+        }
+        final selectedCountry = lastValidCountry;
         final colors = context.theme.colors;
         final typography = context.theme.typography;
 
@@ -186,13 +187,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               onCountrySelected: (country) {
                 context
                     .read<RegistrationCubit>()
-                    .updateSelectedCountryCode(country.countryCode);
-
-                // context.read<RegistrationCubit>().updateSelectedCountryCode(
-                //   country.countryCode,
-                //   country.phoneCode,
-                //   country.name,
-                // );
+                    .updateSelectedCountryCode(country);
               },
             ),
             const SizedBox(height: 12),

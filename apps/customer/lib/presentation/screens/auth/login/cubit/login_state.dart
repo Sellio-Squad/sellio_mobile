@@ -4,16 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../shared/enums/validation_error_type.dart';
 
 sealed class LoginState extends Equatable {
-  final String selectedCountryCode;
-  final Country? selectedCountry;
-
-  const LoginState({
-    this.selectedCountryCode = 'eg',
-    this.selectedCountry,
-  });
-
-  @override
-  List<Object?> get props => [selectedCountryCode, selectedCountry];
+  const LoginState();
 }
 
 class LoginIdle extends LoginState {
@@ -22,13 +13,13 @@ class LoginIdle extends LoginState {
   final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
+  final Country selectedCountry;
 
   const LoginIdle({
     this.phoneNumber = '',
     this.password = '',
-    super.selectedCountryCode,
     this.phoneCode = '20',
-    super.selectedCountry,
+    required this.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
@@ -37,7 +28,6 @@ class LoginIdle extends LoginState {
     String? phoneNumber,
     String? password,
     Country? selectedCountry,
-    String? selectedCountryCode,
     String? phoneCode,
     bool? isFormValid,
     ValidationErrorType? validationError,
@@ -46,7 +36,6 @@ class LoginIdle extends LoginState {
     return LoginIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
-      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
       phoneCode: phoneCode ?? this.phoneCode,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
@@ -58,7 +47,7 @@ class LoginIdle extends LoginState {
 
   @override
   List<Object?> get props => [
-        ...super.props,
+        selectedCountry,
         phoneNumber,
         password,
         phoneCode,
@@ -68,10 +57,7 @@ class LoginIdle extends LoginState {
 }
 
 class LoginSubmitting extends LoginState {
-  const LoginSubmitting({
-    required super.selectedCountryCode,
-    super.selectedCountry,
-  });
+  const LoginSubmitting();
 
   @override
   List<Object?> get props => [];
@@ -89,10 +75,8 @@ class LoginFailure extends LoginState {
 
   const LoginFailure({
     this.errorMessage,
-    required super.selectedCountryCode,
-    super.selectedCountry,
   });
 
   @override
-  List<Object?> get props => [...super.props,errorMessage];
+  List<Object?> get props => [errorMessage];
 }
