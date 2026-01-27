@@ -112,7 +112,7 @@ class _SellioStoreCardState extends State<SellioStoreCard> {
           child: SvgPicture.asset(
             width: 75,
             height: 75,
-            AppImages.emptyStoreImage,
+            AppImages.icEmptyStore,
             fit: BoxFit.scaleDown,
           ),
         ),

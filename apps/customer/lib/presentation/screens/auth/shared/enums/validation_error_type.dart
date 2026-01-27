@@ -9,12 +9,9 @@ enum ValidationErrorType {
   passwordsDoNotMatch,
 
   // First Name errors
-  firstNameMinLength,
-  firstNameLettersOnly,
+  fullNameMinLength,
+  fullNameLettersOnly,
 
-  // Last Name errors
-  lastNameMinLength,
-  lastNameLettersOnly,
 
   // Email errors
   emailEmpty,
