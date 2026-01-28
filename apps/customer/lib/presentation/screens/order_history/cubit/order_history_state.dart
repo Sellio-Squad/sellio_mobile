@@ -31,7 +31,6 @@ class OrderHistoryLoaded extends OrderHistoryState {
     List<Order>? orders,
     int? selectedTabIndex,
     bool? hasAnyOrders,
-    List<String>? tabs,
   }) {
     return OrderHistoryLoaded(
         orders: orders ?? this.orders,
