@@ -1,12 +1,11 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubit/login_cubit.dart';
@@ -40,14 +39,18 @@ class _LoginBodyState extends State<LoginBody> {
     _phoneFocusNode.addListener(() {
       if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
         context.read<LoginCubit>().validateFieldOnFocusChange(
-            FormFieldType.phone, _phoneController.text);
+              FormFieldType.phone,
+              _phoneController.text,
+            );
       }
     });
 
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
         context.read<LoginCubit>().validateFieldOnFocusChange(
-            FormFieldType.password, _passwordController.text);
+              FormFieldType.password,
+              _passwordController.text,
+            );
       }
     });
   }
@@ -109,15 +112,17 @@ class _LoginBodyState extends State<LoginBody> {
   }
 
   Widget _buildForm(BuildContext context) {
+    Country? lastValidCountry;
+
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        final selectedCountryCode =
-            (state is LoginIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null
-            ? Country.parse(selectedCountryCode)
-            : null;
+        if (state is LoginIdle) {
+          lastValidCountry = state.selectedCountry;
+        }
 
+        final selectedCountry = lastValidCountry;
         final colors = context.theme.colors;
+        final typography = context.theme.typography;
 
         return Column(
           children: [
@@ -126,16 +131,15 @@ class _LoginBodyState extends State<LoginBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<LoginCubit>().updateSelectedCountryCode(
-                      country.countryCode,
-                      country.phoneCode,
-                    );
+                context.read<LoginCubit>().updateSelectedCountryCode(country);
               },
             ),
             const Gap(16),
             Focus(
               focusNode: _passwordFocusNode,
               child: SellioTextField(
+                textStyle: typography.textTheme.labelSmall
+                    .copyWith(color: colors.title),
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,

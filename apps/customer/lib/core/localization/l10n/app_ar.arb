@@ -10,6 +10,8 @@
   "subtitle_login": "أدخل معلوماتك لتسجيل الدخول",
   "phone_number": "رقم الهاتف",
   "login": "تسجيل الدخول",
+  "search_by_name_or_code": "ابحث بواسطة الاسم أو الكود",
+  "select_country_code_first" : "يجب اختبار كود الدولة أولاً",
   "login_successful": "تم تسجيل الدخول بنجاح!",
   "login_failed": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
   "first_name": "الاسم الأول",

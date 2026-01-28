@@ -1,9 +1,9 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 import '../../shared/enums/form_field_type.dart';
@@ -163,15 +163,16 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   }
 
   Widget _buildForm(BuildContext context) {
+    Country? lastValidCountry;
+
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final selectedCountryCode =
-            (state is RegistrationIdle) ? state.selectedCountryCode : null;
-        final selectedCountry = selectedCountryCode != null
-            ? Country.parse(selectedCountryCode)
-            : null;
-
+        if (state is RegistrationIdle) {
+          lastValidCountry = state.selectedCountry;
+        }
+        final selectedCountry = lastValidCountry;
         final colors = context.theme.colors;
+        final typography = context.theme.typography;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,19 +185,17 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<RegistrationCubit>().updateSelectedCountryCode(
-                      country.countryCode,
-                      country.phoneCode,
-                      country.name,
-                    );
+                context
+                    .read<RegistrationCubit>()
+                    .updateSelectedCountryCode(country);
               },
             ),
             const SizedBox(height: 12),
             _buildCityField(colors),
             const SizedBox(height: 12),
-            _buildPasswordField(colors),
+            _buildPasswordField(colors, typography),
             const SizedBox(height: 12),
-            _buildConfirmPasswordField(colors),
+            _buildConfirmPasswordField(colors, typography),
           ],
         );
       },
@@ -224,7 +223,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildNameFields(dynamic colors) {
     return Row(
       children: [
-
         Expanded(
           child: Focus(
             focusNode: _fullNameFocusNode,
@@ -269,10 +267,12 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     );
   }
 
-  Widget _buildPasswordField(dynamic colors) {
+  Widget _buildPasswordField(dynamic colors, dynamic typography) {
     return Focus(
       focusNode: _passwordFocusNode,
       child: SellioTextField(
+        textStyle:
+            typography.textTheme.labelSmall.copyWith(color: colors.title),
         controller: _passwordController,
         hintText: context.local.password,
         prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
@@ -287,10 +287,12 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     );
   }
 
-  Widget _buildConfirmPasswordField(dynamic colors) {
+  Widget _buildConfirmPasswordField(dynamic colors, dynamic typography) {
     return Focus(
       focusNode: _confirmPasswordFocusNode,
       child: SellioTextField(
+        textStyle:
+            typography.textTheme.labelSmall.copyWith(color: colors.title),
         controller: _confirmPasswordController,
         hintText: context.local.confirm_password,
         prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),

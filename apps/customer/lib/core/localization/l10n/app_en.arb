@@ -9,6 +9,8 @@
   "title_login": "Welcome Back!",
   "subtitle_login": "Enter your information to login",
   "phone_number": "Phone number",
+  "search_by_name_or_code": "Search by name or code",
+  "select_country_code_first" : "You must select the country code first",
   "login": "Login",
   "login_successful": "Login successful!",
   "login_failed": "Login failed. Please try again.",
