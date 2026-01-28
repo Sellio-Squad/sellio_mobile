@@ -116,11 +116,9 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
         _internalFocusNode.unfocus();
       }
     } else if (trimmedValue.length > 1) {
-      // Extract only digits from pasted content
       final digitsOnly = trimmedValue.replaceAll(RegExp(r'[^0-9]'), '');
 
       if (digitsOnly.isNotEmpty) {
-        // Take first digit for current field
         final firstDigit = digitsOnly[0];
         setState(() {
           _value = firstDigit;
@@ -128,7 +126,6 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
         });
         widget.onChanged?.call(firstDigit);
 
-        // Pass all digits to parent - let parent handle focus
         widget.onCompleted?.call(digitsOnly);
 
         _controller.clear();
@@ -312,7 +309,6 @@ class OTPInputFieldState extends State<OTPInputField> {
   }
 
   void _handleCompleted(int index, String value) {
-    // If multiple digits were pasted, fill remaining fields
     if (value.length > 1) {
       final digits = value.split('');
       for (var i = 0; i < digits.length && (index + i) < widget.length; i++) {
@@ -327,7 +323,6 @@ class OTPInputFieldState extends State<OTPInputField> {
         widget.onCompleted?.call(otp);
       }
 
-      // Move focus to the next empty field after pasted digits
       final lastFilledIndex = index + digits.length - 1;
       Future.microtask(() {
         if (lastFilledIndex < widget.length - 1) {
