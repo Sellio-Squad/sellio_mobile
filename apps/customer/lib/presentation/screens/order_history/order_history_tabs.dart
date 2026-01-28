@@ -15,57 +15,43 @@ class OrderHistoryTabs extends StatelessWidget {
         if (state is! OrderHistoryLoaded) {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
+        final tabs = [
+          context.local.all_orders,
+          context.local.processing,
+          context.local.completed,
+          context.local.cancelled,
+        ];
 
         return SliverToBoxAdapter(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Directionality(
-              textDirection:
-                  Localizations.localeOf(context).languageCode == 'ar'
-                      ? TextDirection.rtl
-                      : TextDirection.ltr,
-              child: Row(
-                children: List.generate(
-                  state.tabs.length,
-                  (index) {
-                    final isSelected = state.selectedTabIndex == index;
+            child: Row(
+              children: List.generate(
+                tabs.length,
+                (index) {
+                  final isSelected = state.selectedTabIndex == index;
 
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: SellioChip(
-                        label: _localizedTabLabel(context, state.tabs[index]),
-                        selected: isSelected,
-                        assetIcon: null,
-                        onTap: () {
-                          context.read<OrderHistoryCubit>().selectTab(index);
-                        },
-                        padding: EdgeInsetsDirectional.only(
-                            start: 10, end: 10, top: 10, bottom: 10),
-                      ),
-                    );
-                  },
-                ),
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: SellioChip(
+                      label: tabs[index],
+                      selected: isSelected,
+                      assetIcon: null,
+                      onTap: () {
+                        context.read<OrderHistoryCubit>().selectTab(index);
+                      },
+                      padding: EdgeInsetsDirectional.only(
+                          start: 10, end: 10, top: 10, bottom: 10),
+                    ),
+                  );
+                },
               ),
             ),
+            // ),
           ),
         );
       },
     );
-  }
-}
-
-String _localizedTabLabel(BuildContext context, String tab) {
-  switch (tab) {
-    case 'all':
-      return context.local.all;
-    case 'processing':
-      return context.local.processing;
-    case 'completed':
-      return context.local.completed;
-    case 'cancelled':
-      return context.local.cancelled;
-    default:
-      return tab;
   }
 }

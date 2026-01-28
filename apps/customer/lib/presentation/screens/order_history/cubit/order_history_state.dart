@@ -19,16 +19,13 @@ class OrderHistoryLoading extends OrderHistoryState {
 class OrderHistoryLoaded extends OrderHistoryState {
   final List<Order> orders;
   final int selectedTabIndex;
-  final List<String> tabs;
   final bool hasAnyOrders;
 
   OrderHistoryLoaded({
     required this.orders,
     required this.selectedTabIndex,
     required this.hasAnyOrders,
-    List<String>? tabs,
-  }) : tabs = tabs ?? ['All Orders', 'Processing', 'Completed', 'Cancelled'];
-
+  });
 
   OrderHistoryLoaded copyWith({
     List<Order>? orders,
@@ -37,15 +34,13 @@ class OrderHistoryLoaded extends OrderHistoryState {
     List<String>? tabs,
   }) {
     return OrderHistoryLoaded(
-      orders: orders ?? this.orders,
-      selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
-      tabs: tabs ?? this.tabs,
-      hasAnyOrders: hasAnyOrders ?? this.hasAnyOrders
-    );
+        orders: orders ?? this.orders,
+        selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
+        hasAnyOrders: hasAnyOrders ?? this.hasAnyOrders);
   }
 
   @override
-  List<Object?> get props => [orders, selectedTabIndex, tabs, hasAnyOrders];
+  List<Object?> get props => [orders, selectedTabIndex, hasAnyOrders];
 }
 
 class OrderHistoryError extends OrderHistoryState {
