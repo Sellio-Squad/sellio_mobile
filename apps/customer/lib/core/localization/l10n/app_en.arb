@@ -258,5 +258,6 @@
   "store": "Store",
   "unknown": "Unknown",
   "no_description_available": "No description available",
-  "field_required": "Should not be empty"
+  "field_required": "Should not be empty",
+  "all_orders": "All Orders"
 }

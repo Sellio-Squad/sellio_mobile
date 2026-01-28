@@ -258,5 +258,6 @@
   "store": "متجر",
   "unknown": "غير معروف",
   "no_description_available": "لا يوجد وصف متاح",
-  "field_required": "هذا الحقل مطلوب"
+  "field_required": "هذا الحقل مطلوب",
+  "all_orders": "جميع الطلبات"
 }
