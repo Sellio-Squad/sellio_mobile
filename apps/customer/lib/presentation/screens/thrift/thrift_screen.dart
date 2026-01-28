@@ -73,7 +73,7 @@ class ThriftContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
       builder: (context, state) {
-        if (state.isLoading && state.items.isEmpty) {
+        if (state.isLoading) {
           return ThriftScreenLoadingMoreShimmer();
         }
 
