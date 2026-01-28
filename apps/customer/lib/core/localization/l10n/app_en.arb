@@ -9,6 +9,8 @@
   "title_login": "Welcome Back!",
   "subtitle_login": "Enter your information to login",
   "phone_number": "Phone number",
+  "search_by_name_or_code": "Search by name or code",
+  "select_country_code_first" : "You must select the country code first",
   "login": "Login",
   "login_successful": "Login successful!",
   "login_failed": "Login failed. Please try again.",
@@ -109,10 +111,13 @@
   "clothes": "Clothes",
   "thrift": "Thrift",
   "furniture": "furniture",
+  "you_can_dicover_more_products": "You can discover amazing products by exploring more.",
   "books": "Books",
+  "start_exploring_more": "Start exploring more",
+  "no_products_found": "No products found",
   "electronics": "Electronics",
   "notifications": "Notifications",
-  "account_screen": "Account Screen",
+  "account_screen": "Account",
   "no_products_available": "No products available",
   "featured_items": "Featured Items",
   "has_been_placed_successfully": "has been placed successfully",
@@ -252,5 +257,7 @@
   "failed_to_load_store_details": "Failed to load store details",
   "store": "Store",
   "unknown": "Unknown",
-  "no_description_available": "No description available"
+  "no_description_available": "No description available",
+  "field_required": "Should not be empty",
+  "all_orders": "All Orders"
 }

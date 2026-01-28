@@ -117,9 +117,7 @@ class _MoreTrendingContent extends StatelessWidget {
                     // Use FavoritesCubit as source of truth for state sync
                     final isFavorite = favState.productIds.contains(productId);
 
-                    final imageUrl = product.images.isNotEmpty 
-                        ? product.images.first 
-                        : '';
+                    final imageUrl = product.images.first;
 
                     return SellioProductVerticalCard(
                       key: ValueKey(productId),
@@ -149,7 +147,7 @@ class _MoreTrendingContent extends StatelessWidget {
                   crossAxisCount: crossAxisCount,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 160 / 272,
+                  childAspectRatio: 160 / 200,
                 ),
               );
             },

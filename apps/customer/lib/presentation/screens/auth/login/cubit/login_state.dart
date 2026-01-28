@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../shared/enums/validation_error_type.dart';
@@ -9,16 +10,16 @@ sealed class LoginState extends Equatable {
 class LoginIdle extends LoginState {
   final String phoneNumber;
   final String password;
-  final String selectedCountryCode;
   final String phoneCode;
   final bool isFormValid;
   final ValidationErrorType? validationError;
+  final Country selectedCountry;
 
   const LoginIdle({
     this.phoneNumber = '',
     this.password = '',
-    this.selectedCountryCode = 'eg',
     this.phoneCode = '20',
+    required this.selectedCountry,
     this.isFormValid = false,
     this.validationError,
   });
@@ -26,7 +27,7 @@ class LoginIdle extends LoginState {
   LoginIdle copyWith({
     String? phoneNumber,
     String? password,
-    String? selectedCountryCode,
+    Country? selectedCountry,
     String? phoneCode,
     bool? isFormValid,
     ValidationErrorType? validationError,
@@ -35,8 +36,8 @@ class LoginIdle extends LoginState {
     return LoginIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
-      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
       phoneCode: phoneCode ?? this.phoneCode,
+      selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
       validationError: clearValidationError
           ? null
@@ -46,9 +47,10 @@ class LoginIdle extends LoginState {
 
   @override
   List<Object?> get props => [
+        selectedCountry,
         phoneNumber,
         password,
-        selectedCountryCode,
+        phoneCode,
         isFormValid,
         validationError,
       ];
@@ -71,7 +73,9 @@ class LoginSuccess extends LoginState {
 class LoginFailure extends LoginState {
   final String? errorMessage;
 
-  const LoginFailure({this.errorMessage});
+  const LoginFailure({
+    this.errorMessage,
+  });
 
   @override
   List<Object?> get props => [errorMessage];

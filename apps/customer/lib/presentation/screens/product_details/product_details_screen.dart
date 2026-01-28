@@ -1,6 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
@@ -12,6 +12,8 @@ import 'package:sellio_mobile/presentation/screens/product_details/cubit/product
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_image_section.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_price_section.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/widgets/shimmer/Product_details_screen_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/product_details/widgets/shimmer/product_details_screen_appbar_shimmer.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -26,7 +28,8 @@ class ProductDetailsScreen extends StatelessWidget {
         context.read<CartCubit>(),
       )..loadProductDetails(productId),
       child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
-        listenWhen: (previous, current) => current is ProductDetailsAddToCartSuccess,
+        listenWhen: (previous, current) =>
+            current is ProductDetailsAddToCartSuccess,
         listener: (context, state) {
           if (state is ProductDetailsAddToCartSuccess) {
             SellioSnackBar(
@@ -46,12 +49,20 @@ class ProductDetailsScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(56),
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
-                  final title = (state is ProductDetailsLoaded) ? state.product.title : null;
-                  final isFavorite = (state is ProductDetailsLoaded) ? state.product.isFavorite : false;
+                  final title = (state is ProductDetailsLoaded)
+                      ? state.product.title
+                      : null;
+                  final isFavorite = (state is ProductDetailsLoaded)
+                      ? state.product.isFavorite
+                      : false;
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
-                    actions: [productFavorite(context, productId,isFavorite)],
+                    actions: [
+                      state is ProductDetailsLoading
+                          ? ProductDetailsAppbarShimmer(height: 20, width: 100)
+                          : productFavorite(context, productId, isFavorite)
+                    ],
                   );
                 },
               ),
@@ -61,7 +72,7 @@ class ProductDetailsScreen extends StatelessWidget {
             body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is ProductDetailsLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const ProductDetailsShimmer();
                 }
 
                 if (state is ProductDetailsLoaded) {
@@ -70,13 +81,15 @@ class ProductDetailsScreen extends StatelessWidget {
                       return SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 100),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                          constraints:
+                              BoxConstraints(minHeight: constraints.maxHeight),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               productImagesSection(),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -99,7 +112,8 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
 
             // ---------------- BOTTOM BUTTON ----------------
-            bottomNavigationBar: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+            bottomNavigationBar:
+                BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is! ProductDetailsLoaded) return const SizedBox();
                 return SafeArea(
@@ -135,8 +149,7 @@ Widget _buildPriceAndCounterRow(
   );
 }
 
-Widget _buildDescription(
-    BuildContext context, ProductDetailsLoaded state) {
+Widget _buildDescription(BuildContext context, ProductDetailsLoaded state) {
   return Padding(
     padding: const EdgeInsets.only(top: 16),
     child: Text(
@@ -147,8 +160,7 @@ Widget _buildDescription(
   );
 }
 
-Widget _buildNoteTextField(
-    BuildContext context, ProductDetailsLoaded state) {
+Widget _buildNoteTextField(BuildContext context, ProductDetailsLoaded state) {
   return Padding(
     padding: const EdgeInsets.all(16),
     child: SellioTextField(
@@ -180,7 +192,8 @@ Widget _buildAddToCartButton(BuildContext context) {
   );
 }
 
-Widget productFavorite(BuildContext context, String productId, bool isFavorite) {
+Widget productFavorite(
+    BuildContext context, String productId, bool isFavorite) {
   return BlocBuilder<FavoritesCubit, FavoritesState>(
     builder: (context, favoritesState) {
       //final isFavorite = favoritesState.productIds.contains(productId);
@@ -190,7 +203,9 @@ Widget productFavorite(BuildContext context, String productId, bool isFavorite) 
         isFavorite: isFavorite,
         onToggle: () async {
           // Pessimistic update: wait for API response before updating UI
-          final success = await context.read<FavoritesCubit>().toggleProductFavorite(productId);
+          final success = await context
+              .read<FavoritesCubit>()
+              .toggleProductFavorite(productId);
           return success;
         },
         size: 24,
