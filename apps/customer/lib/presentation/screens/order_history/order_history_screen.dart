@@ -30,12 +30,6 @@ class OrderHistoryScreen extends StatelessWidget {
             } else if (state is OrderHistoryError) {
               return Center(child: Text(state.message));
             } else if (state is OrderHistoryLoaded) {
-              if (!state.hasAnyOrders) {
-                return Center(
-                  child: emptyOrderHistory(context),
-                );
-              }
-
               return OrderSection(
                 orders: state.orders,
               );
@@ -68,7 +62,7 @@ class OrderSection extends StatelessWidget {
         else
           SliverList(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 final order = orders[index];
                 return Padding(
                   padding: const EdgeInsets.all(16),
