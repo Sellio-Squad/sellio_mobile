@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
@@ -48,7 +46,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       onSuccess: (cities) {
         final latestState = state;
         if (latestState is RegistrationIdle &&
-            latestState.selectedCountryCode == iso2) {
+            latestState.selectedCountry.countryCode == iso2) {
           emit(latestState.copyWith(cities: cities));
         }
       },

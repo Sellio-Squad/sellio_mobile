@@ -21,6 +21,7 @@ class RegistrationIdle extends RegistrationState {
   final bool isFormValid;
   final ValidationErrorType? validationError;
   final Country selectedCountry;
+  final List<String> cities;
 
   const RegistrationIdle({
     this.fullName = '',
@@ -78,7 +79,6 @@ class RegistrationIdle extends RegistrationState {
         city,
         password,
         confirmPassword,
-        selectedCountryCode,
         phoneCode,
         isFormValid,
         validationError,

@@ -188,7 +188,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               onCountrySelected: (country) {
                 context
                     .read<RegistrationCubit>()
-                    .updateSelectedCountryCode(country);
+                    .updateSelectedCountry(country);
               },
             ),
             const SizedBox(height: 12),
