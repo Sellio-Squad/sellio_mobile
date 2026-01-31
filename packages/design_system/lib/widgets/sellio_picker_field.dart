@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 
 class SellioPickerField<T> extends StatefulWidget {
   final String hintText;
@@ -9,13 +9,10 @@ class SellioPickerField<T> extends StatefulWidget {
   final Widget? prefixIcon;
   final EdgeInsetsGeometry prefixIconPadding;
   final String? errorText;
-  final bool isRequired;
   final Widget Function(T)? itemBuilder;
   final String? emptyMessage;
-  final bool showSearch;
   final Widget? suffixIcon;
   final FocusNode? focusNode;
-  final EdgeInsetsGeometry contentPadding;
   final double dropdownMaxHeight;
 
   const SellioPickerField({
@@ -27,13 +24,10 @@ class SellioPickerField<T> extends StatefulWidget {
     this.prefixIcon,
     this.prefixIconPadding = const EdgeInsets.only(left: 16, right: 8),
     this.errorText,
-    this.isRequired = false,
     this.itemBuilder,
     this.emptyMessage,
-    this.showSearch = false,
     this.suffixIcon,
     this.focusNode,
-    this.contentPadding = EdgeInsets.zero,
     this.dropdownMaxHeight = 200,
   });
 
@@ -75,7 +69,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
       _displayController.clear();
     } else {
       final item = widget.items.firstWhereOrNull(
-            (item) => item.value == widget.value,
+        (item) => item.value == widget.value,
       );
       if (item != null) {
         _displayController.text = item.label;
@@ -124,9 +118,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
       borderRadius: BorderRadius.circular(8),
       color: colors.surface,
       child: Container(
-        constraints: BoxConstraints(
-          maxHeight: widget.dropdownMaxHeight,
-        ),
+        constraints: BoxConstraints(maxHeight: widget.dropdownMaxHeight),
         decoration: BoxDecoration(
           color: colors.surface,
           borderRadius: BorderRadius.circular(8),
@@ -141,72 +133,74 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
         ),
         child: widget.items.isEmpty
             ? Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(
-            widget.emptyMessage ?? 'No items found',
-            style: context.theme.typography.textTheme.bodyMedium
-                .copyWith(color: colors.body),
-          ),
-        )
-            : ListView.builder(
-          padding: const EdgeInsets.all(4),
-          shrinkWrap: true,
-          itemCount: widget.items.length,
-          itemBuilder: (context, index) {
-            final item = widget.items[index];
-            final isSelected = item.value == widget.value;
-
-            return Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  widget.onChanged?.call(item.value);
-                  _focusNode.unfocus();
-                },
-                borderRadius: BorderRadius.circular(4),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: isSelected
-                        ? colors.primary.withOpacity(0.1)
-                        : Colors.transparent,
-                  ),
-                  child: Row(
-                    children: [
-                      if (isSelected)
-                        Icon(
-                          Icons.check,
-                          size: 16,
-                          color: colors.primary,
-                        )
-                      else
-                        const SizedBox(width: 16),
-                      Expanded(
-                        child: widget.itemBuilder?.call(item.value) ??
-                            Text(
-                              item.label,
-                              style: context.theme.typography
-                                  .textTheme.bodyMedium.copyWith(
-                                color: isSelected
-                                    ? colors.primary
-                                    : colors.title,
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.normal,
-                              ),
-                            ),
-                      ),
-                    ],
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  widget.emptyMessage ?? 'No items found',
+                  style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                    color: colors.body,
                   ),
                 ),
+              )
+            : ListView.builder(
+                padding: const EdgeInsets.all(4),
+                shrinkWrap: true,
+                itemCount: widget.items.length,
+                itemBuilder: (context, index) {
+                  final item = widget.items[index];
+                  final isSelected = item.value == widget.value;
+
+                  return Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        widget.onChanged?.call(item.value);
+                        _focusNode.unfocus();
+                      },
+                      borderRadius: BorderRadius.circular(4),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: isSelected
+                              ? colors.primary.withOpacity(0.1)
+                              : Colors.transparent,
+                        ),
+                        child: Row(
+                          children: [
+                            if (isSelected)
+                              Icon(Icons.check, size: 16, color: colors.primary)
+                            else
+                              const SizedBox(width: 16),
+                            Expanded(
+                              child:
+                                  widget.itemBuilder?.call(item.value) ??
+                                  Text(
+                                    item.label,
+                                    style: context
+                                        .theme
+                                        .typography
+                                        .textTheme
+                                        .bodyMedium
+                                        .copyWith(
+                                          color: isSelected
+                                              ? colors.primary
+                                              : colors.title,
+                                          fontWeight: isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.normal,
+                                        ),
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
       ),
     );
   }
@@ -221,47 +215,38 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
     super.dispose();
   }
 
+  void _toggleFocus() {
+    if (!_focusNode.hasFocus) {
+      _focusNode.requestFocus();
+    } else {
+      _focusNode.unfocus();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
 
     return CompositedTransformTarget(
       link: _layerLink,
-      child: GestureDetector(
-        onTap: () {
-          if (!_focusNode.hasFocus) {
-            _focusNode.requestFocus();
-          } else {
-            _focusNode.unfocus();
-          }
-        },
-        child: Focus(
-          focusNode: _focusNode,
-          canRequestFocus: true,
-          child: SellioTextField(
-            controller: _displayController,
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon,
-            prefixIconPadding: widget.prefixIconPadding,
-            readOnly: true,
-            suffixIcon: widget.suffixIcon ??
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: colors.body,
-                ),
-            onTap: () {
-              if (!_focusNode.hasFocus) {
-                _focusNode.requestFocus();
-              } else {
-                _focusNode.unfocus();
-              }
-            },
-          ),
+      child: Focus(
+        focusNode: _focusNode,
+        canRequestFocus: true,
+        child: SellioTextField(
+          controller: _displayController,
+          hintText: widget.hintText,
+          prefixIcon: widget.prefixIcon,
+          prefixIconPadding: widget.prefixIconPadding,
+          readOnly: true,
+          suffixIcon:
+              widget.suffixIcon ??
+              Icon(Icons.arrow_drop_down, color: colors.body),
+          onTap: _toggleFocus,
         ),
       ),
     );
   }
 }
+
 
 class SellioPickerItem<T> {
   final T value;

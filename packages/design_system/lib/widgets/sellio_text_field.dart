@@ -61,7 +61,7 @@ class SellioTextField extends StatefulWidget {
     this.isPhoneNumber = false,
     this.countryFlag = AppImages.flagIraq,
     this.isError = false,
-    this.errorMessage
+    this.errorMessage,
     this.readOnly = false,
     this.onTap,
  /*   this.selectedCountry,
