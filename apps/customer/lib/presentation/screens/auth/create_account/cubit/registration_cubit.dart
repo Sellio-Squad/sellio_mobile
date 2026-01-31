@@ -1,6 +1,9 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/repositories/country_repository.dart';
+import 'dart:developer';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
+import 'package:country_picker/country_picker.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
@@ -17,17 +20,21 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   RegistrationCubit({
     required AuthRepository authRepository,
     required CountryRepository countryRepository,
+    Country? initialCountry,
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
-        super(const RegistrationIdle());
+        super(RegistrationIdle(
+          selectedCountry: initialCountry ?? Country.parse('eg'),
+        ));
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
     final countryCode = await _countryRepository.getCurrentCountryCode();
+    final country = Country.parse(countryCode);
 
-    emit(currentState.copyWith(selectedCountryCode: countryCode));
+    emit(currentState.copyWith(selectedCountry: country));
     loadCitiesForSelectedCountry(countryCode);
   }
 
@@ -51,20 +58,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  // ==================== Field Updates ====================
 
-  void updateFirstName(String value) {
+  void updateFullName(String value) {
     _updateField((state) => state.copyWith(
-          firstName: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateLastName(String value) {
-    _updateField((state) => state.copyWith(
-          lastName: value,
-          clearValidationError: true,
-        ));
+      fullName: value,
+      clearValidationError: true,
+    ));
   }
 
   void updatePhoneNumber(String value) {
@@ -95,9 +94,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         ));
   }
 
-  void updateSelectedCountryCode(String countryCode) {
-    _updateField((state) => state.copyWith(selectedCountryCode: countryCode));
-    loadCitiesForSelectedCountry(countryCode);
+  void updateSelectedCountry(Country country) {
+    _updateField((state) => state.copyWith(
+          selectedCountry: country,
+        ));
   }
 
   void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
@@ -109,6 +109,21 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   // ==================== Validation ====================
+
+  int? _getRequiredPhoneLength(RegistrationIdle state) {
+    if (state.selectedCountry.countryCode.isEmpty) return null;
+    try {
+      final countryData = intl_countries.countries.firstWhere(
+        (c) =>
+            c.code.toUpperCase() ==
+            state.selectedCountry.countryCode.toUpperCase(),
+      );
+
+      return countryData.maxLength;
+    } catch (e) {
+      return 10;
+    }
+  }
 
   void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
     if (value.isEmpty) return;
@@ -134,13 +149,15 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   bool _isFormValid(RegistrationIdle state) {
+    final requiredLength = _getRequiredPhoneLength(state);
+
     return FormValidators.isRegistrationFormValid(
-      firstName: state.firstName,
-      lastName: state.lastName,
+      fullName: state.fullName,
       phone: state.phoneNumber,
       city: state.city,
       password: state.password,
       confirmPassword: state.confirmPassword,
+      minPhoneLength: requiredLength,
     );
   }
 
@@ -153,8 +170,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     final validationError = FormValidators.validateRegistrationFields(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phone: currentState.phoneNumber,
       city: currentState.city,
       password: currentState.password,
@@ -167,19 +183,19 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       return;
     }
 
-    emit(const RegistrationSubmitting());
+    emit(RegistrationSubmitting());
 
-    final countryCode = currentState.selectedCountryCode;
+    final countryCode = currentState.selectedCountry.phoneCode;
+    final countryName = currentState.countryName;
     final fullPhoneNumber =
-        '${currentState.phoneCode}${currentState.phoneNumber}';
+        '+${currentState.selectedCountry.phoneCode}${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
-      firstName: currentState.firstName,
-      lastName: currentState.lastName,
+      fullName: currentState.fullName,
       phoneNumber: fullPhoneNumber,
       password: currentState.password,
       city: currentState.city,
-      country: countryCode,
+      country: countryName,
       region: countryCode,
     );
 
@@ -187,10 +203,14 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       onSuccess: (_) {
         // Repository stores sessionId internally
         // Emit state to trigger navigation to OTP screen
-        emit(RegistrationOtpRequired(phoneNumber: fullPhoneNumber));
+        emit(RegistrationOtpRequired(
+          phoneNumber: fullPhoneNumber,
+        ));
       },
       onFailure: (failure) {
-        emit(RegistrationFailure(errorMessage: failure.message));
+        emit(RegistrationFailure(
+          errorMessage: failure.message,
+        ));
         emit(currentState);
       },
     );

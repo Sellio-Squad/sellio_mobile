@@ -32,6 +32,7 @@ class SellioTextField extends StatefulWidget {
   final String? errorMessage;
   final bool readOnly;
   final VoidCallback? onTap;
+  final String? emptyValidationMessage;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
   final ValueChanged<Country>? onChangeCountry;*/
@@ -64,6 +65,7 @@ class SellioTextField extends StatefulWidget {
     this.errorMessage,
     this.readOnly = false,
     this.onTap,
+    this.emptyValidationMessage,
  /*   this.selectedCountry,
     this.countries,
     this.onChangeCountry,*/
@@ -131,14 +133,16 @@ class _SellioTextFieldState extends State<SellioTextField> {
             BoxShadow(
               color: widget.shadowColor,
               blurRadius: 8,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ]
         : [];
 
     final textFieldStyle =
         widget.textStyle ??
-        context.theme.typography.textTheme.bodyMedium.copyWith(color: context.theme.colors.title);
+        context.theme.typography.textTheme.bodyMedium.copyWith(
+          color: context.theme.colors.title,
+        );
 
     final maxLines = widget.isParagraph
         ? (widget.maxLine ?? 5)
@@ -153,7 +157,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
         );
 
     final String? errorText = widget.errorMessage ??
-        (isError ? 'Should not be empty' : null);
+        (isError ? (widget.emptyValidationMessage ?? 'Should not be empty') : null);
 
     final errorStyle =
         widget.errorStyle ??
@@ -174,6 +178,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextField(
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
                     keyboardType: widget.inputType ?? TextInputType.text,
                     focusNode: _focusNode,
                     controller: _effectiveController,
@@ -203,6 +210,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
                       fillColor: filledColor,
                       hintText: widget.hintText,
                       hintStyle: hintTextStyle,
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14, horizontal: 12),
                       prefixIcon: widget.isParagraph
                           ? null
                           : _buildPrefixIcon(iconColor, AppImages.iconsPath),
@@ -232,17 +242,20 @@ class _SellioTextFieldState extends State<SellioTextField> {
                       errorStyle: errorStyle,
                     ),
                   ),
-                  Text(
-                    isError ? (errorText ?? '') : '',
-                    style: errorStyle,
-                  )
+                  if (isError && errorText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, left: 4),
+                      child: Text(
+                        errorText,
+                        style: errorStyle,
+                      ),
+                    ),
                 ]
             )
         ),
       ),
     );
   }
-
 
   Widget? _buildPrefixIcon(Color iconColor, String icon) {
     if (widget.isParagraph) return null;
@@ -252,18 +265,18 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-/*          if (widget.prefixIcon != null) ...[widget.prefixIcon!],
-          if (widget.isPhoneNumber &&
-              widget.selectedCountry != null &&
-              widget.countries != null &&
-              widget.onChangeCountry != null)
-            _buildCountryDropdown(
-              context: context,
-              selectedCountry: widget.selectedCountry!,
-              countries: widget.countries!,
-              onChanged: widget.onChangeCountry!,
-              countryFlag: widget.countryFlag ?? AppImages.flagIraq,
-            ),*/
+          if (widget.prefixIcon != null) ...[widget.prefixIcon!],
+          // if (widget.isPhoneNumber &&
+          //     widget.selectedCountry != null &&
+          //     widget.countries != null &&
+          //     widget.onChangeCountry != null)
+          //   _buildCountryDropdown(
+          //     context: context,
+          //     selectedCountry: widget.selectedCountry!,
+          //     countries: widget.countries!,
+          //     onChanged: widget.onChangeCountry!,
+          //     countryFlag: widget.countryFlag ?? AppImages.flagIraq,
+          //   ),
         ],
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gap/flutter_gap.dart';
 import '../constants/app_images.dart';
 import '../themes/sellio_theme_provider.dart';
-
 
 class AuthBackgroundWrapper extends StatelessWidget {
   final Widget child;
@@ -48,6 +48,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTopBackground(BuildContext context) {
     return Positioned(
       top: 0,
@@ -56,16 +57,17 @@ class AuthBackgroundWrapper extends StatelessWidget {
       child: Image.asset(
         AppImages.loginTopSection,
         width: double.infinity,
-        height: 207,
+        height: 247,
         fit: BoxFit.fill,
       ),
     );
   }
+
   Widget _buildTopLogo(BuildContext context) {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.only(top: 70 ,bottom: bottomPadding),
+        padding: EdgeInsets.only(top: 70, bottom: bottomPadding),
         child: Align(
           alignment: Alignment.topCenter,
           child: Image.asset(AppImages.sellioWhite, width: 120),
@@ -73,11 +75,9 @@ class AuthBackgroundWrapper extends StatelessWidget {
       ),
     );
   }
-  Widget _buildBottomSection(
-      BuildContext context,
-      dynamic colors,
-      ) {
-    const double topOverlap = 207 - 24;
+
+  Widget _buildBottomSection(BuildContext context, dynamic colors) {
+    const double topOverlap = 247 - 24;
     return Positioned(
       top: topOverlap,
       left: 0,
@@ -93,7 +93,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
           top: false,
           child: Padding(
             padding: EdgeInsets.only(top: containerPadding.top),
-            child: child, // Remove SingleChildScrollView
+            child: child,
           ),
         ),
       ),

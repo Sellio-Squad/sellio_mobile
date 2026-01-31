@@ -111,6 +111,8 @@ class _SetNewPasswordScreenContentState
                   ),
                   const Gap(32),
                   SellioTextField(
+                    textStyle:
+                        textTheme.labelSmall.copyWith(color: colors.title),
                     controller: _passwordController,
                     hintText: context.local.password,
                     inputType: TextInputType.visiblePassword,
@@ -127,6 +129,8 @@ class _SetNewPasswordScreenContentState
                   ),
                   const Gap(16),
                   SellioTextField(
+                    textStyle:
+                        textTheme.labelSmall.copyWith(color: colors.title),
                     controller: _confirmPasswordController,
                     hintText: context.local.confirm_password,
                     inputType: TextInputType.visiblePassword,

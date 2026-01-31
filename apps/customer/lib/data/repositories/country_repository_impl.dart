@@ -19,7 +19,7 @@ class CountryRepositoryImpl implements CountryRepository {
     try {
       final code = await initialCountryLocalDataSource.getCountryCode();
 
-      return code ?? 'eg';
+      return code!;
     } catch (e) {
       debugPrint("Failed To Get Initial Country\nCause: $e");
 

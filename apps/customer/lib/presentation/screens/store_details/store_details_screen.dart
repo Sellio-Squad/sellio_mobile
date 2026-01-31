@@ -1,16 +1,19 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/widgets/store_details_screen_appBar_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/widgets/store_details_screen_shimmer.dart';
+
 import '../../../../../../domain/repositories/store_repository.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/entities/store.dart';
 import '../../../domain/entities/store_rating.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'cubit/store_details_cubit.dart';
 import 'cubit/store_details_state.dart';
 import 'widgets/featured_items_section.dart';
@@ -57,7 +60,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
 
   Widget _buildBody(BuildContext context, StoreDetailsState state) {
     if (state is StoreDetailsLoading || state is StoreDetailsInitial) {
-      return const Center(child: CircularProgressIndicator());
+      return const StoreDetailsShimmer();
     }
 
     if (state is StoreDetailsError) {
@@ -75,10 +78,10 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         slivers: [
           _buildStoreHeader(store),
           if (rating != null) _buildStoreInfoCard(store, rating),
-          if (featuredProducts != null && featuredProducts.isNotEmpty) 
+          if (featuredProducts != null && featuredProducts.isNotEmpty)
             _buildFeaturedItemsSection(featuredProducts),
           _buildSectionSpacing(),
-          if (products != null && categories.isNotEmpty) 
+          if (products != null && categories.isNotEmpty)
             _buildCategoryTabs(store),
           if (products != null && products.isNotEmpty)
             _buildProductsList(products, categories),
@@ -115,7 +118,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              state.message.isNotEmpty ? state.message : context.local.error_generic,
+              state.message.isNotEmpty
+                  ? state.message
+                  : context.local.error_generic,
               style: textTheme.bodyMedium.copyWith(
                 color: colors.body,
               ),
@@ -181,11 +186,11 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   Widget _buildStoreHeader(Store store) {
     return SliverToBoxAdapter(
       child: StoreHeader(
-        coverImage: store.coverImage.isNotEmpty 
-            ? store.coverImage 
+        coverImage: store.coverImage.isNotEmpty
+            ? store.coverImage
             : AppImages.storeSweet,
-        profileImage: store.profileImage.isNotEmpty 
-            ? store.profileImage 
+        profileImage: store.profileImage.isNotEmpty
+            ? store.profileImage
             : AppImages.placeholder,
         storeName: store.name.isNotEmpty ? store.name : context.local.store,
         discount: store.sale ?? '',
@@ -203,10 +208,14 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           LayoutConstants.paddingVertical,
         ),
         child: StoreInfoOverview(
-          location: store.address.city.isNotEmpty ? store.address.city : context.local.unknown,
+          location: store.address.city.isNotEmpty
+              ? store.address.city
+              : context.local.unknown,
           rating: rating.averageRating.clamp(0.0, 5.0),
           tags: store.categories.map((category) => category.name).toList(),
-          description: store.description.isNotEmpty ? store.description : context.local.no_description_available,
+          description: store.description.isNotEmpty
+              ? store.description
+              : context.local.no_description_available,
         ),
       ),
     );
@@ -264,7 +273,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                 context.read<CartCubit>().decrementProduct(products[0].id);
               }
             },
-            count: products.isNotEmpty 
+            count: products.isNotEmpty
                 ? (cartState.productCounts[products[0].id] ?? 0)
                 : 0,
           ),
@@ -277,15 +286,19 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
       BuildContext context, StoreDetailsState state) {
     final theme = context.theme;
     final colors = theme.colors;
-
+    final isLoading = state is StoreDetailsLoading;
     final storeName = state is StoreDetailsLoaded ? state.store.name : '';
 
     return SellioAppBar(
       showBackButton: true,
       title: storeName,
       actions: [
-        _buildFavoriteButton(colors),
-        _buildInfoButton(),
+        isLoading
+            ? StoreAppbarShimmer(height: 20, width: 100)
+            : _buildFavoriteButton(colors),
+        isLoading
+            ? StoreAppbarShimmer(height: 20, width: 100)
+            : _buildInfoButton(),
       ],
     );
   }

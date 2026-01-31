@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
-import '../models/trending_product_ui_model.dart';
+import '../models/product_summary_ui_model.dart';
 
 class ProductsList extends StatelessWidget {
-  final List<TrendingProductUIModel> products;
+  final List<ProductSummaryUIModel> products;
   final String? searchQuery;
   final Future<bool> Function(String) onFavorite;
 
@@ -70,7 +70,7 @@ class ProductsList extends StatelessWidget {
 
   Widget _buildProductsList() {
     return SizedBox(
-      height: 272,
+      height: 210,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,6 +78,7 @@ class ProductsList extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           final product = products[index];
+          print('product list:${product.title}, ${product.imageUrl}');
 
           return SizedBox(
             width: 160,

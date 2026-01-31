@@ -2,6 +2,7 @@ import '../../core/api/api_endpoints.dart';
 import '../../core/api/api_client.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
+import '../../models/product_summary_model.dart';
 
 abstract class ProductRemoteDataSource {
   Future<PaginatedResponse<ProductModel>> getProducts({
@@ -9,7 +10,7 @@ abstract class ProductRemoteDataSource {
     int pageSize = 20,
   });
 
-  Future<PaginatedResponse<ProductModel>> getProductsByCategory({
+  Future<PaginatedResponse<ProductSummaryModel>> getProductsByCategory({
     required String categoryId,
     int page = 0,
     int pageSize = 20,
@@ -22,7 +23,7 @@ abstract class ProductRemoteDataSource {
     int pageSize = 20,
   });
 
-  Future<PaginatedResponse<ProductModel>> getTrendingProducts({
+  Future<PaginatedResponse<ProductSummaryModel>> getTrendingProducts({
     int page = 0,
     int pageSize = 20,
   });
@@ -59,7 +60,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<PaginatedResponse<ProductModel>> getProductsByCategory({
+  Future<PaginatedResponse<ProductSummaryModel>> getProductsByCategory({
     required String categoryId,
     int page = 0,
     int pageSize = 20,
@@ -74,7 +75,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+          (json) => ProductSummaryModel.fromJson(json),
     );
   }
 
@@ -107,7 +108,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<PaginatedResponse<ProductModel>> getTrendingProducts({
+  Future<PaginatedResponse<ProductSummaryModel>> getTrendingProducts({
     int page = 0,
     int pageSize = 20,
   }) async {
@@ -118,10 +119,12 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         'size': pageSize,
       },
     );
+    print('product list: dataSource impl(1)-> ${response}');
+
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+          (json) => ProductSummaryModel.fromJson(json),
     );
   }
 

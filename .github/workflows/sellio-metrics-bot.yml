@@ -82,6 +82,9 @@ jobs:
             echo "Metrics branch does not exist, creating orphan branch..."
             git checkout --orphan metrics
             git rm -rf .
+            git config --global user.name "Sellio Bot"
+            git config --global user.email "sellio-bot[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Initial metrics branch commit"
           fi
 
       - name: Determine Update Type
