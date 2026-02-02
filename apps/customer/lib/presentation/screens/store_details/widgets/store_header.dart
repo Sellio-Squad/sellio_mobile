@@ -36,7 +36,7 @@ class StoreHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(coverImage),
+                    image: Image.network(coverImage).image,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -60,6 +60,7 @@ class StoreHeader extends StatelessWidget {
               ),
             ),
 
+            // Discount Tag
             Positioned(
               bottom: 16,
               right: 24,
