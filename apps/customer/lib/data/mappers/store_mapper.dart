@@ -17,7 +17,10 @@ extension StoreModelMapper on StoreModel {
     profileImage: profileImage ?? '',
     sale: sale,
     rating: rating ?? 0.0,
-    address: address?.toEntity() ?? Address(country: '', city: ''),
+    address: Address(
+      country: country,
+      city: city,
+    ),
     contactInfoList: contactInfoList?.map((e) => e.toEntity()).toList() ?? [],
     categories: categories?.map((e) => e.toEntity()).toList() ?? [],
     reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],

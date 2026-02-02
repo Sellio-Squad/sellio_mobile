@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:design_system/design_system.dart';
+import 'package:flutter_svg/svg.dart';
 import 'store_discount_frame.dart';
 
 class StoreHeader extends StatelessWidget {
@@ -8,6 +9,9 @@ class StoreHeader extends StatelessWidget {
   final String profileImage;
   final String storeName;
   final String discount;
+  final String description;
+  final List<String> address;
+  final double rating;
 
   const StoreHeader({
     super.key,
@@ -15,6 +19,9 @@ class StoreHeader extends StatelessWidget {
     required this.profileImage,
     required this.storeName,
     required this.discount,
+    required this.description,
+    required this.address,
+    required this.rating,
   });
 
   @override
@@ -80,6 +87,11 @@ class StoreHeader extends StatelessWidget {
             ),
           ),
         ),
+
+        // info section
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _buildInfoSection(context),
+        ),
       ],
     );
   }
@@ -92,6 +104,63 @@ class StoreHeader extends StatelessWidget {
         scale: 1.25,
         child: StoreDiscountTag(discount: discount),
       ),
+    );
+  }
+
+  Widget _buildInfoSection(BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 2),
+        // location details
+        Row(
+          children: [
+            SvgPicture.asset(AppImages.location, width: 20, height: 20),
+            const SizedBox(width: 4),
+            Text(
+              "${address[0]}, ${address[1]}",
+              style: context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        // rating and subcategories
+        Row(
+          children: [
+            Container(
+              child: Row(
+                children: [
+                  Text(
+                    rating.toString(),
+                    style: context.theme.typography.textTheme.labelMedium.copyWith(
+                      color: context.theme.colors.body,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  SvgPicture.asset(AppImages.rate),
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              'Subcategory1 • Subcategory2 • Subcategory3',
+              style: context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        // Description
+        Text(
+          description,
+          style: context.theme.typography.textTheme.bodyMedium.copyWith(
+            color: context.theme.colors.body,
+          ),
+        ),
+      ],
     );
   }
 

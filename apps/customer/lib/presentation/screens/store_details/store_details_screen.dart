@@ -184,6 +184,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildStoreHeader(Store store) {
+    print("store_details: ${store.rating}");
     return SliverToBoxAdapter(
       child: StoreHeader(
         coverImage: store.coverImage.isNotEmpty
@@ -194,6 +195,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             : AppImages.placeholder,
         storeName: store.name.isNotEmpty ? store.name : context.local.store,
         discount: store.sale ?? '',
+        description: store.description,
+        address: [store.address.country, store.address.city],
+        rating: store.rating,
       ),
     );
   }
