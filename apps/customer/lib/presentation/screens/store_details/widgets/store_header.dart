@@ -55,7 +55,7 @@ class StoreHeader extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: AssetImage(profileImage),
+                  backgroundImage: Image.network(profileImage).image,
                 ),
               ),
             ),
