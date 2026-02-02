@@ -84,6 +84,7 @@ class RepositoryModule {
     sl.registerLazySingleton<CountryRepository>(
       () => CountryRepositoryImpl(
         initialCountryLocalDataSource: sl(),
+        countryRemoteDataSource: sl(),
       ),
     );
 

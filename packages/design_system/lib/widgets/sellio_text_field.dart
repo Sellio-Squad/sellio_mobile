@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../constants/app_images.dart';
 import '../themes/sellio_theme_provider.dart';
+import '../constants/app_images.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -31,6 +30,8 @@ class SellioTextField extends StatefulWidget {
   final String? countryFlag;
   final bool isError;
   final String? errorMessage;
+  final bool readOnly;
+  final VoidCallback? onTap;
   final String? emptyValidationMessage;
 /*  final Country? selectedCountry;
   final List<Country>? countries;
@@ -62,6 +63,8 @@ class SellioTextField extends StatefulWidget {
     this.countryFlag = AppImages.flagIraq,
     this.isError = false,
     this.errorMessage,
+    this.readOnly = false,
+    this.onTap,
     this.emptyValidationMessage,
  /*   this.selectedCountry,
     this.countries,
@@ -162,92 +165,94 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: context.theme.colors.semanticError,
         );
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: widget.cornerRadius,
-        boxShadow: textFieldShadow,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            onTapOutside: (event) {
-              FocusScope.of(context).unfocus();
-            },
-            keyboardType: widget.inputType ?? TextInputType.text,
-            focusNode: _focusNode,
-            controller: _effectiveController,
-            inputFormatters:
-                widget.inputFormatter ??
-                [
-                  TextInputFormatter.withFunction((oldValue, newValue) {
-                    final lineCount = '\n'.allMatches(newValue.text).length + 1;
-                    if (lineCount > 5) {
-                      return oldValue;
-                    }
-                    return newValue;
-                  }),
-                ],
+    return GestureDetector(
+      onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
+      child: AbsorbPointer(
+        absorbing: widget.readOnly,
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: widget.cornerRadius,
+              boxShadow: textFieldShadow,
+            ),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                    keyboardType: widget.inputType ?? TextInputType.text,
+                    focusNode: _focusNode,
+                    controller: _effectiveController,
+                    inputFormatters:
+                    widget.inputFormatter ??
+                        [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            final lineCount = '\n'.allMatches(newValue.text).length + 1;
+                            if (lineCount > 5) {
+                              return oldValue;
+                            }
+                            return newValue;
+                          }),
+                        ],
 
-            onChanged: (value) {
-              setState(() {
-                isError = value.isEmpty;
-              });
-            },
-            obscureText: isObscured,
-            obscuringCharacter: '●',
-            style: textFieldStyle,
-            maxLines: maxLines,
-            decoration: InputDecoration(
-              filled: widget.isTextFieldFilled,
-              fillColor: filledColor,
-              hintText: widget.hintText,
-              hintStyle: hintTextStyle,
-              isDense: true,
-              contentPadding: EdgeInsets.symmetric(
-                  vertical: 14, horizontal: 12),
-              prefixIcon: widget.isParagraph
-                  ? null
-                  : _buildPrefixIcon(iconColor, AppImages.iconsPath),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 24,
-                minHeight: 24,
-              ),
-              suffixIcon: _buildSuffixIcon(iconColor),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
-                borderSide: BorderSide(color: borderColor, width: 0.5),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
-                borderSide: BorderSide(color: borderColor),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-                borderSide: BorderSide(
-                  color: context.theme.colors.semanticError,
-                ),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(
-                  widget.focusedErrorBorderRadius,
-                ),
-                borderSide: BorderSide(
-                  color: context.theme.colors.semanticError,
-                ),
-              ),
-              errorStyle: errorStyle,
-            ),
-          ),
-          if (isError && errorText != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 4, left: 4),
-              child: Text(
-                errorText,
-                style: errorStyle,
-              ),
-            ),
-        ],
+                    onChanged: (value) {
+                      setState(() {
+                        isError = value.isEmpty;
+                      });
+                    },
+                    obscureText: isObscured,
+                    obscuringCharacter: '●',
+                    style: textFieldStyle,
+                    maxLines: maxLines,
+                    decoration: InputDecoration(
+                      filled: widget.isTextFieldFilled,
+                      fillColor: filledColor,
+                      hintText: widget.hintText,
+                      hintStyle: hintTextStyle,
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 14, horizontal: 12),
+                      prefixIcon: widget.isParagraph
+                          ? null
+                          : _buildPrefixIcon(iconColor, AppImages.iconsPath),
+                      prefixIconConstraints: const BoxConstraints(
+                        minWidth: 24,
+                        minHeight: 24,
+                      ),
+                      suffixIcon: _buildSuffixIcon(iconColor),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
+                        borderSide: BorderSide(color: borderColor, width: 0.5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
+                        borderSide: BorderSide(color: borderColor),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(widget.errorBorderRadius),
+                        borderSide: BorderSide(color: context.theme.colors.semanticError),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          widget.focusedErrorBorderRadius,
+                        ),
+                        borderSide: BorderSide(color: context.theme.colors.semanticError),
+                      ),
+                      errorStyle: errorStyle,
+                    ),
+                  ),
+                  if (isError && errorText != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, left: 4),
+                      child: Text(
+                        errorText,
+                        style: errorStyle,
+                      ),
+                    ),
+                ]
+            )
+        ),
       ),
     );
   }
