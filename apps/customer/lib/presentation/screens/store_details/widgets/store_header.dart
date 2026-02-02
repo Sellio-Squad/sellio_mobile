@@ -61,14 +61,7 @@ class StoreHeader extends StatelessWidget {
             ),
 
             // Discount Tag
-            Positioned(
-              bottom: 16,
-              right: 24,
-              child: Transform.scale(
-                scale: 1.25,
-                child: StoreDiscountTag(discount: discount),
-              ),
-            ),
+            if(discount.isNotEmpty) _buildDiscountTag(),
           ],
         ),
 
@@ -90,4 +83,16 @@ class StoreHeader extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildDiscountTag(){
+    return Positioned(
+      bottom: 16,
+      right: 24,
+      child: Transform.scale(
+        scale: 1.25,
+        child: StoreDiscountTag(discount: discount),
+      ),
+    );
+  }
+
 }
