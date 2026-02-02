@@ -13,7 +13,7 @@ class StoreModel with _$StoreModel {
     @JsonKey(name: 'title') String? name,
     required String? description,
     @JsonKey(name: 'coverImageURL') String? coverImage,
-    required String? profileImage,
+    @JsonKey(name: 'avatarImageURL') String? profileImage,
     String? sale,
     double? rating,
     required AddressModel? address,
