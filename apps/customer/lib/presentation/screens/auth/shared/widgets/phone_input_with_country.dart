@@ -80,7 +80,7 @@ class PhoneInputWithCountry extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 16),
+                padding: const EdgeInsetsDirectional.only(start: 16),
                 child: SvgPicture.asset(
                   AppImages.phone,
                   width: 24,
@@ -154,31 +154,32 @@ class PhoneInputWithCountry extends StatelessWidget {
     );
   }
 
-  Widget _buildPhoneTextField(BuildContext context, SellioColorScheme colors,
-      SellioTextTheme textTheme, int? maxLength) {
-    return GestureDetector(
-      onTap: () {},
-      child: TextField(
-        cursorColor: colors.primary,
-        cursorHeight: 20,
-        controller: controller,
-        focusNode: focusNode,
-        style: textTheme.bodyMedium.copyWith(
-          color: colors.title,
-        ),
-        enabled: true,
-        keyboardType: TextInputType.phone,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          if (maxLength != null) LengthLimitingTextInputFormatter(maxLength),
-        ],
-        decoration: InputDecoration(
-          hintText: context.local.phone_number,
-          hintStyle: textTheme.labelMedium.copyWith(color: colors.body),
-          border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-        ),
+  Widget _buildPhoneTextField(
+    BuildContext context,
+    SellioColorScheme colors,
+    SellioTextTheme textTheme,
+    int? maxLength,
+  ) {
+    return TextField(
+      cursorColor: colors.primary,
+      cursorHeight: 20,
+      controller: controller,
+      focusNode: focusNode,
+      style: textTheme.bodyMedium.copyWith(
+        color: colors.title,
+      ),
+      enabled: true,
+      keyboardType: TextInputType.phone,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        if (maxLength != null) LengthLimitingTextInputFormatter(maxLength),
+      ],
+      decoration: InputDecoration(
+        hintText: context.local.phone_number,
+        hintStyle: textTheme.labelMedium.copyWith(color: colors.body),
+        border: InputBorder.none,
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       ),
     );
   }
