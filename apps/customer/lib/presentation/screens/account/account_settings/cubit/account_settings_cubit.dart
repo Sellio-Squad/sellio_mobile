@@ -64,7 +64,7 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         _formatPhoneNumber(selectedCountry, state.phoneNumber);
     final result = await _repository.updateUserProfile(
       phoneNumber: formattedPhone,
-      fullName: state.fullName,
+      fullName: state.fullName.trim(),
     );
     if (result is Success) {
       emit(state.copyWith(isLoading: false, isSuccess: true));
