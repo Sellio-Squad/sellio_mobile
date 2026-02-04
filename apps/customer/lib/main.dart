@@ -83,6 +83,7 @@ class MyApp extends StatelessWidget {
                     }
                   }
                 }
+
                 return supportedLocales.first;
               },
             );
