@@ -35,7 +35,7 @@ class LoginListeners extends StatelessWidget {
     SnackBarHelper.showSuccess(context, context.local.login);
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (context.mounted) {
-        context.navigator.goToHome();
+        context.navigator.pop();
       }
     });
   }

@@ -159,6 +159,7 @@ class LoginCubit extends Cubit<LoginState> {
 
     if (validationError != null) {
       emit(currentState.copyWith(validationError: validationError));
+
       return;
     }
     emit(LoginSubmitting());
