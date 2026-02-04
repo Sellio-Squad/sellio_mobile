@@ -302,11 +302,32 @@
         "url": "https://github.com/israamohamed107"
       }
     ],
-    "comments": [],
-    "approvals": [],
+    "comments": [
+      {
+        "author": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "first_comment_at": "2026-02-03T15:39:13Z",
+        "last_comment_at": "2026-02-03T15:39:13Z",
+        "count": 1
+      }
+    ],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "submitted_at": "2026-02-04T23:25:23Z",
+        "commit_id": "4f4aa3f505e62126affff576ee2cf4d3a6231b89"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-04T23:25:23Z",
+    "time_to_first_approval_minutes": 1955.8166666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
