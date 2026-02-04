@@ -37,9 +37,11 @@ class RouteGenerator {
       GoRoute(
         name: AppRoutes.login.name,
         path: AppRoutes.login.path,
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
+            fullscreenDialog: true,
             child: const LoginScreen(),
           );
         },
