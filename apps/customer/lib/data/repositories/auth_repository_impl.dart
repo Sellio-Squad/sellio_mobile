@@ -30,6 +30,8 @@ class AuthRepositoryImpl implements AuthRepository {
         accessToken: response.accessToken,
         refreshToken: response.refreshToken,
       );
+
+      await _storageService.save<bool>(StorageKeys.isGuestMode, false);
     });
   }
 
@@ -235,8 +237,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isGuestMode() async {
-    final isGuest = await _storageService.get<bool>(StorageKeys.isGuestMode);
-    return isGuest ?? false;
+    return await _storageService.get<bool>(StorageKeys.isGuestMode) ?? true;
   }
 
   @override
