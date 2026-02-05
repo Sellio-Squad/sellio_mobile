@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,6 +13,9 @@ class LocaleCubit extends Cubit<LocaleState> {
 
   LocaleCubit(this._prefs) : super(const LocaleState(locale: Locale('en'))) {
     _loadSavedLocale();
+    PlatformDispatcher.instance.onLocaleChanged = () {
+      _handleSystemLanguageChange();
+    };
   }
 
   static const List<Locale> supportedLocales = [
@@ -20,13 +25,33 @@ class LocaleCubit extends Cubit<LocaleState> {
 
   Future<void> _loadSavedLocale() async {
     try {
-      final code = _prefs.getString(_languageCodeKey) ?? 'en';
-      final locale = Locale(code);
+      final savedCode = _prefs.getString(_languageCodeKey);
+      print("Saved Code in Prefs: $savedCode");
 
-      if (supportedLocales.contains(locale)) {
-        emit(LocaleState(locale: locale));
+      if (savedCode != null && savedCode.isNotEmpty) {
+        emit(LocaleState(locale: Locale(savedCode)));
+      } else {
+        _detectDeviceLanguage();
       }
     } catch (e) {
+      print("Error loading locale: $e");
+      emit(const LocaleState(locale: Locale('en')));
+    }
+  }
+
+  void _handleSystemLanguageChange() {
+    final savedCode = _prefs.getString(_languageCodeKey);
+    if (savedCode == null) {
+      _detectDeviceLanguage();
+    }
+  }
+
+  void _detectDeviceLanguage() {
+    final deviceLangCode = PlatformDispatcher.instance.locale.languageCode;
+
+    if (supportedLocales.any((l) => l.languageCode == deviceLangCode)) {
+      emit(LocaleState(locale: Locale(deviceLangCode)));
+    } else {
       emit(const LocaleState(locale: Locale('en')));
     }
   }
