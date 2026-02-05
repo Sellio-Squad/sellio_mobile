@@ -17,7 +17,7 @@ Future<void> navigateToLoginScreen(BuildContext context) async {
   await authRepo.clearAuthData();
 
   if (context.mounted) {
-    context.navigator.pushReplacementLogin();
+    context.navigator.pushLogin();
   }
 }
 

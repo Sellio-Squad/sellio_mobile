@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/utils/snackbar_helper.dart';
+import '../../../../di/injection_container.dart';
 import '../shared/extensions.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/login_state.dart';
+import 'login_notifier.dart';
 
 class LoginListeners extends StatelessWidget {
   final Widget child;
@@ -17,10 +19,12 @@ class LoginListeners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loginEventNotifier = sl<LoginEventNotifier>();
+
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          _handleSuccess(context);
+          _handleSuccess(context, loginEventNotifier);
         } else if (state is LoginFailure) {
           _handleError(context, state);
         } else if (state is LoginIdle && state.validationError != null) {
@@ -31,8 +35,9 @@ class LoginListeners extends StatelessWidget {
     );
   }
 
-  void _handleSuccess(BuildContext context) {
+  void _handleSuccess(BuildContext context, LoginEventNotifier loginEventNotifier) {
     SnackBarHelper.showSuccess(context, context.local.login);
+    loginEventNotifier.notifyLoginSuccess();
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (context.mounted) {
         context.navigator.pop();

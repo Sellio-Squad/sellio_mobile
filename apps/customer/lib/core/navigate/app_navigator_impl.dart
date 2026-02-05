@@ -9,7 +9,7 @@ class AppNavigatorImpl implements AppNavigator {
 
   final BuildContext context;
   @override
-  void pushReplacementLogin() {
+  void pushLogin() {
     context.pushNamed(AppRoutes.login.name);
   }
 

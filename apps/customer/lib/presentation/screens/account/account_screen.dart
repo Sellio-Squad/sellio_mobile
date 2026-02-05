@@ -9,7 +9,9 @@ import 'package:sellio_mobile/presentation/screens/account/navigation/account_na
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../di/injection_container.dart';
 import '../../../domain/repositories/user_repository.dart';
+import '../auth/login/login_notifier.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'account_settings/account_settings_bottom_sheet.dart';
@@ -26,13 +28,40 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  late final AccountCubit _accountCubit;
+  late final LoginEventNotifier _loginNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _accountCubit = AccountCubit(context.read<UserRepository>())
+      ..loadAccountDetails();
+
+    _loginNotifier = sl<LoginEventNotifier>();
+
+    _loginNotifier.loginEvent.addListener(_handleLoginEvent);
+  }
+
+  @override
+  void dispose() {
+    _loginNotifier.loginEvent.removeListener(_handleLoginEvent);
+    _accountCubit.close();
+    super.dispose();
+  }
+
+  void _handleLoginEvent() {
+    if (_loginNotifier.loginEvent.value == true && mounted) {
+      _accountCubit.loadAccountDetails();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SellioColorScheme colors = context.theme.colors;
 
-    return BlocProvider(
-      create: (context) =>
-          AccountCubit(context.read<UserRepository>())..loadAccountDetails(),
+    return BlocProvider.value(
+      value: _accountCubit,
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
           return Scaffold(
@@ -212,16 +241,20 @@ class _AccountScreenState extends State<AccountScreen> {
             prefixIcon: AppImages.repair,
             orderTitle: context.local.account_settings,
             onCardClicked: () => _showAccountSettingsBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
-                matchTextDirection: true),
+            trailing: SvgPicture.asset(
+              AppImages.arrowRightCustom,
+              matchTextDirection: true,
+            ),
           ),
           const SizedBox(height: 12),
           AccountOptionCard(
             prefixIcon: AppImages.circleLockAdd,
             orderTitle: context.local.reset_password,
             onCardClicked: () => _showResetPasswordBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
-                matchTextDirection: true),
+            trailing: SvgPicture.asset(
+              AppImages.arrowRightCustom,
+              matchTextDirection: true,
+            ),
           ),
           const SizedBox(height: 12),
           BlocBuilder<LocaleCubit, LocaleState>(
@@ -240,8 +273,10 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: themeText.labelSmall.copyWith(color: colors.body),
                     ),
                     const SizedBox(width: 8),
-                    SvgPicture.asset(AppImages.arrowRightCustom,
-                        matchTextDirection: true),
+                    SvgPicture.asset(
+                      AppImages.arrowRightCustom,
+                      matchTextDirection: true,
+                    ),
                   ],
                 ),
               );
@@ -483,7 +518,7 @@ class AccountCustomCard extends StatelessWidget {
                 style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: context.theme.colors.title,
                 ),
-              )
+              ),
             ],
           ),
         ),

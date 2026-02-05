@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import '../constants/app_images.dart';
 import '../themes/sellio_theme_provider.dart';
 
