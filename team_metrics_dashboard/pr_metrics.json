@@ -345,5 +345,47 @@
       "deletions": 19,
       "changed_files": 5
     }
+  },
+  {
+    "pr_number": 441,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/441",
+    "title": "Feature/enhance login",
+    "opened_at": "2026-02-05T17:41:37Z",
+    "head_ref": "feature/enhance-login",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W06",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 194,
+      "deletions": 93,
+      "changed_files": 25
+    }
   }
 ]
