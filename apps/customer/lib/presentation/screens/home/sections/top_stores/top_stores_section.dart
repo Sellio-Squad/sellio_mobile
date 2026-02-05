@@ -65,7 +65,7 @@ class TopStoresSection extends StatelessWidget {
                   stores: storesState.stores,
                   favoriteStoreIds: favState.storeIds,
                   onLikePressed: (storeId) {
-                    context.read<FavoritesCubit>().toggleStoreFavorite(storeId);
+                    context.read<FavoritesCubit>().toggleStoreFavorite(storeId, context);
                   },
                   onStorePressed: (store) {
                     navigateToStoreDetails(context, store.id);

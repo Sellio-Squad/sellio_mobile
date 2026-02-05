@@ -15,9 +15,10 @@ class BlocModule {
   static void register(GetIt sl) {
     sl.registerFactory(() => CartCubit(
       cartRepository: sl(),
-      orderRepository: sl()
+      orderRepository: sl(),
+      authRepository: sl(),
     ));
-    sl.registerFactory(() => FavoritesCubit(sl()));
+    sl.registerFactory(() => FavoritesCubit(sl(), sl()));
     sl.registerFactory(() => UserCubit(sl()));
     sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl(), sl()));

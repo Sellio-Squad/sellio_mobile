@@ -77,7 +77,7 @@ class TrendingProductsSection extends StatelessWidget {
                 searchQuery: productsState.searchQuery,
                 onFavorite: (productId) async => await context
                     .read<FavoritesCubit>()
-                    .toggleProductFavorite(productId),
+                    .toggleProductFavorite(productId, context),
               ),
             );
           },

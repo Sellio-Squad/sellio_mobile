@@ -55,13 +55,14 @@ class ProductDetailsScreen extends StatelessWidget {
                   final isFavorite = (state is ProductDetailsLoaded)
                       ? state.product.isFavorite
                       : false;
+
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
                     actions: [
                       state is ProductDetailsLoading
                           ? ProductDetailsAppbarShimmer(height: 20, width: 100)
-                          : productFavorite(context, productId, isFavorite)
+                          : productFavorite(context, productId, isFavorite),
                     ],
                   );
                 },
@@ -193,7 +194,7 @@ Widget _buildAddToCartButton(BuildContext context) {
 }
 
 Widget productFavorite(
-    BuildContext context, String productId, bool isFavorite) {
+    BuildContext context, String productId, bool isFavorite,) {
   return BlocBuilder<FavoritesCubit, FavoritesState>(
     builder: (context, favoritesState) {
       //final isFavorite = favoritesState.productIds.contains(productId);
@@ -205,7 +206,8 @@ Widget productFavorite(
           // Pessimistic update: wait for API response before updating UI
           final success = await context
               .read<FavoritesCubit>()
-              .toggleProductFavorite(productId);
+              .toggleProductFavorite(productId, context);
+
           return success;
         },
         size: 24,

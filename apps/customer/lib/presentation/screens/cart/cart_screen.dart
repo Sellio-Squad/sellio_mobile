@@ -64,7 +64,7 @@ class _CartScreenState extends State<CartScreen> {
           return CartBottomBar(
             totalPrice: totalPrice,
             itemCount: itemCount,
-            onConfirmOrder: _handleConfirmOrder,
+            onConfirmOrder: () => _handleConfirmOrder(context),
           );
         },
       ),
@@ -183,10 +183,11 @@ class _CartScreenState extends State<CartScreen> {
     context.read<CartCubit>().decrementProduct(productId);
   }
 
-  void _handleConfirmOrder() {
+  void _handleConfirmOrder(BuildContext context) {
     final note = _noteController.text.trim();
     context.read<CartCubit>().confirmOrder(
       note.isNotEmpty ? note : null,
+      context,
     );
   }
 }

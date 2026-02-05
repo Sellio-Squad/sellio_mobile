@@ -159,6 +159,7 @@ class ThriftContent extends StatelessWidget {
           final screenWidth = constraints.crossAxisExtent;
           const cardWidth = 170.0;
           final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
@@ -186,7 +187,8 @@ class ThriftContent extends StatelessWidget {
                     // Pessimistic update: wait for API response before updating UI
                     final success = await context
                         .read<FavoritesCubit>()
-                        .toggleProductFavorite(productId);
+                        .toggleProductFavorite(productId, context);
+
                     return success;
                   },
                   onTap: () {

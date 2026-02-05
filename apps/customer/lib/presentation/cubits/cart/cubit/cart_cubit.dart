@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/entities/order.dart';
 import '../../../../domain/repositories/cart_repository.dart';
@@ -8,12 +11,15 @@ import 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
   final OrderRepository _orderRepository;
+  final AuthRepository _authRepository;
 
   CartCubit({
     required CartRepository cartRepository,
     required OrderRepository orderRepository,
+    required AuthRepository authRepository,
   })  : _cartRepository = cartRepository,
         _orderRepository = orderRepository,
+        _authRepository = authRepository,
         super(const CartInitial());
 
   Future<void> loadCart() async {
@@ -71,7 +77,8 @@ class CartCubit extends Cubit<CartState> {
     final currentState = state as CartLoaded;
     final currentQty = currentState.productCounts[productId] ?? 0;
 
-    final result = await _cartRepository.updateQuantity(productId, currentQty + 1);
+    final result =
+        await _cartRepository.updateQuantity(productId, currentQty + 1);
 
     result.fold(
       onSuccess: _emitLoadedState,
@@ -87,7 +94,8 @@ class CartCubit extends Cubit<CartState> {
 
     if (currentQty <= 1) return;
 
-    final result = await _cartRepository.updateQuantity(productId, currentQty - 1);
+    final result =
+        await _cartRepository.updateQuantity(productId, currentQty - 1);
 
     result.fold(
       onSuccess: _emitLoadedState,
@@ -95,9 +103,21 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  Future<void> confirmOrder(String? note) async {
+  Future<void> confirmOrder(String? note, BuildContext context) async {
+    final loggedIn = await _authRepository.isLoggedIn();
+
+    if (!loggedIn) {
+      if (context.mounted) {
+        await _authRepository.clearAuthData();
+        context.navigator.pushLogin();
+      }
+
+      return;
+    }
+
     if (state.cart == null || state.cart!.items.isEmpty) {
       _emitErrorState('Cart is empty');
+
       return;
     }
 

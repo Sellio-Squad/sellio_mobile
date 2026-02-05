@@ -65,6 +65,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                       return BlocBuilder<FavoritesCubit, FavoritesState>(
                         builder: (BuildContext context, favState) {
                           final isFavorite = favState.productIds.contains(product.id);
+
                           return SellioProductVerticalCard(
                             productId: product.id,
                             imageUrl: product.images.isNotEmpty
@@ -77,7 +78,8 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                               // Pessimistic update: wait for API response before updating UI
                               final success = await context
                                   .read<FavoritesCubit>()
-                                  .toggleProductFavorite(product.id);
+                                  .toggleProductFavorite(product.id, context);
+
                               return success;
                             },
                           );

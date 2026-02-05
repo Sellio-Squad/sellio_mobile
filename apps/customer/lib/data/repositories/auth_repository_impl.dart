@@ -184,6 +184,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> isLoggedIn() async {
     final token = await _storageService.get<String>(StorageKeys.authToken);
+
     return token != null && token.isNotEmpty;
   }
 
