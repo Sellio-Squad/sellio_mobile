@@ -24,7 +24,7 @@ class BlocModule {
     sl.registerFactory(() => HomeTopStoresCubit(sl()));
     sl.registerFactory(() => HomeSpecialOffersCubit(sl()));
     sl.registerFactory(() => NotificationCubit(sl()));
-    sl.registerFactory(() => ProductDetailsCubit(sl(), sl()));
+    sl.registerFactory(() => ProductDetailsCubit(sl(), sl(), sl()));
     sl.registerFactory(() => AccountCubit(sl()));
   }
 }
