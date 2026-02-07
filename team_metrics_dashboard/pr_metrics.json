@@ -475,5 +475,47 @@
       "deletions": 335,
       "changed_files": 11
     }
+  },
+  {
+    "pr_number": 444,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/444",
+    "title": "refactor: hide character counter when max length is reached",
+    "opened_at": "2026-02-07T22:02:11Z",
+    "head_ref": "435-textfeild-error-valditor",
+    "base_ref": "develop",
+    "creator": {
+      "login": "Arzo-zi",
+      "id": 149817756,
+      "url": "https://github.com/Arzo-zi"
+    },
+    "assignees": [
+      {
+        "login": "Arzo-zi",
+        "id": 149817756,
+        "url": "https://github.com/Arzo-zi"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W06",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 15,
+      "deletions": 12,
+      "changed_files": 1
+    }
   }
 ]
