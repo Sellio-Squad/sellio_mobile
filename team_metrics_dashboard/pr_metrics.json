@@ -559,5 +559,47 @@
       "deletions": 37,
       "changed_files": 8
     }
+  },
+  {
+    "pr_number": 446,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/446",
+    "title": "fix: enable button when navigate back",
+    "opened_at": "2026-02-07T23:44:38Z",
+    "head_ref": "fix/refrish-the-button-state",
+    "base_ref": "develop",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W06",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 41,
+      "deletions": 20,
+      "changed_files": 2
+    }
   }
 ]
