@@ -14,6 +14,8 @@ import 'registration_state.dart';
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
+  late RegistrationIdle? _lastIdleState;
+  late Country _currentCountry;
 
   RegistrationCubit({
     required AuthRepository authRepository,
@@ -21,6 +23,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     Country? initialCountry,
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
+        _currentCountry = initialCountry ?? Country.parse('eg'),
         super(RegistrationIdle(
           selectedCountry: initialCountry ?? Country.parse('eg'),
         ));
@@ -56,12 +59,11 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-
   void updateFullName(String value) {
     _updateField((state) => state.copyWith(
-      fullName: value,
-      clearValidationError: true,
-    ));
+          fullName: value,
+          clearValidationError: true,
+        ));
   }
 
   void updatePhoneNumber(String value) {
@@ -167,6 +169,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
+    _lastIdleState = currentState;
+    _currentCountry = currentState.selectedCountry;
+
     final validationError = FormValidators.validateRegistrationFields(
       fullName: currentState.fullName,
       phone: currentState.phoneNumber,
@@ -223,7 +228,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         emit(const RegistrationSuccess());
       },
       onFailure: (failure) {
-        throw Exception(failure.message);
+        throw failure;
       },
     );
   }
@@ -237,7 +242,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         // Success - OTP cubit will handle UI feedback
       },
       onFailure: (failure) {
-        throw Exception(failure.message);
+        throw failure;
       },
     );
   }
