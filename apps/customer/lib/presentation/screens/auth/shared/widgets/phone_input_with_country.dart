@@ -101,18 +101,21 @@ class PhoneInputWithCountry extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(top: 6, right: 4),
-          child: Text(
-            '${controller.text.length}/$displayMaxLength',
-            style: textTheme.labelSmall.copyWith(
-              color: isError
-                  ? colors.red
-                  : isSuccess
-                      ? colors.green
-                      : colors.body,
-              fontWeight:
-                  (isError || isSuccess) ? FontWeight.bold : FontWeight.normal,
-            ),
-          ),
+          child: controller.text.length == displayMaxLength
+              ? SizedBox.shrink()
+              : Text(
+                  '${controller.text.length}/$displayMaxLength',
+                  style: textTheme.labelSmall.copyWith(
+                    color: isError
+                        ? colors.red
+                        : isSuccess
+                            ? colors.green
+                            : colors.body,
+                    fontWeight: (isError || isSuccess)
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                ),
         ),
       ],
     );
