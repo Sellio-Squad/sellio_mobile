@@ -150,6 +150,8 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
           },
         ),
       ),
-    );
+    ).then((_) {
+      cubit.resetToIdle();
+    });
   }
 }
