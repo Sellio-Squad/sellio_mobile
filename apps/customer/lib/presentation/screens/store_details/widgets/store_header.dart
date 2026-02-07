@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:design_system/design_system.dart';
 import 'store_discount_frame.dart';
 
@@ -36,7 +35,9 @@ class StoreHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(coverImage),
+                    image: coverImage.startsWith('http')
+                        ? NetworkImage(coverImage)
+                        : AssetImage(coverImage) as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -55,7 +56,9 @@ class StoreHeader extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: AssetImage(profileImage),
+                  backgroundImage: profileImage.startsWith('http')
+                      ? NetworkImage(profileImage)
+                      : AssetImage(profileImage) as ImageProvider,
                 ),
               ),
             ),
@@ -73,7 +76,6 @@ class StoreHeader extends StatelessWidget {
 
         const SizedBox(height: 44),
 
-        // Store Name
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Align(
