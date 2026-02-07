@@ -154,7 +154,7 @@ class _LoginBodyState extends State<LoginBody> {
               ),
             ),
             Align(
-              alignment: Alignment.centerRight,
+              alignment: AlignmentDirectional.centerEnd,
               child: SellioButton(
                 text: context.local.title_par_forget_password,
                 textColor: colors.primary,
