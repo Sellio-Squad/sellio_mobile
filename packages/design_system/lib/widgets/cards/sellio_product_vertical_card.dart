@@ -1,7 +1,9 @@
-import 'package:design_system/constants/app_images.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:design_system/constants/app_images.dart';
+import '../../themes/sellio_colors.dart';
 import '../../themes/sellio_theme.dart';
-import '../buttons/favorite_toggle_button.dart';
 import '../utils/widgets_utils.dart';
 
 class SellioProductVerticalCard extends StatelessWidget {
@@ -9,9 +11,9 @@ class SellioProductVerticalCard extends StatelessWidget {
   final String title;
   final String price;
   final String productId;
-  final Future<bool> Function()? onFavoriteToggle;
   final bool isFavorite;
   final VoidCallback? onTap;
+  final VoidCallback? onFavoriteToggle;
 
   const SellioProductVerticalCard({
     super.key,
@@ -19,9 +21,9 @@ class SellioProductVerticalCard extends StatelessWidget {
     required this.title,
     required this.price,
     required this.productId,
-    this.onFavoriteToggle,
     this.isFavorite = false,
     this.onTap,
+    this.onFavoriteToggle,
   });
 
   @override
@@ -36,61 +38,43 @@ class SellioProductVerticalCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
-        child: SizedBox(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
-                    child: _buildImage(colors),
-                  ),
-                  if (onFavoriteToggle != null)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: FavoriteToggleButton(
-                        productId: productId,
-                        isFavorite: isFavorite,
-                        onToggle: onFavoriteToggle!,
-                        size: 32,
-                        showBackground: true,
-                      ),
-                    ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4 ,vertical: 4),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    title,
-                    style: textTheme.labelMedium.copyWith(color: colors.title),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
+                  child: _buildImage(colors),
                 ),
+                if (onFavoriteToggle != null)
+                  _buildFavoriteButton(colors),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+              child: Text(
+                title,
+                style: textTheme.labelMedium.copyWith(color: colors.title),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    "\$${formatPrice(price)}",
-                    style: textTheme.titleSmall.copyWith(color: colors.primary),
-                    maxLines: 1,
-                  ),
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Text(
+                "\$${formatPrice(price)}",
+                style: textTheme.titleSmall.copyWith(color: colors.primary),
+                maxLines: 1,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildImage(colors) {
+  Widget _buildImage(SellioColorScheme colors) {
     return AspectRatio(
       aspectRatio: 1.05,
       child: ClipRRect(
@@ -114,6 +98,45 @@ class SellioProductVerticalCard extends StatelessWidget {
               fit: BoxFit.cover,
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFavoriteButton(SellioColorScheme colors) {
+    return Positioned(
+      top: 4,
+      right: 4,
+      child: ClipOval(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: const BoxDecoration(
+              color: Color(0x99FFFFFF),
+              shape: BoxShape.circle,
+            ),
+            child: Material(
+              type: MaterialType.transparency,
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onFavoriteToggle,
+                child: Center(
+                  child: SvgPicture.asset(
+                    isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
+                    colorFilter: ColorFilter.mode(
+                      colors.primary,
+                      BlendMode.srcIn,
+                    ),
+                    width: 20,
+                    height: 20,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );

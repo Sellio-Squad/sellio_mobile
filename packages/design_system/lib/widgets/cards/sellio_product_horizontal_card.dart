@@ -10,9 +10,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
   final String description;
   final String price;
   final String? originalPrice;
-  final int count;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
+  final int? count; // nullable count
+  final VoidCallback? onIncrement; // nullable increment
+  final VoidCallback? onDecrement; // nullable decrement
   final VoidCallback? onTap;
 
   const SellioProductHorizontalCard({
@@ -22,9 +22,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
     required this.description,
     required this.price,
     this.originalPrice,
-    this.count = 0,
-    required this.onIncrement,
-    required this.onDecrement,
+    this.count,
+    this.onIncrement,
+    this.onDecrement,
     this.onTap,
   });
 
@@ -48,6 +48,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Title
                     Text(
                       title,
                       style: textTheme.titleSmall.copyWith(color: colors.title),
@@ -55,6 +56,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
+                    // Description
                     Text(
                       description,
                       style: textTheme.labelXSmall.copyWith(color: colors.body),
@@ -66,9 +68,12 @@ class SellioProductHorizontalCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        count == 0
-                            ? _buildSingleCartButton(context)
-                            : _buildCounter(context),
+                        // Show counter if count and callbacks are provided, otherwise single button placeholder
+                        if (count != null && onIncrement != null && onDecrement != null)
+                          _buildCounter(context)
+                        else if (onIncrement != null)
+                          _buildSingleCartButton(context),
+                        // Price
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
@@ -86,8 +91,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                               ),
                             Text(
                               "\$${formatPrice(price)}",
-                              style: textTheme.titleSmall
-                                  .copyWith(color: colors.primary),
+                              style: textTheme.titleSmall.copyWith(color: colors.primary),
                             ),
                           ],
                         ),
@@ -96,6 +100,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                   ],
                 ),
               ),
+              // Image
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 12),
                 child: _buildImage(colors),
@@ -123,10 +128,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
           onTap: onIncrement,
           child: SvgPicture.asset(
             AppImages.cart,
-            colorFilter: ColorFilter.mode(
-              colors.primary,
-              BlendMode.srcIn,
-            ),
+            colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
             width: 20,
             height: 20,
             fit: BoxFit.scaleDown,
@@ -152,6 +154,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Decrement button
           Container(
             width: 30,
             height: 30,
@@ -166,10 +169,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 onTap: onDecrement,
                 child: SvgPicture.asset(
                   AppImages.remove,
-                  colorFilter: ColorFilter.mode(
-                    colors.body,
-                    BlendMode.srcIn,
-                  ),
+                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
                   fit: BoxFit.scaleDown,
@@ -177,12 +177,12 @@ class SellioProductHorizontalCard extends StatelessWidget {
               ),
             ),
           ),
+          // Count
           Text(
-            count.toString().padLeft(2, '0'),
-            style: textTheme.labelSmall.copyWith(
-              color: colors.title,
-            ),
+            count?.toString().padLeft(2, '0') ?? '00',
+            style: textTheme.labelSmall.copyWith(color: colors.title),
           ),
+          // Increment button
           Container(
             width: 30,
             height: 30,
@@ -197,10 +197,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 onTap: onIncrement,
                 child: SvgPicture.asset(
                   AppImages.add,
-                  colorFilter: ColorFilter.mode(
-                    colors.primary,
-                    BlendMode.srcIn,
-                  ),
+                  colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
                   width: 16,
                   height: 16,
                   fit: BoxFit.scaleDown,
@@ -225,13 +222,11 @@ class SellioProductHorizontalCard extends StatelessWidget {
           return progress == null
               ? child
               : Container(
-                  width: 88,
-                  height: 88,
-                  color: colors.surface,
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+            width: 88,
+            height: 88,
+            color: colors.surface,
+            child: const Center(child: CircularProgressIndicator()),
+          );
         },
         errorBuilder: (context, error, stackTrace) {
           return Container(
