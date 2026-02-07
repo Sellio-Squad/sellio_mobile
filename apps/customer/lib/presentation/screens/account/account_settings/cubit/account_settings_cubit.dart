@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/domain/phone_validation.dart';
-
 import '../../../../../core/error/result.dart';
 import '../../../../../domain/repositories/user_repository.dart';
 import 'account_settings_state.dart';

@@ -8,7 +8,6 @@ import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../shared/otp/otp_screen.dart';
-import '../shared/widgets/phone_input_with_country.dart';
 import 'cubit/forgot_password_cubit.dart';
 import 'cubit/forgot_password_state.dart';
 import 'widgets/lock_icon.dart';
@@ -106,8 +105,10 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
                             style: textTheme.bodyMedium.copyWith(color: colors.body),
                           ),
                           const Gap(24),
-                          PhoneInputWithCountry(
+                          SellioPhoneField(
                             controller: _phoneController,
+                            hintText: context.local.phone_number,
+                            searchHintText: context.local.search_by_name_or_code,
                             selectedCountry:
                                 state is ForgotPasswordIdle ? state.selectedCountry : null,
                             onCountrySelected: cubit.updateSelectedCountry,
