@@ -5,13 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_loadingMore_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_shimmer.dart';
-
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/product_repository.dart';
 import '../../../core/navigate/app_routes.dart';
 import '../../../core/navigate/route_args.dart';
-import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
+import '../../cubits/favorites/cubit/favorites_state.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
 import 'widgets/category_tabs.dart';
@@ -24,7 +23,7 @@ class ThriftScreen extends StatefulWidget {
 }
 
 class _ThriftScreenState extends State<ThriftScreen> {
-  late ThriftProductsCubit cubit;
+  late final ThriftProductsCubit cubit;
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -62,6 +61,13 @@ class _ThriftScreenState extends State<ThriftScreen> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    cubit.close();
+    super.dispose();
+  }
 }
 
 class ThriftContent extends StatelessWidget {
@@ -73,8 +79,8 @@ class ThriftContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
       builder: (context, state) {
-        if (state.isLoading) {
-          return ThriftScreenLoadingMoreShimmer();
+        if (state.isLoading && state.items.isEmpty) {
+          return const ThriftScreenLoadingMoreShimmer();
         }
 
         return RefreshIndicator(
@@ -84,7 +90,7 @@ class ThriftContent extends StatelessWidget {
             slivers: [
               _buildCategoryTabs(context, state),
               _buildProductsGrid(context, state),
-              if (state.isLoadingMore) ThriftLoadingMoreShimmer(),
+              if (state.isLoadingMore) const ThriftLoadingMoreShimmer(),
             ],
           ),
         );
@@ -101,15 +107,17 @@ class ThriftContent extends StatelessWidget {
         name: context.local.all,
         icon: AppImages.allCategories,
       ),
-      ...state.categories.map((c) => CategoryTabData(
-            id: c.id,
-            name: c.name,
-            icon: _mapCategoryIcon(c.name),
-          )),
+      ...state.categories.map(
+            (c) => CategoryTabData(
+          id: c.id,
+          name: c.name,
+          icon: _mapCategoryIcon(c.name),
+        ),
+      ),
     ];
 
     final selectedIndex =
-        tabs.indexWhere((t) => t.id == state.selectedCategoryId);
+    tabs.indexWhere((t) => t.id == state.selectedCategoryId);
 
     return SliverToBoxAdapter(
       child: CategoryTabs(
@@ -140,14 +148,14 @@ class ThriftContent extends StatelessWidget {
     if (state.items.isEmpty) {
       return SliverFillRemaining(
         child: Center(
-            child: EmptySection(
-                icon: AppImages.noOrderHistory,
-                title: context.local.no_products_found,
-                description: context.local.you_can_dicover_more_products,
-                buttonText: context.local.start_exploring_more,
-                color: context.theme.colors.purpleVariant,
-                onTap: () {},
-            ),
+          child: EmptySection(
+            icon: AppImages.noOrderHistory,
+            title: context.local.no_products_found,
+            description: context.local.you_can_dicover_more_products,
+            buttonText: context.local.start_exploring_more,
+            color: context.theme.colors.purpleVariant,
+            onTap: () {},
+          ),
         ),
       );
     }
@@ -159,40 +167,40 @@ class ThriftContent extends StatelessWidget {
           final screenWidth = constraints.crossAxisExtent;
           const cardWidth = 170.0;
           final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 final product = state.items[index];
-                final productId = product.id;
 
-                final cart = context.watch<CartCubit>();
-                final favorites = context.watch<FavoritesCubit>();
+                return BlocBuilder<FavoritesCubit, FavoritesState>(
+                  builder: (context, favState) {
+                    bool isFavorite = product.isFavorite;
+                    if (favState is FavoritesLoaded) {
+                      isFavorite =
+                          favState.favoriteProductIds.contains(product.id);
+                    }
 
-                final count = cart.state.productCounts[productId] ?? 0;
-                final isFavorite =
-                    favorites.state.productIds.contains(productId);
-
-                final imageUrl =
-                    product.images.isNotEmpty ? product.images.first : '';
-
-                return SellioProductVerticalCard(
-                  key: ValueKey(productId),
-                  productId: productId,
-                  imageUrl: imageUrl,
-                  title: product.title,
-                  price: product.price.toString(),
-                  isFavorite: isFavorite,
-                  onFavoriteToggle: () async {
-                    // Pessimistic update: wait for API response before updating UI
-                    final success = await context
-                        .read<FavoritesCubit>()
-                        .toggleProductFavorite(productId);
-                    return success;
-                  },
-                  onTap: () {
-                    GoRouter.of(context).push(
-                      AppRoutes.productDetails.path,
-                      extra: ProductDetailsArgs(productId: product.id),
+                    return SellioProductVerticalCard(
+                      key: ValueKey(product.id),
+                      productId: product.id,
+                      imageUrl: product.images.isNotEmpty
+                          ? product.images.first
+                          : '',
+                      title: product.title,
+                      price: product.price.toString(),
+                      isFavorite: isFavorite,
+                      onFavoriteToggle: () {
+                        context
+                            .read<FavoritesCubit>()
+                            .toggleFavorite(product.id, FavoriteType.product);
+                      },
+                      onTap: () {
+                        GoRouter.of(context).push(
+                          AppRoutes.productDetails.path,
+                          extra: ProductDetailsArgs(productId: product.id),
+                        );
+                      },
                     );
                   },
                 );
