@@ -496,10 +496,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "israamohamed107",
+          "id": 74803351,
+          "url": "https://github.com/israamohamed107"
+        },
+        "submitted_at": "2026-02-07T23:50:00Z",
+        "commit_id": "d26b4eecabea55834b61cb06b516d35d2c10e1e3"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-07T23:50:00Z",
+    "time_to_first_approval_minutes": 107.81666666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
