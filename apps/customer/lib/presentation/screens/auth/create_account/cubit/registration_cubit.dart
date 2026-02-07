@@ -16,7 +16,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
   late RegistrationIdle? _lastIdleState;
-  late Country _currentCountry;
 
   RegistrationCubit({
     required AuthRepository authRepository,
@@ -24,7 +23,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     Country? initialCountry,
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
-        _currentCountry = initialCountry ?? Country.parse('eg'),
         super(RegistrationIdle(
           selectedCountry: initialCountry ?? Country.parse('eg'),
         ));
@@ -171,7 +169,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     _lastIdleState = currentState;
-    _currentCountry = currentState.selectedCountry;
 
     final validationError = FormValidators.validateRegistrationFields(
       fullName: currentState.fullName,
@@ -253,10 +250,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     if (_lastIdleState != null) {
       emit(_lastIdleState!);
-    } else {
-      emit(RegistrationIdle(
-        selectedCountry: _currentCountry,
-      ));
     }
   }
 }
