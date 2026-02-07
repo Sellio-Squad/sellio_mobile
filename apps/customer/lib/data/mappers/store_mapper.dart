@@ -22,22 +22,24 @@ extension StoreModelMapper on StoreModel {
     categories: categories?.map((e) => e.toEntity()).toList() ?? [],
     reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],
     isActive: isActive ?? false,
+    isFavorite: isFavorite ?? false,
   );
 }
 
 extension StoreItemMapper on StoreTopRatingModel {
   Store toEntity() => Store(
-        id: id,
-        name: title,
-        description: '',
-        coverImage: coverImageURL ?? "",
-        profileImage: "",
-        sale: maxDiscount?.toString(),
-        rating: 0.0,
-        address: Address(country: "", city: ""),
-        contactInfoList: [],
-        categories: [],
-        reviews: [],
-        isActive: true,
-      );
+    id: id,
+    name: title,
+    description: '',
+    coverImage: coverImageURL ?? "",
+    profileImage: "",
+    sale: maxDiscount?.toString(),
+    rating: 0.0,
+    address: Address(country: "", city: ""),
+    contactInfoList: [],
+    categories: [],
+    reviews: [],
+    isActive: true,
+    isFavorite: isFavorite,
+  );
 }

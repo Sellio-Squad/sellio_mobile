@@ -3,6 +3,12 @@ import 'review_model.dart';
 import 'address_model.dart';
 import 'category_model.dart';
 import 'contact_info_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'review_model.dart';
+import 'address_model.dart';
+import 'category_model.dart';
+import 'contact_info_model.dart';
+
 part 'store_model.freezed.dart';
 part 'store_model.g.dart';
 
@@ -19,8 +25,9 @@ class StoreModel with _$StoreModel {
     required AddressModel? address,
     required List<ContactInfoModel>? contactInfoList,
     required List<CategoryModel>? categories,
-    @Default([]) List<ReviewModel> ?reviews,
+    @Default([]) List<ReviewModel>? reviews,
     @Default(true) bool? isActive,
+    @Default(false) bool? isFavorite,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
@@ -30,5 +37,6 @@ class StoreModel with _$StoreModel {
             ?.map((e) => ReviewModel.fromJson(e as Map<String, dynamic>))
             .toList() ??
             [],
+        'isFavorite': json['isFavorite'] ?? false,
       });
 }
