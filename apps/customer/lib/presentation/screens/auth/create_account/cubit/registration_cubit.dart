@@ -1,7 +1,8 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import 'package:country_picker/country_picker.dart';
+
 import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
@@ -245,5 +246,17 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         throw failure;
       },
     );
+  }
+
+  void resetToIdle() {
+    if (state is RegistrationIdle) return;
+
+    if (_lastIdleState != null) {
+      emit(_lastIdleState!);
+    } else {
+      emit(RegistrationIdle(
+        selectedCountry: _currentCountry,
+      ));
+    }
   }
 }
