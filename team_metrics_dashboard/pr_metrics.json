@@ -517,5 +517,47 @@
       "deletions": 12,
       "changed_files": 1
     }
+  },
+  {
+    "pr_number": 445,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/445",
+    "title": "Fix/make a frindly error message when the otp entered is wrong",
+    "opened_at": "2026-02-07T23:24:45Z",
+    "head_ref": "fix/make-a-frindly-error-message-when-the-otp-entered-is-wrong",
+    "base_ref": "develop",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W06",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 91,
+      "deletions": 37,
+      "changed_files": 8
+    }
   }
 ]
