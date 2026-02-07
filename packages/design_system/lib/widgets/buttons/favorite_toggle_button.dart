@@ -17,8 +17,7 @@ class FavoriteToggleButton extends StatefulWidget {
   final bool isFavorite;
 
   /// Callback that performs the API call to toggle favorite status
-  /// Should return true on success, false on failure
-  final Future<bool> Function() onToggle;
+  final VoidCallback? onToggle;
 
   /// The size of the button (default: 32)
   final double size;
@@ -36,7 +35,7 @@ class FavoriteToggleButton extends StatefulWidget {
     super.key,
     required this.productId,
     required this.isFavorite,
-    required this.onToggle,
+    this.onToggle,
     this.size = 32,
     this.showBackground = true,
     this.iconColor,
@@ -68,29 +67,21 @@ class _FavoriteToggleButtonState extends State<FavoriteToggleButton> {
   Future<void> _handleToggle() async {
     if (_isLoading) return;
 
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
-      final success = await widget.onToggle();
+      if (widget.onToggle != null) {
+        await Future.microtask(widget.onToggle!); // just call it, no return needed
+      }
 
-      if (success && mounted) {
+      if (mounted) {
         setState(() {
           _isFavorite = !_isFavorite;
           _isLoading = false;
         });
-      } else if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
       }
     } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -145,24 +136,23 @@ class _FavoriteToggleButtonState extends State<FavoriteToggleButton> {
     return Center(
       child: _isLoading
           ? SizedBox(
-              width: widget.size * 0.5,
-              height: widget.size * 0.5,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(iconColor),
-              ),
-            )
+        width: widget.size * 0.5,
+        height: widget.size * 0.5,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(iconColor),
+        ),
+      )
           : SvgPicture.asset(
-              _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
-              colorFilter: ColorFilter.mode(
-                iconColor,
-                BlendMode.srcIn,
-              ),
-              width: widget.size * 0.625,
-              height: widget.size * 0.625,
-              fit: BoxFit.scaleDown,
-            ),
+        _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
+        colorFilter: ColorFilter.mode(
+          iconColor,
+          BlendMode.srcIn,
+        ),
+        width: widget.size * 0.625,
+        height: widget.size * 0.625,
+        fit: BoxFit.scaleDown,
+      ),
     );
   }
 }
-
