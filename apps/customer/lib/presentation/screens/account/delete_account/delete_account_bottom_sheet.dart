@@ -64,7 +64,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: context.theme.colors.errorVariant?.withOpacity(0.1),
+                color: context.theme.colors.errorVariant.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: context.theme.colors.hint,
@@ -81,8 +81,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      context.local.this_action_cannot_be_undone ??
-                          'This action cannot be undone. All your data will be permanently deleted.',
+                      context.local.this_action_cannot_be_undone,
                       style: context.theme.typography.textTheme.labelSmall
                           .copyWith(
                         color: context.theme.colors.hint,
@@ -95,7 +94,7 @@ class DeleteAccountBottomSheet extends StatelessWidget {
             const SizedBox(height: 24),
             SellioButton(
               text: isLoading
-                  ? context.local.deleting_account ?? 'Deleting account...'
+                  ? context.local.deleting_account
                   : context.local.delete_account,
               backgroundColor: context.theme.colors.errorVariant,
               textColor: context.theme.colors.red,
