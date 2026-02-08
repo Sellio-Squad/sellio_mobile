@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/logout/cubit/logout_cubit.dart';
-import 'package:sellio_mobile/presentation/screens/account/logout/cubit/logout_state.dart';
 
 class LogoutBottomSheet extends StatelessWidget {
   final Function() onLogout;
@@ -18,23 +17,18 @@ class LogoutBottomSheet extends StatelessWidget {
     return SellioBottomSheet.show(
       context: context,
       isScrollControlled: true,
-      child: BlocProvider(
-        create: (context) => LogoutCubit(
-          context.read<AuthRepository>(),
-        ),
-        child: LogoutBottomSheet(onLogout: onLogout),
-      ),
+      child: LogoutBottomSheet(onLogout: onLogout),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LogoutCubit, LogoutState>(
+    return BlocConsumer<AuthenticationCubit, AuthenticationState>(
       listener: (context, state) {
-        if (state is LogoutSuccess) {
+        if (state is Guest) {
           Navigator.of(context).pop();
           onLogout();
-        } else if (state is LogoutError) {
+        } else if (state is AuthenticationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -44,7 +38,7 @@ class LogoutBottomSheet extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        final isLoading = state is LogoutLoading;
+        final isLoading = state is AuthenticationLoading;
 
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -62,11 +56,12 @@ class LogoutBottomSheet extends StatelessWidget {
             const SizedBox(height: 24),
             SellioButton(
               text: isLoading
-                  ? context.local.logging_out ?? 'Logging out...'
+                  ? context.local.logging_out
                   : context.local.logout,
               backgroundColor: context.theme.colors.errorVariant,
               suffixIconColor: context.theme.colors.red,
-              onTap: isLoading ? null : () => context.read<LogoutCubit>().logout(),
+              onTap:
+                  isLoading ? null : () => context.read<LogoutCubit>().logout(),
               textColor: context.theme.colors.red,
               verticalPadding: 13,
               isEnabled: !isLoading,

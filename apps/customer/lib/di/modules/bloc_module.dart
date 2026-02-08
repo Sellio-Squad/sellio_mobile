@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 
 import '../../../presentation/cubits/cart/cubit/cart_cubit.dart';
@@ -13,10 +14,11 @@ import '../../presentation/screens/product_details/cubit/product_details_cubit.d
 
 class BlocModule {
   static void register(GetIt sl) {
+    sl.registerFactory(() => AuthenticationCubit(sl(), sl()));
     sl.registerFactory(() => CartCubit(
       cartRepository: sl(),
       orderRepository: sl(),
-      authRepository: sl(),
+      authenticationCubit: sl(),
     ));
     sl.registerFactory(() => FavoritesCubit(sl(), sl()));
     sl.registerFactory(() => UserCubit(sl()));
@@ -26,6 +28,6 @@ class BlocModule {
     sl.registerFactory(() => HomeSpecialOffersCubit(sl()));
     sl.registerFactory(() => NotificationCubit(sl()));
     sl.registerFactory(() => ProductDetailsCubit(sl(), sl()));
-    sl.registerFactory(() => AccountCubit(sl()));
+    sl.registerFactory(() => AccountCubit(sl(), sl()));
   }
 }

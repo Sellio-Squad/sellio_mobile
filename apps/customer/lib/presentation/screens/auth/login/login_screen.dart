@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../../../../domain/repositories/country_repository.dart';
@@ -17,6 +18,7 @@ class LoginScreen extends StatelessWidget {
       create: (context) => LoginCubit(
         authRepository: sl<AuthRepository>(),
         countryRepository: sl<CountryRepository>(),
+        authenticationCubit: sl<AuthenticationCubit>(),
       )..loadInitialCountry(),
       child: const _LoginScreenContent(),
     );

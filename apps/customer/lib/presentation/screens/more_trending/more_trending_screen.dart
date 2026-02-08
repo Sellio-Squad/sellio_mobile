@@ -130,7 +130,7 @@ class _MoreTrendingContent extends StatelessWidget {
                         // Pessimistic update: wait for API response
                         final success = await context
                             .read<FavoritesCubit>()
-                            .toggleProductFavorite(productId, context);
+                            .toggleProductFavorite(productId);
 
                         return success;
                       },

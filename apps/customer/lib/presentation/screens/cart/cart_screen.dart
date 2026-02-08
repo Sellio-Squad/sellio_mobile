@@ -1,8 +1,8 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
+
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../core/utils/price_calculator.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
@@ -185,9 +185,6 @@ class _CartScreenState extends State<CartScreen> {
 
   void _handleConfirmOrder(BuildContext context) {
     final note = _noteController.text.trim();
-    context.read<CartCubit>().confirmOrder(
-      note.isNotEmpty ? note : null,
-      context,
-    );
+    context.read<CartCubit>().confirmOrder(note.isNotEmpty ? note : null);
   }
 }

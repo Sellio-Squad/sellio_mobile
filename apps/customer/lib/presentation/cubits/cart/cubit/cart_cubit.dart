@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
+
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/entities/order.dart';
 import '../../../../domain/repositories/cart_repository.dart';
@@ -11,15 +10,15 @@ import 'cart_state.dart';
 class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
   final OrderRepository _orderRepository;
-  final AuthRepository _authRepository;
+  final AuthenticationCubit _authenticationCubit;
 
   CartCubit({
     required CartRepository cartRepository,
     required OrderRepository orderRepository,
-    required AuthRepository authRepository,
+    required AuthenticationCubit authenticationCubit,
   })  : _cartRepository = cartRepository,
         _orderRepository = orderRepository,
-        _authRepository = authRepository,
+        _authenticationCubit = authenticationCubit,
         super(const CartInitial());
 
   Future<void> loadCart() async {
@@ -103,52 +102,43 @@ class CartCubit extends Cubit<CartState> {
     );
   }
 
-  Future<void> confirmOrder(String? note, BuildContext context) async {
-    final loggedIn = await _authRepository.isLoggedIn();
+  Future<void> confirmOrder(String? note) async {
+    return await _authenticationCubit.requireLogin(() async {
+      if (state.cart == null || state.cart!.items.isEmpty) {
+        _emitErrorState('Cart is empty');
 
-    if (!loggedIn) {
-      if (context.mounted) {
-        await _authRepository.clearAuthData();
-        context.navigator.pushLogin();
+        return;
       }
 
-      return;
-    }
+      emit(CartLoading(
+        cart: state.cart,
+        productCounts: state.productCounts,
+      ));
 
-    if (state.cart == null || state.cart!.items.isEmpty) {
-      _emitErrorState('Cart is empty');
+      final orderItems = state.cart!.items.map((cartItem) {
+        return OrderItem(
+          id: cartItem.id,
+          productId: cartItem.productId,
+          productName: cartItem.productName,
+          quantity: cartItem.quantity,
+          price: cartItem.price,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+      }).toList();
 
-      return;
-    }
+      final result = await _orderRepository.createOrder(items: orderItems);
 
-    emit(CartLoading(
-      cart: state.cart,
-      productCounts: state.productCounts,
-    ));
-
-    final orderItems = state.cart!.items.map((cartItem) {
-      return OrderItem(
-        id: cartItem.id,
-        productId: cartItem.productId,
-        productName: cartItem.productName,
-        quantity: cartItem.quantity,
-        price: cartItem.price,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+      await result.fold(
+        onSuccess: (_) async {
+          await _cartRepository.clearCart();
+          emit(const CartOrderSuccess());
+        },
+        onFailure: (failure) {
+          _emitErrorState(failure.message);
+        },
       );
-    }).toList();
-
-    final result = await _orderRepository.createOrder(items: orderItems);
-
-    await result.fold(
-      onSuccess: (_) async {
-        await _cartRepository.clearCart();
-        emit(const CartOrderSuccess());
-      },
-      onFailure: (failure) {
-        _emitErrorState(failure.message);
-      },
-    );
+    });
   }
 
   Future<void> clearCart() async {

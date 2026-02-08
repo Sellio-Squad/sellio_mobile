@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 
+import '../../../../cubits/auth/authentication_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
 import '../../utils/home_navigation.dart';
@@ -38,7 +40,9 @@ class TopStoresSection extends StatelessWidget {
           return const SliverToBoxAdapter(
               child: Padding(
                   padding: EdgeInsets.only(top: 24),
-                  child: TopStoresShimmer()));
+                  child: TopStoresShimmer(),
+              ),
+          );
         }
 
         if (storesState is! HomeTopStoresLoaded || storesState.stores.isEmpty) {
@@ -64,9 +68,8 @@ class TopStoresSection extends StatelessWidget {
                 child: StoresList(
                   stores: storesState.stores,
                   favoriteStoreIds: favState.storeIds,
-                  onLikePressed: (storeId) {
-                    context.read<FavoritesCubit>().toggleStoreFavorite(storeId, context);
-                  },
+                  onLikePressed: (storeId) =>
+                      _toggleStoreFavourite(context, storeId),
                   onStorePressed: (store) {
                     navigateToStoreDetails(context, store.id);
                   },
@@ -78,18 +81,15 @@ class TopStoresSection extends StatelessWidget {
       },
     );
   }
-}
 
-class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget();
+  Future<bool> _toggleStoreFavourite(BuildContext context, String storeId,) async {
+    final authState = context.read<AuthenticationCubit>().state;
+    if (authState is LoggedIn) {
+      return await context.read<FavoritesCubit>().toggleStoreFavorite(storeId);
+    } else {
+      context.navigator.pushLogin();
 
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Padding(
-        padding: EdgeInsets.all(24.0),
-        child: CircularProgressIndicator(),
-      ),
-    );
+      return false;
+    }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 
 import '../../../../../domain/repositories/favorites_repository.dart';
 import '../../../../domain/entities/product.dart';
@@ -10,11 +9,11 @@ import 'favorites_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   final FavoritesRepository _favoritesRepository;
-  final AuthRepository _authRepository;
+  final AuthenticationCubit _authenticationCubit;
 
   FavoritesCubit(
     this._favoritesRepository,
-    this._authRepository,
+    this._authenticationCubit,
   ) : super(const FavoritesInitial());
 
   Future<void> loadFavorites() async {
@@ -36,7 +35,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
       debugPrint("fav IDs: ${productIdsResult.data}, ${storeIdsResult.data}");
       debugPrint(
-          "fav full: ${productsResult.data?.length ?? 0} products, ${storesResult.data?.length ?? 0} stores");
+          "fav full: ${productsResult.data.length} products, ${storesResult.data.length} stores",);
 
       emit(FavoritesLoaded(
         productIds: productIdsResult.data.toSet(),
@@ -59,116 +58,102 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     }
   }
 
-  Future<bool> toggleProductFavorite(String productId, BuildContext context) async {
-    emit(const FavoritesLoading());
+  Future<bool> toggleProductFavorite(String productId) async {
+    return await _authenticationCubit.requireLogin(() async {
+      emit(const FavoritesLoading());
 
-    try {
-      final loggedIn = await _authRepository.isLoggedIn();
+      try {
+        await _favoritesRepository.toggleProductFavorite(productId);
+        debugPrint('Succeded to toggle product favorite:}');
+        emit(FavoritesLoaded(productIds: {}, storeIds: {}));
 
-      if (!loggedIn) {
-        if (context.mounted) {
-          await _authRepository.clearAuthData();
-          context.navigator.pushLogin();
-        }
+        return true;
+      } catch (e) {
+        debugPrint('Failed to toggle product favorite: ${e.toString()}');
+        emit(FavoritesError(
+          message: 'Failed to update favorite: ${e.toString()}',
+          productIds: {},
+          storeIds: {},
+          favoriteProducts: [],
+          favoriteStores: [],
+          loadingProductIds: {},
+          loadingStoreIds: {},
+        ));
 
         return false;
       }
-      await _favoritesRepository.toggleProductFavorite(productId);
-      debugPrint('Succeded to toggle product favorite:}');
-      emit(FavoritesLoaded(productIds: Set(), storeIds: Set()));
-
-      return true;
-    } catch (e) {
-      debugPrint('Failed to toggle product favorite: ${e.toString()}');
-      emit(FavoritesError(
-        message: 'Failed to update favorite: ${e.toString()}',
-        productIds: Set(),
-        storeIds: Set(),
-        favoriteProducts: [],
-        favoriteStores: [],
-        loadingProductIds: Set(),
-        loadingStoreIds: Set(),
-      ));
-
-      return false;
-    }
+    }) ?? false;
   }
 
-  Future<bool> toggleStoreFavorite(String storeId, BuildContext context) async {
-    final loggedIn = await _authRepository.isLoggedIn();
+  Future<bool> toggleStoreFavorite(String storeId) async {
+    return await _authenticationCubit.requireLogin(() async {
+          if (state is! FavoritesLoaded) return false;
 
-    if (!loggedIn) {
-      if (context.mounted) {
-        await _authRepository.clearAuthData();
-        context.navigator.pushLogin();
-      }
+          final currentState = state as FavoritesLoaded;
 
-      return false;
-    }
+          // Prevent duplicate requests for the same store
+          if (currentState.loadingStoreIds.contains(storeId)) {
+            debugPrint('Toggle already in progress for store: $storeId');
 
-    if (state is! FavoritesLoaded) return false;
+            return false;
+          }
 
-    final currentState = state as FavoritesLoaded;
+          // Step 1: Add to loading set (show loader in UI)
+          final loadingIds = Set<String>.from(currentState.loadingStoreIds)
+            ..add(storeId);
+          emit(currentState.copyWith(loadingStoreIds: loadingIds));
 
-    // Prevent duplicate requests for the same store
-    if (currentState.loadingStoreIds.contains(storeId)) {
-      debugPrint('Toggle already in progress for store: $storeId');
+          try {
+            // Step 2: Make API call and wait for response
+            await _favoritesRepository.toggleStoreFavorite(storeId);
 
-      return false;
-    }
+            // Step 3: On success, toggle the favorite state
+            final isFavorite = currentState.storeIds.contains(storeId);
+            final updatedIds = Set<String>.from(currentState.storeIds);
 
-    // Step 1: Add to loading set (show loader in UI)
-    final loadingIds = Set<String>.from(currentState.loadingStoreIds)
-      ..add(storeId);
-    emit(currentState.copyWith(loadingStoreIds: loadingIds));
+            if (isFavorite) {
+              updatedIds.remove(storeId);
+              debugPrint('Store $storeId removed from favorites');
+            } else {
+              updatedIds.add(storeId);
+              debugPrint('Store $storeId added to favorites');
+            }
 
-    try {
-      // Step 2: Make API call and wait for response
-      await _favoritesRepository.toggleStoreFavorite(storeId);
+            // Remove from loading and update storeIds
+            final finalLoadingIds = Set<String>.from(loadingIds)
+              ..remove(storeId);
+            emit(currentState.copyWith(
+              storeIds: updatedIds,
+              loadingStoreIds: finalLoadingIds,
+            ));
 
-      // Step 3: On success, toggle the favorite state
-      final isFavorite = currentState.storeIds.contains(storeId);
-      final updatedIds = Set<String>.from(currentState.storeIds);
+            return true;
+          } catch (e) {
+            // Step 4: On error, remove from loading but keep original state
+            debugPrint('Failed to toggle store favorite: ${e.toString()}');
 
-      if (isFavorite) {
-        updatedIds.remove(storeId);
-        debugPrint('Store $storeId removed from favorites');
-      } else {
-        updatedIds.add(storeId);
-        debugPrint('Store $storeId added to favorites');
-      }
+            final finalLoadingIds = Set<String>.from(loadingIds)
+              ..remove(storeId);
+            emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
 
-      // Remove from loading and update storeIds
-      final finalLoadingIds = Set<String>.from(loadingIds)..remove(storeId);
-      emit(currentState.copyWith(
-        storeIds: updatedIds,
-        loadingStoreIds: finalLoadingIds,
-      ));
+            // Emit error state briefly
+            emit(FavoritesError(
+              message: 'Failed to update favorite: ${e.toString()}',
+              productIds: currentState.productIds,
+              storeIds: currentState.storeIds,
+              favoriteProducts: currentState.favoriteProducts,
+              favoriteStores: currentState.favoriteStores,
+              loadingProductIds: currentState.loadingProductIds,
+              loadingStoreIds: finalLoadingIds,
+            ));
 
-      return true;
-    } catch (e) {
-      // Step 4: On error, remove from loading but keep original state
-      debugPrint('Failed to toggle store favorite: ${e.toString()}');
+            // Restore to loaded state
+            emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
 
-      final finalLoadingIds = Set<String>.from(loadingIds)..remove(storeId);
-      emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
-
-      // Emit error state briefly
-      emit(FavoritesError(
-        message: 'Failed to update favorite: ${e.toString()}',
-        productIds: currentState.productIds,
-        storeIds: currentState.storeIds,
-        favoriteProducts: currentState.favoriteProducts,
-        favoriteStores: currentState.favoriteStores,
-        loadingProductIds: currentState.loadingProductIds,
-        loadingStoreIds: finalLoadingIds,
-      ));
-
-      // Restore to loaded state
-      emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
-
-      return false;
-    }
+            return false;
+          }
+        }) ??
+        false;
   }
 
   bool isProductFavorite(String productId) {

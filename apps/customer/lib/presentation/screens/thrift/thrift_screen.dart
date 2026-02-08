@@ -10,7 +10,6 @@ import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/product_repository.dart';
 import '../../../core/navigate/app_routes.dart';
 import '../../../core/navigate/route_args.dart';
-import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
@@ -166,10 +165,8 @@ class ThriftContent extends StatelessWidget {
                 final product = state.items[index];
                 final productId = product.id;
 
-                final cart = context.watch<CartCubit>();
                 final favorites = context.watch<FavoritesCubit>();
 
-                final count = cart.state.productCounts[productId] ?? 0;
                 final isFavorite =
                     favorites.state.productIds.contains(productId);
 
@@ -187,7 +184,7 @@ class ThriftContent extends StatelessWidget {
                     // Pessimistic update: wait for API response before updating UI
                     final success = await context
                         .read<FavoritesCubit>()
-                        .toggleProductFavorite(productId, context);
+                        .toggleProductFavorite(productId);
 
                     return success;
                   },

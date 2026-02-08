@@ -206,7 +206,7 @@ Widget productFavorite(
           // Pessimistic update: wait for API response before updating UI
           final success = await context
               .read<FavoritesCubit>()
-              .toggleProductFavorite(productId, context);
+              .toggleProductFavorite(productId);
 
           return success;
         },

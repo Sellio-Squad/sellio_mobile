@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import '../presentation/screens/auth/login/login_notifier.dart';
+
 import 'mock/MockRepositoryModule.dart';
 import 'modules/bloc_module.dart';
 import 'modules/core_module.dart';
@@ -16,6 +16,4 @@ Future<void> init() async {
   RepositoryModule.register(sl);
   MockRepositoryModule.register(sl);
   BlocModule.register(sl);
-
-  sl.registerLazySingleton(() => LoginEventNotifier());
 }

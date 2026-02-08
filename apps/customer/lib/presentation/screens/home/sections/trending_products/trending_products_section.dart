@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'product_list_shimmer.dart';
-import '../../../../cubits/cart/cubit/cart_cubit.dart';
-import '../../../../cubits/cart/cubit/cart_state.dart';
+
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
 import 'cubit/home_trending_products_cubit.dart';
 import 'cubit/home_trending_products_state.dart';
+import 'product_list_shimmer.dart';
 import 'widgets/products_list.dart';
 
 class TrendingProductsSection extends StatelessWidget {
@@ -77,7 +76,7 @@ class TrendingProductsSection extends StatelessWidget {
                 searchQuery: productsState.searchQuery,
                 onFavorite: (productId) async => await context
                     .read<FavoritesCubit>()
-                    .toggleProductFavorite(productId, context),
+                    .toggleProductFavorite(productId),
               ),
             );
           },

@@ -108,13 +108,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                               onToggleFavorite: (productId) async =>
                                   await context
                                       .read<FavoritesCubit>()
-                                      .toggleProductFavorite(productId, context),
+                                      .toggleProductFavorite(productId),
                             )
                           : StoresSection(
                               stores: state.favoriteStores ?? [],
                               onToggleFavorite: (storeId) => context
                                   .read<FavoritesCubit>()
-                                  .toggleStoreFavorite(storeId, context),
+                                  .toggleStoreFavorite(storeId),
                             )
 
                     // Error state

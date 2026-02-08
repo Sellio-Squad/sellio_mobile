@@ -4,14 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../di/injection_container.dart';
 import '../../../domain/repositories/user_repository.dart';
-import '../auth/login/login_notifier.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'account_settings/account_settings_bottom_sheet.dart';
@@ -28,42 +27,19 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  late final AccountCubit _accountCubit;
-  late final LoginEventNotifier _loginNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _accountCubit = AccountCubit(context.read<UserRepository>())
-      ..loadAccountDetails();
-
-    _loginNotifier = sl<LoginEventNotifier>();
-
-    _loginNotifier.loginEvent.addListener(_handleLoginEvent);
-  }
-
-  @override
-  void dispose() {
-    _loginNotifier.loginEvent.removeListener(_handleLoginEvent);
-    _accountCubit.close();
-    super.dispose();
-  }
-
-  void _handleLoginEvent() {
-    if (_loginNotifier.loginEvent.value == true && mounted) {
-      _accountCubit.loadAccountDetails();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     SellioColorScheme colors = context.theme.colors;
 
-    return BlocProvider.value(
-      value: _accountCubit,
+    return BlocProvider(
+      create: (context) => AccountCubit(
+        context.read<UserRepository>(),
+        context.read<AuthenticationCubit>(),
+      ),
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
+          print("Trace : State in AccountScreen build method: $state");
+
           return Scaffold(
             extendBodyBehindAppBar: false,
             backgroundColor: colors.surfaceLow,
@@ -101,8 +77,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Widget _buildBody(BuildContext context, AccountState state) {
-    if (state is AccountError) {
-      return _buildErrorState(context);
+    if (state is UserNotLoggedIn) {
+      return _buildEmptySection(context);
     }
 
     return SingleChildScrollView(
@@ -117,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget _buildErrorState(BuildContext context) {
+  Widget _buildEmptySection(BuildContext context) {
     return EmptySection(
       icon: AppImages.notLoggedIn,
       title: context.local.not_registered,
@@ -363,8 +339,7 @@ class _AccountScreenState extends State<AccountScreen> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(context.local.account_deleted_successfully ??
-                  'Your account has been deleted successfully'),
+              content: Text(context.local.account_deleted_successfully),
               backgroundColor: context.theme.colors.body,
             ),
           );

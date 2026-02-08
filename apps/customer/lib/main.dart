@@ -2,6 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/localization/cubit/locale_cubit.dart';
 import 'core/localization/l10n/app_localizations.dart';
@@ -52,40 +54,54 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(create: (_) => sl<AuthenticationCubit>()),
           BlocProvider(create: (_) => sl<CartCubit>()),
           BlocProvider(create: (_) => sl<FavoritesCubit>()),
           BlocProvider(create: (_) => sl<OrderHistoryCubit>()),
           BlocProvider(create: (_) => sl<UserCubit>()),
           BlocProvider(create: (_) => sl<StoreDetailsCubit>()),
         ],
-        child: BlocBuilder<LocaleCubit, LocaleState>(
-          builder: (context, localeState) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: RouteGenerator.router,
-              title: 'Sellio app',
-              locale: localeState.locale,
-
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-
-              supportedLocales: LocaleCubit.supportedLocales,
-
-              localeResolutionCallback: (locale, supportedLocales) {
-                if (locale != null) {
-                  for (var supportedLocale in supportedLocales) {
-                    if (supportedLocale.languageCode == locale.languageCode) {
-                      return supportedLocale;
-                    }
+        child: Builder(
+          builder: (context) {
+            return BlocListener<AuthenticationCubit, AuthenticationState>(
+              listener: (context, state) {
+                if (state is RequireLogin) {
+                  if (context.mounted) {
+                    context.navigator.pushLogin();
                   }
                 }
-
-                return supportedLocales.first;
               },
+              child: BlocBuilder<LocaleCubit, LocaleState>(
+                builder: (context, localeState) {
+                  return MaterialApp.router(
+                    debugShowCheckedModeBanner: false,
+                    routerConfig: RouteGenerator.router,
+                    title: 'Sellio app',
+                    locale: localeState.locale,
+
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+
+                    supportedLocales: LocaleCubit.supportedLocales,
+
+                    localeResolutionCallback: (locale, supportedLocales) {
+                      if (locale != null) {
+                        for (var supportedLocale in supportedLocales) {
+                          if (supportedLocale.languageCode == locale.languageCode) {
+                            return supportedLocale;
+                          }
+                        }
+                      }
+
+                      return supportedLocales.first;
+                    },
+                  );
+                },
+              ),
             );
           },
         ),
