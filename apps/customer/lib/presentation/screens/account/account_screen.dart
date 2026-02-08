@@ -320,8 +320,8 @@ class _AccountScreenState extends State<AccountScreen> {
     ChangeLanguageBottomSheet.show(context: context);
   }
 
-  void _showLogoutBottomSheet(BuildContext context) {
-    LogoutBottomSheet.show(
+  Future<void> _showLogoutBottomSheet(BuildContext context) async {
+    await LogoutBottomSheet.show(
       context: context,
       onLogout: () {
         navigateToLoginScreen(context);
