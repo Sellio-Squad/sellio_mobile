@@ -2,8 +2,7 @@ class ApiEndpoints {
   ApiEndpoints._();
 
   // Base
-  //static const String baseUrl = 'https://app.sell-io.app';
-  static const String baseUrl = 'http://192.168.1.13:8080';
+  static const String baseUrl = 'https://app.sell-io.app';
 
   // API Version
   static const String apiVersion = '/v1';
