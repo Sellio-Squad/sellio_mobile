@@ -4,7 +4,6 @@ import 'package:sellio_mobile/domain/entities/address.dart';
 
 import '../../domain/entities/store.dart';
 import '../models/store_model.dart';
-import 'address_mapper.dart';
 import 'category_mapper.dart';
 import 'contact_info_mapper.dart';
 
@@ -22,7 +21,7 @@ extension StoreModelMapper on StoreModel {
       city: city,
     ),
     contactInfoList: contactInfoList?.map((e) => e.toEntity()).toList() ?? [],
-    categories: categories?.map((e) => e.toEntity()).toList() ?? [],
+    categories: subCategories.map((e) => e.toEntity()).toList(),
     reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],
     isActive: isActive ?? false,
   );
