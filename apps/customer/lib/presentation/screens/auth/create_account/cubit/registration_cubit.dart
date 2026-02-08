@@ -189,7 +189,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         '+${currentState.selectedCountry.phoneCode}${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
-      fullName: currentState.fullName,
+      fullName: currentState.fullName.trim(),
       phoneNumber: fullPhoneNumber,
       password: currentState.password,
       city: currentState.city,
