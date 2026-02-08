@@ -30,6 +30,8 @@ class RouteGenerator {
   static final _thriftNavigatorKey = GlobalKey<NavigatorState>();
   static final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
+  static BuildContext get rootContext => _rootNavigatorKey.currentContext!;
+
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: AppRoutes.home.path,
