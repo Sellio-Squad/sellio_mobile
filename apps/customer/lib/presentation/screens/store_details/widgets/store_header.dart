@@ -12,6 +12,7 @@ class StoreHeader extends StatelessWidget {
   final String description;
   final List<String> address;
   final double rating;
+  final List<String> subcategories;
 
   const StoreHeader({
     super.key,
@@ -22,6 +23,7 @@ class StoreHeader extends StatelessWidget {
     required this.description,
     required this.address,
     required this.rating,
+    required this.subcategories,
   });
 
   @override
@@ -145,7 +147,7 @@ class StoreHeader extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             Text(
-              'Subcategory1 • Subcategory2 • Subcategory3',
+              subcategories.join(' • '),
               style: context.theme.typography.textTheme.labelSmall.copyWith(
                 color: context.theme.colors.body,
               ),
