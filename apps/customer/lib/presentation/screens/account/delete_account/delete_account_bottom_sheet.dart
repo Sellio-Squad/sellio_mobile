@@ -19,8 +19,9 @@ class DeleteAccountBottomSheet extends StatelessWidget {
       isScrollControlled: true,
       child: BlocProvider<DeleteAccountCubit>(
         create: (context) => DeleteAccountCubit(
-            userRepository: context.read<UserRepository>(),
-            authRepository: context.read<AuthRepository>()),
+          userRepository: context.read<UserRepository>(),
+          authRepository: context.read<AuthRepository>(),
+        ),
         child: const DeleteAccountBottomSheet(),
       ),
     ).then((value) {
