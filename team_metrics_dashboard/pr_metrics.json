@@ -611,5 +611,47 @@
       "deletions": 20,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 447,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/447",
+    "title": "436-navigation-back-from-set-new-password-screen",
+    "opened_at": "2026-02-08T20:30:58Z",
+    "head_ref": "436-navigation-back-from-set-new-password-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "Arzo-zi",
+      "id": 149817756,
+      "url": "https://github.com/Arzo-zi"
+    },
+    "assignees": [
+      {
+        "login": "Arzo-zi",
+        "id": 149817756,
+        "url": "https://github.com/Arzo-zi"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W06",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 7,
+      "deletions": 2,
+      "changed_files": 2
+    }
   }
 ]
