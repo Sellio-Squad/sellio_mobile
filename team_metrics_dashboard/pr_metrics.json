@@ -653,5 +653,47 @@
       "deletions": 2,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 448,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/448",
+    "title": "Home/catigories",
+    "opened_at": "2026-02-09T11:24:14Z",
+    "head_ref": "home/catigories",
+    "base_ref": "develop",
+    "creator": {
+      "login": "baraa0abd",
+      "id": 168970211,
+      "url": "https://github.com/baraa0abd"
+    },
+    "assignees": [
+      {
+        "login": "baraa0abd",
+        "id": 168970211,
+        "url": "https://github.com/baraa0abd"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 450,
+      "deletions": 10,
+      "changed_files": 17
+    }
   }
 ]
