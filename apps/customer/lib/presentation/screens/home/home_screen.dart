@@ -4,6 +4,10 @@ import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.da
 
 import 'home_bloc_providers.dart';
 import 'sections/search/search_section.dart';
+import 'sections/categories/categories_section.dart';
+import 'sections/handmade/handmade_section.dart';
+import 'sections/electronics/electronics_section.dart';
+import 'sections/search/search_section.dart';
 import 'sections/special_offers/special_offers_section.dart';
 import 'sections/top_stores/top_stores_section.dart';
 import 'sections/trending_products/trending_products_section.dart';
@@ -68,8 +72,11 @@ class _HomeBody extends StatelessWidget {
     return const [
       SearchSection(),
       SpecialOffersSection(),
+      CategoriesSection(),
+      HandmadeSection(),
       TrendingProductsSection(),
       TopStoresSection(),
+      ElectronicsSection(),
       SliverToBoxAdapter(child: SizedBox(height: 24)),
     ];
   }
