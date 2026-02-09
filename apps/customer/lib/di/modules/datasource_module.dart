@@ -15,8 +15,13 @@ import '../../data/datasource/remote/country_remote_datasource.dart';
 import '../../data/datasource/remote/user/user_remote.dart';
 import '../../data/datasource/remote/user/user_remote_impl.dart';
 
+import '../../data/datasource/remote/category_section_remote_datasource.dart';
+
 class DataSourceModule {
   static void register(GetIt sl) {
+    sl.registerLazySingleton<CategorySectionRemoteDataSource>(
+      () => CategorySectionRemoteDataSourceImpl(sl()),
+    );
     sl.registerLazySingleton<AuthRemoteDataSource>(
           () => AuthRemoteDataSourceImpl(sl()),
     );
