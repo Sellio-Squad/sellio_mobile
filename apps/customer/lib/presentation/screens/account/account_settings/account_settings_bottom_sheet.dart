@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/account_settings/cubit/account_settings_cubit.dart';
 import 'cubit/account_settings_state.dart';
@@ -109,7 +110,7 @@ class _AccountSettingsBottomSheetState
                   controller: _nameController,
                   hintText: context.local.full_name,
                   inputFormatter: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    FullNameInputFormatter(),
                   ],
                   prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                   prefixIcon: SvgPicture.asset(

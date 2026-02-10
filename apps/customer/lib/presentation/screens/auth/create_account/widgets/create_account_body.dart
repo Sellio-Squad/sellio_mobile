@@ -1,16 +1,17 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/widgets/sellio_picker_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
 import '../../shared/enums/form_field_type.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
-import 'package:design_system/widgets/sellio_picker_field.dart';
 
 class CreateAccountBody extends StatefulWidget {
   const CreateAccountBody({super.key});
@@ -244,9 +245,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               controller: _fullNameController,
               hintText: context.local.full_name,
               inputFormatter: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'[a-zA-Z\u0600-\u06FF ]'),
-                ),
+                FullNameInputFormatter(),
               ],
               prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
               prefixIcon: SvgPicture.asset(
