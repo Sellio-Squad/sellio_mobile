@@ -24,11 +24,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       );
 
   void updatePhoneNumber(String value) {
-    _updateField((state) =>
-        state.copyWith(
-          phoneNumber: value,
-          phoneError: () => result.error as PhoneValidationError?,
-          isFormValid: value.isNotEmpty && result.error == null,        ));
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
 

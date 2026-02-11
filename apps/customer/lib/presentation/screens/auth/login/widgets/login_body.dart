@@ -6,8 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import '../../shared/widgets/phone_input_with_country.dart';
-import '../../shared/enums/form_field_type.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
 
