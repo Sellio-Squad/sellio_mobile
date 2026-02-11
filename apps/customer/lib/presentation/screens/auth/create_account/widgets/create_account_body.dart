@@ -1,14 +1,13 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/sellio_picker_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
-
 import '../../shared/enums/form_field_type.dart';
-import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
@@ -194,9 +193,11 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           children: [
             _buildNameFields(colors),
             const SizedBox(height: 12),
-            PhoneInputWithCountry(
+            SellioPhoneField(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
+              hintText: context.local.phone_number,
+              searchHintText: context.local.search_by_name_or_code,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
                 context

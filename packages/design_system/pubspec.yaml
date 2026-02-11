@@ -13,6 +13,9 @@ dependencies:
   flutter_svg: ^2.0.9
   flutter_gap: ^1.0.2
   cupertino_icons: ^1.0.8
+  country_picker: ^2.0.26
+  country_flags: ^3.0.0
+  flutter_intl_phone_field: ^0.0.7
 
 dev_dependencies:
   flutter_test:
