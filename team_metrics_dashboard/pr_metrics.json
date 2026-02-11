@@ -613,10 +613,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "submitted_at": "2026-02-11T18:25:42Z",
+        "commit_id": "d6f049908b948ec7e8d41e31386089a7f4de2653"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-11T18:25:42Z",
+    "time_to_first_approval_minutes": 5460.95,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
