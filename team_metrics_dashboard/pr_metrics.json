@@ -748,18 +748,36 @@
         },
         "submitted_at": "2026-02-09T17:46:03Z",
         "commit_id": "7eb2f6831621ffe31634d487c4193f66b50057ed"
+      },
+      {
+        "reviewer": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "submitted_at": "2026-02-11T18:27:01Z",
+        "commit_id": "7eb2f6831621ffe31634d487c4193f66b50057ed"
+      },
+      {
+        "reviewer": {
+          "login": "abdulazizacc",
+          "id": 174628289,
+          "url": "https://github.com/abdulazizacc"
+        },
+        "submitted_at": "2026-02-11T18:27:06Z",
+        "commit_id": "7eb2f6831621ffe31634d487c4193f66b50057ed"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-02-09T17:46:03Z",
     "time_to_first_approval_minutes": 1275.0833333333333,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-02-11T18:27:01Z",
+    "time_to_required_approvals_minutes": 4196.05,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W06",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
