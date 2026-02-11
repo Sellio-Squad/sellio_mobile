@@ -1,6 +1,5 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
-
 import '../../shared/enums/validation_error_type.dart';
 
 sealed class LoginState extends Equatable {
@@ -12,7 +11,8 @@ class LoginIdle extends LoginState {
   final String password;
   final String phoneCode;
   final bool isFormValid;
-  final ValidationErrorType? validationError;
+  final PhoneValidationError? phoneError;
+  final PasswordValidationError? passwordError;
   final Country selectedCountry;
 
   const LoginIdle({
@@ -21,7 +21,8 @@ class LoginIdle extends LoginState {
     this.phoneCode = '20',
     required this.selectedCountry,
     this.isFormValid = false,
-    this.validationError,
+    this.passwordError,
+    this.phoneError,
   });
 
   LoginIdle copyWith({
@@ -30,8 +31,8 @@ class LoginIdle extends LoginState {
     Country? selectedCountry,
     String? phoneCode,
     bool? isFormValid,
-    ValidationErrorType? validationError,
-    bool clearValidationError = false,
+    PhoneValidationError? Function()? phoneError,
+    PasswordValidationError? Function()? passwordError,
   }) {
     return LoginIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -39,9 +40,9 @@ class LoginIdle extends LoginState {
       phoneCode: phoneCode ?? this.phoneCode,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError
-          ? null
-          : (validationError ?? this.validationError),
+      phoneError: phoneError != null ? phoneError() : this.phoneError,
+      passwordError:
+          passwordError != null ? passwordError() : this.passwordError,
     );
   }
 
@@ -52,7 +53,8 @@ class LoginIdle extends LoginState {
         password,
         phoneCode,
         isFormValid,
-        validationError,
+        phoneError,
+        passwordError,
       ];
 }
 

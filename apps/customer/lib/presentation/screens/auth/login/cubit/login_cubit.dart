@@ -1,11 +1,10 @@
-import 'dart:developer';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
-import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
 
@@ -20,8 +19,8 @@ class LoginCubit extends Cubit<LoginState> {
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
         super(LoginIdle(
-          selectedCountry: initialCountry ?? Country.parse('eg'),
-        ));
+        selectedCountry: initialCountry ?? Country.parse('eg'),
+      ));
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -34,92 +33,88 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void updatePhoneNumber(String value) {
-    _updateField((state) => state.copyWith(
-          phoneNumber: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updatePassword(String value) {
-    _updateField((state) => state.copyWith(
-          password: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateSelectedCountry(Country country) {
-    _updateField((state) => state.copyWith(selectedCountry: country));
-  }
-
-  void updateSelectedCountryCode(Country country) {
-    _updateField((state) => state.copyWith(selectedCountry: country));
-  }
-
-  void _updateField(LoginIdle Function(LoginIdle) updater) {
     final currentState = state;
     if (currentState is! LoginIdle) return;
 
-    final newState = updater(currentState);
-    emit(newState.copyWith(isFormValid: _isFormValid(newState)));
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+
+    emit(currentState.copyWith(
+      phoneNumber: value,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: _isFormValid(
+        phone: value,
+        password: currentState.password,
+        phoneError: result.error as PhoneValidationError?,
+        passwordError: currentState.passwordError,
+      ),
+    ));
   }
 
-  void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
+  void updatePassword(String value) {
+    final currentState = state;
+    if (currentState is! LoginIdle) return;
+
+    final result = FormValidators.validatePassword(value);
+
+    emit(currentState.copyWith(
+      password: value,
+      passwordError: () => result.error as PasswordValidationError?,
+      isFormValid: _isFormValid(
+        phone: currentState.phoneNumber,
+        password: value,
+        phoneError: currentState.phoneError,
+        passwordError: result.error as PasswordValidationError?,
+      ),
+    ));
+  }
+
+  void updateSelectedCountry(Country country) {
+    final currentState = state;
+    if (currentState is! LoginIdle) return;
+
+    final minPhoneLength = country.maxPhoneLength;
+    final result = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
+    );
+
+    emit(currentState.copyWith(
+      selectedCountry: country,
+      phoneCode: country.phoneCode,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: _isFormValid(
+        phone: currentState.phoneNumber,
+        password: currentState.password,
+        phoneError: result.error as PhoneValidationError?,
+        passwordError: currentState.passwordError,
+      ),
+    ));
+  }
+
+  void validatePhoneOnFocusLost(String value) {
     if (value.isEmpty) return;
     final currentState = state;
     if (currentState is! LoginIdle) return;
 
-    final result = FormValidators.validateField(fieldType, value);
-    final int minPhoneLength = currentState.selectedCountry != null
-        ? intl_countries.countries
-            .firstWhere(
-              (c) => c.code == currentState.selectedCountry.countryCode,
-            )
-            .maxLength
-        : 0;
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
 
-    FormValidators.validateField(
-      fieldType,
-      value,
-      minPhoneLength: minPhoneLength,
-    );
-
-    if (!result.isValid && result.errorType != null) {
-      emit(currentState.copyWith(validationError: result.errorType));
-    }
+    emit(currentState.copyWith(
+      phoneError: () => result.error as PhoneValidationError?,
+    ));
   }
 
-  void clearValidationError() {
+  void validatePasswordOnFocusLost(String value) {
+    if (value.isEmpty) return;
     final currentState = state;
-    if (currentState is LoginIdle) {
-      emit(currentState.copyWith(clearValidationError: true));
-    }
-  }
+    if (currentState is! LoginIdle) return;
 
-  bool _isFormValid(LoginIdle state) {
-    final requiredLength = _getRequiredPhoneLength(state);
-    final bool isValid = FormValidators.isLoginFormValid(
-      phone: state.phoneNumber,
-      password: state.password,
-      minPhoneLength: requiredLength,
-    );
+    final result = FormValidators.validatePassword(value);
 
-    return isValid;
-  }
-
-  int? _getRequiredPhoneLength(LoginIdle state) {
-    if (state.selectedCountry.countryCode.isEmpty) return null;
-
-    try {
-      final countryData = intl_countries.countries.firstWhere(
-        (c) =>
-            c.code.toUpperCase() ==
-            state.selectedCountry.countryCode.toUpperCase(),
-      );
-
-      return countryData.maxLength;
-    } catch (e) {
-      return 10;
-    }
+    emit(currentState.copyWith(
+      passwordError: () => result.error as PasswordValidationError?,
+    ));
   }
 
   Future<void> loginAsGuest() async {
@@ -132,17 +127,13 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginSuccess());
       },
       onFailure: (failure) {
-        emit(LoginFailure(
-          errorMessage: failure.message,
-        ));
+        final previousState = state;
+        emit(LoginFailure(errorMessage: failure.message));
 
-        final currentState = state;
-        if (currentState is LoginIdle) {
-          emit(currentState);
+        if (previousState is LoginIdle) {
+          emit(previousState);
         } else {
-          emit(LoginIdle(
-            selectedCountry: (state as LoginIdle).selectedCountry,
-          ));
+          emit(LoginIdle(selectedCountry: Country.parse('eg')));
         }
       },
     );
@@ -152,18 +143,25 @@ class LoginCubit extends Cubit<LoginState> {
     final currentState = state;
     if (currentState is! LoginIdle) return;
 
-    final validationError = FormValidators.validateLoginFields(
-      phone: currentState.phoneNumber,
-      password: currentState.password,
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final phoneResult = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
     );
+    final passwordResult = FormValidators.validatePassword(currentState.password);
 
-    if (validationError != null) {
-      emit(currentState.copyWith(validationError: validationError));
+    if (!phoneResult.isValid || !passwordResult.isValid) {
+      emit(currentState.copyWith(
+        phoneError: () => phoneResult.error as PhoneValidationError?,
+        passwordError: () => passwordResult.error as PasswordValidationError?,
+      ));
+
       return;
     }
+
     emit(LoginSubmitting());
 
-    final countryCode = currentState.selectedCountry?.phoneCode ?? '';
+    final countryCode = currentState.selectedCountry.phoneCode;
     final phoneNumber = '+$countryCode${currentState.phoneNumber}';
 
     final result = await _authRepository.login(
@@ -176,11 +174,26 @@ class LoginCubit extends Cubit<LoginState> {
         emit(const LoginSuccess());
       },
       onFailure: (failure) {
-        emit(LoginFailure(
-          errorMessage: failure.message,
+        emit(LoginFailure(errorMessage: failure.message));
+
+        emit(currentState.copyWith(
+          phoneError: () => null,
+          passwordError: () => null,
         ));
-        emit(currentState);
       },
     );
   }
+
+  bool _isFormValid({
+    required String phone,
+    required String password,
+    required PhoneValidationError? phoneError,
+    required PasswordValidationError? passwordError,
+  }) {
+    return phone.isNotEmpty &&
+        password.isNotEmpty &&
+        phoneError == null &&
+        passwordError == null;
+  }
+
 }

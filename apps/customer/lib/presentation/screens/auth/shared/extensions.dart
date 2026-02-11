@@ -1,46 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'enums/auth_error_type.dart';
-import 'enums/validation_error_type.dart';
+import 'package:country_picker/country_picker.dart';
+import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 
-extension ValidationErrorLocalization on ValidationErrorType {
-  String toLocalizedString(BuildContext context) {
-    return switch (this) {
-    // Phone errors
-      ValidationErrorType.phoneMinLength =>
-      context.local.phone_number_must_be_at_least_10_digits,
-      ValidationErrorType.phoneDigitsOnly =>
-      context.local.phone_number_digits_only,
+extension CountryExtensions on Country {
 
-    // Password errors
-      ValidationErrorType.passwordMinLength =>
-      context.local.password_min_6_characters,
-      ValidationErrorType.passwordMaxLength =>
-      context.local.password_max_20_characters,
-      ValidationErrorType.passwordsDoNotMatch =>
-      context.local.passwords_do_not_match,
+  int? get maxPhoneLength {
+    if (countryCode.isEmpty) return null;
 
-    // First Name errors
-      ValidationErrorType.fullNameMinLength =>
-      context.local.full_name_at_least_2_characters,
-      ValidationErrorType.fullNameLettersOnly =>
-      context.local.full_name_letters_only,
+    try {
+      final countryData = intl_countries.countries.firstWhere(
+            (c) => c.code.toUpperCase() == countryCode.toUpperCase(),
+      );
 
-    // Email errors
-      ValidationErrorType.emailEmpty =>
-      context.local.email_required,
-      ValidationErrorType.emailInvalid =>
-      context.local.email_invalid,
-
-    // City errors
-      ValidationErrorType.cityMinLength =>
-      context.local.city_at_least_2_characters,
-      ValidationErrorType.cityLettersOnly =>
-      context.local.city_letters_only,
-    };
+      return countryData.maxLength;
+    } catch (e) {
+      return 10;
+    }
   }
 }
-
 extension AuthErrorLocalization on AuthErrorType {
   String toLocalizedString(BuildContext context) {
     return switch (this) {

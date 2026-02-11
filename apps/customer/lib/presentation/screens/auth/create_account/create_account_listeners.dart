@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../../../core/utils/snackbar_helper.dart';
-import '../shared/extensions.dart';
 import '../shared/otp/otp_screen.dart';
 import 'cubit/registration_cubit.dart';
 import 'cubit/registration_state.dart';
@@ -26,8 +25,6 @@ class CreateAccountListeners extends StatelessWidget {
           _handleSuccess(context);
         } else if (state is RegistrationFailure) {
           _handleError(context, state);
-        } else if (state is RegistrationIdle && state.validationError != null) {
-          _handleValidationError(context, state);
         }
       },
       child: child,
@@ -67,16 +64,5 @@ class CreateAccountListeners extends StatelessWidget {
   void _handleError(BuildContext context, RegistrationFailure state) {
     final message = state.errorMessage ?? context.local.registration_failed;
     SnackBarHelper.showError(context, message);
-  }
-
-  void _handleValidationError(BuildContext context, RegistrationIdle state) {
-    final errorMessage = state.validationError!.toLocalizedString(context);
-    SnackBarHelper.showError(context, errorMessage);
-
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (context.mounted) {
-        context.read<RegistrationCubit>().clearValidationError();
-      }
-    });
   }
 }

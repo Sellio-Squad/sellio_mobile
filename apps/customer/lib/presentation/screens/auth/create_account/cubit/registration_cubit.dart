@@ -1,16 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
-import '../../shared/enums/form_field_type.dart';
 import '../../shared/validators/form_validators.dart';
+import '../../shared/validators/validation_result.dart';
 import 'registration_state.dart';
 
-/// Cubit for handling registration operations.
-///
-/// This cubit is focused solely on registration functionality, following the
-/// Single Responsibility Principle.
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
@@ -22,8 +19,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
         super(RegistrationIdle(
-          selectedCountry: initialCountry ?? Country.parse('eg'),
-        ));
+        selectedCountry: initialCountry ?? Country.parse('eg'),
+      ));
+
+  // ==================== Initialization ====================
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -56,107 +55,258 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
+  // ==================== Field Updates ====================
 
   void updateFullName(String value) {
-    _updateField((state) => state.copyWith(
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validateFullName(value);
+
+    emit(currentState.copyWith(
       fullName: value,
-      clearValidationError: true,
+      fullNameError: () => result.error as FullNameValidationError?,
+      isFormValid: _isFormValid(
+        fullName: value,
+        phone: currentState.phoneNumber,
+        city: currentState.city,
+        password: currentState.password,
+        confirmPassword: currentState.confirmPassword,
+        fullNameError: result.error as FullNameValidationError?,
+        phoneError: currentState.phoneError,
+        cityError: currentState.cityError,
+        passwordError: currentState.passwordError,
+        confirmPasswordError: currentState.confirmPasswordError,
+      ),
     ));
   }
 
   void updatePhoneNumber(String value) {
-    _updateField((state) => state.copyWith(
-          phoneNumber: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateCity(String value) {
-    _updateField((state) => state.copyWith(
-          city: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updatePassword(String value) {
-    _updateField((state) => state.copyWith(
-          password: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateConfirmPassword(String value) {
-    _updateField((state) => state.copyWith(
-          confirmPassword: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateSelectedCountry(Country country) {
-    _updateField((state) => state.copyWith(
-          selectedCountry: country,
-        ));
-  }
-
-  void _updateField(RegistrationIdle Function(RegistrationIdle) updater) {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    final newState = updater(currentState);
-    emit(newState.copyWith(isFormValid: _isFormValid(newState)));
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+
+    emit(currentState.copyWith(
+      phoneNumber: value,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: _isFormValid(
+        fullName: currentState.fullName,
+        phone: value,
+        city: currentState.city,
+        password: currentState.password,
+        confirmPassword: currentState.confirmPassword,
+        fullNameError: currentState.fullNameError,
+        phoneError: result.error as PhoneValidationError?,
+        cityError: currentState.cityError,
+        passwordError: currentState.passwordError,
+        confirmPasswordError: currentState.confirmPasswordError,
+      ),
+    ));
+  }
+
+  void updateCity(String value) {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validateCity(value);
+
+    emit(currentState.copyWith(
+      city: value,
+      cityError: () => result.error as CityValidationError?,
+      isFormValid: _isFormValid(
+        fullName: currentState.fullName,
+        phone: currentState.phoneNumber,
+        city: value,
+        password: currentState.password,
+        confirmPassword: currentState.confirmPassword,
+        fullNameError: currentState.fullNameError,
+        phoneError: currentState.phoneError,
+        cityError: result.error as CityValidationError?,
+        passwordError: currentState.passwordError,
+        confirmPasswordError: currentState.confirmPasswordError,
+      ),
+    ));
+  }
+
+  void updatePassword(String value) {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validatePassword(value);
+
+    ValidationResult confirmResult = const ValidationResult.valid();
+    if (currentState.confirmPassword.isNotEmpty) {
+      confirmResult = FormValidators.validateConfirmPassword(
+        value,
+        currentState.confirmPassword,
+      );
+    }
+
+    emit(currentState.copyWith(
+      password: value,
+      passwordError: () => result.error as PasswordValidationError?,
+      confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+      isFormValid: _isFormValid(
+        fullName: currentState.fullName,
+        phone: currentState.phoneNumber,
+        city: currentState.city,
+        password: value,
+        confirmPassword: currentState.confirmPassword,
+        fullNameError: currentState.fullNameError,
+        phoneError: currentState.phoneError,
+        cityError: currentState.cityError,
+        passwordError: result.error as PasswordValidationError?,
+        confirmPasswordError: confirmResult.error as PasswordValidationError?,
+      ),
+    ));
+  }
+
+  void updateConfirmPassword(String value) {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validateConfirmPassword(
+      currentState.password,
+      value,
+    );
+
+    emit(currentState.copyWith(
+      confirmPassword: value,
+      confirmPasswordError: () => result.error as PasswordValidationError?,
+      isFormValid: _isFormValid(
+        fullName: currentState.fullName,
+        phone: currentState.phoneNumber,
+        city: currentState.city,
+        password: currentState.password,
+        confirmPassword: value,
+        fullNameError: currentState.fullNameError,
+        phoneError: currentState.phoneError,
+        cityError: currentState.cityError,
+        passwordError: currentState.passwordError,
+        confirmPasswordError: result.error as PasswordValidationError?,
+      ),
+    ));
+  }
+
+  void updateSelectedCountry(Country country) {
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    // Re-validate phone with new country length
+    final minPhoneLength = country.maxPhoneLength;
+    final result = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
+    );
+
+    emit(currentState.copyWith(
+      selectedCountry: country,
+      phoneCode: country.phoneCode,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: _isFormValid(
+        fullName: currentState.fullName,
+        phone: currentState.phoneNumber,
+        city: currentState.city,
+        password: currentState.password,
+        confirmPassword: currentState.confirmPassword,
+        fullNameError: currentState.fullNameError,
+        phoneError: result.error as PhoneValidationError?,
+        cityError: currentState.cityError,
+        passwordError: currentState.passwordError,
+        confirmPasswordError: currentState.confirmPasswordError,
+      ),
+    ));
+
+    // Load cities for the new country
+    loadCitiesForSelectedCountry(country.countryCode);
   }
 
   // ==================== Validation ====================
 
-  int? _getRequiredPhoneLength(RegistrationIdle state) {
-    if (state.selectedCountry.countryCode.isEmpty) return null;
-    try {
-      final countryData = intl_countries.countries.firstWhere(
-        (c) =>
-            c.code.toUpperCase() ==
-            state.selectedCountry.countryCode.toUpperCase(),
-      );
-
-      return countryData.maxLength;
-    } catch (e) {
-      return 10;
-    }
-  }
-
-  void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
+  void validateFullNameOnFocusLost(String value) {
     if (value.isEmpty) return;
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    final result = FormValidators.validateField(
-      fieldType,
-      value,
-      password: currentState.password,
-    );
-
-    if (!result.isValid && result.errorType != null) {
-      emit(currentState.copyWith(validationError: result.errorType));
-    }
+    final result = FormValidators.validateFullName(value);
+    emit(currentState.copyWith(
+      fullNameError: () => result.error as FullNameValidationError?,
+    ));
   }
 
-  void clearValidationError() {
+  void validatePhoneOnFocusLost(String value) {
+    if (value.isEmpty) return;
     final currentState = state;
-    if (currentState is RegistrationIdle) {
-      emit(currentState.copyWith(clearValidationError: true));
-    }
+    if (currentState is! RegistrationIdle) return;
+
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+
+    emit(currentState.copyWith(
+      phoneError: () => result.error as PhoneValidationError?,
+    ));
   }
 
-  bool _isFormValid(RegistrationIdle state) {
-    final requiredLength = _getRequiredPhoneLength(state);
+  void validateCityOnFocusLost(String value) {
+    if (value.isEmpty) return;
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
 
-    return FormValidators.isRegistrationFormValid(
-      fullName: state.fullName,
-      phone: state.phoneNumber,
-      city: state.city,
-      password: state.password,
-      confirmPassword: state.confirmPassword,
-      minPhoneLength: requiredLength,
+    final result = FormValidators.validateCity(value);
+    emit(currentState.copyWith(
+      cityError: () => result.error as CityValidationError?,
+    ));
+  }
+
+  void validatePasswordOnFocusLost(String value) {
+    if (value.isEmpty) return;
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validatePassword(value);
+    emit(currentState.copyWith(
+      passwordError: () => result.error as PasswordValidationError?,
+    ));
+  }
+
+  void validateConfirmPasswordOnFocusLost(String value) {
+    if (value.isEmpty) return;
+    final currentState = state;
+    if (currentState is! RegistrationIdle) return;
+
+    final result = FormValidators.validateConfirmPassword(
+      currentState.password,
+      value,
     );
+    emit(currentState.copyWith(
+      confirmPasswordError: () => result.error as PasswordValidationError?,
+    ));
+  }
+
+  bool _isFormValid({
+    required String fullName,
+    required String phone,
+    required String city,
+    required String password,
+    required String confirmPassword,
+    required FullNameValidationError? fullNameError,
+    required PhoneValidationError? phoneError,
+    required CityValidationError? cityError,
+    required PasswordValidationError? passwordError,
+    required PasswordValidationError? confirmPasswordError,
+  }) {
+    return fullName.isNotEmpty &&
+        phone.isNotEmpty &&
+        city.isNotEmpty &&
+        password.isNotEmpty &&
+        confirmPassword.isNotEmpty &&
+        fullNameError == null &&
+        phoneError == null &&
+        cityError == null &&
+        passwordError == null &&
+        confirmPasswordError == null;
   }
 
   // ==================== Registration Operations ====================
@@ -167,26 +317,41 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    final validationError = FormValidators.validateRegistrationFields(
-      fullName: currentState.fullName,
-      phone: currentState.phoneNumber,
-      city: currentState.city,
-      password: currentState.password,
-      confirmPassword: currentState.confirmPassword,
+    // Validate all fields before submitting
+    final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
+    final fullNameResult = FormValidators.validateFullName(currentState.fullName);
+    final phoneResult = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
+    );
+    final cityResult = FormValidators.validateCity(currentState.city);
+    final passwordResult = FormValidators.validatePassword(currentState.password);
+    final confirmPasswordResult = FormValidators.validateConfirmPassword(
+      currentState.password,
+      currentState.confirmPassword,
     );
 
-    if (validationError != null) {
-      emit(currentState.copyWith(validationError: validationError));
-
+    // Check if any validation failed
+    if (!fullNameResult.isValid ||
+        !phoneResult.isValid ||
+        !cityResult.isValid ||
+        !passwordResult.isValid ||
+        !confirmPasswordResult.isValid) {
+      emit(currentState.copyWith(
+        fullNameError: () => fullNameResult.error as FullNameValidationError?,
+        phoneError: () => phoneResult.error as PhoneValidationError?,
+        cityError: () => cityResult.error as CityValidationError?,
+        passwordError: () => passwordResult.error as PasswordValidationError?,
+        confirmPasswordError: () => confirmPasswordResult.error as PasswordValidationError?,
+      ));
       return;
     }
 
-    emit(RegistrationSubmitting());
+    emit(const RegistrationSubmitting());
 
     final countryCode = currentState.selectedCountry.phoneCode;
-    final countryName = currentState.countryName;
-    final fullPhoneNumber =
-        '+${currentState.selectedCountry.phoneCode}${currentState.phoneNumber}';
+    final countryName = currentState.selectedCountry.name;
+    final fullPhoneNumber = '+$countryCode${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
       fullName: currentState.fullName.trim(),
@@ -201,15 +366,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       onSuccess: (_) {
         // Repository stores sessionId internally
         // Emit state to trigger navigation to OTP screen
-        emit(RegistrationOtpRequired(
-          phoneNumber: fullPhoneNumber,
-        ));
+        emit(RegistrationOtpRequired(phoneNumber: fullPhoneNumber));
       },
       onFailure: (failure) {
-        emit(RegistrationFailure(
-          errorMessage: failure.message,
+        emit(RegistrationFailure(errorMessage: failure.message));
+        // Return to idle state with cleared errors
+        emit(currentState.copyWith(
+          fullNameError: () => null,
+          phoneError: () => null,
+          cityError: () => null,
+          passwordError: () => null,
+          confirmPasswordError: () => null,
         ));
-        emit(currentState);
       },
     );
   }

@@ -10,7 +10,6 @@ class SellioTextField extends StatefulWidget {
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormatter;
   final BorderRadiusGeometry cornerRadius;
-  final Color shadowColor;
   final TextStyle? textStyle;
   final int? maxLine;
   final bool isTextFieldFilled;
@@ -32,10 +31,6 @@ class SellioTextField extends StatefulWidget {
   final String? errorMessage;
   final bool readOnly;
   final VoidCallback? onTap;
-  final String? emptyValidationMessage;
-/*  final Country? selectedCountry;
-  final List<Country>? countries;
-  final ValueChanged<Country>? onChangeCountry;*/
 
   const SellioTextField({
     super.key,
@@ -43,12 +38,11 @@ class SellioTextField extends StatefulWidget {
     this.inputType,
     this.inputFormatter,
     this.cornerRadius = const BorderRadius.all(Radius.circular(8)),
-    this.shadowColor = const Color(0x1F520826),
     this.textStyle,
     this.maxLine,
     this.isTextFieldFilled = true,
     this.fillColor,
-    this.hintText = 'Full name',
+    required this.hintText,
     this.hintStyle,
     this.prefixIconPadding = const EdgeInsets.only(left: 16, right: 12),
     this.prefixIcon,
@@ -65,10 +59,6 @@ class SellioTextField extends StatefulWidget {
     this.errorMessage,
     this.readOnly = false,
     this.onTap,
-    this.emptyValidationMessage,
- /*   this.selectedCountry,
-    this.countries,
-    this.onChangeCountry,*/
   });
 
   @override
@@ -131,7 +121,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     final List<BoxShadow> textFieldShadow = isFocused && !isError
         ? [
             BoxShadow(
-              color: widget.shadowColor,
+              color: context.theme.colors.shadowColor,
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -156,8 +146,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: hintColor,
         );
 
-    final String? errorText = widget.errorMessage ??
-        (isError ? (widget.emptyValidationMessage ?? 'Should not be empty') : null);
+    final String? errorText = widget.errorMessage;
 
     final errorStyle =
         widget.errorStyle ??
@@ -266,17 +255,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.prefixIcon != null) ...[widget.prefixIcon!],
-          // if (widget.isPhoneNumber &&
-          //     widget.selectedCountry != null &&
-          //     widget.countries != null &&
-          //     widget.onChangeCountry != null)
-          //   _buildCountryDropdown(
-          //     context: context,
-          //     selectedCountry: widget.selectedCountry!,
-          //     countries: widget.countries!,
-          //     onChanged: widget.onChangeCountry!,
-          //     countryFlag: widget.countryFlag ?? AppImages.flagIraq,
-          //   ),
         ],
       ),
     );
@@ -301,61 +279,3 @@ class _SellioTextFieldState extends State<SellioTextField> {
     return null;
   }
 }
-/*
-// todo : it's need update and remove Country parameter
-Widget _buildCountryDropdown({
-  required Country selectedCountry,
-  required List<Country> countries,
-  required ValueChanged<Country> onChanged,
-  required String countryFlag,
-  required BuildContext context,
-}) {
-  return DropdownButtonHideUnderline(
-    child: DropdownButton<Country>(
-      value: selectedCountry,
-      isDense: true,
-      icon: const SizedBox.shrink(),
-      onChanged: (Country? newValue) {
-        if (newValue != null) onChanged(newValue);
-      },
-      selectedItemBuilder: (context) {
-        return countries.map((country) {
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(AppImages.arrowDown, width: 16, height: 16),
-              const Gap(8),
-              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
-              const Gap(8),
-              Text(
-                country.code,
-                style: context.theme.typography.textTheme.bodyMedium.copyWith(
-                  color: context.theme.colors.title,
-                ),
-              ),
-            ],
-          );
-        }).toList();
-      },
-      items: countries.map((country) {
-        return DropdownMenuItem<Country>(
-          value: country,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
-              const Gap(8),
-              Text(
-                country.code,
-                style: context.theme.typography.textTheme.bodyMedium.copyWith(
-                  color: context.theme.colors.body,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    ),
-  );
-}
-*/

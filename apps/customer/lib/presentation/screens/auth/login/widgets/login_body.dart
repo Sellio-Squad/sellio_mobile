@@ -6,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import '../../shared/enums/form_field_type.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
@@ -38,19 +37,13 @@ class _LoginBodyState extends State<LoginBody> {
 
     _phoneFocusNode.addListener(() {
       if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-        context.read<LoginCubit>().validateFieldOnFocusChange(
-              FormFieldType.phone,
-              _phoneController.text,
-            );
+        context.read<LoginCubit>().validatePhoneOnFocusLost(_phoneController.text);
       }
     });
 
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
-        context.read<LoginCubit>().validateFieldOnFocusChange(
-              FormFieldType.password,
-              _passwordController.text,
-            );
+        context.read<LoginCubit>().validatePasswordOnFocusLost(_passwordController.text,);
       }
     });
   }
@@ -131,7 +124,7 @@ class _LoginBodyState extends State<LoginBody> {
               focusNode: _phoneFocusNode,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context.read<LoginCubit>().updateSelectedCountryCode(country);
+                context.read<LoginCubit>().updateSelectedCountry(country);
               },
             ),
             const Gap(16),
@@ -143,7 +136,10 @@ class _LoginBodyState extends State<LoginBody> {
                 controller: _passwordController,
                 hintText: context.local.password,
                 inputType: TextInputType.visiblePassword,
-                emptyValidationMessage: context.local.field_required,
+                isError: state is LoginIdle && state.passwordError != null,
+                errorMessage: state is LoginIdle
+                    ? state.passwordError?.toLocalizedString(context)
+                    : null,
                 prefixIcon: SvgPicture.asset(
                   AppImages.password,
                   width: 24,
