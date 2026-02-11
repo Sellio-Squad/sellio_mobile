@@ -725,5 +725,47 @@
       "deletions": 10,
       "changed_files": 17
     }
+  },
+  {
+    "pr_number": 449,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/449",
+    "title": "refactor: enhance auth form validation error message and state manage",
+    "opened_at": "2026-02-11T02:44:55Z",
+    "head_ref": "fix/validation-error-appearance",
+    "base_ref": "develop",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 864,
+      "deletions": 638,
+      "changed_files": 17
+    }
   }
 ]
