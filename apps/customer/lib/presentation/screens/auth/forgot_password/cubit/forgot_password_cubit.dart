@@ -7,20 +7,23 @@ import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final AuthRepository _authRepository;
+  ForgotPasswordIdle? _lastIdleState;
 
   ForgotPasswordCubit({
     required AuthRepository authRepository,
     Country? initialCountry,
     bool startWithVerified = false,
-  })  : _authRepository = authRepository,
+  })
+      : _authRepository = authRepository,
         super(
-          startWithVerified
-              ? const ForgotPasswordVerified()
-              : ForgotPasswordIdle(selectedCountry: initialCountry),
-        );
+        startWithVerified
+            ? const ForgotPasswordVerified()
+            : ForgotPasswordIdle(selectedCountry: initialCountry),
+      );
 
   void updatePhoneNumber(String value) {
-    _updateField((state) => state.copyWith(
+    _updateField((state) =>
+        state.copyWith(
           phoneNumber: value,
           clearValidationError: true,
         ));
@@ -41,10 +44,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   void updateNewPassword(String value) {
     final currentState = state;
     if (currentState is! ForgotPasswordVerified) return;
-    
+
     final newState = currentState.copyWith(newPassword: value);
     emit(newState.copyWith(
-      isResetFormValid: _validateResetForm(newState.newPassword, newState.confirmPassword),
+      isResetFormValid: _validateResetForm(
+          newState.newPassword, newState.confirmPassword),
     ));
   }
 
@@ -54,16 +58,21 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     final newState = currentState.copyWith(confirmPassword: value);
     emit(newState.copyWith(
-      isResetFormValid: _validateResetForm(newState.newPassword, newState.confirmPassword),
+      isResetFormValid: _validateResetForm(
+          newState.newPassword, newState.confirmPassword),
     ));
   }
 
   bool _validateResetForm(String password, String confirm) {
     if (password.isEmpty || confirm.isEmpty) return false;
-    
-    final passwordValid = FormValidators.validatePassword(password).isValid;
-    final confirmValid = FormValidators.validateConfirmPassword(password, confirm).isValid;
-    
+
+    final passwordValid = FormValidators
+        .validatePassword(password)
+        .isValid;
+    final confirmValid = FormValidators
+        .validateConfirmPassword(password, confirm)
+        .isValid;
+
     return passwordValid && confirmValid;
   }
 
@@ -90,6 +99,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   Future<void> sendOtp() async {
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
+    _lastIdleState = currentState;
 
     if (currentState.phoneNumber.isEmpty) return;
 
@@ -120,7 +130,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
   Future<void> verifyOtp(String otp) async {
     final result = await _authRepository.verifyForgotPasswordOtp(otp: otp);
-    
+
     result.fold(
       onSuccess: (_) {
         emit(const ForgotPasswordVerified());
@@ -135,21 +145,21 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final currentPhoneState = state;
     String? phoneNumber;
     String? defaultRegion;
-    
+
     if (currentPhoneState is ForgotPasswordOtpRequired) {
       phoneNumber = currentPhoneState.phoneNumber;
       defaultRegion = currentPhoneState.defaultRegion;
     }
-    
+
     if (phoneNumber == null || defaultRegion == null) {
       throw Exception('Phone number or region not available for resend');
     }
-    
+
     final result = await _authRepository.sendForgotPasswordOtp(
       phoneNumber: phoneNumber,
       defaultRegion: defaultRegion,
     );
-    
+
     result.fold(
       onSuccess: (_) {
         // Success - OTP cubit will handle UI feedback
@@ -168,7 +178,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final confirmPassword = currentState.confirmPassword;
 
     if (newPassword.isEmpty || confirmPassword.isEmpty) {
-      emit(const ForgotPasswordFailure(errorMessage: 'Password fields cannot be empty'));
+      emit(const ForgotPasswordFailure(
+          errorMessage: 'Password fields cannot be empty'));
       return;
     }
 
@@ -193,5 +204,13 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         emit(currentState);
       },
     );
+  }
+
+  void resetToIdle() {
+    if (state is ForgotPasswordIdle) return;
+
+    if (_lastIdleState != null) {
+      emit(_lastIdleState!);
+    }
   }
 }
