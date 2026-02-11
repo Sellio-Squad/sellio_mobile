@@ -9,21 +9,26 @@ import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final AuthRepository _authRepository;
+  ForgotPasswordIdle? _lastIdleState;
 
   ForgotPasswordCubit({
     required AuthRepository authRepository,
     Country? initialCountry,
     bool startWithVerified = false,
-  })  : _authRepository = authRepository,
+  })
+      : _authRepository = authRepository,
         super(
         startWithVerified
             ? const ForgotPasswordVerified()
             : ForgotPasswordIdle(selectedCountry: initialCountry),
       );
 
-  // ==================== Phone Number Step ====================
-
   void updatePhoneNumber(String value) {
+    _updateField((state) =>
+        state.copyWith(
+          phoneNumber: value,
+          phoneError: () => result.error as PhoneValidationError?,
+          isFormValid: value.isNotEmpty && result.error == null,        ));
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
 
@@ -70,6 +75,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   Future<void> sendOtp() async {
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
+    _lastIdleState = currentState;
 
     if (currentState.phoneNumber.isEmpty) return;
 
@@ -113,8 +119,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       },
     );
   }
-
-  // ==================== OTP Verification ====================
 
   Future<void> verifyOtp(String otp) async {
     final result = await _authRepository.verifyForgotPasswordOtp(otp: otp);
@@ -286,5 +290,13 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
         ));
       },
     );
+  }
+
+  void resetToIdle() {
+    if (state is ForgotPasswordIdle) return;
+
+    if (_lastIdleState != null) {
+      emit(_lastIdleState!);
+    }
   }
 }

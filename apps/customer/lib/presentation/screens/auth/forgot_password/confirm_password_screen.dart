@@ -97,7 +97,12 @@ class _SetNewPasswordScreenContentState
         return Scaffold(
           appBar: SellioAppBar(
             title: context.local.title_par_forget_password,
-            showBackButton: true,
+            leading: IconButton(
+              icon: SvgPicture.asset(AppImages.arrowLeft),
+              onPressed: () {
+                context.goNamed(AppRoutes.forgetPassword.name);
+              },
+            ),
           ),
           backgroundColor: colors.surfaceLow,
           body: SafeArea(

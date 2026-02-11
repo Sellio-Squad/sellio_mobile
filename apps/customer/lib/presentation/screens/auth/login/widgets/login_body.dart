@@ -7,6 +7,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import '../../shared/widgets/phone_input_with_country.dart';
+import '../../shared/enums/form_field_type.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
 
@@ -119,9 +120,11 @@ class _LoginBodyState extends State<LoginBody> {
 
         return Column(
           children: [
-            PhoneInputWithCountry(
+            SellioPhoneField(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
+              hintText: context.local.phone_number,
+              searchHintText: context.local.search_by_name_or_code,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
                 context.read<LoginCubit>().updateSelectedCountry(country);
