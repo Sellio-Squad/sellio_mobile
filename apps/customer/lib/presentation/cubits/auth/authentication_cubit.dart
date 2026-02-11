@@ -30,8 +30,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   }
 
   Future<void> loadUserProfile() async {
-    emit(const AuthenticationLoading());
-
     final result = await _userRepository.getUserProfile();
 
     result.fold(
