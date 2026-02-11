@@ -369,7 +369,18 @@
         "url": "https://github.com/dev-bilal-azzam"
       }
     ],
-    "comments": [],
+    "comments": [
+      {
+        "author": {
+          "login": "abdo-essam",
+          "id": 92235360,
+          "url": "https://github.com/abdo-essam"
+        },
+        "first_comment_at": "2026-02-11T18:03:36Z",
+        "last_comment_at": "2026-02-11T18:03:36Z",
+        "count": 1
+      }
+    ],
     "approvals": [
       {
         "reviewer": {
