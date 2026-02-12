@@ -1,8 +1,10 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
-import '../../shared/enums/form_field_type.dart';
+import '../../shared/enums/validation_error_type.dart';
 import '../../shared/validators/form_validators.dart';
+import '../../shared/validators/validation_result.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
@@ -22,79 +24,48 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       );
 
   void updatePhoneNumber(String value) {
-    _updateField((state) =>
-        state.copyWith(
-          phoneNumber: value,
-          clearValidationError: true,
-        ));
-  }
-
-  void updateSelectedCountry(Country country) {
-    _updateField((state) => state.copyWith(selectedCountry: country));
-  }
-
-  void _updateField(ForgotPasswordIdle Function(ForgotPasswordIdle) updater) {
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
 
-    final newState = updater(currentState);
-    emit(newState.copyWith(isFormValid: newState.phoneNumber.isNotEmpty));
-  }
+    final minPhoneLength = currentState.selectedCountry?.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
 
-  void updateNewPassword(String value) {
-    final currentState = state;
-    if (currentState is! ForgotPasswordVerified) return;
-
-    final newState = currentState.copyWith(newPassword: value);
-    emit(newState.copyWith(
-      isResetFormValid: _validateResetForm(
-          newState.newPassword, newState.confirmPassword),
+    emit(currentState.copyWith(
+      phoneNumber: value,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: value.isNotEmpty && result.error == null,
     ));
   }
 
-  void updateConfirmPassword(String value) {
+  void updateSelectedCountry(Country country) {
     final currentState = state;
-    if (currentState is! ForgotPasswordVerified) return;
+    if (currentState is! ForgotPasswordIdle) return;
 
-    final newState = currentState.copyWith(confirmPassword: value);
-    emit(newState.copyWith(
-      isResetFormValid: _validateResetForm(
-          newState.newPassword, newState.confirmPassword),
+    final minPhoneLength = country.maxPhoneLength;
+    final result = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
+    );
+
+    emit(currentState.copyWith(
+      selectedCountry: country,
+      phoneError: () => result.error as PhoneValidationError?,
+      isFormValid: currentState.phoneNumber.isNotEmpty && result.error == null,
     ));
   }
 
-  bool _validateResetForm(String password, String confirm) {
-    if (password.isEmpty || confirm.isEmpty) return false;
-
-    final passwordValid = FormValidators
-        .validatePassword(password)
-        .isValid;
-    final confirmValid = FormValidators
-        .validateConfirmPassword(password, confirm)
-        .isValid;
-
-    return passwordValid && confirmValid;
-  }
-
-  void validateFieldOnFocusChange(FormFieldType fieldType, String value) {
+  void validatePhoneOnFocusLost(String value) {
     if (value.isEmpty) return;
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
 
-    final result = FormValidators.validateField(fieldType, value);
+    final minPhoneLength = currentState.selectedCountry?.maxPhoneLength;
+    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
 
-    if (!result.isValid && result.errorType != null) {
-      emit(currentState.copyWith(validationError: result.errorType));
-    }
+    emit(currentState.copyWith(
+      phoneError: () => result.error as PhoneValidationError?,
+    ));
   }
-
-  void clearValidationError() {
-    final currentState = state;
-    if (currentState is ForgotPasswordIdle) {
-      emit(currentState.copyWith(clearValidationError: true));
-    }
-  }
-
 
   Future<void> sendOtp() async {
     final currentState = state;
@@ -103,10 +74,24 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     if (currentState.phoneNumber.isEmpty) return;
 
+    final minPhoneLength = currentState.selectedCountry?.maxPhoneLength;
+    final phoneResult = FormValidators.validatePhone(
+      currentState.phoneNumber,
+      minLength: minPhoneLength,
+    );
+
+    if (!phoneResult.isValid) {
+      emit(currentState.copyWith(
+        phoneError: () => phoneResult.error as PhoneValidationError?,
+      ));
+
+      return;
+    }
+
     emit(const ForgotPasswordSendingOtp());
 
-    final countryCode = currentState.selectedCountry?.phoneCode;
-    final phoneNumber = '$countryCode${currentState.phoneNumber}';
+    final countryCode = currentState.selectedCountry?.phoneCode ?? '';
+    final phoneNumber = '+$countryCode${currentState.phoneNumber}';
     final region = currentState.selectedCountry?.countryCode ?? '';
 
     final result = await _authRepository.sendForgotPasswordOtp(
@@ -123,7 +108,9 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       },
       onFailure: (failure) {
         emit(ForgotPasswordFailure(errorMessage: failure.message));
-        emit(currentState);
+        emit(currentState.copyWith(
+          phoneError: () => null,
+        ));
       },
     );
   }
@@ -161,13 +148,100 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     );
 
     result.fold(
-      onSuccess: (_) {
-        // Success - OTP cubit will handle UI feedback
-      },
+      onSuccess: (_) {},
       onFailure: (failure) {
         throw Exception(failure.message);
       },
     );
+  }
+
+  // ==================== Password Reset Step ====================
+
+  void updateNewPassword(String value) {
+    final currentState = state;
+    if (currentState is! ForgotPasswordVerified) return;
+
+    final result = FormValidators.validatePassword(value);
+
+    ValidationResult confirmResult = const ValidationResult.valid();
+    if (currentState.confirmPassword.isNotEmpty) {
+      confirmResult = FormValidators.validateConfirmPassword(
+        value,
+        currentState.confirmPassword,
+      );
+    }
+
+    emit(currentState.copyWith(
+      newPassword: value,
+      passwordError: () => result.error as PasswordValidationError?,
+      confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+      isResetFormValid: _validateResetForm(
+        value,
+        currentState.confirmPassword,
+        result.error as PasswordValidationError?,
+        confirmResult.error as PasswordValidationError?,
+      ),
+    ));
+  }
+
+  void updateConfirmPassword(String value) {
+    final currentState = state;
+    if (currentState is! ForgotPasswordVerified) return;
+
+    final result = FormValidators.validateConfirmPassword(
+      currentState.newPassword,
+      value,
+    );
+
+    emit(currentState.copyWith(
+      confirmPassword: value,
+      confirmPasswordError: () => result.error as PasswordValidationError?,
+      isResetFormValid: _validateResetForm(
+        currentState.newPassword,
+        value,
+        currentState.passwordError,
+        result.error as PasswordValidationError?,
+      ),
+    ));
+  }
+
+  bool _validateResetForm(
+      String password,
+      String confirm,
+      PasswordValidationError? passwordError,
+      PasswordValidationError? confirmPasswordError,
+      ) {
+    return password.isNotEmpty &&
+        confirm.isNotEmpty &&
+        passwordError == null &&
+        confirmPasswordError == null;
+  }
+
+  void validateNewPasswordOnFocusLost(String value) {
+    if (value.isEmpty) return;
+    final currentState = state;
+    if (currentState is! ForgotPasswordVerified) return;
+
+    final result = FormValidators.validatePassword(value);
+
+    emit(currentState.copyWith(
+      passwordError: () => result.error as PasswordValidationError?,
+    ));
+  }
+
+  void validateConfirmPasswordOnFocusLost(String value) {
+    if (value.isEmpty) return;
+    final currentState = state;
+    if (currentState is! ForgotPasswordVerified) return;
+
+    final result = FormValidators.validateConfirmPassword(
+      currentState.newPassword,
+      value,
+    );
+
+    emit(currentState.copyWith(
+      confirmPasswordError: () => result.error as PasswordValidationError?,
+    ));
   }
 
   Future<void> resetPassword() async {
@@ -177,14 +251,18 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     final newPassword = currentState.newPassword;
     final confirmPassword = currentState.confirmPassword;
 
-    if (newPassword.isEmpty || confirmPassword.isEmpty) {
-      emit(const ForgotPasswordFailure(
-          errorMessage: 'Password fields cannot be empty'));
-      return;
-    }
+    final passwordResult = FormValidators.validatePassword(newPassword);
+    final confirmResult = FormValidators.validateConfirmPassword(
+      newPassword,
+      confirmPassword,
+    );
 
-    if (newPassword != confirmPassword) {
-      emit(const ForgotPasswordFailure(errorMessage: 'Passwords do not match'));
+    if (!passwordResult.isValid || !confirmResult.isValid) {
+      emit(currentState.copyWith(
+        passwordError: () => passwordResult.error as PasswordValidationError?,
+        confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+      ));
+
       return;
     }
 
@@ -201,7 +279,10 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
       },
       onFailure: (failure) {
         emit(ForgotPasswordFailure(errorMessage: failure.message));
-        emit(currentState);
+        emit(currentState.copyWith(
+          passwordError: () => null,
+          confirmPasswordError: () => null,
+        ));
       },
     );
   }

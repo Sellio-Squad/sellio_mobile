@@ -5,7 +5,6 @@ import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 
 import '../../../../core/utils/snackbar_helper.dart';
-import '../shared/extensions.dart';
 import 'cubit/login_cubit.dart';
 import 'cubit/login_state.dart';
 
@@ -26,8 +25,6 @@ class LoginListeners extends StatelessWidget {
           _handleSuccess(context);
         } else if (state is LoginFailure) {
           _handleError(context, state);
-        } else if (state is LoginIdle && state.validationError != null) {
-          _handleValidationError(context, state);
         }
       },
       child: child,
@@ -48,16 +45,5 @@ class LoginListeners extends StatelessWidget {
   void _handleError(BuildContext context, LoginFailure state) {
     final message = state.errorMessage ?? context.local.login_failed;
     SnackBarHelper.showError(context, message);
-  }
-
-  void _handleValidationError(BuildContext context, LoginIdle state) {
-    final errorMessage = state.validationError!.toLocalizedString(context);
-    SnackBarHelper.showError(context, errorMessage);
-
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (context.mounted) {
-        context.read<LoginCubit>().clearValidationError();
-      }
-    });
   }
 }

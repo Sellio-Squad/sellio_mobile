@@ -2,21 +2,21 @@ import '../enums/validation_error_type.dart';
 
 class ValidationResult {
   final bool isValid;
-  final ValidationErrorType? errorType;
+  final ValidationError? error;
 
   const ValidationResult._({
     required this.isValid,
-    this.errorType,
+    this.error,
   });
 
   const ValidationResult.valid() : this._(isValid: true);
 
-  const ValidationResult.invalid(ValidationErrorType error)
-      : this._(isValid: false, errorType: error);
+  const ValidationResult.invalid(ValidationError error)
+      : this._(isValid: false, error: error);
 
   factory ValidationResult.fromCondition(
       bool condition,
-      ValidationErrorType errorType,
+      ValidationError errorType,
       ) {
     return condition
         ? const ValidationResult.valid()
