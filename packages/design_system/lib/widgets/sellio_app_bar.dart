@@ -36,7 +36,7 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       scrolledUnderElevation: 0,
       centerTitle: centerTitle,
-      leadingWidth: showBackButton ? 56 : 110,
+      leadingWidth: leading !=null ? 56: showBackButton ? 56 : 110,
       leading: _buildLeading(context),
       title: customTitle ?? _buildTitle(context, colors, textTheme),
       titleSpacing: 12,
