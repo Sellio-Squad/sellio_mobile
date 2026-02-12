@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
 abstract class SnackBarHelper {
   static const Duration _errorDuration = Duration(seconds: 4);
@@ -8,28 +9,32 @@ abstract class SnackBarHelper {
 
   static void showError(BuildContext context, String message) {
     _showOverlaySnackBar(
-      context: context,
-      message: message,
-      isError: true,
-      duration: _errorDuration,
+      context,
+      _SnackBarConfig(
+        message: message,
+        isError: true,
+        duration: _errorDuration,
+        title: context.local.error,
+      ),
     );
   }
 
   static void showSuccess(BuildContext context, String message) {
     _showOverlaySnackBar(
-      context: context,
-      message: message,
-      isError: false,
-      duration: _successDuration,
+      context,
+      _SnackBarConfig(
+        message: message,
+        isError: false,
+        duration: _successDuration,
+        title: context.local.success,
+      ),
     );
   }
 
-  static void _showOverlaySnackBar({
-    required BuildContext context,
-    required String message,
-    required bool isError,
-    required Duration duration,
-  }) {
+  static void _showOverlaySnackBar(
+    BuildContext context,
+    _SnackBarConfig config,
+  ) {
     ScaffoldMessenger.of(context).clearSnackBars();
 
     final overlay = Overlay.of(context);
@@ -45,9 +50,10 @@ abstract class SnackBarHelper {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SellioSnackBar(
-              isError: isError,
-              message: message,
+              isError: config.isError,
+              message: config.message,
               onCancelTap: () => overlayEntry.remove(),
+              title: config.title,
             ),
           ),
         ),
@@ -56,10 +62,24 @@ abstract class SnackBarHelper {
 
     overlay.insert(overlayEntry);
 
-    Future.delayed(duration, () {
+    Future.delayed(config.duration, () {
       if (overlayEntry.mounted) {
         overlayEntry.remove();
       }
     });
   }
+}
+
+class _SnackBarConfig {
+  final String message;
+  final bool isError;
+  final Duration duration;
+  final String title;
+
+  const _SnackBarConfig({
+    required this.message,
+    required this.isError,
+    required this.duration,
+    required this.title,
+  });
 }
