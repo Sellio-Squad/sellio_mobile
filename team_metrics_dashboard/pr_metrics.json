@@ -1044,5 +1044,47 @@
       "deletions": 1,
       "changed_files": 14
     }
+  },
+  {
+    "pr_number": 453,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/453",
+    "title": "refactor: Remove legacy team metrics dashboard",
+    "opened_at": "2026-02-12T23:38:57Z",
+    "head_ref": "chore/remove-matrices-from-sellio-mobile",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
+    "assignees": [
+      {
+        "login": "abdo-essam",
+        "id": 92235360,
+        "url": "https://github.com/abdo-essam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 0,
+      "deletions": 10289,
+      "changed_files": 42
+    }
   }
 ]
