@@ -6,6 +6,7 @@ extension CategoryModelMapper on CategoryModel {
     return Category(
       id: id,
       name: name,
+      imageUrl: imageUrl,
     );
   }
 }

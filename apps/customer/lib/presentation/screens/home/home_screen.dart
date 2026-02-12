@@ -1,5 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/categories/categories_section.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 
 import 'home_bloc_providers.dart';
@@ -69,6 +70,7 @@ class _HomeBody extends StatelessWidget {
       SearchSection(),
       SpecialOffersSection(),
       TrendingProductsSection(),
+      CategoriesSection(),
       TopStoresSection(),
       SliverToBoxAdapter(child: SizedBox(height: 24)),
     ];
