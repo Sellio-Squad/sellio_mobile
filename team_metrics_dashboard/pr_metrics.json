@@ -1013,18 +1013,27 @@
         },
         "submitted_at": "2026-02-12T18:09:00Z",
         "commit_id": "f0bf257700b5fe67c06b170a4fdbd975b29e4b7a"
+      },
+      {
+        "reviewer": {
+          "login": "NadeenRR",
+          "id": 65049320,
+          "url": "https://github.com/NadeenRR"
+        },
+        "submitted_at": "2026-02-12T18:32:51Z",
+        "commit_id": "f0bf257700b5fe67c06b170a4fdbd975b29e4b7a"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-02-12T18:09:00Z",
     "time_to_first_approval_minutes": 19.383333333333333,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-02-12T18:32:51Z",
+    "time_to_required_approvals_minutes": 43.233333333333334,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W07",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
