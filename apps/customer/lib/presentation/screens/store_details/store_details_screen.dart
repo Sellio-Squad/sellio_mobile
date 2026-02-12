@@ -81,7 +81,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           if (featuredProducts != null && featuredProducts.isNotEmpty)
             _buildFeaturedItemsSection(featuredProducts),
           _buildSectionSpacing(),
-          if (products != null && categories.isNotEmpty)
+          if (products != null && categories.isNotEmpty && products.isNotEmpty)
             _buildCategoryTabs(store),
           if (products != null && products.isNotEmpty)
             _buildProductsList(products, categories),
