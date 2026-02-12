@@ -208,5 +208,3 @@ class LoginCubit extends Cubit<LoginState> {
         phoneError == null &&
         passwordError == null;
   }
-
-}
