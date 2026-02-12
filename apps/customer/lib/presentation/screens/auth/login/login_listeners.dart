@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
+
 import '../../../../core/utils/snackbar_helper.dart';
 import '../shared/extensions.dart';
 import 'cubit/login_cubit.dart';
@@ -17,6 +19,7 @@ class LoginListeners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
@@ -32,10 +35,12 @@ class LoginListeners extends StatelessWidget {
   }
 
   void _handleSuccess(BuildContext context) {
+    final authCubit = context.read<AuthenticationCubit>();
+    authCubit.loadUserProfile();
     SnackBarHelper.showSuccess(context, context.local.login);
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (context.mounted) {
-        context.navigator.goToHome();
+        context.navigator.pop();
       }
     });
   }

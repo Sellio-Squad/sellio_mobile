@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+
 import 'mock/MockRepositoryModule.dart';
 import 'modules/bloc_module.dart';
 import 'modules/core_module.dart';
