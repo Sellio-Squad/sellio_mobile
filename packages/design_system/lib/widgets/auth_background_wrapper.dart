@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import '../constants/app_images.dart';
 import '../themes/sellio_theme_provider.dart';
 
@@ -41,11 +40,25 @@ class AuthBackgroundWrapper extends StatelessWidget {
                 _buildTopBackground(context),
                 _buildBottomSection(context, colors),
                 if (showLogo) _buildTopLogo(context),
+                _buildCloseButton(context)
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCloseButton(BuildContext context) {
+    return Positioned(
+        top: 40,
+        right: 16,
+        child: IconButton(
+          icon: const Icon(Icons.close, color: Colors.white, size: 28),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
     );
   }
 

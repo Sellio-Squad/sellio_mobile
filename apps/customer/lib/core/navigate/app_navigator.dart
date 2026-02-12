@@ -1,7 +1,7 @@
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 abstract class AppNavigator {
-  void pushReplacementLogin();
+  void pushLogin();
 
   void pushCreateAccount();
 

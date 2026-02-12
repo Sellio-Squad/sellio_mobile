@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+
+import '../../../../cubits/auth/authentication_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../utils/home_navigation.dart';
 import 'cubit/home_top_stores_cubit.dart';
 import 'cubit/home_top_stores_state.dart';
 import 'top_stores_list_shimmer.dart';
@@ -64,7 +68,6 @@ class TopStoresSection extends StatelessWidget {
                     context.read<FavoritesCubit>().toggleFavorite(store.id, FavoriteType.store);
                   },
 
-                  // Store tap
                   onStorePressed: (store) {
                     navigateToStoreDetails(context, store.id);
                   },
