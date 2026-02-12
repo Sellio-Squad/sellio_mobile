@@ -896,5 +896,47 @@
       "deletions": 636,
       "changed_files": 17
     }
+  },
+  {
+    "pr_number": 450,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/450",
+    "title": "Refactor store details",
+    "opened_at": "2026-02-12T15:16:16Z",
+    "head_ref": "refactor/store_details",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MuhammedWael9991",
+      "id": 190773582,
+      "url": "https://github.com/MuhammedWael9991"
+    },
+    "assignees": [
+      {
+        "login": "MuhammedWael9991",
+        "id": 190773582,
+        "url": "https://github.com/MuhammedWael9991"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 112,
+      "deletions": 31,
+      "changed_files": 7
+    }
   }
 ]
