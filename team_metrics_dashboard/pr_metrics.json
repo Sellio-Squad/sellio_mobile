@@ -960,5 +960,47 @@
       "deletions": 31,
       "changed_files": 7
     }
+  },
+  {
+    "pr_number": 451,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/451",
+    "title": "Feature/438 home screen categories module",
+    "opened_at": "2026-02-12T17:49:37Z",
+    "head_ref": "feature/438-home-screen-categories-module",
+    "base_ref": "develop",
+    "creator": {
+      "login": "karrar-abbas",
+      "id": 54599574,
+      "url": "https://github.com/karrar-abbas"
+    },
+    "assignees": [
+      {
+        "login": "karrar-abbas",
+        "id": 54599574,
+        "url": "https://github.com/karrar-abbas"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 406,
+      "deletions": 1,
+      "changed_files": 14
+    }
   }
 ]
