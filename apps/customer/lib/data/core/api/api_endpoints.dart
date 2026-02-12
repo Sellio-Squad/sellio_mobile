@@ -149,4 +149,6 @@ class ApiEndpoints {
   // Address
   static String addressById(String addressId) =>
       '$apiVersion/address/$addressId';
+
+  static String citiesByCountryIso2(String iso2) => '$apiVersion/countries/$iso2/cities';
 }

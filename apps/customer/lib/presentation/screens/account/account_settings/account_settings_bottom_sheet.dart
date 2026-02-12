@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/account_settings/cubit/account_settings_cubit.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/widgets/phone_input_with_country.dart';
-
 import 'cubit/account_settings_state.dart';
 
 class AccountSettingsBottomSheet extends StatefulWidget {
@@ -94,9 +93,11 @@ class _AccountSettingsBottomSheetState
                   style: context.theme.typography.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 24),
-                PhoneInputWithCountry(
+                SellioPhoneField(
                   controller: _phoneController,
                   focusNode: _phoneFocusNode,
+                  hintText: context.local.phone_number,
+                  searchHintText: context.local.search_by_name_or_code,
                   selectedCountry: state.selectedCountry,
                   onCountrySelected: (country) {
                     context
@@ -109,7 +110,7 @@ class _AccountSettingsBottomSheetState
                   controller: _nameController,
                   hintText: context.local.full_name,
                   inputFormatter: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
+                    FullNameInputFormatter(),
                   ],
                   prefixIconPadding: const EdgeInsets.only(left: 16, right: 8),
                   prefixIcon: SvgPicture.asset(
