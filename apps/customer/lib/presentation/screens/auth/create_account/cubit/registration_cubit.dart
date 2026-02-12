@@ -1,8 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
+
 import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/validators/form_validators.dart';
 import '../../shared/validators/validation_result.dart';
@@ -11,6 +12,7 @@ import 'registration_state.dart';
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
+  late RegistrationIdle? _lastIdleState;
 
   RegistrationCubit({
     required AuthRepository authRepository,
@@ -21,8 +23,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         super(RegistrationIdle(
         selectedCountry: initialCountry ?? Country.parse('eg'),
       ));
-
-  // ==================== Initialization ====================
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -55,7 +55,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  // ==================== Field Updates ====================
 
   void updateFullName(String value) {
     final currentState = state;
@@ -317,7 +316,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    // Validate all fields before submitting
+    _lastIdleState = currentState;
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
     final fullNameResult = FormValidators.validateFullName(currentState.fullName);
     final phoneResult = FormValidators.validatePhone(
@@ -391,7 +390,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         emit(const RegistrationSuccess());
       },
       onFailure: (failure) {
-        throw Exception(failure.message);
+        throw failure;
       },
     );
   }
@@ -405,8 +404,16 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         // Success - OTP cubit will handle UI feedback
       },
       onFailure: (failure) {
-        throw Exception(failure.message);
+        throw failure;
       },
     );
+  }
+
+  void resetToIdle() {
+    if (state is RegistrationIdle) return;
+
+    if (_lastIdleState != null) {
+      emit(_lastIdleState!);
+    }
   }
 }

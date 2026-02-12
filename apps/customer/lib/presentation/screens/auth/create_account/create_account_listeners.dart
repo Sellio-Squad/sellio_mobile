@@ -33,7 +33,7 @@ class CreateAccountListeners extends StatelessWidget {
 
   void _navigateToOtpScreen(BuildContext context, RegistrationOtpRequired state) {
     final cubit = context.read<RegistrationCubit>();
-    
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -49,7 +49,9 @@ class CreateAccountListeners extends StatelessWidget {
           },
         ),
       ),
-    );
+    ).then((_) {
+      cubit.resetToIdle();
+    });
   }
 
   void _handleSuccess(BuildContext context) {

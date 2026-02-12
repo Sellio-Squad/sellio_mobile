@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
@@ -31,10 +32,14 @@ class _AccountScreenState extends State<AccountScreen> {
     SellioColorScheme colors = context.theme.colors;
 
     return BlocProvider(
-      create: (context) =>
-          AccountCubit(context.read<UserRepository>())..loadAccountDetails(),
+      create: (context) => AccountCubit(
+        context.read<UserRepository>(),
+        context.read<AuthenticationCubit>(),
+      ),
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
+          print("Trace : State in AccountScreen build method: $state");
+
           return Scaffold(
             extendBodyBehindAppBar: false,
             backgroundColor: colors.surfaceLow,
@@ -72,8 +77,8 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   Widget _buildBody(BuildContext context, AccountState state) {
-    if (state is AccountError) {
-      return _buildErrorState(context);
+    if (state is UserNotLoggedIn) {
+      return _buildEmptySection(context);
     }
 
     return SingleChildScrollView(
@@ -88,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
   }
 
-  Widget _buildErrorState(BuildContext context) {
+  Widget _buildEmptySection(BuildContext context) {
     return EmptySection(
       icon: AppImages.notLoggedIn,
       title: context.local.not_registered,
@@ -212,16 +217,20 @@ class _AccountScreenState extends State<AccountScreen> {
             prefixIcon: AppImages.repair,
             orderTitle: context.local.account_settings,
             onCardClicked: () => _showAccountSettingsBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
-                matchTextDirection: true),
+            trailing: SvgPicture.asset(
+              AppImages.arrowRightCustom,
+              matchTextDirection: true,
+            ),
           ),
           const SizedBox(height: 12),
           AccountOptionCard(
             prefixIcon: AppImages.circleLockAdd,
             orderTitle: context.local.reset_password,
             onCardClicked: () => _showResetPasswordBottomSheet(context),
-            trailing: SvgPicture.asset(AppImages.arrowRightCustom,
-                matchTextDirection: true),
+            trailing: SvgPicture.asset(
+              AppImages.arrowRightCustom,
+              matchTextDirection: true,
+            ),
           ),
           const SizedBox(height: 12),
           BlocBuilder<LocaleCubit, LocaleState>(
@@ -240,8 +249,10 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: themeText.labelSmall.copyWith(color: colors.body),
                     ),
                     const SizedBox(width: 8),
-                    SvgPicture.asset(AppImages.arrowRightCustom,
-                        matchTextDirection: true),
+                    SvgPicture.asset(
+                      AppImages.arrowRightCustom,
+                      matchTextDirection: true,
+                    ),
                   ],
                 ),
               );
@@ -309,8 +320,8 @@ class _AccountScreenState extends State<AccountScreen> {
     ChangeLanguageBottomSheet.show(context: context);
   }
 
-  void _showLogoutBottomSheet(BuildContext context) {
-    LogoutBottomSheet.show(
+  Future<void> _showLogoutBottomSheet(BuildContext context) async {
+    await LogoutBottomSheet.show(
       context: context,
       onLogout: () {
         navigateToLoginScreen(context);
@@ -328,8 +339,7 @@ class _AccountScreenState extends State<AccountScreen> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(context.local.account_deleted_successfully ??
-                  'Your account has been deleted successfully'),
+              content: Text(context.local.account_deleted_successfully),
               backgroundColor: context.theme.colors.body,
             ),
           );
@@ -483,7 +493,7 @@ class AccountCustomCard extends StatelessWidget {
                 style: context.theme.typography.textTheme.labelMedium.copyWith(
                   color: context.theme.colors.title,
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -5,19 +5,24 @@ import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
+
 import '../../shared/validators/form_validators.dart';
 import 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
+  final AuthenticationCubit _authenticationCubit;
 
   LoginCubit({
     required AuthRepository authRepository,
     required CountryRepository countryRepository,
+    required AuthenticationCubit authenticationCubit,
     Country? initialCountry,
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
+        _authenticationCubit = authenticationCubit,
         super(LoginIdle(
         selectedCountry: initialCountry ?? Country.parse('eg'),
       ));
@@ -183,6 +188,14 @@ class LoginCubit extends Cubit<LoginState> {
       },
     );
   }
+
+  @override
+  Future<void> close() {
+    _authenticationCubit.loadAuthenticationStatus();
+
+    return super.close();
+  }
+}
 
   bool _isFormValid({
     required String phone,

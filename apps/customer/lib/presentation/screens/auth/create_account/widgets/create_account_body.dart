@@ -217,16 +217,20 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildSubmitButton(BuildContext context) {
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-        final isFormValid = state is RegistrationIdle && state.isFormValid;
-        final isLoading = state is RegistrationSubmitting;
+
+        final (isEnabled, isLoading) = switch (state) {
+          RegistrationIdle(:final isFormValid) => (isFormValid, false),
+          RegistrationSubmitting() => (false, true),
+          _ => (false, false),
+        };
 
         return SellioButton(
           text: context.local.continue_text,
-          onTap: isFormValid && !isLoading
+          onTap: isEnabled && !isLoading
               ? context.read<RegistrationCubit>().register
               : null,
           isLoading: isLoading,
-          isEnabled: isFormValid,
+          isEnabled: isEnabled,
         );
       },
     );
