@@ -26,4 +26,5 @@ export 'widgets/sellio_chip.dart';
 export 'widgets/sellio_indicator.dart';
 export 'widgets/sellio_snack_bar.dart';
 export 'widgets/sellio_text_field.dart';
+export 'widgets/sellio_phone_field.dart';
 export 'widgets/utils/widgets_utils.dart';

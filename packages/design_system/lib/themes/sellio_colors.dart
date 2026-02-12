@@ -36,6 +36,7 @@ class SellioColors {
       Color(0x80FFFFFF),
       Color(0xDEFFFFFF),
     ],
+    shadowColor: Color(0x1F520826),
   );
 
   static const dark = SellioColorScheme(
@@ -71,6 +72,7 @@ class SellioColors {
       Color(0xDEFFFFFF),
     ],
     uploadImageTint: Color(0x70000000),
+    shadowColor: Color(0x1F520826),
   );
 
   static Color productBlack = Colors.black;
@@ -108,6 +110,8 @@ class SellioColorScheme {
   final List<Color> loadingDarkColors;
   final List<Color> loadingLightColors;
   final Color uploadImageTint;
+  final Color shadowColor;
+
 
   const SellioColorScheme({
     required this.primary,
@@ -134,6 +138,7 @@ class SellioColorScheme {
     required this.loadingDarkColors,
     required this.loadingLightColors,
     required this.uploadImageTint,
+    required this.shadowColor,
   });
 
 }

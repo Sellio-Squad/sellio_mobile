@@ -11,27 +11,26 @@ class ForgotPasswordIdle extends ForgotPasswordState {
   final String phoneNumber;
   final Country? selectedCountry;
   final bool isFormValid;
-  final ValidationErrorType? validationError;
+  final PhoneValidationError? phoneError;
 
   const ForgotPasswordIdle({
     this.phoneNumber = '',
     this.selectedCountry,
     this.isFormValid = false,
-    this.validationError,
+    this.phoneError,
   });
 
   ForgotPasswordIdle copyWith({
     String? phoneNumber,
     Country? selectedCountry,
     bool? isFormValid,
-    ValidationErrorType? validationError,
-    bool clearValidationError = false,
+    PhoneValidationError? Function()? phoneError,
   }) {
     return ForgotPasswordIdle(
       phoneNumber: phoneNumber ?? this.phoneNumber,
       selectedCountry: selectedCountry ?? this.selectedCountry,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError ? null : (validationError ?? this.validationError),
+      phoneError: phoneError != null ? phoneError() : this.phoneError,
     );
   }
 
@@ -40,7 +39,7 @@ class ForgotPasswordIdle extends ForgotPasswordState {
         phoneNumber,
         selectedCountry,
         isFormValid,
-        validationError,
+        phoneError,
       ];
 }
 
@@ -68,27 +67,42 @@ class ForgotPasswordVerified extends ForgotPasswordState {
   final String newPassword;
   final String confirmPassword;
   final bool isResetFormValid;
+  final PasswordValidationError? passwordError;
+  final PasswordValidationError? confirmPasswordError;
 
   const ForgotPasswordVerified({
     this.newPassword = '',
     this.confirmPassword = '',
     this.isResetFormValid = false,
+    this.passwordError,
+    this.confirmPasswordError,
   });
 
   ForgotPasswordVerified copyWith({
     String? newPassword,
     String? confirmPassword,
     bool? isResetFormValid,
+    PasswordValidationError? Function()? passwordError,
+    PasswordValidationError? Function()? confirmPasswordError,
   }) {
     return ForgotPasswordVerified(
       newPassword: newPassword ?? this.newPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isResetFormValid: isResetFormValid ?? this.isResetFormValid,
+      passwordError: passwordError != null ? passwordError() : this.passwordError,
+      confirmPasswordError: confirmPasswordError != null ? confirmPasswordError() : this.confirmPasswordError,
     );
   }
 
+
   @override
-  List<Object> get props => [newPassword, confirmPassword, isResetFormValid];
+  List<Object?> get props => [
+    newPassword,
+    confirmPassword,
+    isResetFormValid,
+    passwordError,
+    confirmPasswordError,
+  ];
 }
 
 class ForgotPasswordResetting extends ForgotPasswordState {

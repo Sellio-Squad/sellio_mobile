@@ -1,12 +1,9 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import '../../../cubits/user/cubit/user_cubit.dart';
-import '../../../cubits/user/cubit/user_state.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
@@ -23,14 +20,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserCubit, UserState>(
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         String userName = context.local.guest;
         String? location;
 
-        if (state is UserLoaded) {
-          userName = state.name;
-          location = state.location;
+        if (state is LoggedIn) {
+          final address = state.user.address;
+          userName = state.user.fullName;
+          location = '${address.city}, ${address.country}';
         }
 
         return SellioAppBar(

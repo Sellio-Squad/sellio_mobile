@@ -17,7 +17,7 @@ Widget buildCreateAccountFooter(BuildContext context) {
       const SizedBox(width: 4),
       GestureDetector(
         onTap: () {
-          context.navigator.pushReplacementLogin();
+          context.navigator.pushLogin();
         },
         child: Text(
           context.local.login,

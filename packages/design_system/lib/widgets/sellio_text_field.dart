@@ -10,7 +10,6 @@ class SellioTextField extends StatefulWidget {
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormatter;
   final BorderRadiusGeometry cornerRadius;
-  final Color shadowColor;
   final TextStyle? textStyle;
   final int? maxLine;
   final bool isTextFieldFilled;
@@ -46,12 +45,11 @@ class SellioTextField extends StatefulWidget {
     this.inputType,
     this.inputFormatter,
     this.cornerRadius = const BorderRadius.all(Radius.circular(8)),
-    this.shadowColor = const Color(0x1F520826),
     this.textStyle,
     this.maxLine,
     this.isTextFieldFilled = true,
     this.fillColor,
-    this.hintText = 'Full name',
+    required this.hintText,
     this.hintStyle,
     this.prefixIconPadding = const EdgeInsets.only(left: 16, right: 12),
     this.prefixIcon,
@@ -138,7 +136,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
     final List<BoxShadow> textFieldShadow = isFocused && !isError
         ? [
             BoxShadow(
-              color: widget.shadowColor,
+              color: context.theme.colors.shadowColor,
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -287,17 +285,6 @@ class _SellioTextFieldState extends State<SellioTextField> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (widget.prefixIcon != null) ...[widget.prefixIcon!],
-          // if (widget.isPhoneNumber &&
-          //     widget.selectedCountry != null &&
-          //     widget.countries != null &&
-          //     widget.onChangeCountry != null)
-          //   _buildCountryDropdown(
-          //     context: context,
-          //     selectedCountry: widget.selectedCountry!,
-          //     countries: widget.countries!,
-          //     onChanged: widget.onChangeCountry!,
-          //     countryFlag: widget.countryFlag ?? AppImages.flagIraq,
-          //   ),
         ],
       ),
     );
