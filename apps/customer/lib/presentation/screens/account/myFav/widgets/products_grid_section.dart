@@ -7,10 +7,12 @@ import 'empty_favorites_state.dart';
 
 class ProductsGridSection extends StatelessWidget {
   final List<Product> products;
+  final Set<String> favoriteIds; // <- pass favorite IDs
 
   const ProductsGridSection({
     super.key,
     required this.products,
+    required this.favoriteIds,
   });
 
   @override
@@ -34,6 +36,8 @@ class ProductsGridSection extends StatelessWidget {
               (context, index) {
             final product = products[index];
 
+            final isFavorite = favoriteIds.contains(product.id);
+
             return SellioProductVerticalCard(
               productId: product.id,
               imageUrl:
@@ -41,12 +45,11 @@ class ProductsGridSection extends StatelessWidget {
               title: product.title,
               price:
               '${product.currency}${product.price.toStringAsFixed(2)}',
-              isFavorite: true,
+              isFavorite: isFavorite,
               onFavoriteToggle: () async {
                 context
                     .read<FavoritesCubit>()
                     .toggleFavorite(product.id, FavoriteType.product);
-                return;
               },
             );
           },

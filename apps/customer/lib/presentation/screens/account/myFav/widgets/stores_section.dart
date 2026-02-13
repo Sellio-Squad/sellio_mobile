@@ -7,10 +7,12 @@ import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {
   final List<Store> stores;
+  final Set<String> favoriteStoreIds;
 
   const StoresSection({
     super.key,
     required this.stores,
+    required this.favoriteStoreIds,
   });
 
   @override
@@ -31,17 +33,21 @@ class StoresSection extends StatelessWidget {
         itemBuilder: (context, index) {
           final store = stores[index];
 
+          final isFavorite = favoriteStoreIds.contains(store.id);
+
           return SellioStoreCard(
             imageUrl: store.coverImage,
             title: store.name,
             discountText: store.sale,
-            isFavorite: true,
+            isFavorite: isFavorite,
             onLikePressed: () {
               context
                   .read<FavoritesCubit>()
                   .toggleFavorite(store.id, FavoriteType.store);
             },
-            onCardPressed: () {},
+            onCardPressed: () {
+              // Navigate to store details if needed
+            },
           );
         },
       ),

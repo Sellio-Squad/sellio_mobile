@@ -13,7 +13,13 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     _loadInitialFavorites();
   }
 
+  // Load favorites initially
   Future<void> _loadInitialFavorites() async {
+    await refreshFavorites();
+  }
+
+  // <-- NEW: Public method to refresh favorites from backend
+  Future<void> refreshFavorites() async {
     try {
       emit(const FavoritesInitial());
 
@@ -57,9 +63,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       } catch (_) {
         emit(current);
       }
-    }
-
-    else if (type == FavoriteType.store) {
+    } else if (type == FavoriteType.store) {
       final updatedIds = Set<String>.from(current.favoriteStoreIds);
 
       if (updatedIds.contains(id)) {

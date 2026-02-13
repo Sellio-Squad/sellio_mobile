@@ -25,6 +25,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<FavoritesCubit>().refreshFavorites();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
     final colorScheme = theme.colors;
@@ -53,6 +61,13 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 return const EmptyFavoritesWidget();
               }
 
+              final favoriteProducts = state.favoriteProducts
+                  .where((p) => state.favoriteProductIds.contains(p.id))
+                  .toList();
+              final favoriteStores = state.favoriteStores
+                  .where((s) => state.favoriteStoreIds.contains(s.id))
+                  .toList();
+
               return CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
@@ -67,8 +82,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           final tab = tabs[index];
 
                           return Padding(
-                            padding:
-                            const EdgeInsets.symmetric(horizontal: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 6),
                             child: SellioChip(
                               label: tab.label,
                               assetIcon: tab.iconAsset,
@@ -84,10 +98,12 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
                   _selectedTabIndex == 0
                       ? ProductsGridSection(
-                    products: state.favoriteProducts,
+                    products: favoriteProducts,
+                    favoriteIds: state.favoriteProductIds,
                   )
                       : StoresSection(
-                    stores: state.favoriteStores,
+                    stores: favoriteStores,
+                    favoriteStoreIds: state.favoriteStoreIds,
                   ),
                 ],
               );
