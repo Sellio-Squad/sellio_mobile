@@ -1,12 +1,9 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import '../../../cubits/user/cubit/user_cubit.dart';
-import '../../../cubits/user/cubit/user_state.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
@@ -18,14 +15,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserCubit, UserState>(
+    return BlocBuilder<AuthenticationCubit, AuthenticationState>(
       builder: (context, state) {
         String userName = context.local.guest;
         String? location;
 
-        if (state is UserLoaded) {
-          userName = state.name;
-          location = state.location;
+        if (state is LoggedIn) {
+          final address = state.user.address;
+          userName = state.user.fullName;
+          location = '${address.city}, ${address.country}';
         }
 
         return SellioAppBar(
@@ -39,13 +37,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildLogo() => Padding(
-    padding: const EdgeInsets.all(4),
-    child: Image.asset(
-      AppImages.sellio,
-      fit: BoxFit.contain
-    ),
-  );
-  Widget _buildUserInfo(BuildContext context, String userName, String? location) {
+        padding: const EdgeInsets.all(4),
+        child: Image.asset(
+          AppImages.sellio,
+          fit: BoxFit.contain,
+        ),
+      );
+
+  Widget _buildUserInfo(
+      BuildContext context, String userName, String? location,) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
@@ -54,12 +54,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('${context.local.welcome}, $userName',
-            style: textTheme.labelSmall.copyWith(color: colors.title)),
+        Text(
+          '${context.local.welcome}, $userName',
+          style: textTheme.labelSmall.copyWith(color: colors.title),
+        ),
         if (location != null) ...[
           const SizedBox(height: 2),
           _buildLocation(context, location),
-        ]
+        ],
       ],
     );
   }
@@ -80,10 +82,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildNotificationButton() => IconButton(
-    icon: SvgPicture.asset(AppImages.bell),
-    onPressed: onNotificationTap,
-    padding: EdgeInsets.zero,
-    constraints: const BoxConstraints(),
-    iconSize: 40,
-  );
+        icon: SvgPicture.asset(AppImages.bell),
+        onPressed: onNotificationTap,
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        iconSize: 40,
+      );
 }

@@ -19,7 +19,11 @@ class RegistrationIdle extends RegistrationState {
   final String phoneCode;
   final String countryName;
   final bool isFormValid;
-  final ValidationErrorType? validationError;
+  final FullNameValidationError? fullNameError;
+  final PhoneValidationError? phoneError;
+  final CityValidationError? cityError;
+  final PasswordValidationError? passwordError;
+  final PasswordValidationError? confirmPasswordError;
   final Country selectedCountry;
   final List<String> cities;
 
@@ -33,7 +37,11 @@ class RegistrationIdle extends RegistrationState {
     required this.selectedCountry,
     this.phoneCode = '20',
     this.isFormValid = false,
-    this.validationError,
+    this.fullNameError,
+    this.phoneError,
+    this.cityError,
+    this.passwordError,
+    this.confirmPasswordError,
     this.cities = const [],
   });
 
@@ -49,9 +57,11 @@ class RegistrationIdle extends RegistrationState {
     String? phoneCode,
     File? selectedProfileImage,
     bool? isFormValid,
-    ValidationErrorType? validationError,
-    bool clearValidationError = false,
-    bool clearProfileImage = false,
+    FullNameValidationError? Function()? fullNameError,
+    PhoneValidationError? Function()? phoneError,
+    CityValidationError? Function()? cityError,
+    PasswordValidationError? Function()? passwordError,
+    PasswordValidationError? Function()? confirmPasswordError,
     List<String>? cities,
   }) {
     return RegistrationIdle(
@@ -64,9 +74,11 @@ class RegistrationIdle extends RegistrationState {
       selectedCountry: selectedCountry ?? this.selectedCountry,
       phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
-      validationError: clearValidationError
-          ? null
-          : (validationError ?? this.validationError),
+      fullNameError: fullNameError != null ? fullNameError() : this.fullNameError,
+      phoneError: phoneError != null ? phoneError() : this.phoneError,
+      cityError: cityError != null ? cityError() : this.cityError,
+      passwordError: passwordError != null ? passwordError() : this.passwordError,
+      confirmPasswordError: confirmPasswordError != null ? confirmPasswordError() : this.confirmPasswordError,
       cities: cities ?? this.cities,
     );
   }
@@ -81,7 +93,11 @@ class RegistrationIdle extends RegistrationState {
         confirmPassword,
         phoneCode,
         isFormValid,
-        validationError,
+        fullNameError,
+        phoneError,
+        cityError,
+        passwordError,
+        confirmPasswordError,
         cities,
       ];
 }
