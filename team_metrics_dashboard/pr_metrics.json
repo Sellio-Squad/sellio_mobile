@@ -1086,5 +1086,47 @@
       "deletions": 10289,
       "changed_files": 42
     }
+  },
+  {
+    "pr_number": 454,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/454",
+    "title": "Fix fav",
+    "opened_at": "2026-02-13T15:35:28Z",
+    "head_ref": "fix-fav",
+    "base_ref": "develop",
+    "creator": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
+    "assignees": [
+      {
+        "login": "mohamedebrahem13",
+        "id": 111383089,
+        "url": "https://github.com/mohamedebrahem13"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W07",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 848,
+      "deletions": 1446,
+      "changed_files": 35
+    }
   }
 ]
