@@ -40,15 +40,16 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     final current = state as FavoritesLoaded;
 
     if (type == FavoriteType.product) {
-      final isFavorite = current.favoriteProductIds.contains(id);
+      final updatedIds = Set<String>.from(current.favoriteProductIds);
 
-      final updatedProducts = isFavorite
-          ? current.favoriteProducts.where((p) => p.id != id).toList()
-          : current.favoriteProducts;
+      if (updatedIds.contains(id)) {
+        updatedIds.remove(id);
+      } else {
+        updatedIds.add(id);
+      }
 
       emit(current.copyWith(
-        favoriteProducts: updatedProducts,
-        favoriteProductIds: updatedProducts.map((e) => e.id).toSet(),
+        favoriteProductIds: updatedIds,
       ));
 
       try {
@@ -56,16 +57,19 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       } catch (_) {
         emit(current);
       }
-    } else if (type == FavoriteType.store) {
-      final isFavorite = current.favoriteStoreIds.contains(id);
+    }
 
-      final updatedStores = isFavorite
-          ? current.favoriteStores.where((s) => s.id != id).toList()
-          : current.favoriteStores;
+    else if (type == FavoriteType.store) {
+      final updatedIds = Set<String>.from(current.favoriteStoreIds);
+
+      if (updatedIds.contains(id)) {
+        updatedIds.remove(id);
+      } else {
+        updatedIds.add(id);
+      }
 
       emit(current.copyWith(
-        favoriteStores: updatedStores,
-        favoriteStoreIds: updatedStores.map((e) => e.id).toSet(),
+        favoriteStoreIds: updatedIds,
       ));
 
       try {
