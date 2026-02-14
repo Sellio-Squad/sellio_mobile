@@ -2,9 +2,12 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/widgets/store_details_screen_appBar_shimmer.dart';
+import 'package:sellio_mobile/presentation/screens/store_details/widgets/store_details_screen_shimmer.dart';
 
 import '../../../domain/entities/category.dart';
 import '../../../domain/entities/product.dart';
@@ -22,8 +25,6 @@ import 'widgets/store_category_tabs.dart';
 import 'widgets/store_header.dart';
 import 'widgets/store_info_card.dart';
 import 'widgets/store_products_list.dart';
-import 'widgets/store_details_screen_shimmer.dart';
-import 'widgets/store_details_screen_appBar_shimmer.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final String storeId;
@@ -126,6 +127,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         if (prev is FavoritesLoaded && curr is FavoritesLoaded) {
           return prev.favoriteStoreIds != curr.favoriteStoreIds;
         }
+
         return curr is FavoritesLoaded;
       },
       builder: (context, favState) {
@@ -146,12 +148,17 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildStoreHeader(Store store) {
+
     return SliverToBoxAdapter(
       child: StoreHeader(
         coverImage: store.coverImage,
         profileImage: store.profileImage,
         storeName: store.name,
         discount: store.sale ?? '',
+        description: store.description,
+        address: [store.address.country, store.address.city],
+        rating: store.rating,
+        subcategories: store.categories.map((c) => c.name).toList(),
       ),
     );
   }

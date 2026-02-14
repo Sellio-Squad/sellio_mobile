@@ -19,15 +19,21 @@ class StoreModel with _$StoreModel {
     @JsonKey(name: 'title') String? name,
     required String? description,
     @JsonKey(name: 'coverImageURL') String? coverImage,
-    required String? profileImage,
+    @JsonKey(name: 'avatarImageURL') String? profileImage,
     String? sale,
-    double? rating,
-    required AddressModel? address,
+    @JsonKey(name: 'avgRating') double? rating,
+    required String city,
+    required String government,
+    required String country,
     required List<ContactInfoModel>? contactInfoList,
     required List<CategoryModel>? categories,
     @Default([]) List<ReviewModel>? reviews,
     @Default(true) bool? isActive,
     @Default(false) bool? isFavorite,
+
+    @JsonKey(name: 'subCategories')
+    @Default([])
+    List<CategoryModel> subCategories,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
