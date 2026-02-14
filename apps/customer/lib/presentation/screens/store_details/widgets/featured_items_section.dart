@@ -1,7 +1,7 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
@@ -62,6 +62,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                       return BlocBuilder<FavoritesCubit, FavoritesState>(
                         builder: (BuildContext context, favState) {
                           final isFavorite = favState.productIds.contains(product.id);
+
                           return SellioProductVerticalCard(
                             productId: product.id,
                             imageUrl: product.images.isNotEmpty
@@ -75,6 +76,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
                               final success = await context
                                   .read<FavoritesCubit>()
                                   .toggleProductFavorite(product.id);
+
                               return success;
                             },
                           );

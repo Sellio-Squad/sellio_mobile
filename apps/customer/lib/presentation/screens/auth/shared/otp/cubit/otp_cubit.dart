@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/error/failure.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
 import 'otp_state.dart';
 
@@ -8,7 +9,7 @@ class OtpCubit extends Cubit<OtpState> {
   final Future<void> Function() onResend;
   final int otpLength;
   final int countdownDuration;
-  
+
   Timer? _countdownTimer;
 
   OtpCubit({
@@ -78,6 +79,9 @@ class OtpCubit extends Cubit<OtpState> {
     try {
       await onVerify(otp);
       emit(const OtpVerified());
+    } on Failure catch (failure) {
+      emit(OtpFailure(errorMessage: failure.message));
+      emit(currentState);
     } catch (e) {
       emit(OtpFailure(errorMessage: e.toString()));
       emit(currentState);
@@ -94,6 +98,9 @@ class OtpCubit extends Cubit<OtpState> {
       await onResend();
       emit(const OtpResent());
       startCountdown();
+    } on Failure catch (failure) {
+      emit(OtpFailure(errorMessage: failure.message));
+      emit(currentState);
     } catch (e) {
       emit(OtpFailure(errorMessage: e.toString()));
       emit(currentState);

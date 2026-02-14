@@ -131,6 +131,7 @@ class _MoreTrendingContent extends StatelessWidget {
                         final success = await context
                             .read<FavoritesCubit>()
                             .toggleProductFavorite(productId);
+
                         return success;
                       },
                       onTap: () {

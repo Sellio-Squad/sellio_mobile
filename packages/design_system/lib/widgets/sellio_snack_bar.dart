@@ -59,8 +59,7 @@ class _SellioSnackBarState extends State<SellioSnackBar>
   @override
   Widget build(BuildContext context) {
     final themeColor = context.theme.colors;
-    final snackBarTitle =
-        widget.title ?? (widget.isError ? 'Error' : 'Success');
+    final snackBarTitle = widget.title ?? '';
 
     final iconPath = widget.isError
         ? AppImages.alertDiamond

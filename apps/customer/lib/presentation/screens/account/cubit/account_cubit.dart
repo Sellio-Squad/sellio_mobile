@@ -1,29 +1,46 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
+import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_state.dart';
 
 import '../../../../core/error/result.dart';
 
 class AccountCubit extends Cubit<AccountState> {
   final UserRepository _repository;
+  final AuthenticationCubit _authenticationCubit;
+  late final StreamSubscription _authenticationSubscription;
 
-  AccountCubit(this._repository) : super(const AccountInitial());
+  AccountCubit(
+      this._repository,
+      this._authenticationCubit,
+      ) : super(const AccountInitial()) {
+    _authenticationSubscription = _authenticationCubit.stream.listen(_onAuthStateChanged);
+    _onAuthStateChanged(_authenticationCubit.state);
+  }
 
-  Future<void> loadAccountDetails() async {
-    emit(const AccountLoading());
-    final result = await _repository.getUserProfile();
-    if (result is Success) {
+  void _onAuthStateChanged(AuthenticationState authState) {
+    if (authState is LoggedIn) {
       emit(AccountLoaded(
-        fullName: result.data.fullName,
-        email: result.data.email,
-        imagePath: result.data.avatarUrl,
+        fullName: authState.user.fullName,
+        email: authState.user.email,
+        imagePath: authState.user.avatarUrl,
         notificationsEnabled: true,
       ));
-    } else {
-      final errorMessage = _extractErrorMessage([result]);
-      emit(AccountError(message: errorMessage));
     }
+    else if (authState is Guest) {
+      emit(const UserNotLoggedIn());
+    }
+    else if (authState is AuthenticationError) {
+      emit(AccountError(message: authState.message));
+    }
+  }
+
+  Future<void> loadAccountDetails() async {
+    _authenticationCubit.loadUserProfile();
+
   }
 
   void toggleNotifications(bool enabled) {
@@ -46,17 +63,7 @@ class AccountCubit extends Cubit<AccountState> {
       final uploadResult =
           await _repository.uploadProfilePhoto(pickedFile.path);
       if (uploadResult is Success) {
-        final loadUserData = await _repository.getUserProfile();
-        if (loadUserData is Success) {
-          emit(AccountLoaded(
-            fullName: loadUserData.data.fullName,
-            email: loadUserData.data.email,
-            imagePath: loadUserData.data.avatarUrl,
-          ));
-        } else {
-          final errorMessage = _extractErrorMessage([loadUserData]);
-          emit(AccountError(message: errorMessage));
-        }
+        _authenticationCubit.loadUserProfile();
       } else {
         final errorMessage = _extractErrorMessage([uploadResult]);
         emit(AccountError(message: errorMessage));
@@ -73,5 +80,12 @@ class AccountCubit extends Cubit<AccountState> {
     }
 
     return 'Something went wrong';
+  }
+
+  @override
+  Future<void> close() {
+    _authenticationSubscription.cancel();
+
+    return super.close();
   }
 }
