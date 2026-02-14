@@ -962,17 +962,38 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "NadeenRR",
+          "id": 65049320,
+          "url": "https://github.com/NadeenRR"
+        },
+        "submitted_at": "2026-02-12T18:42:02Z",
+        "commit_id": "7a02e96313e95726835cd79c7c58f5d7368e9c9d",
+        "note": "May be for different commit"
+      },
+      {
+        "reviewer": {
+          "login": "dev-bilal-azzam",
+          "id": 75501067,
+          "url": "https://github.com/dev-bilal-azzam"
+        },
+        "submitted_at": "2026-02-14T10:32:40Z",
+        "commit_id": "7a02e96313e95726835cd79c7c58f5d7368e9c9d",
+        "note": "May be for different commit"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "first_approved_at": "2026-02-12T18:42:02Z",
+    "time_to_first_approval_minutes": 205.76666666666668,
+    "required_approvals_met_at": "2026-02-14T10:32:40Z",
+    "time_to_required_approvals_minutes": 2596.4,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W07",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
@@ -980,7 +1001,7 @@
     "files_changed": [],
     "diff_stats": {
       "additions": 112,
-      "deletions": 31,
+      "deletions": 29,
       "changed_files": 7
     }
   },
