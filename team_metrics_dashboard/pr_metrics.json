@@ -1159,10 +1159,21 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-02-14T15:23:33Z",
+        "commit_id": "53e73a7fa775cd159d1688357e7f038b14ad4075",
+        "note": "May be for different commit"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-14T15:23:33Z",
+    "time_to_first_approval_minutes": 1428.0833333333333,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
@@ -1176,9 +1187,9 @@
     "review_requests": [],
     "files_changed": [],
     "diff_stats": {
-      "additions": 867,
-      "deletions": 1440,
-      "changed_files": 35
+      "additions": 1005,
+      "deletions": 1553,
+      "changed_files": 45
     }
   }
 ]
