@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 
 import 'home_bloc_providers.dart';
-import 'sections/search/search_section.dart';
 import 'sections/special_offers/special_offers_section.dart';
 import 'sections/top_stores/top_stores_section.dart';
 import 'sections/trending_products/trending_products_section.dart';
@@ -33,6 +32,7 @@ class _HomeScreenContent extends StatelessWidget {
       child: Scaffold(
         appBar: HomeAppBar(
           onNotificationTap: () => navigateToNotifications(context),
+          onSearchTap: () => navigateToSearch(context),
         ),
         extendBodyBehindAppBar: true,
         backgroundColor: colors.surfaceLow,
@@ -66,7 +66,6 @@ class _HomeBody extends StatelessWidget {
 
   List<Widget> _buildSections() {
     return const [
-      SearchSection(),
       SpecialOffersSection(),
       TrendingProductsSection(),
       TopStoresSection(),
