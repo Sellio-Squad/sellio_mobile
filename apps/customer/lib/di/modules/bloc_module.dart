@@ -20,7 +20,7 @@ class BlocModule {
       orderRepository: sl(),
       authenticationCubit: sl(),
     ));
-    sl.registerFactory(() => FavoritesCubit(sl()));
+    sl.registerFactory(() => FavoritesCubit(sl(), sl()));
     sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl(), sl()));
     sl.registerFactory(() => HomeTopStoresCubit(sl()));
