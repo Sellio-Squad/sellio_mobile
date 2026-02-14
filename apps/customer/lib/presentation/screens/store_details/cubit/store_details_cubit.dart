@@ -22,32 +22,21 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
           ? storeResult.failure.message 
           : '';
       emit(StoreDetailsError(message: errorMessage, failedCall: 'store_details'));
+     
       return;
     }
 
     final ratingResult = await _repository.getStoreRating(storeId);
     StoreRating? rating;
-    if (ratingResult is Success) {
-      rating = ratingResult.data;
-    } else {
-      rating = null;
-    }
+    rating = ratingResult is Success ? ratingResult.data : null;
 
     final productsResult = await _repository.getStoreProducts(storeId: storeId);
     List<Product>? products;
-    if (productsResult is Success) {
-      products = productsResult.data;
-    } else {
-      products = null;
-    }
+    products = productsResult is Success ? productsResult.data : null;
 
     final featuredProductsResult = await _repository.getStoreFeaturedProducts(storeId: storeId);
     List<Product>? featuredProducts;
-    if (featuredProductsResult is Success) {
-      featuredProducts = featuredProductsResult.data;
-    } else {
-      featuredProducts = null;
-    }
+    featuredProducts = featuredProductsResult is Success ? featuredProductsResult.data : null;
 
     emit(StoreDetailsLoaded(
       store: storeResult.data,

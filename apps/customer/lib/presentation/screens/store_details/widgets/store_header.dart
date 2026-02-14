@@ -45,7 +45,9 @@ class StoreHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: Image.network(coverImage).image,
+                    image: coverImage.startsWith('http')
+                        ? NetworkImage(coverImage)
+                        : AssetImage(coverImage) as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -64,7 +66,9 @@ class StoreHeader extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: Image.network(profileImage).image,
+                  backgroundImage: profileImage.startsWith('http')
+                      ? NetworkImage(profileImage)
+                      : AssetImage(profileImage) as ImageProvider,
                 ),
               ),
             ),
@@ -76,7 +80,6 @@ class StoreHeader extends StatelessWidget {
 
         const SizedBox(height: 44),
 
-        // Store Name
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Align(
@@ -165,5 +168,4 @@ class StoreHeader extends StatelessWidget {
       ],
     );
   }
-
 }

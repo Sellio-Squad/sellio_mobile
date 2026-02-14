@@ -11,28 +11,31 @@ class Product {
   final List<Item> items;
   final String storeId;
   final String categoryId;
+  final List<String> subCategoriesIds;
   final bool isAvailable;
   final bool isFavorite;
   final bool isFeatured;
   final bool isUsed;
   final int stockQuantity;
 
-  const Product(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.price,
-      required this.currency,
-      this.discount,
-      required this.images,
-      required this.storeId,
-      required this.categoryId,
-      this.isAvailable = true,
-      this.stockQuantity = 0,
-      required this.items,
-      required this.isFavorite,
-      required bool this.isUsed,
-      required bool this.isFeatured});
+  const Product({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.currency,
+    this.discount,
+    required this.images,
+    required this.storeId,
+    required this.categoryId,
+    this.subCategoriesIds = const [],
+    this.isAvailable = true,
+    this.stockQuantity = 0,
+    required this.items,
+    required this.isFavorite,
+    required bool this.isUsed,
+    required bool this.isFeatured,
+  });
 
   Product copyWith({
     String? id,
@@ -44,6 +47,7 @@ class Product {
     List<String>? images,
     String? storeId,
     String? categoryId,
+    List<String>? subCategoriesIds,
     bool? isAvailable,
     bool? isFavorite,
     bool? isFeatured,
@@ -61,12 +65,13 @@ class Product {
       images: images ?? this.images,
       storeId: storeId ?? this.storeId,
       categoryId: categoryId ?? this.categoryId,
+      subCategoriesIds: subCategoriesIds ?? this.subCategoriesIds,
       isAvailable: isAvailable ?? this.isAvailable,
       stockQuantity: stockQuantity ?? this.stockQuantity,
       items: items ?? this.items,
       isFavorite: isFavorite ?? this.isFavorite,
       isUsed: isUsed ?? this.isUsed,
-      isFeatured: isFeatured ?? this.isFeatured
+      isFeatured: isFeatured ?? this.isFeatured,
     );
   }
 }

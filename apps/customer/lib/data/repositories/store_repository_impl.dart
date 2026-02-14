@@ -116,37 +116,6 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   @override
-  Future<Result<List<Store>>> getFavoriteStores() async {
-    return RepositoryCallHandler.call<List<Store>>(
-      () async {
-        final storeIds = await _favoritesRemoteDataSource.getFavoriteStoreIds();
-
-        final stores = <Store>[];
-        for (final storeId in storeIds) {
-          try {
-            final storeModel = await _remoteDataSource.getStoreById(storeId);
-            stores.add(storeModel.toEntity());
-          } catch (e) {
-            continue;
-          }
-        }
-        return stores;
-      },
-    );
-  }
-
-  @override
-  Future<Result<bool>> isFavorite(String storeId) async {
-    return RepositoryCallHandler.call<bool>(
-      () async {
-        final favoriteIds =
-            await _favoritesRemoteDataSource.getFavoriteStoreIds();
-        return favoriteIds.contains(storeId);
-      },
-    );
-  }
-
-  @override
   Future<Result<List<Review>>> getStoreReviews({
     required String storeId,
     int page = RepositoryConstants.defaultPage,

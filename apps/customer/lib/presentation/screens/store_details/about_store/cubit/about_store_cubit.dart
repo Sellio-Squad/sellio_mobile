@@ -12,7 +12,7 @@ class AboutStoreCubit extends Cubit<AboutStoreState> {
   Future<void> loadStoreInfo(String storeId) async {
     emit(const AboutStoreLoading());
 
-    final storeResult = await _repository.getStoreById(storeId);
+    final storeResult = await _repository.getStoreDetails(storeId);
     final ratingResult = await _repository.getStoreRating(storeId);
 
     if (storeResult is Success && ratingResult is Success) {
@@ -29,9 +29,12 @@ class AboutStoreCubit extends Cubit<AboutStoreState> {
   String _extractErrorMessage(List<Result> results) {
     for (final r in results) {
       if (r is ResultFailure) {
-        return r.failure.message;
+        final error = r.failure.message;
+
+        return error;
       }
     }
+
     return 'Something went wrong';
   }
 }

@@ -17,29 +17,31 @@ extension StoreModelMapper on StoreModel {
     sale: sale,
     rating: rating ?? 0.0,
     address: Address(
-      country: country,
-      city: city,
+      country: country ?? '',
+      city: city ?? '',
     ),
     contactInfoList: contactInfoList?.map((e) => e.toEntity()).toList() ?? [],
     categories: subCategories.map((e) => e.toEntity()).toList(),
     reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],
     isActive: isActive ?? false,
+    isFavorite: isFavorite ?? false,
   );
 }
 
 extension StoreItemMapper on StoreTopRatingModel {
   Store toEntity() => Store(
-        id: id,
-        name: title,
-        description: '',
-        coverImage: coverImageURL ?? "",
-        profileImage: "",
-        sale: maxDiscount?.toString(),
-        rating: 0.0,
-        address: Address(country: "", city: ""),
-        contactInfoList: [],
-        categories: [],
-        reviews: [],
-        isActive: true,
-      );
+    id: id,
+    name: title,
+    description: '',
+    coverImage: coverImageURL ?? "",
+    profileImage: "",
+    sale: maxDiscount?.toString(),
+    rating: 0.0,
+    address: Address(country: "", city: ""),
+    contactInfoList: [],
+    categories: [],
+    reviews: [],
+    isActive: true,
+    isFavorite: isFavorite,
+  );
 }

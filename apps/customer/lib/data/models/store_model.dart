@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'review_model.dart';
 import 'category_model.dart';
 import 'contact_info_model.dart';
+
 part 'store_model.freezed.dart';
 part 'store_model.g.dart';
 
@@ -15,13 +16,14 @@ class StoreModel with _$StoreModel {
     @JsonKey(name: 'avatarImageURL') String? profileImage,
     String? sale,
     @JsonKey(name: 'avgRating') double? rating,
-    required String city,
-    required String government,
-    required String country,
-    required List<ContactInfoModel>? contactInfoList,
-    required List<CategoryModel>? categories,
-    @Default([]) List<ReviewModel> ?reviews,
+    String? city,
+    String? government,
+    String? country,
+    List<ContactInfoModel>? contactInfoList,
+    List<CategoryModel>? categories,
+    @Default([]) List<ReviewModel>? reviews,
     @Default(true) bool? isActive,
+    @Default(false) bool? isFavorite,
 
     @JsonKey(name: 'subCategories')
     @Default([])
@@ -35,5 +37,6 @@ class StoreModel with _$StoreModel {
             ?.map((e) => ReviewModel.fromJson(e as Map<String, dynamic>))
             .toList() ??
             [],
+        'isFavorite': json['isFavorite'] ?? false,
       });
 }

@@ -32,10 +32,6 @@ abstract class StoreRepository {
 
   Future<Result<void>> toggleFavoriteStore(String storeId);
 
-  Future<Result<List<Store>>> getFavoriteStores();
-
-  Future<Result<bool>> isFavorite(String storeId);
-
   Future<Result<List<Review>>> getStoreReviews({
     required String storeId,
     int page = 1,
