@@ -31,10 +31,17 @@ class SellioTextField extends StatefulWidget {
   final String? errorMessage;
   final bool readOnly;
   final VoidCallback? onTap;
+  final String? emptyValidationMessage;
+  final bool? isSearchTextField;
+
+  /*  final Country? selectedCountry;
+  final List<Country>? countries;
+  final ValueChanged<Country>? onChangeCountry;*/
 
   const SellioTextField({
     super.key,
     this.isParagraph = false,
+    this.isSearchTextField = false,
     this.inputType,
     this.inputFormatter,
     this.cornerRadius = const BorderRadius.all(Radius.circular(8)),
@@ -59,6 +66,10 @@ class SellioTextField extends StatefulWidget {
     this.errorMessage,
     this.readOnly = false,
     this.onTap,
+    this.emptyValidationMessage,
+    /*   this.selectedCountry,
+    this.countries,
+    this.onChangeCountry,*/
   });
 
   @override
@@ -81,7 +92,11 @@ class _SellioTextFieldState extends State<SellioTextField> {
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          isError = !widget.isError ? _effectiveController.text.isEmpty : widget.isError;
+          if (widget.isSearchTextField == true) {
+            isError = false;
+          } else {
+            isError = !widget.isError ? _effectiveController.text.isEmpty : widget.isError;
+          }
         });
       }
     });
@@ -146,101 +161,116 @@ class _SellioTextFieldState extends State<SellioTextField> {
           color: hintColor,
         );
 
-    final String? errorText = widget.errorMessage;
+    final String? errorText =
+        widget.errorMessage ??
+        (isError
+            ? (widget.emptyValidationMessage ?? 'Should not be empty')
+            : null);
 
-    final errorStyle =
-        widget.errorStyle ??
-        context.theme.typography.textTheme.labelSmall.copyWith(
-          color: context.theme.colors.semanticError,
-        );
+    final errorStyle = (widget.isSearchTextField == true)
+        ? null
+        : widget.errorStyle ??
+              context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.semanticError,
+              );
 
     return GestureDetector(
       onTap: widget.readOnly && widget.onTap != null ? widget.onTap : null,
       child: AbsorbPointer(
         absorbing: widget.readOnly,
         child: Container(
-            decoration: BoxDecoration(
-              borderRadius: widget.cornerRadius,
-              boxShadow: textFieldShadow,
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    onTapOutside: (event) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    keyboardType: widget.inputType ?? TextInputType.text,
-                    focusNode: _focusNode,
-                    controller: _effectiveController,
-                    inputFormatters:
+          decoration: BoxDecoration(
+            borderRadius: widget.cornerRadius,
+            boxShadow: textFieldShadow,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                keyboardType: widget.inputType ?? TextInputType.text,
+                focusNode: _focusNode,
+                controller: _effectiveController,
+                inputFormatters:
                     widget.inputFormatter ??
-                        [
-                          TextInputFormatter.withFunction((oldValue, newValue) {
-                            final lineCount = '\n'.allMatches(newValue.text).length + 1;
-                            if (lineCount > 5) {
-                              return oldValue;
-                            }
-                            return newValue;
-                          }),
-                        ],
+                    [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        final lineCount =
+                            '\n'.allMatches(newValue.text).length + 1;
+                        if (lineCount > 5) {
+                          return oldValue;
+                        }
+                        return newValue;
+                      }),
+                    ],
 
-                    onChanged: (value) {
-                      setState(() {
-                        isError = value.isEmpty;
-                      });
-                    },
-                    obscureText: isObscured,
-                    obscuringCharacter: '●',
-                    style: textFieldStyle,
-                    maxLines: maxLines,
-                    decoration: InputDecoration(
-                      filled: widget.isTextFieldFilled,
-                      fillColor: filledColor,
-                      hintText: widget.hintText,
-                      hintStyle: hintTextStyle,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 12),
-                      prefixIcon: widget.isParagraph
-                          ? null
-                          : _buildPrefixIcon(iconColor, AppImages.iconsPath),
-                      prefixIconConstraints: const BoxConstraints(
-                        minWidth: 24,
-                        minHeight: 24,
-                      ),
-                      suffixIcon: _buildSuffixIcon(iconColor),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
-                        borderSide: BorderSide(color: borderColor, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
-                        borderSide: BorderSide(color: borderColor),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.errorBorderRadius),
-                        borderSide: BorderSide(color: context.theme.colors.semanticError),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          widget.focusedErrorBorderRadius,
-                        ),
-                        borderSide: BorderSide(color: context.theme.colors.semanticError),
-                      ),
-                      errorStyle: errorStyle,
+                onChanged: (value) {
+                  setState(() {
+                    isError = (widget.isSearchTextField == true) ? false : value.isEmpty;
+                  });
+                },
+                obscureText: isObscured,
+                obscuringCharacter: '●',
+                style: textFieldStyle,
+                maxLines: maxLines,
+                decoration: InputDecoration(
+                  filled: widget.isTextFieldFilled,
+                  fillColor: filledColor,
+                  hintText: widget.hintText,
+                  hintStyle: hintTextStyle,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 12,
+                  ),
+                  prefixIcon: widget.isParagraph
+                      ? null
+                      : _buildPrefixIcon(iconColor, AppImages.iconsPath),
+                  prefixIconConstraints: const BoxConstraints(
+                    minWidth: 24,
+                    minHeight: 24,
+                  ),
+                  suffixIcon: _buildSuffixIcon(iconColor),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      widget.enabledBorderRadius,
+                    ),
+                    borderSide: BorderSide(color: borderColor, width: 0.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      widget.focusedBorderRadius,
+                    ),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      widget.errorBorderRadius,
+                    ),
+                    borderSide: BorderSide(
+                      color: context.theme.colors.semanticError,
                     ),
                   ),
-                  if (isError && errorText != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 4),
-                      child: Text(
-                        errorText,
-                        style: errorStyle,
-                      ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      widget.focusedErrorBorderRadius,
                     ),
-                ]
-            )
+                    borderSide: BorderSide(
+                      color: context.theme.colors.semanticError,
+                    ),
+                  ),
+                  errorStyle: errorStyle,
+                ),
+              ),
+              if (isError && errorText != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 4),
+                  child: Text(errorText, style: errorStyle),
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -279,3 +309,62 @@ class _SellioTextFieldState extends State<SellioTextField> {
     return null;
   }
 }
+
+/*
+// todo : it's need update and remove Country parameter
+Widget _buildCountryDropdown({
+  required Country selectedCountry,
+  required List<Country> countries,
+  required ValueChanged<Country> onChanged,
+  required String countryFlag,
+  required BuildContext context,
+}) {
+  return DropdownButtonHideUnderline(
+    child: DropdownButton<Country>(
+      value: selectedCountry,
+      isDense: true,
+      icon: const SizedBox.shrink(),
+      onChanged: (Country? newValue) {
+        if (newValue != null) onChanged(newValue);
+      },
+      selectedItemBuilder: (context) {
+        return countries.map((country) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(AppImages.arrowDown, width: 16, height: 16),
+              const Gap(8),
+              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
+              const Gap(8),
+              Text(
+                country.code,
+                style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                  color: context.theme.colors.title,
+                ),
+              ),
+            ],
+          );
+        }).toList();
+      },
+      items: countries.map((country) {
+        return DropdownMenuItem<Country>(
+          value: country,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(country.flagAsset, width: 24, height: 24),
+              const Gap(8),
+              Text(
+                country.code,
+                style: context.theme.typography.textTheme.bodyMedium.copyWith(
+                  color: context.theme.colors.body,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    ),
+  );
+}
+*/

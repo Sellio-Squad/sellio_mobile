@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/categories/cubit/categories_cubit.dart';
 
 import '../../../di/injection_container.dart';
 import 'sections/special_offers/cubit/home_special_offers_cubit.dart';
@@ -26,6 +27,9 @@ class HomeBlocProviders extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => sl<HomeSpecialOffersCubit>()..loadSpecialOffers(),
+        ),
+        BlocProvider(
+          create: (_) => sl<CategoriesCubit>()..fetchCategories(),
         ),
       ],
       child: child,
