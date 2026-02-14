@@ -101,9 +101,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   // ---------------- APP BAR ----------------
 
   PreferredSizeWidget _buildAppBar(
-      BuildContext context,
-      StoreDetailsState state,
-      ) {
+    BuildContext context,
+    StoreDetailsState state,
+  ) {
     final isLoading = state is StoreDetailsLoading;
     final storeName = state is StoreDetailsLoaded ? state.store.name : '';
 
@@ -140,7 +140,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
           ),
           onPressed: () {
-            context.read<FavoritesCubit>().toggleFavorite(store.id, FavoriteType.store);
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(store.id, FavoriteType.store);
           },
         );
       },
@@ -148,7 +150,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildStoreHeader(Store store) {
-
     return SliverToBoxAdapter(
       child: StoreHeader(
         coverImage: store.coverImage,
@@ -187,9 +188,9 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildProductsList(
-      List<Product> products,
-      List<Category> categories,
-      ) {
+    List<Product> products,
+    List<Category> categories,
+  ) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, cartState) {
         return SliverPadding(

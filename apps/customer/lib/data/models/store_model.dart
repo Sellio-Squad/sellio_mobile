@@ -1,11 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'review_model.dart';
-import 'address_model.dart';
-import 'category_model.dart';
-import 'contact_info_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'review_model.dart';
-import 'address_model.dart';
 import 'category_model.dart';
 import 'contact_info_model.dart';
 
@@ -22,11 +16,11 @@ class StoreModel with _$StoreModel {
     @JsonKey(name: 'avatarImageURL') String? profileImage,
     String? sale,
     @JsonKey(name: 'avgRating') double? rating,
-    required String city,
-    required String government,
-    required String country,
-    required List<ContactInfoModel>? contactInfoList,
-    required List<CategoryModel>? categories,
+    String? city,
+    String? government,
+    String? country,
+    List<ContactInfoModel>? contactInfoList,
+    List<CategoryModel>? categories,
     @Default([]) List<ReviewModel>? reviews,
     @Default(true) bool? isActive,
     @Default(false) bool? isFavorite,

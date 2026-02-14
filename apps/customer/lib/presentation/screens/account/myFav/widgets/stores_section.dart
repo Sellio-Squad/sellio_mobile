@@ -1,6 +1,8 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import 'empty_favorites_state.dart';
@@ -46,7 +48,7 @@ class StoresSection extends StatelessWidget {
                   .toggleFavorite(store.id, FavoriteType.store);
             },
             onCardPressed: () {
-              // Navigate to store details if needed
+              context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: store.id));
             },
           );
         },

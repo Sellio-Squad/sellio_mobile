@@ -15,7 +15,6 @@ class StoreProductsList extends StatelessWidget {
     required this.products,
     required this.categories,
     required this.onTap,
-
   });
 
   List<Product> get filteredProducts {
@@ -23,7 +22,10 @@ class StoreProductsList extends StatelessWidget {
       return products;
     }
     final selectedCategoryId = categories[categoryIndex];
-    return products.where((p) => p.categoryId == selectedCategoryId).toList();
+
+    return products
+        .where((p) => p.subCategoriesIds.contains(selectedCategoryId))
+        .toList();
   }
 
   @override
@@ -41,15 +43,14 @@ class StoreProductsList extends StatelessWidget {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           final product = filteredProducts[index];
+          final imageUrl = product.images.firstOrNull;
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 12.0),
             child: SellioProductHorizontalCard(
-              imageUrl: product.images.isNotEmpty
-                  ? product.images.first
-                  : AppImages.cartProduct,
+              imageUrl: imageUrl ?? AppImages.cartProduct,
               title: product.title,
               description: product.description,
               price: product.price.toString(),
