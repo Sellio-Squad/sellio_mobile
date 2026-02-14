@@ -7,7 +7,7 @@ import 'empty_favorites_state.dart';
 
 class ProductsGridSection extends StatelessWidget {
   final List<Product> products;
-  final Set<String> favoriteIds; // <- pass favorite IDs
+  final Set<String> favoriteIds;
 
   const ProductsGridSection({
     super.key,

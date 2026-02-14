@@ -5,6 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../../utils/home_navigation.dart';
 import '../models/product_summary_ui_model.dart';
 
 class ProductsList extends StatelessWidget {
@@ -92,9 +93,12 @@ class _ProductItem extends StatelessWidget {
           imageUrl: product.imageUrl,
           title: product.title,
           price: product.price,
+          onTap: () => navigateToProductDetails(context, product.id),
           isFavorite: isFavorite,
           onFavoriteToggle: () {
-            context.read<FavoritesCubit>().toggleFavorite(product.id, FavoriteType.product);
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(product.id, FavoriteType.product);
           },
         );
       },
