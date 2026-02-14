@@ -10,6 +10,7 @@ class CategoryModel with _$CategoryModel {
 
     @JsonKey(name: 'title')
     required String name,
+    required String imageUrl,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
