@@ -106,14 +106,19 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   ) {
     final isLoading = state is StoreDetailsLoading;
     final storeName = state is StoreDetailsLoaded ? state.store.name : '';
+    final storeId = state is StoreDetailsLoaded ? state.store.id : '';
+
 
     return SellioAppBar(
       showBackButton: true,
       title: storeName,
       actions: [
-        isLoading
-            ? const StoreAppbarShimmer(height: 20, width: 100)
-            : _buildStoreFavoriteButton(state),
+        if (isLoading)
+          const StoreAppbarShimmer(height: 20, width: 100)
+        else ...[
+          _buildStoreFavoriteButton(state),
+          _buildStoreInfoButton(context, storeId),
+        ],
       ],
     );
   }
@@ -147,6 +152,16 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         );
       },
     );
+  }
+
+  Widget _buildStoreInfoButton(BuildContext context, String storeId) {
+    return IconButton(
+      icon: SvgPicture.asset(AppImages.info),
+      onPressed: () {
+        context.navigator.pushAboutStore(AboutStoreArgs(storeId: storeId));
+      },
+    );
+
   }
 
   Widget _buildStoreHeader(Store store) {
