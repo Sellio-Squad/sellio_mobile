@@ -56,11 +56,12 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     emit(currentState.copyWith(note: newNote));
   }
 
-  void toggleFavorite() {
+  void toggleFavorite() async {
     final currentState = state;
     if (currentState is! ProductDetailsLoaded) return;
 
-    _favoritesCubit.toggleFavorite(currentState.product.id, FavoriteType.product);
+    final result = await _favoritesCubit.toggleFavorite(currentState.product.id, FavoriteType.product);
+    if (!result) return;
 
     final updatedFavorite = !currentState.isFavorite;
     emit(currentState.copyWith(isFavorite: updatedFavorite));

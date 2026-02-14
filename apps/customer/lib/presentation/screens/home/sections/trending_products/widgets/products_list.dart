@@ -60,6 +60,7 @@ class ProductsList extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(width: 12),
               itemBuilder: (context, index) {
                 final product = products[index];
+
                 return SizedBox(
                   width: 160,
                   child: _ProductItem(product: product),
