@@ -81,7 +81,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
           if (featuredProducts != null && featuredProducts.isNotEmpty)
             _buildFeaturedItemsSection(featuredProducts),
           _buildSectionSpacing(),
-          if (products != null && categories.isNotEmpty)
+          if (products != null && categories.isNotEmpty && products.isNotEmpty)
             _buildCategoryTabs(store),
           if (products != null && products.isNotEmpty)
             _buildProductsList(products, categories),
@@ -184,6 +184,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
   }
 
   Widget _buildStoreHeader(Store store) {
+
     return SliverToBoxAdapter(
       child: StoreHeader(
         coverImage: store.coverImage.isNotEmpty
@@ -194,6 +195,10 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
             : AppImages.placeholder,
         storeName: store.name.isNotEmpty ? store.name : context.local.store,
         discount: store.sale ?? '',
+        description: store.description,
+        address: [store.address.country, store.address.city],
+        rating: store.rating,
+        subcategories: store.categories.map((c) => c.name).toList(),
       ),
     );
   }

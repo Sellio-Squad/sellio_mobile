@@ -6,7 +6,6 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
-
 import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../cubits/cart/cubit/cart_cubit.dart';
@@ -41,7 +40,7 @@ class _FeaturedItemsSectionState extends State<FeaturedItemsSection> {
           ),
         ),
         SizedBox(
-          height: 272,
+          height: 210,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),

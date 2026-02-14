@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'review_model.dart';
-import 'address_model.dart';
 import 'category_model.dart';
 import 'contact_info_model.dart';
 part 'store_model.freezed.dart';
@@ -13,14 +12,20 @@ class StoreModel with _$StoreModel {
     @JsonKey(name: 'title') String? name,
     required String? description,
     @JsonKey(name: 'coverImageURL') String? coverImage,
-    required String? profileImage,
+    @JsonKey(name: 'avatarImageURL') String? profileImage,
     String? sale,
-    double? rating,
-    required AddressModel? address,
+    @JsonKey(name: 'avgRating') double? rating,
+    required String city,
+    required String government,
+    required String country,
     required List<ContactInfoModel>? contactInfoList,
     required List<CategoryModel>? categories,
     @Default([]) List<ReviewModel> ?reviews,
     @Default(true) bool? isActive,
+
+    @JsonKey(name: 'subCategories')
+    @Default([])
+    List<CategoryModel> subCategories,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
