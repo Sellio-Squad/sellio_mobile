@@ -10,7 +10,11 @@ class SearchBarWidget extends StatefulWidget {
   final bool isReadOnly;
 
   const SearchBarWidget(
-      {super.key, required this.onTextSubmitted, this.controller , this.onTextFiledClicked , this.isReadOnly = false});
+      {super.key,
+      required this.onTextSubmitted,
+      this.controller,
+      this.onTextFiledClicked,
+      this.isReadOnly = false});
 
   @override
   State<SearchBarWidget> createState() => _SearchBarWidgetState();
@@ -35,41 +39,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.only(end: 8),
-          child: SvgPicture.asset(
-            AppImages.search,
-            width: 24,
-            height: 24,
-          ),
-        ),
-        Expanded(
-          child: TextField(
-            maxLines: 1,
-            readOnly: widget.isReadOnly,
-            onTap: widget.onTextFiledClicked,
-            cursorColor: context.theme.colors.primary,
-            controller: _searchController,
-            textInputAction: TextInputAction.search,
-            onSubmitted: (value) {
-              widget.onTextSubmitted(value);
-            },
-            decoration: InputDecoration(
-              hintText: context.local.search_your_favorite_items,
-              counterText: '',
-              hintStyle: context.theme.typography.textTheme.labelMedium
-                  .copyWith(color: context.theme.colors.body),
-              border: InputBorder.none,
-            ),
-            style: context.theme.typography.textTheme.labelSmall.copyWith(
-              color: context.theme.colors.title,
-            ),
-          ),
-        ),
-      ],
+    return SellioTextField(
+      maxLine: 1,
+      isSearchTextField: true,
+      hintText: context.local.search_your_favorite_items,
+      hintStyle: context.theme.typography.textTheme.labelMedium
+          .copyWith(color: context.theme.colors.body),
+      prefixIcon: SvgPicture.asset(
+        AppImages.search,
+        width: 24,
+        height: 24,
+      ),
     );
   }
 }

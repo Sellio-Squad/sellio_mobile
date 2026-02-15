@@ -164,6 +164,7 @@ class MockDataGenerator {
     ];
 
     return Store(
+      isFavorite: false,
       id: 'store_$index',
       name: storeNames[index % storeNames.length],
       description:

@@ -174,7 +174,6 @@ class ProductRepositoryImpl implements ProductRepository {
         page: page - 1,
         pageSize: limit,
       );
-      // print('product list: repo impl(1) -> ${paginatedResponse.data.map((model) => model.toEntity()).toList()[0].images}');
       print('product list: repo impl(2)-> ${paginatedResponse}');
       return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
@@ -197,35 +196,6 @@ class ProductRepositoryImpl implements ProductRepository {
       ),
     );
   }
-
-  @override
-  Future<Result<List<Product>>> getFavoriteProducts() async {
-    return RepositoryCallHandler.call<List<Product>>(() async {
-      final productIds = await _favoritesRemoteDataSource.getFavoriteProductIds();
-
-      final products = <Product>[];
-      for (final productId in productIds) {
-        try {
-          final model = await _remoteDataSource.getProductById(productId);
-          products.add(model.toEntity());
-        } catch (e) {
-          continue;
-        }
-      }
-
-      return products;
-    });
-  }
-
-  @override
-  Future<Result<bool>> isFavorite(String productId) async {
-    return RepositoryCallHandler.call<bool>(() async {
-      final favoriteIds = await _favoritesRemoteDataSource.getFavoriteProductIds();
-      return favoriteIds.contains(productId);
-    });
-  }
-
-
   PaginatedData<Product> _mapToPaginatedData(
       PaginatedResponse<ProductModel> response,
       ) {
@@ -269,5 +239,4 @@ class ProductRepositoryImpl implements ProductRepository {
       return _mapToPaginatedData(paginatedResponse);
     });
   }
-
 }

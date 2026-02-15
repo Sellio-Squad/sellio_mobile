@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
@@ -22,14 +23,19 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProductDetailsCubit(
-        context.read<ProductRepository>(),
-        context.read<CartCubit>(),
-      )..loadProductDetails(productId),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ProductDetailsCubit(
+            context.read<ProductRepository>(),
+            context.read<CartCubit>(),
+            context.read<FavoritesCubit>(),
+          )..loadProductDetails(productId),
+        ),
+      ],
       child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
         listenWhen: (previous, current) =>
-            current is ProductDetailsAddToCartSuccess,
+        current is ProductDetailsAddToCartSuccess,
         listener: (context, state) {
           if (state is ProductDetailsAddToCartSuccess) {
             SellioSnackBar(
@@ -49,26 +55,36 @@ class ProductDetailsScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(56),
               child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
                 builder: (context, state) {
-                  final title = (state is ProductDetailsLoaded)
+                  final title = state is ProductDetailsLoaded
                       ? state.product.title
                       : null;
-                  final isFavorite = (state is ProductDetailsLoaded)
-                      ? state.product.isFavorite
-                      : false;
+
                   return SellioAppBar(
                     showBackButton: true,
                     title: title,
                     actions: [
                       state is ProductDetailsLoading
-                          ? ProductDetailsAppbarShimmer(height: 20, width: 100)
-                          : productFavorite(context, productId, isFavorite)
+                          ? const ProductDetailsAppbarShimmer(
+                          height: 20, width: 100,)
+                          : IconButton(
+                        icon: SvgPicture.asset(
+                          state is ProductDetailsLoaded &&
+                              state.isFavorite
+                              ? AppImages.favorite
+                              : AppImages.unselectedFavorite,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<ProductDetailsCubit>()
+                              .toggleFavorite();
+                        },
+                      ),
                     ],
                   );
                 },
               ),
             ),
 
-            // ---------------- BODY ----------------
             body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is ProductDetailsLoading) {
@@ -81,15 +97,15 @@ class ProductDetailsScreen extends StatelessWidget {
                       return SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 100),
                         child: ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minHeight: constraints.maxHeight),
+                          constraints: BoxConstraints(
+                              minHeight: constraints.maxHeight),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               productImagesSection(),
                               Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(horizontal: 16),
+                                const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -111,9 +127,8 @@ class ProductDetailsScreen extends StatelessWidget {
               },
             ),
 
-            // ---------------- BOTTOM BUTTON ----------------
             bottomNavigationBar:
-                BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is! ProductDetailsLoaded) return const SizedBox();
                 return SafeArea(
@@ -130,6 +145,7 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 }
+
 
 Widget _buildPriceAndCounterRow(
     BuildContext context, ProductDetailsLoaded state) {
@@ -187,29 +203,6 @@ Widget _buildAddToCartButton(BuildContext context) {
         text: context.local.add_to_cart,
         onTap: () => context.read<ProductDetailsCubit>().addToCart(),
         suffixSvgPath: AppImages.cartSmall,
-      );
-    },
-  );
-}
-
-Widget productFavorite(
-    BuildContext context, String productId, bool isFavorite) {
-  return BlocBuilder<FavoritesCubit, FavoritesState>(
-    builder: (context, favoritesState) {
-      //final isFavorite = favoritesState.productIds.contains(productId);
-
-      return FavoriteToggleButton(
-        productId: productId,
-        isFavorite: isFavorite,
-        onToggle: () async {
-          // Pessimistic update: wait for API response before updating UI
-          final success = await context
-              .read<FavoritesCubit>()
-              .toggleProductFavorite(productId);
-          return success;
-        },
-        size: 24,
-        showBackground: false,
       );
     },
   );

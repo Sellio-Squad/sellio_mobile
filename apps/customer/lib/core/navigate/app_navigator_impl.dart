@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
+import 'package:sellio_mobile/core/navigate/route_manager.dart';
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -9,8 +10,8 @@ class AppNavigatorImpl implements AppNavigator {
 
   final BuildContext context;
   @override
-  void pushReplacementLogin() {
-    context.go(AppRoutes.login.path);
+  void pushLogin() {
+    RouteGenerator.rootContext.pushNamed(AppRoutes.login.name);
   }
 
   @override

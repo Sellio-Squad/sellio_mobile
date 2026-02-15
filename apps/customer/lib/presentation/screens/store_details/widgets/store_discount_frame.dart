@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
 
-import 'package:design_system/design_system.dart';
-
 class StoreDiscountTag extends StatelessWidget {
   final String discount;
 
@@ -38,7 +36,7 @@ class StoreDiscountTag extends StatelessWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    discount,
+                    '$discount%',
                     style: context.theme.typography.textTheme.labelSmall
                         .copyWith(color: context.theme.colors.secondary),
                   ),

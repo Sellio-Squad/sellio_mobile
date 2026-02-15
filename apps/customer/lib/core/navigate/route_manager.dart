@@ -13,10 +13,8 @@ import 'package:sellio_mobile/presentation/screens/search/search_screen.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/about_store/about_store.dart';
 import 'package:sellio_mobile/presentation/screens/store_details/store_details_screen.dart';
 
-import '../../di/injection_container.dart';
-import '../../domain/repositories/auth_repository.dart';
 import '../../presentation/screens/account/account_screen.dart';
-import '../../presentation/screens/account/myFav/myFavorites.dart';
+import '../../presentation/screens/account/myFav/my_favorites.dart';
 import '../../presentation/screens/auth/forgot_password/confirm_password_screen.dart';
 import '../../presentation/screens/auth/forgot_password/forget_password_screen.dart';
 import '../../presentation/screens/more_trending/more_trending_screen.dart';
@@ -32,48 +30,20 @@ class RouteGenerator {
   static final _thriftNavigatorKey = GlobalKey<NavigatorState>();
   static final _accountNavigatorKey = GlobalKey<NavigatorState>();
 
+  static BuildContext get rootContext => _rootNavigatorKey.currentContext!;
+
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.login.path,
-    redirect: (BuildContext context, GoRouterState state) async {
-      final authRepository = sl<AuthRepository>();
-      final isLoggedIn = await authRepository.isLoggedIn();
-      final isGuest = await authRepository.isGuestMode();
-
-      final isLoginRoute = state.matchedLocation == AppRoutes.login.path;
-      final isCreateAccountRoute =
-          state.matchedLocation == AppRoutes.createAccount.path;
-      final isAuthRoute = isLoginRoute ||
-          isCreateAccountRoute ||
-          state.matchedLocation == AppRoutes.forgetPassword.path ||
-          state.matchedLocation == AppRoutes.confirmPassword.path;
-
-      if (isLoggedIn && !isGuest && isAuthRoute) {
-        return AppRoutes.home.path;
-      }
-
-      if (isGuest && isLoginRoute) {
-        await authRepository.clearAuthData();
-        return null;
-      }
-
-      if (isGuest && isAuthRoute && !isLoginRoute) {
-        return AppRoutes.home.path;
-      }
-
-      if (!isLoggedIn && !isGuest && !isAuthRoute) {
-        return AppRoutes.login.path;
-      }
-
-      return null;
-    },
+    initialLocation: AppRoutes.home.path,
     routes: [
       GoRoute(
         name: AppRoutes.login.name,
         path: AppRoutes.login.path,
+        parentNavigatorKey: _rootNavigatorKey,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
+            fullscreenDialog: true,
             child: const LoginScreen(),
           );
         },
@@ -202,6 +172,7 @@ class RouteGenerator {
         path: AppRoutes.productDetails.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           final args = state.extra as ProductDetailsArgs;
+
           return MaterialPage(
             key: state.pageKey,
             child: ProductDetailsScreen(
@@ -215,6 +186,7 @@ class RouteGenerator {
         path: AppRoutes.storeDetails.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           final args = state.extra as StoreDetailsArgs;
+
           return MaterialPage(
             key: state.pageKey,
             child: StoreDetailsScreen(
@@ -238,6 +210,7 @@ class RouteGenerator {
         path: AppRoutes.aboutStore.path,
         pageBuilder: (BuildContext context, GoRouterState state) {
           final args = state.extra as AboutStoreArgs;
+
           return MaterialPage(
             key: state.pageKey,
             child: AboutStore(

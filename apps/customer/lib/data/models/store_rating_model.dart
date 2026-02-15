@@ -9,20 +9,30 @@ class StoreRatingModel extends StoreRating {
   });
 
   factory StoreRatingModel.fromJson(Map<String, dynamic> json) {
+    final rawRatingsMap =
+        json['ratingCategorize'] as Map<String, dynamic>? ?? {};
+
+    final ratingsMap = rawRatingsMap.map(
+      (key, value) => MapEntry(
+        int.tryParse(key) ?? 0,
+        (value as num).toInt(),
+      ),
+    );
+
     return StoreRatingModel(
-      storeId: json['storeId'] as String,
+      storeId: json['id'] as String,
       averageRating: (json['averageRating'] as num).toDouble(),
-      totalReviews: json['totalReviews'] as int,
-      ratingDistribution: Map<int, int>.from(json['ratingDistribution'] as Map),
+      totalReviews: json['totalRatings'] as int,
+      ratingDistribution: ratingsMap,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'storeId': storeId,
+      'id': storeId,
       'averageRating': averageRating,
-      'totalReviews': totalReviews,
-      'ratingDistribution': ratingDistribution,
+      'totalRatings': totalReviews,
+      'ratingCategorize': ratingDistribution,
     };
   }
 

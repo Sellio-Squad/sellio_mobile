@@ -58,10 +58,6 @@ abstract class ProductRepository {
 
   Future<Result<void>> toggleFavoriteProduct(String productId);
 
-  Future<Result<List<Product>>> getFavoriteProducts();
-
-  Future<Result<bool>> isFavorite(String productId);
-
   Future<Result<PaginatedData<Product>>> getThriftProducts({
     String? categoryId,
     int page = 1,

@@ -16,9 +16,11 @@ class ProductModel with _$ProductModel {
     required double price,
     required String currency,
     String? discount,
+    String? mainImageUrl,
     required List<String> images,
     required String storeId,
     required String categoryId,
+    @Default([]) List<String> subCategoriesIds,
     @Default(true) bool isAvailable,
     @Default(0) int stockQuantity,
     required List<ItemModel> items,
@@ -36,9 +38,13 @@ class ProductModel with _$ProductModel {
       price: _parseDouble(json['price']),
       currency: (json['currency'] ?? '').toString(),
       discount: json['discount']?.toString(),
+      mainImageUrl: json['mainImageUrl']?.toString(),
       images: _extractImages(json),
       storeId: json['storeId']?.toString() ?? json['store_id']?.toString() ?? '',
       categoryId: _extractCategoryId(json),
+      subCategoriesIds: (json['subCategoriesIds'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList() ?? [],
       isAvailable: json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
       stockQuantity: json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
       isFavorite: json['isFavorite'] as bool? ?? false,
@@ -60,9 +66,10 @@ class ProductModel with _$ProductModel {
       price: price,
       currency: currency,
       discount: discount,
-      images: images,
+      images: {...images, mainImageUrl ?? ''}.toList(),
       storeId: storeId,
       categoryId: categoryId,
+      subCategoriesIds: subCategoriesIds,
       isAvailable: isAvailable,
       stockQuantity: stockQuantity,
       items: items.map((e) => e.toEntity()).toList(),
@@ -83,6 +90,7 @@ class ProductModel with _$ProductModel {
       images: product.images,
       storeId: product.storeId,
       categoryId: product.categoryId,
+      subCategoriesIds: product.subCategoriesIds,
       isAvailable: product.isAvailable,
       stockQuantity: product.stockQuantity,
       items: product.items.map((e) => ItemModel.fromEntity(e)).toList(),
@@ -98,11 +106,15 @@ class ProductModel with _$ProductModel {
     if (value == null) return 0.0;
     if (value is num) return value.toDouble();
     if (value is String) return double.tryParse(value) ?? 0.0;
+
     return 0.0;
   }
 
   static List<String> _extractImages(Map<String, dynamic> json) {
-    final images = <String>[];
+    final mainImageUrl = json['mainImageUrl']?.toString();
+
+    final images = mainImageUrl == null ? <String>[] : <String>[mainImageUrl];
+
     void addFromList(dynamic value) {
       if (value is List) {
         for (final item in value) {
@@ -120,6 +132,7 @@ class ProductModel with _$ProductModel {
     if (_isValidUrl(mainImage?.toString())) {
       images.insert(0, mainImage.toString());
     }
+
     return images.toSet().toList(); // Remove duplicates
   }
 
@@ -131,11 +144,13 @@ class ProductModel with _$ProductModel {
     if (subCategories is List && subCategories.isNotEmpty) {
       return subCategories.first?.toString() ?? '';
     }
+
     return '';
   }
   static bool _isValidUrl(String? value) {
     if (value == null || value.trim().isEmpty) return false;
     final uri = Uri.tryParse(value.trim());
+
     return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
   }
 }

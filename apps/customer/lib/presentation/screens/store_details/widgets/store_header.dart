@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:design_system/design_system.dart';
+import 'package:flutter_svg/svg.dart';
 import 'store_discount_frame.dart';
 
 class StoreHeader extends StatelessWidget {
@@ -8,6 +9,10 @@ class StoreHeader extends StatelessWidget {
   final String profileImage;
   final String storeName;
   final String discount;
+  final String description;
+  final List<String> address;
+  final double rating;
+  final List<String> subcategories;
 
   const StoreHeader({
     super.key,
@@ -15,6 +20,10 @@ class StoreHeader extends StatelessWidget {
     required this.profileImage,
     required this.storeName,
     required this.discount,
+    required this.description,
+    required this.address,
+    required this.rating,
+    required this.subcategories,
   });
 
   @override
@@ -36,7 +45,9 @@ class StoreHeader extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(coverImage),
+                    image: coverImage.startsWith('http')
+                        ? NetworkImage(coverImage)
+                        : AssetImage(coverImage) as ImageProvider,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -55,25 +66,20 @@ class StoreHeader extends StatelessWidget {
                 ),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: AssetImage(profileImage),
+                  backgroundImage: profileImage.startsWith('http')
+                      ? NetworkImage(profileImage)
+                      : AssetImage(profileImage) as ImageProvider,
                 ),
               ),
             ),
 
-            Positioned(
-              bottom: 16,
-              right: 24,
-              child: Transform.scale(
-                scale: 1.25,
-                child: StoreDiscountTag(discount: discount),
-              ),
-            ),
+            // Discount Tag
+            if(discount.isNotEmpty) _buildDiscountTag(),
           ],
         ),
 
         const SizedBox(height: 44),
 
-        // Store Name
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Align(
@@ -84,6 +90,79 @@ class StoreHeader extends StatelessWidget {
                 color: colors.title,
               ),
             ),
+          ),
+        ),
+
+        // info section
+        Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _buildInfoSection(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDiscountTag(){
+    return Positioned(
+      bottom: 16,
+      right: 24,
+      child: Transform.scale(
+        scale: 1.25,
+        child: StoreDiscountTag(discount: discount),
+      ),
+    );
+  }
+
+  Widget _buildInfoSection(BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 2),
+        // location details
+        Row(
+          children: [
+            SvgPicture.asset(AppImages.location, width: 20, height: 20),
+            const SizedBox(width: 4),
+            Text(
+              "${address[0]}, ${address[1]}",
+              style: context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 2),
+        // rating and subcategories
+        Row(
+          children: [
+            Container(
+              child: Row(
+                children: [
+                  Text(
+                    rating.toString(),
+                    style: context.theme.typography.textTheme.labelMedium.copyWith(
+                      color: context.theme.colors.body,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  SvgPicture.asset(AppImages.rate),
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              subcategories.join(' • '),
+              style: context.theme.typography.textTheme.labelSmall.copyWith(
+                color: context.theme.colors.body,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        // Description
+        Text(
+          description,
+          style: context.theme.typography.textTheme.bodyMedium.copyWith(
+            color: context.theme.colors.body,
           ),
         ),
       ],

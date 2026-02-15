@@ -7,16 +7,12 @@ part 'category_model.g.dart';
 class CategoryModel with _$CategoryModel {
   const factory CategoryModel({
     required String id,
+
+    @JsonKey(name: 'title')
     required String name,
+    required String imageUrl,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) =>
       _$CategoryModelFromJson(json);
-}
-
-String _idFromJson(dynamic value) => value?.toString() ?? '';
-
-String _nameFromJson(dynamic value) {
-  if (value == null) return '';
-  return value.toString();
 }

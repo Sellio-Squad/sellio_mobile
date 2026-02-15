@@ -3,39 +3,29 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../../domain/entities/product.dart';
 
-class StoreProductsList extends StatefulWidget {
+class StoreProductsList extends StatelessWidget {
   final int categoryIndex;
   final List<Product> products;
   final List<String> categories;
-  final VoidCallback? onTap;
-  final VoidCallback onIncrement;
-  final VoidCallback onDecrement;
-  final int count;
+  final void Function(Product) onTap;
 
   const StoreProductsList({
     super.key,
     required this.categoryIndex,
     required this.products,
     required this.categories,
-    this.onTap,
-    required this.onIncrement,
-    required this.onDecrement,
-    required this.count,
+    required this.onTap,
   });
 
-  @override
-  State<StoreProductsList> createState() => _StoreProductsListState();
-}
-
-class _StoreProductsListState extends State<StoreProductsList> {
-  static const double _itemSpacing = 12.0;
-
   List<Product> get filteredProducts {
-    if (widget.categories.isEmpty || widget.categoryIndex >= widget.categories.length) {
-      return widget.products;
+    if (categories.isEmpty || categoryIndex >= categories.length) {
+      return products;
     }
-    final selectedCategoryId = widget.categories[widget.categoryIndex];
-    return widget.products.where((p) => p.categoryId == selectedCategoryId).toList();
+    final selectedCategoryId = categories[categoryIndex];
+
+    return products
+        .where((p) => p.subCategoriesIds.contains(selectedCategoryId))
+        .toList();
   }
 
   @override
@@ -53,23 +43,18 @@ class _StoreProductsListState extends State<StoreProductsList> {
 
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-            (context, index) {
+        (context, index) {
           final product = filteredProducts[index];
-          return GestureDetector(
-            onTap: widget.onTap,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: _itemSpacing),
-              child: SellioProductHorizontalCard(
-                imageUrl: product.images.isNotEmpty 
-                    ? product.images.first 
-                    : AppImages.cartProduct,
-                title: product.title,
-                description: product.description,
-                price: product.price.toString(),
-                count: widget.count,
-                onIncrement: () => widget.onIncrement,
-                onDecrement: () => widget.onDecrement,
-              ),
+          final imageUrl = product.images.firstOrNull;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: SellioProductHorizontalCard(
+              imageUrl: imageUrl ?? AppImages.cartProduct,
+              title: product.title,
+              description: product.description,
+              price: product.price.toString(),
+              onTap: () => onTap(product),
             ),
           );
         },

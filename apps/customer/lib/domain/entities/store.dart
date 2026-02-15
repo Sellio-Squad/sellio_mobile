@@ -16,6 +16,7 @@ class Store {
   final List<ContactInfo> contactInfoList;
   final List<Category> categories;
   final bool isActive;
+  final bool isFavorite;
 
   const Store({
     required this.id,
@@ -30,6 +31,7 @@ class Store {
     required this.categories,
     this.reviews = const [],
     this.isActive = true,
+    required this.isFavorite,
   });
 
   bool get hasSale => sale != null && sale!.isNotEmpty;
@@ -46,6 +48,7 @@ class Store {
     List<ContactInfo>? contactInfoList,
     List<Category>? categories,
     bool? isActive,
+    bool? isFavorite,
   }) {
     return Store(
       id: id ?? this.id,
@@ -59,6 +62,7 @@ class Store {
       categories: categories ?? this.categories,
       contactInfoList: contactInfoList ?? this.contactInfoList,
       isActive: isActive ?? this.isActive,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }
