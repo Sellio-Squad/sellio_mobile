@@ -839,7 +839,18 @@
         "url": "https://github.com/baraa0abd"
       }
     ],
-    "comments": [],
+    "comments": [
+      {
+        "author": {
+          "login": "NadeenRR",
+          "id": 65049320,
+          "url": "https://github.com/NadeenRR"
+        },
+        "first_comment_at": "2026-02-15T16:33:31Z",
+        "last_comment_at": "2026-02-15T16:33:31Z",
+        "count": 1
+      }
+    ],
     "approvals": [
       {
         "reviewer": {
@@ -848,28 +859,49 @@
           "url": "https://github.com/israamohamed107"
         },
         "submitted_at": "2026-02-12T14:03:47Z",
-        "commit_id": "35724fdf509644138c0fc24c80204b6508344464"
+        "commit_id": "35724fdf509644138c0fc24c80204b6508344464",
+        "note": "May be for different commit"
+      },
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-02-14T15:25:27Z",
+        "commit_id": "35724fdf509644138c0fc24c80204b6508344464",
+        "note": "May be for different commit"
+      },
+      {
+        "reviewer": {
+          "login": "NadeenRR",
+          "id": 65049320,
+          "url": "https://github.com/NadeenRR"
+        },
+        "submitted_at": "2026-02-15T16:33:49Z",
+        "commit_id": "35724fdf509644138c0fc24c80204b6508344464",
+        "note": "May be for different commit"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-02-12T14:03:47Z",
     "time_to_first_approval_minutes": 4479.55,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-02-14T15:25:27Z",
+    "time_to_required_approvals_minutes": 7441.216666666666,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W07",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
     "review_requests": [],
     "files_changed": [],
     "diff_stats": {
-      "additions": 455,
-      "deletions": 10,
-      "changed_files": 17
+      "additions": 576,
+      "deletions": 103,
+      "changed_files": 21
     }
   },
   {
