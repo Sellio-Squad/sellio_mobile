@@ -76,13 +76,6 @@ class _HomeBody extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildSections() {
-    return const [
-      SpecialOffersSection(),
-      TrendingProductsSection(),
-      CategoriesSection(),
-      TopStoresSection(),
-      SliverToBoxAdapter(child: SizedBox(height: 24)),
   List<Widget> _buildSections(HomeSectionsState state) {
     final List<Widget> sections = [
       const SearchSection(),
@@ -97,6 +90,7 @@ class _HomeBody extends StatelessWidget {
 
     sections.addAll([
       const TrendingProductsSection(),
+      const CategoriesSection(),
       const TopStoresSection(),
       const ElectronicsSection(),
     ]);

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/home/sections/categories/cubit/categories_cubit.dart';
 
 import '../../../di/injection_container.dart';
-import '../../cubits/user/cubit/user_cubit.dart';
 import 'cubit/home_sections_cubit.dart';
 import 'sections/special_offers/cubit/home_special_offers_cubit.dart';
 import 'sections/top_stores/cubit/home_top_stores_cubit.dart';

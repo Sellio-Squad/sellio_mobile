@@ -52,7 +52,7 @@ class ProductsList extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 210,
+            height: 272,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
