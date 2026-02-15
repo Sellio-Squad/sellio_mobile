@@ -13,6 +13,22 @@ class CategoryImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.theme.colors;
+
+    return Container(
+      width: 56,
+      height: 56,
+      decoration: BoxDecoration(
+        color: colors.surfaceLow,
+        shape: BoxShape.circle,
+      ),
+      child: ClipOval(
+        child: _buildContent(context),
+      ),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
     if (isMore) {
       return const Icon(
         Icons.more_horiz,
@@ -25,20 +41,11 @@ class CategoryImage extends StatelessWidget {
       return Image.network(
         imageUrl,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          return progress == null
-              ? child
-              : Container(
-                  width: double.infinity,
-                  color: context.theme.colors.surface,
-                  child: const Center(child: CircularProgressIndicator()),
-                );
-        },
         errorBuilder: (context, error, stackTrace) {
-          return Expanded(
+          return Padding(
+            padding: const EdgeInsets.all(12),
             child: Image.asset(
               AppImages.placeholder,
-              width: double.infinity,
               fit: BoxFit.scaleDown,
             ),
           );
@@ -46,10 +53,10 @@ class CategoryImage extends StatelessWidget {
       );
     }
 
-    return Expanded(
+    return Padding(
+      padding: const EdgeInsets.all(12),
       child: Image.asset(
         AppImages.placeholder,
-        width: double.infinity,
         fit: BoxFit.scaleDown,
       ),
     );
