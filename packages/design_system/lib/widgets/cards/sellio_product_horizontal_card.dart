@@ -61,28 +61,6 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           maxLines: (description == null) ? 2 : 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (onRemove != null) _buildRemoveProductButton(context),
-                      ],
-                    ),
-                    if (description != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        description!,
-                        style: textTheme.labelXSmall.copyWith(color: colors.body),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Show counter if count and callbacks are provided, otherwise single button placeholder
-                        if (count != null && onIncrement != null && onDecrement != null)
-                          _buildCounter(context)
-                        else if (onIncrement != null)
-                          _buildSingleCartButton(context),
 
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -105,6 +83,29 @@ class SellioProductHorizontalCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                      ],
+                    ),
+                    if (description != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        description!,
+                        style: textTheme.labelXSmall.copyWith(color: colors.body),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    const Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Show counter if count and callbacks are provided, otherwise single button placeholder
+                        if (count != null && onIncrement != null && onDecrement != null)
+                          _buildCounter(context)
+                        else if (onIncrement != null)
+                          _buildSingleCartButton(context),
+
+                        if (onRemove != null) _buildRemoveProductButton(context),
                       ],
                     ),
                   ],
