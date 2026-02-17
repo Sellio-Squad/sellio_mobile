@@ -1325,5 +1325,47 @@
       "deletions": 107,
       "changed_files": 6
     }
+  },
+  {
+    "pr_number": 466,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/466",
+    "title": "refactor(cart): Enhance order confirmation dialog UI",
+    "opened_at": "2026-02-17T19:08:25Z",
+    "head_ref": "fix-confirm-order-bottom-sheet-ui",
+    "base_ref": "develop",
+    "creator": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
+    "assignees": [
+      {
+        "login": "mohamedebrahem13",
+        "id": 111383089,
+        "url": "https://github.com/mohamedebrahem13"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 49,
+      "deletions": 10,
+      "changed_files": 2
+    }
   }
 ]
