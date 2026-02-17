@@ -1,8 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../constants/app_images.dart';
-import '../../themes/sellio_theme.dart';
-import '../utils/widgets_utils.dart';
 
 class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
@@ -10,9 +8,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
   final String? description;
   final String price;
   final String? originalPrice;
-  final int? count; // nullable count
-  final VoidCallback? onIncrement; // nullable increment
-  final VoidCallback? onDecrement; // nullable decrement
+  final int? count;
+  final VoidCallback? onIncrement;
+  final VoidCallback? onDecrement;
   final VoidCallback? onRemove;
   final VoidCallback? onTap;
 
@@ -46,7 +44,6 @@ class SellioProductHorizontalCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 12),
                 child: _buildImage(colors),
@@ -86,7 +83,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           _buildCounter(context)
                         else if (onIncrement != null)
                           _buildSingleCartButton(context),
-                        // Price
+
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
@@ -162,7 +159,6 @@ class SellioProductHorizontalCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Decrement button
           Container(
             width: 30,
             height: 30,
@@ -185,12 +181,10 @@ class SellioProductHorizontalCard extends StatelessWidget {
               ),
             ),
           ),
-          // Count
           Text(
             count?.toString().padLeft(2, '0') ?? '00',
             style: textTheme.labelSmall.copyWith(color: colors.title),
           ),
-          // Increment button
           Container(
             width: 30,
             height: 30,
@@ -246,7 +240,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(colors) {
+  Widget _buildImage(SellioColorScheme colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Image.network(
