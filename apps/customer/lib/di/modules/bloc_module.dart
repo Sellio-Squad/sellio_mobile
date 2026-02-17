@@ -11,8 +11,11 @@ import '../../../presentation/screens/order_history/cubit/order_history_cubit.da
 import '../../presentation/screens/home/sections/categories/cubit/categories_cubit.dart';
 import '../../presentation/screens/product_details/cubit/product_details_cubit.dart';
 
+import '../../../presentation/screens/home/cubit/home_sections_cubit.dart';
+
 class BlocModule {
   static void register(GetIt sl) {
+    sl.registerFactory(() => HomeSectionsCubit(sl()));
     sl.registerLazySingleton<AuthenticationCubit>(
           () => AuthenticationCubit(sl(), sl()),
     );

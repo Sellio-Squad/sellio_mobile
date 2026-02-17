@@ -151,4 +151,7 @@ class ApiEndpoints {
       '$apiVersion/address/$addressId';
 
   static String citiesByCountryIso2(String iso2) => '$apiVersion/countries/$iso2/cities';
+
+  // Category Sections
+  static const String categorySectionsActive = '$apiVersion/category-sections/active';
 }

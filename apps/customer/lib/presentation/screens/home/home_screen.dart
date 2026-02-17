@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:sellio_mobile/presentation/screens/home/sections/categories/categories_section.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_bloc_providers.dart';
+import 'cubit/home_sections_cubit.dart';
+import 'cubit/home_sections_state.dart';
+import 'sections/search/search_section.dart';
+import 'sections/categories/dynamic_category_section.dart';
+import 'sections/electronics/electronics_section.dart';
 import 'sections/special_offers/special_offers_section.dart';
 import 'sections/top_stores/top_stores_section.dart';
 import 'sections/trending_products/trending_products_section.dart';
@@ -43,6 +49,7 @@ class _HomeScreenContent extends StatelessWidget {
   }
 }
 
+
 class _HomeBody extends StatelessWidget {
   final dynamic colors;
 
@@ -56,8 +63,12 @@ class _HomeBody extends StatelessWidget {
         SafeArea(
           child: RefreshIndicator(
             onRefresh: () => handleHomeRefresh(context),
-            child: CustomScrollView(
-              slivers: _buildSections(),
+            child: BlocBuilder<HomeSectionsCubit, HomeSectionsState>(
+              builder: (context, state) {
+                return CustomScrollView(
+                  slivers: _buildSections(state),
+                );
+              },
             ),
           ),
         ),
@@ -65,14 +76,47 @@ class _HomeBody extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildSections() {
-    return const [
-      SpecialOffersSection(),
-      TrendingProductsSection(),
-      CategoriesSection(),
-      TopStoresSection(),
-      SliverToBoxAdapter(child: SizedBox(height: 24)),
+  List<Widget> _buildSections(HomeSectionsState state) {
+    final List<Widget> sections = [
+      const SearchSection(),
+      const SpecialOffersSection(),
     ];
+
+    if (state is HomeSectionsLoaded) {
+      for (final section in state.sections) {
+        sections.add(DynamicCategorySection(section: section));
+      }
+    }
+
+    sections.addAll([
+      const TrendingProductsSection(),
+      const CategoriesSection(),
+      const TopStoresSection(),
+      const ElectronicsSection(),
+    ]);
+
+    if (state is HomeSectionsLoading) {
+      sections.add(
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.all(32.0),
+            child: Center(child: CircularProgressIndicator()),
+          ),
+        ),
+      );
+    } else if (state is HomeSectionsError) {
+      sections.add(
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Center(child: Text(state.message)),
+          ),
+        ),
+      );
+    }
+
+    sections.add(const SliverToBoxAdapter(child: SizedBox(height: 24)));
+    return sections;
   }
 }
 

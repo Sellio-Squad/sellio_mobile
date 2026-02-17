@@ -32,7 +32,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
 
         return SellioAppBar(
-          leading: _buildUserInfo(context, userName, location),
+          leading: _buildLogo(),
+          customTitle: _buildUserInfo(context, userName, location),
           actions: [_buildNotificationButton()],
         );
       },
@@ -40,8 +41,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildLogo() => Padding(
-        padding: const EdgeInsets.all(4),
-        child: Image.asset(AppImages.sellio, fit: BoxFit.contain),
+        padding: const EdgeInsets.only(left: 4),
+        child: Image.asset(AppImages.sellio, fit: BoxFit.contain, width: 40, height: 40),
       );
 
   Widget _buildUserInfo(
@@ -54,7 +55,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -75,9 +76,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SvgPicture.asset(AppImages.location, width: 16, height: 16),
+        SvgPicture.asset(AppImages.location, width: 14, height: 14),
         const SizedBox(width: 4),
         Text(
           location,
@@ -88,23 +89,22 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildNotificationButton() => Padding(
-        padding: const EdgeInsetsGeometry.only(right: 16),
+        padding: const EdgeInsets.only(right: 16),
         child: Row(
-          spacing: 12,
+          mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-              icon: SvgPicture.asset(AppImages.bell),
+              icon: SvgPicture.asset(AppImages.bell, width: 24, height: 24),
               onPressed: onNotificationTap,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              iconSize: 40,
             ),
+            const SizedBox(width: 12),
             IconButton(
-              icon: SvgPicture.asset(AppImages.search),
+              icon: SvgPicture.asset(AppImages.search, width: 24, height: 24),
               onPressed: onSearchTap,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
-              iconSize: 40,
             ),
           ],
         ),
