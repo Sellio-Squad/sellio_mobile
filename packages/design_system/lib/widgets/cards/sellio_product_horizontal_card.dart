@@ -7,24 +7,26 @@ import '../utils/widgets_utils.dart';
 class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
   final String title;
-  final String description;
+  final String? description;
   final String price;
   final String? originalPrice;
   final int? count; // nullable count
   final VoidCallback? onIncrement; // nullable increment
   final VoidCallback? onDecrement; // nullable decrement
+  final VoidCallback? onRemove;
   final VoidCallback? onTap;
 
   const SellioProductHorizontalCard({
     super.key,
     required this.imageUrl,
     required this.title,
-    required this.description,
     required this.price,
+    this.description,
     this.originalPrice,
     this.count,
     this.onIncrement,
     this.onDecrement,
+    this.onRemove,
     this.onTap,
   });
 
@@ -44,25 +46,36 @@ class SellioProductHorizontalCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Image
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 12),
+                child: _buildImage(colors),
+              ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title
-                    Text(
-                      title,
-                      style: textTheme.titleSmall.copyWith(color: colors.title),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          title,
+                          style: textTheme.titleSmall.copyWith(color: colors.title),
+                          maxLines: (description == null) ? 2 : 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (onRemove != null) _buildRemoveProductButton(context),
+                      ],
                     ),
-                    const SizedBox(height: 4),
-                    // Description
-                    Text(
-                      description,
-                      style: textTheme.labelXSmall.copyWith(color: colors.body),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                    if (description != null) ...[
+                      const SizedBox(height: 4),
+                      Text(
+                        description!,
+                        style: textTheme.labelXSmall.copyWith(color: colors.body),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                     const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,11 +112,6 @@ class SellioProductHorizontalCard extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              // Image
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 12),
-                child: _buildImage(colors),
               ),
             ],
           ),
@@ -206,6 +214,34 @@ class SellioProductHorizontalCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildRemoveProductButton(BuildContext context) {
+    final colors = SellioTheme.of(context).colors;
+    return Container(
+      width: 32,
+      height: 32,
+      decoration: BoxDecoration(
+        color: colors.primaryVariant,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: onRemove,
+          child: Center(
+            child: SvgPicture.asset(
+              AppImages.delete,
+              colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
+              width: 20,
+              height: 20,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -132,6 +132,9 @@ class AppImages {
   // Cart
   static const String cart = '$iconsPath/ic_cart.svg';
   static const String cartSelected = '$iconsPath/ic_cart_selected.svg';
+  static const String delete = '$iconsPath/ic_delete.svg';
+
+  // Favourite
 
   // Thrift
   static const String thrift = '$iconsPath/ic_thrift.svg';
