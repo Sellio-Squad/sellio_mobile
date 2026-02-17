@@ -1283,5 +1283,47 @@
       "deletions": 44,
       "changed_files": 5
     }
+  },
+  {
+    "pr_number": 465,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/465",
+    "title": "Refactor/home category",
+    "opened_at": "2026-02-17T18:21:26Z",
+    "head_ref": "refactor/home-category",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MohamedOmar989",
+      "id": 175744746,
+      "url": "https://github.com/MohamedOmar989"
+    },
+    "assignees": [
+      {
+        "login": "MohamedOmar989",
+        "id": 175744746,
+        "url": "https://github.com/MohamedOmar989"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 287,
+      "deletions": 107,
+      "changed_files": 6
+    }
   }
 ]
