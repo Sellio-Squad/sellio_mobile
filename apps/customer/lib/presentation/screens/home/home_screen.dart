@@ -1,15 +1,15 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/home/sections/categories/categories_section.dart';
+import 'package:sellio_mobile/presentation/screens/home/utils/add_dynamic_section.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'home_bloc_providers.dart';
 import 'cubit/home_sections_cubit.dart';
 import 'cubit/home_sections_state.dart';
-import 'sections/search/search_section.dart';
-import 'sections/categories/dynamic_category_section.dart';
+import 'home_bloc_providers.dart';
 import 'sections/electronics/electronics_section.dart';
+import 'sections/search/search_section.dart';
 import 'sections/special_offers/special_offers_section.dart';
 import 'sections/top_stores/top_stores_section.dart';
 import 'sections/trending_products/trending_products_section.dart';
@@ -82,15 +82,17 @@ class _HomeBody extends StatelessWidget {
       const SpecialOffersSection(),
     ];
 
-    if (state is HomeSectionsLoaded) {
-      for (final section in state.sections) {
-        sections.add(DynamicCategorySection(section: section));
-      }
-    }
+    addDynamicSection(sections, state, 0);
+
+    sections.add(const CategoriesSection());
+
+    addDynamicSection(sections, state, 1);
+
+    sections.add(const TrendingProductsSection());
+
+    addDynamicSection(sections, state, 2);
 
     sections.addAll([
-      const TrendingProductsSection(),
-      const CategoriesSection(),
       const TopStoresSection(),
       const ElectronicsSection(),
     ]);
