@@ -11,6 +11,8 @@ class CartItemsList extends StatelessWidget {
   final Map<String, int> productCounts;
   final Function(String) onIncrement;
   final Function(String) onDecrement;
+  final Function(String) onRemove;
+
 
   const CartItemsList({
     super.key,
@@ -18,6 +20,7 @@ class CartItemsList extends StatelessWidget {
     required this.productCounts,
     required this.onIncrement,
     required this.onDecrement,
+    required this.onRemove,
   });
 
   @override
@@ -40,12 +43,12 @@ class CartItemsList extends StatelessWidget {
         onTap: () => _navigateToProductDetails(context, item.productId),
         imageUrl: item.productImage,
         title: item.productName,
-        description: '',
         price: '${item.currency} ${item.price}',
         originalPrice: null,
         count: quantity,
         onIncrement: () => onIncrement(item.productId),
         onDecrement: () => onDecrement(item.productId),
+        onRemove: () => onRemove(item.productId),
       ),
     );
   }
