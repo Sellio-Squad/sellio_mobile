@@ -1367,5 +1367,47 @@
       "deletions": 10,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 467,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/467",
+    "title": "Refactor/sc 72 remove product from cart",
+    "opened_at": "2026-02-18T11:26:44Z",
+    "head_ref": "refactor/SC-72-remove-product-icon",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MuhammedWael9991",
+      "id": 190773582,
+      "url": "https://github.com/MuhammedWael9991"
+    },
+    "assignees": [
+      {
+        "login": "MuhammedWael9991",
+        "id": 190773582,
+        "url": "https://github.com/MuhammedWael9991"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 3,
+      "deletions": 5,
+      "changed_files": 2
+    }
   }
 ]
