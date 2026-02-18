@@ -9,7 +9,6 @@ import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 import 'constants/cart_constants.dart';
 import 'widgets/cart_bottom_bar.dart';
-import 'widgets/cart_header.dart';
 import 'widgets/cart_items_list.dart';
 import 'widgets/cart_note_section.dart';
 import 'widgets/empty_cart_section.dart';
@@ -45,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.theme.colors.surfaceLow,
-      appBar: _buildAppBar(),
+      appBar: SellioAppBar(title: context.local.cart),
       body: BlocConsumer<CartCubit, CartState>(
         listener: _handleStateChanges,
         builder: (context, state) => _buildBody(state),
@@ -92,39 +91,6 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  PreferredSizeWidget _buildAppBar() {
-    final cubit = context.read<CartCubit>();
-    final hasItems = cubit.state.cart?.items.isNotEmpty ?? false;
-
-    return SellioAppBar(
-      title: context.local.cart,
-      actions: hasItems ? [_buildAddMoreAction()] : null,
-    );
-  }
-
-  Widget _buildAddMoreAction() {
-    final theme = context.theme;
-
-    return Padding(
-      padding: const EdgeInsets.only(right: 16.0),
-      child: Center(
-        child: GestureDetector(
-          onTap: _handleAddMoreItems,
-          child: Text(
-            context.local.add_more_items,
-            style: theme.typography.textTheme.labelMedium.copyWith(
-              color: theme.colors.primary,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _handleAddMoreItems() {
-    Navigator.of(context).pop();
-  }
-
   Widget _buildBody(CartState state) {
     if (state is CartLoading && state.cart == null) {
       return Center(
@@ -155,7 +121,7 @@ class _CartScreenState extends State<CartScreen> {
       ),
       child: Column(
         children: [
-          CartHeader(itemCount: cart.items.length),
+          _buildCartItemsCount(context, cart.itemCount),
           const Gap(CartConstants.sectionSpacing),
           CartItemsList(
             items: cart.items,
@@ -183,7 +149,7 @@ class _CartScreenState extends State<CartScreen> {
   void _handleDecrement(String productId) {
     context.read<CartCubit>().decrementProduct(productId);
   }
-  
+
   void _handleRemove(String productId) {
     context.read<CartCubit>().removeFromCart(productId);
   }
@@ -191,5 +157,16 @@ class _CartScreenState extends State<CartScreen> {
   void _handleConfirmOrder(BuildContext context) {
     final note = _noteController.text.trim();
     context.read<CartCubit>().confirmOrder(note.isNotEmpty ? note : null);
+  }
+
+  Widget _buildCartItemsCount(BuildContext context, int count) {
+    final theme = context.theme;
+    final textTheme = theme.typography.textTheme;
+    final colors = theme.colors;
+
+    return Text(
+      '$count ${context.local.items}',
+      style: textTheme.labelMedium.copyWith(color: colors.body),
+    );
   }
 }
