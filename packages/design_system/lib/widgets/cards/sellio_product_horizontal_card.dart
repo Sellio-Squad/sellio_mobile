@@ -41,77 +41,80 @@ class SellioProductHorizontalCard extends StatelessWidget {
         onTap: onTap,
         child: SizedBox(
           height: 89,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, right: 12),
-                child: _buildImage(colors),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildImage(colors),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          title,
-                          style: textTheme.titleSmall.copyWith(color: colors.title),
-                          maxLines: (description == null) ? 2 : 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            if (originalPrice != null)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 4.0),
-                                child: Text(
-                                  "\$${formatPrice(originalPrice!)}",
-                                  style: textTheme.titleSmall.copyWith(
-                                    color: colors.hint,
-                                    decoration: TextDecoration.lineThrough,
-                                  ),
-                                ),
-                              ),
                             Text(
-                              "\$${formatPrice(price)}",
-                              style: textTheme.titleSmall.copyWith(color: colors.primary),
+                              title,
+                              style: textTheme.titleSmall.copyWith(color: colors.title),
+                              maxLines: (description == null) ? 2 : 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
+
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
+                              children: [
+                                if (originalPrice != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 4.0),
+                                    child: Text(
+                                      "\$${formatPrice(originalPrice!)}",
+                                      style: textTheme.titleSmall.copyWith(
+                                        color: colors.hint,
+                                        decoration: TextDecoration.lineThrough,
+                                      ),
+                                    ),
+                                  ),
+                                Text(
+                                  "\$${formatPrice(price)}",
+                                  style: textTheme.titleSmall.copyWith(color: colors.primary),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        if (description != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            description!,
+                            style: textTheme.labelXSmall.copyWith(color: colors.body),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        const Spacer(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            // Show counter if count and callbacks are provided, otherwise single button placeholder
+                            if (count != null && onIncrement != null && onDecrement != null)
+                              _buildCounter(context)
+                            else if (onIncrement != null)
+                              _buildSingleCartButton(context),
+
+                            if (onRemove != null) _buildRemoveProductButton(context),
                           ],
                         ),
                       ],
                     ),
-                    if (description != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        description!,
-                        style: textTheme.labelXSmall.copyWith(color: colors.body),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Show counter if count and callbacks are provided, otherwise single button placeholder
-                        if (count != null && onIncrement != null && onDecrement != null)
-                          _buildCounter(context)
-                        else if (onIncrement != null)
-                          _buildSingleCartButton(context),
-
-                        if (onRemove != null) _buildRemoveProductButton(context),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -153,10 +156,6 @@ class SellioProductHorizontalCard extends StatelessWidget {
       width: 104,
       height: 32,
       padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-      decoration: BoxDecoration(
-        color: colors.surfaceLow,
-        borderRadius: BorderRadius.circular(4),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -164,7 +163,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-              color: colors.surface,
+              color: colors.surfaceLow,
               borderRadius: BorderRadius.circular(8),
             ),
             clipBehavior: Clip.antiAlias,
@@ -246,8 +245,8 @@ class SellioProductHorizontalCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(8),
       child: Image.network(
         imageUrl,
-        width: 88,
-        height: 88,
+        width: 89,
+        height: 89,
         fit: BoxFit.cover,
         loadingBuilder: (context, child, progress) {
           return progress == null

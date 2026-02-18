@@ -2,7 +2,7 @@ class CartConstants {
   CartConstants._();
 
   static const double cardHeight = 89.0;
-  static const double itemSpacing = 12.0;
+  static const double itemSpacing = 16.0;
   static const double sectionSpacing = 12.0;
   static const double horizontalPadding = 16.0;
   static const double bottomPadding = 46.0;
