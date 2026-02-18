@@ -1254,18 +1254,17 @@
     "approvals": [
       {
         "reviewer": {
-          "login": "marah222",
-          "id": 17768793,
-          "url": "https://github.com/marah222"
+          "login": "MuhammedWael9991",
+          "id": 190773582,
+          "url": "https://github.com/MuhammedWael9991"
         },
-        "submitted_at": "2026-02-17T17:44:32Z",
-        "commit_id": "622cf95fd164aa0b46e25002a02ba0450a1aeb6b",
-        "note": "May be for different commit"
+        "submitted_at": "2026-02-18T23:54:16Z",
+        "commit_id": "9c5f889ec039f8e85ae8229162355ee4542fc5ab"
       }
     ],
     "required_approvals": 2,
-    "first_approved_at": "2026-02-17T17:44:32Z",
-    "time_to_first_approval_minutes": 888.45,
+    "first_approved_at": "2026-02-18T23:54:16Z",
+    "time_to_first_approval_minutes": 2698.1833333333334,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
