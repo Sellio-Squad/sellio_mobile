@@ -168,7 +168,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
               child: InkWell(
                 onTap: onDecrement,
                 child: SvgPicture.asset(
-                  AppImages.remove,
+                  count == 1 ? AppImages.deleteAccount : AppImages.remove,
                   colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
                   width: 16,
                   height: 16,
