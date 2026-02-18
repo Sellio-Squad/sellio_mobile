@@ -1346,10 +1346,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "dev-bilal-azzam",
+          "id": 75501067,
+          "url": "https://github.com/dev-bilal-azzam"
+        },
+        "submitted_at": "2026-02-18T15:59:03Z",
+        "commit_id": "a8fb2b1ffaa3de54e525e8a48258708c7541a8ea"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-18T15:59:03Z",
+    "time_to_first_approval_minutes": 1250.6333333333334,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
