@@ -120,6 +120,7 @@ class _CartScreenState extends State<CartScreen> {
         bottom: CartConstants.bottomPadding,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildCartItemsCount(context, cart.itemCount),
           const Gap(CartConstants.sectionSpacing),
