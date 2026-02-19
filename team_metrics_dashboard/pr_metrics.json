@@ -1458,5 +1458,47 @@
       "deletions": 5,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 468,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/468",
+    "title": "Enhance Cart Screen",
+    "opened_at": "2026-02-19T17:50:29Z",
+    "head_ref": "feature/SC-81-enhance-cart-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "dev-bilal-azzam",
+      "id": 75501067,
+      "url": "https://github.com/dev-bilal-azzam"
+    },
+    "assignees": [
+      {
+        "login": "dev-bilal-azzam",
+        "id": 75501067,
+        "url": "https://github.com/dev-bilal-azzam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 88,
+      "deletions": 92,
+      "changed_files": 6
+    }
   }
 ]
