@@ -162,6 +162,7 @@ class _CartScreenState extends State<CartScreen> {
             productCounts: state.productCounts,
             onIncrement: _handleIncrement,
             onDecrement: _handleDecrement,
+            onRemove: _handleRemove,
           ),
           const Gap(CartConstants.sectionSpacing),
           Divider(
@@ -181,6 +182,10 @@ class _CartScreenState extends State<CartScreen> {
 
   void _handleDecrement(String productId) {
     context.read<CartCubit>().decrementProduct(productId);
+  }
+  
+  void _handleRemove(String productId) {
+    context.read<CartCubit>().removeFromCart(productId);
   }
 
   void _handleConfirmOrder(BuildContext context) {
