@@ -8,8 +8,8 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-    BuildContext context,
-  ) {
+      BuildContext context,
+      ) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -19,7 +19,7 @@ class OrderConfirmationDialog {
           top: Radius.circular(CartConstants.bottomSheetRadius),
         ),
       ),
-      builder: (_) => _OrderConfirmationContent(),
+      builder: (_) => const _OrderConfirmationContent(),
     );
   }
 }
@@ -34,16 +34,57 @@ class _OrderConfirmationContent extends StatelessWidget {
     final colors = theme.colors;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+
+          Container(
+            width: 40,
+            height: 4,
+            margin: const EdgeInsets.only(bottom: 24),
+            decoration: BoxDecoration(
+              color: colors.stroke,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+
           _buildIcon(colors),
+
+          const Gap(24),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                AppImages.product,
+                width: 18,
+                height: 18,
+                colorFilter: ColorFilter.mode(
+                  colors.title,
+                  BlendMode.srcIn,
+                ),
+              ),
+              const Gap(8),
+              Text(
+                "Order #2002124",
+                style: textTheme.labelMedium.copyWith(
+                  color: colors.title,
+                ),
+              ),
+            ],
+          ),
           const Gap(8),
           Text(
             context.local.order_received,
-            style: textTheme.titleSmall.copyWith(color: colors.title),
+            textAlign: TextAlign.center,
+            style: textTheme.titleSmall.copyWith(
+              color: colors.title,
+            ),
+            maxLines: 2,
           ),
+
+
           const Gap(24),
           _buildBackButton(context, theme),
         ],
@@ -73,10 +114,8 @@ class _OrderConfirmationContent extends StatelessWidget {
   Widget _buildBackButton(BuildContext context, dynamic theme) {
     return SellioButton(
       text: context.local.back_to_shopping,
-      textStyle: context.theme.typography.textTheme.labelMedium.copyWith(
-        color: context.theme.colors.primary,
-      ),
-       //backgroundColor: context.theme.colors.primaryVariant,
+      textColor: context.theme.colors.primary,
+      backgroundColor: context.theme.colors.primaryVariant,
       onTap: () => context.navigator.goToHome(),
       fullWidth: true,
     );
