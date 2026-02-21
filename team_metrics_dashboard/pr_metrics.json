@@ -1307,10 +1307,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "MuhammedWael9991",
+          "id": 190773582,
+          "url": "https://github.com/MuhammedWael9991"
+        },
+        "submitted_at": "2026-02-21T10:50:09Z",
+        "commit_id": "9779085c36cf71950d44f68c79ecf113a17f19f5"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-21T10:50:09Z",
+    "time_to_first_approval_minutes": 5308.716666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
