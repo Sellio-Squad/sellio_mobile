@@ -16,11 +16,13 @@ class CategoryImage extends StatelessWidget {
     final colors = context.theme.colors;
 
     return Container(
-      width: 56,
-      height: 56,
+      width: 44,
+      height: 44,
       decoration: BoxDecoration(
-        color: colors.surfaceLow,
+        color: isMore ? Colors.grey.shade100 : colors.surfaceLow,
         shape: BoxShape.circle,
+        border:
+            isMore ? Border.all(color: Colors.grey.shade300, width: 1.5) : null,
       ),
       child: ClipOval(
         child: _buildContent(context),
@@ -30,10 +32,12 @@ class CategoryImage extends StatelessWidget {
 
   Widget _buildContent(BuildContext context) {
     if (isMore) {
-      return const Icon(
-        Icons.more_horiz,
-        size: 28,
-        color: Colors.black87,
+      return Center(
+        child: Icon(
+          Icons.more_horiz,
+          size: 32,
+          color: Colors.grey.shade700,
+        ),
       );
     }
 
@@ -43,7 +47,7 @@ class CategoryImage extends StatelessWidget {
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(8),
             child: Image.asset(
               AppImages.placeholder,
               fit: BoxFit.scaleDown,
@@ -54,7 +58,7 @@ class CategoryImage extends StatelessWidget {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       child: Image.asset(
         AppImages.placeholder,
         fit: BoxFit.scaleDown,
