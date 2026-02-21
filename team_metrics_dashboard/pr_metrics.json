@@ -1576,18 +1576,27 @@
         },
         "submitted_at": "2026-02-21T12:57:01Z",
         "commit_id": "3c12169d9c7aef4b3fb4891e11b3be6374c7ae74"
+      },
+      {
+        "reviewer": {
+          "login": "dev-bilal-azzam",
+          "id": 75501067,
+          "url": "https://github.com/dev-bilal-azzam"
+        },
+        "submitted_at": "2026-02-21T16:39:33Z",
+        "commit_id": "3c12169d9c7aef4b3fb4891e11b3be6374c7ae74"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-02-21T12:57:01Z",
     "time_to_first_approval_minutes": 53.416666666666664,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-02-21T16:39:33Z",
+    "time_to_required_approvals_minutes": 275.95,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W08",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
