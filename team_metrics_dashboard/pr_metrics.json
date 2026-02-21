@@ -1559,10 +1559,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "marah222",
+          "id": 17768793,
+          "url": "https://github.com/marah222"
+        },
+        "submitted_at": "2026-02-21T12:57:01Z",
+        "commit_id": "3c12169d9c7aef4b3fb4891e11b3be6374c7ae74"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-02-21T12:57:01Z",
+    "time_to_first_approval_minutes": 53.416666666666664,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
