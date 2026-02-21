@@ -1520,5 +1520,47 @@
       "deletions": 92,
       "changed_files": 6
     }
+  },
+  {
+    "pr_number": 469,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/469",
+    "title": "Fix store cast issue",
+    "opened_at": "2026-02-21T12:03:36Z",
+    "head_ref": "fix-store-cast-issue",
+    "base_ref": "develop",
+    "creator": {
+      "login": "mohamedebrahem13",
+      "id": 111383089,
+      "url": "https://github.com/mohamedebrahem13"
+    },
+    "assignees": [
+      {
+        "login": "mohamedebrahem13",
+        "id": 111383089,
+        "url": "https://github.com/mohamedebrahem13"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 28,
+      "deletions": 30,
+      "changed_files": 4
+    }
   }
 ]
