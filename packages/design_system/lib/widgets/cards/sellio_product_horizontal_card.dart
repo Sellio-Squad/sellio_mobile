@@ -49,7 +49,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 _buildImage(colors),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -163,7 +163,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-              color: colors.surfaceLow,
+              color: colors.surface,
               borderRadius: BorderRadius.circular(8),
             ),
             clipBehavior: Clip.antiAlias,
@@ -171,12 +171,14 @@ class SellioProductHorizontalCard extends StatelessWidget {
               type: MaterialType.transparency,
               child: InkWell(
                 onTap: onDecrement,
-                child: SvgPicture.asset(
-                  count == 1 ? AppImages.deleteAccount : AppImages.remove,
-                  colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.scaleDown,
+                child: Center(
+                  child: SvgPicture.asset(
+                    count == 1 ? AppImages.delete : AppImages.remove,
+                    colorFilter: ColorFilter.mode(colors.body, BlendMode.srcIn),
+                    width: 16,
+                    height: 16,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
             ),
@@ -197,12 +199,14 @@ class SellioProductHorizontalCard extends StatelessWidget {
               type: MaterialType.transparency,
               child: InkWell(
                 onTap: onIncrement,
-                child: SvgPicture.asset(
-                  AppImages.add,
-                  colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
-                  width: 16,
-                  height: 16,
-                  fit: BoxFit.scaleDown,
+                child: Center(
+                  child: SvgPicture.asset(
+                    AppImages.add,
+                    colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
+                    width: 16,
+                    height: 16,
+                    fit: BoxFit.scaleDown,
+                  ),
                 ),
               ),
             ),
