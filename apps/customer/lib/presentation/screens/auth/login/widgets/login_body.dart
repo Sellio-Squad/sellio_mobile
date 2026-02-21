@@ -220,17 +220,6 @@ class _LoginBodyState extends State<LoginBody> {
                       onTap: () => context.navigator.pushCreateAccount(),
                     ),
                   ),
-                  const Gap(16),
-                  Expanded(
-                    child: SellioButton(
-                      text: context.local.continue_as_guest,
-                      backgroundColor: colors.primaryVariant,
-                      textColor: colors.primary,
-                      onTap: () {
-                        context.read<LoginCubit>().loginAsGuest();
-                      },
-                    ),
-                  ),
                 ],
               ),
             ],
