@@ -1611,5 +1611,47 @@
       "deletions": 30,
       "changed_files": 4
     }
+  },
+  {
+    "pr_number": 470,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/470",
+    "title": "refactor: remove 'Continue as Guest' button and associated logic",
+    "opened_at": "2026-02-22T13:18:10Z",
+    "head_ref": "refactor/Remove-ContinueAs-aGuest-Button",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MuhammedWael9991",
+      "id": 190773582,
+      "url": "https://github.com/MuhammedWael9991"
+    },
+    "assignees": [
+      {
+        "login": "MuhammedWael9991",
+        "id": 190773582,
+        "url": "https://github.com/MuhammedWael9991"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W08",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 0,
+      "deletions": 33,
+      "changed_files": 2
+    }
   }
 ]
