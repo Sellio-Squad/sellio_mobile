@@ -21,22 +21,12 @@ class StoreModel with _$StoreModel {
     String? country,
     List<ContactInfoModel>? contactInfoList,
     List<CategoryModel>? categories,
-    @Default([]) List<ReviewModel>? reviews,
-    @Default(true) bool? isActive,
-    @Default(false) bool? isFavorite,
-
-    @JsonKey(name: 'subCategories')
-    @Default([])
-    List<CategoryModel> subCategories,
+    @Default([]) List<ReviewModel> reviews,
+    @Default(true) bool isActive,
+    @Default(false) bool isFavorite,
+    @JsonKey(name: 'subCategories') @Default([]) List<CategoryModel> subCategories,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>
-      _$StoreModelFromJson({
-        ...json,
-        'reviews': (json['reviews'] as List<dynamic>?)
-            ?.map((e) => ReviewModel.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-            [],
-        'isFavorite': json['isFavorite'] ?? false,
-      });
+      _$StoreModelFromJson(json);
 }

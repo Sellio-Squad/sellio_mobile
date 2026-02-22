@@ -71,15 +71,20 @@ class StoreDetailsShimmer extends StatelessWidget {
   }
 
   Widget _productsCards(colors) {
-    return Row(children: [
-      StoreShimmerProductCard(colors: colors),
-      const SizedBox(width: _spacingLarge),
-      StoreShimmerProductCard(colors: colors),
-      const SizedBox(width: _spacingLarge),
-      StoreShimmerPartialProductCard(colors: colors),
-    ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: _spacingXLarge),
+      child: Row(
+        children: [
+          StoreShimmerProductCard(colors: colors),
+          const SizedBox(width: _spacingLarge),
+          StoreShimmerProductCard(colors: colors),
+          const SizedBox(width: _spacingLarge),
+          StoreShimmerPartialProductCard(colors: colors),
+        ],
+      ),
+    );
   }
-
   Widget _titleBoxes(colors, double screenWidth) {
     return Row(
       children: [
