@@ -1653,5 +1653,47 @@
       "deletions": 33,
       "changed_files": 2
     }
+  },
+  {
+    "pr_number": 471,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/471",
+    "title": "Refactor/457 add countrycode to create user account",
+    "opened_at": "2026-02-23T21:13:11Z",
+    "head_ref": "refactor/457-add-countrycode-to-create-user-account",
+    "base_ref": "fix/authuntication-issues",
+    "creator": {
+      "login": "abdulazizacc",
+      "id": 174628289,
+      "url": "https://github.com/abdulazizacc"
+    },
+    "assignees": [
+      {
+        "login": "abdulazizacc",
+        "id": 174628289,
+        "url": "https://github.com/abdulazizacc"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W09",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 579,
+      "deletions": 316,
+      "changed_files": 27
+    }
   }
 ]
