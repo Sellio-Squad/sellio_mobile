@@ -359,6 +359,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       city: currentState.city,
       country: countryName,
       region: countryCode,
+      countryCode: countryCode,
     );
 
     result.fold(
