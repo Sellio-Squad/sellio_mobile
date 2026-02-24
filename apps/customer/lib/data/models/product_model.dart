@@ -56,9 +56,14 @@ class ProductModel with _$ProductModel {
     );
   }
 
-  // --- Mapping Logic ---
 
   Product toEntity() {
+    final allImages = <String>[
+      ...images,
+      if (mainImageUrl != null && mainImageUrl!.isNotEmpty)
+        mainImageUrl!,
+    ].where((e) => e.isNotEmpty).toSet().toList();
+
     return Product(
       id: id,
       title: title,
@@ -66,7 +71,7 @@ class ProductModel with _$ProductModel {
       price: price,
       currency: currency,
       discount: discount,
-      images: {...images, mainImageUrl ?? ''}.toList(),
+      images: allImages,
       storeId: storeId,
       categoryId: categoryId,
       subCategoriesIds: subCategoriesIds,

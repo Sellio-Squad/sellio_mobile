@@ -43,6 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String city,
     required String country,
     required String region,
+    required String countryCode
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
@@ -52,6 +53,7 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
         country: country,
         region: region,
+        countryCode: countryCode
       );
 
       await _savePendingRegistration(
