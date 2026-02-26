@@ -1709,5 +1709,47 @@
       "deletions": 316,
       "changed_files": 27
     }
+  },
+  {
+    "pr_number": 478,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/478",
+    "title": "Feature/category details screen",
+    "opened_at": "2026-02-26T15:21:37Z",
+    "head_ref": "feature/category-details-screen",
+    "base_ref": "develop",
+    "creator": {
+      "login": "MohamedOmar989",
+      "id": 175744746,
+      "url": "https://github.com/MohamedOmar989"
+    },
+    "assignees": [
+      {
+        "login": "MohamedOmar989",
+        "id": 175744746,
+        "url": "https://github.com/MohamedOmar989"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W09",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 894,
+      "deletions": 9,
+      "changed_files": 19
+    }
   }
 ]
