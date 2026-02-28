@@ -1751,5 +1751,47 @@
       "deletions": 9,
       "changed_files": 19
     }
+  },
+  {
+    "pr_number": 479,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/479",
+    "title": "refactor: Rename price and discount fields to `minPrice` and `maxDisc…",
+    "opened_at": "2026-02-28T13:19:56Z",
+    "head_ref": "refactor/product-price",
+    "base_ref": "develop",
+    "creator": {
+      "login": "marah222",
+      "id": 17768793,
+      "url": "https://github.com/marah222"
+    },
+    "assignees": [
+      {
+        "login": "marah222",
+        "id": 17768793,
+        "url": "https://github.com/marah222"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W09",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 35,
+      "deletions": 35,
+      "changed_files": 15
+    }
   }
 ]
