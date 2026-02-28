@@ -83,7 +83,7 @@ class _FeaturedProductCard extends StatelessWidget {
               ? product.images.first
               : AppImages.cartProduct,
           title: product.title,
-          price: '\$${product.price}',
+          price: '\$${product.minPrice}',
           isFavorite: isFavorite,
           onFavoriteToggle: () {
             context.read<FavoritesCubit>().toggleFavorite(product.id, FavoriteType.product);

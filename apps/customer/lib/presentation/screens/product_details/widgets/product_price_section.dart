@@ -6,8 +6,8 @@ import 'package:sellio_mobile/presentation/utils/product_price_extensions.dart';
 Widget productPriceSection(BuildContext context, ProductDetailsLoaded state) {
   final product = state.product;
 
-  final double price = product.price;
-  final int? discount = int.tryParse(product.discount ?? '');
+  final double price = product.minPrice;
+  final int? discount = int.tryParse(product.maxDiscount ?? '');
   final bool hasDiscount = discount != null && discount > 0;
 
   final List<Widget> priceWidgets = [];

@@ -6,9 +6,9 @@ extension TrendingProductModelMapper on ProductSummaryModel {
     return Product(
       id: id,
       title: title,
-      price: price,
+      minPrice: price,
       isFavorite: isFavorite,
-      discount: null,
+      maxDiscount: null,
       description: '',
       currency: '',
       images: [image],
