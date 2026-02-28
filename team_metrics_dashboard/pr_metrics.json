@@ -1752,18 +1752,27 @@
         },
         "submitted_at": "2026-02-28T14:15:52Z",
         "commit_id": "916fb302cebbdf744b0b1f8283d62478a085dafc"
+      },
+      {
+        "reviewer": {
+          "login": "karrar-abbas",
+          "id": 54599574,
+          "url": "https://github.com/karrar-abbas"
+        },
+        "submitted_at": "2026-02-28T18:19:05Z",
+        "commit_id": "916fb302cebbdf744b0b1f8283d62478a085dafc"
       }
     ],
     "required_approvals": 2,
     "first_approved_at": "2026-02-28T14:15:52Z",
     "time_to_first_approval_minutes": 2814.25,
-    "required_approvals_met_at": null,
-    "time_to_required_approvals_minutes": null,
+    "required_approvals_met_at": "2026-02-28T18:19:05Z",
+    "time_to_required_approvals_minutes": 3057.4666666666667,
     "closed_at": null,
     "merged_at": null,
     "merged_by": null,
     "week": "2026-W09",
-    "status": "pending",
+    "status": "approved",
     "labels": [],
     "milestone": null,
     "draft": false,
