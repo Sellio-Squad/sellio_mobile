@@ -42,7 +42,7 @@ class AppImages {
   //Home Screen Banner
   static const String defaultHomeBanner = '$imagesPath/sellio_offer.webp';
   static const String icEmptyStore = '$iconsPath/ic_empty_image.svg';
-  static const String imgEmptyStoreImage = '$iconsPath/img_empty_image.png';
+  static const String imgEmptyStoreImage = '$imagesPath/placeholder.png';
 
   // General images
   static const String cakeHouseLogo = '$imagesPath/cake-house.webp';
@@ -82,6 +82,8 @@ class AppImages {
   // Store details
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
+  static const String info = '$iconsPath/info.svg';
+
 
   // Order history
   static const String noOrderHistory = '$iconsPath/package_remove.svg';
@@ -130,6 +132,9 @@ class AppImages {
   // Cart
   static const String cart = '$iconsPath/ic_cart.svg';
   static const String cartSelected = '$iconsPath/ic_cart_selected.svg';
+  static const String delete = '$iconsPath/ic_delete.svg';
+
+  // Favourite
 
   // Thrift
   static const String thrift = '$iconsPath/ic_thrift.svg';

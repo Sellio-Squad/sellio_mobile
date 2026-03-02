@@ -66,7 +66,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _passwordController
         .addListener(() => cubit.updatePassword(_passwordController.text));
     _confirmPasswordController.addListener(
-      () => cubit.updateConfirmPassword(_confirmPasswordController.text),
+          () => cubit.updateConfirmPassword(_confirmPasswordController.text),
     );
 
     _fullNameFocusNode.addListener(() {

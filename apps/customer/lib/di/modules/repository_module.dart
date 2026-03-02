@@ -23,8 +23,14 @@ import '../../domain/repositories/order_repository.dart';
 import '../../domain/repositories/product_repository.dart';
 import '../../domain/repositories/search_repository.dart';
 
+import '../../data/repositories/category_section_repository_impl.dart';
+import '../../domain/repositories/category_section_repository.dart';
+
 class RepositoryModule {
   static void register(GetIt sl) {
+    sl.registerLazySingleton<CategorySectionRepository>(
+      () => CategorySectionRepositoryImpl(sl()),
+    );
     sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
         remoteDataSource: sl(),

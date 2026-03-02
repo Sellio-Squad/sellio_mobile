@@ -13,6 +13,7 @@ abstract class AuthRepository {
     required String city,
     required String country,
     required String region,
+    required String countryCode
   });
 
   Future<Result<void>> verifyRegistrationOtp({

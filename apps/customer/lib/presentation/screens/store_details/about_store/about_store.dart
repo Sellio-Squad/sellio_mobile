@@ -1,12 +1,10 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
+
 import 'cubit/about_store_cubit.dart';
 import 'cubit/about_store_state.dart';
 import 'helper/ContactActionHandler.dart';

@@ -7,8 +7,13 @@ import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
+  final VoidCallback? onSearchTap;
 
-  const HomeAppBar({super.key, this.onNotificationTap});
+  const HomeAppBar({
+    super.key,
+    this.onNotificationTap,
+    this.onSearchTap,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(68.0);
@@ -28,7 +33,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         return SellioAppBar(
           leading: _buildLogo(),
-          centerTitle: true,
           customTitle: _buildUserInfo(context, userName, location),
           actions: [_buildNotificationButton()],
         );
@@ -37,21 +41,21 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildLogo() => Padding(
-        padding: const EdgeInsets.all(4),
-        child: Image.asset(
-          AppImages.sellio,
-          fit: BoxFit.contain,
-        ),
+        padding: const EdgeInsets.only(left: 4),
+        child: Image.asset(AppImages.sellio, fit: BoxFit.contain, width: 40, height: 40),
       );
 
   Widget _buildUserInfo(
-      BuildContext context, String userName, String? location,) {
+    BuildContext context,
+    String userName,
+    String? location,
+  ) {
     final colors = context.theme.colors;
     final textTheme = context.theme.typography.textTheme;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
@@ -72,20 +76,37 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        SvgPicture.asset(AppImages.location, width: 16, height: 16),
+        SvgPicture.asset(AppImages.location, width: 14, height: 14),
         const SizedBox(width: 4),
-        Text(location, style: textTheme.labelXSmall.copyWith(color: colors.body)),
+        Text(
+          location,
+          style: textTheme.labelXSmall.copyWith(color: colors.body),
+        ),
       ],
     );
   }
 
-  Widget _buildNotificationButton() => IconButton(
-        icon: SvgPicture.asset(AppImages.bell),
-        onPressed: onNotificationTap,
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints(),
-        iconSize: 40,
+  Widget _buildNotificationButton() => Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+              icon: SvgPicture.asset(AppImages.bell, width: 24, height: 24),
+              onPressed: onNotificationTap,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+            const SizedBox(width: 12),
+            IconButton(
+              icon: SvgPicture.asset(AppImages.search, width: 24, height: 24),
+              onPressed: onSearchTap,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
+          ],
+        ),
       );
 }

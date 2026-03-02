@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
-
-import '../../../../../domain/repositories/favorites_repository.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store.dart';
+import '../../../../domain/repositories/favorites_repository.dart';
 import 'favorites_state.dart';
+
+enum FavoriteType { product, store }
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   final FavoritesRepository _favoritesRepository;
@@ -14,165 +14,92 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   FavoritesCubit(
     this._favoritesRepository,
     this._authenticationCubit,
-  ) : super(const FavoritesInitial());
+  ) : super(const FavoritesInitial()) {
+    _loadInitialFavorites();
+  }
 
-  Future<void> loadFavorites() async {
-    emit(FavoritesLoading(
-      productIds: state.productIds,
-      storeIds: state.storeIds,
-      favoriteProducts: state.favoriteProducts,
-      favoriteStores: state.favoriteStores,
-    ));
+  // Load favorites initially
+  Future<void> _loadInitialFavorites() async {
+    await refreshFavorites();
+  }
 
+  // <-- NEW: Public method to refresh favorites from backend
+  Future<void> refreshFavorites() async {
     try {
-      final productIdsResult =
-          await _favoritesRepository.getFavoriteProductIds();
-      final storeIdsResult = await _favoritesRepository.getFavoriteStoreIds();
+      emit(const FavoritesInitial());
 
       final productsResult =
           await _favoritesRepository.getFavoriteProductsFull();
       final storesResult = await _favoritesRepository.getFavoriteStoresFull();
 
-      debugPrint("fav IDs: ${productIdsResult.data}, ${storeIdsResult.data}");
-      debugPrint(
-          "fav full: ${productsResult.data.length} products, ${storesResult.data.length} stores",);
+      final products =
+          productsResult.isSuccess ? productsResult.data : <Product>[];
+      final stores = storesResult.isSuccess ? storesResult.data : <Store>[];
 
-      emit(FavoritesLoaded(
-        productIds: productIdsResult.data.toSet(),
-        storeIds: storeIdsResult.data.toSet(),
-        favoriteProducts: productsResult.isSuccess
-            ? (productsResult.data as List<Product>?) ?? <Product>[]
-            : null,
-        favoriteStores: storesResult.isSuccess
-            ? (storesResult.data as List<Store>?) ?? <Store>[]
-            : null,
-      ));
-    } catch (e) {
-      emit(FavoritesError(
-        message: e.toString(),
-        productIds: state.productIds,
-        storeIds: state.storeIds,
-        favoriteProducts: state.favoriteProducts,
-        favoriteStores: state.favoriteStores,
-      ));
+      emit(
+        FavoritesLoaded(
+          favoriteProducts: products,
+          favoriteStores: stores,
+          favoriteProductIds: products.map((e) => e.id).toSet(),
+          favoriteStoreIds: stores.map((e) => e.id).toSet(),
+        ),
+      );
+    } catch (_) {
+      emit(const FavoritesActionFailure('Failed to load favorites'));
     }
   }
 
-  Future<bool> toggleProductFavorite(String productId) async {
+  Future<bool> toggleFavorite(String id, FavoriteType type) async {
     return await _authenticationCubit.requireLogin(() async {
-      emit(const FavoritesLoading());
+      if (state is! FavoritesLoaded) return false;
 
-      try {
-        await _favoritesRepository.toggleProductFavorite(productId);
-        debugPrint('Succeded to toggle product favorite:}');
-        emit(FavoritesLoaded(productIds: {}, storeIds: {}));
+      final current = state as FavoritesLoaded;
 
-        return true;
-      } catch (e) {
-        debugPrint('Failed to toggle product favorite: ${e.toString()}');
-        emit(FavoritesError(
-          message: 'Failed to update favorite: ${e.toString()}',
-          productIds: {},
-          storeIds: {},
-          favoriteProducts: [],
-          favoriteStores: [],
-          loadingProductIds: {},
-          loadingStoreIds: {},
+      if (type == FavoriteType.product) {
+        final updatedIds = Set<String>.from(current.favoriteProductIds);
+
+        if (updatedIds.contains(id)) {
+          updatedIds.remove(id);
+        } else {
+          updatedIds.add(id);
+        }
+
+        emit(current.copyWith(
+          favoriteProductIds: updatedIds,
         ));
 
-        return false;
+        try {
+          await _favoritesRepository.toggleProductFavorite(id);
+
+          return true;
+        } catch (_) {
+          emit(current);
+
+          return false;
+        }
+      } else if (type == FavoriteType.store) {
+        final updatedIds = Set<String>.from(current.favoriteStoreIds);
+
+        if (updatedIds.contains(id)) {
+          updatedIds.remove(id);
+        } else {
+          updatedIds.add(id);
+        }
+
+        emit(current.copyWith(
+          favoriteStoreIds: updatedIds,
+        ));
+
+        try {
+          await _favoritesRepository.toggleStoreFavorite(id);
+
+          return true;
+        } catch (_) {
+          emit(current);
+
+          return false;
+        }
       }
     }) ?? false;
   }
-
-  Future<bool> toggleStoreFavorite(String storeId) async {
-    return await _authenticationCubit.requireLogin(() async {
-          if (state is! FavoritesLoaded) return false;
-
-          final currentState = state as FavoritesLoaded;
-
-          // Prevent duplicate requests for the same store
-          if (currentState.loadingStoreIds.contains(storeId)) {
-            debugPrint('Toggle already in progress for store: $storeId');
-
-            return false;
-          }
-
-          // Step 1: Add to loading set (show loader in UI)
-          final loadingIds = Set<String>.from(currentState.loadingStoreIds)
-            ..add(storeId);
-          emit(currentState.copyWith(loadingStoreIds: loadingIds));
-
-          try {
-            // Step 2: Make API call and wait for response
-            await _favoritesRepository.toggleStoreFavorite(storeId);
-
-            // Step 3: On success, toggle the favorite state
-            final isFavorite = currentState.storeIds.contains(storeId);
-            final updatedIds = Set<String>.from(currentState.storeIds);
-
-            if (isFavorite) {
-              updatedIds.remove(storeId);
-              debugPrint('Store $storeId removed from favorites');
-            } else {
-              updatedIds.add(storeId);
-              debugPrint('Store $storeId added to favorites');
-            }
-
-            // Remove from loading and update storeIds
-            final finalLoadingIds = Set<String>.from(loadingIds)
-              ..remove(storeId);
-            emit(currentState.copyWith(
-              storeIds: updatedIds,
-              loadingStoreIds: finalLoadingIds,
-            ));
-
-            return true;
-          } catch (e) {
-            // Step 4: On error, remove from loading but keep original state
-            debugPrint('Failed to toggle store favorite: ${e.toString()}');
-
-            final finalLoadingIds = Set<String>.from(loadingIds)
-              ..remove(storeId);
-            emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
-
-            // Emit error state briefly
-            emit(FavoritesError(
-              message: 'Failed to update favorite: ${e.toString()}',
-              productIds: currentState.productIds,
-              storeIds: currentState.storeIds,
-              favoriteProducts: currentState.favoriteProducts,
-              favoriteStores: currentState.favoriteStores,
-              loadingProductIds: currentState.loadingProductIds,
-              loadingStoreIds: finalLoadingIds,
-            ));
-
-            // Restore to loaded state
-            emit(currentState.copyWith(loadingStoreIds: finalLoadingIds));
-
-            return false;
-          }
-        }) ??
-        false;
-  }
-
-  bool isProductFavorite(String productId) {
-    return state.productIds.contains(productId);
-  }
-
-  bool isStoreFavorite(String storeId) {
-    return state.storeIds.contains(storeId);
-  }
-
-  bool isProductLoading(String productId) {
-    return state.loadingProductIds.contains(productId);
-  }
-
-  bool isStoreLoading(String storeId) {
-    return state.loadingStoreIds.contains(storeId);
-  }
-
-  List<Product> get favoriteProductsList => state.favoriteProducts ?? [];
-
-  List<Store> get favoriteStoresList => state.favoriteStores ?? [];
 }

@@ -12,6 +12,7 @@ class RegisterRequest with _$RegisterRequest {
     required String city,
     required String country,
     required String region,
+    required String countryCode
   }) = _RegisterRequest;
 
   factory RegisterRequest.fromJson(Map<String, dynamic> json) =>

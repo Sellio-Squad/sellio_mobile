@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
-import '../../../../cubits/favorites/cubit/favorites_state.dart';
+import 'product_list_shimmer.dart';
 import 'cubit/home_trending_products_cubit.dart';
 import 'cubit/home_trending_products_state.dart';
-import 'product_list_shimmer.dart';
 import 'widgets/products_list.dart';
 
 class TrendingProductsSection extends StatelessWidget {
@@ -35,51 +32,31 @@ class TrendingProductsSection extends StatelessWidget {
           );
         }
       },
-      builder: (context, productsState) {
-        if (productsState is HomeTrendingProductsLoading ||
-            productsState is HomeTrendingProductsSearching) {
-          return const SliverToBoxAdapter(
-            child: ProductsListShimmer(),
-          );
+      builder: (context, state) {
+        if (state is HomeTrendingProductsLoading ||
+            state is HomeTrendingProductsSearching) {
+          return const SliverToBoxAdapter(child: ProductsListShimmer());
         }
 
-        if (productsState is HomeTrendingProductsError) {
+        if (state is HomeTrendingProductsError) {
           return SliverToBoxAdapter(
             child: _ErrorWidget(
-              message: productsState.message,
-              onRetry: () {
-                context.read<HomeTrendingProductsCubit>().refreshProducts();
-              },
+              message: state.message,
+              onRetry: () =>
+                  context.read<HomeTrendingProductsCubit>().refreshProducts(),
             ),
           );
         }
 
-        if (productsState is! HomeTrendingProductsLoaded) {
+        if (state is! HomeTrendingProductsLoaded) {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        return BlocConsumer<FavoritesCubit, FavoritesState>(
-          listener: (context, favState) {
-            if (favState is FavoritesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(favState.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          builder: (context, favState) {
-            return SliverToBoxAdapter(
-              child: ProductsList(
-                products: productsState.products,
-                searchQuery: productsState.searchQuery,
-                onFavorite: (productId) async => await context
-                    .read<FavoritesCubit>()
-                    .toggleProductFavorite(productId),
-              ),
-            );
-          },
+        return SliverToBoxAdapter(
+          child: ProductsList(
+            products: state.products,
+            searchQuery: state.searchQuery,
+          ),
         );
       },
     );
@@ -90,10 +67,7 @@ class _ErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const _ErrorWidget({
-    required this.message,
-    required this.onRetry,
-  });
+  const _ErrorWidget({required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +80,10 @@ class _ErrorWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: onRetry,
-              child: const Text('Retry'),
-            ),
+            ElevatedButton(onPressed: onRetry, child: const Text('Retry')),
           ],
         ),
       ),

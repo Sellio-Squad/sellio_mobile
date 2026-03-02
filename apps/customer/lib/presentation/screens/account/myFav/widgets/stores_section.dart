@@ -1,20 +1,20 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/error/result.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
+import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
-import 'package:sellio_mobile/domain/repositories/store_repository.dart';
-
+import '../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import 'empty_favorites_state.dart';
 
 class StoresSection extends StatelessWidget {
   final List<Store> stores;
-  final void Function(String) onToggleFavorite;
+  final Set<String> favoriteStoreIds;
 
   const StoresSection({
     super.key,
     required this.stores,
-    required this.onToggleFavorite,
+    required this.favoriteStoreIds,
   });
 
   @override
@@ -26,56 +26,30 @@ class StoresSection extends StatelessWidget {
     }
 
     return SliverToBoxAdapter(
-      child: FutureBuilder<Result<List<Store>>>(
-        future: context.read<StoreRepository>().getFavoriteStores(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Padding(
-                padding: EdgeInsets.all(48.0),
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
+      child: ListView.separated(
+        padding: const EdgeInsets.only(top: 16),
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: stores.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final store = stores[index];
 
-          if (snapshot.hasError || !snapshot.hasData) {
-            return const EmptyFavoritesWidget();
-          }
+          final isFavorite = favoriteStoreIds.contains(store.id);
 
-          final result = snapshot.data!;
-
-          if (result is! Success<List<Store>>) {
-            return const EmptyFavoritesWidget();
-          }
-
-          final stores = result.data;
-
-          if (stores.isEmpty) {
-            return const EmptyFavoritesWidget();
-          }
-
-          return Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: stores.length,
-              itemBuilder: (context, index) {
-                final store = stores[index];
-
-                return SellioStoreCard(
-                  imageUrl: store.coverImage,
-                  title: store.name,
-                  discountText: store.sale,
-                  isFavorite: true,
-                  onLikePressed: () => onToggleFavorite(store.id),
-                  onCardPressed: () {
-                    // Navigate to store details
-                    // Example: context.push('/store/${store.id}');
-                  },
-                );
-              },
-            ),
+          return SellioStoreCard(
+            imageUrl: store.coverImage,
+            title: store.name,
+            discountText: store.sale,
+            isFavorite: isFavorite,
+            onLikePressed: () {
+              context
+                  .read<FavoritesCubit>()
+                  .toggleFavorite(store.id, FavoriteType.store);
+            },
+            onCardPressed: () {
+              context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: store.id));
+            },
           );
         },
       ),

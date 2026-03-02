@@ -7,7 +7,6 @@ import '../../../core/navigate/app_routes.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../../domain/repositories/product_repository.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
-import '../../cubits/favorites/cubit/favorites_state.dart';
 import 'cubit/more_trending_cubit.dart';
 import 'cubit/more_trending_state.dart';
 
@@ -25,10 +24,8 @@ class _MoreTrendingScreenState extends State<MoreTrendingScreen> {
   @override
   void initState() {
     super.initState();
-
     cubit = MoreTrendingCubit(context.read<ProductRepository>());
     cubit.loadTrendingProducts();
-
     _scrollController.addListener(_onScroll);
   }
 
@@ -105,59 +102,46 @@ class _MoreTrendingContent extends StatelessWidget {
           final screenWidth = constraints.crossAxisExtent;
           const cardWidth = 170.0;
           final crossAxisCount = (screenWidth / cardWidth).floor().clamp(2, 6);
-          
-          return BlocBuilder<FavoritesCubit, FavoritesState>(
-            builder: (context, favState) {
-              return SliverGrid(
-                delegate: SliverChildBuilderDelegate(
+
+          return SliverGrid(
+            delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final product = state.items[index];
-                    final productId = product.id;
+                final product = state.items[index];
+                final imageUrl = product.images.isNotEmpty
+                    ? product.images.first
+                    : AppImages.cartProduct;
 
-                    // Use FavoritesCubit as source of truth for state sync
-                    final isFavorite = favState.productIds.contains(productId);
-
-                    final imageUrl = product.images.first;
-
-                    return SellioProductVerticalCard(
-                      key: ValueKey(productId),
-                      productId: productId,
-                      imageUrl: imageUrl,
-                      title: product.title,
-                      price: product.price.toString(),
-                      isFavorite: isFavorite,
-                      onFavoriteToggle: () async {
-                        // Pessimistic update: wait for API response
-                        final success = await context
-                            .read<FavoritesCubit>()
-                            .toggleProductFavorite(productId);
-
-                        return success;
-                      },
-                      onTap: () {
-                        GoRouter.of(context).push(
-                          AppRoutes.productDetails.path,
-                          extra: ProductDetailsArgs(productId: product.id),
-                        );
-                      },
+                return SellioProductVerticalCard(
+                  key: ValueKey(product.id),
+                  productId: product.id,
+                  imageUrl: imageUrl,
+                  title: product.title,
+                  price: product.price.toString(),
+                  isFavorite: product.isFavorite,
+                  onFavoriteToggle: () {
+                    context.read<FavoritesCubit>().toggleFavorite(product.id, FavoriteType.product);
+                  },
+                  onTap: () {
+                    GoRouter.of(context).push(
+                      AppRoutes.productDetails.path,
+                      extra: ProductDetailsArgs(productId: product.id),
                     );
                   },
-                  childCount: state.items.length,
-                ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 160 / 200,
-                ),
-              );
-            },
+                );
+              },
+              childCount: state.items.length,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 12,
+              childAspectRatio: 160 / 200,
+            ),
           );
         },
       ),
     );
   }
-
   Widget _buildLoadingMore() {
     return const SliverToBoxAdapter(
       child: Padding(
@@ -167,4 +151,3 @@ class _MoreTrendingContent extends StatelessWidget {
     );
   }
 }
-

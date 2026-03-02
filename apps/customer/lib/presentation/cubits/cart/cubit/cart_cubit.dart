@@ -91,10 +91,8 @@ class CartCubit extends Cubit<CartState> {
     final currentState = state as CartLoaded;
     final currentQty = currentState.productCounts[productId] ?? 0;
 
-    if (currentQty <= 1) return;
-
-    final result =
-        await _cartRepository.updateQuantity(productId, currentQty - 1);
+    final result = currentQty <= 1 ? await _cartRepository.removeFromCart(productId)
+        : await _cartRepository.updateQuantity(productId, currentQty - 1);
 
     result.fold(
       onSuccess: _emitLoadedState,
