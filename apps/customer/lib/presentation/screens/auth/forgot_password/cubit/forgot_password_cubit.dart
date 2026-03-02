@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
 import '../../shared/enums/validation_error_type.dart';
@@ -9,26 +10,31 @@ import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final AuthRepository _authRepository;
+  final CountryRepository _countryRepository;
   ForgotPasswordIdle? _lastIdleState;
 
   ForgotPasswordCubit({
     required AuthRepository authRepository,
+    required CountryRepository countryRepository,
     Country? initialCountry,
     bool startWithVerified = false,
-  })
-      : _authRepository = authRepository,
+  })  : _authRepository = authRepository,
+        _countryRepository = countryRepository,
         super(
-        startWithVerified
-            ? const ForgotPasswordVerified()
-            : ForgotPasswordIdle(selectedCountry: initialCountry),
-      );
+          startWithVerified
+              ? const ForgotPasswordVerified()
+              : ForgotPasswordIdle(
+                  selectedCountry: initialCountry ?? Country.parse('eg'),
+                ),
+        );
 
   void updatePhoneNumber(String value) {
     final currentState = state;
     if (currentState is! ForgotPasswordIdle) return;
 
     final minPhoneLength = currentState.selectedCountry?.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneNumber: value,
@@ -60,7 +66,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     if (currentState is! ForgotPasswordIdle) return;
 
     final minPhoneLength = currentState.selectedCountry?.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneError: () => result.error as PhoneValidationError?,
@@ -90,8 +97,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     emit(const ForgotPasswordSendingOtp());
 
-    final countryCode = currentState.selectedCountry?.phoneCode ?? '';
-    final phoneNumber = '+$countryCode${currentState.phoneNumber}';
+    final phoneNumber = currentState.phoneNumber;
     final region = currentState.selectedCountry?.countryCode ?? '';
 
     final result = await _authRepository.sendForgotPasswordOtp(
@@ -128,33 +134,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     );
   }
 
-  Future<void> resendOtp() async {
-    final currentPhoneState = state;
-    String? phoneNumber;
-    String? defaultRegion;
-
-    if (currentPhoneState is ForgotPasswordOtpRequired) {
-      phoneNumber = currentPhoneState.phoneNumber;
-      defaultRegion = currentPhoneState.defaultRegion;
-    }
-
-    if (phoneNumber == null || defaultRegion == null) {
-      throw Exception('Phone number or region not available for resend');
-    }
-
-    final result = await _authRepository.sendForgotPasswordOtp(
-      phoneNumber: phoneNumber,
-      defaultRegion: defaultRegion,
-    );
-
-    result.fold(
-      onSuccess: (_) {},
-      onFailure: (failure) {
-        throw Exception(failure.message);
-      },
-    );
-  }
-
   // ==================== Password Reset Step ====================
 
   void updateNewPassword(String value) {
@@ -174,7 +153,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     emit(currentState.copyWith(
       newPassword: value,
       passwordError: () => result.error as PasswordValidationError?,
-      confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+      confirmPasswordError: () =>
+          confirmResult.error as PasswordValidationError?,
       isResetFormValid: _validateResetForm(
         value,
         currentState.confirmPassword,
@@ -206,11 +186,11 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   }
 
   bool _validateResetForm(
-      String password,
-      String confirm,
-      PasswordValidationError? passwordError,
-      PasswordValidationError? confirmPasswordError,
-      ) {
+    String password,
+    String confirm,
+    PasswordValidationError? passwordError,
+    PasswordValidationError? confirmPasswordError,
+  ) {
     return password.isNotEmpty &&
         confirm.isNotEmpty &&
         passwordError == null &&
@@ -260,7 +240,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     if (!passwordResult.isValid || !confirmResult.isValid) {
       emit(currentState.copyWith(
         passwordError: () => passwordResult.error as PasswordValidationError?,
-        confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+        confirmPasswordError: () =>
+            confirmResult.error as PasswordValidationError?,
       ));
 
       return;
@@ -293,5 +274,15 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     if (_lastIdleState != null) {
       emit(_lastIdleState!);
     }
+  }
+
+  Future<void> loadInitialCountry() async {
+    final currentState = state;
+    if (currentState is! ForgotPasswordIdle) return;
+
+    final countryCode = await _countryRepository.getCurrentCountryCode();
+    final countryObject = Country.parse(countryCode);
+
+    emit(currentState.copyWith(selectedCountry: countryObject));
   }
 }

@@ -5,6 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../shared/otp/otp_screen.dart';
@@ -20,7 +21,8 @@ class ForgetPasswordScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ForgotPasswordCubit(
         authRepository: sl<AuthRepository>(),
-      ),
+        countryRepository: sl<CountryRepository>(),
+      )..loadInitialCountry(),
       child: const _ForgetPasswordScreenContent(),
     );
   }
@@ -145,7 +147,6 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
           subtitle: context.local.enter_the_4_digit_sent_to(state.phoneNumber),
           phoneNumber: state.phoneNumber,
           onVerify: (otp) => cubit.verifyOtp(otp),
-          onResend: () => cubit.resendOtp(),
           onVerifySuccess: () {
              context.pushNamed(AppRoutes.confirmPassword.name);
           },

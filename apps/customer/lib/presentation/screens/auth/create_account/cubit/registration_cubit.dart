@@ -350,7 +350,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     final countryCode = currentState.selectedCountry.phoneCode;
     final countryName = currentState.selectedCountry.name;
-    final fullPhoneNumber = '+$countryCode${currentState.phoneNumber}';
+    final fullPhoneNumber = currentState.phoneNumber;
 
     final result = await _authRepository.register(
       fullName: currentState.fullName.trim(),
@@ -394,21 +394,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       },
     );
   }
-
-  /// Resends OTP - called by OTP screen via callback
-  Future<void> resendOtp() async {
-    final result = await _authRepository.resendRegistrationOtp();
-
-    result.fold(
-      onSuccess: (_) {
-        // Success - OTP cubit will handle UI feedback
-      },
-      onFailure: (failure) {
-        throw failure;
-      },
-    );
-  }
-
   void resetToIdle() {
     if (state is RegistrationIdle) return;
 

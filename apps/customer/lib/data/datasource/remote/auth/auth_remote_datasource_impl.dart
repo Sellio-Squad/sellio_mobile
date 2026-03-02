@@ -84,11 +84,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ResendOtpResponse> resendOtp({
     required String sessionId,
   }) async {
-    final request = ResendOtpRequest(sessionId: sessionId);
-
     final response = await _apiClient.post(
-      ApiEndpoints.resendOtp,
-      data: request.toJson(),
+      '${ApiEndpoints.resendOtp}/$sessionId',
     );
 
     return ResendOtpResponse.fromJson(response.data);

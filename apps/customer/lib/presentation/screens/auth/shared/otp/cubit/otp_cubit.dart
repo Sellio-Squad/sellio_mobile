@@ -1,23 +1,24 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/failure.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {
   final Future<void> Function(String otp) onVerify;
-  final Future<void> Function() onResend;
   final int otpLength;
   final int countdownDuration;
-
   Timer? _countdownTimer;
+  final AuthRepository _authRepository;
 
   OtpCubit({
     required this.onVerify,
-    required this.onResend,
     this.otpLength = 4,
     this.countdownDuration = AuthConstants.otpResendCountdown,
-  }) : super(const OtpIdle()) {
+    required AuthRepository authRepository,
+  })  : _authRepository = authRepository,
+      super(const OtpIdle()) {
     startCountdown();
   }
 
@@ -91,11 +92,8 @@ class OtpCubit extends Cubit<OtpState> {
   Future<void> resendOtp() async {
     final currentState = state;
     if (currentState is! OtpIdle || !currentState.canResend) return;
-
-    emit(const OtpResending());
-
     try {
-      await onResend();
+      await _authRepository.resendOtp();
       emit(const OtpResent());
       startCountdown();
     } on Failure catch (failure) {

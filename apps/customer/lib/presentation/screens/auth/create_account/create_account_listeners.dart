@@ -42,7 +42,6 @@ class CreateAccountListeners extends StatelessWidget {
           subtitle: context.local.enter_the_4_digit_sent_to(state.phoneNumber),
           phoneNumber: state.phoneNumber,
           onVerify: (otp) => cubit.verifyOtp(otp),
-          onResend: () => cubit.resendOtp(),
           onVerifySuccess: () {
             Navigator.pop(context);
             _handleSuccess(context);
