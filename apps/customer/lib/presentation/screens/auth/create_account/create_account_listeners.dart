@@ -43,7 +43,6 @@ class CreateAccountListeners extends StatelessWidget {
           phoneNumber: state.phoneNumber,
           onVerify: (otp) => cubit.verifyOtp(otp),
           onVerifySuccess: () {
-            Navigator.pop(context);
             _handleSuccess(context);
           },
         ),
@@ -55,7 +54,7 @@ class CreateAccountListeners extends StatelessWidget {
 
   void _handleSuccess(BuildContext context) {
     SnackBarHelper.showSuccess(context, context.local.account_created_successfully);
-    Future.delayed(const Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       if (context.mounted) {
         context.navigator.goToHome();
       }

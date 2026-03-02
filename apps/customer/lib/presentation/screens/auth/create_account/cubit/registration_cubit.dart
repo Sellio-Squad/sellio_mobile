@@ -350,7 +350,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     final countryCode = currentState.selectedCountry.phoneCode;
     final countryName = currentState.selectedCountry.name;
-    final fullPhoneNumber = currentState.phoneNumber;
+    final fullPhoneNumber = '+$countryCode${currentState.phoneNumber}';
 
     final result = await _authRepository.register(
       fullName: currentState.fullName.trim(),
@@ -394,6 +394,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       },
     );
   }
+
   void resetToIdle() {
     if (state is RegistrationIdle) return;
 

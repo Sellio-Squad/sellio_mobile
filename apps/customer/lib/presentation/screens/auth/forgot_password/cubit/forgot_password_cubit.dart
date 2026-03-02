@@ -97,7 +97,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
     emit(const ForgotPasswordSendingOtp());
 
-    final phoneNumber = currentState.phoneNumber;
+    final countryCode = currentState.selectedCountry?.phoneCode ?? '';
+    final phoneNumber = '+$countryCode${currentState.phoneNumber}';
     final region = currentState.selectedCountry?.countryCode ?? '';
 
     final result = await _authRepository.sendForgotPasswordOtp(
