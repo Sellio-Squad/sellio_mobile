@@ -1835,5 +1835,47 @@
       "deletions": 35,
       "changed_files": 15
     }
+  },
+  {
+    "pr_number": 480,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/480",
+    "title": "Feat/resend otp",
+    "opened_at": "2026-03-02T04:46:58Z",
+    "head_ref": "feat/resend-otp",
+    "base_ref": "fix/authuntication-issues",
+    "creator": {
+      "login": "israamohamed107",
+      "id": 74803351,
+      "url": "https://github.com/israamohamed107"
+    },
+    "assignees": [
+      {
+        "login": "israamohamed107",
+        "id": 74803351,
+        "url": "https://github.com/israamohamed107"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W10",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 231,
+      "deletions": 347,
+      "changed_files": 15
+    }
   }
 ]
