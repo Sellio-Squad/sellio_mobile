@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/di/injection_container.dart';
 import 'package:sellio_mobile/domain/repositories/auth_repository.dart' show AuthRepository;
@@ -16,7 +17,7 @@ class OtpScreen extends StatelessWidget {
   final String subtitle;
   final String? phoneNumber;
   final VoidCallback onVerifySuccess;
-  final Future<void> Function(String otp) onVerify;
+  final Future<Result<void>> Function(String otp) onVerify;
   final int otpLength;
 
   const OtpScreen({
@@ -88,7 +89,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
           _otpKey.currentState?.clear();
           SnackBarHelper.showSuccess(
             context,
-            context.local.otp_resent_successfully,
+           state.message ?? context.local.otp_resent_successfully,
           );
         }
       },

@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
-import '../../shared/enums/form_field_type.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';

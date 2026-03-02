@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';
@@ -122,17 +123,8 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     );
   }
 
-  Future<void> verifyOtp(String otp) async {
-    final result = await _authRepository.verifyForgotPasswordOtp(otp: otp);
-
-    result.fold(
-      onSuccess: (_) {
-        emit(const ForgotPasswordVerified());
-      },
-      onFailure: (failure) {
-        throw Exception(failure.message);
-      },
-    );
+  Future<Result<void>> verifyOtp(String otp) async {
+    return await _authRepository.verifyForgotPasswordOtp(otp: otp);
   }
 
   // ==================== Password Reset Step ====================

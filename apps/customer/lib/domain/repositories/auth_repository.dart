@@ -19,7 +19,7 @@ abstract class AuthRepository {
     required String otp,
   });
 
-  Future<Result<void>> resendOtp();
+  Future<Result<String?>> resendOtp();
 
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,

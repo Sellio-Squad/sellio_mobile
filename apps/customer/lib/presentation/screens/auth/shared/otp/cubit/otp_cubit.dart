@@ -1,16 +1,20 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/failure.dart';
+import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {
-  final Future<void> Function(String otp) onVerify;
+  final Future<Result<void>> Function(String otp) onVerify;
   final int otpLength;
   final int countdownDuration;
   Timer? _countdownTimer;
   final AuthRepository _authRepository;
+
+  int _liveCountdown = 0;
+  bool _liveCanResend = false;
 
   OtpCubit({
     required this.onVerify,
@@ -46,28 +50,34 @@ class OtpCubit extends Cubit<OtpState> {
   void startCountdown() {
     _countdownTimer?.cancel();
 
+    _liveCountdown = countdownDuration;
+    _liveCanResend = false;
+
     final currentState = state;
     final idleState = currentState is OtpIdle ? currentState : const OtpIdle();
-
     emit(idleState.copyWith(
-      countdown: countdownDuration,
+      countdown: _liveCountdown,
       canResend: false,
+      otpValue: '',
+      isComplete: false,
     ));
 
-    _countdownTimer = Timer.periodic(
-      const Duration(seconds: 1),
-      (timer) {
-        final state = this.state;
-        if (state is OtpIdle && state.countdown > 0) {
-          emit(state.copyWith(countdown: state.countdown - 1));
-        } else {
-          timer.cancel();
-          if (state is OtpIdle) {
-            emit(state.copyWith(canResend: true));
-          }
-        }
-      },
-    );
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      _liveCountdown--;
+      _liveCanResend = _liveCountdown <= 0;
+
+      if (_liveCountdown <= 0) {
+        timer.cancel();
+      }
+
+      final current = this.state;
+      if (current is OtpIdle) {
+        emit(current.copyWith(
+          countdown: _liveCountdown.clamp(0, countdownDuration),
+          canResend: _liveCanResend,
+        ));
+      }
+    });
   }
 
   Future<void> verifyOtp() async {
@@ -77,37 +87,42 @@ class OtpCubit extends Cubit<OtpState> {
     final otp = currentState.otpValue;
     emit(const OtpVerifying());
 
-    try {
-      await onVerify(otp);
-      emit(const OtpVerified());
-    } on Failure catch (failure) {
-      emit(OtpFailure(errorMessage: failure.message));
-      emit(currentState);
-    } catch (e) {
-      emit(OtpFailure(errorMessage: e.toString()));
-      emit(currentState);
-    }
+    final result = await onVerify(otp);
+
+    result.fold(
+      onSuccess: (message) {
+        emit(const OtpVerified());
+      },
+      onFailure: (failure) {
+        emit(OtpFailure(errorMessage: failure.message));
+        emit(currentState.copyWith(
+          countdown: _liveCountdown.clamp(0, countdownDuration),
+          canResend: _liveCanResend,
+        ));
+      },
+    );
   }
 
   Future<void> resendOtp() async {
     final currentState = state;
     if (currentState is! OtpIdle || !currentState.canResend) return;
-    try {
-      await _authRepository.resendOtp();
-      emit(const OtpResent());
-      startCountdown();
-    } on Failure catch (failure) {
-      emit(OtpFailure(errorMessage: failure.message));
-      emit(currentState);
-    } catch (e) {
-      emit(OtpFailure(errorMessage: e.toString()));
-      emit(currentState);
-    }
+    final result = await _authRepository.resendOtp();
+
+    result.fold(
+      onSuccess: (message) {
+        emit(OtpResent(message: message));
+        startCountdown();
+      },
+      onFailure: (failure) {
+        emit(OtpFailure(errorMessage: failure.message));
+      },
+    );
   }
 
   @override
   Future<void> close() {
     _countdownTimer?.cancel();
+
     return super.close();
   }
 }
