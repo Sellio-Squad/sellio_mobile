@@ -5,6 +5,7 @@ import 'package:sellio_mobile/presentation/screens/home/sections/categories/cubi
 import 'package:sellio_mobile/presentation/screens/home/sections/categories/cubit/categories_state.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../utils/home_navigation.dart';
 import 'all_categories_bottom_sheet.dart';
 import 'category_item.dart';
 import 'model/Catgeory_model.dart';
@@ -90,7 +91,11 @@ class CategoriesSection extends StatelessWidget {
                     return CategoryItem(
                       category: visibleCategories[index],
                       onTap: () {
-                        // Handle category tap
+                        navigateToCategoryDetails(
+                          context,
+                          visibleCategories[index].id,
+                          visibleCategories[index].name,
+                        );
                       },
                     );
                   },

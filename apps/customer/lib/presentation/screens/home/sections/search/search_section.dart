@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/presentation/screens/home/sections/search/widgets/search_bar_with_filter.dart';
 import 'package:sellio_mobile/presentation/screens/home/utils/home_navigation.dart';
+
 import '../trending_products/cubit/home_trending_products_cubit.dart';
-import 'widgets/search_bar_widget.dart';
 
 class SearchSection extends StatelessWidget {
   const SearchSection({super.key});

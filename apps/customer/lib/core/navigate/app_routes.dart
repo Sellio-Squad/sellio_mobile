@@ -75,7 +75,9 @@ enum AppRoutes {
   moreTrending(
     name: 'moreTrending',
     path: '/moreTrending',
-  );
+  ),
+  categoryDetails(name: 'categoryDetails', path: '/categoryDetails'),
+  ;
 
   const AppRoutes({
     required this.name,
