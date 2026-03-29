@@ -4,9 +4,9 @@ class Product {
   final String id;
   final String title;
   final String description;
-  final double price;
+  final double minPrice;
   final String currency;
-  final String? discount;
+  final String? maxDiscount;
   final List<String> images;
   final List<Item> items;
   final String storeId;
@@ -22,9 +22,9 @@ class Product {
     required this.id,
     required this.title,
     required this.description,
-    required this.price,
+    required this.minPrice,
     required this.currency,
-    this.discount,
+    this.maxDiscount,
     required this.images,
     required this.storeId,
     required this.categoryId,
@@ -59,9 +59,9 @@ class Product {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      price: price ?? this.price,
+      minPrice: price ?? this.minPrice,
       currency: currency ?? this.currency,
-      discount: discount ?? this.discount,
+      maxDiscount: discount ?? this.maxDiscount,
       images: images ?? this.images,
       storeId: storeId ?? this.storeId,
       categoryId: categoryId ?? this.categoryId,

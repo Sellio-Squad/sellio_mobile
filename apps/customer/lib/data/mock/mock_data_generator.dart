@@ -98,9 +98,9 @@ class MockDataGenerator {
       id: '0c507375-ca24-40b1-9364-91f2f9c4e0a7',
       title: productNames[index % productNames.length],
       description: descriptions[index % descriptions.length],
-      price: 19.99 + (_random.nextDouble() * 500),
+      minPrice: 19.99 + (_random.nextDouble() * 500),
       currency: 'USD',
-      discount: discountValue?.toString(),
+      maxDiscount: discountValue?.toString(),
       images: List.generate(
         3,
         (i) => 'https://picsum.photos/seed/product_${index}_$i/400',
@@ -268,7 +268,7 @@ class MockDataGenerator {
     return OrderItem(
       id: 'order_item_$index',
       productId: product.id,
-      price: product.price,
+      price: product.minPrice,
       createdAt: DateTime.now().subtract(Duration(days: index)),
       updatedAt: DateTime.now(),
       productName: product.title,

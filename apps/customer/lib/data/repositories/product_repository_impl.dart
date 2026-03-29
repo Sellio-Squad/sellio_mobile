@@ -79,10 +79,10 @@ class ProductRepositoryImpl implements ProductRepository {
         filteredProducts = filteredProducts.where((p) => p.categoryId == categoryId).toList();
       }
       if (minPrice != null) {
-        filteredProducts = filteredProducts.where((p) => p.price >= minPrice).toList();
+        filteredProducts = filteredProducts.where((p) => p.minPrice >= minPrice).toList();
       }
       if (maxPrice != null) {
-        filteredProducts = filteredProducts.where((p) => p.price <= maxPrice).toList();
+        filteredProducts = filteredProducts.where((p) => p.minPrice <= maxPrice).toList();
       }
 
       return paginatedData.copyWith(
