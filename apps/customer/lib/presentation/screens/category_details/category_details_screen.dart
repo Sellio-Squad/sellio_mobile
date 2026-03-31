@@ -241,7 +241,7 @@ class _ProductsGrid extends StatelessWidget {
               productId: product.id,
               imageUrl: product.images.isNotEmpty ? product.images.first : '',
               title: product.title,
-              price: product.price.toString(),
+              price: product.minPrice.toString(),
               isFavorite: product.isFavorite,
               onTap: () => navigateToProductDetails(context, product.id),
               onFavoriteToggle: () {},
