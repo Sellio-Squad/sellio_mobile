@@ -1943,5 +1943,47 @@
       "deletions": 335,
       "changed_files": 16
     }
+  },
+  {
+    "pr_number": 482,
+    "url": "https://github.com/Sellio-Squad/sellio_mobile/pull/482",
+    "title": "refactor(category-details): update product price display",
+    "opened_at": "2026-03-31T19:44:20Z",
+    "head_ref": "refactor/update-product-price-display",
+    "base_ref": "develop",
+    "creator": {
+      "login": "abdo-essam",
+      "id": 92235360,
+      "url": "https://github.com/abdo-essam"
+    },
+    "assignees": [
+      {
+        "login": "abdo-essam",
+        "id": 92235360,
+        "url": "https://github.com/abdo-essam"
+      }
+    ],
+    "comments": [],
+    "approvals": [],
+    "required_approvals": 2,
+    "first_approved_at": null,
+    "time_to_first_approval_minutes": null,
+    "required_approvals_met_at": null,
+    "time_to_required_approvals_minutes": null,
+    "closed_at": null,
+    "merged_at": null,
+    "merged_by": null,
+    "week": "2026-W14",
+    "status": "pending",
+    "labels": [],
+    "milestone": null,
+    "draft": false,
+    "review_requests": [],
+    "files_changed": [],
+    "diff_stats": {
+      "additions": 1,
+      "deletions": 1,
+      "changed_files": 1
+    }
   }
 ]
