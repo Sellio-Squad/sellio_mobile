@@ -1964,10 +1964,20 @@
       }
     ],
     "comments": [],
-    "approvals": [],
+    "approvals": [
+      {
+        "reviewer": {
+          "login": "MohamedOmar989",
+          "id": 175744746,
+          "url": "https://github.com/MohamedOmar989"
+        },
+        "submitted_at": "2026-03-31T19:47:51Z",
+        "commit_id": "4cb80beef699d9ebe30f0641050a54a731a1065a"
+      }
+    ],
     "required_approvals": 2,
-    "first_approved_at": null,
-    "time_to_first_approval_minutes": null,
+    "first_approved_at": "2026-03-31T19:47:51Z",
+    "time_to_first_approval_minutes": 3.5166666666666666,
     "required_approvals_met_at": null,
     "time_to_required_approvals_minutes": null,
     "closed_at": null,
