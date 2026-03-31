@@ -77,7 +77,7 @@ class GridProductsSection extends StatelessWidget {
           productId: product.id,
           imageUrl: product.images.isNotEmpty ? product.images.first : AppImages.cartProduct,
           title: product.title,
-          price: "${product.currency}${product.price}",
+          price: "${product.currency}${product.minPrice}",
           isFavorite: false,
           onFavoriteToggle: null,
         );

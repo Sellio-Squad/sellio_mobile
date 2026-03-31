@@ -78,7 +78,7 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       productId: product.id,
       productName: product.title,
       productImage: productImage,
-      price: product.price,
+      price: product.minPrice,
       currency: product.currency,
       quantity: 1,
     );

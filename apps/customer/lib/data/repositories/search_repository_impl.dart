@@ -40,10 +40,10 @@ class SearchRepositoryImpl implements SearchRepository {
         products = products.where((p) => p.categoryId == categoryId).toList();
       }
       if (minPrice != null) {
-        products = products.where((p) => p.price >= minPrice).toList();
+        products = products.where((p) => p.minPrice >= minPrice).toList();
       }
       if (maxPrice != null) {
-        products = products.where((p) => p.price <= maxPrice).toList();
+        products = products.where((p) => p.minPrice <= maxPrice).toList();
       }
 
       return products;

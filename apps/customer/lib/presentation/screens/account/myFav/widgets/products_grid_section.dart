@@ -44,7 +44,7 @@ class ProductsGridSection extends StatelessWidget {
               product.images.isNotEmpty ? product.images.first : '',
               title: product.title,
               price:
-              '${product.currency}${product.price.toStringAsFixed(2)}',
+              '${product.currency}${product.minPrice.toStringAsFixed(2)}',
               isFavorite: isFavorite,
               onFavoriteToggle: () async {
                 context

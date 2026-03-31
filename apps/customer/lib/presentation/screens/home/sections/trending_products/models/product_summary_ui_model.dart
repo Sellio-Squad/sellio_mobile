@@ -25,9 +25,9 @@ class ProductSummaryUIModel {
       id: product.id,
       imageUrl: product.images.first,
       title: product.title,
-      price: product.price.toString(),
-      hasDiscount: product.discount != null,
-      discountText: product.discount.toString(),
+      price: product.minPrice.toString(),
+      hasDiscount: product.maxDiscount != null,
+      discountText: product.maxDiscount.toString(),
       isFavorite: product.isFavorite,
     );
   }
