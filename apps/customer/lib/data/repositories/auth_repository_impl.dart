@@ -91,8 +91,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<void>> resendRegistrationOtp() async {
-    return RepositoryCallHandler.callVoid(() async {
+  Future<Result<String?>> resendOtp() async {
+    return RepositoryCallHandler.call<String?>(() async {
       final sessionId = await _storageService.get<String>(
         StorageKeys.registrationSessionId,
       );
@@ -109,9 +109,10 @@ class AuthRepositoryImpl implements AuthRepository {
         StorageKeys.registrationSessionId,
         response.sessionId,
       );
+
+      return response.message;
     });
   }
-
   @override
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,

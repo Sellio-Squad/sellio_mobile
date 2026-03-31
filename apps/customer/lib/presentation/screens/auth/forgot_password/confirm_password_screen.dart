@@ -5,6 +5,7 @@ import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
 import '../../../../core/navigate/app_routes.dart';
 import '../../../../core/utils/snackbar_helper.dart';
@@ -22,8 +23,9 @@ class SetNewPasswordScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ForgotPasswordCubit(
         authRepository: sl<AuthRepository>(),
+        countryRepository: sl<CountryRepository>(),
         startWithVerified: true,
-      ),
+      )..loadInitialCountry(),
       child: const _SetNewPasswordScreenContent(),
     );
   }

@@ -7,6 +7,7 @@ part 'resend_otp_response.g.dart';
 class ResendOtpResponse with _$ResendOtpResponse {
   const factory ResendOtpResponse({
     required String sessionId,
+    String? message,
   }) = _ResendOtpResponse;
 
   factory ResendOtpResponse.fromJson(Map<String, dynamic> json) =>

@@ -1,7 +1,11 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
+import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/di/injection_container.dart';
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart' show AuthRepository;
+
 import '../../../../../core/utils/snackbar_helper.dart';
 import '../constants/auth_constants.dart';
 import 'cubit/otp_cubit.dart';
@@ -13,8 +17,7 @@ class OtpScreen extends StatelessWidget {
   final String subtitle;
   final String? phoneNumber;
   final VoidCallback onVerifySuccess;
-  final Future<void> Function(String otp) onVerify;
-  final Future<void> Function() onResend;
+  final Future<Result<void>> Function(String otp) onVerify;
   final int otpLength;
 
   const OtpScreen({
@@ -24,7 +27,6 @@ class OtpScreen extends StatelessWidget {
     this.phoneNumber,
     required this.onVerifySuccess,
     required this.onVerify,
-    required this.onResend,
     this.otpLength = AuthConstants.otpLength,
   });
 
@@ -33,8 +35,8 @@ class OtpScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OtpCubit(
         onVerify: onVerify,
-        onResend: onResend,
         otpLength: otpLength,
+        authRepository: sl<AuthRepository>(),
       ),
       child: _OtpScreenContent(
         title: title,
@@ -87,7 +89,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
           _otpKey.currentState?.clear();
           SnackBarHelper.showSuccess(
             context,
-            context.local.otp_resent_successfully,
+           state.message ?? context.local.otp_resent_successfully,
           );
         }
       },
@@ -168,15 +170,15 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
 
   Widget _buildResendSection() {
     return BlocBuilder<OtpCubit, OtpState>(
+      buildWhen: (previous, current) => current is OtpIdle,
       builder: (context, state) {
-        if (state is OtpIdle) {
-          return OtpResendSection(
-            resendCountdown: state.countdown,
-            canResend: state.canResend,
-            onResend: () => context.read<OtpCubit>().resendOtp(),
-          );
-        }
-        return const SizedBox.shrink();
+        final idle = state is OtpIdle ? state : const OtpIdle();
+
+        return OtpResendSection(
+          resendCountdown: idle.countdown,
+          canResend: idle.canResend,
+          onResend: () => context.read<OtpCubit>().resendOtp(),
+        );
       },
     );
   }

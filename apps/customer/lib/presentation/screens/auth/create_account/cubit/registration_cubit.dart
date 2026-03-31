@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
@@ -359,7 +360,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       city: currentState.city,
       country: countryName,
       region: countryCode,
-      countryCode: countryCode,
     );
 
     result.fold(
@@ -383,31 +383,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   /// Verifies OTP - called by OTP screen via callback
-  Future<void> verifyOtp(String otp) async {
-    final result = await _authRepository.verifyRegistrationOtp(otp: otp);
-
-    result.fold(
-      onSuccess: (_) {
-        emit(const RegistrationSuccess());
-      },
-      onFailure: (failure) {
-        throw failure;
-      },
-    );
-  }
-
-  /// Resends OTP - called by OTP screen via callback
-  Future<void> resendOtp() async {
-    final result = await _authRepository.resendRegistrationOtp();
-
-    result.fold(
-      onSuccess: (_) {
-        // Success - OTP cubit will handle UI feedback
-      },
-      onFailure: (failure) {
-        throw failure;
-      },
-    );
+  Future<Result<void>>  verifyOtp(String otp) async {
+    return await _authRepository.verifyRegistrationOtp(otp: otp);
   }
 
   void resetToIdle() {
