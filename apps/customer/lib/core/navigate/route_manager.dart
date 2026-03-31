@@ -17,6 +17,7 @@ import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/account/myFav/my_favorites.dart';
 import '../../presentation/screens/auth/forgot_password/confirm_password_screen.dart';
 import '../../presentation/screens/auth/forgot_password/forget_password_screen.dart';
+import '../../presentation/screens/category_details/category_details_screen.dart';
 import '../../presentation/screens/more_trending/more_trending_screen.dart';
 import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
@@ -266,6 +267,20 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const MoreTrendingScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.categoryDetails.name,
+        path: AppRoutes.categoryDetails.path,
+        pageBuilder: (context, state) {
+          final args = state.extra as CategoryDetailsArgs;
+          return MaterialPage(
+            key: state.pageKey,
+            child: CategoryDetailsScreen(
+              categoryId: args.categoryId,
+              categoryName: args.categoryName,
+            ),
           );
         },
       ),

@@ -116,7 +116,7 @@ class _MoreTrendingContent extends StatelessWidget {
                   productId: product.id,
                   imageUrl: imageUrl,
                   title: product.title,
-                  price: product.price.toString(),
+                  price: product.minPrice.toString(),
                   isFavorite: product.isFavorite,
                   onFavoriteToggle: () {
                     context.read<FavoritesCubit>().toggleFavorite(product.id, FavoriteType.product);

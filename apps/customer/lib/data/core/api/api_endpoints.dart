@@ -87,6 +87,9 @@ class ApiEndpoints {
   static String subCategoriesByCategory(String categoryId) =>
       '$apiVersion/subcategories/category/$categoryId';
 
+  static String productsBySubcategory(String subcategoryId) =>
+      '$apiVersion/products/subcategory/$subcategoryId';
+
   // Cart
   static String cart(String userId) => '$apiVersion/cart/$userId';
   static const String cartAdd = '$apiVersion/cart/add';

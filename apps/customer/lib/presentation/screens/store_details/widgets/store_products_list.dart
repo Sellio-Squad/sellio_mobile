@@ -53,7 +53,7 @@ class StoreProductsList extends StatelessWidget {
               imageUrl: imageUrl ?? AppImages.cartProduct,
               title: product.title,
               description: product.description,
-              price: product.price.toString(),
+              price: product.minPrice.toString(),
               onTap: () => onTap(product),
             ),
           );

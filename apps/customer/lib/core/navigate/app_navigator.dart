@@ -42,4 +42,6 @@ abstract class AppNavigator {
   void popAndPush(String routeName);
 
   void replace(String routeName);
+
+  void pushCategoryDetails(CategoryDetailsArgs args);
 }

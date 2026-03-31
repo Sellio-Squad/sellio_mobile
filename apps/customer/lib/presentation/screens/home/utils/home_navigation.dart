@@ -28,3 +28,16 @@ void navigateToFilterDialog(BuildContext context) {
 void navigateToOfferDetails(BuildContext context, String offerId) {
   // TODO: Implement offer details navigation
 }
+
+void navigateToCategoryDetails(
+  BuildContext context,
+  String categoryId,
+  String categoryName,
+) {
+  context.navigator.pushCategoryDetails(
+    CategoryDetailsArgs(
+      categoryId: categoryId,
+      categoryName: categoryName,
+    ),
+  );
+}

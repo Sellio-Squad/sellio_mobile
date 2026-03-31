@@ -188,7 +188,7 @@ class ThriftContent extends StatelessWidget {
                           ? product.images.first
                           : '',
                       title: product.title,
-                      price: product.price.toString(),
+                      price: product.minPrice.toString(),
                       isFavorite: isFavorite,
                       onFavoriteToggle: () {
                         context

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/core/navigate/route_manager.dart';
+
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -129,4 +130,8 @@ class AppNavigatorImpl implements AppNavigator {
   void replace(String routeName) {
     context.pushReplacement(routeName);
   }
+
+  @override
+  void pushCategoryDetails(CategoryDetailsArgs args) =>
+      context.pushNamed(AppRoutes.categoryDetails.name, extra: args);
 }

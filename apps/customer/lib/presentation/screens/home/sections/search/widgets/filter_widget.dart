@@ -19,7 +19,6 @@ class FilterWidget extends StatelessWidget {
       child: InkWell(
         onTap: onFilterIconClicked,
         child: SizedBox(
-          height: 48,
           width: 48,
           child: Center(
             child: SvgPicture.asset(

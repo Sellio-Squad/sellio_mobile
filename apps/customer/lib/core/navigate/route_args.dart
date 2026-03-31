@@ -49,3 +49,13 @@ class AboutStoreArgs {
 
   final String storeId;
 }
+
+class CategoryDetailsArgs {
+  final String categoryId;
+  final String categoryName;
+
+  CategoryDetailsArgs({
+    required this.categoryId,
+    required this.categoryName,
+  });
+}

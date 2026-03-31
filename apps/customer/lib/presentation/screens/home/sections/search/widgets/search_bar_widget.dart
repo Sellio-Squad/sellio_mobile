@@ -1,19 +1,16 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
-import 'filter_widget.dart';
-import 'search_bar_with_filter.dart';
-
-class SearchBarWithFilter extends StatelessWidget {
-  final Function() onFilterIconClicked;
+class SearchBarWidget extends StatefulWidget {
   final Function(String text) onTextSubmitted;
   final TextEditingController? controller;
   final Function()? onTextFiledClicked;
   final bool isReadOnly;
 
-  const SearchBarWithFilter({
+  const SearchBarWidget({
     super.key,
-    required this.onFilterIconClicked,
     required this.onTextSubmitted,
     this.controller,
     this.onTextFiledClicked,
@@ -21,35 +18,53 @@ class SearchBarWithFilter extends StatelessWidget {
   });
 
   @override
+  State<SearchBarWidget> createState() => _SearchBarWidgetState();
+}
+
+class _SearchBarWidgetState extends State<SearchBarWidget> {
+  late final TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = widget.controller ?? TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      _searchController.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            height: 48,
-            decoration: BoxDecoration(
-              color: context.theme.colors.surfaceLow,
-              borderRadius: const BorderRadiusDirectional.only(
-                topStart: Radius.circular(12),
-                bottomStart: Radius.circular(12),
-              ),
-            ),
-            child:
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child:
-              SearchBarWidget(
-                isReadOnly: isReadOnly,
-                onTextSubmitted: (String text) { onTextSubmitted(text); },
-                controller: controller,
-                onTextFiledClicked: onTextFiledClicked,
-              ),
-            ),
-          ),
+    return ClipRRect(
+      borderRadius: const BorderRadiusDirectional.only(
+        topStart: Radius.circular(12),
+        bottomStart: Radius.circular(12),
+      ),
+      child: SellioTextField(
+        maxLine: 1,
+        isSearchTextField: true,
+        fillColor: context.theme.colors.surfaceLow,
+        enabledBorderRadius: 0,
+        focusedBorderRadius: 0,
+        errorBorderRadius: 0,
+        focusedErrorBorderRadius: 0,
+        hintText: context.local.search_your_favorite_items,
+        hintStyle: context.theme.typography.textTheme.labelMedium
+            .copyWith(color: context.theme.colors.body),
+        prefixIcon: SvgPicture.asset(
+          AppImages.search,
+          width: 24,
+          height: 24,
         ),
-        const SizedBox(width: 2),
-        FilterWidget(onFilterIconClicked: onFilterIconClicked),
-      ],
+        controller: _searchController,
+        readOnly: widget.isReadOnly,
+        onTap: widget.onTextFiledClicked,
+      ),
     );
   }
 }
