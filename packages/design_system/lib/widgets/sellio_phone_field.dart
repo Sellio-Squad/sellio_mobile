@@ -197,6 +197,12 @@ class _SellioPhoneFieldState extends State<SellioPhoneField> {
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(maxLength),
+        TextInputFormatter.withFunction((oldValue, newValue) {
+          if (newValue.text.startsWith('0')) {
+            return oldValue;
+          }
+          return newValue;
+        }),
       ],
       decoration: InputDecoration(
         hintText: widget.hintText,
