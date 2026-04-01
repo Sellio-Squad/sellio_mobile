@@ -43,6 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String city,
     required String country,
     required String region,
+    required String countryCode
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
@@ -52,6 +53,7 @@ class AuthRepositoryImpl implements AuthRepository {
         city: city,
         country: country,
         region: region,
+        countryCode: countryCode
       );
 
       await _savePendingRegistration(
@@ -89,8 +91,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<void>> resendRegistrationOtp() async {
-    return RepositoryCallHandler.callVoid(() async {
+  Future<Result<String?>> resendOtp() async {
+    return RepositoryCallHandler.call<String?>(() async {
       final sessionId = await _storageService.get<String>(
         StorageKeys.registrationSessionId,
       );
@@ -107,9 +109,10 @@ class AuthRepositoryImpl implements AuthRepository {
         StorageKeys.registrationSessionId,
         response.sessionId,
       );
+
+      return response.message;
     });
   }
-
   @override
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,

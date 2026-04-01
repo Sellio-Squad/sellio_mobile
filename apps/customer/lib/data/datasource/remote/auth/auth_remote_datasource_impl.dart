@@ -44,6 +44,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String city,
     required String country,
     required String region,
+    required String countryCode
   }) async {
     final request = RegisterRequest(
       fullName: fullName,
@@ -52,6 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       city: city,
       country: country,
       region: region,
+      countryCode: countryCode
     );
 
     final response = await _apiClient.post(
@@ -84,11 +86,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<ResendOtpResponse> resendOtp({
     required String sessionId,
   }) async {
-    final request = ResendOtpRequest(sessionId: sessionId);
-
     final response = await _apiClient.post(
-      ApiEndpoints.resendOtp,
-      data: request.toJson(),
+      '${ApiEndpoints.resendOtp}/$sessionId',
     );
 
     return ResendOtpResponse.fromJson(response.data);

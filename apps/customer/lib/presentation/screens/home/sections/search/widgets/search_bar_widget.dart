@@ -47,7 +47,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       ),
       child: SellioTextField(
         maxLine: 1,
-        isSearchTextField: true,
         fillColor: context.theme.colors.surfaceLow,
         enabledBorderRadius: 0,
         focusedBorderRadius: 0,
