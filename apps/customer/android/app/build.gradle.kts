@@ -23,13 +23,11 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+
 
     signingConfigs {
         create("release") {
@@ -72,7 +70,7 @@ android {
             isShrinkResources = false
         }
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += setOf(
                 "META-INF/DEPENDENCIES",
@@ -88,6 +86,10 @@ android {
             )
         }
     }
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 flutter {
