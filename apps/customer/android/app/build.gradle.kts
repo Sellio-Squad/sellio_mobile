@@ -27,9 +27,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+
 
     signingConfigs {
         create("release") {
@@ -72,7 +70,7 @@ android {
             isShrinkResources = false
         }
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += setOf(
                 "META-INF/DEPENDENCIES",
@@ -88,6 +86,10 @@ android {
             )
         }
     }
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 flutter {
