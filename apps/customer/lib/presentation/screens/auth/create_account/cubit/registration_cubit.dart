@@ -359,6 +359,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       password: currentState.password,
       city: currentState.city,
       country: countryName,
+      countryCode: countryCode,
       region: countryCode,
     );
 
