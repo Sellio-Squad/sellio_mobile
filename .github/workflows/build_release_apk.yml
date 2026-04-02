@@ -173,9 +173,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Embed the JSON directly as the release body so the dashboard
+          # can read it from a single api.github.com call (no binary asset fetch,
+          # no CORS redirect issues).
+          KEYS_CONTENT=$(cat preview-keys.json)
           gh release create preview-keys \
             --title "App Preview Keys (Latest)" \
-            --notes "Auto-generated Appetize.io embed keys. Updated on every merge to develop/main." \
+            --notes "$KEYS_CONTENT" \
             --prerelease \
             preview-keys.json
 
