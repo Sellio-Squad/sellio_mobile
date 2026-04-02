@@ -12,6 +12,8 @@ jobs:
   build-and-distribute:
     if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed for gh release create / delete
 
     steps:
       - name: Checkout repository
@@ -78,15 +80,108 @@ jobs:
           mkdir -p apps/customer/android/app
           echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
   
-  
+
 
       - name: Build Customer App Release APK
         run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
         working-directory: apps/customer
 
+      - name: Build Seller App Release APK
+        run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/seller
+
+      - name: Build Admin App Release APK
+        run: flutter build apk --release --target-platform android-arm64 -t lib/main.dart
+        working-directory: apps/admin
+
+      # ── Upload APKs to Appetize.io ─────────────────────────────────────────
+      - name: Upload Customer APK to Appetize.io
+        id: appetize_customer
+        run: |
+          RESPONSE=$(curl -s https://api.appetize.io/v1/apps \
+            -F "file=@apps/customer/build/app/outputs/flutter-apk/app-release.apk" \
+            -F "platform=android" \
+            -u "${{ secrets.APPETIZE_API_TOKEN }}:")
+          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+          KEY=$(echo $RESPONSE | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('publicKey',''))")
+          echo "publicKey=$KEY" >> $GITHUB_OUTPUT
+          echo "✅ Customer Appetize key: $KEY"
+
+      - name: Upload Seller APK to Appetize.io
+        id: appetize_seller
+        run: |
+          RESPONSE=$(curl -s https://api.appetize.io/v1/apps \
+            -F "file=@apps/seller/build/app/outputs/flutter-apk/app-release.apk" \
+            -F "platform=android" \
+            -u "${{ secrets.APPETIZE_API_TOKEN }}:")
+          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+          KEY=$(echo $RESPONSE | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('publicKey',''))")
+          echo "publicKey=$KEY" >> $GITHUB_OUTPUT
+          echo "✅ Seller Appetize key: $KEY"
+
+      - name: Upload Admin APK to Appetize.io
+        id: appetize_admin
+        run: |
+          RESPONSE=$(curl -s https://api.appetize.io/v1/apps \
+            -F "file=@apps/admin/build/app/outputs/flutter-apk/app-release.apk" \
+            -F "platform=android" \
+            -u "${{ secrets.APPETIZE_API_TOKEN }}:")
+          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+          KEY=$(echo $RESPONSE | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('publicKey',''))")
+          echo "publicKey=$KEY" >> $GITHUB_OUTPUT
+          echo "✅ Admin Appetize key: $KEY"
+
+      # ── Write preview-keys.json and publish as GitHub Release asset ────────
+      - name: Write preview-keys.json
+        run: |
+          BRANCH="${{ github.base_ref || github.ref_name }}"
+          COMMIT="${{ github.sha }}"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          cat > preview-keys.json << EOF
+          {
+            "updatedAt": "$TIMESTAMP",
+            "branch": "$BRANCH",
+            "commit": "$COMMIT",
+            "apps": {
+              "customer": {
+                "publicKey": "${{ steps.appetize_customer.outputs.publicKey }}",
+                "embedUrl": "https://appetize.io/embed/${{ steps.appetize_customer.outputs.publicKey }}?device=pixel7&osVersion=13&scale=75&embed=true&screenOnly=false"
+              },
+              "seller": {
+                "publicKey": "${{ steps.appetize_seller.outputs.publicKey }}",
+                "embedUrl": "https://appetize.io/embed/${{ steps.appetize_seller.outputs.publicKey }}?device=pixel7&osVersion=13&scale=75&embed=true&screenOnly=false"
+              },
+              "admin": {
+                "publicKey": "${{ steps.appetize_admin.outputs.publicKey }}",
+                "embedUrl": "https://appetize.io/embed/${{ steps.appetize_admin.outputs.publicKey }}?device=pixel7&osVersion=13&scale=75&embed=true&screenOnly=false"
+              }
+            }
+          }
+          EOF
+
+          echo "📋 preview-keys.json:"
+          cat preview-keys.json
+
+      - name: Delete existing preview-keys release (if any)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release delete preview-keys --yes 2>/dev/null || true
+
+      - name: Publish preview-keys.json as GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create preview-keys \
+            --title "App Preview Keys (Latest)" \
+            --notes "Auto-generated Appetize.io embed keys. Updated on every merge to develop/main." \
+            --prerelease \
+            preview-keys.json
+
+      # ── Firebase App Distribution (Customer only) ──────────────────────────
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
-
 
       - name: Decode Firebase Service Account
         env:
@@ -112,7 +207,8 @@ jobs:
 
       - name: Notify Discord (Release Success)
         run: |
-          MESSAGE="✅ Firebase Release successful!\nAuthor: \`${{ github.actor }}\`\nBranch: **${{ github.base_ref || github.ref_name }}**"
+          CUSTOMER_KEY="${{ steps.appetize_customer.outputs.publicKey }}"
+          MESSAGE="✅ Firebase Release successful!\nAuthor: \`${{ github.actor }}\`\nBranch: **${{ github.base_ref || github.ref_name }}**\n📱 App Preview: https://sellio-dashboard.pages.dev/#/preview"
           curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"$MESSAGE\"}" \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
