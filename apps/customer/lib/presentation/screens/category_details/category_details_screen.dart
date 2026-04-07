@@ -1,10 +1,10 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_state.dart';
-import 'package:sellio_mobile/presentation/screens/category_details/widgets/category_tab_bar.dart';
 
 import '../../../di/injection_container.dart';
 import '../../../domain/repositories/category_details_repository.dart';
@@ -118,14 +118,54 @@ class _CategoryDetailsView extends StatelessWidget {
                       child: Container(
                         color: colors.surfaceLow,
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: CategoryTabBar(
-                          subcategories: state.subcategories,
-                          selectedIndex: state.selectedTabIndex,
-                          onTabSelected: (index) {
-                            context
-                                .read<CategoryDetailsCubit>()
-                                .selectTab(index);
-                          },
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Row(
+                            children: List.generate(
+                              1 + state.subcategories.length,
+                              (index) {
+                                final isSelected =
+                                    index == state.selectedTabIndex;
+                                final colors = SellioTheme.of(context).colors;
+
+                                String label;
+                                label = index == 0
+                                    ? context.local.all
+                                    : state.subcategories[index - 1].name;
+
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 8),
+                                  child: ChoiceChip(
+                                    label: Text(label),
+                                    selected: isSelected,
+                                    showCheckmark: false,
+                                    onSelected: (_) {
+                                      context
+                                          .read<CategoryDetailsCubit>()
+                                          .selectTab(index);
+                                    },
+                                    selectedColor: colors.primary,
+                                    backgroundColor: Colors.white,
+                                    labelStyle: TextStyle(
+                                      color: isSelected
+                                          ? Colors.white
+                                          : colors.title,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(
+                                        color: isSelected
+                                            ? colors.primary
+                                            : colors.stroke,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -208,10 +248,10 @@ class _StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
       child;
 
   @override
-  double get maxExtent => 96;
+  double get maxExtent => 64;
 
   @override
-  double get minExtent => 96;
+  double get minExtent => 64;
 
   @override
   bool shouldRebuild(covariant _StickyTabBarDelegate oldDelegate) => true;
