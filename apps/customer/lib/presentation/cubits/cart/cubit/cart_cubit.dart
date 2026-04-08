@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 
@@ -11,6 +13,7 @@ class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
   final OrderRepository _orderRepository;
   final AuthenticationCubit _authenticationCubit;
+  late final StreamSubscription _authenticationSubscription;
 
   CartCubit({
     required CartRepository cartRepository,
@@ -19,7 +22,24 @@ class CartCubit extends Cubit<CartState> {
   })  : _cartRepository = cartRepository,
         _orderRepository = orderRepository,
         _authenticationCubit = authenticationCubit,
-        super(const CartInitial());
+        super(const CartInitial()) {
+    _authenticationSubscription =
+        _authenticationCubit.stream.listen(_onAuthStateChanged);
+    _onAuthStateChanged(_authenticationCubit.state);
+  }
+
+  bool get _isGuest => _authenticationCubit.state is Guest;
+
+  Future<void> _onAuthStateChanged(AuthenticationState authState) async {
+    if (authState is LoggedIn) {
+      await loadCart();
+      return;
+    }
+
+    if (authState is AuthenticationError) {
+      _emitErrorState(authState.message);
+    }
+  }
 
   Future<void> loadCart() async {
     emit(CartLoading(
@@ -30,7 +50,7 @@ class CartCubit extends Cubit<CartState> {
     final result = await _cartRepository.getCart();
 
     result.fold(
-      onSuccess: (cart) => _emitLoadedState(cart),
+      onSuccess: _emitLoadedState,
       onFailure: (failure) => _emitErrorState(failure.message),
     );
   }
@@ -91,7 +111,8 @@ class CartCubit extends Cubit<CartState> {
     final currentState = state as CartLoaded;
     final currentQty = currentState.productCounts[productId] ?? 0;
 
-    final result = currentQty <= 1 ? await _cartRepository.removeFromCart(productId)
+    final result = currentQty <= 1
+        ? await _cartRepository.removeFromCart(productId)
         : await _cartRepository.updateQuantity(productId, currentQty - 1);
 
     result.fold(
@@ -101,42 +122,44 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> confirmOrder(String? note) async {
-    return await _authenticationCubit.requireLogin(() async {
-      if (state.cart == null || state.cart!.items.isEmpty) {
-        _emitErrorState('Cart is empty');
+    if (_isGuest) {
+      _emitErrorState('Login required');
+      return;
+    }
 
-        return;
-      }
+    if (state.cart == null || state.cart!.items.isEmpty) {
+      _emitErrorState('Cart is empty');
+      return;
+    }
 
-      emit(CartLoading(
-        cart: state.cart,
-        productCounts: state.productCounts,
-      ));
+    emit(CartLoading(
+      cart: state.cart,
+      productCounts: state.productCounts,
+    ));
 
-      final orderItems = state.cart!.items.map((cartItem) {
-        return OrderItem(
-          id: cartItem.id,
-          productId: cartItem.productId,
-          productName: cartItem.productName,
-          quantity: cartItem.quantity,
-          price: cartItem.price,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-        );
-      }).toList();
-
-      final result = await _orderRepository.createOrder(items: orderItems);
-
-      await result.fold(
-        onSuccess: (_) async {
-          await _cartRepository.clearCart();
-          emit(const CartOrderSuccess());
-        },
-        onFailure: (failure) {
-          _emitErrorState(failure.message);
-        },
+    final orderItems = state.cart!.items.map((cartItem) {
+      return OrderItem(
+        id: cartItem.id,
+        productId: cartItem.productId,
+        productName: cartItem.productName,
+        quantity: cartItem.quantity,
+        price: cartItem.price,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
       );
-    });
+    }).toList();
+
+    final result = await _orderRepository.createOrder(items: orderItems);
+
+    await result.fold(
+      onSuccess: (_) async {
+        await _cartRepository.clearCart();
+        emit(const CartOrderSuccess());
+      },
+      onFailure: (failure) {
+        _emitErrorState(failure.message);
+      },
+    );
   }
 
   Future<void> clearCart() async {
@@ -176,5 +199,11 @@ class CartCubit extends Cubit<CartState> {
     return {
       for (final item in items) item.productId: item.quantity,
     };
+  }
+
+  @override
+  Future<void> close() async {
+    await _authenticationSubscription.cancel();
+    return super.close();
   }
 }
