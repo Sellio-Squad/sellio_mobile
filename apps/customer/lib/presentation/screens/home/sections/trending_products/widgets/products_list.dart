@@ -33,6 +33,7 @@ class ProductsList extends StatelessWidget {
               AppImages.arrowRight,
               width: 20,
               height: 20,
+              matchTextDirection: true,
             ),
           ),
         ),
