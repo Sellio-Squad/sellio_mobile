@@ -19,6 +19,21 @@ jobs:
       repository-projects: write
 
     steps:
+      - name: Debug Secrets Access
+        run: |
+          if [ -z "${{ secrets.APP_ID }}" ]; then
+            echo "::error::APP_ID secret is empty! The workflow cannot access the organization secret."
+            exit 1
+          else
+            echo "APP_ID secret is present."
+          fi
+          if [ -z "${{ secrets.APP_PRIVATE_KEY }}" ]; then
+            echo "::error::APP_PRIVATE_KEY secret is empty! The workflow cannot access the organization secret."
+            exit 1
+          else
+            echo "APP_PRIVATE_KEY secret is present."
+          fi
+
       - name: Create GitHub App Token
         uses: actions/create-github-app-token@v2
         id: app-token
