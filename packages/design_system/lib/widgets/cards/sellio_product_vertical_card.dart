@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:design_system/constants/app_images.dart';
@@ -47,8 +48,7 @@ class SellioProductVerticalCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(4, 4, 4, 0),
                   child: _buildImage(colors),
                 ),
-                if (onFavoriteToggle != null)
-                  _buildFavoriteButton(colors),
+                if (onFavoriteToggle != null) _buildFavoriteButton(colors),
               ],
             ),
             Padding(
@@ -79,26 +79,7 @@ class SellioProductVerticalCard extends StatelessWidget {
       aspectRatio: 1.05,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, progress) {
-            return progress == null
-                ? child
-                : Container(
-              width: double.infinity,
-              color: colors.surface,
-              child: const Center(child: CircularProgressIndicator()),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) {
-            return Image.asset(
-              AppImages.imgEmptyStoreImage,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            );
-          },
-        ),
+        child: SellioRemoteImage(imageUrl: imageUrl,width: double.infinity),
       ),
     );
   }
@@ -124,7 +105,9 @@ class SellioProductVerticalCard extends StatelessWidget {
                 onTap: onFavoriteToggle,
                 child: Center(
                   child: SvgPicture.asset(
-                    isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
+                    isFavorite
+                        ? AppImages.favorite
+                        : AppImages.unselectedFavorite,
                     colorFilter: ColorFilter.mode(
                       colors.primary,
                       BlendMode.srcIn,

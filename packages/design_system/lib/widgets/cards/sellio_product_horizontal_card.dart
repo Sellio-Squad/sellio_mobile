@@ -2,6 +2,8 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../sellio_remote_image.dart';
+
 class SellioProductHorizontalCard extends StatelessWidget {
   final String imageUrl;
   final String title;
@@ -247,30 +249,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
   Widget _buildImage(SellioColorScheme colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: Image.network(
-        imageUrl,
-        width: 89,
-        height: 89,
-        fit: BoxFit.cover,
-        loadingBuilder: (context, child, progress) {
-          return progress == null
-              ? child
-              : Container(
-            width: 88,
-            height: 88,
-            color: colors.surface,
-            child: const Center(child: CircularProgressIndicator()),
-          );
-        },
-        errorBuilder: (context, error, stackTrace) {
-          return Container(
-            width: 88,
-            height: 88,
-            color: colors.surface,
-            child: const Icon(Icons.broken_image),
-          );
-        },
-      ),
+      child: SellioRemoteImage(imageUrl: imageUrl,width: 89,height: 89,),
     );
   }
 }

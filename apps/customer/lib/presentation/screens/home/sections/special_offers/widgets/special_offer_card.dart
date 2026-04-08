@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 
 class SpecialOfferCard extends StatelessWidget {
@@ -23,15 +24,11 @@ class SpecialOfferCard extends StatelessWidget {
               ? Image.asset(AppImages.defaultHomeBanner,
                   height: double.infinity,
                   width: double.infinity,
-                  fit: BoxFit.fill)
-              : Image.network(
-                  height: double.infinity,
+                  fit: BoxFit.fill,)
+              : SellioRemoteImage(
+                  imageUrl: imageUrl,
                   width: double.infinity,
-                  imageUrl,
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error);
-                  },
+                  height: double.infinity,
                 ),
         ),
       ),

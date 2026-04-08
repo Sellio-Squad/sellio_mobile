@@ -7,7 +7,6 @@ import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
-import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
@@ -35,7 +34,7 @@ class ProductDetailsScreen extends StatelessWidget {
       ],
       child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
         listenWhen: (previous, current) =>
-        current is ProductDetailsAddToCartSuccess,
+            current is ProductDetailsAddToCartSuccess,
         listener: (context, state) {
           if (state is ProductDetailsAddToCartSuccess) {
             SellioSnackBar(
@@ -65,20 +64,22 @@ class ProductDetailsScreen extends StatelessWidget {
                     actions: [
                       state is ProductDetailsLoading
                           ? const ProductDetailsAppbarShimmer(
-                          height: 20, width: 100,)
+                              height: 20,
+                              width: 100,
+                            )
                           : IconButton(
-                        icon: SvgPicture.asset(
-                          state is ProductDetailsLoaded &&
-                              state.isFavorite
-                              ? AppImages.favorite
-                              : AppImages.unselectedFavorite,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<ProductDetailsCubit>()
-                              .toggleFavorite();
-                        },
-                      ),
+                              icon: SvgPicture.asset(
+                                state is ProductDetailsLoaded &&
+                                        state.isFavorite
+                                    ? AppImages.favorite
+                                    : AppImages.unselectedFavorite,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<ProductDetailsCubit>()
+                                    .toggleFavorite();
+                              },
+                            ),
                     ],
                   );
                 },
@@ -97,15 +98,15 @@ class ProductDetailsScreen extends StatelessWidget {
                       return SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 100),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight),
+                          constraints:
+                              BoxConstraints(minHeight: constraints.maxHeight),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              productImagesSection(),
+                              productImagesSection(state.product.images,),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -128,7 +129,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
 
             bottomNavigationBar:
-            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+                BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is! ProductDetailsLoaded) return const SizedBox();
                 return SafeArea(
@@ -145,7 +146,6 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 }
-
 
 Widget _buildPriceAndCounterRow(
     BuildContext context, ProductDetailsLoaded state) {
