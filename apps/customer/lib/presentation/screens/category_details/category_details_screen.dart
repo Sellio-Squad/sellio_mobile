@@ -43,21 +43,9 @@ class _CategoryDetailsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: colors.title, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          categoryName,
-          style: context.theme.typography.textTheme.titleMedium.copyWith(
-            color: colors.title,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: SellioAppBar(
+        title: categoryName,
+        showBackButton: true,
       ),
       body: BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(
         builder: (context, state) {
@@ -80,33 +68,12 @@ class _CategoryDetailsView extends StatelessWidget {
                   // Search bar
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                      child: Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search in $categoryName...',
-                            hintStyle: TextStyle(
-                              color: colors.title,
-                              fontSize: 14,
-                            ),
-                            prefixIcon: Icon(Icons.search, color: colors.title),
-                            border: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                        ),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      child: SellioSearchBar(
+                        hintText: context.local.search_in(categoryName),
+                        onFilterIconClicked: () {
+                          // TODO: Implement filter behavior if needed
+                        },
                       ),
                     ),
                   ),
@@ -167,45 +134,6 @@ class _CategoryDetailsView extends StatelessWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-
-                  // Products header
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Recommended for you',
-                            style: context.theme.typography.textTheme.titleSmall
-                                .copyWith(
-                              color: colors.title,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Sort & Filter',
-                                  style: context
-                                      .theme.typography.textTheme.labelSmall
-                                      .copyWith(
-                                    color: colors.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Icon(Icons.tune,
-                                    size: 16, color: colors.primary),
-                              ],
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ),

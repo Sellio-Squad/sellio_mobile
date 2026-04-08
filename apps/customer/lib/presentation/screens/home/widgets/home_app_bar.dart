@@ -7,12 +7,10 @@ import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onNotificationTap;
-  final VoidCallback? onSearchTap;
 
   const HomeAppBar({
     super.key,
     this.onNotificationTap,
-    this.onSearchTap,
   });
 
   @override
@@ -96,13 +94,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             IconButton(
               icon: SvgPicture.asset(AppImages.bell, width: 24, height: 24),
               onPressed: onNotificationTap,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
-            const SizedBox(width: 12),
-            IconButton(
-              icon: SvgPicture.asset(AppImages.search, width: 24, height: 24),
-              onPressed: onSearchTap,
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
             ),

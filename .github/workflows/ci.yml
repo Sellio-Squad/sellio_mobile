@@ -1,4 +1,4 @@
-name: CI - Build & Auto Update
+name: CI - Build Customer App
 
 on:
   pull_request:
@@ -10,12 +10,8 @@ concurrency:
 
 jobs:
   build-android:
-    name: Build Android
+    name: Build Android (Customer)
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        app: [ customer, seller, admin ]
 
     steps:
       - name: Checkout code
@@ -56,72 +52,6 @@ jobs:
           mkdir -p apps/customer/android/app
           echo "$GOOGLE_SERVICES_JSON" | base64 --decode > apps/customer/android/app/google-services.json
 
-      - name: Build ${{ matrix.app }}
+      - name: Build customer
         run: flutter build apk --release
-        working-directory: apps/${{ matrix.app }}
-
-  autoupdate:
-    name: Auto Update
-    runs-on: ubuntu-latest
-    needs: [ build-android ]
-    if: ${{ success() }}
-
-    permissions:
-      contents: write
-      pull-requests: write
-      repository-projects: write
-
-    steps:
-      - name: Create GitHub App Token
-        uses: actions/create-github-app-token@v2
-        id: app-token
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "Sellio Bot"
-          git config --global user.email "240505093+sellio-bot[bot]@users.noreply.github.com"
-
-      - uses: chinthakagodawita/autoupdate@v1.7.0
-        id: autoupdate
-        env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-          DRY_RUN: "false"
-          PR_FILTER: "protected"
-          MERGE_MSG: "Branch was auto-updated."
-          RETRY_COUNT: "5"
-          RETRY_SLEEP: "300"
-          MERGE_CONFLICT_ACTION: "ignore"
-
-      - run: echo 'Merge conflicts found!'
-        if: ${{ steps.autoupdate.outputs.conflicted }}
-
-      - run: echo 'No merge conflicts'
-        if: ${{ !steps.autoupdate.outputs.conflicted }}
-
-      - name: Find Autoupdate PR Comment
-        if: always() && github.event.pull_request.number
-        uses: peter-evans/find-comment@v3
-        id: fc_autoupdate
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'sellio-bot[bot]'
-          body-includes: '<!-- sellio-bot-autoupdate-comment -->'
-
-      - name: Add or Update PR comment for Autoupdate
-        if: always() && github.event.pull_request.number
-        uses: peter-evans/create-or-update-comment@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-id: ${{ steps.fc_autoupdate.outputs.comment-id }}
-          edit-mode: replace
-          body: |
-            <!-- sellio-bot-autoupdate-comment -->
-            **[Sellio Bot] Auto-update Status**
-
-            ${{ steps.autoupdate.outputs.conflicted == 'true' && '❌ **Merge conflict detected!** Branch could not be automatically updated from `develop`.' || '' }}
-            ${{ steps.autoupdate.outputs.conflicted != 'true' && steps.autoupdate.outcome == 'success' && '✅ Branch successfully updated from `develop`.' || '' }}
-            ${{ steps.autoupdate.outcome == 'failure' && '🚨 An error occurred during the auto-update process.' || '' }}
+        working-directory: apps/customer

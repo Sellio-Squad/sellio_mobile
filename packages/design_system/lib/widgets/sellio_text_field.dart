@@ -31,6 +31,7 @@ class SellioTextField extends StatefulWidget {
   final String? errorMessage;
   final bool readOnly;
   final VoidCallback? onTap;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const SellioTextField({
     super.key,
@@ -59,6 +60,7 @@ class SellioTextField extends StatefulWidget {
     this.errorMessage,
     this.readOnly = false,
     this.onTap,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -190,6 +192,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                         isError = value.isEmpty;
                       });
                     },
+                    onSubmitted: widget.onFieldSubmitted,
                     obscureText: isObscured,
                     obscuringCharacter: '●',
                     style: textFieldStyle,
@@ -211,19 +214,27 @@ class _SellioTextFieldState extends State<SellioTextField> {
                       ),
                       suffixIcon: _buildSuffixIcon(iconColor),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.enabledBorderRadius),
+                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
+                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
+                            : BorderRadius.circular(widget.enabledBorderRadius),
                         borderSide: BorderSide(color: borderColor, width: 0.5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.focusedBorderRadius),
+                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
+                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
+                            : BorderRadius.circular(widget.focusedBorderRadius),
                         borderSide: BorderSide(color: borderColor),
                       ),
                       errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(widget.errorBorderRadius),
+                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
+                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
+                            : BorderRadius.circular(widget.errorBorderRadius),
                         borderSide: BorderSide(color: context.theme.colors.semanticError),
                       ),
                       focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
+                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
+                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
+                            : BorderRadius.circular(
                           widget.focusedErrorBorderRadius,
                         ),
                         borderSide: BorderSide(color: context.theme.colors.semanticError),

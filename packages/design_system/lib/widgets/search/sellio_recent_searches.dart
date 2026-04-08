@@ -1,24 +1,26 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:design_system/design_system.dart';
 
-import '../../../../core/localization/l10n/localization_service.dart';
-import '../cubit/search_cubit.dart';
-
-class RecentSearchSection extends StatelessWidget {
+class SellioRecentSearches extends StatelessWidget {
   final List<String> recentSearches;
-  final TextEditingController searchController;
+  final String title;
+  final String clearAllText;
+  final VoidCallback onClearAllTap;
+  final ValueChanged<String> onChipTap;
 
-  const RecentSearchSection({
+  const SellioRecentSearches({
     super.key,
     required this.recentSearches,
-    required this.searchController,
+    required this.title,
+    required this.clearAllText,
+    required this.onClearAllTap,
+    required this.onChipTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<SearchCubit>();
+    if (recentSearches.isEmpty) return const SizedBox.shrink();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -29,15 +31,15 @@ class RecentSearchSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                context.local.recent_searches,
+                title,
                 style: context.theme.typography.textTheme.titleSmall.copyWith(
                   color: context.theme.colors.title,
                 ),
               ),
               GestureDetector(
-                onTap: cubit.clearRecent,
+                onTap: onClearAllTap,
                 child: Text(
-                  context.local.clear_all,
+                  clearAllText,
                   style: context.theme.typography.textTheme.labelMedium.copyWith(
                     color: context.theme.colors.primary,
                   ),
@@ -57,10 +59,7 @@ class RecentSearchSection extends StatelessWidget {
                   horizontal: 16,
                   vertical: 11,
                 ),
-                onTap: () {
-                  searchController.text = text;
-                  cubit.selectRecent(text);
-                },
+                onTap: () => onChipTap(text),
               );
             }).toList(),
           ),
