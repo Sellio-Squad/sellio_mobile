@@ -43,21 +43,9 @@ class _CategoryDetailsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.surfaceLow,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: colors.title, size: 20),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          categoryName,
-          style: context.theme.typography.textTheme.titleMedium.copyWith(
-            color: colors.title,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: SellioAppBar(
+        title: categoryName,
+        showBackButton: true,
       ),
       body: BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(
         builder: (context, state) {
