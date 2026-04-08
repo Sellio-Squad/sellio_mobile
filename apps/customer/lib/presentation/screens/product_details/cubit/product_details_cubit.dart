@@ -13,10 +13,10 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   final FavoritesCubit _favoritesCubit;
 
   ProductDetailsCubit(
-      this._repository,
-      this._cartCubit,
-      this._favoritesCubit,
-      ) : super(const ProductDetailsInitial());
+    this._repository,
+    this._cartCubit,
+    this._favoritesCubit,
+  ) : super(const ProductDetailsInitial());
 
   final TextEditingController noteController = TextEditingController();
 
@@ -26,26 +26,28 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
 
     final productResult = await _repository.getProductById(productId);
 
-    if (productResult is! Success) {
-      final errorMessage = _extractErrorMessage([productResult]);
-      emit(ProductDetailsError(message: errorMessage));
-      return;
-    }
+    productResult.fold(
+      onSuccess: (product) {
+        final product = productResult.data;
+        final cartState = _cartCubit.state;
+        final count = cartState.productCounts[productId] ?? 0;
 
-    final product = productResult.data;
-    final cartState = _cartCubit.state;
-    final count = cartState.productCounts[productId] ?? 0;
+        final favState = _favoritesCubit.state;
+        final isFavorite = favState is FavoritesLoaded &&
+            favState.favoriteProductIds.contains(productId);
 
-    final favState = _favoritesCubit.state;
-    final isFavorite = favState is FavoritesLoaded &&
-        favState.favoriteProductIds.contains(productId);
-
-    emit(ProductDetailsLoaded(
-      product: product,
-      isFavorite: isFavorite,
-      productCount: count,
-      note: noteController.text,
-    ));
+        emit(ProductDetailsLoaded(
+          product: product,
+          isFavorite: isFavorite,
+          productCount: count,
+          note: noteController.text,
+        ));
+      },
+      onFailure: (error) => {
+        emit(ProductDetailsError(
+            message: error.message,)),
+      },
+    );
   }
 
   void updateNote(String newNote) {
@@ -60,14 +62,15 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     final currentState = state;
     if (currentState is! ProductDetailsLoaded) return;
 
-    final result = await _favoritesCubit.toggleFavorite(currentState.product.id, FavoriteType.product);
+    final result = await _favoritesCubit.toggleFavorite(
+        currentState.product.id, FavoriteType.product);
     if (!result) return;
 
     final updatedFavorite = !currentState.isFavorite;
     emit(currentState.copyWith(isFavorite: updatedFavorite));
   }
 
-   void addToCart() {
+  void addToCart() {
     final currentState = state;
     if (currentState is! ProductDetailsLoaded) return;
 

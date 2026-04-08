@@ -13,7 +13,7 @@ class ProductModel with _$ProductModel {
     required String id,
     required String title,
     required String description,
-    required double minPrice,
+    double? minPrice,
     required String currency,
     String? maxDiscount,
     String? mainImageUrl,
@@ -29,7 +29,6 @@ class ProductModel with _$ProductModel {
     @Default(false) bool isFeatured,
   }) = _ProductModel;
 
-  // Custom fromJson to handle the complex extraction logic
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: json['id']?.toString() ?? '',
@@ -42,9 +41,7 @@ class ProductModel with _$ProductModel {
       images: _extractImages(json),
       storeId: json['storeId']?.toString() ?? json['store_id']?.toString() ?? '',
       categoryId: _extractCategoryId(json),
-      subCategoriesIds: (json['subCategoriesIds'] as List<dynamic>?)
-          ?.map((e) => e.toString())
-          .toList() ?? [],
+      subCategoriesIds: _extractSubCategories(json),
       isAvailable: json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
       stockQuantity: json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
       isFavorite: json['isFavorite'] as bool? ?? false,
@@ -55,7 +52,6 @@ class ProductModel with _$ProductModel {
           .toList() ?? [],
     );
   }
-
 
   Product toEntity() {
     final allImages = <String>[
@@ -68,7 +64,7 @@ class ProductModel with _$ProductModel {
       id: id,
       title: title,
       description: description,
-      minPrice: minPrice,
+      minPrice: _parseDouble(minPrice) ?? 0.0,
       currency: currency,
       maxDiscount: maxDiscount,
       images: allImages,
@@ -107,55 +103,63 @@ class ProductModel with _$ProductModel {
 
   // --- Helper Methods (Static) ---
 
-  static double _parseDouble(dynamic value) {
-    if (value == null) return 0.0;
+  static double? _parseDouble(dynamic value) {
+    if (value == null) return null;
     if (value is num) return value.toDouble();
-    if (value is String) return double.tryParse(value) ?? 0.0;
+    if (value is String) return double.tryParse(value);
+    return null;
+  }
 
-    return 0.0;
+  static List<String> _extractSubCategories(Map<String, dynamic> json) {
+    final raw = json['subCategoriesIds'] ?? json['subCategoryIds'] ?? json['sub_category_ids'];
+    if (raw is! List) return [];
+    return raw
+        .where((e) => e != null)
+        .map((e) => e.toString())
+        .where((e) => e.isNotEmpty)
+        .toList();
   }
 
   static List<String> _extractImages(Map<String, dynamic> json) {
-    final mainImageUrl = json['mainImageUrl']?.toString();
+    final images = <String>[];
 
-    final images = mainImageUrl == null ? <String>[] : <String>[mainImageUrl];
+    void tryAdd(dynamic value) {
+      final str = value?.toString();
+      if (_isValidUrl(str)) images.add(str!);
+    }
 
     void addFromList(dynamic value) {
       if (value is List) {
         for (final item in value) {
-          final img = item?.toString();
-          if (_isValidUrl(img)) images.add(img!);
+          tryAdd(item);
         }
       }
     }
+
+    tryAdd(json['mainImageURL'] ?? json['mainImageUrl'] ?? json['main_image_url']);
 
     addFromList(json['images']);
     addFromList(json['imageUrls']);
     addFromList(json['image_urls']);
 
-    final mainImage = json['mainImageURL'] ?? json['main_image_url'];
-    if (_isValidUrl(mainImage?.toString())) {
-      images.insert(0, mainImage.toString());
-    }
-
-    return images.toSet().toList(); // Remove duplicates
+    return images.toSet().toList();
   }
 
   static String _extractCategoryId(Map<String, dynamic> json) {
     final direct = json['categoryId'] ?? json['category_id'] ?? json['categoryID'];
     if (direct != null && direct.toString().isNotEmpty) return direct.toString();
 
-    final subCategories = json['subCategoryIds'] ?? json['sub_category_ids'];
+    final subCategories = json['subCategoryIds'] ?? json['subCategoriesIds'] ?? json['sub_category_ids'];
     if (subCategories is List && subCategories.isNotEmpty) {
       return subCategories.first?.toString() ?? '';
     }
 
     return '';
   }
+
   static bool _isValidUrl(String? value) {
     if (value == null || value.trim().isEmpty) return false;
     final uri = Uri.tryParse(value.trim());
-
     return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
   }
 }

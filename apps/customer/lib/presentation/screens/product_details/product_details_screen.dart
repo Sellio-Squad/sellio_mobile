@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +7,6 @@ import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_cubit.dart';
-import 'package:sellio_mobile/presentation/cubits/favorites/cubit/favorites_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/cubit/product_details_state.dart';
 import 'package:sellio_mobile/presentation/screens/product_details/widgets/product_counter_section.dart';
@@ -106,13 +103,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              productImagesSection(
-                                [
-                                  ...state.product.images,
-                                  ...List.filled(
-                                      max(0, 3 - state.product.images.length), '',),
-                                ],
-                              ),
+                              productImagesSection(state.product.images,),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
