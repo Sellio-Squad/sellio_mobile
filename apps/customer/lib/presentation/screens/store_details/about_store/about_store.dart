@@ -102,13 +102,12 @@ class AboutStore extends StatelessWidget {
             const SizedBox(height: LayoutConstants.paddingSmall),
             ..._buildContactInfoList(context, store.contactInfoList),
             const HorizontalDriver(),
-            Text(
-              context.local.address,
-              style: context.theme.typography.textTheme.titleMedium.copyWith(
-                color: context.theme.colors.title,
-              ),
+            AddressItem(
+              address: store.address.fullAddress,
+              latitude: 29.8750,
+              longitude: 31.3425,
+              storeName: store.name,
             ),
-            AddressItem(address: store.address.fullAddress),
           ],
         ),
       ),

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-
-import 'package:design_system/design_system.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StoreMapView extends StatefulWidget {
   final double latitude;
