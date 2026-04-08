@@ -105,13 +105,11 @@ class ThriftContent extends StatelessWidget {
       CategoryTabData(
         id: "all",
         name: context.local.all,
-        icon: AppImages.allCategories,
       ),
       ...state.categories.map(
             (c) => CategoryTabData(
           id: c.id,
           name: c.name,
-          icon: _mapCategoryIcon(c.name),
         ),
       ),
     ];
