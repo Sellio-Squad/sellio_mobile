@@ -5,8 +5,10 @@ import 'package:flutter_gap/flutter_gap.dart';
 
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../core/utils/price_calculator.dart';
+import '../../cubits/auth/authentication_cubit.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
+import '../account/navigation/account_navigation.dart';
 import 'constants/cart_constants.dart';
 import 'widgets/cart_bottom_bar.dart';
 import 'widgets/cart_items_list.dart';
@@ -23,6 +25,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final TextEditingController _noteController = TextEditingController();
+  bool _showLoginRequiredScreen = false;
 
   @override
   void initState() {
@@ -42,30 +45,46 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.colors.surfaceLow,
-      appBar: SellioAppBar(title: context.local.cart),
-      body: BlocConsumer<CartCubit, CartState>(
-        listener: _handleStateChanges,
-        builder: (context, state) => _buildBody(state),
-      ),
-      bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
-        builder: (context, state) {
-          if (state.cart == null || state.cart!.items.isEmpty) {
-            return const SizedBox.shrink();
-          }
+    return BlocListener<AuthenticationCubit, AuthenticationState>(
+      listener: (context, authState) {
+        if (authState is LoggedIn) {
+          setState(() {
+            _showLoginRequiredScreen = false;
+          });
+          context.read<CartCubit>().loadCart();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: context.theme.colors.surfaceLow,
+        appBar: SellioAppBar(
+          title: context.local.cart,
+        ),
+        body: BlocConsumer<CartCubit, CartState>(
+          listener: _handleStateChanges,
+          builder: (context, state) => _buildBody(state),
+        ),
+        bottomNavigationBar: BlocBuilder<CartCubit, CartState>(
+          builder: (context, state) {
+            if (_showLoginRequiredScreen) {
+              return const SizedBox.shrink();
+            }
 
-          final totalPrice = PriceCalculator.calculateTotalPrice(
-            state.cart!.items,
-          );
-          final itemCount = state.cart!.items.length;
+            if (state.cart == null || state.cart!.items.isEmpty) {
+              return const SizedBox.shrink();
+            }
 
-          return CartBottomBar(
-            totalPrice: totalPrice,
-            itemCount: itemCount,
-            onConfirmOrder: () => _handleConfirmOrder(context),
-          );
-        },
+            final totalPrice = PriceCalculator.calculateTotalPrice(
+              state.cart!.items,
+            );
+            final itemCount = state.cart!.items.length;
+
+            return CartBottomBar(
+              totalPrice: totalPrice,
+              itemCount: itemCount,
+              onConfirmOrder: () => _handleConfirmOrder(context),
+            );
+          },
+        ),
       ),
     );
   }
@@ -73,8 +92,11 @@ class _CartScreenState extends State<CartScreen> {
   void _handleStateChanges(BuildContext context, CartState state) {
     if (state is CartOrderSuccess) {
       OrderConfirmationDialog.show(context);
+
       Future.delayed(const Duration(milliseconds: 500), () {
-        context.read<CartCubit>().loadCart();
+        if (mounted) {
+          context.read<CartCubit>().loadCart();
+        }
       });
     } else if (state is CartError) {
       _showErrorSnackBar(state.message);
@@ -92,6 +114,10 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildBody(CartState state) {
+    if (_showLoginRequiredScreen) {
+      return _buildLoginRequiredSection(context);
+    }
+
     if (state is CartLoading && state.cart == null) {
       return Center(
         child: CircularProgressIndicator(
@@ -107,6 +133,17 @@ class _CartScreenState extends State<CartScreen> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: _buildCartContent(state),
+    );
+  }
+
+  Widget _buildLoginRequiredSection(BuildContext context) {
+    return EmptySection(
+      icon: AppImages.notLoggedIn,
+      title: context.local.not_registered,
+      description: context.local.cart_empty_screen,
+      buttonText: context.local.login,
+      color: context.theme.colors.redVariant,
+      onTap: () => navigateToLoginScreen(context),
     );
   }
 
@@ -156,8 +193,19 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   void _handleConfirmOrder(BuildContext context) {
+    final authState = context.read<AuthenticationCubit>().state;
+
+    if (authState is Guest) {
+      setState(() {
+        _showLoginRequiredScreen = true;
+      });
+      return;
+    }
+
     final note = _noteController.text.trim();
-    context.read<CartCubit>().confirmOrder(note.isNotEmpty ? note : null);
+    context.read<CartCubit>().confirmOrder(
+          note.isNotEmpty ? note : null,
+        );
   }
 
   Widget _buildCartItemsCount(BuildContext context, int count) {
@@ -167,7 +215,9 @@ class _CartScreenState extends State<CartScreen> {
 
     return Text(
       '$count ${context.local.items}',
-      style: textTheme.labelMedium.copyWith(color: colors.body),
+      style: textTheme.labelMedium.copyWith(
+        color: colors.body,
+      ),
     );
   }
 }
