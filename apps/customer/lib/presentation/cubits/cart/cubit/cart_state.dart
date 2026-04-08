@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../../domain/entities/cart.dart';
 
 abstract class CartState extends Equatable {
@@ -57,4 +58,8 @@ class CartError extends CartState {
 
   @override
   List<Object?> get props => [message, cart, productCounts];
+}
+
+class CartUserNotLoggedIn extends CartState {
+  const CartUserNotLoggedIn();
 }

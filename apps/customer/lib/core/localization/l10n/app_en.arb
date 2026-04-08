@@ -262,6 +262,7 @@
   "all_orders": "All Orders",
   "error": "Error",
   "success": "Success",
+  "cart_empty_screen": "Login to continue your checkout and place your order",
   "search_in": "Search in {category_name}...",
   "@search_in": {
     "description": "Hint text for searching in a specific category",
