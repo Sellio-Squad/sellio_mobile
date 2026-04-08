@@ -50,33 +50,26 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    Widget searchField = ClipRRect(
-      borderRadius: const BorderRadiusDirectional.only(
-        topStart: Radius.circular(12),
-        bottomStart: Radius.circular(12),
-        topEnd: Radius.circular(12),
-        bottomEnd: Radius.circular(12),
+    Widget searchField = SellioTextField(
+      maxLine: 1,
+      fillColor: context.theme.colors.surfaceLow,
+      enabledBorderRadius: 12,
+      focusedBorderRadius: 12,
+      errorBorderRadius: 12,
+      focusedErrorBorderRadius: 12,
+      cornerRadius: const BorderRadius.all(Radius.circular(12)),
+      hintText: widget.hintText,
+      hintStyle: context.theme.typography.textTheme.labelMedium
+          .copyWith(color: context.theme.colors.body),
+      prefixIcon: SvgPicture.asset(
+        AppImages.search,
+        width: 24,
+        height: 24,
       ),
-      child: SellioTextField(
-        maxLine: 1,
-        fillColor: context.theme.colors.surfaceLow,
-        enabledBorderRadius: 0,
-        focusedBorderRadius: 0,
-        errorBorderRadius: 0,
-        focusedErrorBorderRadius: 0,
-        hintText: widget.hintText,
-        hintStyle: context.theme.typography.textTheme.labelMedium
-            .copyWith(color: context.theme.colors.body),
-        prefixIcon: SvgPicture.asset(
-          AppImages.search,
-          width: 24,
-          height: 24,
-        ),
-        controller: _searchController,
-        readOnly: widget.isReadOnly,
-        onTap: widget.onTextFieldClicked,
-        onFieldSubmitted: widget.onTextSubmitted,
-      ),
+      controller: _searchController,
+      readOnly: widget.isReadOnly,
+      onTap: widget.onTextFieldClicked,
+      onFieldSubmitted: widget.onTextSubmitted,
     );
 
     if (!widget.isShowFilterIcon) {
@@ -88,20 +81,15 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
+            child: SellioTextField(
+              maxLine: 1,
+              fillColor: context.theme.colors.surfaceLow,
+              cornerRadius: const BorderRadiusDirectional.only(
                 topStart: Radius.circular(12),
                 bottomStart: Radius.circular(12),
                 topEnd: Radius.circular(0),
                 bottomEnd: Radius.circular(0),
               ),
-              child: SellioTextField(
-                maxLine: 1,
-                fillColor: context.theme.colors.surfaceLow,
-                enabledBorderRadius: 0,
-                focusedBorderRadius: 0,
-                errorBorderRadius: 0,
-                focusedErrorBorderRadius: 0,
                 hintText: widget.hintText,
                 hintStyle: context.theme.typography.textTheme.labelMedium
                     .copyWith(color: context.theme.colors.body),
@@ -116,7 +104,6 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
                 onFieldSubmitted: widget.onTextSubmitted,
               ),
             ),
-          ),
           Material(
             color: context.theme.colors.primaryVariant,
             borderRadius: const BorderRadiusDirectional.only(

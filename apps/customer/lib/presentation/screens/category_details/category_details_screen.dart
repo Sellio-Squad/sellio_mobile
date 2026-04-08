@@ -83,6 +83,10 @@ class _CategoryDetailsView extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
                       child: SellioSearchBar(
                         hintText: context.local.search_in(categoryName),
+                        isShowFilterIcon: true,
+                        onFilterIconClicked: () {
+                          // TODO: Implement filter behavior if needed
+                        },
                       ),
                     ),
                   ),
