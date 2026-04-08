@@ -129,19 +129,6 @@ class ThriftContent extends StatelessWidget {
     );
   }
 
-  String _mapCategoryIcon(String name) {
-    switch (name.toLowerCase()) {
-      case 'food':
-        return AppImages.food;
-      case 'drinks':
-        return AppImages.drinks;
-      case 'clothes':
-        return AppImages.clothes;
-      default:
-        return AppImages.allCategories;
-    }
-  }
-
   Widget _buildProductsGrid(BuildContext context, ThriftProductsState state) {
     if (state.items.isEmpty) {
       return SliverFillRemaining(
