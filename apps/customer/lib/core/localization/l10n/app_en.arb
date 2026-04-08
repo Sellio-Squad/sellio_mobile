@@ -261,5 +261,15 @@
   "field_required": "Should not be empty",
   "all_orders": "All Orders",
   "error": "Error",
-  "success": "Success"
+  "success": "Success",
+  "search_in": "Search in {category_name}...",
+  "@search_in": {
+    "description": "Hint text for searching in a specific category",
+    "placeholders": {
+      "category_name": {
+        "type": "String",
+        "example": "Electronics"
+      }
+    }
+  }
 }

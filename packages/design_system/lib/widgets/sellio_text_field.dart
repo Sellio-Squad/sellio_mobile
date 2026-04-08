@@ -31,6 +31,7 @@ class SellioTextField extends StatefulWidget {
   final String? errorMessage;
   final bool readOnly;
   final VoidCallback? onTap;
+  final ValueChanged<String>? onFieldSubmitted;
 
   const SellioTextField({
     super.key,
@@ -59,6 +60,7 @@ class SellioTextField extends StatefulWidget {
     this.errorMessage,
     this.readOnly = false,
     this.onTap,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -190,6 +192,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                         isError = value.isEmpty;
                       });
                     },
+                    onSubmitted: widget.onFieldSubmitted,
                     obscureText: isObscured,
                     obscuringCharacter: '●',
                     style: textFieldStyle,

@@ -5,10 +5,7 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/screens/home/sections/top_stores/top_stores_list_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/home/sections/trending_products/product_list_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/filter_bottom_sheet.dart';
-import 'package:sellio_mobile/presentation/screens/search/widgets/initial_search.dart';
-import 'package:sellio_mobile/presentation/screens/search/widgets/no_result.dart';
-import 'package:sellio_mobile/presentation/screens/search/widgets/recent_search.dart';
-import 'package:sellio_mobile/presentation/screens/search/widgets/search_bar.dart';
+import 'package:sellio_mobile/presentation/screens/search/widgets/category_section.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/success_search.dart';
 import '../../../di/injection_container.dart';
 import '../../../domain/repositories/search_repository.dart';
@@ -54,10 +51,18 @@ class _SearchViewState extends State<_SearchView> {
         slivers: [
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
-              return SearchBarSection(
-                searchController: _searchController,
-                isShowFilterIcon: state.hasResults,
-                onFilterIconClicked: _showFilterBottomSheet,
+              final cubit = context.read<SearchCubit>();
+              return SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: SellioSearchBar(
+                    hintText: context.local.search_your_favorite_items,
+                    controller: _searchController,
+                    isShowFilterIcon: state.hasResults,
+                    onFilterIconClicked: _showFilterBottomSheet,
+                    onTextSubmitted: cubit.search,
+                  ),
+                ),
               );
             },
           ),
@@ -66,27 +71,34 @@ class _SearchViewState extends State<_SearchView> {
             builder: (context, state) {
               return SliverToBoxAdapter(
                 child: switch (state) {
-                  SearchInitial() =>
-                      InitialSearch(context),
+                  SearchInitial() => SellioInitialSearch(
+                      title: context.local.start_exploring_your_favorite_items,
+                    ),
 
                   SearchLoading() => state.selectedType == SearchType.products
                       ? ProductsListShimmerVertical()
                       : const TopStoresShimmer(itemCount: 10),
 
-                  SearchRecent(:final recentSearches) =>
-                      RecentSearchSection(
-                        recentSearches: recentSearches,
-                        searchController: _searchController,
-                      ),
+                  SearchRecent(:final recentSearches) => SellioRecentSearches(
+                      recentSearches: recentSearches,
+                      title: context.local.recent_searches,
+                      clearAllText: context.local.clear_all,
+                      onClearAllTap: context.read<SearchCubit>().clearRecent,
+                      onChipTap: (text) {
+                        _searchController.text = text;
+                        context.read<SearchCubit>().selectRecent(text);
+                      },
+                    ),
 
                   SearchProductsSuccess() || SearchStoresSuccess() =>
                       SuccessSearch(state: state),
 
-
-                  SearchEmpty() =>
-                  const NoResult(),
-                  _ =>
-                  const SizedBox.shrink(),
+                  SearchEmpty() => SellioSearchEmptyState(
+                      title: context.local.no_results_found,
+                      subtitle: context.local.please_check_your_spelling_or_try_a_different_search,
+                      topWidget: const CategorySection(),
+                    ),
+                  _ => const SizedBox.shrink(),
                 },
               );
             },

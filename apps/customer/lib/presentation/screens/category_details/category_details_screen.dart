@@ -81,32 +81,8 @@ class _CategoryDetailsView extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                      child: Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.05),
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: 'Search in $categoryName...',
-                            hintStyle: TextStyle(
-                              color: colors.title,
-                              fontSize: 14,
-                            ),
-                            prefixIcon: Icon(Icons.search, color: colors.title),
-                            border: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(vertical: 14),
-                          ),
-                        ),
+                      child: SellioSearchBar(
+                        hintText: context.local.search_in(categoryName),
                       ),
                     ),
                   ),
@@ -171,44 +147,7 @@ class _CategoryDetailsView extends StatelessWidget {
                     ),
                   ),
 
-                  // Products header
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Recommended for you',
-                            style: context.theme.typography.textTheme.titleSmall
-                                .copyWith(
-                              color: colors.title,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Sort & Filter',
-                                  style: context
-                                      .theme.typography.textTheme.labelSmall
-                                      .copyWith(
-                                    color: colors.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(width: 4),
-                                Icon(Icons.tune,
-                                    size: 16, color: colors.primary),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+
 
                   // Products grid
                   if (state.isProductsLoading)
