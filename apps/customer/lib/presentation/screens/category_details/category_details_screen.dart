@@ -80,7 +80,7 @@ class _CategoryDetailsView extends StatelessWidget {
                   // Search bar
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       child: SellioSearchBar(
                         hintText: context.local.search_in(categoryName),
                         isShowFilterIcon: true,

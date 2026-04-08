@@ -54,7 +54,7 @@ class _SearchViewState extends State<_SearchView> {
               final cubit = context.read<SearchCubit>();
               return SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   child: SellioSearchBar(
                     hintText: context.local.search_your_favorite_items,
                     controller: _searchController,
