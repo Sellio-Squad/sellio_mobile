@@ -261,8 +261,8 @@
   "field_required": "هذا الحقل مطلوب",
   "all_orders": "جميع الطلبات",
   "error": "خطأ",
-  "success": "تم بنجاح"
-  "cart_empty_screen": "قم بتسجيل الدخول لمتابعة عملية الدفع وإتمام طلبك"
+  "success": "تم بنجاح",
+  "cart_empty_screen": "قم بتسجيل الدخول لمتابعة عملية الدفع وإتمام طلبك",
   "search_in": "البحث في {category_name}...",
   "@search_in": {
     "description": "نص التلميح للبحث في فئة معينة",
