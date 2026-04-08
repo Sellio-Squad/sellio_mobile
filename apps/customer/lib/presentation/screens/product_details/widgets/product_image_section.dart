@@ -1,6 +1,7 @@
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 
-Widget productImagesSection() {
+Widget productImagesSection(List<String> images) {
   return Padding(
     padding: const EdgeInsets.all(16),
     child: Row(
@@ -8,76 +9,24 @@ Widget productImagesSection() {
       children: [
         Column(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                width: 110,
-                height: 110,
-                color: Colors.grey[200],
-                child: Image.asset(
-                  'assets/images/lemon_popsicle.jpg',
-                  width: 110,
-                  height: 110,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Center(
-                      child: Icon(
-                        Icons.image_outlined,
-                        size: 40,
-                        color: Colors.grey[400],
-                      ),
-                    );
-                  },
-                ),
-              ),
+            SellioRemoteImage(
+              imageUrl: images[0],
+              width: 110,
+              height: 110,
             ),
             const SizedBox(height: 4),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                width: 110,
-                height: 110,
-                color: Colors.grey[200],
-                child: Image.asset(
-                  'assets/images/lemon_cheesecake.jpg',
-                  width: 110,
-                  height: 110,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Center(
-                      child: Icon(
-                        Icons.image_outlined,
-                        size: 40,
-                        color: Colors.grey[400],
-                      ),
-                    );
-                  },
-                ),
-              ),
+            SellioRemoteImage(
+              imageUrl: images[1],
+              width: 110,
+              height: 110,
             ),
           ],
         ),
         const SizedBox(width: 4),
         Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              height: 224,
-              color: Colors.grey[200],
-              child: Image.asset(
-                'assets/images/lemon_cake_main.jpg',
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Center(
-                    child: Icon(
-                      Icons.image_outlined,
-                      size: 60,
-                      color: Colors.grey[400],
-                    ),
-                  );
-                },
-              ),
-            ),
+          child: SellioRemoteImage(
+            imageUrl: images[2],
+            height: 224,
           ),
         ),
       ],

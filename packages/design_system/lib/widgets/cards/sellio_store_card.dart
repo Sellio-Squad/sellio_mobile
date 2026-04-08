@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:design_system/themes/sellio_colors.dart';
 import 'package:design_system/themes/sellio_theme.dart';
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -103,7 +104,7 @@ class _SellioStoreCardState extends State<SellioStoreCard> {
     if (widget.imageUrl.startsWith('assets/')) {
       return Image.asset(widget.imageUrl, fit: BoxFit.cover, height: 133);
     } else if (widget.imageUrl.isNotEmpty) {
-      return Image.network(widget.imageUrl, fit: BoxFit.cover, height: 133);
+      return SellioRemoteImage(imageUrl: widget.imageUrl,height: 133);
     } else {
       return Padding(
         padding: const EdgeInsets.only(top: 15),

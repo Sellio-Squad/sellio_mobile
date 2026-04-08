@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 
 class CategoryImage extends StatelessWidget {
@@ -42,19 +43,7 @@ class CategoryImage extends StatelessWidget {
     }
 
     if (imageUrl.isNotEmpty) {
-      return Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
-        errorBuilder: (context, error, stackTrace) {
-          return Padding(
-            padding: const EdgeInsets.all(8),
-            child: Image.asset(
-              AppImages.placeholder,
-              fit: BoxFit.scaleDown,
-            ),
-          );
-        },
-      );
+      return SellioRemoteImage(imageUrl: imageUrl);
     }
 
     return Padding(

@@ -51,6 +51,7 @@ class _SpecialOffersListState extends State<SpecialOffersList> {
 
   Widget _buildCarousel() {
     final layout = CarouselLayout.of(context);
+
     return CarouselSlider(
       items: widget.offers
           .map(

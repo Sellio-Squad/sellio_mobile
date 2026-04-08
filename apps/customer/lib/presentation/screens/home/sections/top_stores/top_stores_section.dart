@@ -57,6 +57,7 @@ class TopStoresSection extends StatelessWidget {
                     if (favState is FavoritesLoaded) {
                       return favState.favoriteStoreIds.contains(store.id);
                     }
+
                     return store.isFavorite;
                   },
 

@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/widgets/sellio_remote_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/domain/entities/subcategory.dart';
@@ -69,26 +70,16 @@ class _CategoryTabBarState extends State<CategoryTabBar> {
           }
 
           final subcategory = widget.subcategories[index - 1];
+
           return _CircularTab(
             isSelected: isSelected,
             onTap: () => widget.onTabSelected(index),
             label: subcategory.name,
             icon:
                 subcategory.imageUrl != null && subcategory.imageUrl!.isNotEmpty
-                    ? ClipOval(
-                        child: Image.network(
-                          subcategory.imageUrl!,
-                          width: 26,
-                          height: 26,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Icon(
-                            Icons.category_outlined,
-                            size: 22,
-                            color: isSelected
-                                ? Colors.white
-                                : SellioTheme.of(context).colors.primary,
-                          ),
-                        ),
+                    ? SellioRemoteImage.circle(
+                        imageUrl: subcategory.imageUrl!,
+                        size: 26,
                       )
                     : Icon(
                         Icons.category_outlined,

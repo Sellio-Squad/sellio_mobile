@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,7 +37,7 @@ class ProductDetailsScreen extends StatelessWidget {
       ],
       child: BlocListener<ProductDetailsCubit, ProductDetailsState>(
         listenWhen: (previous, current) =>
-        current is ProductDetailsAddToCartSuccess,
+            current is ProductDetailsAddToCartSuccess,
         listener: (context, state) {
           if (state is ProductDetailsAddToCartSuccess) {
             SellioSnackBar(
@@ -65,20 +67,22 @@ class ProductDetailsScreen extends StatelessWidget {
                     actions: [
                       state is ProductDetailsLoading
                           ? const ProductDetailsAppbarShimmer(
-                          height: 20, width: 100,)
+                              height: 20,
+                              width: 100,
+                            )
                           : IconButton(
-                        icon: SvgPicture.asset(
-                          state is ProductDetailsLoaded &&
-                              state.isFavorite
-                              ? AppImages.favorite
-                              : AppImages.unselectedFavorite,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<ProductDetailsCubit>()
-                              .toggleFavorite();
-                        },
-                      ),
+                              icon: SvgPicture.asset(
+                                state is ProductDetailsLoaded &&
+                                        state.isFavorite
+                                    ? AppImages.favorite
+                                    : AppImages.unselectedFavorite,
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<ProductDetailsCubit>()
+                                    .toggleFavorite();
+                              },
+                            ),
                     ],
                   );
                 },
@@ -97,15 +101,21 @@ class ProductDetailsScreen extends StatelessWidget {
                       return SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 100),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                              minHeight: constraints.maxHeight),
+                          constraints:
+                              BoxConstraints(minHeight: constraints.maxHeight),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              productImagesSection(),
+                              productImagesSection(
+                                [
+                                  ...state.product.images,
+                                  ...List.filled(
+                                      max(0, 3 - state.product.images.length), '',),
+                                ],
+                              ),
                               Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 16),
+                                    const EdgeInsets.symmetric(horizontal: 16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -128,7 +138,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
 
             bottomNavigationBar:
-            BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+                BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
               builder: (context, state) {
                 if (state is! ProductDetailsLoaded) return const SizedBox();
                 return SafeArea(
@@ -145,7 +155,6 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 }
-
 
 Widget _buildPriceAndCounterRow(
     BuildContext context, ProductDetailsLoaded state) {
