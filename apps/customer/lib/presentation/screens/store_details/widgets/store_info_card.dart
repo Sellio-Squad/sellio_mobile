@@ -1,8 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 
 class StoreInfoOverview extends StatelessWidget {
   final String location;
@@ -28,17 +26,23 @@ class StoreInfoOverview extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(AppImages.locationPin, width: 20, height: 20),
             const SizedBox(width: 4),
-            Text(
-              location,
-              style: textTheme.labelSmall.copyWith(color: colors.body),
+            Expanded(
+              child: Text(
+                location,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelSmall.copyWith(color: colors.body),
+              ),
             ),
           ],
         ),
         const SizedBox(height: 4),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               rating.toString(),
@@ -49,35 +53,30 @@ class StoreInfoOverview extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        // Tags Section using Wrap
         Wrap(
-          spacing: 6, // horizontal spacing
-          runSpacing: 4, // vertical spacing
-          children: tags.asMap().entries.map((entry) {
-            final index = entry.key;
-            final tag = entry.value;
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  tag,
-                  style: textTheme.labelSmall.copyWith(color: colors.body),
-                ),
-                if (index != tags.length - 1)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      "•",
-                      style: textTheme.labelSmall.copyWith(color: colors.stroke),
-                    ),
-                  ),
-              ],
+          spacing: 6,
+          runSpacing: 6,
+          children: tags.map((tag) {
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              decoration: BoxDecoration(
+                color: colors.surfaceHigh,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                tag,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelSmall.copyWith(color: colors.body),
+              ),
             );
           }).toList(),
         ),
         const SizedBox(height: 8),
         Text(
           description,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
           style: textTheme.bodyMedium.copyWith(color: colors.body),
         ),
       ],
