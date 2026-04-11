@@ -29,7 +29,6 @@ class CategoryTabs extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12),
             child: SellioChip(
               label: category.name,
-              assetIcon: category.icon,
               selected: isSelected,
               onTap: () => onCategorySelected(index),
             ),
@@ -43,11 +42,9 @@ class CategoryTabs extends StatelessWidget {
 class CategoryTabData {
   final String id;
   final String name;
-  final String icon;
 
   const CategoryTabData({
     required this.id,
     required this.name,
-    required this.icon,
   });
 }
