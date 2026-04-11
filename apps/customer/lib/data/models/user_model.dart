@@ -6,7 +6,6 @@ part 'user_model.g.dart';
 class UserModel with _$UserModel {
   const factory UserModel({
     required String fullName,
-    String? email,
     required String phoneNumber,
     required String city,
     required String country,

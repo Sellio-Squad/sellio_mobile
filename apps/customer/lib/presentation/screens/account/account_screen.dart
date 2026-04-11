@@ -174,11 +174,6 @@ class _AccountScreenState extends State<AccountScreen> {
             state.fullName,
             style: themeText.titleSmall.copyWith(color: colors.title),
           ),
-          if (state.email != null)
-            Text(
-              state.email!,
-              style: themeText.labelSmall.copyWith(color: colors.body),
-            ),
         ],
       ),
     );

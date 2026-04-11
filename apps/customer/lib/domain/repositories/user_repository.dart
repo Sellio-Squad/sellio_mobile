@@ -7,7 +7,6 @@ abstract class UserRepository {
 
   Future<Result<User>> updateUserProfile({
     String? fullName,
-    String? email,
     String? phoneNumber,
     String? country,
     String? city,

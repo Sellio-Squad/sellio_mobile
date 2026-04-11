@@ -7,7 +7,6 @@ extension UserModelMapper on UserModel {
   User toEntity() {
     return User(
       fullName: fullName,
-      email: email,
       phoneNumber: phoneNumber,
       avatarUrl: avatarUrl,
       address: Address(
