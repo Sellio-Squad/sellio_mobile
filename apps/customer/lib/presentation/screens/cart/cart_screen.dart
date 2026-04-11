@@ -154,7 +154,7 @@ class _CartScreenState extends State<CartScreen> {
       padding: const EdgeInsets.only(
         left: CartConstants.horizontalPadding,
         right: CartConstants.horizontalPadding,
-        bottom: CartConstants.bottomPadding,
+        bottom: 160,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
