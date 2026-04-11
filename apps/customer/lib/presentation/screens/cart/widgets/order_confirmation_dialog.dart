@@ -8,8 +8,8 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -38,7 +38,6 @@ class _OrderConfirmationContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-
           _buildBottomSheetDeign(colors),
           _buildIcon(colors),
           const Gap(24),
@@ -51,7 +50,8 @@ class _OrderConfirmationContent extends StatelessWidget {
       ),
     );
   }
-  Widget _buildBottomSheetDeign(dynamic colors){
+
+  Widget _buildBottomSheetDeign(dynamic colors) {
     return Container(
       width: 40,
       height: 4,
@@ -63,7 +63,7 @@ class _OrderConfirmationContent extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderNumber(dynamic colors, dynamic textTheme){
+  Widget _buildOrderNumber(dynamic colors, dynamic textTheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -87,8 +87,8 @@ class _OrderConfirmationContent extends StatelessWidget {
     );
   }
 
-  Widget _buildOrderReceived(BuildContext context, colors, textTheme){
-    return  Text(
+  Widget _buildOrderReceived(BuildContext context, colors, textTheme) {
+    return Text(
       context.local.order_received,
       textAlign: TextAlign.center,
       style: textTheme.titleSmall.copyWith(
@@ -122,7 +122,10 @@ class _OrderConfirmationContent extends StatelessWidget {
       text: context.local.back_to_shopping,
       textColor: context.theme.colors.primary,
       backgroundColor: context.theme.colors.primaryVariant,
-      onTap: () => context.navigator.goToHome(),
+      onTap: () {
+        context.navigator.pop();
+        context.navigator.goToHome();
+      },
       fullWidth: true,
     );
   }
