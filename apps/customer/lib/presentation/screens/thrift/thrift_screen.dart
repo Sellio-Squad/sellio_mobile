@@ -105,13 +105,11 @@ class ThriftContent extends StatelessWidget {
       CategoryTabData(
         id: "all",
         name: context.local.all,
-        icon: AppImages.allCategories,
       ),
       ...state.categories.map(
             (c) => CategoryTabData(
           id: c.id,
           name: c.name,
-          icon: _mapCategoryIcon(c.name),
         ),
       ),
     ];
@@ -129,19 +127,6 @@ class ThriftContent extends StatelessWidget {
         },
       ),
     );
-  }
-
-  String _mapCategoryIcon(String name) {
-    switch (name.toLowerCase()) {
-      case 'food':
-        return AppImages.food;
-      case 'drinks':
-        return AppImages.drinks;
-      case 'clothes':
-        return AppImages.clothes;
-      default:
-        return AppImages.allCategories;
-    }
   }
 
   Widget _buildProductsGrid(BuildContext context, ThriftProductsState state) {
