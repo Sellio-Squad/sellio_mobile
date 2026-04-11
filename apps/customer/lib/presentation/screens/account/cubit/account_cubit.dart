@@ -25,7 +25,6 @@ class AccountCubit extends Cubit<AccountState> {
     if (authState is LoggedIn) {
       emit(AccountLoaded(
         fullName: authState.user.fullName,
-        email: authState.user.email,
         imagePath: authState.user.avatarUrl,
         notificationsEnabled: true,
       ));

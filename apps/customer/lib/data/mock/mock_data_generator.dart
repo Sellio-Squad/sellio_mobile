@@ -25,8 +25,6 @@ class MockDataGenerator {
 
     return User(
       fullName: fullName,
-      email:
-          '${fullName.toLowerCase()}.$index@example.com',
       phoneNumber: '555${_random.nextInt(1000000).toString().padLeft(7, '0')}',
       avatarUrl: 'https://i.pravatar.cc/150?img=$index',
       address: address,

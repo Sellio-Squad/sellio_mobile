@@ -31,7 +31,6 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<User>> updateUserProfile({
     String? fullName,
-    String? email,
     String? phoneNumber,
     String? city,
     String? country,
@@ -40,7 +39,6 @@ class UserRepositoryImpl implements UserRepository {
     return RepositoryCallHandler.call<User>(() async {
       final request = UpdateUserProfileRequest(
         fullName: fullName,
-        email: email,
         phoneNumber: phoneNumber,
         city: city,
         country: country,
