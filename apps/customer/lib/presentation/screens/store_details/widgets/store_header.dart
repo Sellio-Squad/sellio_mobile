@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'store_discount_frame.dart';
 
 class StoreHeader extends StatelessWidget {
@@ -53,14 +53,12 @@ class StoreHeader extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Floating Profile Image
             Positioned(
               bottom: -35,
               left: 32,
               child: Container(
                 padding: const EdgeInsets.all(3),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
@@ -72,36 +70,33 @@ class StoreHeader extends StatelessWidget {
                 ),
               ),
             ),
-
-            // Discount Tag
-            if(discount.isNotEmpty) _buildDiscountTag(),
+            if (discount.isNotEmpty) _buildDiscountTag(),
           ],
         ),
-
         const SizedBox(height: 44),
-
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
               storeName,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: textTheme.titleMedium.copyWith(
                 color: colors.title,
               ),
             ),
           ),
         ),
-
-        // info section
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _buildInfoSection(context),
         ),
       ],
     );
   }
 
-  Widget _buildDiscountTag(){
+  Widget _buildDiscountTag() {
     return Positioned(
       bottom: 16,
       right: 24,
@@ -112,55 +107,66 @@ class StoreHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection(BuildContext context){
+  Widget _buildInfoSection(BuildContext context) {
+    final colors = context.theme.colors;
+    final textTheme = context.theme.typography.textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 2),
-        // location details
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(AppImages.location, width: 20, height: 20),
             const SizedBox(width: 4),
-            Text(
-              "${address[0]}, ${address[1]}",
-              style: context.theme.typography.textTheme.labelSmall.copyWith(
-                color: context.theme.colors.body,
+            Expanded(
+              child: Text(
+                "${address[0]}, ${address[1]}",
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelSmall.copyWith(
+                  color: colors.body,
+                ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 2),
-        // rating and subcategories
+        const SizedBox(height: 4),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Row(
-                children: [
-                  Text(
-                    rating.toString(),
-                    style: context.theme.typography.textTheme.labelMedium.copyWith(
-                      color: context.theme.colors.body,
-                    ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  rating.toString(),
+                  style: textTheme.labelMedium.copyWith(
+                    color: colors.body,
                   ),
-                  const SizedBox(width: 2),
-                  SvgPicture.asset(AppImages.rate),
-                ],
-              ),
+                ),
+                const SizedBox(width: 2),
+                SvgPicture.asset(AppImages.rate),
+              ],
             ),
             const SizedBox(width: 6),
-            Text(
-              subcategories.join(' • '),
-              style: context.theme.typography.textTheme.labelSmall.copyWith(
-                color: context.theme.colors.body,
+            Expanded(
+              child: Text(
+                subcategories.join(' • '),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.labelSmall.copyWith(
+                  color: colors.body,
+                ),
               ),
             ),
           ],
         ),
         const SizedBox(height: 8),
-        // Description
         Text(
           description,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
           style: context.theme.typography.textTheme.bodyMedium.copyWith(
             color: context.theme.colors.body,
           ),
