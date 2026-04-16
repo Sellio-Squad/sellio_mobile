@@ -5,6 +5,8 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../../../../cubits/cart/cubit/cart_cubit.dart';
+import '../../../../../cubits/cart/cubit/cart_state.dart';
 import '../../../utils/home_navigation.dart';
 import '../models/product_summary_ui_model.dart';
 
@@ -39,7 +41,7 @@ class ProductsList extends StatelessWidget {
         ),
         if (products.isEmpty)
           SizedBox(
-            height: 272,
+            height: 320,
             child: Center(
               child: Text(
                 searchQuery == null
@@ -53,7 +55,7 @@ class ProductsList extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 272,
+            height: 320,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -63,7 +65,7 @@ class ProductsList extends StatelessWidget {
                 final product = products[index];
 
                 return SizedBox(
-                  width: 160,
+                  width: 196,
                   child: _ProductItem(product: product),
                 );
               },
@@ -82,25 +84,46 @@ class _ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
-      builder: (context, state) {
+      builder: (context, favoritesState) {
         bool isFavorite = product.isFavorite;
-
-        if (state is FavoritesLoaded) {
-          isFavorite = state.favoriteProductIds.contains(product.id);
+        if (favoritesState is FavoritesLoaded) {
+          isFavorite = favoritesState.favoriteProductIds.contains(product.id);
         }
 
-        return SellioProductVerticalCard(
-          key: ValueKey(product.id),
-          productId: product.id,
-          imageUrl: product.imageUrl,
-          title: product.title,
-          price: product.price,
-          onTap: () => navigateToProductDetails(context, product.id),
-          isFavorite: isFavorite,
-          onFavoriteToggle: () {
-            context
-                .read<FavoritesCubit>()
-                .toggleFavorite(product.id, FavoriteType.product);
+        return BlocBuilder<CartCubit, CartState>(
+          builder: (context, cartState) {
+            int count = 0;
+            if (cartState is CartLoaded || cartState is CartLoading || cartState is CartError) {
+               count = cartState.productCounts[product.id] ?? 0;
+            }
+
+            return SellioProductVerticalCard(
+              key: ValueKey(product.id),
+              productId: product.id,
+              imageUrl: product.imageUrl,
+              title: product.title,
+              price: product.price,
+              onTap: () => navigateToProductDetails(context, product.id),
+              isFavorite: isFavorite,
+              onFavoriteToggle: () {
+                context
+                    .read<FavoritesCubit>()
+                    .toggleFavorite(product.id, FavoriteType.product);
+              },
+              count: count,
+              onAddToCart: () {
+                final double parsedPrice = double.tryParse(product.price.replaceAll(RegExp(r'[^\d.]'), '')) ?? 0.0;
+                context.read<CartCubit>().addToCart(
+                  productId: product.id,
+                  productName: product.title,
+                  productImage: product.imageUrl,
+                  price: parsedPrice,
+                  currency: '\$',
+                );
+              },
+              onIncrement: () => context.read<CartCubit>().incrementProduct(product.id),
+              onDecrement: () => context.read<CartCubit>().decrementProduct(product.id),
+            );
           },
         );
       },

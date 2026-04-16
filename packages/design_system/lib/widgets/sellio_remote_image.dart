@@ -77,7 +77,7 @@ class SellioRemoteImage extends StatelessWidget {
       fit: fit,
       loadingBuilder: (_, child, progress) =>
           progress == null ? child : _buildLoading(context),
-      errorBuilder: (_, __, ___) => _buildError(context),
+      errorBuilder: (_, _, _) => _buildError(context),
     );
   }
 

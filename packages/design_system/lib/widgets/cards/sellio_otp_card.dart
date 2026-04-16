@@ -193,7 +193,7 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
           boxShadow: _currentState == SellioOTPInputState.focused
               ? [
             BoxShadow(
-              color: colors.primary.withOpacity(0.15),
+              color: colors.primary.withValues(alpha: 0.15),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),

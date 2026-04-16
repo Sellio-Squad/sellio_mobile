@@ -51,7 +51,7 @@ class _SellioRadioButtonState extends State<SellioRadioButton> {
           boxShadow: widget.state == RadioState.checked
               ? [
             BoxShadow(
-              color: colorScheme.primary.withOpacity(0.1),
+              color: colorScheme.primary.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             )

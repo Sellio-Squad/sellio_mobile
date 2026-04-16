@@ -1,8 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_gap/flutter_gap.dart';
-
 export 'sellio_initial_search.dart';
 export 'sellio_recent_searches.dart';
 export 'sellio_search_empty_state.dart';

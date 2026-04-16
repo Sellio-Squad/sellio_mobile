@@ -66,7 +66,7 @@ class _SellioCheckboxState extends State<SellioCheckbox> {
           boxShadow: widget.state == CheckboxState.checked
               ? [
             BoxShadow(
-              color: colorScheme.primary.withOpacity(0.1),
+              color: colorScheme.primary.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             )
