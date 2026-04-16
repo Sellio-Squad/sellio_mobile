@@ -28,8 +28,9 @@ class NotificationItem extends StatelessWidget {
       key: Key(notification.orderId),
       direction: DismissDirection.endToStart,
       onDismissed: (direction) {
-        context.read<NotificationCubit>().deleteNotification(
-            notification.orderId);
+        context
+            .read<NotificationCubit>()
+            .deleteNotification(notification.orderId);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(context.local.notification_dismissed),
@@ -80,11 +81,12 @@ class NotificationItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                        const EdgeInsets.only(left: 8, right: 16, bottom: 2),
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 16, bottom: 2),
                         child: Text.rich(
                           TextSpan(
-                            text: context.local.your_order_from(notification.orderId),
+                            text: context.local
+                                .your_order_from(notification.orderId),
                             style: context.theme.typography.textTheme.bodySmall
                                 .copyWith(
                               color: context.theme.colors.body,
@@ -99,8 +101,8 @@ class NotificationItem extends StatelessWidget {
                               ),
                               TextSpan(
                                 text: " $orderState.",
-                                style: context.theme.typography.textTheme
-                                    .bodySmall
+                                style: context
+                                    .theme.typography.textTheme.bodySmall
                                     .copyWith(
                                   color: context.theme.colors.body,
                                 ),
@@ -126,7 +128,7 @@ class NotificationItem extends StatelessWidget {
             ),
             Padding(
               padding:
-              const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+                  const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
               child: Divider(
                 color: context.theme.colors.stroke,
                 thickness: 1,

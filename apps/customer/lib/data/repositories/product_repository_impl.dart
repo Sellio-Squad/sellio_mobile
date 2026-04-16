@@ -25,7 +25,6 @@ class ProductRepositoryImpl implements ProductRepository {
         _favoritesRemoteDataSource = favoritesRemoteDataSource,
         _searchRemoteDataSource = searchRemoteDataSource;
 
-
   @override
   Future<Result<PaginatedData<Product>>> getProductsPaginated({
     int page = 1,
@@ -76,13 +75,16 @@ class ProductRepositoryImpl implements ProductRepository {
 
       var filteredProducts = paginatedData.items;
       if (categoryId != null) {
-        filteredProducts = filteredProducts.where((p) => p.categoryId == categoryId).toList();
+        filteredProducts =
+            filteredProducts.where((p) => p.categoryId == categoryId).toList();
       }
       if (minPrice != null) {
-        filteredProducts = filteredProducts.where((p) => p.minPrice >= minPrice).toList();
+        filteredProducts =
+            filteredProducts.where((p) => p.minPrice >= minPrice).toList();
       }
       if (maxPrice != null) {
-        filteredProducts = filteredProducts.where((p) => p.minPrice <= maxPrice).toList();
+        filteredProducts =
+            filteredProducts.where((p) => p.minPrice <= maxPrice).toList();
       }
 
       return paginatedData.copyWith(
@@ -179,7 +181,6 @@ class ProductRepositoryImpl implements ProductRepository {
     });
   }
 
-
   @override
   Future<Result<Product>> getProductById(String productId) async {
     return RepositoryCallHandler.call<Product>(() async {
@@ -191,14 +192,15 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Result<void>> toggleFavoriteProduct(String productId) async {
     return RepositoryCallHandler.call<void>(
-          () => _favoritesRemoteDataSource.toggleProductFavorite(
+      () => _favoritesRemoteDataSource.toggleProductFavorite(
         productId: productId,
       ),
     );
   }
+
   PaginatedData<Product> _mapToPaginatedData(
-      PaginatedResponse<ProductModel> response,
-      ) {
+    PaginatedResponse<ProductModel> response,
+  ) {
     return PaginatedData<Product>(
       items: response.data.map((model) => model.toEntity()).toList(),
       totalElements: response.totalElements,
@@ -209,8 +211,8 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   PaginatedData<Product> _mapToPaginatedSummaryData(
-      PaginatedResponse<ProductSummaryModel> response,
-      ) {
+    PaginatedResponse<ProductSummaryModel> response,
+  ) {
     return PaginatedData<Product>(
       items: response.data.map((model) => model.toEntity()).toList(),
       totalElements: response.totalElements,
@@ -219,7 +221,6 @@ class ProductRepositoryImpl implements ProductRepository {
       totalPages: response.totalPages,
     );
   }
-
 
   @override
   Future<Result<PaginatedData<Product>>> getThriftProducts({

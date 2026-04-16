@@ -55,7 +55,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+      (json) => ProductModel.fromJson(json),
     );
   }
 
@@ -75,7 +75,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductSummaryModel.fromJson(json),
+      (json) => ProductSummaryModel.fromJson(json),
     );
   }
 
@@ -103,7 +103,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+      (json) => ProductModel.fromJson(json),
     );
   }
 
@@ -121,13 +121,11 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     );
     print('product list: dataSource impl(1)-> ${response}');
 
-
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductSummaryModel.fromJson(json),
+      (json) => ProductSummaryModel.fromJson(json),
     );
   }
-
 
   @override
   Future<PaginatedResponse<ProductModel>> getThriftProducts({
@@ -149,8 +147,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+      (json) => ProductModel.fromJson(json),
     );
   }
-
 }

@@ -22,7 +22,7 @@ class OtpCubit extends Cubit<OtpState> {
     this.countdownDuration = AuthConstants.otpResendCountdown,
     required AuthRepository authRepository,
   })  : _authRepository = authRepository,
-      super(const OtpIdle()) {
+        super(const OtpIdle()) {
     startCountdown();
   }
 

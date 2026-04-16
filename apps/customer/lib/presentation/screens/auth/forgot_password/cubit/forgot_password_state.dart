@@ -89,20 +89,22 @@ class ForgotPasswordVerified extends ForgotPasswordState {
       newPassword: newPassword ?? this.newPassword,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isResetFormValid: isResetFormValid ?? this.isResetFormValid,
-      passwordError: passwordError != null ? passwordError() : this.passwordError,
-      confirmPasswordError: confirmPasswordError != null ? confirmPasswordError() : this.confirmPasswordError,
+      passwordError:
+          passwordError != null ? passwordError() : this.passwordError,
+      confirmPasswordError: confirmPasswordError != null
+          ? confirmPasswordError()
+          : this.confirmPasswordError,
     );
   }
 
-
   @override
   List<Object?> get props => [
-    newPassword,
-    confirmPassword,
-    isResetFormValid,
-    passwordError,
-    confirmPasswordError,
-  ];
+        newPassword,
+        confirmPassword,
+        isResetFormValid,
+        passwordError,
+        confirmPasswordError,
+      ];
 }
 
 class ForgotPasswordResetting extends ForgotPasswordState {

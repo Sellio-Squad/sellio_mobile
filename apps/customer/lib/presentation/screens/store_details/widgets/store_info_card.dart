@@ -68,7 +68,8 @@ class StoreInfoOverview extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: Text(
                       "•",
-                      style: textTheme.labelSmall.copyWith(color: colors.stroke),
+                      style:
+                          textTheme.labelSmall.copyWith(color: colors.stroke),
                     ),
                   ),
               ],

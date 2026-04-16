@@ -10,15 +10,12 @@ abstract class SearchState extends Equatable {
 }
 
 class SearchInitial extends SearchState {
-  const SearchInitial({required SearchType selectedType})
-      : super(selectedType);
+  const SearchInitial({required SearchType selectedType}) : super(selectedType);
 }
 
 class SearchLoading extends SearchState {
-  const SearchLoading({required SearchType selectedType})
-      : super(selectedType);
+  const SearchLoading({required SearchType selectedType}) : super(selectedType);
 }
-
 
 class SearchRecent extends SearchState {
   final List<String> recentSearches;
@@ -31,7 +28,6 @@ class SearchRecent extends SearchState {
   @override
   List<Object?> get props => [recentSearches, selectedType];
 }
-
 
 class SearchProductsSuccess extends SearchState {
   final List<Product> products;

@@ -35,17 +35,15 @@ class SellioSearchEmptyState extends StatelessWidget {
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: context.theme.typography.textTheme.titleSmall.copyWith(
-                      color: context.theme.colors.title,
-                    ),
+                    style: context.theme.typography.textTheme.titleSmall
+                        .copyWith(color: context.theme.colors.title),
                   ),
                   const Gap(8),
                   Text(
                     subtitle,
                     textAlign: TextAlign.center,
-                    style: context.theme.typography.textTheme.bodySmall.copyWith(
-                      color: context.theme.colors.body,
-                    ),
+                    style: context.theme.typography.textTheme.bodySmall
+                        .copyWith(color: context.theme.colors.body),
                   ),
                 ],
               ),

@@ -54,10 +54,10 @@ class CartBottomBar extends StatelessWidget {
   }
 
   Widget _buildPriceRow(
-      BuildContext context,
-      dynamic textTheme,
-      dynamic colors,
-      ) {
+    BuildContext context,
+    dynamic textTheme,
+    dynamic colors,
+  ) {
     return Row(
       children: [
         SvgPicture.asset(AppImages.discountTag),

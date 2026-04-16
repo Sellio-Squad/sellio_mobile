@@ -68,20 +68,18 @@ class MyApp extends StatelessWidget {
                   routerConfig: RouteGenerator.router,
                   title: 'Sellio app',
                   locale: localeState.locale,
-
                   localizationsDelegates: const [
                     AppLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
                   ],
-
                   supportedLocales: LocaleCubit.supportedLocales,
-
                   localeResolutionCallback: (locale, supportedLocales) {
                     if (locale != null) {
                       for (var supportedLocale in supportedLocales) {
-                        if (supportedLocale.languageCode == locale.languageCode) {
+                        if (supportedLocale.languageCode ==
+                            locale.languageCode) {
                           return supportedLocale;
                         }
                       }
@@ -90,7 +88,8 @@ class MyApp extends StatelessWidget {
                     return supportedLocales.first;
                   },
                   builder: (context, child) {
-                    return BlocListener<AuthenticationCubit, AuthenticationState>(
+                    return BlocListener<AuthenticationCubit,
+                        AuthenticationState>(
                       listener: (context, state) {
                         if (state is RequireLogin) {
                           if (context.mounted) {

@@ -62,7 +62,9 @@ class TopStoresSection extends StatelessWidget {
                   },
 
                   onLikePressed: (store) async {
-                    context.read<FavoritesCubit>().toggleFavorite(store.id, FavoriteType.store);
+                    context
+                        .read<FavoritesCubit>()
+                        .toggleFavorite(store.id, FavoriteType.store);
                   },
 
                   // Store tap

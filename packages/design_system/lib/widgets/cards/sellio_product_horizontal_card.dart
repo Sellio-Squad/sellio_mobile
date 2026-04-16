@@ -60,7 +60,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           children: [
                             Text(
                               title,
-                              style: textTheme.titleSmall.copyWith(color: colors.title),
+                              style: textTheme.titleSmall.copyWith(
+                                color: colors.title,
+                              ),
                               maxLines: (description == null) ? 2 : 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -82,7 +84,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
                                   ),
                                 Text(
                                   "\$${formatPrice(price)}",
-                                  style: textTheme.titleSmall.copyWith(color: colors.primary),
+                                  style: textTheme.titleSmall.copyWith(
+                                    color: colors.primary,
+                                  ),
                                 ),
                               ],
                             ),
@@ -92,7 +96,9 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             description!,
-                            style: textTheme.labelXSmall.copyWith(color: colors.body),
+                            style: textTheme.labelXSmall.copyWith(
+                              color: colors.body,
+                            ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -103,12 +109,15 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             // Show counter if count and callbacks are provided, otherwise single button placeholder
-                            if (count != null && onIncrement != null && onDecrement != null)
+                            if (count != null &&
+                                onIncrement != null &&
+                                onDecrement != null)
                               _buildCounter(context)
                             else if (onIncrement != null)
                               _buildSingleCartButton(context),
 
-                            if (onRemove != null) _buildRemoveProductButton(context),
+                            if (onRemove != null)
+                              _buildRemoveProductButton(context),
                           ],
                         ),
                       ],
@@ -204,7 +213,10 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 child: Center(
                   child: SvgPicture.asset(
                     AppImages.add,
-                    colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      colors.primary,
+                      BlendMode.srcIn,
+                    ),
                     width: 16,
                     height: 16,
                     fit: BoxFit.scaleDown,
@@ -249,7 +261,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
   Widget _buildImage(SellioColorScheme colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: SellioRemoteImage(imageUrl: imageUrl,width: 89,height: 89,),
+      child: SellioRemoteImage(imageUrl: imageUrl, width: 89, height: 89),
     );
   }
 }

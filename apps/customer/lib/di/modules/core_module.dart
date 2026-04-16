@@ -11,21 +11,20 @@ import '../../core/services/image_picker_service_impl.dart';
 
 class CoreModule {
   static Future<void> register(GetIt sl) async {
-
     sl.registerLazySingleton<InternetConnectionChecker>(
-          () => InternetConnectionChecker(),
+      () => InternetConnectionChecker(),
     );
 
     sl.registerLazySingleton<ImagePickerService>(
-          () => ImagePickerServiceImpl(),
+      () => ImagePickerServiceImpl(),
     );
 
     sl.registerLazySingleton<NetworkInfo>(
-          () => NetworkInfoImpl(sl()),
+      () => NetworkInfoImpl(sl()),
     );
 
     sl.registerLazySingleton<ApiClient>(
-          () => DioClient(
+      () => DioClient(
         baseUrl: ApiEndpoints.baseUrl,
         storageService: sl(),
         connectTimeout: const Duration(seconds: 30),

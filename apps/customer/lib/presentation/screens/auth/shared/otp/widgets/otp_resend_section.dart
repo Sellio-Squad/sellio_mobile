@@ -32,7 +32,8 @@ class OtpResendSection extends StatelessWidget {
           child: Text(
             canResend
                 ? context.local.re_send
-                : context.local.re_send_in_resend_countdown_Sec(resendCountdown),
+                : context.local
+                    .re_send_in_resend_countdown_Sec(resendCountdown),
             style: textTheme.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.hint,
               decoration: canResend ? TextDecoration.underline : null,

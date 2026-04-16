@@ -14,9 +14,9 @@ class PaginatedResponse<T> {
   });
 
   factory PaginatedResponse.fromJson(
-      Map<String, dynamic> json,
-      T Function(Map<String, dynamic>) fromJsonT,
-      ) {
+    Map<String, dynamic> json,
+    T Function(Map<String, dynamic>) fromJsonT,
+  ) {
     return PaginatedResponse(
       data: (json['data'] as List<dynamic>)
           .map((e) => fromJsonT(e as Map<String, dynamic>))

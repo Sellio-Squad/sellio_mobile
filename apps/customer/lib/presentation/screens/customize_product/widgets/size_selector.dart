@@ -50,10 +50,10 @@ class SizeSelector extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     sizes[index].value,
-                    style: context.theme.typography.textTheme.labelMedium.copyWith(
-                      color: isSelected
-                          ? Colors.white
-                          : context.theme.colors.body,
+                    style:
+                        context.theme.typography.textTheme.labelMedium.copyWith(
+                      color:
+                          isSelected ? Colors.white : context.theme.colors.body,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

@@ -123,9 +123,8 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected
-        ? context.theme.colors.primary
-        : context.theme.colors.body;
+    final color =
+        isSelected ? context.theme.colors.primary : context.theme.colors.body;
 
     return Expanded(
       child: InkWell(

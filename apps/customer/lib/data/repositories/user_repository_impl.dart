@@ -18,7 +18,7 @@ class UserRepositoryImpl implements UserRepository {
 
   UserRepositoryImpl({
     required UserRemoteDataSource remoteDataSource,
-  })  : _remoteDataSource = remoteDataSource;
+  }) : _remoteDataSource = remoteDataSource;
 
   @override
   Future<Result<User>> getUserProfile() async {

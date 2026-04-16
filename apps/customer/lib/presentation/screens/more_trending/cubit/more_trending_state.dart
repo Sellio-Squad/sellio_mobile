@@ -46,4 +46,3 @@ class MoreTrendingState extends Equatable {
         errorMessage,
       ];
 }
-

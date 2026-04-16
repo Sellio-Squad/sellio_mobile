@@ -7,7 +7,7 @@ class ContactTypeConverter implements JsonConverter<ContactType, String> {
   @override
   ContactType fromJson(String json) {
     return ContactType.values.firstWhere(
-          (e) => e.toString().split('.').last == json,
+      (e) => e.toString().split('.').last == json,
     );
   }
 

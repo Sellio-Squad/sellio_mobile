@@ -4,12 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../constants/app_images.dart';
 import '../../themes/sellio_colors.dart';
 
-enum CheckboxState {
-  unchecked,
-  checked,
-  indeterminate,
-  disabledChecked,
-}
+enum CheckboxState { unchecked, checked, indeterminate, disabledChecked }
 
 class SellioCheckbox extends StatefulWidget {
   final CheckboxState state;
@@ -36,41 +31,38 @@ class _SellioCheckboxState extends State<SellioCheckbox> {
     return GestureDetector(
       onTap: isEnabled && widget.onChanged != null
           ? () {
-        CheckboxState newState;
-        switch (widget.state) {
-          case CheckboxState.unchecked:
-            newState = CheckboxState.checked;
-            break;
-          case CheckboxState.checked:
-            newState = CheckboxState.unchecked;
-            break;
-          case CheckboxState.indeterminate:
-            newState = CheckboxState.checked;
-            break;
-          case CheckboxState.disabledChecked:
-            return;
-        }
-        widget.onChanged!(newState);
-      }
+              CheckboxState newState;
+              switch (widget.state) {
+                case CheckboxState.unchecked:
+                  newState = CheckboxState.checked;
+                  break;
+                case CheckboxState.checked:
+                  newState = CheckboxState.unchecked;
+                  break;
+                case CheckboxState.indeterminate:
+                  newState = CheckboxState.checked;
+                  break;
+                case CheckboxState.disabledChecked:
+                  return;
+              }
+              widget.onChanged!(newState);
+            }
           : null,
       child: Container(
         width: widget.size,
         height: widget.size,
         decoration: BoxDecoration(
           color: _getBackgroundColor(colorScheme),
-          border: Border.all(
-            color: _getBorderColor(colorScheme),
-            width: 1.5,
-          ),
+          border: Border.all(color: _getBorderColor(colorScheme), width: 1.5),
           borderRadius: BorderRadius.circular(4.0),
           boxShadow: widget.state == CheckboxState.checked
               ? [
-            BoxShadow(
-              color: colorScheme.primary.withValues(alpha: 0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            )
-          ]
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
               : null,
         ),
         child: _buildIcon(colorScheme),
@@ -111,10 +103,7 @@ class _SellioCheckboxState extends State<SellioCheckbox> {
       case CheckboxState.checked:
         return SvgPicture.asset(
           AppImages.check,
-          colorFilter: ColorFilter.mode(
-            colorScheme.onPrimary,
-            BlendMode.srcIn,
-          ),
+          colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
           width: 10.0,
           height: 10.0,
           fit: BoxFit.scaleDown,
@@ -122,10 +111,7 @@ class _SellioCheckboxState extends State<SellioCheckbox> {
       case CheckboxState.indeterminate:
         return SvgPicture.asset(
           AppImages.indeterminate,
-          colorFilter: ColorFilter.mode(
-            colorScheme.onPrimary,
-            BlendMode.srcIn,
-          ),
+          colorFilter: ColorFilter.mode(colorScheme.onPrimary, BlendMode.srcIn),
           width: 10.0,
           height: 10.0,
           fit: BoxFit.scaleDown,
@@ -133,10 +119,7 @@ class _SellioCheckboxState extends State<SellioCheckbox> {
       case CheckboxState.disabledChecked:
         return SvgPicture.asset(
           AppImages.check,
-          colorFilter: ColorFilter.mode(
-            colorScheme.hint,
-            BlendMode.srcIn,
-          ),
+          colorFilter: ColorFilter.mode(colorScheme.hint, BlendMode.srcIn),
           width: 10.0,
           height: 10.0,
           fit: BoxFit.scaleDown,

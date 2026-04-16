@@ -17,24 +17,19 @@ class SellioIndicator extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(
-        pages,
-            (index) {
-          final bool isActive = index == currentPage;
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            margin: const EdgeInsets.symmetric(horizontal: 2),
-            width: isActive ? 6 : 4,
-            height: isActive ? 6 : 4,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isActive
-                  ? colors.secondary
-                  : colors.stroke,
-            ),
-          );
-        },
-      ),
+      children: List.generate(pages, (index) {
+        final bool isActive = index == currentPage;
+        return AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.symmetric(horizontal: 2),
+          width: isActive ? 6 : 4,
+          height: isActive ? 6 : 4,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isActive ? colors.secondary : colors.stroke,
+          ),
+        );
+      }),
     );
   }
 }

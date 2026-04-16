@@ -84,7 +84,6 @@ class AppImages {
   static const String locationPin = '$iconsPath/location-pin.svg';
   static const String info = '$iconsPath/info.svg';
 
-
   // Order history
   static const String noOrderHistory = '$iconsPath/package_remove.svg';
   static const String storeDiscountFrame =

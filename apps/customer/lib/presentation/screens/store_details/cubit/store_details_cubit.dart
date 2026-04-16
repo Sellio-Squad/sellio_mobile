@@ -16,13 +16,13 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     emit(const StoreDetailsLoading());
 
     final storeResult = await _repository.getStoreDetails(storeId);
-    
+
     if (storeResult is! Success) {
-      final errorMessage = storeResult is ResultFailure 
-          ? storeResult.failure.message 
-          : '';
-      emit(StoreDetailsError(message: errorMessage, failedCall: 'store_details'));
-     
+      final errorMessage =
+          storeResult is ResultFailure ? storeResult.failure.message : '';
+      emit(StoreDetailsError(
+          message: errorMessage, failedCall: 'store_details'));
+
       return;
     }
 
@@ -34,9 +34,11 @@ class StoreDetailsCubit extends Cubit<StoreDetailsState> {
     List<Product>? products;
     products = productsResult is Success ? productsResult.data : null;
 
-    final featuredProductsResult = await _repository.getStoreFeaturedProducts(storeId: storeId);
+    final featuredProductsResult =
+        await _repository.getStoreFeaturedProducts(storeId: storeId);
     List<Product>? featuredProducts;
-    featuredProducts = featuredProductsResult is Success ? featuredProductsResult.data : null;
+    featuredProducts =
+        featuredProductsResult is Success ? featuredProductsResult.data : null;
 
     emit(StoreDetailsLoaded(
       store: storeResult.data,

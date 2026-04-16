@@ -51,55 +51,56 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   Future<bool> toggleFavorite(String id, FavoriteType type) async {
     return await _authenticationCubit.requireLogin(() async {
-      if (state is! FavoritesLoaded) return false;
+          if (state is! FavoritesLoaded) return false;
 
-      final current = state as FavoritesLoaded;
+          final current = state as FavoritesLoaded;
 
-      if (type == FavoriteType.product) {
-        final updatedIds = Set<String>.from(current.favoriteProductIds);
+          if (type == FavoriteType.product) {
+            final updatedIds = Set<String>.from(current.favoriteProductIds);
 
-        if (updatedIds.contains(id)) {
-          updatedIds.remove(id);
-        } else {
-          updatedIds.add(id);
-        }
+            if (updatedIds.contains(id)) {
+              updatedIds.remove(id);
+            } else {
+              updatedIds.add(id);
+            }
 
-        emit(current.copyWith(
-          favoriteProductIds: updatedIds,
-        ));
+            emit(current.copyWith(
+              favoriteProductIds: updatedIds,
+            ));
 
-        try {
-          await _favoritesRepository.toggleProductFavorite(id);
+            try {
+              await _favoritesRepository.toggleProductFavorite(id);
 
-          return true;
-        } catch (_) {
-          emit(current);
+              return true;
+            } catch (_) {
+              emit(current);
 
-          return false;
-        }
-      } else if (type == FavoriteType.store) {
-        final updatedIds = Set<String>.from(current.favoriteStoreIds);
+              return false;
+            }
+          } else if (type == FavoriteType.store) {
+            final updatedIds = Set<String>.from(current.favoriteStoreIds);
 
-        if (updatedIds.contains(id)) {
-          updatedIds.remove(id);
-        } else {
-          updatedIds.add(id);
-        }
+            if (updatedIds.contains(id)) {
+              updatedIds.remove(id);
+            } else {
+              updatedIds.add(id);
+            }
 
-        emit(current.copyWith(
-          favoriteStoreIds: updatedIds,
-        ));
+            emit(current.copyWith(
+              favoriteStoreIds: updatedIds,
+            ));
 
-        try {
-          await _favoritesRepository.toggleStoreFavorite(id);
+            try {
+              await _favoritesRepository.toggleStoreFavorite(id);
 
-          return true;
-        } catch (_) {
-          emit(current);
+              return true;
+            } catch (_) {
+              emit(current);
 
-          return false;
-        }
-      }
-    }) ?? false;
+              return false;
+            }
+          }
+        }) ??
+        false;
   }
 }

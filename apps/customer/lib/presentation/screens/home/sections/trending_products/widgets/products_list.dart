@@ -5,8 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../../cubits/favorites/cubit/favorites_state.dart';
-import '../../../../../cubits/cart/cubit/cart_cubit.dart';
-import '../../../../../cubits/cart/cubit/cart_state.dart';
+import '../../../../../widgets/customer_product_card.dart';
 import '../../../utils/home_navigation.dart';
 import '../models/product_summary_ui_model.dart';
 
@@ -47,7 +46,8 @@ class ProductsList extends StatelessWidget {
                 searchQuery == null
                     ? context.local.no_products_available
                     : context.local.no_products_found_for(
-                    searchQuery as Object,),
+                        searchQuery as Object,
+                      ),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -55,7 +55,7 @@ class ProductsList extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 320,
+            height: 236,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -65,7 +65,7 @@ class ProductsList extends StatelessWidget {
                 final product = products[index];
 
                 return SizedBox(
-                  width: 196,
+                  width: 170,
                   child: _ProductItem(product: product),
                 );
               },
@@ -90,40 +90,22 @@ class _ProductItem extends StatelessWidget {
           isFavorite = favoritesState.favoriteProductIds.contains(product.id);
         }
 
-        return BlocBuilder<CartCubit, CartState>(
-          builder: (context, cartState) {
-            int count = 0;
-            if (cartState is CartLoaded || cartState is CartLoading || cartState is CartError) {
-               count = cartState.productCounts[product.id] ?? 0;
-            }
-
-            return SellioProductVerticalCard(
-              key: ValueKey(product.id),
-              productId: product.id,
-              imageUrl: product.imageUrl,
-              title: product.title,
-              price: product.price,
-              onTap: () => navigateToProductDetails(context, product.id),
-              isFavorite: isFavorite,
-              onFavoriteToggle: () {
-                context
-                    .read<FavoritesCubit>()
-                    .toggleFavorite(product.id, FavoriteType.product);
-              },
-              count: count,
-              onAddToCart: () {
-                final double parsedPrice = double.tryParse(product.price.replaceAll(RegExp(r'[^\d.]'), '')) ?? 0.0;
-                context.read<CartCubit>().addToCart(
-                  productId: product.id,
-                  productName: product.title,
-                  productImage: product.imageUrl,
-                  price: parsedPrice,
-                  currency: '\$',
-                );
-              },
-              onIncrement: () => context.read<CartCubit>().incrementProduct(product.id),
-              onDecrement: () => context.read<CartCubit>().decrementProduct(product.id),
-            );
+        return CustomerProductCard(
+          cardKey: ValueKey(product.id),
+          productId: product.id,
+          imageUrl: product.imageUrl,
+          title: product.title,
+          formattedPrice: product.price,
+          rawPrice: double.tryParse(
+                  product.price.replaceAll(RegExp(r'[^\d.]'), '')) ??
+              0.0,
+          currency: '\$',
+          isFavorite: isFavorite,
+          onTap: () => navigateToProductDetails(context, product.id),
+          onFavoriteToggle: () {
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(product.id, FavoriteType.product);
           },
         );
       },

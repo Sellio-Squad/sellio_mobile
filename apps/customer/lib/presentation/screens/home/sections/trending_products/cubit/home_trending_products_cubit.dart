@@ -36,9 +36,9 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
   }
 
   Future<void> loadProductsByCategory(
-      String categoryId, {
-        int limit = 10,
-      }) async {
+    String categoryId, {
+    int limit = 10,
+  }) async {
     emit(const HomeTrendingProductsLoading());
 
     final result = await _productRepository.getProductsByCategory(

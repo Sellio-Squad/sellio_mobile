@@ -34,17 +34,22 @@ class _ForgetPasswordScreenContent extends StatefulWidget {
   const _ForgetPasswordScreenContent();
 
   @override
-  State<_ForgetPasswordScreenContent> createState() => _ForgetPasswordScreenContentState();
+  State<_ForgetPasswordScreenContent> createState() =>
+      _ForgetPasswordScreenContentState();
 }
 
-class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenContent> {
+class _ForgetPasswordScreenContentState
+    extends State<_ForgetPasswordScreenContent> {
   late final TextEditingController _phoneController;
 
   @override
   void initState() {
     super.initState();
     final cubit = context.read<ForgotPasswordCubit>();
-    _phoneController = TextEditingController(text: cubit.state is ForgotPasswordIdle ? (cubit.state as ForgotPasswordIdle).phoneNumber : '');
+    _phoneController = TextEditingController(
+        text: cubit.state is ForgotPasswordIdle
+            ? (cubit.state as ForgotPasswordIdle).phoneNumber
+            : '');
     _phoneController.addListener(() {
       cubit.updatePhoneNumber(_phoneController.text);
     });
@@ -70,7 +75,8 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
         if (state is ForgotPasswordOtpRequired) {
           _navigateToOtpScreen(context, state);
         } else if (state is ForgotPasswordFailure) {
-          SnackBarHelper.showError(context, state.errorMessage ?? context.local.error_generic);
+          SnackBarHelper.showError(
+              context, state.errorMessage ?? context.local.error_generic);
         }
       },
       builder: (context, state) {
@@ -100,19 +106,22 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
                           const SizedBox(height: 40),
                           Text(
                             context.local.title_forget_password,
-                            style: textTheme.headlineSmall.copyWith(color: colors.title),
+                            style: textTheme.headlineSmall
+                                .copyWith(color: colors.title),
                           ),
                           const Gap(8),
                           Text(
                             context.local.subtitle_forget_password,
-                            style: textTheme.bodyMedium.copyWith(color: colors.body),
+                            style: textTheme.bodyMedium
+                                .copyWith(color: colors.body),
                           ),
                           const Gap(24),
                           SellioPhoneField(
                             controller: _phoneController,
                             hintText: context.local.phone_number,
-                            searchHintText: context.local.search_by_name_or_code,
-                            selectedCountry:lastValidCountry,
+                            searchHintText:
+                                context.local.search_by_name_or_code,
+                            selectedCountry: lastValidCountry,
                             onCountrySelected: cubit.updateSelectedCountry,
                           ),
                         ],
@@ -123,7 +132,8 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
                     text: context.local.send,
                     onTap: isPhoneFilled && !isLoading ? cubit.sendOtp : null,
                     isLoading: isLoading,
-                    backgroundColor: isPhoneFilled ? colors.primary : colors.disabled,
+                    backgroundColor:
+                        isPhoneFilled ? colors.primary : colors.disabled,
                     textColor: isPhoneFilled ? colors.onPrimary : colors.hint,
                   ),
                   const Gap(10),
@@ -136,9 +146,10 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
     );
   }
 
-  void _navigateToOtpScreen(BuildContext context, ForgotPasswordOtpRequired state) {
+  void _navigateToOtpScreen(
+      BuildContext context, ForgotPasswordOtpRequired state) {
     final cubit = context.read<ForgotPasswordCubit>();
-    
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -148,7 +159,7 @@ class _ForgetPasswordScreenContentState extends State<_ForgetPasswordScreenConte
           phoneNumber: state.phoneNumber,
           onVerify: (otp) => cubit.verifyOtp(otp),
           onVerifySuccess: () {
-             context.pushNamed(AppRoutes.confirmPassword.name);
+            context.pushNamed(AppRoutes.confirmPassword.name);
           },
         ),
       ),

@@ -4,27 +4,28 @@ import '../../themes/sellio_theme_provider.dart';
 import 'animated_loading_dots.dart';
 
 class SellioButton extends StatelessWidget {
-  const SellioButton(
-      {super.key,
-      required this.text,
-      this.textStyle,
-      this.textColor,
-      this.backgroundColor,
-      this.loadingColors,
-      this.fullWidth = true,
-      this.onTap,
-      this.verticalPadding = 9,
-      this.horizontalPadding = 24,
-      this.borderRadius = 8,
-      this.isLoading = false,
-      this.isEnabled = true,
-      this.suffixSvgPath,
-      this.suffixIconColor,
-      this.prefixSvgPath,
-      this.prefixIconColor,
-      this.iconWidth = 20,
-      this.iconHeight = 20,
-      this.contentAlignment = MainAxisAlignment.center});
+  const SellioButton({
+    super.key,
+    required this.text,
+    this.textStyle,
+    this.textColor,
+    this.backgroundColor,
+    this.loadingColors,
+    this.fullWidth = true,
+    this.onTap,
+    this.verticalPadding = 9,
+    this.horizontalPadding = 24,
+    this.borderRadius = 8,
+    this.isLoading = false,
+    this.isEnabled = true,
+    this.suffixSvgPath,
+    this.suffixIconColor,
+    this.prefixSvgPath,
+    this.prefixIconColor,
+    this.iconWidth = 20,
+    this.iconHeight = 20,
+    this.contentAlignment = MainAxisAlignment.center,
+  });
 
   final String text;
   final TextStyle? textStyle;
@@ -93,9 +94,10 @@ class SellioButton extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
-                style: (textStyle ??
-                        context.theme.typography.textTheme.labelMedium)
-                    .copyWith(color: finalTextColor),
+                style:
+                    (textStyle ??
+                            context.theme.typography.textTheme.labelMedium)
+                        .copyWith(color: finalTextColor),
                 overflow: TextOverflow.ellipsis,
               ),
             ),

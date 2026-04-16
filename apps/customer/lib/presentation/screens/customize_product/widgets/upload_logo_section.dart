@@ -61,59 +61,59 @@ class _UploadLogoSectionState extends State<UploadLogoSection> {
             ),
             child: selectedImage == null
                 ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AppImages.upload,
-                  width: 48,
-                  height: 78,
-                  fit: BoxFit.scaleDown,
-                ),
-              ],
-            )
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        AppImages.upload,
+                        width: 48,
+                        height: 78,
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ],
+                  )
                 : ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Stack(
-                clipBehavior: Clip.hardEdge,
-                children: [
-                  Image.file(
-                    selectedImage,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: _pickImage,
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            const BoxShadow(
-                              color: Color(0x70000000),
-                            ),
-                          ],
+                    borderRadius: BorderRadius.circular(12),
+                    child: Stack(
+                      clipBehavior: Clip.hardEdge,
+                      children: [
+                        Image.file(
+                          selectedImage,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
                         ),
-                        child: Center(
-                          child: SvgPicture.asset(
-                            AppImages.pencilEdit,
-                            width: 20,
-                            height: 20,
-                            colorFilter: ColorFilter.mode(
-                              context.theme.colors.onPrimary,
-                              BlendMode.srcIn,
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: _pickImage,
+                            child: Container(
+                              height: 40,
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  const BoxShadow(
+                                    color: Color(0x70000000),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  AppImages.pencilEdit,
+                                  width: 20,
+                                  height: 20,
+                                  colorFilter: ColorFilter.mode(
+                                    context.theme.colors.onPrimary,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
           ),
         ),
       ],

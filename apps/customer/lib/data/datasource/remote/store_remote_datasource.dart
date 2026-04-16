@@ -15,7 +15,7 @@ abstract class StoreRemoteDataSource {
   });
 
   Future<StoreModel> getStoreById(String storeId);
-  
+
   Future<StoreModel> getStoreDetails(String storeId);
 
   Future<PaginatedResponse<StoreTopRatingModel>> getTopStores({
@@ -71,7 +71,7 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => StoreModel.fromJson(json),
+      (json) => StoreModel.fromJson(json),
     );
   }
 
@@ -124,7 +124,7 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+      (json) => ProductModel.fromJson(json),
     );
   }
 
@@ -144,7 +144,7 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ReviewModel.fromJson(json),
+      (json) => ReviewModel.fromJson(json),
     );
   }
 

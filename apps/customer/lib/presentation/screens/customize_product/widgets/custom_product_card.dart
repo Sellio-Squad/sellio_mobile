@@ -7,10 +7,10 @@ class CustomProductCard extends StatelessWidget {
   final VoidCallback onClickProduct;
 
   const CustomProductCard({
-  super.key,
-  required this.imageUrl,
-  required this.title,
-  required this.onClickProduct,
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.onClickProduct,
   });
 
   @override

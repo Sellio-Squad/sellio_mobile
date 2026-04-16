@@ -134,7 +134,8 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
   }
 
   Color _getBorderColor(BuildContext context) {
-    final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
+    final colors =
+        Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
 
     switch (_currentState) {
       case SellioOTPInputState.focused:
@@ -150,7 +151,8 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
   }
 
   Color _getBackgroundColor(BuildContext context) {
-    final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
+    final colors =
+        Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
 
     return _currentState == SellioOTPInputState.focused
         ? colors.surfaceLow
@@ -174,7 +176,8 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
+    final colors =
+        Theme.of(context).extension<SellioColorScheme>() ?? SellioColors.light;
 
     return GestureDetector(
       onTap: () {
@@ -192,12 +195,12 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
           ),
           boxShadow: _currentState == SellioOTPInputState.focused
               ? [
-            BoxShadow(
-              color: colors.primary.withValues(alpha: 0.15),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ]
+                  BoxShadow(
+                    color: colors.primary.withValues(alpha: 0.15),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
               : null,
         ),
         child: Stack(
@@ -213,9 +216,7 @@ class _SellioOTPInputCardState extends State<OTPInputCard> {
                     focusNode: _internalFocusNode,
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     onChanged: _handleInput,
                     decoration: const InputDecoration(
                       border: InputBorder.none,
@@ -286,7 +287,9 @@ class OTPInputFieldState extends State<OTPInputField> {
     super.initState();
     _focusNodes = List.generate(widget.length, (index) => FocusNode());
     _cardKeys = List.generate(
-        widget.length, (index) => GlobalKey<_SellioOTPInputCardState>());
+      widget.length,
+      (index) => GlobalKey<_SellioOTPInputCardState>(),
+    );
     _values.addAll(List.filled(widget.length, ''));
   }
 
@@ -357,7 +360,7 @@ class OTPInputFieldState extends State<OTPInputField> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         widget.length,
-            (index) => Padding(
+        (index) => Padding(
           padding: EdgeInsets.only(
             left: index == 0 ? 0 : 8.0,
             right: index == widget.length - 1 ? 0 : 8.0,
@@ -365,7 +368,9 @@ class OTPInputFieldState extends State<OTPInputField> {
           child: OTPInputCard(
             key: _cardKeys[index],
             focusNode: _focusNodes[index],
-            nextFocusNode: index < widget.length - 1 ? _focusNodes[index + 1] : null,
+            nextFocusNode: index < widget.length - 1
+                ? _focusNodes[index + 1]
+                : null,
             previousFocusNode: index > 0 ? _focusNodes[index - 1] : null,
             onChanged: (value) => _handleChanged(index, value),
             onCompleted: (value) => _handleCompleted(index, value),

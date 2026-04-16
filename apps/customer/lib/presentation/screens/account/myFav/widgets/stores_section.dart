@@ -48,7 +48,8 @@ class StoresSection extends StatelessWidget {
                   .toggleFavorite(store.id, FavoriteType.store);
             },
             onCardPressed: () {
-              context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: store.id));
+              context.navigator
+                  .pushStoreDetails(StoreDetailsArgs(storeId: store.id));
             },
           );
         },

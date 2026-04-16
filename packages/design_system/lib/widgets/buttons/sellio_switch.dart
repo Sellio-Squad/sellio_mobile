@@ -80,7 +80,7 @@ class _SellioSwitchState extends State<SellioSwitch>
                   ? Border.all(
                       color: widget.enabled ? borderColor : disabledColor,
                       width: 2,
-              )
+                    )
                   : null,
             ),
             child: Stack(
@@ -89,9 +89,7 @@ class _SellioSwitchState extends State<SellioSwitch>
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeInOut,
                   top: widget.enabled ? 4.0 : 8.0,
-                  left: widget.enabled
-                      ? (widget.value ? 24.0 : 4.0)
-                      : 8.0,
+                  left: widget.enabled ? (widget.value ? 24.0 : 4.0) : 8.0,
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,

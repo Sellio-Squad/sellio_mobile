@@ -73,15 +73,14 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
               ],
             ),
             const SizedBox(height: 24),
-
             SizedBox(
               width: double.infinity,
               child: SellioButton(
                 text: context.local.save,
                 onTap: _isFormValid
                     ? () async {
-                  await _handleSave(context);
-                }
+                        await _handleSave(context);
+                      }
                     : null,
                 isEnabled: _isFormValid,
               ),

@@ -5,10 +5,12 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_state.dart';
-
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../../di/injection_container.dart';
 import '../../../domain/repositories/category_details_repository.dart';
 import '../home/utils/home_navigation.dart';
+import '../../widgets/customer_product_card.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   final String categoryId;
@@ -194,29 +196,43 @@ class _ProductsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      sliver: SliverGrid(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: 0.72,
-        ),
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final product = products[index];
-            return SellioProductVerticalCard(
-              productId: product.id,
-              imageUrl: product.images.isNotEmpty ? product.images.first : '',
-              title: product.title,
-              price: product.minPrice.toString(),
-              isFavorite: product.isFavorite,
-              onTap: () => navigateToProductDetails(context, product.id),
-              onFavoriteToggle: () {},
-            );
-          },
-          childCount: products.length,
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      sliver: SliverLayoutBuilder(
+        builder: (context, constraints) {
+          final screenWidth = constraints.crossAxisExtent;
+          const cardWidth = 170.0;
+          final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+
+          return SliverGrid(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 12,
+              childAspectRatio: 0.72,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final product = products[index];
+                return CustomerProductCard(
+                  productId: product.id,
+                  imageUrl:
+                      product.images.isNotEmpty ? product.images.first : '',
+                  title: product.title,
+                  formattedPrice: product.minPrice.toString(),
+                  rawPrice: double.tryParse(product.minPrice
+                          .toString()
+                          .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                      0.0,
+                  currency: product.currency ?? 'EGP',
+                  isFavorite: product.isFavorite,
+                  onTap: () => navigateToProductDetails(context, product.id),
+                  onFavoriteToggle: () {},
+                );
+              },
+              childCount: products.length,
+            ),
+          );
+        },
       ),
     );
   }

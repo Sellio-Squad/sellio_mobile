@@ -85,6 +85,7 @@ class StoreDetailsShimmer extends StatelessWidget {
       ),
     );
   }
+
   Widget _titleBoxes(colors, double screenWidth) {
     return Row(
       children: [

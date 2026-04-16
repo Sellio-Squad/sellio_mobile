@@ -67,25 +67,34 @@ class _DesignEditorView extends StatelessWidget {
                         price: state.price,
                         oldPrice: state.oldPrice.toDouble(),
                         quantity: state.quantity,
-                        onIncrease: () => context.read<DesignEditorCubit>().increaseQuantity(),
-                        onDecrease: () => context.read<DesignEditorCubit>().decreaseQuantity(),
+                        onIncrease: () => context
+                            .read<DesignEditorCubit>()
+                            .increaseQuantity(),
+                        onDecrease: () => context
+                            .read<DesignEditorCubit>()
+                            .decreaseQuantity(),
                       ),
                       const SizedBox(height: 24),
                       ColorSelector(
                         colors: state.availableColors,
                         selectedIndex: state.selectedColorIndex,
-                        onSelect: (index) => context.read<DesignEditorCubit>().selectColor(index),
+                        onSelect: (index) => context
+                            .read<DesignEditorCubit>()
+                            .selectColor(index),
                       ),
                       const SizedBox(height: 24),
                       SizeSelector(
                         sizes: state.availableSizes,
                         selectedIndex: state.selectedSizeIndex,
-                        onSelect: (index) => context.read<DesignEditorCubit>().selectSize(index),
+                        onSelect: (index) =>
+                            context.read<DesignEditorCubit>().selectSize(index),
                       ),
                       const SizedBox(height: 24),
                       UploadLogoSection(
                         onImageSelected: (image) {
-                          context.read<DesignEditorCubit>().setOverlayImage(image!);
+                          context
+                              .read<DesignEditorCubit>()
+                              .setOverlayImage(image!);
                         },
                         selectedImage: state.overlayImage,
                       ),
@@ -95,7 +104,8 @@ class _DesignEditorView extends StatelessWidget {
                 ),
               ),
               BottomButtons(
-                onAddToCart: () => context.read<DesignEditorCubit>().addToCart(),
+                onAddToCart: () =>
+                    context.read<DesignEditorCubit>().addToCart(),
                 onReset: () => context.read<DesignEditorCubit>().reset(),
               ),
             ],

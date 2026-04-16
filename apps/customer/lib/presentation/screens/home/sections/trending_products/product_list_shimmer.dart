@@ -51,7 +51,6 @@ class ProductsListShimmerVertical extends StatelessWidget {
         childAspectRatio: 170 / 272,
       ),
       itemBuilder: (context, index) {
-
         return SellioProductVerticalCardShimmer();
       },
     );

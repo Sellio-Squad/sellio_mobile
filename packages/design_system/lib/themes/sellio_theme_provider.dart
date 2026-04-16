@@ -4,7 +4,6 @@ import 'sellio_colors.dart';
 import 'sellio_theme.dart';
 import 'sellio_typography.dart';
 
-
 class SellioThemeProvider extends StatelessWidget {
   final Brightness brightness;
   final Widget child;
@@ -17,8 +16,9 @@ class SellioThemeProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors =
-    brightness == Brightness.dark ? SellioColors.dark : SellioColors.light;
+    final colors = brightness == Brightness.dark
+        ? SellioColors.dark
+        : SellioColors.light;
 
     final typography = SellioTypography();
 

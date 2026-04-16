@@ -103,7 +103,9 @@ class ProductDetailsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              productImagesSection(state.product.images,),
+                              productImagesSection(
+                                state.product.images,
+                              ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 16),
@@ -125,19 +127,6 @@ class ProductDetailsScreen extends StatelessWidget {
                 }
 
                 return const SizedBox();
-              },
-            ),
-
-            bottomNavigationBar:
-                BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-              builder: (context, state) {
-                if (state is! ProductDetailsLoaded) return const SizedBox();
-                return SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: _buildAddToCartButton(context),
-                  ),
-                );
               },
             ),
           ),
@@ -184,26 +173,5 @@ Widget _buildNoteTextField(BuildContext context, ProductDetailsLoaded state) {
       hintText: context.local.note_optional,
       controller: context.read<ProductDetailsCubit>().noteController,
     ),
-  );
-}
-
-Widget _buildAddToCartButton(BuildContext context) {
-  return BlocConsumer<ProductDetailsCubit, ProductDetailsState>(
-    listener: (context, state) {
-      if (state is ProductDetailsAddToCartSuccess) {
-        SellioSnackBar(
-          isError: false,
-          message: state.message,
-          onCancelTap: () {},
-        );
-      }
-    },
-    builder: (context, state) {
-      return SellioButton(
-        text: context.local.add_to_cart,
-        onTap: () => context.read<ProductDetailsCubit>().addToCart(),
-        suffixSvgPath: AppImages.cartSmall,
-      );
-    },
   );
 }

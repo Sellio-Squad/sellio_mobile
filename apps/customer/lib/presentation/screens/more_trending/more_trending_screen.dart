@@ -9,6 +9,8 @@ import '../../../domain/repositories/product_repository.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import 'cubit/more_trending_cubit.dart';
 import 'cubit/more_trending_state.dart';
+import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
+import '../../widgets/customer_product_card.dart';
 
 class MoreTrendingScreen extends StatefulWidget {
   const MoreTrendingScreen({super.key});
@@ -101,25 +103,32 @@ class _MoreTrendingContent extends StatelessWidget {
         builder: (context, constraints) {
           final screenWidth = constraints.crossAxisExtent;
           const cardWidth = 170.0;
-          final crossAxisCount = (screenWidth / cardWidth).floor().clamp(2, 6);
+          final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
 
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 final product = state.items[index];
                 final imageUrl = product.images.isNotEmpty
                     ? product.images.first
                     : AppImages.cartProduct;
 
-                return SellioProductVerticalCard(
-                  key: ValueKey(product.id),
+                return CustomerProductCard(
+                  cardKey: ValueKey(product.id),
                   productId: product.id,
                   imageUrl: imageUrl,
                   title: product.title,
-                  price: product.minPrice.toString(),
+                  formattedPrice: product.minPrice.toString(),
+                  rawPrice: double.tryParse(product.minPrice
+                          .toString()
+                          .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                      0.0,
+                  currency: 'EGP',
                   isFavorite: product.isFavorite,
                   onFavoriteToggle: () {
-                    context.read<FavoritesCubit>().toggleFavorite(product.id, FavoriteType.product);
+                    context
+                        .read<FavoritesCubit>()
+                        .toggleFavorite(product.id, FavoriteType.product);
                   },
                   onTap: () {
                     GoRouter.of(context).push(
@@ -135,13 +144,14 @@ class _MoreTrendingContent extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 160 / 200,
+              childAspectRatio: 0.72,
             ),
           );
         },
       ),
     );
   }
+
   Widget _buildLoadingMore() {
     return const SliverToBoxAdapter(
       child: Padding(

@@ -41,17 +41,18 @@ class LogoutBottomSheet extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             SellioButton(
-              text: isLoading
-                  ? context.local.logging_out
-                  : context.local.logout,
+              text:
+                  isLoading ? context.local.logging_out : context.local.logout,
               backgroundColor: context.theme.colors.errorVariant,
               suffixIconColor: context.theme.colors.red,
-              onTap: isLoading ? null : () async {
-                await context.read<AuthenticationCubit>().logout();
-                onLogout();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
+              onTap: isLoading
+                  ? null
+                  : () async {
+                      await context.read<AuthenticationCubit>().logout();
+                      onLogout();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
               textColor: context.theme.colors.red,
               verticalPadding: 13,
               isEnabled: !isLoading,

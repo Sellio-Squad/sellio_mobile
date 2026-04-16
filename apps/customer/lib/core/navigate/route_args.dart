@@ -7,9 +7,7 @@ class ProductDetailsArgs {
 }
 
 class StoreDetailsArgs {
-  StoreDetailsArgs({
-    required this.storeId
-  });
+  StoreDetailsArgs({required this.storeId});
 
   final String storeId;
 }

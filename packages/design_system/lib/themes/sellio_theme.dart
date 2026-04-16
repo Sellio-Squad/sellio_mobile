@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'sellio_colors.dart';
 import 'sellio_typography.dart';
 
-
-
 class SellioTheme extends InheritedWidget {
   final Brightness brightness;
   final SellioColorScheme colors;

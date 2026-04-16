@@ -222,6 +222,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
       _focusNode.unfocus();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
@@ -246,7 +247,6 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
     );
   }
 }
-
 
 class SellioPickerItem<T> {
   final T value;

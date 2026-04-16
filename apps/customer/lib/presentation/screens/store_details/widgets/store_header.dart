@@ -74,7 +74,7 @@ class StoreHeader extends StatelessWidget {
             ),
 
             // Discount Tag
-            if(discount.isNotEmpty) _buildDiscountTag(),
+            if (discount.isNotEmpty) _buildDiscountTag(),
           ],
         ),
 
@@ -94,14 +94,15 @@ class StoreHeader extends StatelessWidget {
         ),
 
         // info section
-        Padding(padding: const EdgeInsets.symmetric(horizontal: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _buildInfoSection(context),
         ),
       ],
     );
   }
 
-  Widget _buildDiscountTag(){
+  Widget _buildDiscountTag() {
     return Positioned(
       bottom: 16,
       right: 24,
@@ -112,7 +113,7 @@ class StoreHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoSection(BuildContext context){
+  Widget _buildInfoSection(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -139,7 +140,8 @@ class StoreHeader extends StatelessWidget {
                 children: [
                   Text(
                     rating.toString(),
-                    style: context.theme.typography.textTheme.labelMedium.copyWith(
+                    style:
+                        context.theme.typography.textTheme.labelMedium.copyWith(
                       color: context.theme.colors.body,
                     ),
                   ),

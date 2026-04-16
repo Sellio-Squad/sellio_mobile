@@ -31,7 +31,8 @@ class CreateAccountListeners extends StatelessWidget {
     );
   }
 
-  void _navigateToOtpScreen(BuildContext context, RegistrationOtpRequired state) {
+  void _navigateToOtpScreen(
+      BuildContext context, RegistrationOtpRequired state) {
     final cubit = context.read<RegistrationCubit>();
 
     Navigator.push(
@@ -53,7 +54,8 @@ class CreateAccountListeners extends StatelessWidget {
   }
 
   void _handleSuccess(BuildContext context) {
-    SnackBarHelper.showSuccess(context, context.local.account_created_successfully);
+    SnackBarHelper.showSuccess(
+        context, context.local.account_created_successfully);
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (context.mounted) {
         context.navigator.goToHome();

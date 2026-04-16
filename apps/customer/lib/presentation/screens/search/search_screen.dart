@@ -66,7 +66,6 @@ class _SearchViewState extends State<_SearchView> {
               );
             },
           ),
-
           BlocBuilder<SearchCubit, SearchState>(
             builder: (context, state) {
               return SliverToBoxAdapter(
@@ -74,11 +73,9 @@ class _SearchViewState extends State<_SearchView> {
                   SearchInitial() => SellioInitialSearch(
                       title: context.local.start_exploring_your_favorite_items,
                     ),
-
                   SearchLoading() => state.selectedType == SearchType.products
                       ? ProductsListShimmerVertical()
                       : const TopStoresShimmer(itemCount: 10),
-
                   SearchRecent(:final recentSearches) => SellioRecentSearches(
                       recentSearches: recentSearches,
                       title: context.local.recent_searches,
@@ -89,13 +86,13 @@ class _SearchViewState extends State<_SearchView> {
                         context.read<SearchCubit>().selectRecent(text);
                       },
                     ),
-
-                  SearchProductsSuccess() || SearchStoresSuccess() =>
-                      SuccessSearch(state: state),
-
+                  SearchProductsSuccess() ||
+                  SearchStoresSuccess() =>
+                    SuccessSearch(state: state),
                   SearchEmpty() => SellioSearchEmptyState(
                       title: context.local.no_results_found,
-                      subtitle: context.local.please_check_your_spelling_or_try_a_different_search,
+                      subtitle: context.local
+                          .please_check_your_spelling_or_try_a_different_search,
                       topWidget: const CategorySection(),
                     ),
                   _ => const SizedBox.shrink(),

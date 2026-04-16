@@ -15,9 +15,8 @@ enum PhoneValidationError implements ValidationError {
   String toLocalizedString(BuildContext context) {
     return switch (this) {
       PhoneValidationError.minLength =>
-      context.local.phone_number_must_be_at_least_10_digits,
-      PhoneValidationError.digitsOnly =>
-      context.local.phone_number_digits_only,
+        context.local.phone_number_must_be_at_least_10_digits,
+      PhoneValidationError.digitsOnly => context.local.phone_number_digits_only,
     };
   }
 }
@@ -32,11 +31,11 @@ enum PasswordValidationError implements ValidationError {
   String toLocalizedString(BuildContext context) {
     return switch (this) {
       PasswordValidationError.minLength =>
-      context.local.password_min_6_characters,
+        context.local.password_min_6_characters,
       PasswordValidationError.maxLength =>
-      context.local.password_max_20_characters,
+        context.local.password_max_20_characters,
       PasswordValidationError.passwordsDoNotMatch =>
-      context.local.passwords_do_not_match,
+        context.local.passwords_do_not_match,
     };
   }
 }
@@ -50,9 +49,9 @@ enum FullNameValidationError implements ValidationError {
   String toLocalizedString(BuildContext context) {
     return switch (this) {
       FullNameValidationError.minLength =>
-      context.local.full_name_at_least_2_characters,
+        context.local.full_name_at_least_2_characters,
       FullNameValidationError.lettersOnly =>
-      context.local.full_name_letters_only,
+        context.local.full_name_letters_only,
     };
   }
 }
@@ -65,10 +64,8 @@ enum CityValidationError implements ValidationError {
   @override
   String toLocalizedString(BuildContext context) {
     return switch (this) {
-      CityValidationError.minLength =>
-      context.local.city_at_least_2_characters,
-      CityValidationError.lettersOnly =>
-      context.local.city_letters_only,
+      CityValidationError.minLength => context.local.city_at_least_2_characters,
+      CityValidationError.lettersOnly => context.local.city_letters_only,
     };
   }
 }

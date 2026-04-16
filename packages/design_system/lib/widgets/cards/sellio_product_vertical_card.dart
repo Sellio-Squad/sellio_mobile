@@ -4,8 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../sellio_remote_image.dart';
 
-// Frosted-glass tint used by the favourite button overlay.
-const Color _kFrostedWhite = Color(0x99FFFFFF);
+abstract class _Colors {
+  static const Color frostedWhite = Color(0x99FFFFFF);
+}
 
 abstract class _Dimensions {
   static const double cardRadius = 12;
@@ -14,6 +15,10 @@ abstract class _Dimensions {
   static const double iconButtonSize = 32;
   static const double contentPadding = 10;
   static const double overlayPadding = 10;
+  static const double spacingSmall = 6;
+  static const double spacingMedium = 8;
+  static const double spacingLarge = 10;
+  static const double thumbnailSeparator = 5;
   static const double smallRadius = 4;
   static const double mediumRadius = 6;
   static const double buttonRadius = 8;
@@ -36,8 +41,6 @@ class SellioProductVerticalCard extends StatefulWidget {
   final String imageUrl;
   final String title;
   final String price;
-  final String productId;
-
   // ── Optional – gallery ────────────────────────────────────────────────────
   final List<String>? thumbnailImages;
   final int selectedThumbnailIndex;
@@ -69,7 +72,6 @@ class SellioProductVerticalCard extends StatefulWidget {
     required this.imageUrl,
     required this.title,
     required this.price,
-    required this.productId,
     this.thumbnailImages,
     this.selectedThumbnailIndex = 0,
     this.onThumbnailSelected,
@@ -91,36 +93,19 @@ class SellioProductVerticalCard extends StatefulWidget {
       _SellioProductVerticalCardState();
 }
 
-class _SellioProductVerticalCardState
-    extends State<SellioProductVerticalCard> {
-  late int _selectedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.selectedThumbnailIndex;
-  }
-
-  @override
-  void didUpdateWidget(covariant SellioProductVerticalCard old) {
-    super.didUpdateWidget(old);
-    if (old.selectedThumbnailIndex != widget.selectedThumbnailIndex) {
-      _selectedIndex = widget.selectedThumbnailIndex;
-    }
-  }
-
+class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
   String get _activeImageUrl {
     final thumbs = widget.thumbnailImages;
     if (thumbs != null && thumbs.isNotEmpty) {
-      final clampedIndex = _selectedIndex.clamp(0, thumbs.length - 1);
+      final maxIndex = thumbs.length - 1;
+      final clampedIndex = widget.selectedThumbnailIndex.clamp(
+        0,
+        maxIndex.clamp(0, maxIndex),
+      );
       return thumbs[clampedIndex];
     }
     return widget.imageUrl;
   }
-
-  void _handleAddToCart() => widget.onAddToCart?.call();
-  void _handleIncrement() => widget.onIncrement?.call();
-  void _handleDecrement() => widget.onDecrement?.call();
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +118,13 @@ class _SellioProductVerticalCardState
 
     return Material(
       color: colors.surfaceLow,
-      borderRadius: BorderRadius.circular(_Dimensions.cardRadius),
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: colors.stroke, width: 1),
+        borderRadius: BorderRadius.circular(_Dimensions.cardRadius),
+      ),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: widget.onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +163,7 @@ class _SellioProductVerticalCardState
                   if (widget.thumbnailImages != null &&
                       widget.thumbnailImages!.isNotEmpty) ...[
                     _buildThumbnailStrip(colors),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: _Dimensions.spacingMedium),
                   ],
 
                   Text(
@@ -198,13 +187,24 @@ class _SellioProductVerticalCardState
                     ),
                   ],
 
-                  const SizedBox(height: 6),
-                  _buildPriceRow(colors, textTheme),
-                  const SizedBox(height: 10),
-
-                  showCounter
-                      ? _buildCounter(colors, textTheme, effectiveCount)
-                      : _buildAddToCartButton(),
+                  const SizedBox(height: _Dimensions.spacingSmall),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: _buildPriceRow(colors, textTheme)),
+                      if (showCounter)
+                        RepaintBoundary(
+                          child: _buildCounter(
+                            colors,
+                            textTheme,
+                            effectiveCount,
+                          ),
+                        )
+                      else
+                        _buildAddToCartButton(colors),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -219,26 +219,33 @@ class _SellioProductVerticalCardState
       fit: StackFit.expand,
       children: [
         SellioRemoteImage(
+          key: ValueKey(_activeImageUrl),
           imageUrl: _activeImageUrl,
           width: double.infinity,
           fit: BoxFit.cover,
         ),
         if (widget.isOutOfStock)
           ColoredBox(
-            color: theme.colors.surfaceHigh.withValues(alpha: 0.7),
+            color: theme.colors.surfaceHigh.withOpacity(0.7),
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 8, vertical: 4),
+                  horizontal: _Dimensions.spacingMedium,
+                  vertical: _Dimensions.smallRadius,
+                ),
                 decoration: BoxDecoration(
-                  color: theme.colors.title.withValues(alpha: 0.8),
+                  color: theme.colors.title.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(_Dimensions.smallRadius),
                 ),
-                child: Text(
-                  _Strings.outOfStock,
-                  style: theme.typography.textTheme.labelSmall
-                      .copyWith(color: theme.colors.onPrimary),
-                  textAlign: TextAlign.center,
+                child: Semantics(
+                  label: _Strings.outOfStock,
+                  child: Text(
+                    _Strings.outOfStock,
+                    style: theme.typography.textTheme.labelSmall.copyWith(
+                      color: theme.colors.onPrimary,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
@@ -254,12 +261,13 @@ class _SellioProductVerticalCardState
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: thumbs.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 5),
+        separatorBuilder: (_, _) =>
+            const SizedBox(width: _Dimensions.thumbnailSeparator),
         itemBuilder: (context, index) {
-          final isSelected = index == _selectedIndex;
+          final isSelected = index == widget.selectedThumbnailIndex;
           return GestureDetector(
+            behavior: HitTestBehavior.opaque,
             onTap: () {
-              setState(() => _selectedIndex = index);
               widget.onThumbnailSelected?.call(index);
             },
             child: AnimatedContainer(
@@ -313,42 +321,69 @@ class _SellioProductVerticalCardState
     );
   }
 
-  Widget _buildAddToCartButton() {
-    return SellioButton(
-      text: _Strings.addToCart,
-      onTap: widget.isOutOfStock ? null : _handleAddToCart,
-      prefixSvgPath: AppImages.cart,
-      verticalPadding: 10,
-      horizontalPadding: 8,
-      fullWidth: true,
-      borderRadius: _Dimensions.buttonRadius,
+  Widget _buildAddToCartButton(SellioColorScheme colors) {
+    return Semantics(
+      label: widget.isOutOfStock ? _Strings.outOfStock : _Strings.addToCart,
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: widget.isOutOfStock ? null : widget.onAddToCart,
+        child: Container(
+          width: _Dimensions.iconButtonSize,
+          height: _Dimensions.iconButtonSize,
+          decoration: BoxDecoration(
+            color: widget.isOutOfStock ? colors.disabled : colors.primary,
+            shape: BoxShape.circle,
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Center(
+            child: SvgPicture.asset(
+              AppImages.cartSmall,
+              colorFilter: ColorFilter.mode(
+                widget.isOutOfStock ? colors.hint : colors.onPrimary,
+                BlendMode.srcIn,
+              ),
+              width: _Dimensions.iconSize,
+              height: _Dimensions.iconSize,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildCounter(
-      SellioColorScheme colors, SellioTextTheme textTheme, int effectiveCount) {
-    return Container(
-      width: double.infinity,
-      height: _Dimensions.counterHeight,
-      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+    SellioColorScheme colors,
+    SellioTextTheme textTheme,
+    int effectiveCount,
+  ) {
+    return SizedBox(
+      height: _Dimensions.iconButtonSize,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildCounterButton(
             icon: effectiveCount == 1 ? AppImages.delete : AppImages.remove,
             iconColor: colors.body,
             bgColor: colors.surface,
-            onTap: _handleDecrement,
+            onTap: widget.onDecrement,
+            semanticLabel: 'Decrease quantity',
           ),
-          Text(
-            effectiveCount.toString().padLeft(2, '0'),
-            style: textTheme.labelMedium.copyWith(color: colors.title),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              effectiveCount.toString().padLeft(2, '0'),
+              style: textTheme.labelMedium.copyWith(color: colors.title),
+            ),
           ),
           _buildCounterButton(
             icon: AppImages.add,
             iconColor: colors.primary,
             bgColor: colors.primaryVariant,
-            onTap: _handleIncrement,
+            onTap: widget.onIncrement,
+            semanticLabel: 'Increase quantity',
           ),
         ],
       ),
@@ -360,19 +395,22 @@ class _SellioProductVerticalCardState
     required Color iconColor,
     required Color bgColor,
     required VoidCallback? onTap,
+    required String semanticLabel,
   }) {
-    return Container(
-      width: _Dimensions.iconButtonSize,
-      height: _Dimensions.iconButtonSize,
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(_Dimensions.mediumRadius),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: onTap,
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          width: _Dimensions.iconButtonSize,
+          height: _Dimensions.iconButtonSize,
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(_Dimensions.mediumRadius),
+          ),
+          clipBehavior: Clip.antiAlias,
           child: Center(
             child: SvgPicture.asset(
               icon,
@@ -389,13 +427,11 @@ class _SellioProductVerticalCardState
 
   Widget _buildFavoriteButton(SellioColorScheme colors) {
     return Semantics(
-      label: widget.isFavorite
-          ? _Strings.removeFavorite
-          : _Strings.addFavorite,
+      label: widget.isFavorite ? _Strings.removeFavorite : _Strings.addFavorite,
       button: true,
       child: ClipOval(
         child: ColoredBox(
-          color: _kFrostedWhite,
+          color: _Colors.frostedWhite,
           child: SizedBox(
             width: _Dimensions.iconButtonSize,
             height: _Dimensions.iconButtonSize,

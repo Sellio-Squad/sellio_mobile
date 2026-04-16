@@ -37,24 +37,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<RegisterResponse> register({
-    required String fullName,
-    required String phoneNumber,
-    required String password,
-    required String city,
-    required String country,
-    required String region,
-    required String countryCode
-  }) async {
+  Future<RegisterResponse> register(
+      {required String fullName,
+      required String phoneNumber,
+      required String password,
+      required String city,
+      required String country,
+      required String region,
+      required String countryCode}) async {
     final request = RegisterRequest(
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      password: password,
-      city: city,
-      country: country,
-      region: region,
-      countryCode: countryCode
-    );
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        password: password,
+        city: city,
+        country: country,
+        region: region,
+        countryCode: countryCode);
 
     final response = await _apiClient.post(
       ApiEndpoints.register,

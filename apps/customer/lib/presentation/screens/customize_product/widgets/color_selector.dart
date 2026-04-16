@@ -43,12 +43,12 @@ class ColorSelector extends StatelessWidget {
                   height: 36,
                   decoration: isSelected
                       ? BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: SellioColors.light.surfaceLow,
-                      width: 1,
-                    ),
-                  )
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: SellioColors.light.surfaceLow,
+                            width: 1,
+                          ),
+                        )
                       : null,
                   child: Container(
                     decoration: BoxDecoration(

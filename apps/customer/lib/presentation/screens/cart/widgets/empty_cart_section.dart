@@ -52,10 +52,10 @@ class EmptyCartSection extends StatelessWidget {
   }
 
   Widget _buildButton(
-      BuildContext context,
-      dynamic textTheme,
-      dynamic colors,
-      ) {
+    BuildContext context,
+    dynamic textTheme,
+    dynamic colors,
+  ) {
     return SellioButton(
       text: context.local.empty_cart_button,
       fullWidth: false,

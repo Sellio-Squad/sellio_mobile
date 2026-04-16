@@ -8,8 +8,8 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -38,7 +38,6 @@ class _OrderConfirmationContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-
           Container(
             width: 40,
             height: 4,
@@ -48,11 +47,8 @@ class _OrderConfirmationContent extends StatelessWidget {
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-
           _buildIcon(colors),
-
           const Gap(24),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -83,8 +79,6 @@ class _OrderConfirmationContent extends StatelessWidget {
             ),
             maxLines: 2,
           ),
-
-
           const Gap(24),
           _buildBackButton(context, theme),
         ],
