@@ -176,7 +176,7 @@ class ProductRepositoryImpl implements ProductRepository {
         page: page - 1,
         pageSize: limit,
       );
-      print('product list: repo impl(2)-> ${paginatedResponse}');
+      print('product list: repo impl(2)-> $paginatedResponse');
       return paginatedResponse.data.map((model) => model.toEntity()).toList();
     });
   }

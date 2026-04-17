@@ -9,7 +9,6 @@ import '../../../domain/repositories/product_repository.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import 'cubit/more_trending_cubit.dart';
 import 'cubit/more_trending_state.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../widgets/customer_product_card.dart';
 
 class MoreTrendingScreen extends StatefulWidget {

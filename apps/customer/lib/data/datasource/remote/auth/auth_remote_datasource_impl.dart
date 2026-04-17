@@ -6,7 +6,6 @@ import '../../../models/auth/login_request.dart';
 import '../../../models/auth/login_response.dart';
 import '../../../models/auth/register_request.dart';
 import '../../../models/auth/register_response.dart';
-import '../../../models/auth/resend_otp_request.dart';
 import '../../../models/auth/resend_otp_response.dart';
 import '../../../models/auth/reset_password_request.dart';
 import '../../../models/auth/verify_otp_request.dart';

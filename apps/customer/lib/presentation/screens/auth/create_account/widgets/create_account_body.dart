@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/sellio_picker_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';

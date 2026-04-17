@@ -158,10 +158,10 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
             const SizedBox(width: 12),
             Text(
               languageName,
-              style: context.theme.typography.textTheme.labelLarge?.copyWith(
+              style: context.theme.typography.textTheme.labelLarge.copyWith(
                 color: isSelected
                     ? context.theme.colors.primary
-                    : context.theme.typography.textTheme.labelLarge?.color,
+                    : context.theme.typography.textTheme.labelLarge.color,
               ),
             ),
           ],

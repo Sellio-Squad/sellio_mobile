@@ -15,8 +15,6 @@ import '../../widgets/customer_product_card.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
 import 'widgets/category_tabs.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 
 class ThriftScreen extends StatefulWidget {
   const ThriftScreen({super.key});

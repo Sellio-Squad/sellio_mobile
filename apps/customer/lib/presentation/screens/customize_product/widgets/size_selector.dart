@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
-import 'package:design_system/design_system.dart';
 import '../cubit/design_editor_state.dart';
 
 class SizeSelector extends StatelessWidget {

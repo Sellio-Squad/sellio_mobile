@@ -5,8 +5,6 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_state.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../../di/injection_container.dart';
 import '../../../domain/repositories/category_details_repository.dart';
 import '../home/utils/home_navigation.dart';

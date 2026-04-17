@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
 
-import 'package:design_system/design_system.dart';
-
 class PriceQuantityRow extends StatelessWidget {
   final double price;
   final double oldPrice;

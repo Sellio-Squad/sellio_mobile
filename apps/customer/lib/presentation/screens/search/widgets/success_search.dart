@@ -4,9 +4,6 @@ import 'package:sellio_mobile/presentation/screens/search/widgets/category_secti
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store.dart';
 import '../cubit/search_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../../widgets/customer_product_card.dart';
 
 class SuccessSearch extends StatelessWidget {

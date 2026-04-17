@@ -2,11 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:design_system/design_system.dart';
 
 class UploadLogoSection extends StatefulWidget {
   final Function(File?) onImageSelected;

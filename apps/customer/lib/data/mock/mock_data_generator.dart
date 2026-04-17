@@ -1,6 +1,5 @@
 import 'dart:math';
 import '../../domain/entities/address.dart';
-import '../../domain/entities/cart.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/notification.dart';
 import '../../domain/entities/order.dart';

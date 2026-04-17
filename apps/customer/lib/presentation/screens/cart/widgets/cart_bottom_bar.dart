@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import '../../../../core/localization/l10n/localization_service.dart';
 import '../../../../core/utils/price_calculator.dart';
 import '../constants/cart_constants.dart';

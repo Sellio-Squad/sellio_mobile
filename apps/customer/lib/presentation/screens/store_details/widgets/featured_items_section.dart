@@ -8,7 +8,6 @@ import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../cubits/favorites/cubit/favorites_state.dart';
-import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
 import '../../../widgets/customer_product_card.dart';
 
 class FeaturedItemsSection extends StatelessWidget {

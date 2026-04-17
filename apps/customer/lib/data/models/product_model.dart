@@ -154,8 +154,9 @@ class ProductModel with _$ProductModel {
   static String _extractCategoryId(Map<String, dynamic> json) {
     final direct =
         json['categoryId'] ?? json['category_id'] ?? json['categoryID'];
-    if (direct != null && direct.toString().isNotEmpty)
+    if (direct != null && direct.toString().isNotEmpty) {
       return direct.toString();
+    }
 
     final subCategories = json['subCategoryIds'] ??
         json['subCategoriesIds'] ??

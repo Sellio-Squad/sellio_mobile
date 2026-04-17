@@ -28,11 +28,11 @@ class ProductSummaryModel with _$ProductSummaryModel {
 
   ProductSummaryUIModel toUIModel() {
     return ProductSummaryUIModel(
-      id: this.id,
-      title: this.title,
-      price: this.price.toString(),
-      imageUrl: this.image.isNotEmpty ? this.image : AppImages.cartProduct,
-      isFavorite: this.isFavorite,
+      id: id,
+      title: title,
+      price: price.toString(),
+      imageUrl: image.isNotEmpty ? image : AppImages.cartProduct,
+      isFavorite: isFavorite,
     );
   }
 }

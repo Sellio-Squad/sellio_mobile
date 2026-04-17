@@ -23,7 +23,7 @@ extension StoreModelMapper on StoreModel {
         contactInfoList:
             contactInfoList?.map((e) => e.toEntity()).toList() ?? [],
         categories: subCategories.map((e) => e.toEntity()).toList(),
-        reviews: reviews?.map((e) => e.toEntity()).toList() ?? [],
+        reviews: reviews.map((e) => e.toEntity()).toList() ?? [],
         isActive: isActive ?? false,
         isFavorite: isFavorite ?? false,
       );

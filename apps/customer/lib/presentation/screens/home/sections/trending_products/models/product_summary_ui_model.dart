@@ -1,4 +1,3 @@
-import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
 
 class ProductSummaryUIModel {

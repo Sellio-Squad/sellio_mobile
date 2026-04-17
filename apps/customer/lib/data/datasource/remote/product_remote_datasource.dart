@@ -119,7 +119,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         'size': pageSize,
       },
     );
-    print('product list: dataSource impl(1)-> ${response}');
+    print('product list: dataSource impl(1)-> $response');
 
     return PaginatedResponse.fromJson(
       response.data,

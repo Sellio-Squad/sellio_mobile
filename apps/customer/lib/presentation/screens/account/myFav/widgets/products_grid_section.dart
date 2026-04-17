@@ -1,4 +1,3 @@
-import 'package:design_system/widgets/cards/sellio_product_vertical_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../domain/entities/product.dart';

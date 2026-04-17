@@ -70,7 +70,7 @@ class OtpCubit extends Cubit<OtpState> {
         timer.cancel();
       }
 
-      final current = this.state;
+      final current = state;
       if (current is OtpIdle) {
         emit(current.copyWith(
           countdown: _liveCountdown.clamp(0, countdownDuration),

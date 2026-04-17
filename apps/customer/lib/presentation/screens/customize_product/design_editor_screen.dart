@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import 'cubit/design_editor_cubit.dart';
 import 'cubit/design_editor_state.dart';
 import 'widgets/product_image.dart';
