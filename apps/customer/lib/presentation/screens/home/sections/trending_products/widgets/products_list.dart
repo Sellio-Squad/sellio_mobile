@@ -21,6 +21,12 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width - 32; // horizontal padding 16*2
+    const baseCardWidth = 170.0;
+    final crossAxisCount = (screenWidth / baseCardWidth).floor().clamp(1, 6);
+    final cardWidth = (screenWidth - (crossAxisCount - 1) * 8) / crossAxisCount;
+    final cardHeight = cardWidth / 0.72;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -55,7 +61,7 @@ class ProductsList extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 236,
+            height: cardHeight,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -65,7 +71,7 @@ class ProductsList extends StatelessWidget {
                 final product = products[index];
 
                 return SizedBox(
-                  width: 170,
+                  width: cardWidth,
                   child: _ProductItem(product: product),
                 );
               },

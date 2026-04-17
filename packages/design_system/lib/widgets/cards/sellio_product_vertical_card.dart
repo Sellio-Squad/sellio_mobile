@@ -188,11 +188,11 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   ],
 
                   const SizedBox(height: _Dimensions.spacingSmall),
+                  _buildPriceRow(colors, textTheme),
+                  const SizedBox(height: _Dimensions.spacingMedium),
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Expanded(child: _buildPriceRow(colors, textTheme)),
                       if (showCounter)
                         RepaintBoundary(
                           child: _buildCounter(
@@ -303,17 +303,25 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
       textBaseline: TextBaseline.alphabetic,
       children: [
         // Trusting caller formats currency directly moving forward
-        Text(
-          widget.price,
-          style: textTheme.titleSmall.copyWith(color: colors.primary),
+        Flexible(
+          child: Text(
+            widget.price,
+            style: textTheme.titleSmall.copyWith(color: colors.primary),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
         if (widget.originalPrice != null) ...[
           const SizedBox(width: 6),
-          Text(
-            widget.originalPrice!,
-            style: textTheme.labelXSmall.copyWith(
-              color: colors.hint,
-              decoration: TextDecoration.lineThrough,
+          Flexible(
+            child: Text(
+              widget.originalPrice!,
+              style: textTheme.labelXSmall.copyWith(
+                color: colors.hint,
+                decoration: TextDecoration.lineThrough,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
