@@ -45,7 +45,7 @@ class ThriftProductsState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
       categories: categories ?? this.categories,
-      selectedCategoryId: selectedCategoryId,
+      selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       errorMessage: errorMessage,
     );
   }
