@@ -2,7 +2,6 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_state.dart';
@@ -59,8 +58,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  // ---------------- BODY ----------------
-
   Widget _buildBody(BuildContext context, StoreDetailsState state) {
     if (state is StoreDetailsLoading || state is StoreDetailsInitial) {
       return const StoreDetailsShimmer();
@@ -91,12 +88,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     return const SizedBox.shrink();
   }
 
-  // ---------------- APP BAR ----------------
-
-  PreferredSizeWidget _buildAppBar(
-    BuildContext context,
-    StoreDetailsState state,
-  ) {
+  PreferredSizeWidget _buildAppBar(BuildContext context,
+      StoreDetailsState state,) {
     final isLoading = state is StoreDetailsLoading;
     final storeName = state is StoreDetailsLoaded ? state.store.name : '';
     final storeId = state is StoreDetailsLoaded ? state.store.id : '';
@@ -124,7 +117,6 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
         if (prev is FavoritesLoaded && curr is FavoritesLoaded) {
           return prev.favoriteStoreIds != curr.favoriteStoreIds;
         }
-
         return curr is FavoritesLoaded;
       },
       builder: (context, favState) {
@@ -182,10 +174,8 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
     );
   }
 
-  Widget _buildProductsList(
-    List<Product> products,
-    List<Category> categories,
-  ) {
+  Widget _buildProductsList(List<Product> products,
+      List<Category> categories,) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, cartState) {
         return SliverPadding(
