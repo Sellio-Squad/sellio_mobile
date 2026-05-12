@@ -1,0 +1,12 @@
+<svg viewBox="10 18 56 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 40V20" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+    <path d="M12 26L18 20L24 26" stroke="currentColor" stroke-width="3" stroke-linecap="round"
+        stroke-linejoin="round" />
+
+    <text x="26" y="38" font-family="Arial, sans-serif" font-size="22" font-weight="700"
+        fill="currentColor">UP
+    </text>
+    <text x="52" y="42" font-family="Arial, sans-serif" font-size="14" font-weight="500"
+        fill="currentColor">to
+    </text>
+</svg>

@@ -1,7 +1,7 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:design_system/design_system.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import '../../../../core/navigate/route_args.dart';
@@ -79,25 +79,19 @@ class _FeaturedProductCard extends StatelessWidget {
           isFavorite = state.favoriteProductIds.contains(product.id);
         }
 
-        return CustomerProductCard(
-          productId: product.id,
+        return SellioProductVerticalCard(
           imageUrl: product.images.isNotEmpty
               ? product.images.first
               : AppImages.cartProduct,
           title: product.title,
-          formattedPrice: '\$${product.minPrice}',
-          rawPrice: double.tryParse(product.minPrice
-                  .toString()
-                  .replaceAll(RegExp(r'[^\d.]'), '')) ??
-              0.0,
-          currency: product.currency ?? 'EGP',
+          price: '\$${product.minPrice}',
           isFavorite: isFavorite,
           onFavoriteToggle: () {
-            context
-                .read<FavoritesCubit>()
-                .toggleFavorite(product.id, FavoriteType.product);
+            context.read<FavoritesCubit>().toggleFavorite(
+                  product.id,
+                  FavoriteType.product,
+                );
           },
-          onTap: () {},
         );
       },
     );

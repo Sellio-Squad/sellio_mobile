@@ -1,6 +1,6 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:design_system/design_system.dart';
 
 class StoreDiscountTag extends StatelessWidget {
   final String discount;
@@ -16,29 +16,33 @@ class StoreDiscountTag extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(
               top: 2,
-              left: 12,
-              right: 12,
+              left: 6,
+              right: 6,
               bottom: 2,
             ),
             child: Align(
               alignment: Alignment.center,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    AppImages.discountIcon,
-                    width: 16,
-                    height: 16,
+                    AppImages.upTo,
+                    width: 24,
+                    height: 12,
+                    fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
                       context.theme.colors.secondary,
                       BlendMode.srcIn,
                     ),
                   ),
-                  const SizedBox(width: 4),
+                  const SizedBox(width: 2),
                   Text(
                     '$discount%',
-                    style: context.theme.typography.textTheme.labelSmall
-                        .copyWith(color: context.theme.colors.secondary),
+                    style:
+                        context.theme.typography.textTheme.labelSmall.copyWith(
+                      color: context.theme.colors.secondary,
+                    ),
                   ),
                 ],
               ),
