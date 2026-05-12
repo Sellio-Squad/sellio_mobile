@@ -92,8 +92,11 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
   }
 
   Future<void> selectCategory(String? categoryId) async {
-    emit(state.copyWith(selectedCategoryId: categoryId));
+    emit(state.copyWith(
+      selectedCategoryId: categoryId,
+      isLoading: true,
+      items: [],
+    ));
     await loadThriftProducts(categoryId: categoryId);
   }
 }
-

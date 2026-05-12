@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_loadingMore_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_shimmer.dart';
 import '../../../../domain/repositories/category_repository.dart';
@@ -139,7 +140,7 @@ class ThriftContent extends StatelessWidget {
             description: context.local.you_can_dicover_more_products,
             buttonText: context.local.start_exploring_more,
             color: context.theme.colors.purpleVariant,
-            onTap: () {},
+            onTap: () => context.navigator.goToHome(),
           ),
         ),
       );
