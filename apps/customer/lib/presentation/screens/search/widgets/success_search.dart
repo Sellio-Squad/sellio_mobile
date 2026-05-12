@@ -64,50 +64,50 @@ class StoreList extends StatelessWidget {
 
 class GridProductsSection extends StatelessWidget {
   final List<Product> products;
+
   const GridProductsSection({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final screenWidth = constraints.maxWidth;
-        const cardWidth = 170.0;
-        final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+    return LayoutBuilder(builder: (context, constraints) {
+      final screenWidth = constraints.maxWidth;
+      const cardWidth = 170.0;
+      final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
 
-        return GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          itemCount: products.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 12,
-            childAspectRatio: 0.72,
-          ),
-          itemBuilder: (context, index) {
-            final product = products[index];
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.72,
+        ),
+        itemBuilder: (context, index) {
+          final product = products[index];
 
-        return SellioProductVerticalCard(
-          productId: product.id,
-          imageUrl: product.images.isNotEmpty
-              ? product.images.first
-              : AppImages.cartProduct,
-          title: product.title,
-          price: "${product.currency}${product.minPrice}",
-          onTap: () => {
-            context.navigator.pushProductDetails(
-              ProductDetailsArgs(productId: product.id),
-            ),
-          },
-          isFavorite: product.isFavorite,
-          onFavoriteToggle: () {
-            context
-                .read<FavoritesCubit>()
-                .toggleFavorite(product.id, FavoriteType.product);
-          },
-        );
-      },
-    );
+          return SellioProductVerticalCard(
+            imageUrl: product.images.isNotEmpty
+                ? product.images.first
+                : AppImages.cartProduct,
+            title: product.title,
+            price: "${product.currency}${product.minPrice}",
+            onTap: () => {
+              context.navigator.pushProductDetails(
+                ProductDetailsArgs(productId: product.id),
+              ),
+            },
+            isFavorite: product.isFavorite,
+            onFavoriteToggle: () {
+              context
+                  .read<FavoritesCubit>()
+                  .toggleFavorite(product.id, FavoriteType.product);
+            },
+          );
+        },
+      );
+    });
   }
 }
