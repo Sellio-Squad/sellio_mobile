@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_loadingMore_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_shimmer.dart';
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/product_repository.dart';
 import '../../../core/navigate/app_routes.dart';
+import '../../../core/navigate/navigation_extensions.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_state.dart';
@@ -89,6 +91,7 @@ class ThriftContent extends StatelessWidget {
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
+              _buildSearchBar(context, state),
               _buildCategoryTabs(context, state),
               _buildProductsGrid(context, state),
               if (state.isLoadingMore) const ThriftLoadingMoreShimmer(),
@@ -96,6 +99,30 @@ class ThriftContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context, ThriftProductsState state) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: Builder(builder: (context) {
+          return SellioSearchBar(
+            hintText: context.local.search_your_favorite_items,
+            isReadOnly: true,
+            isShowFilterIcon: true,
+            onTextFieldClicked: () => {
+              context.navigator.pushSearch(),
+            },
+            onFilterIconClicked: () {
+              // TODO: Show filter dialog
+            },
+            onTextSubmitted: (text) {
+              context.navigator.pushSearch();
+            },
+          );
+        }),
+      ),
     );
   }
 
@@ -140,7 +167,7 @@ class ThriftContent extends StatelessWidget {
             description: context.local.you_can_dicover_more_products,
             buttonText: context.local.start_exploring_more,
             color: context.theme.colors.purpleVariant,
-            onTap: () {},
+            onTap: () => context.navigator.goToHome(),
           ),
         ),
       );

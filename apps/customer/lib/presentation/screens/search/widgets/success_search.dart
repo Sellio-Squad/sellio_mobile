@@ -1,10 +1,13 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/category_section.dart';
+import '../../../../core/navigate/navigation_extensions.dart';
+import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store.dart';
+import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../cubit/search_cubit.dart';
-import '../../../widgets/customer_product_card.dart';
 
 class SuccessSearch extends StatelessWidget {
   final SearchState state;
@@ -21,7 +24,7 @@ class SuccessSearch extends StatelessWidget {
             GridProductsSection(products: products),
           SearchStoresSuccess(:final stores) => StoreList(stores: stores),
           _ => const SizedBox.shrink(),
-        }
+        },
       ],
     );
   }
@@ -43,6 +46,16 @@ class StoreList extends StatelessWidget {
         return SellioStoreCard(
           imageUrl: store.coverImage,
           title: store.name,
+          isFavorite: store.isFavorite,
+          onLikePressed: () {
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(store.id, FavoriteType.store);
+          },
+          onCardPressed: () {
+            context.navigator
+                .pushStoreDetails(StoreDetailsArgs(storeId: store.id));
+          },
         );
       },
     );
@@ -75,22 +88,23 @@ class GridProductsSection extends StatelessWidget {
           itemBuilder: (context, index) {
             final product = products[index];
 
-            return CustomerProductCard(
-              productId: product.id,
-              imageUrl: product.images.isNotEmpty
-                  ? product.images.first
-                  : AppImages.cartProduct,
-              title: product.title,
-              formattedPrice: "${product.currency ?? ''}${product.minPrice}",
-              rawPrice: double.tryParse(product.minPrice
-                      .toString()
-                      .replaceAll(RegExp(r'[^\d.]'), '')) ??
-                  0.0,
-              currency: product.currency ?? 'EGP',
-              isFavorite: false,
-              onTap: () {}, // No onTap found in previous version, just empty
-              onFavoriteToggle: null,
-            );
+        return SellioProductVerticalCard(
+          productId: product.id,
+          imageUrl: product.images.isNotEmpty
+              ? product.images.first
+              : AppImages.cartProduct,
+          title: product.title,
+          price: "${product.currency}${product.minPrice}",
+          onTap: () => {
+            context.navigator.pushProductDetails(
+              ProductDetailsArgs(productId: product.id),
+            ),
+          },
+          isFavorite: product.isFavorite,
+          onFavoriteToggle: () {
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(product.id, FavoriteType.product);
           },
         );
       },

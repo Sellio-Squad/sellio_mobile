@@ -20,8 +20,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   int _selectedTabIndex = 0;
 
   List<TabInfo> _getTabs(BuildContext context) => [
-        TabInfo(context.local.products, AppImages.product),
-        TabInfo(context.local.stores, AppImages.store),
+        TabInfo(context.local.products),
+        TabInfo(context.local.stores),
       ];
 
   @override
@@ -81,14 +81,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                           final isSelected = _selectedTabIndex == index;
                           final tab = tabs[index];
 
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 6),
-                            child: SellioChip(
-                              label: tab.label,
-                              assetIcon: tab.iconAsset,
-                              selected: isSelected,
-                              onTap: () =>
-                                  setState(() => _selectedTabIndex = index),
+                          return SizedBox(
+                            height: 40,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 6),
+                              child: SellioChip(
+                                label: tab.label,
+                                selected: isSelected,
+                                onTap: () =>
+                                    setState(() => _selectedTabIndex = index),
+                              ),
                             ),
                           );
                         }),
@@ -116,6 +118,5 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
 class TabInfo {
   final String label;
-  final String iconAsset;
-  const TabInfo(this.label, this.iconAsset);
+  const TabInfo(this.label);
 }
