@@ -6,7 +6,8 @@ abstract class CategorySectionRemoteDataSource {
   Future<List<CategorySectionModel>> getActiveSections();
 }
 
-class CategorySectionRemoteDataSourceImpl implements CategorySectionRemoteDataSource {
+class CategorySectionRemoteDataSourceImpl
+    implements CategorySectionRemoteDataSource {
   final ApiClient _httpClient;
 
   CategorySectionRemoteDataSourceImpl(this._httpClient);

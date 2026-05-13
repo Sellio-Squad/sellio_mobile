@@ -54,13 +54,17 @@ class _CustomizeYourProductScreenState
                             children: [
                               Text(
                                 context.local.customize_your_product,
-                                style: Theme.of(context).textTheme.titleLarge
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 context.local.choose_a_product_to_customize_it,
-                                style: Theme.of(context).textTheme.bodyMedium
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
                                     ?.copyWith(color: Colors.grey[600]),
                               ),
                             ],

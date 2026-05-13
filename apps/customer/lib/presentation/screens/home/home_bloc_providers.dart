@@ -24,7 +24,8 @@ class HomeBlocProviders extends StatelessWidget {
           create: (_) => sl<HomeSectionsCubit>()..loadSections(),
         ),
         BlocProvider(
-          create: (_) => sl<HomeTrendingProductsCubit>()..loadTrendingProducts(),
+          create: (_) =>
+              sl<HomeTrendingProductsCubit>()..loadTrendingProducts(),
         ),
         BlocProvider(
           create: (_) => sl<HomeTopStoresCubit>()..loadTopStores(),

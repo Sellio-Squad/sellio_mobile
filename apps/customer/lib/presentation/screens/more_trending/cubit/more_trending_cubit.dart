@@ -52,10 +52,11 @@ class MoreTrendingCubit extends Cubit<MoreTrendingState> {
 
     result.fold(
       onSuccess: (newProducts) {
-        debugPrint('✅ Loaded ${newProducts.length} more products (page $nextPage)');
-        
+        debugPrint(
+            '✅ Loaded ${newProducts.length} more products (page $nextPage)');
+
         final allItems = [...state.items, ...newProducts];
-        
+
         emit(state.copyWith(
           items: allItems,
           isLoadingMore: false,
@@ -77,4 +78,3 @@ class MoreTrendingCubit extends Cubit<MoreTrendingState> {
     await loadTrendingProducts();
   }
 }
-

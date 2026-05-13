@@ -75,7 +75,6 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     }
   }
 
-
   String _formatPhoneNumber(Country country, String phone) {
     String normalized = phone.trim().replaceAll(' ', '');
     if (normalized.startsWith('0')) {

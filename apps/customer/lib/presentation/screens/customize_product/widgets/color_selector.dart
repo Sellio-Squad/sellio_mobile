@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
-import 'package:design_system/design_system.dart';
-
 class ColorSelector extends StatelessWidget {
   final List<Color> colors;
   final int selectedIndex;
@@ -43,12 +41,12 @@ class ColorSelector extends StatelessWidget {
                   height: 36,
                   decoration: isSelected
                       ? BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: SellioColors.light.surfaceLow,
-                      width: 1,
-                    ),
-                  )
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: SellioColors.light.surfaceLow,
+                            width: 1,
+                          ),
+                        )
                       : null,
                   child: Container(
                     decoration: BoxDecoration(

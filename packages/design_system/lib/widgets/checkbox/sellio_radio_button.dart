@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../themes/sellio_colors.dart';
 
-enum RadioState {
-  unchecked,
-  checked,
-  disabled,
-}
+enum RadioState { unchecked, checked, disabled }
 
 class SellioRadioButton extends StatefulWidget {
   final RadioState state;
@@ -33,29 +29,26 @@ class _SellioRadioButtonState extends State<SellioRadioButton> {
     return GestureDetector(
       onTap: isEnabled && widget.onChanged != null
           ? () {
-        if (widget.state == RadioState.unchecked) {
-          widget.onChanged!(RadioState.checked);
-        }
-      }
+              if (widget.state == RadioState.unchecked) {
+                widget.onChanged!(RadioState.checked);
+              }
+            }
           : null,
       child: Container(
         width: widget.size,
         height: widget.size,
         decoration: BoxDecoration(
           color: _getBackgroundColor(colorScheme),
-          border: Border.all(
-            color: _getBorderColor(colorScheme),
-            width: 1.5,
-          ),
+          border: Border.all(color: _getBorderColor(colorScheme), width: 1.5),
           shape: BoxShape.circle,
           boxShadow: widget.state == RadioState.checked
               ? [
-            BoxShadow(
-              color: colorScheme.primary.withOpacity(0.1),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            )
-          ]
+                  BoxShadow(
+                    color: colorScheme.primary.withValues(alpha: 0.1),
+                    blurRadius: 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
               : null,
         ),
         child: _buildInnerCircle(colorScheme),

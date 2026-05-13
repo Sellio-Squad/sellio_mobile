@@ -1,5 +1,4 @@
-
-enum ContactType { email, phone, facebook, whatsapp, website}
+enum ContactType { email, phone, facebook, whatsapp, website }
 
 class ContactInfo {
   final String title;

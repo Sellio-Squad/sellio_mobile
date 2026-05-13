@@ -125,7 +125,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
           border: Border.all(color: colors.stroke, width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -165,7 +165,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           color: isSelected
-                              ? colors.primary.withOpacity(0.1)
+                              ? colors.primary.withValues(alpha: 0.1)
                               : Colors.transparent,
                         ),
                         child: Row(
@@ -222,6 +222,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
       _focusNode.unfocus();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
@@ -246,7 +247,6 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
     );
   }
 }
-
 
 class SellioPickerItem<T> {
   final T value;

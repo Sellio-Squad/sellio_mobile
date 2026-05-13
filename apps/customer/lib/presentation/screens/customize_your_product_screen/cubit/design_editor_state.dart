@@ -68,7 +68,8 @@ class DesignEditorState {
       quantity: quantity ?? this.quantity,
       selectedColorIndex: selectedColorIndex ?? this.selectedColorIndex,
       selectedSizeIndex: selectedSizeIndex ?? this.selectedSizeIndex,
-      overlayImage: clearOverlayImage ? null : (overlayImage ?? this.overlayImage),
+      overlayImage:
+          clearOverlayImage ? null : (overlayImage ?? this.overlayImage),
       availableColors: availableColors ?? this.availableColors,
       availableSizes: availableSizes ?? this.availableSizes,
       price: price ?? this.price,

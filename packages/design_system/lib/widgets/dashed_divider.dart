@@ -24,8 +24,7 @@ class DashedDivider extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final boxWidth = constraints.constrainWidth();
-        final dashCount =
-            (boxWidth / (dashWidth + dashSpacing)).floor();
+        final dashCount = (boxWidth / (dashWidth + dashSpacing)).floor();
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,9 +32,7 @@ class DashedDivider extends StatelessWidget {
             return SizedBox(
               width: dashWidth,
               height: height,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
-              ),
+              child: DecoratedBox(decoration: BoxDecoration(color: color)),
             );
           }),
         );

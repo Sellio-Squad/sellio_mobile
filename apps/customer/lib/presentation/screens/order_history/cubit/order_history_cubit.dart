@@ -6,11 +6,17 @@ import 'order_history_state.dart';
 class OrderHistoryCubit extends Cubit<OrderHistoryState> {
   final OrderRepository _orderRepository;
 
-  final List<OrderStatus?> tabs = [null, OrderStatus.processing, OrderStatus.completed, OrderStatus.cancelled];
+  final List<OrderStatus?> tabs = [
+    null,
+    OrderStatus.processing,
+    OrderStatus.completed,
+    OrderStatus.cancelled
+  ];
   bool _hasAnyOrders = false;
   OrderHistoryCubit(this._orderRepository) : super(const OrderHistoryInitial());
 
-  Future<void> loadOrders({OrderStatus? status, int page = 1, int limit = 20}) async {
+  Future<void> loadOrders(
+      {OrderStatus? status, int page = 1, int limit = 20}) async {
     emit(const OrderHistoryLoading());
 
     final result = await _orderRepository.getOrders(

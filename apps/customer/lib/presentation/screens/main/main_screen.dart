@@ -25,7 +25,6 @@ class _MainScreenState extends State<MainScreen> {
     _currentIndex = widget.screenIndex;
   }
 
-
   final List<Widget> _screens = [
     const HomeScreen(),
     const CartScreen(),

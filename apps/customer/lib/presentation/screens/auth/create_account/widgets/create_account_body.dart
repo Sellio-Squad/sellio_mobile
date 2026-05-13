@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/sellio_picker_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
@@ -66,7 +65,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     _passwordController
         .addListener(() => cubit.updatePassword(_passwordController.text));
     _confirmPasswordController.addListener(
-          () => cubit.updateConfirmPassword(_confirmPasswordController.text),
+      () => cubit.updateConfirmPassword(_confirmPasswordController.text),
     );
 
     _fullNameFocusNode.addListener(() {
@@ -95,7 +94,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
 
     _confirmPasswordFocusNode.addListener(() {
       if (!_confirmPasswordFocusNode.hasFocus) {
-        cubit.validateConfirmPasswordOnFocusLost(_confirmPasswordController.text,);
+        cubit.validateConfirmPasswordOnFocusLost(
+          _confirmPasswordController.text,
+        );
       }
     });
   }
@@ -216,7 +217,6 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
   Widget _buildSubmitButton(BuildContext context) {
     return BlocBuilder<RegistrationCubit, RegistrationState>(
       builder: (context, state) {
-
         final (isEnabled, isLoading) = switch (state) {
           RegistrationIdle(:final isFormValid) => (isFormValid, false),
           RegistrationSubmitting() => (false, true),
@@ -246,7 +246,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                 child: SellioTextField(
                   controller: _fullNameController,
                   hintText: context.local.full_name,
-                  isError: state is RegistrationIdle && state.fullNameError != null,
+                  isError:
+                      state is RegistrationIdle && state.fullNameError != null,
                   errorMessage: state is RegistrationIdle
                       ? state.fullNameError?.toLocalizedString(context)
                       : null,
@@ -275,7 +276,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         if (state is! RegistrationIdle) return const SizedBox();
 
         final cityItems =
-        state.cities.map((city) => SellioPickerItem(city, city)).toList();
+            state.cities.map((city) => SellioPickerItem(city, city)).toList();
 
         return SellioPickerField<String>(
           hintText: context.local.city,
@@ -301,7 +302,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           focusNode: _passwordFocusNode,
           child: SellioTextField(
             textStyle:
-            typography.textTheme.labelSmall.copyWith(color: colors.title),
+                typography.textTheme.labelSmall.copyWith(color: colors.title),
             controller: _passwordController,
             hintText: context.local.password,
             isError: state is RegistrationIdle && state.passwordError != null,
@@ -329,10 +330,11 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           focusNode: _confirmPasswordFocusNode,
           child: SellioTextField(
             textStyle:
-            typography.textTheme.labelSmall.copyWith(color: colors.title),
+                typography.textTheme.labelSmall.copyWith(color: colors.title),
             controller: _confirmPasswordController,
             hintText: context.local.confirm_password,
-            isError: state is RegistrationIdle && state.confirmPasswordError != null,
+            isError:
+                state is RegistrationIdle && state.confirmPasswordError != null,
             errorMessage: state is RegistrationIdle
                 ? state.confirmPasswordError?.toLocalizedString(context)
                 : null,

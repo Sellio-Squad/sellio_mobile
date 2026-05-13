@@ -8,8 +8,8 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-      BuildContext context,
-      ) {
+    BuildContext context,
+  ) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -38,57 +38,63 @@ class _OrderConfirmationContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-
-          Container(
-            width: 40,
-            height: 4,
-            margin: const EdgeInsets.only(bottom: 24),
-            decoration: BoxDecoration(
-              color: colors.stroke,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-
+         _buildBottomSheetDeign(colors),
           _buildIcon(colors),
-
           const Gap(24),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                AppImages.product,
-                width: 18,
-                height: 18,
-                colorFilter: ColorFilter.mode(
-                  colors.title,
-                  BlendMode.srcIn,
-                ),
-              ),
-              const Gap(8),
-              Text(
-                "Order #2002124",
-                style: textTheme.labelMedium.copyWith(
-                  color: colors.title,
-                ),
-              ),
-            ],
-          ),
+          _buildOrderNumber(colors, textTheme),
           const Gap(8),
-          Text(
-            context.local.order_received,
-            textAlign: TextAlign.center,
-            style: textTheme.titleSmall.copyWith(
-              color: colors.title,
-            ),
-            maxLines: 2,
-          ),
-
-
+          _buildOrderReceived(context, colors, textTheme),
           const Gap(24),
           _buildBackButton(context, theme),
         ],
       ),
+    );
+  }
+
+  Widget _buildBottomSheetDeign(dynamic colors) {
+    return Container(
+      width: 40,
+      height: 4,
+      margin: const EdgeInsets.only(bottom: 24),
+      decoration: BoxDecoration(
+        color: colors.stroke,
+        borderRadius: BorderRadius.circular(2),
+      ),
+    );
+          }
+
+  Widget _buildOrderNumber(dynamic colors, dynamic textTheme) {
+         return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SvgPicture.asset(
+          AppImages.product,
+          width: 18,
+          height: 18,
+          colorFilter: ColorFilter.mode(
+            colors.title,
+            BlendMode.srcIn,
+          ),
+        ),
+        const Gap(8),
+        Text(
+          "Order #2002124",
+          style: textTheme.labelMedium.copyWith(
+            color: colors.title,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOrderReceived(BuildContext context, colors, textTheme) {
+    return Text(
+      context.local.order_received,
+      textAlign: TextAlign.center,
+      style: textTheme.titleSmall.copyWith(
+        color: colors.title,
+      ),
+      maxLines: 2,
     );
   }
 
@@ -116,7 +122,10 @@ class _OrderConfirmationContent extends StatelessWidget {
       text: context.local.back_to_shopping,
       textColor: context.theme.colors.primary,
       backgroundColor: context.theme.colors.primaryVariant,
-      onTap: () => context.navigator.goToHome(),
+      onTap: () {
+        context.navigator.pop();
+        context.navigator.goToHome();
+      },
       fullWidth: true,
     );
   }

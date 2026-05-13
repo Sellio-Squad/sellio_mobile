@@ -67,12 +67,10 @@ class TopStoresSection extends StatelessWidget {
               imageUrl: store.imageUrl,
               title: store.name,
               discountText: store.discount,
-              onLikePressed: onLikePressed != null
-                  ? () => onLikePressed!(store.id)
-                  : null,
-              onCardPressed: onCardPressed != null
-                  ? () => onCardPressed!(store.id)
-                  : null,
+              onLikePressed:
+                  onLikePressed != null ? () => onLikePressed!(store.id) : null,
+              onCardPressed:
+                  onCardPressed != null ? () => onCardPressed!(store.id) : null,
             );
           },
         ),

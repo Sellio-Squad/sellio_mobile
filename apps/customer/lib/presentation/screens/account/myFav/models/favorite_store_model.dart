@@ -1,4 +1,3 @@
-
 import '../../../../../presentation/screens/home/widgets/top_stores_section.dart';
 
 class FavoriteStore extends Store {

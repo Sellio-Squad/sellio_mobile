@@ -25,7 +25,6 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
     await remoteDataSource.toggleProductFavorite(productId: productId);
   }
 
-
   @override
   Future<void> toggleStoreFavorite(String storeId) async {
     await remoteDataSource.toggleStoreFavorite(storeId: storeId);

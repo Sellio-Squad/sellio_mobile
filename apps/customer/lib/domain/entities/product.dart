@@ -33,8 +33,8 @@ class Product {
     this.stockQuantity = 0,
     required this.items,
     required this.isFavorite,
-    required bool this.isUsed,
-    required bool this.isFeatured,
+    required this.isUsed,
+    required this.isFeatured,
   });
 
   Product copyWith({
@@ -59,9 +59,9 @@ class Product {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      minPrice: price ?? this.minPrice,
+      minPrice: price ?? minPrice,
       currency: currency ?? this.currency,
-      maxDiscount: discount ?? this.maxDiscount,
+      maxDiscount: discount ?? maxDiscount,
       images: images ?? this.images,
       storeId: storeId ?? this.storeId,
       categoryId: categoryId ?? this.categoryId,

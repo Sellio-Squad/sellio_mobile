@@ -104,7 +104,7 @@ class _SellioStoreCardState extends State<SellioStoreCard> {
     if (widget.imageUrl.startsWith('assets/')) {
       return Image.asset(widget.imageUrl, fit: BoxFit.cover, height: 133);
     } else if (widget.imageUrl.isNotEmpty) {
-      return SellioRemoteImage(imageUrl: widget.imageUrl,height: 133);
+      return SellioRemoteImage(imageUrl: widget.imageUrl, height: 133);
     } else {
       return Padding(
         padding: const EdgeInsets.only(top: 15),

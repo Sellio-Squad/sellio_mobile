@@ -14,7 +14,6 @@ class ThriftProductsState extends Equatable {
   final String? selectedCategoryId;
   final String? errorMessage;
 
-
   const ThriftProductsState({
     this.isLoading = false,
     this.isLoadingMore = false,
@@ -52,13 +51,13 @@ class ThriftProductsState extends Equatable {
 
   @override
   List<Object?> get props => [
-    isLoading,
-    isLoadingMore,
-    items,
-    currentPage,
-    totalPages,
-    categories,
-    selectedCategoryId,
-    errorMessage,
-  ];
+        isLoading,
+        isLoadingMore,
+        items,
+        currentPage,
+        totalPages,
+        categories,
+        selectedCategoryId,
+        errorMessage,
+      ];
 }

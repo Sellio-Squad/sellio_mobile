@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../domain/entities/category.dart';
 
@@ -29,7 +29,7 @@ class StoreCategoryTabs extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(right: 12),
             child: SellioChip(
-              label: categories[index].name, // Use name here
+              label: categories[index].name,
               selected: isSelected,
               onTap: () => onCategorySelected(index),
             ),

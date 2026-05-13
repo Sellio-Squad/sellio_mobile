@@ -18,7 +18,8 @@ class CategorySection extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, sectionTitle, categoryId, subCategories, sortOrder, isActive];
+  List<Object?> get props =>
+      [id, sectionTitle, categoryId, subCategories, sortOrder, isActive];
 }
 
 class SectionSubCategory extends Equatable {

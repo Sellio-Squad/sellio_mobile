@@ -83,8 +83,7 @@ class AppImages {
   static const String rate = '$iconsPath/rate.svg';
   static const String locationPin = '$iconsPath/location-pin.svg';
   static const String info = '$iconsPath/info.svg';
-
-
+static const String upTo = '$iconsPath/ic_up_to.svg';
   // Order history
   static const String noOrderHistory = '$iconsPath/package_remove.svg';
   static const String storeDiscountFrame =

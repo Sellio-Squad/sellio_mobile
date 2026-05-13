@@ -1,4 +1,3 @@
-
 class SpecialOffer {
   final String id;
   final String title;
@@ -32,15 +31,15 @@ class SpecialOffer {
   }
 
   SpecialOffer copyWith({
-  String? id,
-  String? title,
-  String? description,
-  String? imageUrl,
-  String? discount,
-  String? storeId,
-  String? categoryId,
-  DateTime? startDate,
-  DateTime? endDate,
+    String? id,
+    String? title,
+    String? description,
+    String? imageUrl,
+    String? discount,
+    String? storeId,
+    String? categoryId,
+    DateTime? startDate,
+    DateTime? endDate,
     bool? isActive,
     DateTime? createdAt,
   }) {

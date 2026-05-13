@@ -1,8 +1,12 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/search/widgets/category_section.dart';
+import '../../../../core/navigate/navigation_extensions.dart';
+import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store.dart';
+import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../cubit/search_cubit.dart';
 
 class SuccessSearch extends StatelessWidget {
@@ -17,18 +21,14 @@ class SuccessSearch extends StatelessWidget {
         const CategorySection(),
         switch (state) {
           SearchProductsSuccess(:final products) =>
-              GridProductsSection(products: products),
-
-          SearchStoresSuccess(:final stores) =>
-              StoreList(stores: stores),
-
+            GridProductsSection(products: products),
+          SearchStoresSuccess(:final stores) => StoreList(stores: stores),
           _ => const SizedBox.shrink(),
-        }
+        },
       ],
     );
   }
 }
-
 
 class StoreList extends StatelessWidget {
   final List<Store> stores;
@@ -46,43 +46,68 @@ class StoreList extends StatelessWidget {
         return SellioStoreCard(
           imageUrl: store.coverImage,
           title: store.name,
+          isFavorite: store.isFavorite,
+          onLikePressed: () {
+            context
+                .read<FavoritesCubit>()
+                .toggleFavorite(store.id, FavoriteType.store);
+          },
+          onCardPressed: () {
+            context.navigator
+                .pushStoreDetails(StoreDetailsArgs(storeId: store.id));
+          },
         );
       },
     );
   }
 }
 
-
 class GridProductsSection extends StatelessWidget {
   final List<Product> products;
+
   const GridProductsSection({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      itemCount: products.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 12,
-        childAspectRatio: 170 / 272,
-      ),
-      itemBuilder: (context, index) {
-        final product = products[index];
+    return LayoutBuilder(builder: (context, constraints) {
+      final screenWidth = constraints.maxWidth;
+      const cardWidth = 170.0;
+      final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
 
-        return SellioProductVerticalCard(
-          productId: product.id,
-          imageUrl: product.images.isNotEmpty ? product.images.first : AppImages.cartProduct,
-          title: product.title,
-          price: "${product.currency}${product.minPrice}",
-          isFavorite: false,
-          onFavoriteToggle: null,
-        );
-      },
-    );
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 12,
+          childAspectRatio: 0.72,
+        ),
+        itemBuilder: (context, index) {
+          final product = products[index];
 
+          return SellioProductVerticalCard(
+            imageUrl: product.images.isNotEmpty
+                ? product.images.first
+                : AppImages.cartProduct,
+            title: product.title,
+            price: "${product.currency}${product.minPrice}",
+            onTap: () => {
+              context.navigator.pushProductDetails(
+                ProductDetailsArgs(productId: product.id),
+              ),
+            },
+            isFavorite: product.isFavorite,
+            onFavoriteToggle: () {
+              context
+                  .read<FavoritesCubit>()
+                  .toggleFavorite(product.id, FavoriteType.product);
+            },
+          );
+        },
+      );
+    });
   }
 }

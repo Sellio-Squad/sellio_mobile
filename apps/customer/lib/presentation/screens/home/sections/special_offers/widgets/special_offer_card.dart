@@ -21,10 +21,12 @@ class SpecialOfferCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
           child: imageUrl.isEmpty
-              ? Image.asset(AppImages.defaultHomeBanner,
+              ? Image.asset(
+                  AppImages.defaultHomeBanner,
                   height: double.infinity,
                   width: double.infinity,
-                  fit: BoxFit.fill,)
+                  fit: BoxFit.fill,
+                )
               : SellioRemoteImage(
                   imageUrl: imageUrl,
                   width: double.infinity,

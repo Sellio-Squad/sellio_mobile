@@ -40,7 +40,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget _buildLogo() => Padding(
         padding: const EdgeInsets.only(left: 4),
-        child: Image.asset(AppImages.sellio, fit: BoxFit.contain, width: 40, height: 40),
+        child: Image.asset(AppImages.sellio,
+            fit: BoxFit.contain, width: 40, height: 40),
       );
 
   Widget _buildUserInfo(

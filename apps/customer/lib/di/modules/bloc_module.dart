@@ -17,13 +17,13 @@ class BlocModule {
   static void register(GetIt sl) {
     sl.registerFactory(() => HomeSectionsCubit(sl()));
     sl.registerLazySingleton<AuthenticationCubit>(
-          () => AuthenticationCubit(sl(), sl()),
+      () => AuthenticationCubit(sl(), sl()),
     );
     sl.registerFactory(() => CartCubit(
-      cartRepository: sl(),
-      orderRepository: sl(),
-      authenticationCubit: sl(),
-    ));
+          cartRepository: sl(),
+          orderRepository: sl(),
+          authenticationCubit: sl(),
+        ));
     sl.registerFactory(() => FavoritesCubit(sl(), sl()));
     sl.registerFactory(() => OrderHistoryCubit(sl()));
     sl.registerFactory(() => HomeTrendingProductsCubit(sl(), sl()));

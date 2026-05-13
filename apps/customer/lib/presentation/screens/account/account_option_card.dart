@@ -16,7 +16,7 @@ class AccountOptionCard extends StatelessWidget {
     super.key,
     this.cardColor,
     this.borderRadius = 8,
-    required this.prefixIcon ,
+    required this.prefixIcon,
     this.trailing,
     this.iconSize = 24,
     required this.orderTitle,
@@ -45,7 +45,8 @@ class AccountOptionCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   orderTitle,
-                  style: context.theme.typography.textTheme.labelMedium.copyWith(
+                  style:
+                      context.theme.typography.textTheme.labelMedium.copyWith(
                     color: context.theme.colors.title,
                   ),
                 ),

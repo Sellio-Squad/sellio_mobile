@@ -5,7 +5,8 @@ import 'image_picker_service.dart';
 class ImagePickerServiceImpl implements ImagePickerService {
   final ImagePicker _picker;
 
-  ImagePickerServiceImpl({ImagePicker? picker}) : _picker = picker ?? ImagePicker();
+  ImagePickerServiceImpl({ImagePicker? picker})
+      : _picker = picker ?? ImagePicker();
 
   @override
   Future<File?> pickFromGallery() async {

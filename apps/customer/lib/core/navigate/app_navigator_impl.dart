@@ -86,7 +86,7 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushMyOrders(){
+  void pushMyOrders() {
     context.pushNamed(AppRoutes.myOrders.name);
   }
 

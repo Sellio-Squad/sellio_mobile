@@ -1,4 +1,3 @@
-import 'package:design_system/design_system.dart';
 import '../../../../../../domain/entities/product.dart';
 
 class ProductSummaryUIModel {
@@ -35,9 +34,9 @@ class ProductSummaryUIModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ProductSummaryUIModel &&
-              runtimeType == other.runtimeType &&
-              id == other.id;
+      other is ProductSummaryUIModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id;
 
   @override
   int get hashCode => id.hashCode;

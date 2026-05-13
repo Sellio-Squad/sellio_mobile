@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../themes/sellio_theme_provider.dart';
 import '../constants/app_images.dart';
@@ -83,7 +82,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
     _focusNode.addListener(() {
       if (!_focusNode.hasFocus) {
         setState(() {
-          isError = !widget.isError ? _effectiveController.text.isEmpty : widget.isError;
+          isError = !widget.isError
+              ? _effectiveController.text.isEmpty
+              : widget.isError;
         });
       }
     });
@@ -161,97 +162,117 @@ class _SellioTextFieldState extends State<SellioTextField> {
       child: AbsorbPointer(
         absorbing: widget.readOnly,
         child: Container(
-            decoration: BoxDecoration(
-              borderRadius: widget.cornerRadius,
-              boxShadow: textFieldShadow,
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    onTapOutside: (event) {
-                      FocusScope.of(context).unfocus();
-                    },
-                    keyboardType: widget.inputType ?? TextInputType.text,
-                    focusNode: _focusNode,
-                    controller: _effectiveController,
-                    inputFormatters:
+          decoration: BoxDecoration(
+            borderRadius: widget.cornerRadius,
+            boxShadow: textFieldShadow,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                keyboardType: widget.inputType ?? TextInputType.text,
+                focusNode: _focusNode,
+                controller: _effectiveController,
+                inputFormatters:
                     widget.inputFormatter ??
-                        [
-                          TextInputFormatter.withFunction((oldValue, newValue) {
-                            final lineCount = '\n'.allMatches(newValue.text).length + 1;
-                            if (lineCount > 5) {
-                              return oldValue;
-                            }
-                            return newValue;
-                          }),
-                        ],
+                    [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        final lineCount =
+                            '\n'.allMatches(newValue.text).length + 1;
+                        if (lineCount > 5) {
+                          return oldValue;
+                        }
+                        return newValue;
+                      }),
+                    ],
 
-                    onChanged: (value) {
-                      setState(() {
-                        isError = value.isEmpty;
-                      });
-                    },
-                    onSubmitted: widget.onFieldSubmitted,
-                    obscureText: isObscured,
-                    obscuringCharacter: '●',
-                    style: textFieldStyle,
-                    maxLines: maxLines,
-                    decoration: InputDecoration(
-                      filled: widget.isTextFieldFilled,
-                      fillColor: filledColor,
-                      hintText: widget.hintText,
-                      hintStyle: hintTextStyle,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 12),
-                      prefixIcon: widget.isParagraph
-                          ? null
-                          : _buildPrefixIcon(iconColor, AppImages.iconsPath),
-                      prefixIconConstraints: const BoxConstraints(
-                        minWidth: 24,
-                        minHeight: 24,
-                      ),
-                      suffixIcon: _buildSuffixIcon(iconColor),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
-                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
-                            : BorderRadius.circular(widget.enabledBorderRadius),
-                        borderSide: BorderSide(color: borderColor, width: 0.5),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
-                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
-                            : BorderRadius.circular(widget.focusedBorderRadius),
-                        borderSide: BorderSide(color: borderColor),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
-                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
-                            : BorderRadius.circular(widget.errorBorderRadius),
-                        borderSide: BorderSide(color: context.theme.colors.semanticError),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: widget.cornerRadius != const BorderRadius.all(Radius.circular(8)) 
-                            ? widget.cornerRadius.resolve(Directionality.of(context)) 
-                            : BorderRadius.circular(
-                          widget.focusedErrorBorderRadius,
-                        ),
-                        borderSide: BorderSide(color: context.theme.colors.semanticError),
-                      ),
-                      errorStyle: errorStyle,
+                onChanged: (value) {
+                  setState(() {
+                    isError = value.isEmpty;
+                  });
+                },
+                onSubmitted: widget.onFieldSubmitted,
+                obscureText: isObscured,
+                obscuringCharacter: '●',
+                style: textFieldStyle,
+                maxLines: maxLines,
+                decoration: InputDecoration(
+                  filled: widget.isTextFieldFilled,
+                  fillColor: filledColor,
+                  hintText: widget.hintText,
+                  hintStyle: hintTextStyle,
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 12,
+                  ),
+                  prefixIcon: widget.isParagraph
+                      ? null
+                      : _buildPrefixIcon(iconColor, AppImages.iconsPath),
+                  prefixIconConstraints: const BoxConstraints(
+                    minWidth: 24,
+                    minHeight: 24,
+                  ),
+                  suffixIcon: _buildSuffixIcon(iconColor),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(widget.enabledBorderRadius),
+                    borderSide: BorderSide(color: borderColor, width: 0.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(widget.focusedBorderRadius),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(widget.errorBorderRadius),
+                    borderSide: BorderSide(
+                      color: context.theme.colors.semanticError,
                     ),
                   ),
-                  if (isError && errorText != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 4),
-                      child: Text(
-                        errorText,
-                        style: errorStyle,
-                      ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(
+                            widget.focusedErrorBorderRadius,
+                          ),
+                    borderSide: BorderSide(
+                      color: context.theme.colors.semanticError,
                     ),
-                ]
-            )
+                  ),
+                  errorStyle: errorStyle,
+                ),
+              ),
+              if (isError && errorText != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 4),
+                  child: Text(errorText, style: errorStyle),
+                ),
+            ],
+          ),
         ),
       ),
     );

@@ -10,9 +10,9 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
   final CategoryRepository _categoryRepository;
 
   ThriftProductsCubit(
-      this._productRepository,
-      this._categoryRepository,
-      ) : super(const ThriftProductsState());
+    this._productRepository,
+    this._categoryRepository,
+  ) : super(const ThriftProductsState());
 
   Future<void> loadCategories() async {
     final result = await _categoryRepository.getCategories();
@@ -92,8 +92,11 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
   }
 
   Future<void> selectCategory(String? categoryId) async {
-    emit(state.copyWith(selectedCategoryId: categoryId));
+    emit(state.copyWith(
+      selectedCategoryId: categoryId,
+      isLoading: true,
+      items: [],
+    ));
     await loadThriftProducts(categoryId: categoryId);
   }
 }
-

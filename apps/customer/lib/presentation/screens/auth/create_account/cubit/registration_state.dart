@@ -74,11 +74,15 @@ class RegistrationIdle extends RegistrationState {
       selectedCountry: selectedCountry ?? this.selectedCountry,
       phoneCode: phoneCode ?? this.phoneCode,
       isFormValid: isFormValid ?? this.isFormValid,
-      fullNameError: fullNameError != null ? fullNameError() : this.fullNameError,
+      fullNameError:
+          fullNameError != null ? fullNameError() : this.fullNameError,
       phoneError: phoneError != null ? phoneError() : this.phoneError,
       cityError: cityError != null ? cityError() : this.cityError,
-      passwordError: passwordError != null ? passwordError() : this.passwordError,
-      confirmPasswordError: confirmPasswordError != null ? confirmPasswordError() : this.confirmPasswordError,
+      passwordError:
+          passwordError != null ? passwordError() : this.passwordError,
+      confirmPasswordError: confirmPasswordError != null
+          ? confirmPasswordError()
+          : this.confirmPasswordError,
       cities: cities ?? this.cities,
     );
   }

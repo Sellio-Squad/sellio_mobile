@@ -11,7 +11,7 @@ class SellioRemoteImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.borderRadius = const BorderRadius.all(Radius.circular(8)),
     this.errorWidget,
-  }):_isCircle = false;
+  }) : _isCircle = false;
 
   const SellioRemoteImage.circle({
     super.key,
@@ -77,7 +77,7 @@ class SellioRemoteImage extends StatelessWidget {
       fit: fit,
       loadingBuilder: (_, child, progress) =>
           progress == null ? child : _buildLoading(context),
-      errorBuilder: (_, __, ___) => _buildError(context),
+      errorBuilder: (_, _, _) => _buildError(context),
     );
   }
 

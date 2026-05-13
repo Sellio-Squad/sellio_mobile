@@ -6,7 +6,6 @@ import '../../../models/auth/login_request.dart';
 import '../../../models/auth/login_response.dart';
 import '../../../models/auth/register_request.dart';
 import '../../../models/auth/register_response.dart';
-import '../../../models/auth/resend_otp_request.dart';
 import '../../../models/auth/resend_otp_response.dart';
 import '../../../models/auth/reset_password_request.dart';
 import '../../../models/auth/verify_otp_request.dart';
@@ -37,24 +36,22 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<RegisterResponse> register({
-    required String fullName,
-    required String phoneNumber,
-    required String password,
-    required String city,
-    required String country,
-    required String region,
-    required String countryCode
-  }) async {
+  Future<RegisterResponse> register(
+      {required String fullName,
+      required String phoneNumber,
+      required String password,
+      required String city,
+      required String country,
+      required String region,
+      required String countryCode}) async {
     final request = RegisterRequest(
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-      password: password,
-      city: city,
-      country: country,
-      region: region,
-      countryCode: countryCode
-    );
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        password: password,
+        city: city,
+        country: country,
+        region: region,
+        countryCode: countryCode);
 
     final response = await _apiClient.post(
       ApiEndpoints.register,

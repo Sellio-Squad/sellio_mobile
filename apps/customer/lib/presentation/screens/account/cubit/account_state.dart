@@ -38,8 +38,7 @@ class AccountLoaded extends AccountState {
   }
 
   @override
-  List<Object?> get props =>
-      [fullName, imagePath, notificationsEnabled];
+  List<Object?> get props => [fullName, imagePath, notificationsEnabled];
 }
 
 class AccountError extends AccountState {

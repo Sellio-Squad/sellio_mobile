@@ -34,7 +34,7 @@ class ContactActionHandler {
 
     try {
       final launched =
-      await launchUrl(emailUri, mode: LaunchMode.externalApplication);
+          await launchUrl(emailUri, mode: LaunchMode.externalApplication);
       return launched
           ? ContactActionResult.success()
           : ContactActionResult.failure(context.local.could_not_launch_email);
@@ -67,14 +67,17 @@ class ContactActionHandler {
     try {
       if (await canLaunchUrl(uri)) {
         final launched =
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+            await launchUrl(uri, mode: LaunchMode.externalApplication);
         return launched
             ? ContactActionResult.success()
-            : ContactActionResult.failure(context.local.could_not_launch_website);
+            : ContactActionResult.failure(
+                context.local.could_not_launch_website);
       }
-      return ContactActionResult.failure(context.local.could_not_launch_website);
+      return ContactActionResult.failure(
+          context.local.could_not_launch_website);
     } catch (_) {
-      return ContactActionResult.failure(context.local.could_not_launch_website);
+      return ContactActionResult.failure(
+          context.local.could_not_launch_website);
     }
   }
 
@@ -85,12 +88,14 @@ class ContactActionHandler {
 
     try {
       final launched =
-      await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
+          await launchUrl(whatsappUri, mode: LaunchMode.externalApplication);
       return launched
           ? ContactActionResult.success()
-          : ContactActionResult.failure(context.local.could_not_launch_whatsapp);
+          : ContactActionResult.failure(
+              context.local.could_not_launch_whatsapp);
     } catch (_) {
-      return ContactActionResult.failure(context.local.could_not_launch_whatsapp);
+      return ContactActionResult.failure(
+          context.local.could_not_launch_whatsapp);
     }
   }
 
@@ -105,12 +110,14 @@ class ContactActionHandler {
 
     try {
       final launched =
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
       return launched
           ? ContactActionResult.success()
-          : ContactActionResult.failure(context.local.could_not_launch_facebook);
+          : ContactActionResult.failure(
+              context.local.could_not_launch_facebook);
     } catch (_) {
-      return ContactActionResult.failure(context.local.could_not_launch_facebook);
+      return ContactActionResult.failure(
+          context.local.could_not_launch_facebook);
     }
   }
 
@@ -158,7 +165,7 @@ class ContactActionResult {
       const ContactActionResult._(isSuccess: true);
 
   factory ContactActionResult.failure(String message) => ContactActionResult._(
-    isSuccess: false,
-    errorMessage: message,
-  );
+        isSuccess: false,
+        errorMessage: message,
+      );
 }

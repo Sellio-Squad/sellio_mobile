@@ -15,9 +15,9 @@ class ValidationResult {
       : this._(isValid: false, error: error);
 
   factory ValidationResult.fromCondition(
-      bool condition,
-      ValidationError errorType,
-      ) {
+    bool condition,
+    ValidationError errorType,
+  ) {
     return condition
         ? const ValidationResult.valid()
         : ValidationResult.invalid(errorType);

@@ -36,13 +36,17 @@ class _LoginBodyState extends State<LoginBody> {
 
     _phoneFocusNode.addListener(() {
       if (!_phoneFocusNode.hasFocus && _phoneController.text.isNotEmpty) {
-        context.read<LoginCubit>().validatePhoneOnFocusLost(_phoneController.text);
+        context
+            .read<LoginCubit>()
+            .validatePhoneOnFocusLost(_phoneController.text);
       }
     });
 
     _passwordFocusNode.addListener(() {
       if (!_passwordFocusNode.hasFocus && _passwordController.text.isNotEmpty) {
-        context.read<LoginCubit>().validatePasswordOnFocusLost(_passwordController.text,);
+        context.read<LoginCubit>().validatePasswordOnFocusLost(
+              _passwordController.text,
+            );
       }
     });
   }

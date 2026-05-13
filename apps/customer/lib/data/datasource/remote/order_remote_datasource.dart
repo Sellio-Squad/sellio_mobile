@@ -19,7 +19,6 @@ abstract class OrderRemoteDataSource {
   Future<OrderModel> getOrderById(String orderId);
 
   Future<OrderModel> cancelOrder(String orderId);
-
 }
 
 class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
@@ -33,9 +32,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
   }) async {
     final response = await _httpClient.post(
       ApiEndpoints.orderConfirm,
-      data: {
-        'items': items
-      },
+      data: {'items': items},
     );
 
     return OrderConfirmationResponse.fromJson(response.data);
@@ -60,7 +57,7 @@ class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => OrderModel.fromJson(json),
+      (json) => OrderModel.fromJson(json),
     );
   }
 

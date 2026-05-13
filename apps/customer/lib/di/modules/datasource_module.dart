@@ -24,55 +24,55 @@ class DataSourceModule {
       () => CategorySectionRemoteDataSourceImpl(sl()),
     );
     sl.registerLazySingleton<AuthRemoteDataSource>(
-          () => AuthRemoteDataSourceImpl(sl()),
+      () => AuthRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<ProductRemoteDataSource>(
-          () => ProductRemoteDataSourceImpl(sl()),
+      () => ProductRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<StoreRemoteDataSource>(
-          () => StoreRemoteDataSourceImpl(sl()),
+      () => StoreRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<CategoryRemoteDataSource>(
-          () => CategoryRemoteDataSourceImpl(sl()),
+      () => CategoryRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<CartLocalDataSource>(
-          () => CartLocalDataSourceImpl(sl()),
+      () => CartLocalDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<OrderRemoteDataSource>(
-          () => OrderRemoteDataSourceImpl(sl()),
+      () => OrderRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<UserRemoteDataSource>(
-          () => UserRemoteDataSourceImpl(sl()),
+      () => UserRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<FavoritesRemoteDataSource>(
-          () => FavoritesRemoteDataSourceImpl(sl()),
+      () => FavoritesRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<OffersRemoteDataSource>(
-          () => OffersRemoteDataSourceImpl(sl()),
+      () => OffersRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<SearchRemoteDateSource>(
-          () => SearchRemoteDatasourceImpl(sl()),
+      () => SearchRemoteDatasourceImpl(sl()),
     );
 
     sl.registerLazySingleton<CountryRemoteDataSource>(
-          () => CountryRemoteDataSourceImpl(sl()),
+      () => CountryRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<SearchLocalDatasource>(
-          () => SearchLocalDataSourceImpl(),
+      () => SearchLocalDataSourceImpl(),
     );
 
     sl.registerLazySingleton<InitialCountryLocalDataSource>(
-        () => InitialCountryLocalDataSourceImpl(),
+      () => InitialCountryLocalDataSourceImpl(),
     );
 
     sl.registerLazySingleton<CategoryDetailsRemoteDataSource>(

@@ -25,12 +25,13 @@ class NotificationListeners extends StatelessWidget {
     );
   }
 
-  void _onNotificationStateChanged(BuildContext context,
-      NotificationState state) {
+  void _onNotificationStateChanged(
+      BuildContext context, NotificationState state) {
     if (state is NotificationError) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('${context.local.error_loading_notifications}: ${state.message}'),
+          content: Text(
+              '${context.local.error_loading_notifications}: ${state.message}'),
           backgroundColor: Colors.red,
         ),
       );

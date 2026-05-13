@@ -39,31 +39,35 @@ class SellioProductHorizontalCard extends StatelessWidget {
     return Material(
       color: colors.surfaceLow,
       borderRadius: BorderRadius.circular(8),
-      child: GestureDetector(
+      child:
+      InkWell(
         onTap: onTap,
-        child: SizedBox(
-          height: 89,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildImage(colors),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              title,
-                              style: textTheme.titleSmall.copyWith(color: colors.title),
-                              maxLines: (description == null) ? 2 : 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+        borderRadius: BorderRadius.circular(8),
+      child: SizedBox(
+        height: 89,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImage(colors),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            title,
+                            style: textTheme.titleSmall.copyWith(
+                                color: colors.title,
+                              ),
+                            maxLines: (description == null) ? 2 : 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
 
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -82,17 +86,21 @@ class SellioProductHorizontalCard extends StatelessWidget {
                                   ),
                                 Text(
                                   "\$${formatPrice(price)}",
-                                  style: textTheme.titleSmall.copyWith(color: colors.primary),
+                                  style: textTheme.titleSmall.copyWith(
+                                    color: colors.primary,
+                                  ),
                                 ),
                               ],
                             ),
                           ],
-                        ),
+                      ),
                         if (description != null) ...[
                           const SizedBox(height: 4),
                           Text(
                             description!,
-                            style: textTheme.labelXSmall.copyWith(color: colors.body),
+                            style: textTheme.labelXSmall.copyWith(
+                              color: colors.body,
+                            ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -103,24 +111,26 @@ class SellioProductHorizontalCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             // Show counter if count and callbacks are provided, otherwise single button placeholder
-                            if (count != null && onIncrement != null && onDecrement != null)
+                            if (count != null &&
+                                onIncrement != null &&
+                                onDecrement != null)
                               _buildCounter(context)
                             else if (onIncrement != null)
                               _buildSingleCartButton(context),
 
-                            if (onRemove != null) _buildRemoveProductButton(context),
-                          ],
-                        ),
-                      ],
-                    ),
+                          if (onRemove != null)
+                              _buildRemoveProductButton(context),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
-    );
+    ));
   }
 
   Widget _buildSingleCartButton(BuildContext context) {
@@ -204,7 +214,10 @@ class SellioProductHorizontalCard extends StatelessWidget {
                 child: Center(
                   child: SvgPicture.asset(
                     AppImages.add,
-                    colorFilter: ColorFilter.mode(colors.primary, BlendMode.srcIn),
+                    colorFilter: ColorFilter.mode(
+                      colors.primary,
+                      BlendMode.srcIn,
+                    ),
                     width: 16,
                     height: 16,
                     fit: BoxFit.scaleDown,
@@ -249,7 +262,7 @@ class SellioProductHorizontalCard extends StatelessWidget {
   Widget _buildImage(SellioColorScheme colors) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: SellioRemoteImage(imageUrl: imageUrl,width: 89,height: 89,),
+      child: SellioRemoteImage(imageUrl: imageUrl, width: 89, height: 89),
     );
   }
 }

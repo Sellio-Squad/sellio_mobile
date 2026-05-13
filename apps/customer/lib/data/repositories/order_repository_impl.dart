@@ -13,22 +13,19 @@ class OrderRepositoryImpl implements OrderRepository {
     required OrderRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;
 
-
   String? _statusToString(OrderStatus? status) {
     return status?.name.toUpperCase();
   }
 
   @override
-  Future<Result<void>> createOrder({
-    required List<OrderItem> items
-  }) async {
+  Future<Result<void>> createOrder({required List<OrderItem> items}) async {
     return RepositoryCallHandler.callVoid(() async {
-       _remoteDataSource.createOrder(
+      _remoteDataSource.createOrder(
         items: items
             .map((item) => OrderCreateItemModel(
-          productItemId: item.id,
-          quantity: item.quantity,
-        ))
+                  productItemId: item.id,
+                  quantity: item.quantity,
+                ))
             .toList(),
       );
     });

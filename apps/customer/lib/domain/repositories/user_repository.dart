@@ -1,5 +1,4 @@
 import '../../core/error/result.dart';
-import '../entities/address.dart';
 import '../entities/user.dart';
 
 abstract class UserRepository {

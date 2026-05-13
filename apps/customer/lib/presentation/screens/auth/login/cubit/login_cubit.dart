@@ -1,4 +1,3 @@
-
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
@@ -24,8 +23,8 @@ class LoginCubit extends Cubit<LoginState> {
         _countryRepository = countryRepository,
         _authenticationCubit = authenticationCubit,
         super(LoginIdle(
-        selectedCountry: initialCountry ?? Country.parse('eg'),
-      ));
+          selectedCountry: initialCountry ?? Country.parse('eg'),
+        ));
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -42,7 +41,8 @@ class LoginCubit extends Cubit<LoginState> {
     if (currentState is! LoginIdle) return;
 
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneNumber: value,
@@ -103,7 +103,8 @@ class LoginCubit extends Cubit<LoginState> {
     if (currentState is! LoginIdle) return;
 
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneError: () => result.error as PhoneValidationError?,
@@ -131,7 +132,8 @@ class LoginCubit extends Cubit<LoginState> {
       currentState.phoneNumber,
       minLength: minPhoneLength,
     );
-    final passwordResult = FormValidators.validatePassword(currentState.password);
+    final passwordResult =
+        FormValidators.validatePassword(currentState.password);
 
     if (!phoneResult.isValid || !passwordResult.isValid) {
       emit(currentState.copyWith(
@@ -175,14 +177,14 @@ class LoginCubit extends Cubit<LoginState> {
   }
 }
 
-  bool _isFormValid({
-    required String phone,
-    required String password,
-    required PhoneValidationError? phoneError,
-    required PasswordValidationError? passwordError,
-  }) {
-    return phone.isNotEmpty &&
-        password.isNotEmpty &&
-        phoneError == null &&
-        passwordError == null;
-  }
+bool _isFormValid({
+  required String phone,
+  required String password,
+  required PhoneValidationError? phoneError,
+  required PasswordValidationError? passwordError,
+}) {
+  return phone.isNotEmpty &&
+      password.isNotEmpty &&
+      phoneError == null &&
+      passwordError == null;
+}

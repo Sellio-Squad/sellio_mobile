@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_loadingMore_shimmer.dart';
 import 'package:sellio_mobile/presentation/screens/thrift/widgets/thrift_screen_shimmer.dart';
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/product_repository.dart';
 import '../../../core/navigate/app_routes.dart';
+import '../../../core/navigate/navigation_extensions.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_state.dart';
+import '../../widgets/customer_product_card.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
 import 'widgets/category_tabs.dart';
@@ -88,6 +91,7 @@ class ThriftContent extends StatelessWidget {
           child: CustomScrollView(
             controller: scrollController,
             slivers: [
+              _buildSearchBar(context, state),
               _buildCategoryTabs(context, state),
               _buildProductsGrid(context, state),
               if (state.isLoadingMore) const ThriftLoadingMoreShimmer(),
@@ -95,6 +99,30 @@ class ThriftContent extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSearchBar(BuildContext context, ThriftProductsState state) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        child: Builder(builder: (context) {
+          return SellioSearchBar(
+            hintText: context.local.search_your_favorite_items,
+            isReadOnly: true,
+            isShowFilterIcon: true,
+            onTextFieldClicked: () => {
+              context.navigator.pushSearch(),
+            },
+            onFilterIconClicked: () {
+              // TODO: Show filter dialog
+            },
+            onTextSubmitted: (text) {
+              context.navigator.pushSearch();
+            },
+          );
+        }),
+      ),
     );
   }
 
@@ -107,7 +135,7 @@ class ThriftContent extends StatelessWidget {
         name: context.local.all,
       ),
       ...state.categories.map(
-            (c) => CategoryTabData(
+        (c) => CategoryTabData(
           id: c.id,
           name: c.name,
         ),
@@ -115,7 +143,7 @@ class ThriftContent extends StatelessWidget {
     ];
 
     final selectedIndex =
-    tabs.indexWhere((t) => t.id == state.selectedCategoryId);
+        tabs.indexWhere((t) => t.id == state.selectedCategoryId);
 
     return SliverToBoxAdapter(
       child: CategoryTabs(
@@ -139,7 +167,7 @@ class ThriftContent extends StatelessWidget {
             description: context.local.you_can_dicover_more_products,
             buttonText: context.local.start_exploring_more,
             color: context.theme.colors.purpleVariant,
-            onTap: () {},
+            onTap: () => context.navigator.goToHome(),
           ),
         ),
       );
@@ -155,7 +183,7 @@ class ThriftContent extends StatelessWidget {
 
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 final product = state.items[index];
 
                 return BlocBuilder<FavoritesCubit, FavoritesState>(
@@ -166,14 +194,18 @@ class ThriftContent extends StatelessWidget {
                           favState.favoriteProductIds.contains(product.id);
                     }
 
-                    return SellioProductVerticalCard(
-                      key: ValueKey(product.id),
+                    return CustomerProductCard(
+                      cardKey: ValueKey(product.id),
                       productId: product.id,
-                      imageUrl: product.images.isNotEmpty
-                          ? product.images.first
-                          : '',
+                      imageUrl:
+                          product.images.isNotEmpty ? product.images.first : '',
                       title: product.title,
-                      price: product.minPrice.toString(),
+                      formattedPrice: product.minPrice.toString(),
+                      rawPrice: double.tryParse(product.minPrice
+                              .toString()
+                              .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                          0.0,
+                      currency: 'EGP',
                       isFavorite: isFavorite,
                       onFavoriteToggle: () {
                         context
@@ -196,7 +228,7 @@ class ThriftContent extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 160 / 272,
+              childAspectRatio: 0.72,
             ),
           );
         },

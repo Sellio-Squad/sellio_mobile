@@ -22,8 +22,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   })  : _authRepository = authRepository,
         _countryRepository = countryRepository,
         super(RegistrationIdle(
-        selectedCountry: initialCountry ?? Country.parse('eg'),
-      ));
+          selectedCountry: initialCountry ?? Country.parse('eg'),
+        ));
 
   Future<void> loadInitialCountry() async {
     final currentState = state;
@@ -56,7 +56,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-
   void updateFullName(String value) {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
@@ -86,7 +85,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneNumber: value,
@@ -147,7 +147,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(currentState.copyWith(
       password: value,
       passwordError: () => result.error as PasswordValidationError?,
-      confirmPasswordError: () => confirmResult.error as PasswordValidationError?,
+      confirmPasswordError: () =>
+          confirmResult.error as PasswordValidationError?,
       isFormValid: _isFormValid(
         fullName: currentState.fullName,
         phone: currentState.phoneNumber,
@@ -242,7 +243,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     if (currentState is! RegistrationIdle) return;
 
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
-    final result = FormValidators.validatePhone(value, minLength: minPhoneLength);
+    final result =
+        FormValidators.validatePhone(value, minLength: minPhoneLength);
 
     emit(currentState.copyWith(
       phoneError: () => result.error as PhoneValidationError?,
@@ -319,13 +321,15 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     _lastIdleState = currentState;
     final minPhoneLength = currentState.selectedCountry.maxPhoneLength;
-    final fullNameResult = FormValidators.validateFullName(currentState.fullName);
+    final fullNameResult =
+        FormValidators.validateFullName(currentState.fullName);
     final phoneResult = FormValidators.validatePhone(
       currentState.phoneNumber,
       minLength: minPhoneLength,
     );
     final cityResult = FormValidators.validateCity(currentState.city);
-    final passwordResult = FormValidators.validatePassword(currentState.password);
+    final passwordResult =
+        FormValidators.validatePassword(currentState.password);
     final confirmPasswordResult = FormValidators.validateConfirmPassword(
       currentState.password,
       currentState.confirmPassword,
@@ -342,7 +346,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         phoneError: () => phoneResult.error as PhoneValidationError?,
         cityError: () => cityResult.error as CityValidationError?,
         passwordError: () => passwordResult.error as PasswordValidationError?,
-        confirmPasswordError: () => confirmPasswordResult.error as PasswordValidationError?,
+        confirmPasswordError: () =>
+            confirmPasswordResult.error as PasswordValidationError?,
       ));
       return;
     }
@@ -384,7 +389,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   }
 
   /// Verifies OTP - called by OTP screen via callback
-  Future<Result<void>>  verifyOtp(String otp) async {
+  Future<Result<void>> verifyOtp(String otp) async {
     return await _authRepository.verifyRegistrationOtp(otp: otp);
   }
 

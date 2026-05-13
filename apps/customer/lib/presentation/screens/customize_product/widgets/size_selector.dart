@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 
-import 'package:design_system/design_system.dart';
 import '../cubit/design_editor_state.dart';
 
 class SizeSelector extends StatelessWidget {
@@ -50,10 +49,10 @@ class SizeSelector extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     sizes[index].value,
-                    style: context.theme.typography.textTheme.labelMedium.copyWith(
-                      color: isSelected
-                          ? Colors.white
-                          : context.theme.colors.body,
+                    style:
+                        context.theme.typography.textTheme.labelMedium.copyWith(
+                      color:
+                          isSelected ? Colors.white : context.theme.colors.body,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

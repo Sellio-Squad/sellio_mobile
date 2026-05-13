@@ -20,7 +20,6 @@ void navigateToSearch(BuildContext context) {
   context.navigator.pushSearch();
 }
 
-
 void navigateToFilterDialog(BuildContext context) {
   // TODO: Implement filter dialog
 }

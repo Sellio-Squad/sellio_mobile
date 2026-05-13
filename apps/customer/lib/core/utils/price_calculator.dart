@@ -4,7 +4,7 @@ class PriceCalculator {
   static double calculateTotalPrice(List<CartItem> items) {
     return items.fold(
       0.0,
-          (sum, item) => sum + (item.price * item.quantity),
+      (sum, item) => sum + (item.price * item.quantity),
     );
   }
 

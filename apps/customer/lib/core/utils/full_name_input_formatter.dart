@@ -8,9 +8,9 @@ class FullNameInputFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue,
-      TextEditingValue newValue,
-      ) {
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     if (newValue.text.startsWith(' ')) return oldValue;
 
     if (_doubleSpacePattern.hasMatch(newValue.text)) return oldValue;

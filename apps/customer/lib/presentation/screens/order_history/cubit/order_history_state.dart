@@ -21,7 +21,7 @@ class OrderHistoryLoaded extends OrderHistoryState {
   final int selectedTabIndex;
   final bool hasAnyOrders;
 
-  OrderHistoryLoaded({
+  const OrderHistoryLoaded({
     required this.orders,
     required this.selectedTabIndex,
     required this.hasAnyOrders,

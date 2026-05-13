@@ -49,7 +49,11 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
                 : Brightness.dark,
       ),
       centerTitle: centerTitle,
-      leadingWidth: leading !=null ? 56: showBackButton ? 56 : 110,
+      leadingWidth: leading != null
+          ? 56
+          : showBackButton
+          ? 56
+          : 110,
       leading: _buildLeading(context),
       title: customTitle ?? _buildTitle(context, colors, textTheme),
       titleSpacing: 12,
@@ -66,11 +70,11 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     if (showBackButton) {
-            return Padding(
+      return Padding(
         padding: const EdgeInsetsDirectional.only(start: _leadingPadding),
         child: IconButton(
           icon: SvgPicture.asset(AppImages.arrowLeft, matchTextDirection: true),
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
           padding: EdgeInsets.zero,

@@ -3,7 +3,6 @@ import '../entities/product.dart';
 import '../entities/store.dart';
 
 abstract class SearchRepository {
-
   Future<Result<List<Product>>> searchProducts({
     required String query,
     String? categoryId,
@@ -24,5 +23,4 @@ abstract class SearchRepository {
   Future<Result<List<String>>> getRecentSearches();
 
   Future<Result<void>> clearAllRecentSearches();
-
 }

@@ -14,10 +14,11 @@ class AccountCubit extends Cubit<AccountState> {
   late final StreamSubscription _authenticationSubscription;
 
   AccountCubit(
-      this._repository,
-      this._authenticationCubit,
-      ) : super(const AccountInitial()) {
-    _authenticationSubscription = _authenticationCubit.stream.listen(_onAuthStateChanged);
+    this._repository,
+    this._authenticationCubit,
+  ) : super(const AccountInitial()) {
+    _authenticationSubscription =
+        _authenticationCubit.stream.listen(_onAuthStateChanged);
     _onAuthStateChanged(_authenticationCubit.state);
   }
 
@@ -28,18 +29,15 @@ class AccountCubit extends Cubit<AccountState> {
         imagePath: authState.user.avatarUrl,
         notificationsEnabled: true,
       ));
-    }
-    else if (authState is Guest) {
+    } else if (authState is Guest) {
       emit(const UserNotLoggedIn());
-    }
-    else if (authState is AuthenticationError) {
+    } else if (authState is AuthenticationError) {
       emit(AccountError(message: authState.message));
     }
   }
 
   Future<void> loadAccountDetails() async {
     _authenticationCubit.loadUserProfile();
-
   }
 
   void toggleNotifications(bool enabled) {

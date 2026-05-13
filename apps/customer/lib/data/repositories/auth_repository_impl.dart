@@ -36,25 +36,23 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Result<void>> register({
-    required String fullName,
-    required String phoneNumber,
-    required String password,
-    required String city,
-    required String country,
-    required String region,
-    required String countryCode
-  }) async {
+  Future<Result<void>> register(
+      {required String fullName,
+      required String phoneNumber,
+      required String password,
+      required String city,
+      required String country,
+      required String region,
+      required String countryCode}) async {
     return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
-        fullName: fullName,
-        phoneNumber: phoneNumber,
-        password: password,
-        city: city,
-        country: country,
-        region: region,
-        countryCode: countryCode
-      );
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          password: password,
+          city: city,
+          country: country,
+          region: region,
+          countryCode: countryCode);
 
       await _savePendingRegistration(
         sessionId: response.sessionId,
@@ -113,6 +111,7 @@ class AuthRepositoryImpl implements AuthRepository {
       return response.message;
     });
   }
+
   @override
   Future<Result<void>> sendForgotPasswordOtp({
     required String phoneNumber,
@@ -123,7 +122,7 @@ class AuthRepositoryImpl implements AuthRepository {
         phoneNumber: phoneNumber,
         defaultRegion: defaultRegion,
       );
-      
+
       // Store sessionId for subsequent operations
       await _storageService.save<String>(
         StorageKeys.forgotPasswordSessionId,
@@ -171,7 +170,7 @@ class AuthRepositoryImpl implements AuthRepository {
         newPassword: newPassword,
         confirmPassword: confirmPassword,
       );
-      
+
       // Clear the session after successful reset
       await _storageService.remove(StorageKeys.forgotPasswordSessionId);
     });
