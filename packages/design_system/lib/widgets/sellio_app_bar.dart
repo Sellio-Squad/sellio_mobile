@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import '../themes/sellio_theme_provider.dart';
 import '../constants/app_images.dart';
@@ -35,6 +36,18 @@ class SellioAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
       scrolledUnderElevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: context.theme.brightness == Brightness.dark
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: context.theme.brightness,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarIconBrightness:
+            context.theme.brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
+      ),
       centerTitle: centerTitle,
       leadingWidth: leading !=null ? 56: showBackButton ? 56 : 110,
       leading: _buildLeading(context),
