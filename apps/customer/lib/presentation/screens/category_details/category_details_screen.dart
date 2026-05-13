@@ -5,6 +5,8 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/category_details/cubit/category_details_state.dart';
+import '../../cubits/favorites/cubit/favorites_cubit.dart';
+import '../../cubits/favorites/cubit/favorites_state.dart';
 import '../../../di/injection_container.dart';
 import '../../../domain/repositories/category_details_repository.dart';
 import '../home/utils/home_navigation.dart';
@@ -211,20 +213,37 @@ class _ProductsGrid extends StatelessWidget {
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final product = products[index];
-                return CustomerProductCard(
-                  productId: product.id,
-                  imageUrl:
-                      product.images.isNotEmpty ? product.images.first : '',
-                  title: product.title,
-                  formattedPrice: product.minPrice.toString(),
-                  rawPrice: double.tryParse(product.minPrice
-                          .toString()
-                          .replaceAll(RegExp(r'[^\d.]'), '')) ??
-                      0.0,
-                  currency: product.currency ?? 'EGP',
-                  isFavorite: product.isFavorite,
-                  onTap: () => navigateToProductDetails(context, product.id),
-                  onFavoriteToggle: () {},
+
+                return BlocBuilder<FavoritesCubit, FavoritesState>(
+                  builder: (context, favState) {
+                    bool isFavorite = product.isFavorite;
+                    if (favState is FavoritesLoaded) {
+                      isFavorite =
+                          favState.favoriteProductIds.contains(product.id);
+                    }
+
+                    return CustomerProductCard(
+                      productId: product.id,
+                      imageUrl:
+                          product.images.isNotEmpty ? product.images.first : '',
+                      title: product.title,
+                      formattedPrice: product.minPrice.toString(),
+                      rawPrice: double.tryParse(product.minPrice
+                              .toString()
+                              .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                          0.0,
+                      currency: product.currency,
+                      isFavorite: isFavorite,
+                      onTap: () =>
+                          navigateToProductDetails(context, product.id),
+                      onFavoriteToggle: () {
+                        context.read<FavoritesCubit>().toggleFavorite(
+                              product.id,
+                              FavoriteType.product,
+                            );
+                      },
+                    );
+                  },
                 );
               },
               childCount: products.length,
