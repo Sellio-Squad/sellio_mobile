@@ -40,9 +40,8 @@ class SellioRecentSearches extends StatelessWidget {
                 onTap: onClearAllTap,
                 child: Text(
                   clearAllText,
-                  style: context.theme.typography.textTheme.labelMedium.copyWith(
-                    color: context.theme.colors.primary,
-                  ),
+                  style: context.theme.typography.textTheme.labelMedium
+                      .copyWith(color: context.theme.colors.primary),
                 ),
               ),
             ],

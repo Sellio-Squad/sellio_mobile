@@ -1,16 +1,12 @@
-import 'package:sellio_mobile/data/mappers/address_mapper.dart';
 import 'package:sellio_mobile/data/mappers/user_mapper.dart';
 
 import '../../core/error/result.dart';
-import '../../domain/entities/address.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../core/utils/repository_call_handler.dart';
 import '../datasource/remote/user/user_remote.dart';
-import '../models/request/add_address_request.dart';
 import '../models/request/change_password_request.dart';
 import '../models/request/reset_password_request.dart';
-import '../models/request/update_address_request.dart';
 import '../models/request/update_user_profile_request.dart';
 
 class UserRepositoryImpl implements UserRepository {
@@ -18,7 +14,7 @@ class UserRepositoryImpl implements UserRepository {
 
   UserRepositoryImpl({
     required UserRemoteDataSource remoteDataSource,
-  })  : _remoteDataSource = remoteDataSource;
+  }) : _remoteDataSource = remoteDataSource;
 
   @override
   Future<Result<User>> getUserProfile() async {

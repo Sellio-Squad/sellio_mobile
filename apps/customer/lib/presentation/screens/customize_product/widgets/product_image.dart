@@ -92,7 +92,6 @@ class _ProductImageState extends State<ProductImage> {
                   strokeWidth: 3,
                 ),
               ),
-
               Positioned.fill(
                 child: Padding(
                   padding: const EdgeInsets.all(3),
@@ -116,8 +115,8 @@ class _ProductImageState extends State<ProductImage> {
                   right: 0,
                   child: Center(
                     child: Container(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: const Color(0xFF3B9AFF),
                         borderRadius: BorderRadius.circular(4),
@@ -238,14 +237,10 @@ class CornerPainter extends CustomPainter {
         Offset(0, size.height), Offset(cornerLength, size.height), paint);
 
     // Bottom-right corner
-    canvas.drawLine(
-        Offset(size.width, size.height),
-        Offset(size.width - cornerLength, size.height),
-        paint);
-    canvas.drawLine(
-        Offset(size.width, size.height),
-        Offset(size.width, size.height - cornerLength),
-        paint);
+    canvas.drawLine(Offset(size.width, size.height),
+        Offset(size.width - cornerLength, size.height), paint);
+    canvas.drawLine(Offset(size.width, size.height),
+        Offset(size.width, size.height - cornerLength), paint);
   }
 
   @override

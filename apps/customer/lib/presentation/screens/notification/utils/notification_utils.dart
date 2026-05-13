@@ -10,8 +10,8 @@ class NotificationUtils {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
-    final dateOnly = DateTime(
-        parsedDate.year, parsedDate.month, parsedDate.day);
+    final dateOnly =
+        DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
 
     if (dateOnly == today) {
       return "Today";
@@ -37,8 +37,8 @@ class NotificationUtils {
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final dateOnly = DateTime(
-        parsedDate.year, parsedDate.month, parsedDate.day);
+    final dateOnly =
+        DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
 
     return dateOnly == today;
   }
@@ -50,8 +50,8 @@ class NotificationUtils {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
-    final dateOnly = DateTime(
-        parsedDate.year, parsedDate.month, parsedDate.day);
+    final dateOnly =
+        DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
 
     return dateOnly == yesterday;
   }

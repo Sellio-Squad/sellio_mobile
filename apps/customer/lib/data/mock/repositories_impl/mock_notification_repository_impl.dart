@@ -4,7 +4,7 @@ import '../../mock/mock_data_generator.dart';
 
 class MockNotificationRepositoryImpl implements NotificationRepository {
   final List<Notification> _notifications =
-  MockDataGenerator.generateNotifications(count: 15);
+      MockDataGenerator.generateNotifications(count: 15);
 
   Future<void> _simulateDelay() async {
     await Future.delayed(const Duration(milliseconds: 400));

@@ -15,10 +15,10 @@ class StoreRepositoryImpl implements StoreRepository {
   final StoreRemoteDataSource _remoteDataSource;
   final FavoritesRemoteDataSource _favoritesRemoteDataSource;
 
-  StoreRepositoryImpl({
-    required StoreRemoteDataSource remoteDataSource,
-    required FavoritesRemoteDataSource favoritesRemoteDataSource
-  })  : _remoteDataSource = remoteDataSource,
+  StoreRepositoryImpl(
+      {required StoreRemoteDataSource remoteDataSource,
+      required FavoritesRemoteDataSource favoritesRemoteDataSource})
+      : _remoteDataSource = remoteDataSource,
         _favoritesRemoteDataSource = favoritesRemoteDataSource;
 
   @override

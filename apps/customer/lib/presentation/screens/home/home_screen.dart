@@ -46,7 +46,6 @@ class _HomeScreenContent extends StatelessWidget {
   }
 }
 
-
 class _HomeBody extends StatelessWidget {
   final dynamic colors;
 

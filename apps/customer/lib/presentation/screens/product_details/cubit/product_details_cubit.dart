@@ -45,7 +45,8 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
       },
       onFailure: (error) => {
         emit(ProductDetailsError(
-            message: error.message,)),
+          message: error.message,
+        )),
       },
     );
   }

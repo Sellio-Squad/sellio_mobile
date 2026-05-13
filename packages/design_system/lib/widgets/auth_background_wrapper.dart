@@ -40,7 +40,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
                 _buildTopBackground(context),
                 _buildBottomSection(context, colors),
                 if (showLogo) _buildTopLogo(context),
-                _buildCloseButton(context)
+                _buildCloseButton(context),
               ],
             ),
           ),
@@ -51,14 +51,14 @@ class AuthBackgroundWrapper extends StatelessWidget {
 
   Widget _buildCloseButton(BuildContext context) {
     return Positioned(
-        top: 40,
-        right: 16,
-        child: IconButton(
-          icon: const Icon(Icons.close, color: Colors.white, size: 28),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+      top: 40,
+      right: 16,
+      child: IconButton(
+        icon: const Icon(Icons.close, color: Colors.white, size: 28),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 

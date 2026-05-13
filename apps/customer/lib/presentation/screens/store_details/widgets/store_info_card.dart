@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:design_system/design_system.dart';
 
 class StoreInfoOverview extends StatelessWidget {
   final String location;

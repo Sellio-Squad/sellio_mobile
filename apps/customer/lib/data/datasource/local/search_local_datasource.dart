@@ -1,4 +1,3 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SearchLocalDatasource {
@@ -6,9 +5,9 @@ abstract class SearchLocalDatasource {
   Future<List<String>> getRecentSearch();
   Future<void> clearAllRecentSearches();
 }
-class SearchLocalDataSourceImpl implements SearchLocalDatasource{
-  static const _key = 'recent_search';
 
+class SearchLocalDataSourceImpl implements SearchLocalDatasource {
+  static const _key = 'recent_search';
 
   @override
   Future<List<String>> getRecentSearch() async {
@@ -27,9 +26,8 @@ class SearchLocalDataSourceImpl implements SearchLocalDatasource{
   }
 
   @override
-  Future<void> clearAllRecentSearches() async{
+  Future<void> clearAllRecentSearches() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
   }
-
 }

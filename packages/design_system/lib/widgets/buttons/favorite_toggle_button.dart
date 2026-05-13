@@ -71,7 +71,9 @@ class _FavoriteToggleButtonState extends State<FavoriteToggleButton> {
 
     try {
       if (widget.onToggle != null) {
-        await Future.microtask(widget.onToggle!); // just call it, no return needed
+        await Future.microtask(
+          widget.onToggle!,
+        ); // just call it, no return needed
       }
 
       if (mounted) {
@@ -136,23 +138,20 @@ class _FavoriteToggleButtonState extends State<FavoriteToggleButton> {
     return Center(
       child: _isLoading
           ? SizedBox(
-        width: widget.size * 0.5,
-        height: widget.size * 0.5,
-        child: CircularProgressIndicator(
-          strokeWidth: 2,
-          valueColor: AlwaysStoppedAnimation<Color>(iconColor),
-        ),
-      )
+              width: widget.size * 0.5,
+              height: widget.size * 0.5,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(iconColor),
+              ),
+            )
           : SvgPicture.asset(
-        _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
-        colorFilter: ColorFilter.mode(
-          iconColor,
-          BlendMode.srcIn,
-        ),
-        width: widget.size * 0.625,
-        height: widget.size * 0.625,
-        fit: BoxFit.scaleDown,
-      ),
+              _isFavorite ? AppImages.favorite : AppImages.unselectedFavorite,
+              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+              width: widget.size * 0.625,
+              height: widget.size * 0.625,
+              fit: BoxFit.scaleDown,
+            ),
     );
   }
 }

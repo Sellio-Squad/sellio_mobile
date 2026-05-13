@@ -28,8 +28,7 @@ class NotificationContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               NotificationDateHeader(date: date),
-              ...notifications.map((notification) =>
-                  NotificationItem(
+              ...notifications.map((notification) => NotificationItem(
                     notification: notification,
                   )),
             ],

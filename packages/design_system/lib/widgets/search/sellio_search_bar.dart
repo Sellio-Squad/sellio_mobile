@@ -1,8 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_gap/flutter_gap.dart';
-
 export 'sellio_initial_search.dart';
 export 'sellio_recent_searches.dart';
 export 'sellio_search_empty_state.dart';
@@ -59,13 +57,10 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
       focusedErrorBorderRadius: 12,
       cornerRadius: const BorderRadius.all(Radius.circular(12)),
       hintText: widget.hintText,
-      hintStyle: context.theme.typography.textTheme.labelMedium
-          .copyWith(color: context.theme.colors.body),
-      prefixIcon: SvgPicture.asset(
-        AppImages.search,
-        width: 24,
-        height: 24,
+      hintStyle: context.theme.typography.textTheme.labelMedium.copyWith(
+        color: context.theme.colors.body,
       ),
+      prefixIcon: SvgPicture.asset(AppImages.search, width: 24, height: 24),
       controller: _searchController,
       readOnly: widget.isReadOnly,
       onTap: widget.onTextFieldClicked,
@@ -90,20 +85,20 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
                 topEnd: Radius.circular(0),
                 bottomEnd: Radius.circular(0),
               ),
-                hintText: widget.hintText,
-                hintStyle: context.theme.typography.textTheme.labelMedium
-                    .copyWith(color: context.theme.colors.body),
-                prefixIcon: SvgPicture.asset(
-                  AppImages.search,
-                  width: 24,
-                  height: 24,
-                ),
-                controller: _searchController,
-                readOnly: widget.isReadOnly,
-                onTap: widget.onTextFieldClicked,
-                onFieldSubmitted: widget.onTextSubmitted,
+              hintText: widget.hintText,
+              hintStyle: context.theme.typography.textTheme.labelMedium
+                  .copyWith(color: context.theme.colors.body),
+              prefixIcon: SvgPicture.asset(
+                AppImages.search,
+                width: 24,
+                height: 24,
               ),
+              controller: _searchController,
+              readOnly: widget.isReadOnly,
+              onTap: widget.onTextFieldClicked,
+              onFieldSubmitted: widget.onTextSubmitted,
             ),
+          ),
           Material(
             color: context.theme.colors.primaryVariant,
             borderRadius: const BorderRadiusDirectional.only(
@@ -130,4 +125,3 @@ class _SellioSearchBarState extends State<SellioSearchBar> {
     );
   }
 }
-

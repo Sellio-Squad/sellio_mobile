@@ -18,14 +18,14 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
       page: 1,
       limit: limit,
     );
-    print('product list:${result}');
+    print('product list:$result');
 
     result.fold(
       onSuccess: (products) {
         final uiModels = products
             .map((product) => ProductSummaryUIModel.fromEntity(product))
             .toList();
-        print('product list: onSuccess products: ${uiModels}');
+        print('product list: onSuccess products: $uiModels');
 
         emit(HomeTrendingProductsLoaded(products: uiModels));
       },
@@ -36,9 +36,9 @@ class HomeTrendingProductsCubit extends Cubit<HomeTrendingProductsState> {
   }
 
   Future<void> loadProductsByCategory(
-      String categoryId, {
-        int limit = 10,
-      }) async {
+    String categoryId, {
+    int limit = 10,
+  }) async {
     emit(const HomeTrendingProductsLoading());
 
     final result = await _productRepository.getProductsByCategory(

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
-import 'package:design_system/design_system.dart';
 import '../../../../core/localization/l10n/localization_service.dart';
 import '../../../../core/navigate/navigation_extensions.dart';
 
@@ -52,10 +50,10 @@ class EmptyCartSection extends StatelessWidget {
   }
 
   Widget _buildButton(
-      BuildContext context,
-      dynamic textTheme,
-      dynamic colors,
-      ) {
+    BuildContext context,
+    dynamic textTheme,
+    dynamic colors,
+  ) {
     return SellioButton(
       text: context.local.empty_cart_button,
       fullWidth: false,

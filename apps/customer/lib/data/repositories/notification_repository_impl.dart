@@ -37,7 +37,6 @@ class NotificationRepositoryImpl implements NotificationRepository {
         time: "10:12 PM",
         date: "2025-11-03",
       ),
-
       const Notification(
         id: '1',
         state: 2,
@@ -62,7 +61,6 @@ class NotificationRepositoryImpl implements NotificationRepository {
         time: "08:25 PM",
         date: "2025-11-02",
       ),
-
       const Notification(
         id: '1',
         state: 0,

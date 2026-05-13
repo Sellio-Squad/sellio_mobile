@@ -13,6 +13,7 @@ import '../../../core/navigate/navigation_extensions.dart';
 import '../../../core/navigate/route_args.dart';
 import '../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../cubits/favorites/cubit/favorites_state.dart';
+import '../../widgets/customer_product_card.dart';
 import 'cubit/thrift_products_cubit.dart';
 import 'cubit/thrift_products_state.dart';
 import 'widgets/category_tabs.dart';
@@ -193,13 +194,18 @@ class ThriftContent extends StatelessWidget {
                           favState.favoriteProductIds.contains(product.id);
                     }
 
-                    return SellioProductVerticalCard(
-                      key: ValueKey(product.id),
+                    return CustomerProductCard(
+                      cardKey: ValueKey(product.id),
                       productId: product.id,
                       imageUrl:
                           product.images.isNotEmpty ? product.images.first : '',
                       title: product.title,
-                      price: product.minPrice.toString(),
+                      formattedPrice: product.minPrice.toString(),
+                      rawPrice: double.tryParse(product.minPrice
+                              .toString()
+                              .replaceAll(RegExp(r'[^\d.]'), '')) ??
+                          0.0,
+                      currency: 'EGP',
                       isFavorite: isFavorite,
                       onFavoriteToggle: () {
                         context
@@ -222,7 +228,7 @@ class ThriftContent extends StatelessWidget {
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
-              childAspectRatio: 160 / 272,
+              childAspectRatio: 0.72,
             ),
           );
         },

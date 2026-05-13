@@ -7,7 +7,6 @@ import '../../../domain/entities/store_rating.dart';
 import '../../../domain/repositories/store_repository.dart';
 import '../../mock/mock_data_generator.dart';
 
-
 class MockStoreRepositoryImpl implements StoreRepository {
   final Set<String> _favoriteStoreIds = {};
 
@@ -127,8 +126,8 @@ class MockStoreRepositoryImpl implements StoreRepository {
     final stores = _favoriteStoreIds
         .take(10)
         .map((id) => MockDataGenerator.generateStore(
-      index: int.tryParse(id.replaceAll('store_', '')) ?? 0,
-    ))
+              index: int.tryParse(id.replaceAll('store_', '')) ?? 0,
+            ))
         .toList();
 
     return Success(stores);

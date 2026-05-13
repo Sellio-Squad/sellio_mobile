@@ -11,7 +11,7 @@ abstract class StoreRepository {
   });
 
   Future<Result<Store>> getStoreById(String storeId);
-  
+
   Future<Result<Store>> getStoreDetails(String storeId);
 
   Future<Result<List<Store>>> getTopStores({

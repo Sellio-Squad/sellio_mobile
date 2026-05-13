@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/network/network_info.dart';
 import '../../../data/core/api/api_client.dart';
@@ -11,21 +10,20 @@ import '../../core/services/image_picker_service_impl.dart';
 
 class CoreModule {
   static Future<void> register(GetIt sl) async {
-
     sl.registerLazySingleton<InternetConnectionChecker>(
-          () => InternetConnectionChecker(),
+      () => InternetConnectionChecker(),
     );
 
     sl.registerLazySingleton<ImagePickerService>(
-          () => ImagePickerServiceImpl(),
+      () => ImagePickerServiceImpl(),
     );
 
     sl.registerLazySingleton<NetworkInfo>(
-          () => NetworkInfoImpl(sl()),
+      () => NetworkInfoImpl(sl()),
     );
 
     sl.registerLazySingleton<ApiClient>(
-          () => DioClient(
+      () => DioClient(
         baseUrl: ApiEndpoints.baseUrl,
         storageService: sl(),
         connectTimeout: const Duration(seconds: 30),

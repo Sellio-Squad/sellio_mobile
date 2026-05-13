@@ -39,25 +39,28 @@ class ProductModel with _$ProductModel {
       maxDiscount: json['maxDiscount']?.toString(),
       mainImageUrl: json['mainImageUrl']?.toString(),
       images: _extractImages(json),
-      storeId: json['storeId']?.toString() ?? json['store_id']?.toString() ?? '',
+      storeId:
+          json['storeId']?.toString() ?? json['store_id']?.toString() ?? '',
       categoryId: _extractCategoryId(json),
       subCategoriesIds: _extractSubCategories(json),
-      isAvailable: json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
-      stockQuantity: json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
+      isAvailable:
+          json['isAvailable'] as bool? ?? json['is_available'] as bool? ?? true,
+      stockQuantity:
+          json['stockQuantity'] as int? ?? json['stock_quantity'] as int? ?? 0,
       isFavorite: json['isFavorite'] as bool? ?? false,
       isUsed: json['isUsed'] as bool? ?? false,
       isFeatured: json['isFeatured'] as bool? ?? false,
       items: (json['items'] as List<dynamic>?)
-          ?.map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
-          .toList() ?? [],
+              ?.map((e) => ItemModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 
   Product toEntity() {
     final allImages = <String>[
       ...images,
-      if (mainImageUrl != null && mainImageUrl!.isNotEmpty)
-        mainImageUrl!,
+      if (mainImageUrl != null && mainImageUrl!.isNotEmpty) mainImageUrl!,
     ].where((e) => e.isNotEmpty).toSet().toList();
 
     return Product(
@@ -111,7 +114,9 @@ class ProductModel with _$ProductModel {
   }
 
   static List<String> _extractSubCategories(Map<String, dynamic> json) {
-    final raw = json['subCategoriesIds'] ?? json['subCategoryIds'] ?? json['sub_category_ids'];
+    final raw = json['subCategoriesIds'] ??
+        json['subCategoryIds'] ??
+        json['sub_category_ids'];
     if (raw is! List) return [];
     return raw
         .where((e) => e != null)
@@ -136,7 +141,8 @@ class ProductModel with _$ProductModel {
       }
     }
 
-    tryAdd(json['mainImageURL'] ?? json['mainImageUrl'] ?? json['main_image_url']);
+    tryAdd(
+        json['mainImageURL'] ?? json['mainImageUrl'] ?? json['main_image_url']);
 
     addFromList(json['images']);
     addFromList(json['imageUrls']);
@@ -146,10 +152,15 @@ class ProductModel with _$ProductModel {
   }
 
   static String _extractCategoryId(Map<String, dynamic> json) {
-    final direct = json['categoryId'] ?? json['category_id'] ?? json['categoryID'];
-    if (direct != null && direct.toString().isNotEmpty) return direct.toString();
+    final direct =
+        json['categoryId'] ?? json['category_id'] ?? json['categoryID'];
+    if (direct != null && direct.toString().isNotEmpty) {
+      return direct.toString();
+    }
 
-    final subCategories = json['subCategoryIds'] ?? json['subCategoriesIds'] ?? json['sub_category_ids'];
+    final subCategories = json['subCategoryIds'] ??
+        json['subCategoriesIds'] ??
+        json['sub_category_ids'];
     if (subCategories is List && subCategories.isNotEmpty) {
       return subCategories.first?.toString() ?? '';
     }

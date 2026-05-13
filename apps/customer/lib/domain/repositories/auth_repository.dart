@@ -6,15 +6,14 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<Result<void>> register({
-    required String fullName,
-    required String phoneNumber,
-    required String password,
-    required String city,
-    required String country,
-    required String region,
-    required String countryCode
-  });
+  Future<Result<void>> register(
+      {required String fullName,
+      required String phoneNumber,
+      required String password,
+      required String city,
+      required String country,
+      required String region,
+      required String countryCode});
 
   Future<Result<void>> verifyRegistrationOtp({
     required String otp,

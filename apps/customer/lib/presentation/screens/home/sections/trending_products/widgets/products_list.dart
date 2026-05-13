@@ -5,6 +5,7 @@ import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import '../../../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../../../../widgets/customer_product_card.dart';
 import '../../../utils/home_navigation.dart';
 import '../models/product_summary_ui_model.dart';
 
@@ -20,6 +21,12 @@ class ProductsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width - 32; // horizontal padding 16*2
+    const baseCardWidth = 170.0;
+    final crossAxisCount = (screenWidth / baseCardWidth).floor().clamp(1, 6);
+    final cardWidth = (screenWidth - (crossAxisCount - 1) * 8) / crossAxisCount;
+    final cardHeight = cardWidth / 0.72;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,13 +46,14 @@ class ProductsList extends StatelessWidget {
         ),
         if (products.isEmpty)
           SizedBox(
-            height: 272,
+            height: 320,
             child: Center(
               child: Text(
                 searchQuery == null
                     ? context.local.no_products_available
                     : context.local.no_products_found_for(
-                    searchQuery as Object,),
+                        searchQuery as Object,
+                      ),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
@@ -53,7 +61,7 @@ class ProductsList extends StatelessWidget {
           )
         else
           SizedBox(
-            height: 272,
+            height: cardHeight,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -63,7 +71,7 @@ class ProductsList extends StatelessWidget {
                 final product = products[index];
 
                 return SizedBox(
-                  width: 160,
+                  width: cardWidth,
                   child: _ProductItem(product: product),
                 );
               },
@@ -82,21 +90,24 @@ class _ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
-      builder: (context, state) {
+      builder: (context, favoritesState) {
         bool isFavorite = product.isFavorite;
-
-        if (state is FavoritesLoaded) {
-          isFavorite = state.favoriteProductIds.contains(product.id);
+        if (favoritesState is FavoritesLoaded) {
+          isFavorite = favoritesState.favoriteProductIds.contains(product.id);
         }
 
-        return SellioProductVerticalCard(
-          key: ValueKey(product.id),
+        return CustomerProductCard(
+          cardKey: ValueKey(product.id),
           productId: product.id,
           imageUrl: product.imageUrl,
           title: product.title,
-          price: product.price,
-          onTap: () => navigateToProductDetails(context, product.id),
+          formattedPrice: product.price,
+          rawPrice: double.tryParse(
+                  product.price.replaceAll(RegExp(r'[^\d.]'), '')) ??
+              0.0,
+          currency: '\$',
           isFavorite: isFavorite,
+          onTap: () => navigateToProductDetails(context, product.id),
           onFavoriteToggle: () {
             context
                 .read<FavoritesCubit>()

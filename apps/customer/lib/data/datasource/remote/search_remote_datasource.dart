@@ -5,7 +5,6 @@ import '../../models/product_model.dart';
 import '../../models/store_model.dart';
 
 abstract class SearchRemoteDateSource {
-
   Future<PaginatedResponse<ProductModel>> searchProducts({
     required String query,
     int page = 0,
@@ -17,7 +16,6 @@ abstract class SearchRemoteDateSource {
     int page = 0,
     int pageSize = 20,
   });
-
 }
 
 class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
@@ -42,7 +40,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => ProductModel.fromJson(json),
+      (json) => ProductModel.fromJson(json),
     );
   }
 
@@ -63,8 +61,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
 
     return PaginatedResponse.fromJson(
       response.data,
-          (json) => StoreModel.fromJson(json),
+      (json) => StoreModel.fromJson(json),
     );
   }
-
 }

@@ -1,7 +1,6 @@
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'store_discount_frame.dart';
 
 class StoreHeader extends StatelessWidget {
@@ -71,6 +70,7 @@ class StoreHeader extends StatelessWidget {
               ),
             ),
             if (discount.isNotEmpty) _buildDiscountTag(),
+
           ],
         ),
         const SizedBox(height: 44),

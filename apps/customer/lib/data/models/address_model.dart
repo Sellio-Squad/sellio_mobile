@@ -14,4 +14,3 @@ class AddressModel with _$AddressModel {
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);
 }
-

@@ -27,14 +27,14 @@ class Order extends Equatable {
 
   @override
   List<Object?> get props => [
-    orderId,
-    orderDate,
-    status,
-    totalPrice,
-    storeName,
-    storeLogoUrl,
-    items,
-  ];
+        orderId,
+        orderDate,
+        status,
+        totalPrice,
+        storeName,
+        storeLogoUrl,
+        items,
+      ];
 }
 
 class OrderItem extends Equatable {

@@ -5,7 +5,8 @@ import 'home_top_stores_state.dart';
 class HomeTopStoresCubit extends Cubit<HomeTopStoresState> {
   final StoreRepository _storeRepository;
 
-  HomeTopStoresCubit(this._storeRepository) : super(const HomeTopStoresInitial());
+  HomeTopStoresCubit(this._storeRepository)
+      : super(const HomeTopStoresInitial());
 
   Future<void> loadTopStores({int limit = 10}) async {
     emit(const HomeTopStoresLoading());

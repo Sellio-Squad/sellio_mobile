@@ -20,9 +20,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   int _selectedTabIndex = 0;
 
   List<TabInfo> _getTabs(BuildContext context) => [
-    TabInfo(context.local.products),
-    TabInfo(context.local.stores),
-  ];
+        TabInfo(context.local.products),
+        TabInfo(context.local.stores),
+      ];
 
   @override
   void initState() {
@@ -97,16 +97,15 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       ),
                     ),
                   ),
-
                   _selectedTabIndex == 0
                       ? ProductsGridSection(
-                    products: favoriteProducts,
-                    favoriteIds: state.favoriteProductIds,
-                  )
+                          products: favoriteProducts,
+                          favoriteIds: state.favoriteProductIds,
+                        )
                       : StoresSection(
-                    stores: favoriteStores,
-                    favoriteStoreIds: state.favoriteStoreIds,
-                  ),
+                          stores: favoriteStores,
+                          favoriteStoreIds: state.favoriteStoreIds,
+                        ),
                 ],
               );
             },

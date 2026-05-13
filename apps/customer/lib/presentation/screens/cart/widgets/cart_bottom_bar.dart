@@ -2,7 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:design_system/design_system.dart';
 import '../../../../core/localization/l10n/localization_service.dart';
 import '../../../../core/utils/price_calculator.dart';
 
@@ -51,10 +51,10 @@ class CartBottomBar extends StatelessWidget {
   }
 
   Widget _buildPriceRow(
-      BuildContext context,
-      dynamic textTheme,
-      dynamic colors,
-      ) {
+    BuildContext context,
+    dynamic textTheme,
+    dynamic colors,
+  ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

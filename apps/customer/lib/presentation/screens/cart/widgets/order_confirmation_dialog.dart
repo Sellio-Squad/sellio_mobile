@@ -38,7 +38,7 @@ class _OrderConfirmationContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildBottomSheetDeign(colors),
+         _buildBottomSheetDeign(colors),
           _buildIcon(colors),
           const Gap(24),
           _buildOrderNumber(colors, textTheme),
@@ -61,10 +61,10 @@ class _OrderConfirmationContent extends StatelessWidget {
         borderRadius: BorderRadius.circular(2),
       ),
     );
-  }
+          }
 
   Widget _buildOrderNumber(dynamic colors, dynamic textTheme) {
-    return Row(
+         return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(

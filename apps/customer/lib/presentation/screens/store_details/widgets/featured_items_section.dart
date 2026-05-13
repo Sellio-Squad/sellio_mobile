@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-
 import '../../../../core/navigate/route_args.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../cubits/favorites/cubit/favorites_state.dart';
+import '../../../widgets/customer_product_card.dart';
 
 class FeaturedItemsSection extends StatelessWidget {
   final List<Product> products;
@@ -38,7 +38,7 @@ class FeaturedItemsSection extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 210,
+          height: 236,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -52,7 +52,7 @@ class FeaturedItemsSection extends StatelessWidget {
                   ProductDetailsArgs(productId: product.id),
                 ),
                 child: SizedBox(
-                  width: 160,
+                  width: 170,
                   child: _FeaturedProductCard(product: product),
                 ),
               );
@@ -80,7 +80,6 @@ class _FeaturedProductCard extends StatelessWidget {
         }
 
         return SellioProductVerticalCard(
-          productId: product.id,
           imageUrl: product.images.isNotEmpty
               ? product.images.first
               : AppImages.cartProduct,

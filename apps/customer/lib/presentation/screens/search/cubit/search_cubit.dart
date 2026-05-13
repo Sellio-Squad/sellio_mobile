@@ -13,13 +13,12 @@ class SearchCubit extends Cubit<SearchState> {
   SearchType _currentType = SearchType.products;
   String _lastQuery = '';
 
-
   SearchCubit(this._searchRepository)
       : super(const SearchInitial(selectedType: SearchType.products));
 
   Future<void> init() async {
     final result = await _searchRepository.getRecentSearches();
-    if(result.data.isEmpty) return;
+    if (result.data.isEmpty) return;
 
     if (result.isSuccess) {
       emit(SearchRecent(
@@ -59,9 +58,9 @@ class SearchCubit extends Cubit<SearchState> {
         products.isEmpty
             ? SearchEmpty(selectedType: _currentType)
             : SearchProductsSuccess(
-          products: products,
-          selectedType: _currentType,
-        ),
+                products: products,
+                selectedType: _currentType,
+              ),
       );
     }
   }
@@ -77,20 +76,19 @@ class SearchCubit extends Cubit<SearchState> {
         stores.isEmpty
             ? SearchEmpty(selectedType: _currentType)
             : SearchStoresSuccess(
-          stores: stores,
-          selectedType: _currentType,
-        ),
+                stores: stores,
+                selectedType: _currentType,
+              ),
       );
     }
   }
 
   void selectTab(SearchType type) {
-
     if (_currentType == type) return;
 
     _currentType = type;
     if (_lastQuery.isNotEmpty) {
-    search(_lastQuery);
+      search(_lastQuery);
     }
   }
 

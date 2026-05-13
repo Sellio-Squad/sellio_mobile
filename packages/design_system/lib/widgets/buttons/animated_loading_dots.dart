@@ -57,7 +57,7 @@ class _SellioAnimatedLoadingDotsState extends State<SellioAnimatedLoadingDots>
           width: 6,
           height: 6,
           decoration: BoxDecoration(
-            color: baseColor.withOpacity(opacity * baseColor.opacity),
+            color: baseColor.withValues(alpha: opacity * baseColor.a),
             shape: BoxShape.circle,
           ),
         );

@@ -20,7 +20,7 @@ class CartModel with _$CartModel {
   Cart toEntity() {
     final totalPrice = items.fold(
       0.0,
-          (sum, item) => sum + (item.price * item.quantity),
+      (sum, item) => sum + (item.price * item.quantity),
     );
 
     return Cart(
@@ -34,9 +34,7 @@ class CartModel with _$CartModel {
   // Mapper from domain entity
   factory CartModel.fromEntity(Cart cart) {
     return CartModel(
-      items: cart.items
-          .map((item) => CartItemModel.fromEntity(item))
-          .toList(),
+      items: cart.items.map((item) => CartItemModel.fromEntity(item)).toList(),
     );
   }
 }

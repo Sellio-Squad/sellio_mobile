@@ -73,15 +73,14 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
               ],
             ),
             const SizedBox(height: 24),
-
             SizedBox(
               width: double.infinity,
               child: SellioButton(
                 text: context.local.save,
                 onTap: _isFormValid
                     ? () async {
-                  await _handleSave(context);
-                }
+                        await _handleSave(context);
+                      }
                     : null,
                 isEnabled: _isFormValid,
               ),
@@ -159,10 +158,10 @@ class _ChangeLanguageBottomSheetState extends State<ChangeLanguageBottomSheet> {
             const SizedBox(width: 12),
             Text(
               languageName,
-              style: context.theme.typography.textTheme.labelLarge?.copyWith(
+              style: context.theme.typography.textTheme.labelLarge.copyWith(
                 color: isSelected
                     ? context.theme.colors.primary
-                    : context.theme.typography.textTheme.labelLarge?.color,
+                    : context.theme.typography.textTheme.labelLarge.color,
               ),
             ),
           ],

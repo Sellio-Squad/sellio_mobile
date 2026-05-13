@@ -11,7 +11,8 @@ class ApiEndpoints {
   static const String login = '$apiVersion/auth/login';
   static const String resendOtp = '$apiVersion/auth/resend-otp';
   static const String forgotPassword = '$apiVersion/forgot-password/request';
-  static const String verifyForgotPasswordOtp = '$apiVersion/forgot-password/verify';
+  static const String verifyForgotPasswordOtp =
+      '$apiVersion/forgot-password/verify';
   static const String resetForgotPassword = '$apiVersion/forgot-password/reset';
   static const String resetPassword = '$apiVersion/auth/reset-password';
   static const String requestOtp = '$apiVersion/auth/create/request-otp';
@@ -64,8 +65,8 @@ class ApiEndpoints {
   static const String storesSearch = '$apiVersion/stores/search';
 
   static String storeById(String storeId) => '$apiVersion/stores/$storeId';
-  
-  static String storeDetails(String storeId) => 
+
+  static String storeDetails(String storeId) =>
       '$apiVersion/stores/store-details/$storeId';
 
   static String storeImages(String storeId) =>
@@ -153,8 +154,10 @@ class ApiEndpoints {
   static String addressById(String addressId) =>
       '$apiVersion/address/$addressId';
 
-  static String citiesByCountryIso2(String iso2) => '$apiVersion/countries/$iso2/cities';
+  static String citiesByCountryIso2(String iso2) =>
+      '$apiVersion/countries/$iso2/cities';
 
   // Category Sections
-  static const String categorySectionsActive = '$apiVersion/category-sections/active';
+  static const String categorySectionsActive =
+      '$apiVersion/category-sections/active';
 }

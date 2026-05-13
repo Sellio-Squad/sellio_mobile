@@ -31,40 +31,40 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             children: [
               SellioChip(
                 label: context.local.all,
-                onTap: (){
+                onTap: () {
                   setState(() {
                     _selectedFilter = 'all';
                   });
-                }, selected: _selectedFilter == 'all',
+                },
+                selected: _selectedFilter == 'all',
               ),
               Gap(8),
               SellioChip(
                 label: context.local.near_by_you,
                 selected: _selectedFilter == 'near_by_you',
-                onTap: (){
+                onTap: () {
                   setState(() {
                     _selectedFilter = 'near_by_you';
-
                   });
                 },
-
               ),
               Gap(8),
               SellioChip(
                 label: context.local.high_rating,
                 selected: _selectedFilter == 'high_rating',
-                onTap: (){
+                onTap: () {
                   setState(() {
                     _selectedFilter = 'high_rating';
                   });
                 },
-
               ),
             ],
           ),
           Gap(24),
-          SellioButton(text: context.local.save, textStyle: context.theme.typography.textTheme.labelMedium
-              .copyWith(color: context.theme.colors.onPrimary),
+          SellioButton(
+            text: context.local.save,
+            textStyle: context.theme.typography.textTheme.labelMedium
+                .copyWith(color: context.theme.colors.onPrimary),
           ),
         ],
       ),

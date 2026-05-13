@@ -41,7 +41,7 @@ class CartRepositoryImpl implements CartRepository {
       final items = List<CartItemModel>.from(currentCart.items);
 
       final existingIndex = items.indexWhere(
-            (item) => item.productId == productId,
+        (item) => item.productId == productId,
       );
 
       if (existingIndex != -1) {

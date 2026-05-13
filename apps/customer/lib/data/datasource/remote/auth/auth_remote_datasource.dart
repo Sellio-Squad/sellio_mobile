@@ -10,15 +10,14 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  Future<RegisterResponse> register({
-    required String fullName,
-    required String phoneNumber,
-    required String password,
-    required String city,
-    required String country,
-    required String region,
-    required String countryCode
-  });
+  Future<RegisterResponse> register(
+      {required String fullName,
+      required String phoneNumber,
+      required String password,
+      required String city,
+      required String country,
+      required String region,
+      required String countryCode});
 
   Future<VerifyOtpResponse> verifyOtp({
     required String otp,

@@ -10,9 +10,10 @@ class CountryRepositoryImpl implements CountryRepository {
   final InitialCountryLocalDataSource initialCountryLocalDataSource;
   final CountryRemoteDataSource countryRemoteDataSource;
 
-  CountryRepositoryImpl(
-      {required this.initialCountryLocalDataSource,
-      required this.countryRemoteDataSource,});
+  CountryRepositoryImpl({
+    required this.initialCountryLocalDataSource,
+    required this.countryRemoteDataSource,
+  });
 
   @override
   Future<String> getCurrentCountryCode() async {
@@ -30,7 +31,8 @@ class CountryRepositoryImpl implements CountryRepository {
   @override
   Future<Result<List<String>>> getCitiesByCountryIso2(String iso2) async {
     return RepositoryCallHandler.call<List<String>>(() async {
-      final response = await countryRemoteDataSource.getCitiesByCountryIso2(iso2);
+      final response =
+          await countryRemoteDataSource.getCitiesByCountryIso2(iso2);
 
       return response;
     });

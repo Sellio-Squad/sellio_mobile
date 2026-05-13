@@ -24,7 +24,9 @@ class StoreModel with _$StoreModel {
     @Default([]) List<ReviewModel> reviews,
     @Default(true) bool isActive,
     @Default(false) bool isFavorite,
-    @JsonKey(name: 'subCategories') @Default([]) List<CategoryModel> subCategories,
+    @JsonKey(name: 'subCategories')
+    @Default([])
+    List<CategoryModel> subCategories,
   }) = _StoreModel;
 
   factory StoreModel.fromJson(Map<String, dynamic> json) =>

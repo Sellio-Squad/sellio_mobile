@@ -5,7 +5,6 @@ import '../interceptors/error_interceptor.dart';
 import '../storage/storage_service.dart';
 import 'api_client.dart';
 
-
 class DioClient implements ApiClient {
   late final Dio _dio;
   final StorageService _storageService;
@@ -55,11 +54,11 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> get<T>(
-      String path, {
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-      }) async {
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.get<T>(
       path,
       queryParameters: queryParameters,
@@ -70,12 +69,12 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> post<T>(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-      }) async {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.post<T>(
       path,
       data: data,
@@ -87,12 +86,12 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> put<T>(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-      }) async {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.put<T>(
       path,
       data: data,
@@ -104,12 +103,12 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> delete<T>(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-      }) async {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.delete<T>(
       path,
       data: data,
@@ -121,12 +120,12 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> patch<T>(
-      String path, {
-        dynamic data,
-        Map<String, dynamic>? queryParameters,
-        Options? options,
-        CancelToken? cancelToken,
-      }) async {
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.patch<T>(
       path,
       data: data,
@@ -138,13 +137,13 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<T>> uploadFile<T>(
-      String path,
-      String filePath, {
-        String fieldName = 'file',
-        Map<String, dynamic>? additionalData,
-        ProgressCallback? onSendProgress,
-        CancelToken? cancelToken,
-      }) async {
+    String path,
+    String filePath, {
+    String fieldName = 'file',
+    Map<String, dynamic>? additionalData,
+    ProgressCallback? onSendProgress,
+    CancelToken? cancelToken,
+  }) async {
     final formData = FormData.fromMap({
       fieldName: await MultipartFile.fromFile(filePath),
       ...?additionalData,
@@ -160,12 +159,12 @@ class DioClient implements ApiClient {
 
   @override
   Future<Response<dynamic>> downloadFile(
-      String path,
-      String savePath, {
-        Map<String, dynamic>? queryParameters,
-        ProgressCallback? onReceiveProgress,
-        CancelToken? cancelToken,
-      }) async {
+    String path,
+    String savePath, {
+    Map<String, dynamic>? queryParameters,
+    ProgressCallback? onReceiveProgress,
+    CancelToken? cancelToken,
+  }) async {
     return await _dio.download(
       path,
       savePath,

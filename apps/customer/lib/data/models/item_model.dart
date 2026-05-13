@@ -3,6 +3,7 @@ import '../../domain/entities/item.dart';
 
 part 'item_model.freezed.dart';
 part 'item_model.g.dart';
+
 @freezed
 class ItemModel with _$ItemModel {
   const ItemModel._();
@@ -11,10 +12,10 @@ class ItemModel with _$ItemModel {
     required String id,
     required double price,
     required int stock,
-    String? discountId,     
-    String? colorId,        
-    String? sizeId,         
-    String? weightId,       
+    String? discountId,
+    String? colorId,
+    String? sizeId,
+    String? weightId,
   }) = _ItemModel;
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
@@ -37,10 +38,10 @@ class ItemModel with _$ItemModel {
       id: item.id,
       price: item.price,
       stock: item.stock,
-      discountId: item.discountId,  
-      colorId: item.colorId,        
-      sizeId: item.sizeId,          
-      weightId: item.weightId,      
+      discountId: item.discountId,
+      colorId: item.colorId,
+      sizeId: item.sizeId,
+      weightId: item.weightId,
     );
   }
 }

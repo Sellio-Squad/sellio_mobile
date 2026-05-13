@@ -46,7 +46,9 @@ class AccountOptionsBottomSheet extends StatelessWidget {
           prefixIconColor: context.theme.colors.red,
           prefixSvgPath: AppImages.logout,
           textColor: context.theme.colors.red,
-          onTap: () async { await onLogout(); },
+          onTap: () async {
+            await onLogout();
+          },
           contentAlignment: MainAxisAlignment.start,
         ),
         const SizedBox(height: 12),

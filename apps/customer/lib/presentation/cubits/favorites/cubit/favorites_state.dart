@@ -34,24 +34,20 @@ class FavoritesLoaded extends FavoritesState {
     List<Store>? favoriteStores,
   }) {
     return FavoritesLoaded(
-      favoriteProductIds:
-      favoriteProductIds ?? this.favoriteProductIds,
-      favoriteStoreIds:
-      favoriteStoreIds ?? this.favoriteStoreIds,
-      favoriteProducts:
-      favoriteProducts ?? this.favoriteProducts,
-      favoriteStores:
-      favoriteStores ?? this.favoriteStores,
+      favoriteProductIds: favoriteProductIds ?? this.favoriteProductIds,
+      favoriteStoreIds: favoriteStoreIds ?? this.favoriteStoreIds,
+      favoriteProducts: favoriteProducts ?? this.favoriteProducts,
+      favoriteStores: favoriteStores ?? this.favoriteStores,
     );
   }
 
   @override
   List<Object?> get props => [
-    favoriteProductIds,
-    favoriteStoreIds,
-    favoriteProducts,
-    favoriteStores,
-  ];
+        favoriteProductIds,
+        favoriteStoreIds,
+        favoriteProducts,
+        favoriteStores,
+      ];
 }
 
 class FavoritesActionFailure extends FavoritesState {

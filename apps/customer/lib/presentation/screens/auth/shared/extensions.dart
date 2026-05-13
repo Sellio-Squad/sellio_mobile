@@ -5,13 +5,12 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter_intl_phone_field/countries.dart' as intl_countries;
 
 extension CountryExtensions on Country {
-
   int? get maxPhoneLength {
     if (countryCode.isEmpty) return null;
 
     try {
       final countryData = intl_countries.countries.firstWhere(
-            (c) => c.code.toUpperCase() == countryCode.toUpperCase(),
+        (c) => c.code.toUpperCase() == countryCode.toUpperCase(),
       );
 
       return countryData.maxLength;
@@ -20,6 +19,7 @@ extension CountryExtensions on Country {
     }
   }
 }
+
 extension AuthErrorLocalization on AuthErrorType {
   String toLocalizedString(BuildContext context) {
     return switch (this) {
@@ -31,8 +31,7 @@ extension AuthErrorLocalization on AuthErrorType {
         context.local.failed_to_create_account,
 
       // OTP errors
-      AuthErrorType.otpVerificationFailed =>
-        context.local.something_went_wrong,
+      AuthErrorType.otpVerificationFailed => context.local.something_went_wrong,
       AuthErrorType.otpExpired => context.local.something_went_wrong,
       AuthErrorType.otpInvalid => context.local.something_went_wrong,
 

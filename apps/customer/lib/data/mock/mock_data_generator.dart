@@ -1,6 +1,5 @@
 import 'dart:math';
 import '../../domain/entities/address.dart';
-import '../../domain/entities/cart.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/notification.dart';
 import '../../domain/entities/order.dart';
@@ -106,7 +105,11 @@ class MockDataGenerator {
       storeId: storeId ?? 'store_${index % 10}',
       categoryId: categoryId ?? 'category_${index % 8}',
       isAvailable: index % 10 != 9,
-      stockQuantity: _random.nextInt(100), items: [], isFavorite: false, isUsed: false, isFeatured: false,
+      stockQuantity: _random.nextInt(100),
+      items: [],
+      isFavorite: false,
+      isUsed: false,
+      isFeatured: false,
     );
   }
 
@@ -242,13 +245,14 @@ class MockDataGenerator {
 
     final items = List.generate(
       1 + _random.nextInt(3),
-          (i) => generateOrderItem(index: i),
+      (i) => generateOrderItem(index: i),
     );
 
     return Order(
       orderId: 'order_$index',
       orderDate: DateTime.now().subtract(Duration(days: index)),
-      status: status ?? OrderStatus.values[_random.nextInt(OrderStatus.values.length)],
+      status: status ??
+          OrderStatus.values[_random.nextInt(OrderStatus.values.length)],
       totalPrice: _calculateTotal(items: items),
       storeName: store.name,
       storeLogoUrl: store.profileImage,

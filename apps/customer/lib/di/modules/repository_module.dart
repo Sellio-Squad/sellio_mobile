@@ -44,14 +44,12 @@ class RepositoryModule {
       () => ProductRepositoryImpl(
           remoteDataSource: sl(),
           favoritesRemoteDataSource: sl(),
-          searchRemoteDataSource: sl()
-      ),
+          searchRemoteDataSource: sl()),
     );
     //
     sl.registerLazySingleton<StoreRepository>(
       () => StoreRepositoryImpl(
-          remoteDataSource: sl(),
-          favoritesRemoteDataSource: sl()),
+          remoteDataSource: sl(), favoritesRemoteDataSource: sl()),
     );
     //
     sl.registerLazySingleton<CategoryRepository>(
@@ -82,12 +80,8 @@ class RepositoryModule {
       () => OffersRepositoryImpl(remoteDataSource: sl()),
     );
 
-    sl.registerLazySingleton<SearchRepository>(
-        () => SearchRepositoryImpl(
-            remoteDataSource: sl(),
-            localDataSource: sl()
-        )
-    );
+    sl.registerLazySingleton<SearchRepository>(() =>
+        SearchRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()));
     sl.registerLazySingleton<CountryRepository>(
       () => CountryRepositoryImpl(
         initialCountryLocalDataSource: sl(),

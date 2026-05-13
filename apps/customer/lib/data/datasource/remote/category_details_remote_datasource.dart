@@ -60,7 +60,7 @@ class CategoryDetailsRemoteDataSourceImpl
     );
     return PaginatedResponse.fromJson(
       response.data,
-      (json) => ProductModel.fromJson(json as Map<String, dynamic>),
+      (json) => ProductModel.fromJson(json),
     );
   }
 
@@ -76,7 +76,7 @@ class CategoryDetailsRemoteDataSourceImpl
     );
     return PaginatedResponse.fromJson(
       response.data,
-      (json) => ProductModel.fromJson(json as Map<String, dynamic>),
+      (json) => ProductModel.fromJson(json),
     );
   }
 }

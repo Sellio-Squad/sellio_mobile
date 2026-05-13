@@ -7,7 +7,6 @@ import '../../../core/localization/l10n/localization_service.dart';
 import '../../../domain/entities/order.dart';
 import '../../utils/date_format.dart';
 
-
 class OrderDetailsCard extends StatefulWidget {
   final Order order;
   final VoidCallback? onCancelClick;
@@ -73,7 +72,8 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               Expanded(
                 child: Text(
                   "${context.local.order} #${order.orderId}",
-                  style: context.theme.typography.textTheme.labelMedium.copyWith(
+                  style:
+                      context.theme.typography.textTheme.labelMedium.copyWith(
                     color: context.theme.colors.title,
                   ),
                   maxLines: 1,
@@ -219,5 +219,4 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
       ),
     );
   }
-
 }

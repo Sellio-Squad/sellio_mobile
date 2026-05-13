@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/di/injection_container.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart' show AuthRepository;
+import 'package:sellio_mobile/domain/repositories/auth_repository.dart'
+    show AuthRepository;
 
 import '../../../../../core/utils/snackbar_helper.dart';
 import '../constants/auth_constants.dart';
@@ -89,14 +90,13 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
           _otpKey.currentState?.clear();
           SnackBarHelper.showSuccess(
             context,
-           state.message ?? context.local.otp_resent_successfully,
+            state.message ?? context.local.otp_resent_successfully,
           );
         }
       },
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child:
-        AuthBackgroundWrapper(
+        child: AuthBackgroundWrapper(
           containerPadding: const EdgeInsets.symmetric(vertical: 16),
           showLogo: true,
           child: Scaffold(
@@ -106,8 +106,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
               showBackButton: true,
             ),
             body: SafeArea(
-              child:
-              Padding(
+              child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
                 child: Column(
                   children: [
@@ -191,9 +190,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
 
         return SellioButton(
           text: context.local.confirm,
-          onTap: isEnabled
-              ? () => context.read<OtpCubit>().verifyOtp()
-              : null,
+          onTap: isEnabled ? () => context.read<OtpCubit>().verifyOtp() : null,
           isLoading: isLoading,
           backgroundColor: isEnabled ? colors.primary : colors.disabled,
           textColor: isEnabled ? colors.onPrimary : colors.hint,
