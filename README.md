@@ -2,6 +2,10 @@
 
 Welcome to the Sellio Mobile Monorepo! This repository contains the code for the Customer, Seller, and Admin applications, all managed within a single workspace.
 
+# sellio UI/UX
+[https://www.figma.com/design/tChatRJKUjnpIlaundGyy6/MENA-APP?node-id=24127-6644&t=WzzFGOCbVWaokK79-1](https://www.figma.com/design/LX6p0Y8cGYXUyRteZDLPBD/Sellio--Copy-new-?node-id=33-5526&p=f)
+
+
 ## Project Structure
 
 The project is organized as a Melos-managed monorepo:
