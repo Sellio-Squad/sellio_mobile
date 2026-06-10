@@ -1,8 +1,9 @@
+import 'package:core/localization/locale_cubit.dart';
+import 'package:core/localization/locale_state.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';

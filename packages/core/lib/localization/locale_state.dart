@@ -1,4 +1,5 @@
-part of 'locale_cubit.dart';
+import 'dart:ui';
+import 'package:equatable/equatable.dart';
 
 class LocaleState extends Equatable {
   final Locale locale;

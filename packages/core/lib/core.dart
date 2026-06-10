@@ -1,5 +1,5 @@
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+library;
+
+export 'localization/locale_cubit.dart';
+export 'localization/locale_state.dart';
+

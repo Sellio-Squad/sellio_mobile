@@ -18,6 +18,9 @@ dependencies:
   design_system:
     path: ../../packages/design_system
 
+  core:
+    path: ../../packages/core
+
   # UI Dependencies
   image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
