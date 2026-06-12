@@ -1,5 +1,5 @@
+import 'package:core/error/result.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/data/core/utils/repository_call_handler.dart';
 
 import '../../domain/repositories/country_repository.dart';

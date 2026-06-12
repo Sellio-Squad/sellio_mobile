@@ -1,4 +1,4 @@
-import '../../core/error/result.dart';
+import 'package:core/error/result.dart';
 
 abstract class AuthRepository {
   Future<Result<void>> login({

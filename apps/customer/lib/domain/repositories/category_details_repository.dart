@@ -1,4 +1,4 @@
-import 'package:sellio_mobile/core/error/result.dart';
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/entities/subcategory.dart';
 

@@ -1,6 +1,6 @@
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 
-import '../../core/error/result.dart';
 import '../../domain/entities/store.dart';
 import '../../domain/repositories/favorites_repository.dart';
 import '../core/utils/repository_call_handler.dart';

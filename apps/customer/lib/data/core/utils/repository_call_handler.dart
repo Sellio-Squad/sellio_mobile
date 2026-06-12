@@ -1,5 +1,5 @@
-import '../../../core/error/failure.dart';
-import '../../../core/error/result.dart';
+import 'package:core/error/failure.dart';
+import 'package:core/error/result.dart';
 import '../exceptions/exception_handler.dart';
 
 class RepositoryCallHandler {

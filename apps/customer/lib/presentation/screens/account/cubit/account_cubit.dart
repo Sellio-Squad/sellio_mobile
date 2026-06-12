@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_state.dart';
 
-import '../../../../core/error/result.dart';
 
 class AccountCubit extends Cubit<AccountState> {
   final UserRepository _repository;

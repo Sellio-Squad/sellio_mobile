@@ -1,4 +1,4 @@
-import '../../core/error/failure.dart';
+import '../../error/failure.dart';
 
 abstract class Result<T> {
   const Result();

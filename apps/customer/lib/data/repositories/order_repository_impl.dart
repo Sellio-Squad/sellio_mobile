@@ -1,5 +1,5 @@
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/data/mappers/order_mapper.dart';
-import '../../core/error/result.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repositories/order_repository.dart';
 import '../core/utils/repository_call_handler.dart';

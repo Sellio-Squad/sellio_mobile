@@ -1,6 +1,6 @@
+import 'package:core/error/result.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
 import '../../../../../domain/repositories/auth_repository.dart';

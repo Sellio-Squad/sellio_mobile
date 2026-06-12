@@ -1,6 +1,6 @@
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/data/mappers/user_mapper.dart';
 
-import '../../core/error/result.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
 import '../core/utils/repository_call_handler.dart';

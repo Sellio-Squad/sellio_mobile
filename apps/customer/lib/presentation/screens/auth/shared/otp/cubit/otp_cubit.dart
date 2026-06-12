@@ -1,7 +1,6 @@
 import 'dart:async';
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/error/failure.dart';
-import 'package:sellio_mobile/core/error/result.dart';
 import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
 import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
 import 'otp_state.dart';
