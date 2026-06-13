@@ -1,8 +1,8 @@
+import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import '../../../../core/utils/snackbar_helper.dart';
 import '../shared/otp/otp_screen.dart';
 import 'cubit/registration_cubit.dart';
 import 'cubit/registration_state.dart';
@@ -55,7 +55,10 @@ class CreateAccountListeners extends StatelessWidget {
 
   void _handleSuccess(BuildContext context) {
     SnackBarHelper.showSuccess(
-        context, context.local.account_created_successfully);
+      context,
+      context.local.account_created_successfully,
+      title: context.local.success,
+    );
     Future.delayed(const Duration(milliseconds: 1000), () {
       if (context.mounted) {
         context.navigator.goToHome();
@@ -65,6 +68,10 @@ class CreateAccountListeners extends StatelessWidget {
 
   void _handleError(BuildContext context, RegistrationFailure state) {
     final message = state.errorMessage ?? context.local.registration_failed;
-    SnackBarHelper.showError(context, message);
+    SnackBarHelper.showError(
+      context,
+      message,
+      title: context.local.error,
+    );
   }
 }

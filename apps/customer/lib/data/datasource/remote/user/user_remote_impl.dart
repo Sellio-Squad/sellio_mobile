@@ -1,5 +1,5 @@
 import 'package:sellio_mobile/data/datasource/remote/user/user_remote.dart';
-import '../../../core/api/api_client.dart';
+import 'package:core/core.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../models/address_model.dart';
 import '../../../models/request/add_address_request.dart';

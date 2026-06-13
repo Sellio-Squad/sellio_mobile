@@ -8,7 +8,6 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 
 import '../../../../core/navigate/app_routes.dart';
-import '../../../../core/utils/snackbar_helper.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import 'cubit/forgot_password_cubit.dart';
@@ -77,6 +76,7 @@ class _SetNewPasswordScreenContentState
           SnackBarHelper.showSuccess(
             context,
             context.local.password_reset_successfully,
+            title: context.local.success,
           );
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) {
@@ -87,6 +87,7 @@ class _SetNewPasswordScreenContentState
           SnackBarHelper.showError(
             context,
             state.errorMessage ?? context.local.error_generic,
+            title: context.local.error,
           );
         }
       },

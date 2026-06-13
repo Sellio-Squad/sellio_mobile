@@ -1,6 +1,5 @@
-import 'package:core/error/failure.dart';
+import 'package:core/core.dart';
 import 'package:dio/dio.dart';
-import 'api_exception.dart';
 
 class ExceptionHandler {
   static Failure handleException(dynamic error) {

@@ -6,8 +6,6 @@ import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/di/injection_container.dart';
 import 'package:sellio_mobile/domain/repositories/auth_repository.dart'
     show AuthRepository;
-
-import '../../../../../core/utils/snackbar_helper.dart';
 import '../constants/auth_constants.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';
@@ -85,12 +83,14 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
           SnackBarHelper.showError(
             context,
             state.errorMessage ?? context.local.otp_verification_failed,
+            title: context.local.error,
           );
         } else if (state is OtpResent) {
           _otpKey.currentState?.clear();
           SnackBarHelper.showSuccess(
             context,
             state.message ?? context.local.otp_resent_successfully,
+            title: context.local.success,
           );
         }
       },

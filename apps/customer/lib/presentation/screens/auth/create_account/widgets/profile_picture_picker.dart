@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import '../../../../../core/utils/snackbar_helper.dart';
 
 class ProfilePicturePickerWidget extends StatelessWidget {
   final Function(File?) onImageSelected;
@@ -128,6 +127,7 @@ class ProfilePicturePickerWidget extends StatelessWidget {
         SnackBarHelper.showError(
           context,
           context.local.something_went_wrong,
+          title: context.local.error,
         );
       }
     }

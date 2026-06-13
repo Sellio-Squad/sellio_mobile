@@ -1,8 +1,8 @@
+import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/core/storage/shared_prefs_storage_impl.dart';
-import '../../../data/core/storage/storage_service.dart';
 
 class StorageModule {
   static void register(GetIt sl) async {

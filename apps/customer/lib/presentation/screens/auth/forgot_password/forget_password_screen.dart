@@ -5,7 +5,6 @@ import 'package:design_system/design_system.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:sellio_mobile/core/utils/snackbar_helper.dart';
 import 'package:sellio_mobile/domain/repositories/country_repository.dart';
 import '../../../../di/injection_container.dart';
 import '../../../../domain/repositories/auth_repository.dart';
@@ -76,7 +75,10 @@ class _ForgetPasswordScreenContentState
           _navigateToOtpScreen(context, state);
         } else if (state is ForgotPasswordFailure) {
           SnackBarHelper.showError(
-              context, state.errorMessage ?? context.local.error_generic);
+            context,
+            state.errorMessage ?? context.local.error_generic,
+            title: context.local.error,
+          );
         }
       },
       builder: (context, state) {
