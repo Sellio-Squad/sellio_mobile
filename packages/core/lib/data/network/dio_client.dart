@@ -1,22 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import '../interceptors/auth_interceptor.dart';
-import '../interceptors/error_interceptor.dart';
 import '../storage/storage_service.dart';
 import 'api_client.dart';
+import 'interceptors/auth_interceptor.dart';
+import 'interceptors/error_interceptor.dart';
 
 class DioClient implements ApiClient {
   late final Dio _dio;
   final StorageService _storageService;
+  final String _refreshTokenPath;
 
   DioClient({
     required String baseUrl,
     required StorageService storageService,
+    required String refreshTokenPath,
     Duration? connectTimeout,
     Duration? receiveTimeout,
     Duration? sendTimeout,
     List<Interceptor>? additionalInterceptors,
-  }) : _storageService = storageService {
+  })  : _storageService = storageService,
+        _refreshTokenPath = refreshTokenPath {
     _dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,
@@ -38,6 +41,7 @@ class DioClient implements ApiClient {
       AuthInterceptor(
         storageService: _storageService,
         dio: _dio,
+        refreshTokenPath: _refreshTokenPath,
       ),
       PrettyDioLogger(
         requestHeader: true,

@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sellio_mobile/data/core/api/api_endpoints.dart';
-import '../storage/storage_keys.dart';
-import '../storage/storage_service.dart';
+import 'package:flutter/foundation.dart';
+import '../../storage/core_storage_keys.dart';
+import '../../storage/storage_service.dart';
 
 class AuthInterceptor extends Interceptor {
   final StorageService _storageService;
   final Dio _dio;
+  final String _refreshTokenPath;
 
   AuthInterceptor({
     required StorageService storageService,
     required Dio dio,
+    required String refreshTokenPath,
   })  : _storageService = storageService,
-        _dio = dio;
+        _dio = dio,
+        _refreshTokenPath = refreshTokenPath;
 
   @override
   void onRequest(
@@ -20,7 +22,7 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     try {
-      final token = await _storageService.get<String>(StorageKeys.authToken);
+      final token = await _storageService.get<String>(CoreStorageKeys.authToken);
       if (token != null && token.isNotEmpty) {
         options.headers['Authorization'] = 'Bearer $token';
       }
@@ -44,6 +46,7 @@ class AuthInterceptor extends Interceptor {
         final refreshed = await _refreshToken();
         if (refreshed) {
           final response = await _retry(err.requestOptions);
+
           return handler.resolve(response);
         } else {
           await _clearAuthData();
@@ -59,14 +62,14 @@ class AuthInterceptor extends Interceptor {
   Future<bool> _refreshToken() async {
     try {
       final refreshToken =
-          await _storageService.get<String>(StorageKeys.refreshToken);
+          await _storageService.get<String>(CoreStorageKeys.refreshToken);
 
       if (refreshToken == null || refreshToken.isEmpty) {
         return false;
       }
 
       final response = await _dio.post(
-        ApiEndpoints.refreshToken,
+        _refreshTokenPath,
         data: {'refreshToken': refreshToken},
       );
 
@@ -76,10 +79,10 @@ class AuthInterceptor extends Interceptor {
         debugPrint("newAccessToken newAccessToken");
 
         await _storageService.save<String>(
-            StorageKeys.authToken, newAccessToken);
+            CoreStorageKeys.authToken, newAccessToken);
         if (newRefreshToken != null) {
           await _storageService.save<String>(
-              StorageKeys.refreshToken, newRefreshToken);
+              CoreStorageKeys.refreshToken, newRefreshToken);
         }
 
         return true;
@@ -92,13 +95,13 @@ class AuthInterceptor extends Interceptor {
   }
 
   Future<void> _clearAuthData() async {
-    await _storageService.remove(StorageKeys.authToken);
-    await _storageService.remove(StorageKeys.refreshToken);
-    await _storageService.remove(StorageKeys.isLoggedIn);
+    await _storageService.remove(CoreStorageKeys.authToken);
+    await _storageService.remove(CoreStorageKeys.refreshToken);
+    await _storageService.remove(CoreStorageKeys.isLoggedIn);
   }
 
   Future<Response<dynamic>> _retry(RequestOptions requestOptions) async {
-    final token = await _storageService.get<String>(StorageKeys.authToken);
+    final token = await _storageService.get<String>(CoreStorageKeys.authToken);
 
     final options = Options(
       method: requestOptions.method,
