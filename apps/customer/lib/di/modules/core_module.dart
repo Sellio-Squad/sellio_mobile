@@ -1,11 +1,8 @@
+import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-import '../../../core/network/network_info.dart';
-import '../../../data/core/api/api_client.dart';
 import '../../../data/core/api/api_endpoints.dart';
-import '../../../data/core/api/dio_client.dart';
-import '../../core/services/image_picker_service.dart';
 import '../../core/services/image_picker_service_impl.dart';
 
 class CoreModule {
@@ -26,6 +23,7 @@ class CoreModule {
       () => DioClient(
         baseUrl: ApiEndpoints.baseUrl,
         storageService: sl(),
+        refreshTokenPath: ApiEndpoints.refreshToken,
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),
