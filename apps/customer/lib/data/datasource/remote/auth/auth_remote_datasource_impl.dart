@@ -1,4 +1,4 @@
-import '../../../core/api/api_client.dart';
+import 'package:core/core.dart';
 import '../../../core/api/api_endpoints.dart';
 import '../../../models/auth/forgot_password_otp_response.dart';
 import '../../../models/auth/forgot_password_request.dart';

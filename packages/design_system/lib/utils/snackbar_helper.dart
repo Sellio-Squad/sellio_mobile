@@ -1,32 +1,31 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:design_system/design_system.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import '../widgets/sellio_snack_bar.dart';
 
 abstract class SnackBarHelper {
   static const Duration _errorDuration = Duration(seconds: 4);
   static const Duration _successDuration = Duration(seconds: 3);
 
-  static void showError(BuildContext context, String message) {
+  static void showError(BuildContext context, String message, {String? title}) {
     _showOverlaySnackBar(
       context,
       _SnackBarConfig(
         message: message,
         isError: true,
         duration: _errorDuration,
-        title: context.local.error,
+        title: title ?? 'Error',
       ),
     );
   }
 
-  static void showSuccess(BuildContext context, String message) {
+  static void showSuccess(BuildContext context, String message, {String? title}) {
     _showOverlaySnackBar(
       context,
       _SnackBarConfig(
         message: message,
         isError: false,
         duration: _successDuration,
-        title: context.local.success,
+        title: title ?? 'Success',
       ),
     );
   }
