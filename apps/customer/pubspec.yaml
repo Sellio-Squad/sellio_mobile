@@ -21,6 +21,9 @@ dependencies:
   core:
     path: ../../packages/core
 
+
+  authentication:
+    path: ../../packages/authentication
   # UI Dependencies
   image_picker: ^1.0.7
   cupertino_icons: ^1.0.8

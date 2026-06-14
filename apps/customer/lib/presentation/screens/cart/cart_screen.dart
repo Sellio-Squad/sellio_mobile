@@ -1,3 +1,4 @@
+import 'package:authentication/authentication.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_gap/flutter_gap.dart';
 
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../core/utils/price_calculator.dart';
-import '../../cubits/auth/authentication_cubit.dart';
 import '../../cubits/cart/cubit/cart_cubit.dart';
 import '../../cubits/cart/cubit/cart_state.dart';
 import '../account/navigation/account_navigation.dart';
