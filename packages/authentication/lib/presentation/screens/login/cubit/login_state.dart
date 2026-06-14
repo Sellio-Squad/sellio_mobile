@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:equatable/equatable.dart';
-import '../../shared/enums/validation_error_type.dart';
+import '../../../../domain/validators/validation_error_type.dart';
 
 sealed class LoginState extends Equatable {
   const LoginState();

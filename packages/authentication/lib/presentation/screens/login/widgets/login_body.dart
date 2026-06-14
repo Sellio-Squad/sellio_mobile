@@ -4,13 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
+import '../../../../core/localization/auth_localization_service.dart';
+import '../../../navigation/auth_navigator.dart';
 import '../cubit/login_cubit.dart';
 import '../cubit/login_state.dart';
 
 class LoginBody extends StatefulWidget {
-  const LoginBody({super.key});
+  final AuthNavigator navigator;
+
+  const LoginBody({
+    super.key,
+    required this.navigator,
+  });
 
   @override
   State<LoginBody> createState() => _LoginBodyState();
@@ -95,12 +100,12 @@ class _LoginBodyState extends State<LoginBody> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.local.title_login,
+          context.authLocal.title_login,
           style: textTheme.headlineSmall.copyWith(color: colors.title),
         ),
         const Gap(8),
         Text(
-          context.local.subtitle_login,
+          context.authLocal.subtitle_login,
           style: textTheme.bodyMedium.copyWith(color: colors.body),
         ),
       ],
@@ -125,8 +130,8 @@ class _LoginBodyState extends State<LoginBody> {
             SellioPhoneField(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
-              hintText: context.local.phone_number,
-              searchHintText: context.local.search_by_name_or_code,
+              hintText: context.authLocal.phone_number,
+              searchHintText: context.authLocal.search_by_name_or_code,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
                 context.read<LoginCubit>().updateSelectedCountry(country);
@@ -139,7 +144,7 @@ class _LoginBodyState extends State<LoginBody> {
                 textStyle: typography.textTheme.labelSmall
                     .copyWith(color: colors.title),
                 controller: _passwordController,
-                hintText: context.local.password,
+                hintText: context.authLocal.password,
                 inputType: TextInputType.visiblePassword,
                 isError: state is LoginIdle && state.passwordError != null,
                 errorMessage: state is LoginIdle
@@ -157,13 +162,13 @@ class _LoginBodyState extends State<LoginBody> {
             Align(
               alignment: AlignmentDirectional.centerEnd,
               child: SellioButton(
-                text: context.local.title_par_forget_password,
+                text: context.authLocal.title_forget_password,
                 textColor: colors.primary,
                 backgroundColor: Colors.transparent,
                 fullWidth: false,
                 horizontalPadding: 0,
                 verticalPadding: 8,
-                onTap: () => context.navigator.pushForgetPassword(),
+                onTap: () => widget.navigator.pushForgotPassword(),
               ),
             ),
           ],
@@ -187,7 +192,7 @@ class _LoginBodyState extends State<LoginBody> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SellioButton(
-                text: context.local.login,
+                text: context.authLocal.login,
                 onTap: isFormValid && !isLoading
                     ? () => context.read<LoginCubit>().login()
                     : null,
@@ -218,10 +223,10 @@ class _LoginBodyState extends State<LoginBody> {
                 children: [
                   Expanded(
                     child: SellioButton(
-                      text: context.local.create_account,
+                      text: context.authLocal.create_account,
                       backgroundColor: colors.primaryVariant,
                       textColor: colors.primary,
-                      onTap: () => context.navigator.pushCreateAccount(),
+                      onTap: () => widget.navigator.pushCreateAccount(),
                     ),
                   ),
                 ],

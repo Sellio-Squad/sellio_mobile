@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:design_system/design_system.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+
+import '../../../../core/localization/auth_localization_service.dart';
 
 class ProfilePicturePickerWidget extends StatelessWidget {
   final Function(File?) onImageSelected;
@@ -24,7 +25,7 @@ class ProfilePicturePickerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.local.profile_photo_optional,
+          context.authLocal.profile_photo_optional,
           style: textTheme.titleSmall.copyWith(color: colors.title),
         ),
         const SizedBox(height: 12),
@@ -126,8 +127,8 @@ class ProfilePicturePickerWidget extends StatelessWidget {
       if (context.mounted) {
         SnackBarHelper.showError(
           context,
-          context.local.something_went_wrong,
-          title: context.local.error,
+          context.authLocal.something_went_wrong,
+          title: context.authLocal.error,
         );
       }
     }
