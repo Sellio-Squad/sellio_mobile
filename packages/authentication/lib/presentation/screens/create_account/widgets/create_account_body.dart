@@ -4,15 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/core/utils/full_name_input_formatter.dart';
+import '../../../../core/localization/auth_localization_service.dart';
+import '../../../../core/utils/full_name_input_formatter.dart';
+import '../../../navigation/auth_navigator.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
 
 class CreateAccountBody extends StatefulWidget {
-  const CreateAccountBody({super.key});
+  final AuthNavigator navigator;
+
+  const CreateAccountBody({
+    super.key,
+    required this.navigator,
+  });
 
   @override
   State<CreateAccountBody> createState() => _CreateAccountBodyState();
@@ -130,9 +136,9 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: buildCreateAccountHeader(context),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: CreateAccountHeader(),
                 ),
                 const SizedBox(height: 24),
                 Padding(
@@ -163,7 +169,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               children: [
                 _buildSubmitButton(context),
                 const SizedBox(height: 8),
-                buildCreateAccountFooter(context),
+                CreateAccountFooter(navigator: widget.navigator),
               ],
             ),
           ),
@@ -193,8 +199,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             SellioPhoneField(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
-              hintText: context.local.phone_number,
-              searchHintText: context.local.search_by_name_or_code,
+              hintText: context.authLocal.phone_number,
+              searchHintText: context.authLocal.search_by_name_or_code,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
                 context
@@ -224,7 +230,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
         };
 
         return SellioButton(
-          text: context.local.continue_text,
+          text: context.authLocal.continue_text,
           onTap: isEnabled && !isLoading
               ? context.read<RegistrationCubit>().register
               : null,
@@ -245,7 +251,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
                 focusNode: _fullNameFocusNode,
                 child: SellioTextField(
                   controller: _fullNameController,
-                  hintText: context.local.full_name,
+                  hintText: context.authLocal.full_name,
                   isError:
                       state is RegistrationIdle && state.fullNameError != null,
                   errorMessage: state is RegistrationIdle
@@ -279,7 +285,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             state.cities.map((city) => SellioPickerItem(city, city)).toList();
 
         return SellioPickerField<String>(
-          hintText: context.local.city,
+          hintText: context.authLocal.city,
           value: state.city.isNotEmpty ? state.city : null,
           items: cityItems,
           onChanged: (selectedCity) {
@@ -304,7 +310,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             textStyle:
                 typography.textTheme.labelSmall.copyWith(color: colors.title),
             controller: _passwordController,
-            hintText: context.local.password,
+            hintText: context.authLocal.password,
             isError: state is RegistrationIdle && state.passwordError != null,
             errorMessage: state is RegistrationIdle
                 ? state.passwordError?.toLocalizedString(context)
@@ -332,7 +338,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
             textStyle:
                 typography.textTheme.labelSmall.copyWith(color: colors.title),
             controller: _confirmPasswordController,
-            hintText: context.local.confirm_password,
+            hintText: context.authLocal.confirm_password,
             isError:
                 state is RegistrationIdle && state.confirmPasswordError != null,
             errorMessage: state is RegistrationIdle

@@ -1,4 +1,5 @@
-part of 'authentication_cubit.dart';
+import 'package:flutter/foundation.dart';
+import '../../../domain/entities/user.dart';
 
 @immutable
 sealed class AuthenticationState {

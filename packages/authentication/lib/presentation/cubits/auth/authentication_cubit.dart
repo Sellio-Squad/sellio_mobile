@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/entities/user.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
-import 'package:sellio_mobile/domain/repositories/user_repository.dart';
-
-part 'authentication_state.dart';
+import '../../../domain/entities/user.dart';
+import '../../../domain/repositories/auth_repository.dart';
+import '../../../domain/repositories/user_repository.dart';
+import 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthRepository _authRepository;
