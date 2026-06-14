@@ -1,6 +1,5 @@
+import 'package:authentication/domain/entities/address.dart';
 import 'package:sellio_mobile/domain/entities/review.dart';
-
-import 'address.dart';
 import 'category.dart';
 
 class Store {
