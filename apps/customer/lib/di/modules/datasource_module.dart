@@ -10,21 +10,14 @@ import '../../../data/datasource/remote/offers_remote_datasource.dart';
 import '../../../data/datasource/remote/order_remote_datasource.dart';
 import '../../../data/datasource/remote/product_remote_datasource.dart';
 import '../../../data/datasource/remote/store_remote_datasource.dart';
-import '../../data/datasource/remote/auth/auth_remote_datasource.dart';
-import '../../data/datasource/remote/auth/auth_remote_datasource_impl.dart';
 import '../../data/datasource/remote/category_details_remote_datasource.dart';
 import '../../data/datasource/remote/category_section_remote_datasource.dart';
 import '../../data/datasource/remote/country_remote_datasource.dart';
-import '../../data/datasource/remote/user/user_remote.dart';
-import '../../data/datasource/remote/user/user_remote_impl.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {
     sl.registerLazySingleton<CategorySectionRemoteDataSource>(
       () => CategorySectionRemoteDataSourceImpl(sl()),
-    );
-    sl.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<ProductRemoteDataSource>(
@@ -45,10 +38,6 @@ class DataSourceModule {
 
     sl.registerLazySingleton<OrderRemoteDataSource>(
       () => OrderRemoteDataSourceImpl(sl()),
-    );
-
-    sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl(sl()),
     );
 
     sl.registerLazySingleton<FavoritesRemoteDataSource>(
