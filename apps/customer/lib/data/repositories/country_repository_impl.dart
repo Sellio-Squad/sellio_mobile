@@ -1,8 +1,7 @@
+import 'package:core/domain/repositories/country_repository.dart';
 import 'package:core/error/result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sellio_mobile/data/core/utils/repository_call_handler.dart';
-
-import '../../domain/repositories/country_repository.dart';
 import '../datasource/local/initial_country_local_datasource.dart';
 import '../datasource/remote/country_remote_datasource.dart';
 

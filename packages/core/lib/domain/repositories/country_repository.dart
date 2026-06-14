@@ -1,4 +1,4 @@
-import 'package:core/error/result.dart';
+import '../../error/result.dart';
 
 abstract class CountryRepository {
   Future<String> getCurrentCountryCode();
