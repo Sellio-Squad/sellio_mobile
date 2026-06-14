@@ -1,45 +1,53 @@
+import 'package:core/domain/repositories/country_repository.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-
-import '../../../../core/navigate/app_routes.dart';
-import '../../../../di/injection_container.dart';
-import '../../../../domain/repositories/auth_repository.dart';
+import '../../../core/localization/auth_localization_service.dart';
+import '../../../domain/repositories/auth_repository.dart';
+import '../../navigation/auth_navigator.dart';
 import 'cubit/forgot_password_cubit.dart';
 import 'cubit/forgot_password_state.dart';
 import 'widgets/lock_icon.dart';
 
-class SetNewPasswordScreen extends StatelessWidget {
-  const SetNewPasswordScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  final AuthRepository authRepository;
+  final CountryRepository countryRepository;
+  final AuthNavigator navigator;
+
+  const ResetPasswordScreen({
+    super.key,
+    required this.authRepository,
+    required this.countryRepository,
+    required this.navigator,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ForgotPasswordCubit(
-        authRepository: sl<AuthRepository>(),
-        countryRepository: sl<CountryRepository>(),
+        authRepository: authRepository,
+        countryRepository: countryRepository,
         startWithVerified: true,
       )..loadInitialCountry(),
-      child: const _SetNewPasswordScreenContent(),
+      child: _ResetPasswordScreenContent(navigator: navigator),
     );
   }
 }
 
-class _SetNewPasswordScreenContent extends StatefulWidget {
-  const _SetNewPasswordScreenContent();
+class _ResetPasswordScreenContent extends StatefulWidget {
+  final AuthNavigator navigator;
+
+  const _ResetPasswordScreenContent({required this.navigator});
 
   @override
-  State<_SetNewPasswordScreenContent> createState() =>
-      _SetNewPasswordScreenContentState();
+  State<_ResetPasswordScreenContent> createState() =>
+      _ResetPasswordScreenContentState();
 }
 
-class _SetNewPasswordScreenContentState
-    extends State<_SetNewPasswordScreenContent> {
+class _ResetPasswordScreenContentState
+    extends State<_ResetPasswordScreenContent> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -75,19 +83,19 @@ class _SetNewPasswordScreenContentState
         if (state is ForgotPasswordSuccess) {
           SnackBarHelper.showSuccess(
             context,
-            context.local.password_reset_successfully,
-            title: context.local.success,
+            context.authLocal.success, // Placeholder
+            title: context.authLocal.success,
           );
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) {
-              context.goNamed(AppRoutes.login.name);
+              widget.navigator.pushLogin();
             }
           });
         } else if (state is ForgotPasswordFailure) {
           SnackBarHelper.showError(
             context,
-            state.errorMessage ?? context.local.error_generic,
-            title: context.local.error,
+            state.errorMessage ?? context.authLocal.something_went_wrong,
+            title: context.authLocal.error,
           );
         }
       },
@@ -99,13 +107,7 @@ class _SetNewPasswordScreenContentState
 
         return Scaffold(
           appBar: SellioAppBar(
-            title: context.local.title_par_forget_password,
-            leading: IconButton(
-              icon: SvgPicture.asset(AppImages.arrowLeft),
-              onPressed: () {
-                context.goNamed(AppRoutes.forgetPassword.name);
-              },
-            ),
+            title: context.authLocal.title_forget_password,
           ),
           backgroundColor: colors.surfaceLow,
           body: SafeArea(
@@ -116,10 +118,10 @@ class _SetNewPasswordScreenContentState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 24),
-                    Center(child: buildLockIcon(colors)),
+                    const Center(child: LockIcon()),
                     const SizedBox(height: 40),
                     Text(
-                      context.local.set_new_password,
+                      context.authLocal.set_new_password,
                       style:
                           textTheme.headlineSmall.copyWith(color: colors.title),
                     ),
@@ -128,7 +130,7 @@ class _SetNewPasswordScreenContentState
                       textStyle:
                           textTheme.labelSmall.copyWith(color: colors.title),
                       controller: _passwordController,
-                      hintText: context.local.password,
+                      hintText: context.authLocal.password,
                       inputType: TextInputType.visiblePassword,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 12),
@@ -151,7 +153,7 @@ class _SetNewPasswordScreenContentState
                       textStyle:
                           textTheme.labelSmall.copyWith(color: colors.title),
                       controller: _confirmPasswordController,
-                      hintText: context.local.confirm_password,
+                      hintText: context.authLocal.confirm_password,
                       inputType: TextInputType.visiblePassword,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.only(left: 16, right: 12),
@@ -180,7 +182,7 @@ class _SetNewPasswordScreenContentState
           bottomNavigationBar: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SellioButton(
-              text: context.local.send,
+              text: context.authLocal.send,
               onTap: isFormValid && !isLoading ? cubit.resetPassword : null,
               isLoading: isLoading,
               backgroundColor: isFormValid ? colors.primary : colors.disabled,

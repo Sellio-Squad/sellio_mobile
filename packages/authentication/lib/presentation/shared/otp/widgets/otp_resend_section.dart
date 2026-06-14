@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:design_system/design_system.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
+import '../../../../core/localization/auth_localization_service.dart';
 
 class OtpResendSection extends StatelessWidget {
   final int resendCountdown;
@@ -23,7 +23,7 @@ class OtpResendSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          context.local.dont_received_code,
+          context.authLocal.dont_received_code,
           style: textTheme.labelMedium.copyWith(color: colors.body),
         ),
         const SizedBox(width: 8),
@@ -31,8 +31,8 @@ class OtpResendSection extends StatelessWidget {
           onTap: canResend ? onResend : null,
           child: Text(
             canResend
-                ? context.local.re_send
-                : context.local
+                ? context.authLocal.re_send
+                : context.authLocal
                     .re_send_in_resend_countdown_Sec(resendCountdown),
             style: textTheme.labelMedium.copyWith(
               color: canResend ? colors.primary : colors.hint,

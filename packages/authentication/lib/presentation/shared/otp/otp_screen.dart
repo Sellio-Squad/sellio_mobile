@@ -2,11 +2,10 @@ import 'package:core/error/result.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/di/injection_container.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart'
-    show AuthRepository;
-import '../constants/auth_constants.dart';
+import '../../../../core/localization/auth_localization_service.dart';
+import '../../../../domain/repositories/auth_repository.dart';
+import '../../../../core/constants/auth_constants.dart';
+import '../../navigation/auth_navigator.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';
 import 'widgets/otp_resend_section.dart';
@@ -18,6 +17,8 @@ class OtpScreen extends StatelessWidget {
   final VoidCallback onVerifySuccess;
   final Future<Result<void>> Function(String otp) onVerify;
   final int otpLength;
+  final AuthRepository authRepository;
+  final AuthNavigator navigator;
 
   const OtpScreen({
     super.key,
@@ -27,6 +28,8 @@ class OtpScreen extends StatelessWidget {
     required this.onVerifySuccess,
     required this.onVerify,
     this.otpLength = AuthConstants.otpLength,
+    required this.authRepository,
+    required this.navigator,
   });
 
   @override
@@ -35,7 +38,7 @@ class OtpScreen extends StatelessWidget {
       create: (context) => OtpCubit(
         onVerify: onVerify,
         otpLength: otpLength,
-        authRepository: sl<AuthRepository>(),
+        authRepository: authRepository,
       ),
       child: _OtpScreenContent(
         title: title,
@@ -43,6 +46,7 @@ class OtpScreen extends StatelessWidget {
         phoneNumber: phoneNumber,
         onVerifySuccess: onVerifySuccess,
         otpLength: otpLength,
+        navigator: navigator,
       ),
     );
   }
@@ -54,6 +58,7 @@ class _OtpScreenContent extends StatefulWidget {
   final String? phoneNumber;
   final VoidCallback onVerifySuccess;
   final int otpLength;
+  final AuthNavigator navigator;
 
   const _OtpScreenContent({
     required this.title,
@@ -61,6 +66,7 @@ class _OtpScreenContent extends StatefulWidget {
     this.phoneNumber,
     required this.onVerifySuccess,
     required this.otpLength,
+    required this.navigator,
   });
 
   @override
@@ -82,15 +88,15 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
         } else if (state is OtpFailure) {
           SnackBarHelper.showError(
             context,
-            state.errorMessage ?? context.local.otp_verification_failed,
-            title: context.local.error,
+            state.errorMessage ?? context.authLocal.otp_verification_failed,
+            title: context.authLocal.error,
           );
         } else if (state is OtpResent) {
           _otpKey.currentState?.clear();
           SnackBarHelper.showSuccess(
             context,
-            state.message ?? context.local.otp_resent_successfully,
-            title: context.local.success,
+            state.message ?? context.authLocal.otp_resent_successfully,
+            title: context.authLocal.success,
           );
         }
       },
@@ -142,7 +148,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
       children: [
         Text(
           widget.phoneNumber != null
-              ? context.local.enter_the_4_digit_sent_to(widget.phoneNumber!)
+              ? context.authLocal.enter_the_4_digit_sent_to(widget.phoneNumber!)
               : widget.subtitle,
           style: textTheme.bodyMedium.copyWith(color: colors.body),
         ),
@@ -189,7 +195,7 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
         final isEnabled = state is OtpIdle && state.isComplete && !isLoading;
 
         return SellioButton(
-          text: context.local.confirm,
+          text: context.authLocal.confirm,
           onTap: isEnabled ? () => context.read<OtpCubit>().verifyOtp() : null,
           isLoading: isLoading,
           backgroundColor: isEnabled ? colors.primary : colors.disabled,

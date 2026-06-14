@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/repositories/auth_repository.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/constants/auth_constants.dart';
+import '../../../../domain/repositories/auth_repository.dart';
+import '../../../../core/constants/auth_constants.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {
@@ -89,7 +89,7 @@ class OtpCubit extends Cubit<OtpState> {
     final result = await onVerify(otp);
 
     result.fold(
-      onSuccess: (message) {
+      onSuccess: (_) {
         emit(const OtpVerified());
       },
       onFailure: (failure) {
@@ -121,7 +121,6 @@ class OtpCubit extends Cubit<OtpState> {
   @override
   Future<void> close() {
     _countdownTimer?.cancel();
-
     return super.close();
   }
 }

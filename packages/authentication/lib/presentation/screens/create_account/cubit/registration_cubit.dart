@@ -1,19 +1,18 @@
+import 'package:core/domain/repositories/country_repository.dart';
 import 'package:core/error/result.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/enums/validation_error_type.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
-
-import '../../../../../domain/repositories/auth_repository.dart';
-import '../../shared/validators/form_validators.dart';
-import '../../shared/validators/validation_result.dart';
+import '../../../../domain/repositories/auth_repository.dart';
+import '../../../../domain/validators/validation_error_type.dart';
+import '../../../../domain/validators/form_validators.dart';
+import '../../../../domain/validators/validation_result.dart';
+import '../../../shared/extensions.dart';
 import 'registration_state.dart';
 
 class RegistrationCubit extends Cubit<RegistrationState> {
   final AuthRepository _authRepository;
   final CountryRepository _countryRepository;
-  late RegistrationIdle? _lastIdleState;
+  RegistrationIdle? _lastIdleState;
 
   RegistrationCubit({
     required AuthRepository authRepository,
@@ -195,7 +194,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
-    // Re-validate phone with new country length
     final minPhoneLength = country.maxPhoneLength;
     final result = FormValidators.validatePhone(
       currentState.phoneNumber,
@@ -220,11 +218,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       ),
     ));
 
-    // Load cities for the new country
     loadCitiesForSelectedCountry(country.countryCode);
   }
-
-  // ==================== Validation ====================
 
   void validateFullNameOnFocusLost(String value) {
     if (value.isEmpty) return;
@@ -311,10 +306,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         confirmPasswordError == null;
   }
 
-  // ==================== Registration Operations ====================
-
-  /// Performs registration operation
-  /// On success, emits RegistrationOtpRequired state which triggers navigation to OTP screen
   Future<void> register() async {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
@@ -335,7 +326,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       currentState.confirmPassword,
     );
 
-    // Check if any validation failed
     if (!fullNameResult.isValid ||
         !phoneResult.isValid ||
         !cityResult.isValid ||
@@ -370,13 +360,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
     result.fold(
       onSuccess: (_) {
-        // Repository stores sessionId internally
-        // Emit state to trigger navigation to OTP screen
         emit(RegistrationOtpRequired(phoneNumber: fullPhoneNumber));
       },
       onFailure: (failure) {
         emit(RegistrationFailure(errorMessage: failure.message));
-        // Return to idle state with cleared errors
         emit(currentState.copyWith(
           fullNameError: () => null,
           phoneError: () => null,
@@ -388,14 +375,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
   }
 
-  /// Verifies OTP - called by OTP screen via callback
   Future<Result<void>> verifyOtp(String otp) async {
     return await _authRepository.verifyRegistrationOtp(otp: otp);
   }
 
   void resetToIdle() {
     if (state is RegistrationIdle) return;
-
     if (_lastIdleState != null) {
       emit(_lastIdleState!);
     }

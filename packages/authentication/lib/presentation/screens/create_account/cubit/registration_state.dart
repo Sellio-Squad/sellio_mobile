@@ -1,15 +1,12 @@
 import 'dart:io';
-
 import 'package:equatable/equatable.dart';
 import 'package:country_picker/country_picker.dart';
-import '../../shared/enums/validation_error_type.dart';
+import '../../../../domain/validators/validation_error_type.dart';
 
-/// Base class for all registration states
 sealed class RegistrationState extends Equatable {
   const RegistrationState();
 }
 
-/// Idle state representing the registration form is ready for input
 class RegistrationIdle extends RegistrationState {
   final String fullName;
   final String phoneNumber;
@@ -32,7 +29,7 @@ class RegistrationIdle extends RegistrationState {
     this.phoneNumber = '',
     this.city = '',
     this.password = '',
-    this.countryName = 'North korea',
+    this.countryName = 'Egypt',
     this.confirmPassword = '',
     required this.selectedCountry,
     this.phoneCode = '20',
@@ -48,7 +45,6 @@ class RegistrationIdle extends RegistrationState {
   RegistrationIdle copyWith({
     String? fullName,
     String? phoneNumber,
-    String? email,
     String? city,
     String? password,
     String? confirmPassword,
@@ -106,7 +102,6 @@ class RegistrationIdle extends RegistrationState {
       ];
 }
 
-/// State indicating registration operation is in progress
 class RegistrationSubmitting extends RegistrationState {
   const RegistrationSubmitting();
 
@@ -114,8 +109,6 @@ class RegistrationSubmitting extends RegistrationState {
   List<Object> get props => [];
 }
 
-/// State indicating OTP is required for registration
-/// Repository handles sessionId internally, presentation layer navigates to OTP screen
 class RegistrationOtpRequired extends RegistrationState {
   final String phoneNumber;
 
@@ -127,7 +120,6 @@ class RegistrationOtpRequired extends RegistrationState {
   List<Object?> get props => [phoneNumber];
 }
 
-/// State indicating registration was successful
 class RegistrationSuccess extends RegistrationState {
   const RegistrationSuccess();
 
@@ -135,7 +127,6 @@ class RegistrationSuccess extends RegistrationState {
   List<Object> get props => [];
 }
 
-/// State indicating registration operation failed
 class RegistrationFailure extends RegistrationState {
   final String? errorMessage;
 
