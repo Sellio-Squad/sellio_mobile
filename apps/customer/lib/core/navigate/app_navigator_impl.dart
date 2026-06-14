@@ -1,8 +1,12 @@
+import 'package:authentication/authentication.dart';
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/core/navigate/route_manager.dart';
 
+import '../../di/injection_container.dart';
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -26,8 +30,29 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushForgetPassword() {
+  void pushForgotPassword() {
     context.pushNamed(AppRoutes.forgetPassword.name);
+  }
+
+  @override
+  Future<void> pushOtp({
+    required String phoneNumber,
+    required Future<Result<void>> Function(String otp) onVerify,
+    required VoidCallback onVerifySuccess,
+  }) async {
+    context.pushNamed(
+      AppRoutes.otp.name,
+      extra: OtpArgs(
+        phoneNumber: phoneNumber,
+        onVerify: onVerify,
+        onVerifySuccess: onVerifySuccess,
+      ),
+    );
+  }
+
+  @override
+  void pushResetPassword() {
+    context.pushNamed(AppRoutes.confirmPassword.name);
   }
 
   @override

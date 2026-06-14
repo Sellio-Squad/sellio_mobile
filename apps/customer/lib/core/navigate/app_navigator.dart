@@ -1,13 +1,15 @@
+import 'package:authentication/authentication.dart';
+import 'package:core/core.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 
-abstract class AppNavigator {
+abstract class AppNavigator implements AuthNavigator {
   void pushLogin();
 
   void pushCreateAccount();
 
   void replaceWithCreateAccount();
 
-  void pushForgetPassword();
+  void pushForgotPassword();
 
   void pushConfirmPassword(ConfirmPasswordArgs args);
 
