@@ -1,20 +1,22 @@
+import 'package:authentication/domain/repositories/auth_repository.dart';
+import 'package:authentication/domain/repositories/user_repository.dart';
+import 'package:authentication/l10n/auth_localizations.dart';
+import 'package:authentication/presentation/cubits/auth/authentication_cubit.dart';
+import 'package:authentication/presentation/cubits/auth/authentication_state.dart';
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
-import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
-import 'domain/repositories/auth_repository.dart';
 import 'domain/repositories/category_repository.dart';
 import 'domain/repositories/favorites_repository.dart';
 import 'domain/repositories/product_repository.dart';
 import 'domain/repositories/store_repository.dart';
-import 'domain/repositories/user_repository.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/screens/order_history/cubit/order_history_cubit.dart';
@@ -70,6 +72,7 @@ class MyApp extends StatelessWidget {
                   locale: localeState.locale,
                   localizationsDelegates: const [
                     AppLocalizations.delegate,
+                    AuthLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,

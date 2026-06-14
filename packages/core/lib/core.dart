@@ -15,4 +15,6 @@ export 'data/network/interceptors/error_interceptor.dart';
 export 'data/storage/storage_service.dart';
 export 'data/storage/core_storage_keys.dart';
 
+export 'domain/repositories/country_repository.dart';
+
 export 'services/image_picker_service.dart';
