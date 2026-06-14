@@ -1,8 +1,8 @@
-import '../../../models/auth/forgot_password_otp_response.dart';
-import '../../../models/auth/login_response.dart';
-import '../../../models/auth/register_response.dart';
-import '../../../models/auth/resend_otp_response.dart';
-import '../../../models/auth/verify_otp_response.dart';
+import '../../models/auth/forgot_password_otp_response.dart';
+import '../../models/auth/login_response.dart';
+import '../../models/auth/register_response.dart';
+import '../../models/auth/resend_otp_response.dart';
+import '../../models/auth/verify_otp_response.dart';
 
 abstract class AuthRemoteDataSource {
   Future<LoginResponse> login({
@@ -10,14 +10,15 @@ abstract class AuthRemoteDataSource {
     required String password,
   });
 
-  Future<RegisterResponse> register(
-      {required String fullName,
-      required String phoneNumber,
-      required String password,
-      required String city,
-      required String country,
-      required String region,
-      required String countryCode});
+  Future<RegisterResponse> register({
+    required String fullName,
+    required String phoneNumber,
+    required String password,
+    required String city,
+    required String country,
+    required String region,
+    required String countryCode,
+  });
 
   Future<VerifyOtpResponse> verifyOtp({
     required String otp,

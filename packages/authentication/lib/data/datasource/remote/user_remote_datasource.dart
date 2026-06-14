@@ -1,10 +1,10 @@
-import '../../../models/address_model.dart';
-import '../../../models/request/add_address_request.dart';
-import '../../../models/request/change_password_request.dart';
-import '../../../models/request/reset_password_request.dart';
-import '../../../models/request/update_address_request.dart';
-import '../../../models/request/update_user_profile_request.dart';
-import '../../../models/user_model.dart';
+import '../../models/user/add_address_request.dart';
+import '../../models/user/address_model.dart';
+import '../../models/user/change_password_request.dart';
+import '../../models/user/reset_password_request.dart';
+import '../../models/user/update_address_request.dart';
+import '../../models/user/update_user_profile_request.dart';
+import '../../models/user/user_model.dart';
 
 abstract class UserRemoteDataSource {
   Future<UserModel> getUserProfile();

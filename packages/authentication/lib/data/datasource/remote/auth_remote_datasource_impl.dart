@@ -1,21 +1,22 @@
 import 'package:core/core.dart';
-import '../../../core/api/api_endpoints.dart';
-import '../../../models/auth/forgot_password_otp_response.dart';
-import '../../../models/auth/forgot_password_request.dart';
-import '../../../models/auth/login_request.dart';
-import '../../../models/auth/login_response.dart';
-import '../../../models/auth/register_request.dart';
-import '../../../models/auth/register_response.dart';
-import '../../../models/auth/resend_otp_response.dart';
-import '../../../models/auth/reset_password_request.dart';
-import '../../../models/auth/verify_otp_request.dart';
-import '../../../models/auth/verify_otp_response.dart';
+import '../../models/auth/forgot_password_otp_response.dart';
+import '../../models/auth/forgot_password_request.dart';
+import '../../models/auth/forgot_password_reset_request.dart';
+import '../../models/auth/login_request.dart';
+import '../../models/auth/login_response.dart';
+import '../../models/auth/register_request.dart';
+import '../../models/auth/register_response.dart';
+import '../../models/auth/resend_otp_response.dart';
+import '../../models/auth/verify_otp_request.dart';
+import '../../models/auth/verify_otp_response.dart';
+import 'auth_endpoints.dart';
 import 'auth_remote_datasource.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiClient _apiClient;
+  final AuthEndpoints _endpoints;
 
-  AuthRemoteDataSourceImpl(this._apiClient);
+  AuthRemoteDataSourceImpl(this._apiClient, this._endpoints);
 
   @override
   Future<LoginResponse> login({
@@ -28,7 +29,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final response = await _apiClient.post(
-      ApiEndpoints.login,
+      _endpoints.login,
       data: request.toJson(),
     );
 
@@ -36,25 +37,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<RegisterResponse> register(
-      {required String fullName,
-      required String phoneNumber,
-      required String password,
-      required String city,
-      required String country,
-      required String region,
-      required String countryCode}) async {
+  Future<RegisterResponse> register({
+    required String fullName,
+    required String phoneNumber,
+    required String password,
+    required String city,
+    required String country,
+    required String region,
+    required String countryCode,
+  }) async {
     final request = RegisterRequest(
-        fullName: fullName,
-        phoneNumber: phoneNumber,
-        password: password,
-        city: city,
-        country: country,
-        region: region,
-        countryCode: countryCode);
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      password: password,
+      city: city,
+      country: country,
+      region: region,
+      countryCode: countryCode,
+    );
 
     final response = await _apiClient.post(
-      ApiEndpoints.register,
+      _endpoints.register,
       data: request.toJson(),
     );
 
@@ -72,7 +75,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final response = await _apiClient.post(
-      ApiEndpoints.verifyOtp,
+      _endpoints.verifyOtp,
       data: request.toJson(),
     );
 
@@ -84,7 +87,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String sessionId,
   }) async {
     final response = await _apiClient.post(
-      '${ApiEndpoints.resendOtp}/$sessionId',
+      '${_endpoints.resendOtp}/$sessionId',
     );
 
     return ResendOtpResponse.fromJson(response.data);
@@ -101,7 +104,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final response = await _apiClient.post(
-      ApiEndpoints.forgotPassword,
+      _endpoints.forgotPassword,
       data: request.toJson(),
     );
 
@@ -119,7 +122,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     };
 
     await _apiClient.post(
-      ApiEndpoints.verifyForgotPasswordOtp,
+      _endpoints.verifyForgotPasswordOtp,
       data: data,
     );
   }
@@ -130,14 +133,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    final request = ResetPasswordRequest(
+    final request = ForgotPasswordResetRequest(
       sessionId: sessionId,
       newPassword: newPassword,
       confirmPassword: confirmPassword,
     );
 
     await _apiClient.post(
-      ApiEndpoints.resetForgotPassword,
+      _endpoints.resetForgotPassword,
       data: request.toJson(),
     );
   }
