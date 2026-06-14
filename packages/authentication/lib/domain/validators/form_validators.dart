@@ -1,6 +1,6 @@
-import '../constants/auth_constants.dart';
-import '../enums/form_field_type.dart';
-import '../enums/validation_error_type.dart';
+import '../../core/constants/auth_constants.dart';
+import 'form_field_type.dart';
+import 'validation_error_type.dart';
 import 'validation_result.dart';
 
 abstract class FormValidators {

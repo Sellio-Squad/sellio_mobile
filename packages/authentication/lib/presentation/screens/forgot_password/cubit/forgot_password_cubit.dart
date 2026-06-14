@@ -1,12 +1,12 @@
+import 'package:core/domain/repositories/country_repository.dart';
 import 'package:core/error/result.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import 'package:sellio_mobile/presentation/screens/auth/shared/extensions.dart';
-import '../../../../../domain/repositories/auth_repository.dart';
-import '../../shared/enums/validation_error_type.dart';
-import '../../shared/validators/form_validators.dart';
-import '../../shared/validators/validation_result.dart';
+import '../../../../domain/repositories/auth_repository.dart';
+import '../../../../domain/validators/validation_error_type.dart';
+import '../../../../domain/validators/form_validators.dart';
+import '../../../../domain/validators/validation_result.dart';
+import '../../../shared/extensions.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
@@ -126,8 +126,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   Future<Result<void>> verifyOtp(String otp) async {
     return await _authRepository.verifyForgotPasswordOtp(otp: otp);
   }
-
-  // ==================== Password Reset Step ====================
 
   void updateNewPassword(String value) {
     final currentState = state;
@@ -263,7 +261,6 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
 
   void resetToIdle() {
     if (state is ForgotPasswordIdle) return;
-
     if (_lastIdleState != null) {
       emit(_lastIdleState!);
     }

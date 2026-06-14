@@ -1,44 +1,52 @@
+import 'package:core/domain/repositories/country_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 import 'package:design_system/design_system.dart';
-import 'package:go_router/go_router.dart';
-import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/core/navigate/routing.dart';
-import 'package:sellio_mobile/domain/repositories/country_repository.dart';
-import '../../../../di/injection_container.dart';
-import '../../../../domain/repositories/auth_repository.dart';
-import '../shared/otp/otp_screen.dart';
+import 'package:country_picker/country_picker.dart';
+import '../../../core/localization/auth_localization_service.dart';
+import '../../../domain/repositories/auth_repository.dart';
+import '../../navigation/auth_navigator.dart';
 import 'cubit/forgot_password_cubit.dart';
 import 'cubit/forgot_password_state.dart';
 import 'widgets/lock_icon.dart';
-import 'package:country_picker/country_picker.dart';
 
-class ForgetPasswordScreen extends StatelessWidget {
-  const ForgetPasswordScreen({super.key});
+class ForgotPasswordScreen extends StatelessWidget {
+  final AuthRepository authRepository;
+  final CountryRepository countryRepository;
+  final AuthNavigator navigator;
+
+  const ForgotPasswordScreen({
+    super.key,
+    required this.authRepository,
+    required this.countryRepository,
+    required this.navigator,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ForgotPasswordCubit(
-        authRepository: sl<AuthRepository>(),
-        countryRepository: sl<CountryRepository>(),
+        authRepository: authRepository,
+        countryRepository: countryRepository,
       )..loadInitialCountry(),
-      child: const _ForgetPasswordScreenContent(),
+      child: _ForgotPasswordScreenContent(navigator: navigator),
     );
   }
 }
 
-class _ForgetPasswordScreenContent extends StatefulWidget {
-  const _ForgetPasswordScreenContent();
+class _ForgotPasswordScreenContent extends StatefulWidget {
+  final AuthNavigator navigator;
+
+  const _ForgotPasswordScreenContent({required this.navigator});
 
   @override
-  State<_ForgetPasswordScreenContent> createState() =>
-      _ForgetPasswordScreenContentState();
+  State<_ForgotPasswordScreenContent> createState() =>
+      _ForgotPasswordScreenContentState();
 }
 
-class _ForgetPasswordScreenContentState
-    extends State<_ForgetPasswordScreenContent> {
+class _ForgotPasswordScreenContentState
+    extends State<_ForgotPasswordScreenContent> {
   late final TextEditingController _phoneController;
 
   @override
@@ -76,8 +84,8 @@ class _ForgetPasswordScreenContentState
         } else if (state is ForgotPasswordFailure) {
           SnackBarHelper.showError(
             context,
-            state.errorMessage ?? context.local.error_generic,
-            title: context.local.error,
+            state.errorMessage ?? context.authLocal.something_went_wrong,
+            title: context.authLocal.error,
           );
         }
       },
@@ -88,7 +96,7 @@ class _ForgetPasswordScreenContentState
 
         return Scaffold(
           appBar: SellioAppBar(
-            title: context.local.title_par_forget_password,
+            title: context.authLocal.title_forget_password,
             showBackButton: true,
           ),
           backgroundColor: colors.surfaceLow,
@@ -104,25 +112,25 @@ class _ForgetPasswordScreenContentState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 24),
-                          Center(child: buildLockIcon(colors)),
+                          const Center(child: LockIcon()),
                           const SizedBox(height: 40),
                           Text(
-                            context.local.title_forget_password,
+                            context.authLocal.title_forget_password,
                             style: textTheme.headlineSmall
                                 .copyWith(color: colors.title),
                           ),
                           const Gap(8),
                           Text(
-                            context.local.subtitle_forget_password,
+                            context.authLocal.subtitle_forget_password,
                             style: textTheme.bodyMedium
                                 .copyWith(color: colors.body),
                           ),
                           const Gap(24),
                           SellioPhoneField(
                             controller: _phoneController,
-                            hintText: context.local.phone_number,
+                            hintText: context.authLocal.phone_number,
                             searchHintText:
-                                context.local.search_by_name_or_code,
+                                context.authLocal.search_by_name_or_code,
                             selectedCountry: lastValidCountry,
                             onCountrySelected: cubit.updateSelectedCountry,
                           ),
@@ -131,7 +139,7 @@ class _ForgetPasswordScreenContentState
                     ),
                   ),
                   SellioButton(
-                    text: context.local.send,
+                    text: context.authLocal.send,
                     onTap: isPhoneFilled && !isLoading ? cubit.sendOtp : null,
                     isLoading: isLoading,
                     backgroundColor:
@@ -149,24 +157,17 @@ class _ForgetPasswordScreenContentState
   }
 
   void _navigateToOtpScreen(
-      BuildContext context, ForgotPasswordOtpRequired state) {
+      BuildContext context, ForgotPasswordOtpRequired state) async {
     final cubit = context.read<ForgotPasswordCubit>();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => OtpScreen(
-          title: context.local.verify_phone_number,
-          subtitle: context.local.enter_the_4_digit_sent_to(state.phoneNumber),
-          phoneNumber: state.phoneNumber,
-          onVerify: (otp) => cubit.verifyOtp(otp),
-          onVerifySuccess: () {
-            context.pushNamed(AppRoutes.confirmPassword.name);
-          },
-        ),
-      ),
-    ).then((_) {
+    await widget.navigator.pushOtp(
+      phoneNumber: state.phoneNumber,
+      onVerify: (otp) => cubit.verifyOtp(otp),
+      onVerifySuccess: () => widget.navigator.pushResetPassword(),
+    );
+
+    if (context.mounted) {
       cubit.resetToIdle();
-    });
+    }
   }
 }
