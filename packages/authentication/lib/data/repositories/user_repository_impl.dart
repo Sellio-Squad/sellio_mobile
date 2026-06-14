@@ -1,13 +1,12 @@
 import 'package:core/error/result.dart';
-import 'package:sellio_mobile/data/mappers/user_mapper.dart';
-
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/user_repository.dart';
-import '../core/utils/repository_call_handler.dart';
-import '../datasource/remote/user/user_remote.dart';
-import '../models/request/change_password_request.dart';
-import '../models/request/reset_password_request.dart';
-import '../models/request/update_user_profile_request.dart';
+import '../../core/utils/auth_repository_call_handler.dart';
+import '../datasource/remote/user_remote_datasource.dart';
+import '../mappers/user_mapper.dart';
+import '../models/user/change_password_request.dart';
+import '../models/user/reset_password_request.dart';
+import '../models/user/update_user_profile_request.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserRemoteDataSource _remoteDataSource;
@@ -18,7 +17,7 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Result<User>> getUserProfile() async {
-    return RepositoryCallHandler.call<User>(() async {
+    return AuthRepositoryCallHandler.call<User>(() async {
       final userModel = await _remoteDataSource.getUserProfile();
       return userModel.toEntity();
     });
@@ -32,7 +31,7 @@ class UserRepositoryImpl implements UserRepository {
     String? country,
     String? avatarUrl,
   }) async {
-    return RepositoryCallHandler.call<User>(() async {
+    return AuthRepositoryCallHandler.call<User>(() async {
       final request = UpdateUserProfileRequest(
         fullName: fullName,
         phoneNumber: phoneNumber,
@@ -51,7 +50,7 @@ class UserRepositoryImpl implements UserRepository {
     required String currentPassword,
     required String newPassword,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final request = ChangePasswordRequest(
         currentPassword: currentPassword,
         newPassword: newPassword,
@@ -67,7 +66,7 @@ class UserRepositoryImpl implements UserRepository {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final request = ResetPasswordRequest(
         currentPassword: currentPassword,
         newPassword: newPassword,
@@ -80,14 +79,14 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Result<void>> deleteAccount() async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       await _remoteDataSource.deleteAccount();
     });
   }
 
   @override
   Future<Result<String>> uploadProfilePhoto(String filePath) async {
-    return RepositoryCallHandler.call<String>(() async {
+    return AuthRepositoryCallHandler.call<String>(() async {
       return await _remoteDataSource.uploadProfilePhoto(filePath: filePath);
     });
   }

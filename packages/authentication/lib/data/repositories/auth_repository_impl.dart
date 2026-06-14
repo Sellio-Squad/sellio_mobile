@@ -1,9 +1,9 @@
 import 'package:core/data/storage/storage_service.dart';
 import 'package:core/error/result.dart';
+import '../../core/storage/auth_storage_keys.dart';
+import '../../core/utils/auth_repository_call_handler.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../core/storage/storage_keys.dart';
-import '../core/utils/repository_call_handler.dart';
-import '../datasource/remote/auth/auth_remote_datasource.dart';
+import '../datasource/remote/auth_remote_datasource.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
@@ -20,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
     required String password,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.login(
         phoneNumber: phoneNumber,
         password: password,
@@ -31,28 +31,30 @@ class AuthRepositoryImpl implements AuthRepository {
         refreshToken: response.refreshToken,
       );
 
-      await _storageService.save<bool>(StorageKeys.isGuestMode, false);
+      await _storageService.save<bool>(AuthStorageKeys.isGuestMode, false);
     });
   }
 
   @override
-  Future<Result<void>> register(
-      {required String fullName,
-      required String phoneNumber,
-      required String password,
-      required String city,
-      required String country,
-      required String region,
-      required String countryCode}) async {
-    return RepositoryCallHandler.callVoid(() async {
+  Future<Result<void>> register({
+    required String fullName,
+    required String phoneNumber,
+    required String password,
+    required String city,
+    required String country,
+    required String region,
+    required String countryCode,
+  }) async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
-          fullName: fullName,
-          phoneNumber: phoneNumber,
-          password: password,
-          city: city,
-          country: country,
-          region: region,
-          countryCode: countryCode);
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        password: password,
+        city: city,
+        country: country,
+        region: region,
+        countryCode: countryCode,
+      );
 
       await _savePendingRegistration(
         sessionId: response.sessionId,
@@ -65,9 +67,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> verifyRegistrationOtp({
     required String otp,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        StorageKeys.registrationSessionId,
+        AuthStorageKeys.registrationSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -90,9 +92,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<String?>> resendOtp() async {
-    return RepositoryCallHandler.call<String?>(() async {
+    return AuthRepositoryCallHandler.call<String?>(() async {
       final sessionId = await _storageService.get<String>(
-        StorageKeys.registrationSessionId,
+        AuthStorageKeys.registrationSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -104,7 +106,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _storageService.save<String>(
-        StorageKeys.registrationSessionId,
+        AuthStorageKeys.registrationSessionId,
         response.sessionId,
       );
 
@@ -117,15 +119,14 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
     required String defaultRegion,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
         defaultRegion: defaultRegion,
       );
 
-      // Store sessionId for subsequent operations
       await _storageService.save<String>(
-        StorageKeys.forgotPasswordSessionId,
+        AuthStorageKeys.forgotPasswordSessionId,
         response.sessionId,
       );
     });
@@ -135,9 +136,9 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> verifyForgotPasswordOtp({
     required String otp,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        StorageKeys.forgotPasswordSessionId,
+        AuthStorageKeys.forgotPasswordSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -156,9 +157,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        StorageKeys.forgotPasswordSessionId,
+        AuthStorageKeys.forgotPasswordSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -171,44 +172,42 @@ class AuthRepositoryImpl implements AuthRepository {
         confirmPassword: confirmPassword,
       );
 
-      // Clear the session after successful reset
-      await _storageService.remove(StorageKeys.forgotPasswordSessionId);
+      await _storageService.remove(AuthStorageKeys.forgotPasswordSessionId);
     });
   }
 
   @override
   Future<Result<void>> logout() async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       await _clearAuthData();
     });
   }
 
   @override
   Future<bool> isLoggedIn() async {
-    final token = await _storageService.get<String>(StorageKeys.authToken);
-
+    final token = await _storageService.get<String>(AuthStorageKeys.authToken);
     return token != null && token.isNotEmpty;
   }
 
   @override
   Future<String?> getPendingRegistrationPhone() async {
-    return _storageService.get<String>(StorageKeys.registrationPhoneNumber);
+    return _storageService.get<String>(AuthStorageKeys.registrationPhoneNumber);
   }
 
   @override
   Future<void> clearPendingRegistration() async {
-    await _storageService.remove(StorageKeys.registrationSessionId);
-    await _storageService.remove(StorageKeys.registrationPhoneNumber);
+    await _storageService.remove(AuthStorageKeys.registrationSessionId);
+    await _storageService.remove(AuthStorageKeys.registrationPhoneNumber);
   }
 
   Future<void> _saveAuthTokens({
     required String accessToken,
     required String refreshToken,
   }) async {
-    await _storageService.save<String>(StorageKeys.authToken, accessToken);
-    await _storageService.save<String>(StorageKeys.refreshToken, refreshToken);
-    await _storageService.save<bool>(StorageKeys.isLoggedIn, true);
-    await _storageService.remove(StorageKeys.isGuestMode);
+    await _storageService.save<String>(AuthStorageKeys.authToken, accessToken);
+    await _storageService.save<String>(AuthStorageKeys.refreshToken, refreshToken);
+    await _storageService.save<bool>(AuthStorageKeys.isLoggedIn, true);
+    await _storageService.remove(AuthStorageKeys.isGuestMode);
   }
 
   Future<void> _savePendingRegistration({
@@ -216,20 +215,20 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
   }) async {
     await _storageService.save<String>(
-      StorageKeys.registrationSessionId,
+      AuthStorageKeys.registrationSessionId,
       sessionId,
     );
     await _storageService.save<String>(
-      StorageKeys.registrationPhoneNumber,
+      AuthStorageKeys.registrationPhoneNumber,
       phoneNumber,
     );
   }
 
   Future<void> _clearAuthData() async {
-    await _storageService.remove(StorageKeys.authToken);
-    await _storageService.remove(StorageKeys.refreshToken);
-    await _storageService.remove(StorageKeys.isLoggedIn);
-    await _storageService.remove(StorageKeys.isGuestMode);
+    await _storageService.remove(AuthStorageKeys.authToken);
+    await _storageService.remove(AuthStorageKeys.refreshToken);
+    await _storageService.remove(AuthStorageKeys.isLoggedIn);
+    await _storageService.remove(AuthStorageKeys.isGuestMode);
     await clearPendingRegistration();
   }
 
@@ -240,19 +239,19 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isGuestMode() async {
-    return await _storageService.get<bool>(StorageKeys.isGuestMode) ?? true;
+    return await _storageService.get<bool>(AuthStorageKeys.isGuestMode) ?? true;
   }
 
   @override
   Future<Result<void>> loginAsGuest() async {
-    return RepositoryCallHandler.callVoid(() async {
+    return AuthRepositoryCallHandler.callVoid(() async {
       await _clearAuthData();
-      await _storageService.save<bool>(StorageKeys.isGuestMode, true);
+      await _storageService.save<bool>(AuthStorageKeys.isGuestMode, true);
     });
   }
 
   @override
   Future<void> clearGuestMode() async {
-    await _storageService.remove(StorageKeys.isGuestMode);
+    await _storageService.remove(AuthStorageKeys.isGuestMode);
   }
 }
