@@ -9,6 +9,7 @@ class ThriftLoadingMoreShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
     final colors = theme.colors;
+
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       sliver: SliverGrid(
@@ -19,7 +20,7 @@ class ThriftLoadingMoreShimmer extends StatelessWidget {
               highlightColor: colors.surfaceLow,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: colors.surfaceLow,
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
