@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
 
   firebase_core: ^2.30.0
+  network_inspector: ^1.1.4
 
   design_system:
     path: ../../packages/design_system

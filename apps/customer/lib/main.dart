@@ -2,6 +2,7 @@ import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:network_inspector/network_inspector.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +32,10 @@ void main() async {
       create: (context) => LocaleCubit(prefs),
       child: SellioThemeProvider(
         brightness: Brightness.light,
-        child: const MyApp(),
+        child: NetworkInspector(
+          enabled: const bool.fromEnvironment('NETWORK_INSPECTOR_ENABLED', defaultValue: false),
+          child: const MyApp(),
+        ),
       ),
     ),
   );
