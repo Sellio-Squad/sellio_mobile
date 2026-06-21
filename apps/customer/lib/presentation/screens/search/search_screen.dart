@@ -105,11 +105,17 @@ class _SearchViewState extends State<_SearchView> {
     );
   }
 
-  void _showFilterBottomSheet() {
-    showModalBottomSheet(
+  void _showFilterBottomSheet() async {
+    final Map<String, dynamic>? filters = await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (_) => const FilterBottomSheet(),
     );
+
+    if (filters != null) {
+      // If filters are returned (even an empty map for clearing), apply them.
+      context.read<SearchCubit>().applyFilters(filters);
+    }
   }
 }
 

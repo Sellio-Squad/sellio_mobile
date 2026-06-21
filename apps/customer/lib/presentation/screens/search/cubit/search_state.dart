@@ -2,19 +2,35 @@ part of 'search_cubit.dart';
 
 abstract class SearchState extends Equatable {
   final SearchType selectedType;
+  final Map<String, dynamic>? filters;
 
-  const SearchState(this.selectedType);
+  const SearchState({
+    required this.selectedType,
+    this.filters,
+  });
 
   @override
-  List<Object?> get props => [selectedType];
+  List<Object?> get props => [selectedType, filters];
 }
 
 class SearchInitial extends SearchState {
-  const SearchInitial({required SearchType selectedType}) : super(selectedType);
+  const SearchInitial({
+    required SearchType selectedType,
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 }
 
 class SearchLoading extends SearchState {
-  const SearchLoading({required SearchType selectedType}) : super(selectedType);
+  const SearchLoading({
+    required SearchType selectedType,
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 }
 
 class SearchRecent extends SearchState {
@@ -23,10 +39,14 @@ class SearchRecent extends SearchState {
   const SearchRecent({
     required this.recentSearches,
     required SearchType selectedType,
-  }) : super(selectedType);
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 
   @override
-  List<Object?> get props => [recentSearches, selectedType];
+  List<Object?> get props => [recentSearches, selectedType, filters];
 }
 
 class SearchProductsSuccess extends SearchState {
@@ -35,10 +55,14 @@ class SearchProductsSuccess extends SearchState {
   const SearchProductsSuccess({
     required this.products,
     required SearchType selectedType,
-  }) : super(selectedType);
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 
   @override
-  List<Object?> get props => [products, selectedType];
+  List<Object?> get props => [products, selectedType, filters];
 }
 
 class SearchStoresSuccess extends SearchState {
@@ -47,14 +71,24 @@ class SearchStoresSuccess extends SearchState {
   const SearchStoresSuccess({
     required this.stores,
     required SearchType selectedType,
-  }) : super(selectedType);
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 
   @override
-  List<Object?> get props => [stores, selectedType];
+  List<Object?> get props => [stores, selectedType, filters];
 }
 
 class SearchEmpty extends SearchState {
-  const SearchEmpty({required SearchType selectedType}) : super(selectedType);
+  const SearchEmpty({
+    required SearchType selectedType,
+    Map<String, dynamic>? filters,
+  }) : super(
+          selectedType: selectedType,
+          filters: filters,
+        );
 }
 
 enum SearchType {

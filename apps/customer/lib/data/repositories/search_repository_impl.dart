@@ -9,11 +9,11 @@ import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:design_system/design_system.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
-  final SearchRemoteDateSource _remoteDataSource;
+  final SearchRemoteDatasource _remoteDataSource;
   final SearchLocalDatasource _localDataSource;
 
   SearchRepositoryImpl(
-      {required SearchRemoteDateSource remoteDataSource,
+      {required SearchRemoteDatasource remoteDataSource,
       required SearchLocalDatasource localDataSource})
       : _remoteDataSource = remoteDataSource,
         _localDataSource = localDataSource;
@@ -26,12 +26,14 @@ class SearchRepositoryImpl implements SearchRepository {
     double? maxPrice,
     int page = 1,
     int limit = 20,
+    Map<String, dynamic>? filters,
   }) async {
     return RepositoryCallHandler.call<List<Product>>(() async {
       final paginatedResponse = await _remoteDataSource.searchProducts(
         query: query,
         page: page - 1,
         pageSize: limit,
+        filters: filters,
       );
 
       var products = paginatedResponse.data.map((m) => m.toEntity()).toList();
@@ -55,12 +57,14 @@ class SearchRepositoryImpl implements SearchRepository {
     required String query,
     int page = RepositoryConstants.defaultPage,
     int limit = RepositoryConstants.defaultPageSize,
+    Map<String, dynamic>? filters,
   }) async {
     return RepositoryCallHandler.call<List<Store>>(() async {
       final paginatedResponse = await _remoteDataSource.searchStores(
         query: query,
         page: page - 1,
         pageSize: limit,
+        filters: filters,
       );
 
       return paginatedResponse.data.map((model) => model.toEntity()).toList();

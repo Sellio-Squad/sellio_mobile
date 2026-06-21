@@ -12,6 +12,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   SearchType _currentType = SearchType.products;
   String _lastQuery = '';
+  Map<String, dynamic> _currentFilters = {};
 
   SearchCubit(this._searchRepository)
       : super(const SearchInitial(selectedType: SearchType.products));
@@ -37,49 +38,53 @@ class SearchCubit extends Cubit<SearchState> {
       return;
     }
 
+    await _performSearch(query, _currentFilters);
+  }
+
+  Future<void> applyFilters(Map<String, dynamic> newFilters) async {
+    _currentFilters = newFilters;
+    if (_lastQuery.isNotEmpty) {
+      await _performSearch(_lastQuery, _currentFilters);
+    } else {
+      emit(SearchAppliedFilters(selectedType: _currentType, filters: _currentFilters));
+    }
+  }
+
+  Future<void> _performSearch(String query, Map<String, dynamic> filters) async {
+    emit(SearchLoading(selectedType: _currentType, filters: filters));
+    Result result;
+
     switch (_currentType) {
       case SearchType.products:
-        await _searchProducts(query);
+        result = await _searchRepository.searchProducts(query: query, filters: filters);
+        if (result.isSuccess) {
+          final products = (result as Success<List<Product>>).data;
+          emit(
+            products.isEmpty
+                ? SearchEmpty(selectedType: _currentType, filters: filters)
+                : SearchProductsSuccess(
+                    products: products,
+                    selectedType: _currentType,
+                    filters: filters,
+                  ),
+          );
+        }
         break;
       case SearchType.stores:
-        await _searchStores(query);
+        result = await _searchRepository.searchStores(query: query, filters: filters);
+        if (result.isSuccess) {
+          final stores = (result as Success<List<Store>>).data;
+          emit(
+            stores.isEmpty
+                ? SearchEmpty(selectedType: _currentType, filters: filters)
+                : SearchStoresSuccess(
+                    stores: stores,
+                    selectedType: _currentType,
+                    filters: filters,
+                  ),
+          );
+        }
         break;
-    }
-  }
-
-  Future<void> _searchProducts(String query) async {
-    emit(SearchLoading(selectedType: _currentType));
-    final result = await _searchRepository.searchProducts(query: query);
-
-    if (result.isSuccess) {
-      final products = (result as Success<List<Product>>).data;
-
-      emit(
-        products.isEmpty
-            ? SearchEmpty(selectedType: _currentType)
-            : SearchProductsSuccess(
-                products: products,
-                selectedType: _currentType,
-              ),
-      );
-    }
-  }
-
-  Future<void> _searchStores(String query) async {
-    emit(SearchLoading(selectedType: _currentType));
-    final result = await _searchRepository.searchStores(query: query);
-
-    if (result.isSuccess) {
-      final stores = (result as Success<List<Store>>).data;
-
-      emit(
-        stores.isEmpty
-            ? SearchEmpty(selectedType: _currentType)
-            : SearchStoresSuccess(
-                stores: stores,
-                selectedType: _currentType,
-              ),
-      );
     }
   }
 
@@ -88,7 +93,9 @@ class SearchCubit extends Cubit<SearchState> {
 
     _currentType = type;
     if (_lastQuery.isNotEmpty) {
-      search(_lastQuery);
+      _performSearch(_lastQuery, _currentFilters);
+    } else {
+      emit(SearchInitial(selectedType: _currentType));
     }
   }
 
@@ -98,6 +105,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void selectRecent(String text) {
-    search(text);
+    _lastQuery = text;
+    _performSearch(_lastQuery, _currentFilters);
   }
 }

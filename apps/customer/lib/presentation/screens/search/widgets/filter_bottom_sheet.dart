@@ -12,6 +12,7 @@ class FilterBottomSheet extends StatefulWidget {
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   String _selectedFilter = 'all';
+  final Map<String, dynamic> _appliedFilters = {};
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 onTap: () {
                   setState(() {
                     _selectedFilter = 'all';
+                    _appliedFilters.remove('type');
                   });
                 },
                 selected: _selectedFilter == 'all',
@@ -45,6 +47,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 onTap: () {
                   setState(() {
                     _selectedFilter = 'near_by_you';
+                    _appliedFilters['type'] = 'nearby';
                   });
                 },
               ),
@@ -55,6 +58,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 onTap: () {
                   setState(() {
                     _selectedFilter = 'high_rating';
+                    _appliedFilters['sort'] = 'rating_desc';
                   });
                 },
               ),
@@ -65,6 +69,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             text: context.local.save,
             textStyle: context.theme.typography.textTheme.labelMedium
                 .copyWith(color: context.theme.colors.onPrimary),
+            onPressed: () {
+              Navigator.pop(context, _appliedFilters);
+            },
           ),
         ],
       ),

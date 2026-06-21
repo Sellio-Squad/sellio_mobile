@@ -8,6 +8,7 @@ abstract class SearchRepository {
     String? categoryId,
     double? minPrice,
     double? maxPrice,
+    Map<String, dynamic>? filters, // Added filters parameter
     int page = 1,
     int limit = 20,
   });

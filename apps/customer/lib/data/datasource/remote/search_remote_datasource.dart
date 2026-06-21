@@ -9,12 +9,14 @@ abstract class SearchRemoteDateSource {
     required String query,
     int page = 0,
     int pageSize = 20,
+    Map<String, dynamic>? filters,
   });
 
   Future<PaginatedResponse<StoreModel>> searchStores({
     required String query,
     int page = 0,
     int pageSize = 20,
+    Map<String, dynamic>? filters,
   });
 }
 
@@ -28,6 +30,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
     required String query,
     int page = 0,
     int pageSize = 20,
+    Map<String, dynamic>? filters,
   }) async {
     final response = await _httpClient.get(
       ApiEndpoints.productsSearch,
@@ -35,6 +38,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
         'query': query,
         'page': page,
         'size': pageSize,
+        if (filters != null) ...filters,
       },
     );
 
@@ -49,6 +53,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
     required String query,
     int page = 0,
     int pageSize = 20,
+    Map<String, dynamic>? filters,
   }) async {
     final response = await _httpClient.get(
       ApiEndpoints.storesSearch,
@@ -56,6 +61,7 @@ class SearchRemoteDatasourceImpl implements SearchRemoteDateSource {
         'query': query,
         'page': page,
         'size': pageSize,
+        if (filters != null) ...filters,
       },
     );
 
