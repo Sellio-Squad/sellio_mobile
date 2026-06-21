@@ -1,34 +1,23 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:network_inspector/network_inspector.dart';
+import 'package:customer/data/core/api/dio_client.dart';
 
-import '../../../core/network/network_info.dart';
-import '../../../data/core/api/api_client.dart';
-import '../../../data/core/api/api_endpoints.dart';
-import '../../../data/core/api/dio_client.dart';
-import '../../core/services/image_picker_service.dart';
-import '../../core/services/image_picker_service_impl.dart';
+final sl = GetIt.instance;
 
 class CoreModule {
-  static Future<void> register(GetIt sl) async {
-    sl.registerLazySingleton<InternetConnectionChecker>(
-      () => InternetConnectionChecker(),
-    );
+  CoreModule() {
+    _core();
+  }
 
-    sl.registerLazySingleton<ImagePickerService>(
-      () => ImagePickerServiceImpl(),
-    );
-
-    sl.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(sl()),
-    );
-
-    sl.registerLazySingleton<ApiClient>(
-      () => DioClient(
-        baseUrl: ApiEndpoints.baseUrl,
-        storageService: sl(),
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
-      ),
-    );
+  void _core() {
+    sl.registerLazySingleton<Dio>(() {
+      final dio = DioClient.instance.dio;
+      if (kDebugMode) {
+        dio.interceptors.add(NetworkInspectorDioInterceptor());
+      }
+      return dio;
+    });
   }
 }
