@@ -1,7 +1,9 @@
 import 'package:design_system/design_system.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:network_inspector/network_inspector.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,7 +65,7 @@ class MyApp extends StatelessWidget {
           builder: (context) {
             return BlocBuilder<LocaleCubit, LocaleState>(
               builder: (context, localeState) {
-                return MaterialApp.router(
+                final Widget app = MaterialApp.router(
                   debugShowCheckedModeBanner: false,
                   routerConfig: RouteGenerator.router,
                   title: 'Sellio app',
@@ -101,6 +103,8 @@ class MyApp extends StatelessWidget {
                     );
                   },
                 );
+
+                return kDebugMode ? NetworkInspector(child: app) : app;
               },
             );
           },
