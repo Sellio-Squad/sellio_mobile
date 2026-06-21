@@ -1,10 +1,13 @@
 import 'package:design_system/design_system.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_inspector/flutter_bloc_inspector.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/bloc_observer/app_bloc_observer.dart';
 import 'core/localization/cubit/locale_cubit.dart';
 import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/route_manager.dart';
@@ -25,6 +28,11 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   await init();
+
+  if (kDebugMode) {
+    BlocInspector.instance.start();
+  }
+  Bloc.observer = AppBlocObserver();
 
   runApp(
     BlocProvider(
