@@ -5,11 +5,7 @@ import '../../domain/repositories/notification_repository.dart';
 
 class MockRepositoryModule {
   static void register(GetIt sl) {
-    //sl.registerLazySingleton<AuthRepository>(() => MockAuthRepositoryImpl());
-    // sl.registerLazySingleton<StoreRepository>(() => MockStoreRepositoryImpl());
-    // sl.registerLazySingleton<CategoryRepository>(() => MockCategoryRepositoryImpl());
-    //sl.registerLazySingleton<OffersRepository>(() => MockOffersRepositoryImpl());
     sl.registerLazySingleton<NotificationRepository>(
-        () => MockNotificationRepositoryImpl());
+        () => MockNotificationRepositoryImpl(),);
   }
 }
