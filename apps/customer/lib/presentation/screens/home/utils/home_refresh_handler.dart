@@ -16,6 +16,5 @@ Future<void> handleHomeRefresh(BuildContext context) async {
     context.read<HomeSpecialOffersCubit>().loadSpecialOffers(),
     context.read<CategoriesCubit>().fetchCategories(),
     context.read<CartCubit>().loadCart(),
-    //context.read<FavoritesCubit>().loadFavorites(),
   ]);
 }

@@ -112,18 +112,10 @@ class _HomeBody extends StatelessWidget {
           ),
         ),
       );
-    } else if (state is HomeSectionsError) {
-      sections.add(
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Center(child: Text(state.message)),
-          ),
-        ),
-      );
     }
 
     sections.add(const SliverToBoxAdapter(child: SizedBox(height: 24)));
+
     return sections;
   }
 }
