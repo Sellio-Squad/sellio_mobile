@@ -28,12 +28,19 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
   }
 
   Future<void> loadThriftProducts({String? categoryId}) async {
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    final effectiveCategoryId = categoryId ?? state.selectedCategoryId;
+    
+    emit(state.copyWith(
+      isLoading: true, 
+      errorMessage: null,
+      selectedCategoryId: effectiveCategoryId,
+      clearSelectedCategory: effectiveCategoryId == null,
+    ));
 
     final result = await _productRepository.getThriftProducts(
       page: 1,
       limit: 20,
-      categoryId: categoryId,
+      categoryId: effectiveCategoryId,
     );
 
     result.fold(
@@ -49,7 +56,6 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
           items: data.items,
           currentPage: data.currentPage,
           totalPages: data.totalPages,
-          selectedCategoryId: categoryId,
         ));
       },
     );
@@ -94,6 +100,7 @@ class ThriftProductsCubit extends Cubit<ThriftProductsState> {
   Future<void> selectCategory(String? categoryId) async {
     emit(state.copyWith(
       selectedCategoryId: categoryId,
+      clearSelectedCategory: categoryId == null,
       isLoading: true,
       items: [],
     ));
