@@ -13,6 +13,7 @@ class MockNotificationRepositoryImpl implements NotificationRepository {
   @override
   Future<List<Notification>> getNotifications() async {
     await _simulateDelay();
+
     return _notifications;
   }
 }
