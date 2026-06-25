@@ -41,7 +41,7 @@ class LoginListeners extends StatelessWidget {
     );
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (context.mounted) {
-        navigator.pop();
+        navigator.goToHome();
       }
     });
   }

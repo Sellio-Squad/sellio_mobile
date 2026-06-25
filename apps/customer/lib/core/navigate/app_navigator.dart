@@ -39,6 +39,8 @@ abstract class AppNavigator implements AuthNavigator {
 
   void goToAccount();
 
+  void goToLogin();
+
   void pop<T extends Object?>([T? result]);
 
   void popAndPush(String routeName);

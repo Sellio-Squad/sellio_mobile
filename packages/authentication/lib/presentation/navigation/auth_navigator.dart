@@ -13,5 +13,6 @@ abstract class AuthNavigator {
   });
   void pushResetPassword();
   void goToHome();
+  void goToLogin();
   void pop<T extends Object?>([T? result]);
 }

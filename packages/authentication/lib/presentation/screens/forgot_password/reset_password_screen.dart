@@ -88,7 +88,7 @@ class _ResetPasswordScreenContentState
           );
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) {
-              widget.navigator.pushLogin();
+              widget.navigator.goToLogin();
             }
           });
         } else if (state is ForgotPasswordFailure) {

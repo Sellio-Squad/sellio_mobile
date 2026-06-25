@@ -141,6 +141,11 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
+  void goToLogin() {
+    context.goNamed(AppRoutes.login.name);
+  }
+
+  @override
   void pop<T extends Object?>([T? result]) {
     context.pop<T>(result);
   }
