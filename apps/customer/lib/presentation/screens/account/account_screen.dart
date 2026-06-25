@@ -37,7 +37,6 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
       child: BlocBuilder<AccountCubit, AccountState>(
         builder: (context, state) {
-          print("Trace : State in AccountScreen build method: $state");
 
           return Scaffold(
             extendBodyBehindAppBar: false,
@@ -60,6 +59,7 @@ class _AccountScreenState extends State<AccountScreen> {
     return SellioAppBar(
       title: context.local.account_screen,
       actions: [
+        if(state is! UserNotLoggedIn)
         GestureDetector(
           onTap: () => _showAccountOptionsBottomSheet(context),
           child: Padding(

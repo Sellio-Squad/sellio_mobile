@@ -9,6 +9,7 @@ class ThriftScreenLoadingMoreShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = SellioTheme.of(context);
     final colors = theme.colors;
+
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
