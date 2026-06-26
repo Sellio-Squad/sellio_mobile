@@ -1,7 +1,7 @@
 import 'package:core/data/storage/storage_service.dart';
+import 'package:core/data/utils/repository_call_handler.dart';
 import 'package:core/error/result.dart';
 import '../../core/storage/auth_storage_keys.dart';
-import '../../core/utils/auth_repository_call_handler.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasource/remote/auth_remote_datasource.dart';
 
@@ -20,7 +20,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
     required String password,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.login(
         phoneNumber: phoneNumber,
         password: password,
@@ -45,7 +45,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String region,
     required String countryCode,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.register(
         fullName: fullName,
         phoneNumber: phoneNumber,
@@ -67,7 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> verifyRegistrationOtp({
     required String otp,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
         AuthStorageKeys.registrationSessionId,
       );
@@ -92,7 +92,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<String?>> resendOtp() async {
-    return AuthRepositoryCallHandler.call<String?>(() async {
+    return RepositoryCallHandler.call<String?>(() async {
       final sessionId = await _storageService.get<String>(
         AuthStorageKeys.registrationSessionId,
       );
@@ -119,7 +119,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
     required String defaultRegion,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final response = await _remoteDataSource.sendForgotPasswordOtp(
         phoneNumber: phoneNumber,
         defaultRegion: defaultRegion,
@@ -136,7 +136,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<void>> verifyForgotPasswordOtp({
     required String otp,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
         AuthStorageKeys.forgotPasswordSessionId,
       );
@@ -157,7 +157,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String newPassword,
     required String confirmPassword,
   }) async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
         AuthStorageKeys.forgotPasswordSessionId,
       );
@@ -178,7 +178,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> logout() async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       await _clearAuthData();
     });
   }
@@ -244,7 +244,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Result<void>> loginAsGuest() async {
-    return AuthRepositoryCallHandler.callVoid(() async {
+    return RepositoryCallHandler.callVoid(() async {
       await _clearAuthData();
       await _storageService.save<bool>(AuthStorageKeys.isGuestMode, true);
     });
