@@ -1,7 +1,4 @@
-import 'package:core/data/storage/storage_service.dart';
-import 'package:core/data/utils/repository_call_handler.dart';
-import 'package:core/error/result.dart';
-import '../../core/storage/auth_storage_keys.dart';
+import 'package:core/core.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../datasource/remote/auth_remote_datasource.dart';
 
@@ -31,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
         refreshToken: response.refreshToken,
       );
 
-      await _storageService.save<bool>(AuthStorageKeys.isGuestMode, false);
+      await _storageService.save<bool>(CoreStorageKeys.isGuestMode, false);
     });
   }
 
@@ -69,7 +66,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        AuthStorageKeys.registrationSessionId,
+        CoreStorageKeys.registrationSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -94,7 +91,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Result<String?>> resendOtp() async {
     return RepositoryCallHandler.call<String?>(() async {
       final sessionId = await _storageService.get<String>(
-        AuthStorageKeys.registrationSessionId,
+        CoreStorageKeys.registrationSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -106,7 +103,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _storageService.save<String>(
-        AuthStorageKeys.registrationSessionId,
+        CoreStorageKeys.registrationSessionId,
         response.sessionId,
       );
 
@@ -126,7 +123,7 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       await _storageService.save<String>(
-        AuthStorageKeys.forgotPasswordSessionId,
+        CoreStorageKeys.forgotPasswordSessionId,
         response.sessionId,
       );
     });
@@ -138,7 +135,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        AuthStorageKeys.forgotPasswordSessionId,
+        CoreStorageKeys.forgotPasswordSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -159,7 +156,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     return RepositoryCallHandler.callVoid(() async {
       final sessionId = await _storageService.get<String>(
-        AuthStorageKeys.forgotPasswordSessionId,
+        CoreStorageKeys.forgotPasswordSessionId,
       );
 
       if (sessionId == null || sessionId.isEmpty) {
@@ -172,7 +169,7 @@ class AuthRepositoryImpl implements AuthRepository {
         confirmPassword: confirmPassword,
       );
 
-      await _storageService.remove(AuthStorageKeys.forgotPasswordSessionId);
+      await _storageService.remove(CoreStorageKeys.forgotPasswordSessionId);
     });
   }
 
@@ -185,29 +182,29 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isLoggedIn() async {
-    final token = await _storageService.get<String>(AuthStorageKeys.authToken);
+    final token = await _storageService.get<String>(CoreStorageKeys.authToken);
     return token != null && token.isNotEmpty;
   }
 
   @override
   Future<String?> getPendingRegistrationPhone() async {
-    return _storageService.get<String>(AuthStorageKeys.registrationPhoneNumber);
+    return _storageService.get<String>(CoreStorageKeys.registrationPhoneNumber);
   }
 
   @override
   Future<void> clearPendingRegistration() async {
-    await _storageService.remove(AuthStorageKeys.registrationSessionId);
-    await _storageService.remove(AuthStorageKeys.registrationPhoneNumber);
+    await _storageService.remove(CoreStorageKeys.registrationSessionId);
+    await _storageService.remove(CoreStorageKeys.registrationPhoneNumber);
   }
 
   Future<void> _saveAuthTokens({
     required String accessToken,
     required String refreshToken,
   }) async {
-    await _storageService.save<String>(AuthStorageKeys.authToken, accessToken);
-    await _storageService.save<String>(AuthStorageKeys.refreshToken, refreshToken);
-    await _storageService.save<bool>(AuthStorageKeys.isLoggedIn, true);
-    await _storageService.remove(AuthStorageKeys.isGuestMode);
+    await _storageService.save<String>(CoreStorageKeys.authToken, accessToken);
+    await _storageService.save<String>(CoreStorageKeys.refreshToken, refreshToken);
+    await _storageService.save<bool>(CoreStorageKeys.isLoggedIn, true);
+    await _storageService.remove(CoreStorageKeys.isGuestMode);
   }
 
   Future<void> _savePendingRegistration({
@@ -215,20 +212,20 @@ class AuthRepositoryImpl implements AuthRepository {
     required String phoneNumber,
   }) async {
     await _storageService.save<String>(
-      AuthStorageKeys.registrationSessionId,
+      CoreStorageKeys.registrationSessionId,
       sessionId,
     );
     await _storageService.save<String>(
-      AuthStorageKeys.registrationPhoneNumber,
+      CoreStorageKeys.registrationPhoneNumber,
       phoneNumber,
     );
   }
 
   Future<void> _clearAuthData() async {
-    await _storageService.remove(AuthStorageKeys.authToken);
-    await _storageService.remove(AuthStorageKeys.refreshToken);
-    await _storageService.remove(AuthStorageKeys.isLoggedIn);
-    await _storageService.remove(AuthStorageKeys.isGuestMode);
+    await _storageService.remove(CoreStorageKeys.authToken);
+    await _storageService.remove(CoreStorageKeys.refreshToken);
+    await _storageService.remove(CoreStorageKeys.isLoggedIn);
+    await _storageService.remove(CoreStorageKeys.isGuestMode);
     await clearPendingRegistration();
   }
 
@@ -239,19 +236,19 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<bool> isGuestMode() async {
-    return await _storageService.get<bool>(AuthStorageKeys.isGuestMode) ?? true;
+    return await _storageService.get<bool>(CoreStorageKeys.isGuestMode) ?? true;
   }
 
   @override
   Future<Result<void>> loginAsGuest() async {
     return RepositoryCallHandler.callVoid(() async {
       await _clearAuthData();
-      await _storageService.save<bool>(AuthStorageKeys.isGuestMode, true);
+      await _storageService.save<bool>(CoreStorageKeys.isGuestMode, true);
     });
   }
 
   @override
   Future<void> clearGuestMode() async {
-    await _storageService.remove(AuthStorageKeys.isGuestMode);
+    await _storageService.remove(CoreStorageKeys.isGuestMode);
   }
 }

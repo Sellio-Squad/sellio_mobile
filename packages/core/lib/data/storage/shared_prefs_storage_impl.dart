@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:core/core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'storage_service.dart';
 
 class SharedPrefsStorageImpl implements StorageService {
   final SharedPreferences _prefs;
@@ -20,7 +20,6 @@ class SharedPrefsStorageImpl implements StorageService {
     } else if (value is List<String>) {
       await _prefs.setStringList(key, value);
     } else {
-      // Serialize complex objects to JSON string
       await _prefs.setString(key, jsonEncode(value));
     }
   }
@@ -41,8 +40,7 @@ class SharedPrefsStorageImpl implements StorageService {
       return _prefs.getStringList(key) as T?;
     }
 
-    // For complex types, return as String
-    return _prefs.getString(key) as T?;
+    return _prefs.get(key) as T?;
   }
 
   @override

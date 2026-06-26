@@ -63,8 +63,10 @@ class MyApp extends StatelessWidget {
                     return BlocListener<AuthenticationCubit,
                         AuthenticationState>(
                       listener: (context, state) {
-                        if (state is RequireLogin) {
+                        if (state is RequireLogin || state is Guest) {
                           context.navigator.pushLogin();
+                        } else if (state is LoggedIn) {
+                          context.navigator.goToHome();
                         }
                       },
                       child: child!,

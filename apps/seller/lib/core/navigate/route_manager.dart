@@ -12,7 +12,7 @@ class RouteGenerator {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: AppRoutes.login.path,
+    initialLocation: AppRoutes.home.path,
     routes: [
       GoRoute(
         name: AppRoutes.login.name,

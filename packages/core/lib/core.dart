@@ -17,6 +17,7 @@ export 'data/network/exception_handler.dart';
 // Storage
 export 'data/storage/storage_service.dart';
 export 'data/storage/core_storage_keys.dart';
+export 'data/storage/shared_prefs_storage_impl.dart';
 
 // DataSources
 export 'data/datasource/local/initial_country_local_datasource.dart';
