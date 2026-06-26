@@ -324,7 +324,7 @@ class RouteGenerator {
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(
-        child: Text('Error: ${state.error}'),
+        child: Text('${context.local.error}: ${state.error}'),
       ),
     ),
   );
