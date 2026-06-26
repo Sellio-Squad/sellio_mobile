@@ -1,7 +1,8 @@
-import 'package:core/core.dart';
 import 'package:dio/dio.dart';
+import '../../error/failure.dart';
+import '../../error/api_exception.dart';
 
-class AuthExceptionHandler {
+class ExceptionHandler {
   static Failure handleException(dynamic error) {
     if (error is DioException) {
       final apiException = error.error;
