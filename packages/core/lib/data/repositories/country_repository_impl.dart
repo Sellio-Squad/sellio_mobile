@@ -1,9 +1,9 @@
-import 'package:core/domain/repositories/country_repository.dart';
-import 'package:core/error/result.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:sellio_mobile/data/core/utils/repository_call_handler.dart';
+import 'package:flutter/foundation.dart';
+import '../../domain/repositories/country_repository.dart';
+import '../../error/result.dart';
 import '../datasource/local/initial_country_local_datasource.dart';
 import '../datasource/remote/country_remote_datasource.dart';
+import '../utils/repository_call_handler.dart';
 
 class CountryRepositoryImpl implements CountryRepository {
   final InitialCountryLocalDataSource initialCountryLocalDataSource;
@@ -18,11 +18,9 @@ class CountryRepositoryImpl implements CountryRepository {
   Future<String> getCurrentCountryCode() async {
     try {
       final code = await initialCountryLocalDataSource.getCountryCode();
-
-      return code!;
+      return code ?? 'eg';
     } catch (e) {
       debugPrint("Failed To Get Initial Country\nCause: $e");
-
       return 'eg';
     }
   }
@@ -32,7 +30,6 @@ class CountryRepositoryImpl implements CountryRepository {
     return RepositoryCallHandler.call<List<String>>(() async {
       final response =
           await countryRemoteDataSource.getCitiesByCountryIso2(iso2);
-
       return response;
     });
   }

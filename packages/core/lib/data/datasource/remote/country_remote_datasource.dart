@@ -1,5 +1,5 @@
-import 'package:core/core.dart';
-import '../../core/api/api_endpoints.dart';
+import '../../network/api_client.dart';
+import '../../network/core_endpoints.dart';
 import '../../models/response/cities_response.dart';
 
 abstract class CountryRemoteDataSource {
@@ -13,7 +13,7 @@ class CountryRemoteDataSourceImpl implements CountryRemoteDataSource {
   @override
   Future<List<String>> getCitiesByCountryIso2(String iso2) async {
     final response = await _httpClient.get(
-      ApiEndpoints.citiesByCountryIso2(iso2),
+      CoreEndpoints.citiesByCountryIso2(iso2),
     );
 
     if (response.data is Map<String, dynamic>) {
