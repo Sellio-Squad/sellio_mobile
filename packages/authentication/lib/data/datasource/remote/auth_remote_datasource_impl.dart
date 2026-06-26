@@ -14,9 +14,9 @@ import 'auth_remote_datasource.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiClient _apiClient;
-  final AuthEndpoints _endpoints;
+  final AuthConfiguration _configuration;
 
-  AuthRemoteDataSourceImpl(this._apiClient, this._endpoints);
+  AuthRemoteDataSourceImpl(this._apiClient, this._configuration);
 
   @override
   Future<LoginResponse> login({
@@ -26,11 +26,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final request = LoginRequest(
       phoneNumber: phoneNumber,
       password: password,
-      role: _endpoints.role,
+      role: _configuration.role,
     );
 
     final response = await _apiClient.post(
-      _endpoints.login,
+      _configuration.login,
       data: request.toJson(),
     );
 
@@ -58,7 +58,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final response = await _apiClient.post(
-      _endpoints.register,
+      _configuration.register,
       data: request.toJson(),
     );
 
@@ -73,11 +73,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final request = VerifyOtpRequest(
       otp: otp,
       sessionId: sessionId,
-      role: _endpoints.role,
+      role: _configuration.role,
     );
 
     final response = await _apiClient.post(
-      _endpoints.verifyOtp,
+      _configuration.verifyOtp,
       data: request.toJson(),
     );
 
@@ -89,7 +89,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String sessionId,
   }) async {
     final response = await _apiClient.post(
-      '${_endpoints.resendOtp}/$sessionId',
+      '${_configuration.resendOtp}/$sessionId',
     );
 
     return ResendOtpResponse.fromJson(response.data);
@@ -106,7 +106,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     final response = await _apiClient.post(
-      _endpoints.forgotPassword,
+      _configuration.forgotPassword,
       data: request.toJson(),
     );
 
@@ -121,10 +121,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final data = {
       'otp': otp,
       'sessionId': sessionId,
+      'role': _configuration.role,
     };
 
     await _apiClient.post(
-      _endpoints.verifyForgotPasswordOtp,
+      _configuration.verifyForgotPasswordOtp,
       data: data,
     );
   }
@@ -142,7 +143,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     );
 
     await _apiClient.post(
-      _endpoints.resetForgotPassword,
+      _configuration.resetForgotPassword,
       data: request.toJson(),
     );
   }

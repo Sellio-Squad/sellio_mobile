@@ -11,20 +11,20 @@ import 'user_remote_datasource.dart';
 
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final ApiClient _httpClient;
-  final AuthEndpoints _endpoints;
+  final AuthConfiguration _configuration;
 
-  UserRemoteDataSourceImpl(this._httpClient, this._endpoints);
+  UserRemoteDataSourceImpl(this._httpClient, this._configuration);
 
   @override
   Future<UserModel> getUserProfile() async {
-    final response = await _httpClient.get(_endpoints.userProfile());
+    final response = await _httpClient.get(_configuration.userProfile());
     return UserModel.fromJson(response.data);
   }
 
   @override
   Future<UserModel> updateUserProfile(UpdateUserProfileRequest request) async {
     final response = await _httpClient.put(
-      _endpoints.userUpdate(),
+      _configuration.userUpdate(),
       data: request.toJson(),
     );
 
@@ -34,7 +34,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<void> changePassword(ChangePasswordRequest request) async {
     await _httpClient.put(
-      _endpoints.userChangePassword(),
+      _configuration.userChangePassword(),
       data: request.toJson(),
     );
   }
@@ -42,26 +42,26 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<void> resetPassword(ResetPasswordRequest request) async {
     await _httpClient.post(
-      _endpoints.resetPassword,
+      _configuration.resetPassword,
       data: request.toJson(),
     );
   }
 
   @override
   Future<void> deleteAccount() async {
-    await _httpClient.delete(_endpoints.userDelete());
+    await _httpClient.delete(_configuration.userDelete());
   }
 
   @override
   Future<AddressModel> getUserAddress() async {
-    final response = await _httpClient.get(_endpoints.userAddress());
+    final response = await _httpClient.get(_configuration.userAddress());
     return AddressModel.fromJson(response.data);
   }
 
   @override
   Future<AddressModel> addAddress(AddAddressRequest request) async {
     final response = await _httpClient.post(
-      _endpoints.userAddress(),
+      _configuration.userAddress(),
       data: request.toJson(),
     );
 
@@ -74,7 +74,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     required UpdateAddressRequest request,
   }) async {
     final response = await _httpClient.put(
-      _endpoints.addressById(addressId),
+      _configuration.addressById(addressId),
       data: request.toJson(),
     );
 
@@ -83,7 +83,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<void> deleteAddress(String addressId) async {
-    await _httpClient.delete(_endpoints.addressById(addressId));
+    await _httpClient.delete(_configuration.addressById(addressId));
   }
 
   @override
@@ -91,7 +91,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     required String filePath,
   }) async {
     final response = await _httpClient.uploadFile(
-      _endpoints.userAvatar(),
+      _configuration.userAvatar(),
       filePath,
       fieldName: 'image',
     );

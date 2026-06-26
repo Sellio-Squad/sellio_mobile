@@ -8,32 +8,10 @@ class ApiEndpoints {
   static const String apiVersion = '/v1';
 
   // Auth
-  static const String login = '$apiVersion/auth/login';
-  static const String resendOtp = '$apiVersion/auth/resend-otp';
-  static const String forgotPassword = '$apiVersion/forgot-password/request';
-  static const String verifyForgotPasswordOtp =
-      '$apiVersion/forgot-password/verify';
-  static const String resetForgotPassword = '$apiVersion/forgot-password/reset';
-  static const String resetPassword = '$apiVersion/auth/reset-password';
-  static const String requestOtp = '$apiVersion/auth/create/request-otp';
-  static const String verifyOtp = '$apiVersion/auth/create/verify-otp';
-  static const String register = '$apiVersion/auth/create';
   static const String refreshToken = '$apiVersion/auth/refresh-token';
 
   // User
   static const String userInsert = '$apiVersion/user/insert';
-
-  static String userProfile() => '$apiVersion/user/profile';
-
-  static String userUpdate() => '$apiVersion/user/update';
-
-  static String userAvatar() => '$apiVersion/user/avatar';
-
-  static String userAddress() => '$apiVersion/user/address';
-
-  static String userChangePassword() => '$apiVersion/user/change-password';
-
-  static String userDelete() => '$apiVersion/user/delete';
 
   // Products
   static const String products = '$apiVersion/products';
@@ -149,10 +127,6 @@ class ApiEndpoints {
 
   static String storeReviewsByStore(String storeId) =>
       '$apiVersion/store-reviews/$storeId';
-
-  // Address
-  static String addressById(String addressId) =>
-      '$apiVersion/address/$addressId';
 
   static String citiesByCountryIso2(String iso2) =>
       '$apiVersion/countries/$iso2/cities';

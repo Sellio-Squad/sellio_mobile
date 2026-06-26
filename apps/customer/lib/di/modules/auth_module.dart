@@ -6,7 +6,7 @@ class AuthModule {
   static void register(GetIt sl) {
     AuthPackage.init(
       sl: sl,
-      endpoints: CustomerAuthEndpoints(),
+      configuration: CustomerAuthConfiguration(),
     );
   }
 }

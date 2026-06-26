@@ -14,17 +14,17 @@ import '../../presentation/cubits/auth/authentication_cubit.dart';
 class AuthPackage {
   static void init({
     required GetIt sl,
-    required AuthEndpoints endpoints,
+    required AuthConfiguration configuration,
   }) {
-    // Endpoints
-    sl.registerSingleton<AuthEndpoints>(endpoints);
+    // Configuration
+    sl.registerSingleton<AuthConfiguration>(configuration);
 
     // DataSources
     sl.registerLazySingleton<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(sl<ApiClient>(), sl<AuthEndpoints>()),
+      () => AuthRemoteDataSourceImpl(sl<ApiClient>(), sl<AuthConfiguration>()),
     );
     sl.registerLazySingleton<UserRemoteDataSource>(
-      () => UserRemoteDataSourceImpl(sl<ApiClient>(), sl<AuthEndpoints>()),
+      () => UserRemoteDataSourceImpl(sl<ApiClient>(), sl<AuthConfiguration>()),
     );
 
     // Repositories
