@@ -8,6 +8,7 @@ class VerifyOtpRequest with _$VerifyOtpRequest {
   const factory VerifyOtpRequest({
     required String otp,
     required String sessionId,
+    required String role,
   }) = _VerifyOtpRequest;
 
   factory VerifyOtpRequest.fromJson(Map<String, dynamic> json) =>

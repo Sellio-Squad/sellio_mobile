@@ -1,4 +1,5 @@
-import 'package:authentication/authentication.dart';
+import 'package:authentication/presentation/cubits/auth/authentication_cubit.dart';
+import 'package:authentication/presentation/cubits/auth/authentication_state.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

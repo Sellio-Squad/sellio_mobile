@@ -26,6 +26,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final request = LoginRequest(
       phoneNumber: phoneNumber,
       password: password,
+      role: _endpoints.role,
     );
 
     final response = await _apiClient.post(
@@ -72,6 +73,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final request = VerifyOtpRequest(
       otp: otp,
       sessionId: sessionId,
+      role: _endpoints.role,
     );
 
     final response = await _apiClient.post(
