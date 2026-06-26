@@ -7,7 +7,7 @@ import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/entities/store_rating.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 import 'package:design_system/design_system.dart';
-import '../core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/store_remote_datasource.dart';
 

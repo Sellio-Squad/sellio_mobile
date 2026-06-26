@@ -7,9 +7,6 @@ class ApiEndpoints {
   // API Version
   static const String apiVersion = '/v1';
 
-  // Auth
-  static const String refreshToken = '$apiVersion/auth/refresh-token';
-
   // User
   static const String userInsert = '$apiVersion/user/insert';
 
@@ -127,9 +124,6 @@ class ApiEndpoints {
 
   static String storeReviewsByStore(String storeId) =>
       '$apiVersion/store-reviews/$storeId';
-
-  static String citiesByCountryIso2(String iso2) =>
-      '$apiVersion/countries/$iso2/cities';
 
   // Category Sections
   static const String categorySectionsActive =

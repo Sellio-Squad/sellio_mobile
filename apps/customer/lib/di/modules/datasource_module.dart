@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sellio_mobile/data/datasource/local/initial_country_local_datasource.dart';
 import 'package:sellio_mobile/data/datasource/local/search_local_datasource.dart';
 import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
 
@@ -12,7 +12,6 @@ import '../../../data/datasource/remote/product_remote_datasource.dart';
 import '../../../data/datasource/remote/store_remote_datasource.dart';
 import '../../data/datasource/remote/category_details_remote_datasource.dart';
 import '../../data/datasource/remote/category_section_remote_datasource.dart';
-import '../../data/datasource/remote/country_remote_datasource.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {
