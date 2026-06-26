@@ -1,6 +1,6 @@
-import 'package:core/error/failure.dart';
-import 'package:core/error/result.dart';
-import '../exceptions/exception_handler.dart';
+import '../../error/failure.dart';
+import '../../error/result.dart';
+import '../network/exception_handler.dart';
 
 class RepositoryCallHandler {
   RepositoryCallHandler._();
