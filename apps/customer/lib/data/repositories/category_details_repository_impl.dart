@@ -1,5 +1,5 @@
 import 'package:core/error/result.dart';
-import 'package:sellio_mobile/data/core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import 'package:sellio_mobile/data/datasource/remote/category_details_remote_datasource.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/entities/subcategory.dart';
