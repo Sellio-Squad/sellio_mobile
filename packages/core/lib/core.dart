@@ -30,4 +30,6 @@ export 'data/repositories/country_repository_impl.dart';
 // Utils
 export 'data/utils/repository_call_handler.dart';
 
+// Services
 export 'services/image_picker_service.dart';
+export 'services/image_picker_service_impl.dart';

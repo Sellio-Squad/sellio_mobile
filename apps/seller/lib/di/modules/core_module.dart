@@ -1,4 +1,8 @@
-import 'package:core/core.dart';
+import 'package:core/data/network/api_client.dart';
+import 'package:core/data/network/dio_client.dart';
+import 'package:core/data/network/network_info.dart';
+import 'package:core/services/image_picker_service.dart';
+import 'package:core/services/image_picker_service_impl.dart';
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../data/core/api/api_endpoints.dart';
@@ -14,6 +18,10 @@ class CoreModule {
 
     sl.registerLazySingleton<NetworkInfo>(
       () => NetworkInfoImpl(sl()),
+    );
+
+    sl.registerLazySingleton<ImagePickerService>(
+      () => ImagePickerServiceImpl(),
     );
 
     sl.registerLazySingleton<ApiClient>(
