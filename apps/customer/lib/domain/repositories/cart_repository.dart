@@ -1,4 +1,4 @@
-import '../../core/error/result.dart';
+import 'package:core/error/result.dart';
 import '../entities/cart.dart';
 
 abstract class CartRepository {

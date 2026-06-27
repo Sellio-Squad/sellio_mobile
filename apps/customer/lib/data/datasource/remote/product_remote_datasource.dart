@@ -1,5 +1,5 @@
 import '../../core/api/api_endpoints.dart';
-import '../../core/api/api_client.dart';
+import 'package:core/core.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
 import '../../models/product_summary_model.dart';

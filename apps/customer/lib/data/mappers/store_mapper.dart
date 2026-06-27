@@ -1,6 +1,6 @@
+import 'package:authentication/domain/entities/address.dart';
 import 'package:sellio_mobile/data/mappers/review_mapper.dart';
 import 'package:sellio_mobile/data/models/store_top_rating_model.dart';
-import 'package:sellio_mobile/domain/entities/address.dart';
 
 import '../../domain/entities/store.dart';
 import '../models/store_model.dart';

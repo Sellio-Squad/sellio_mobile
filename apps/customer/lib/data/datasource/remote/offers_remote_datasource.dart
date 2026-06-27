@@ -1,4 +1,4 @@
-import '../../core/api/api_client.dart';
+import 'package:core/core.dart';
 import '../../core/api/api_endpoints.dart';
 import '../../models/offer_model.dart';
 import '../../models/special_offer_model.dart';

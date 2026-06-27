@@ -1,6 +1,6 @@
+import 'package:authentication/authentication.dart';
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/error/result.dart';
-import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 
 import 'reset_password_state.dart';
 

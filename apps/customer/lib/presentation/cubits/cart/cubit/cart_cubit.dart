@@ -1,8 +1,7 @@
 import 'dart:async';
 
+import 'package:authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
-
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/entities/order.dart';
 import '../../../../domain/repositories/cart_repository.dart';

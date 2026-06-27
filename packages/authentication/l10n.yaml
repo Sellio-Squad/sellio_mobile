@@ -1,0 +1,5 @@
+arb-dir: lib/l10n
+template-arb-file: auth_en.arb
+output-localization-file: auth_localizations.dart
+output-class: AuthLocalizations
+nullable-getter: false

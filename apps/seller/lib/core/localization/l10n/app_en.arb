@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "seller_home": "Seller Home",
+  "error": "Error",
+  "confirm_your_account": "Confirm your account",
+  "enter_the_4_digit_sent_to": "Please enter the 4-digit code sent to {phone_number}."
+}

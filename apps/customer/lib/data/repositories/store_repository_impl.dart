@@ -1,4 +1,4 @@
-import 'package:sellio_mobile/core/error/result.dart';
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/data/mappers/review_mapper.dart';
 import 'package:sellio_mobile/data/mappers/store_mapper.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
@@ -7,7 +7,7 @@ import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/entities/store_rating.dart';
 import 'package:sellio_mobile/domain/repositories/store_repository.dart';
 import 'package:design_system/design_system.dart';
-import '../core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/store_remote_datasource.dart';
 

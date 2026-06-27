@@ -1,8 +1,8 @@
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/repositories/store_repository.dart';
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store_rating.dart';
-import '../../../../core/error/result.dart';
 import 'store_details_state.dart';
 
 class StoreDetailsCubit extends Cubit<StoreDetailsState> {
