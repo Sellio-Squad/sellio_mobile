@@ -1,20 +1,45 @@
-import 'package:design_system/constants/app_images.dart';
 import 'package:design_system/themes/sellio_theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../core/localization/l10n/localization_service.dart';
+class SellioBottomNavItem {
+  const SellioBottomNavItem({
+    required this.iconPath,
+    required this.label,
+    required this.index,
+    this.selectedIconPath,
+  });
+
+  final String iconPath;
+  final String? selectedIconPath;
+  final String label;
+  final int index;
+}
+
+class SellioBottomNavCenterButton {
+  const SellioBottomNavCenterButton({
+    required this.index,
+    required this.iconPath,
+    this.onTap,
+  });
+
+  final int index;
+  final String iconPath;
+  final VoidCallback? onTap;
+}
 
 class SellioBottomNavBar extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
-  final VoidCallback onCenterButtonTap;
+  final ValueChanged<int> onTap;
+  final List<SellioBottomNavItem> items;
+  final SellioBottomNavCenterButton? centerButton;
 
   const SellioBottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
-    required this.onCenterButtonTap,
+    required this.items,
+    this.centerButton,
   });
 
   @override
@@ -39,12 +64,16 @@ class SellioBottomNavBar extends StatelessWidget {
           _NavigationItems(
             currentIndex: currentIndex,
             onTap: onTap,
+            items: items,
+            centerButtonIndex: centerButton?.index,
             bottomPadding: bottomPadding,
           ),
-          _CenterButton(
-            onTap: onCenterButtonTap,
-            bottomPadding: bottomPadding,
-          ),
+          if (centerButton != null)
+            _CenterButton(
+              iconPath: centerButton!.iconPath,
+              onTap: centerButton!.onTap ?? () => onTap(centerButton!.index),
+              bottomPadding: bottomPadding,
+            ),
         ],
       ),
     );
@@ -53,17 +82,29 @@ class SellioBottomNavBar extends StatelessWidget {
 
 class _NavigationItems extends StatelessWidget {
   final int currentIndex;
-  final Function(int) onTap;
+  final ValueChanged<int> onTap;
+  final List<SellioBottomNavItem> items;
+  final int? centerButtonIndex;
   final double bottomPadding;
 
   const _NavigationItems({
     required this.currentIndex,
     required this.onTap,
+    required this.items,
+    required this.centerButtonIndex,
     required this.bottomPadding,
   });
 
   @override
   Widget build(BuildContext context) {
+    final sortedItems = [...items]..sort((a, b) => a.index.compareTo(b.index));
+    final leadingItems = centerButtonIndex == null
+        ? sortedItems
+        : sortedItems.where((item) => item.index < centerButtonIndex!).toList();
+    final trailingItems = centerButtonIndex == null
+        ? <SellioBottomNavItem>[]
+        : sortedItems.where((item) => item.index > centerButtonIndex!).toList();
+
     return Positioned(
       left: 12,
       right: 12,
@@ -71,35 +112,23 @@ class _NavigationItems extends StatelessWidget {
       height: 58,
       child: Row(
         children: [
-          _NavBarItem(
-            iconPath: AppImages.home,
-            selectedIconPath: AppImages.homeSelected,
-            label: context.local.home,
-            isSelected: currentIndex == 0,
-            onTap: () => onTap(0),
-          ),
-          _NavBarItem(
-            iconPath: AppImages.cart,
-            selectedIconPath: AppImages.cartSelected,
-            label: context.local.cart,
-            isSelected: currentIndex == 1,
-            onTap: () => onTap(1),
-          ),
-          const Expanded(child: SizedBox()),
-          _NavBarItem(
-            iconPath: AppImages.thrift,
-            selectedIconPath: AppImages.thriftSelected,
-            label: context.local.thrift,
-            isSelected: currentIndex == 3,
-            onTap: () => onTap(3),
-          ),
-          _NavBarItem(
-            iconPath: AppImages.account,
-            selectedIconPath: AppImages.accountSelected,
-            label: context.local.account,
-            isSelected: currentIndex == 4,
-            onTap: () => onTap(4),
-          ),
+          for (final item in leadingItems)
+            _NavBarItem(
+              iconPath: item.iconPath,
+              selectedIconPath: item.selectedIconPath,
+              label: item.label,
+              isSelected: currentIndex == item.index,
+              onTap: () => onTap(item.index),
+            ),
+          if (centerButtonIndex != null) const Expanded(child: SizedBox()),
+          for (final item in trailingItems)
+            _NavBarItem(
+              iconPath: item.iconPath,
+              selectedIconPath: item.selectedIconPath,
+              label: item.label,
+              isSelected: currentIndex == item.index,
+              onTap: () => onTap(item.index),
+            ),
         ],
       ),
     );
@@ -108,7 +137,7 @@ class _NavigationItems extends StatelessWidget {
 
 class _NavBarItem extends StatelessWidget {
   final String iconPath;
-  final String selectedIconPath;
+  final String? selectedIconPath;
   final String label;
   final bool isSelected;
   final VoidCallback onTap;
@@ -125,6 +154,8 @@ class _NavBarItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final color =
         isSelected ? context.theme.colors.primary : context.theme.colors.body;
+    final resolvedSelectedIconPath = selectedIconPath ?? iconPath;
+    final useColorFilter = selectedIconPath == null;
 
     return Expanded(
       child: InkWell(
@@ -142,9 +173,12 @@ class _NavBarItem extends StatelessWidget {
                 duration: const Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 child: SvgPicture.asset(
-                  isSelected ? selectedIconPath : iconPath,
+                  isSelected ? resolvedSelectedIconPath : iconPath,
                   width: 24,
                   height: 24,
+                  colorFilter: useColorFilter
+                      ? ColorFilter.mode(color, BlendMode.srcIn)
+                      : null,
                 ),
               ),
               const SizedBox(height: 4),
@@ -166,10 +200,12 @@ class _NavBarItem extends StatelessWidget {
 }
 
 class _CenterButton extends StatefulWidget {
+  final String iconPath;
   final VoidCallback onTap;
   final double bottomPadding;
 
   const _CenterButton({
+    required this.iconPath,
     required this.onTap,
     required this.bottomPadding,
   });
@@ -253,7 +289,7 @@ class _CenterButtonState extends State<_CenterButton>
                 ),
                 child: Center(
                   child: SvgPicture.asset(
-                    AppImages.magicStick,
+                    widget.iconPath,
                     width: 24,
                     height: 24,
                     colorFilter: ColorFilter.mode(

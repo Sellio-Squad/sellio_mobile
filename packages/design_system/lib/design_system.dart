@@ -21,6 +21,7 @@ export 'widgets/discount_tag.dart';
 export 'widgets/empty_section.dart';
 export 'widgets/section_header.dart';
 export 'widgets/sellio_app_bar.dart';
+export 'widgets/sellio_bottom_nav_bar.dart';
 export 'widgets/sellio_bottom_sheet.dart';
 export 'widgets/sellio_chip.dart';
 export 'widgets/sellio_indicator.dart';

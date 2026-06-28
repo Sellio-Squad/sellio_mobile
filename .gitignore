@@ -41,6 +41,16 @@ packages/**/pubspec.lock
 **/coverage/
 
 # ------------------------------------------------------------
+# Generated Dart Code (Recursive)
+# ------------------------------------------------------------
+**/*.freezed.dart
+**/*.g.dart
+**/*.g.part.dart
+**/*.mocks.dart
+**/l10n/app_localizations.dart
+**/l10n/app_localizations_*.dart
+
+# ------------------------------------------------------------
 # Global Mobile Artifacts (Recursive Safety)
 # ------------------------------------------------------------
 **/android/.gradle

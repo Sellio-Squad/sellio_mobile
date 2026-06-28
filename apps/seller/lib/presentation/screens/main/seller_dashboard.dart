@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sellio_mobile/presentation/screens/main/customer_bottom_nav_bar.dart';
 
-class Dashboard extends StatelessWidget {
+import 'seller_bottom_nav_bar.dart';
+
+class SellerDashboard extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
-  const Dashboard({
+  const SellerDashboard({
     super.key,
     required this.navigationShell,
   });
@@ -21,7 +22,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: navigationShell,
-      bottomNavigationBar: CustomerBottomNavBar(
+      bottomNavigationBar: SellerBottomNavBar(
         currentIndex: navigationShell.currentIndex,
         onTap: _onItemTapped,
         onCenterButtonTap: () => _onItemTapped(2),

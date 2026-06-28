@@ -19,9 +19,25 @@ enum AppRoutes {
     name: 'resetPassword',
     path: '/resetPassword',
   ),
-  home(
-    name: 'home',
-    path: '/home',
+  dashboard(
+    name: 'dashboard',
+    path: '/dashboard',
+  ),
+  orders(
+    name: 'orders',
+    path: '/orders',
+  ),
+  createProduct(
+    name: 'createProduct',
+    path: '/createProduct',
+  ),
+  products(
+    name: 'products',
+    path: '/products',
+  ),
+  account(
+    name: 'account',
+    path: '/account',
   ),
   ;
 
