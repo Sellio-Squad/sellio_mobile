@@ -24,10 +24,6 @@ void navigateToFilterDialog(BuildContext context) {
   // TODO: Implement filter dialog
 }
 
-void navigateToOfferDetails(BuildContext context, String offerId) {
-  // TODO: Implement offer details navigation
-}
-
 void navigateToCategoryDetails(
   BuildContext context,
   String categoryId,
