@@ -44,7 +44,7 @@ class AppNavigatorImpl implements AppNavigator {
 
   @override
   void goToHome() {
-    RouteGenerator.router.goNamed(AppRoutes.home.name);
+    RouteGenerator.router.goNamed(AppRoutes.dashboard.name);
   }
 
   @override

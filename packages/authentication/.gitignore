@@ -29,3 +29,7 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 /build/
 /coverage/
+
+# Flutter gen-l10n output
+lib/l10n/*_localizations.dart
+lib/l10n/*_localizations_*.dart
