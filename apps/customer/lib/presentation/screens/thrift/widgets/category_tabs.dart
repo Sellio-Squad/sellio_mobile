@@ -30,7 +30,11 @@ class CategoryTabs extends StatelessWidget {
             child: SellioChip(
               label: category.name,
               selected: isSelected,
-              onTap: () => onCategorySelected(index),
+              onTap: () {
+                if (!isSelected) {
+                  onCategorySelected(index);
+                }
+              },
             ),
           );
         },

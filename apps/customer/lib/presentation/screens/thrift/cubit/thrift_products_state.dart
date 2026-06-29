@@ -33,6 +33,7 @@ class ThriftProductsState extends Equatable {
     int? totalPages,
     List<Category>? categories,
     String? selectedCategoryId,
+    bool clearSelectedCategory = false,
     String? errorMessage,
     Map<String, int>? productCounts,
     Map<String, bool>? favorites,
@@ -44,7 +45,8 @@ class ThriftProductsState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       totalPages: totalPages ?? this.totalPages,
       categories: categories ?? this.categories,
-      selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
+      selectedCategoryId:
+          clearSelectedCategory ? null : (selectedCategoryId ?? this.selectedCategoryId),
       errorMessage: errorMessage,
     );
   }

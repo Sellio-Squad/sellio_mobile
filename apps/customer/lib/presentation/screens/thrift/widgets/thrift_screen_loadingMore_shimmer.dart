@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ThriftLoadingMoreShimmer extends StatelessWidget {
-  const ThriftLoadingMoreShimmer({super.key});
+  final int count;
+  const ThriftLoadingMoreShimmer({super.key, this.count = 2});
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,13 @@ class ThriftLoadingMoreShimmer extends StatelessWidget {
               ),
             );
           },
-          childCount: 2,
+          childCount: count,
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 8,
           mainAxisSpacing: 12,
-          childAspectRatio: 160 / 272,
+          childAspectRatio: 0.72,
         ),
       ),
     );
