@@ -1,9 +1,9 @@
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/domain/entities/product.dart';
 
-import '../../core/error/result.dart';
 import '../../domain/entities/store.dart';
 import '../../domain/repositories/favorites_repository.dart';
-import '../core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/product_remote_datasource.dart';
 import '../datasource/remote/store_remote_datasource.dart';

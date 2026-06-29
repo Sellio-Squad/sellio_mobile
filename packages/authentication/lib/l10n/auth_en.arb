@@ -1,0 +1,59 @@
+{
+  "@@locale": "en",
+  "title_login": "Welcome Back!",
+  "subtitle_login": "Enter your information to login",
+  "phone_number": "Phone number",
+  "search_by_name_or_code": "Search by name or code",
+  "login": "Login",
+  "login_failed": "Login failed. Please try again.",
+  "otp_verification_failed": "OTP verification failed. Please try again.",
+  "resend_otp_failed": "Failed to resend OTP. Please try again.",
+  "otp_resent_successfully": "OTP has been resent successfully",
+  "password_min_6_characters": "Password must be at least 6 characters",
+  "password_max_20_characters": "Password must be less than 20 characters",
+  "passwords_do_not_match": "Passwords do not match",
+  "title_forget_password": "Forget your Password?",
+  "subtitle_forget_password": "We will send 4-digit code to your below phone number.",
+  "send": "send",
+  "set_new_password": "Set new password",
+  "subtitle_set_new_password": "Please enter your new password and make sure to remember it in next time",
+  "enter_your_information_to_create_account": "Enter your information to create account",
+  "create_account": "Create account",
+  "already_have_account": "Already have account?",
+  "confirm_your_account": "Confirm your account",
+  "confirm": "Confirm",
+  "dont_received_code": "Don't received code?",
+  "re_send": "Re-Send",
+  "confirm_password": "Confirm Password",
+  "password": "Password",
+  "phone_number_must_be_at_least_10_digits": "Phone number must be at least 10 digits",
+  "phone_number_digits_only": "Phone number must contain only digits",
+  "full_name_at_least_2_characters": "Full name must be at least 2 characters",
+  "full_name_letters_only": "Full name must contain only letters and spaces",
+  "city_at_least_2_characters": "City must be at least 2 characters",
+  "city_letters_only": "City must contain only letters and spaces",
+  "failed_to_create_account": "Failed to create account. Please try again.",
+  "account_created_successfully": "Account created successfully",
+  "registration_failed": "Registration failed",
+  "error": "Error",
+  "success": "Success",
+  "something_went_wrong": "Something went wrong",
+  "profile_photo_optional": "Profile photo (optional)",
+  "full_name": "Full name",
+  "city": "City",
+  "re_send_in_resend_countdown_Sec": "Re-Send in {resendCountdown} Sec",
+  "@re_send_in_resend_countdown_Sec": {
+    "description": "Countdown timer for re-sending the confirmation code",
+    "placeholders": {
+      "resendCountdown": {}
+    }
+  },
+  "enter_the_4_digit_sent_to": "Please enter the 4-digit code sent to {phone_number}.",
+  "@enter_the_4_digit_sent_to": {
+    "description": "Instruction to enter the 4-digit code sent to the user's phone number",
+    "placeholders": {
+      "phone_number": {}
+    }
+  },
+  "continue_text": "Continue"
+}

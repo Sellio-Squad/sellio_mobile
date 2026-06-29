@@ -1,7 +1,7 @@
-import '../../core/error/result.dart';
+import 'package:core/error/result.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/search_repository.dart';
-import '../core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import '../datasource/local/search_local_datasource.dart';
 import '../datasource/remote/search_remote_datasource.dart';
 import 'package:sellio_mobile/data/mappers/store_mapper.dart';

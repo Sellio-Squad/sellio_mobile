@@ -1,0 +1,57 @@
+name: authentication
+description: "Authentication package for Sellio monorepo"
+version: 0.0.1
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+  core:
+    path: ../core
+  design_system:
+    path: ../design_system
+
+  # UI Dependencies
+  image_picker: ^1.0.7
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.9
+  flutter_gap: ^1.0.2
+  intl: ^0.20.0
+  shimmer: ^3.0.0
+  flutter_intl_phone_field: ^0.0.7
+  country_picker: ^2.0.27
+  country_flags: ^3.2.0
+
+  # Networking
+  dio: ^5.7.0
+
+  # Dependency Injection
+  get_it: ^7.7.0
+
+  # State Management
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.2
+
+  # Freezed Serialization
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  
+  # Navigation
+  go_router: ^16.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.7
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+
+flutter:
+  uses-material-design: true
+  generate: true

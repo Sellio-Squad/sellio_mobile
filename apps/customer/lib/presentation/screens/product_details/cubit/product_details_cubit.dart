@@ -1,8 +1,8 @@
+import 'package:core/error/result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/domain/repositories/product_repository.dart';
 import 'package:sellio_mobile/presentation/cubits/cart/cubit/cart_cubit.dart';
-import '../../../../core/error/result.dart';
 import '../../../cubits/favorites/cubit/favorites_cubit.dart';
 import '../../../cubits/favorites/cubit/favorites_state.dart';
 import 'product_details_state.dart';

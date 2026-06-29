@@ -1,6 +1,6 @@
 import 'package:sellio_mobile/data/models/store_top_rating_model.dart';
 
-import '../../core/api/api_client.dart';
+import 'package:core/core.dart';
 import '../../core/api/api_endpoints.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';

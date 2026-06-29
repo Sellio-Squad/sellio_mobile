@@ -18,8 +18,13 @@ dependencies:
   design_system:
     path: ../../packages/design_system
 
+  core:
+    path: ../../packages/core
+
+
+  authentication:
+    path: ../../packages/authentication
   # UI Dependencies
-  image_picker: ^1.0.7
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.9
   flutter_gap: ^1.0.2

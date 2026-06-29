@@ -1,12 +1,10 @@
+import 'package:authentication/authentication.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_state.dart';
-
-import '../../../../domain/repositories/auth_repository.dart';
 
 class DeleteAccountBottomSheet extends StatelessWidget {
   const DeleteAccountBottomSheet({super.key});

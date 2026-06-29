@@ -1,10 +1,10 @@
+import 'package:core/error/result.dart';
 import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
 
-import '../../core/error/result.dart';
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../core/utils/repository_call_handler.dart';
+import 'package:core/core.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
 import '../datasource/remote/product_remote_datasource.dart';
 import '../mappers/trending_product_mapper.dart';

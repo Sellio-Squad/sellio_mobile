@@ -1,5 +1,5 @@
+import 'package:authentication/authentication.dart';
 import 'dart:math';
-import '../../domain/entities/address.dart';
 import '../../domain/entities/category.dart';
 import '../../domain/entities/notification.dart';
 import '../../domain/entities/order.dart';
@@ -8,7 +8,6 @@ import '../../domain/entities/review.dart';
 import '../../domain/entities/special_offer.dart';
 import '../../domain/entities/store.dart';
 import '../../domain/entities/store_rating.dart';
-import '../../domain/entities/user.dart';
 import '../../domain/entities/common/paginated_data.dart';
 
 class MockDataGenerator {

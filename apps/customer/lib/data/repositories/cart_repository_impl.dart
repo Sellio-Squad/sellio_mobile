@@ -1,5 +1,5 @@
-import '../../core/error/failure.dart';
-import '../../core/error/result.dart';
+import 'package:core/error/failure.dart';
+import 'package:core/error/result.dart';
 import '../../domain/entities/cart.dart';
 import '../../domain/repositories/cart_repository.dart';
 import '../datasource/local/cart_local_datasource.dart';

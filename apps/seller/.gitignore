@@ -1,4 +1,21 @@
 # ---------------------------------
+# Generated Code
+# ---------------------------------
+# Freezed
+*.freezed.dart
+
+# JSON Serializable
+*.g.dart
+*.g.part.dart
+
+# Flutter localizations (Generated)
+**/l10n/*_localizations.dart
+**/l10n/*_localizations_*.dart
+
+# Mockito
+*.mocks.dart
+
+# ---------------------------------
 # Android
 # ---------------------------------
 android/app/debug
