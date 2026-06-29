@@ -1,8 +1,9 @@
+import 'package:authentication/authentication.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
-import 'package:sellio_mobile/presentation/screens/auth/create_account/create_account_screen.dart';
-import 'package:sellio_mobile/presentation/screens/auth/login/login_screen.dart';
+import 'package:sellio_mobile/di/injection_container.dart';
 import 'package:sellio_mobile/presentation/screens/cart/cart_screen.dart';
 import 'package:sellio_mobile/presentation/screens/customize_product/customize_your_product_screen.dart';
 import 'package:sellio_mobile/presentation/screens/home/home_screen.dart';
@@ -15,12 +16,11 @@ import 'package:sellio_mobile/presentation/screens/store_details/store_details_s
 
 import '../../presentation/screens/account/account_screen.dart';
 import '../../presentation/screens/account/myFav/my_favorites.dart';
-import '../../presentation/screens/auth/forgot_password/confirm_password_screen.dart';
-import '../../presentation/screens/auth/forgot_password/forget_password_screen.dart';
 import '../../presentation/screens/category_details/category_details_screen.dart';
 import '../../presentation/screens/more_trending/more_trending_screen.dart';
 import '../../presentation/screens/order_history/order_history_screen.dart';
 import '../../presentation/screens/thrift/thrift_screen.dart';
+import '../localization/l10n/localization_service.dart';
 import 'app_routes.dart';
 
 class RouteGenerator {
@@ -45,7 +45,12 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             fullscreenDialog: true,
-            child: const LoginScreen(),
+            child: auth.LoginScreen(
+              authRepository: sl(),
+              countryRepository: sl(),
+              authenticationCubit: sl(),
+              navigator: context.navigator,
+            ),
           );
         },
       ),
@@ -55,7 +60,31 @@ class RouteGenerator {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const CreateAccountScreen(),
+            child: auth.CreateAccountScreen(
+              authRepository: sl(),
+              countryRepository: sl(),
+              navigator: context.navigator,
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.otp.name,
+        path: AppRoutes.otp.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          final args = state.extra as OtpArgs;
+          return MaterialPage(
+            key: state.pageKey,
+            child: auth.OtpScreen(
+              title: args.title ?? context.local.confirm_your_account,
+              subtitle: args.subtitle ??
+                  context.local.enter_the_4_digit_sent_to(args.phoneNumber),
+              phoneNumber: args.phoneNumber,
+              onVerify: args.onVerify,
+              onVerifySuccess: args.onVerifySuccess,
+              authRepository: sl(),
+              navigator: context.navigator,
+            ),
           );
         },
       ),
@@ -65,7 +94,11 @@ class RouteGenerator {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const ForgetPasswordScreen(),
+            child: auth.ForgotPasswordScreen(
+              authRepository: sl(),
+              countryRepository: sl(),
+              navigator: context.navigator,
+            ),
           );
         },
       ),
@@ -75,7 +108,11 @@ class RouteGenerator {
         pageBuilder: (BuildContext context, GoRouterState state) {
           return MaterialPage(
             key: state.pageKey,
-            child: const SetNewPasswordScreen(),
+            child: auth.ResetPasswordScreen(
+              authRepository: sl(),
+              countryRepository: sl(),
+              navigator: context.navigator,
+            ),
           );
         },
       ),
@@ -287,7 +324,7 @@ class RouteGenerator {
     ],
     errorBuilder: (context, state) => Scaffold(
       body: Center(
-        child: Text('Error: ${state.error}'),
+        child: Text('${context.local.error}: ${state.error}'),
       ),
     ),
   );

@@ -1,16 +1,15 @@
+import 'package:authentication/authentication.dart';
+import 'package:core/localization/locale_cubit.dart';
+import 'package:core/localization/locale_state.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sellio_mobile/core/localization/cubit/locale_cubit.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/navigation/account_navigation.dart';
 import 'package:sellio_mobile/presentation/screens/account/reset_password/reset_password_content.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../domain/repositories/user_repository.dart';
 import 'account_option_card.dart';
 import 'account_options/account_options_bottom_sheet.dart';
 import 'account_settings/account_settings_bottom_sheet.dart';

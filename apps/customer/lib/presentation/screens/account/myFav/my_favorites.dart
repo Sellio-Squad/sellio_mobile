@@ -7,7 +7,6 @@ import '../../../cubits/favorites/cubit/favorites_state.dart';
 import 'widgets/stores_section.dart';
 import 'widgets/products_grid_section.dart';
 import 'widgets/empty_favorites_state.dart';
-import '../../../../core/utils/snackbar_helper.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -41,7 +40,11 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return BlocListener<FavoritesCubit, FavoritesState>(
       listener: (context, state) {
         if (state is FavoritesActionFailure) {
-          SnackBarHelper.showError(context, state.message);
+          SnackBarHelper.showError(
+            context,
+            state.message,
+            title: context.local.error,
+          );
         }
       },
       child: Scaffold(

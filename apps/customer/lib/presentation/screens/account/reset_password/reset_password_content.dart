@@ -1,9 +1,9 @@
+import 'package:authentication/domain/repositories/user_repository.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
-import 'package:sellio_mobile/domain/repositories/user_repository.dart';
 
 import 'cubit/reset_password_cubit.dart';
 import 'cubit/reset_password_state.dart';

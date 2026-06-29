@@ -8,6 +8,10 @@ enum AppRoutes {
     name: 'createAccount',
     path: '/createAccount',
   ),
+  otp(
+    name: 'otp',
+    path: '/otp',
+  ),
   forgetPassword(
     name: 'forget_password',
     path: '/forget_password',

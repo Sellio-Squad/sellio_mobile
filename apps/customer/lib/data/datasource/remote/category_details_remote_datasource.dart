@@ -1,4 +1,4 @@
-import 'package:sellio_mobile/data/core/api/api_client.dart';
+import 'package:core/core.dart';
 import 'package:sellio_mobile/data/core/api/api_endpoints.dart';
 import 'package:sellio_mobile/data/models/common/paginated_response.dart';
 import 'package:sellio_mobile/data/models/product_model.dart';

@@ -1,8 +1,8 @@
+import 'package:core/error/result.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 import 'package:sellio_mobile/domain/entities/product.dart';
 import 'package:sellio_mobile/domain/repositories/search_repository.dart';
-import '../../../../core/error/result.dart';
 import '../../../../domain/entities/store.dart';
 
 part 'search_state.dart';

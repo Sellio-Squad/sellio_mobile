@@ -1,9 +1,7 @@
+import 'package:authentication/authentication.dart';
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sellio_mobile/core/error/result.dart';
-import 'package:sellio_mobile/domain/repositories/user_repository.dart';
-
-import '../../../../../domain/repositories/auth_repository.dart';
-import 'delete_account_state.dart';
+import 'package:sellio_mobile/presentation/screens/account/delete_account/cubit/delete_account_state.dart';
 
 class DeleteAccountCubit extends Cubit<DeleteAccountState> {
   final UserRepository _userRepository;

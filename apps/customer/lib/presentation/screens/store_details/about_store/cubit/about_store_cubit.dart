@@ -1,6 +1,6 @@
+import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/error/result.dart';
 import '../../../../../domain/repositories/store_repository.dart';
 import 'about_store_state.dart';
 

@@ -1,0 +1,12 @@
+{
+  "@@locale": "ar",
+  "seller_home": "رئيسية البائع",
+  "error": "خطأ",
+  "confirm_your_account": "تأكيد حسابك",
+  "enter_the_4_digit_sent_to": "يرجى إدخال الرمز المكون من 4 أرقام المرسل إلى {phone_number}.",
+  "dashboard": "لوحة التحكم",
+  "orders": "الطلبات",
+  "products": "المنتجات",
+  "account": "الحساب",
+  "create_product": "إنشاء منتج"
+}

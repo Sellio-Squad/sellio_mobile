@@ -1,5 +1,5 @@
-import '../../domain/entities/address.dart';
-import '../models/address_model.dart';
+import 'package:authentication/data/models/user/address_model.dart';
+import 'package:authentication/domain/entities/address.dart';
 
 extension AddressModelMapper on AddressModel {
   Address toEntity() {

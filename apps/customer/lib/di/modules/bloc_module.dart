@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:sellio_mobile/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
 import '../../../presentation/cubits/cart/cubit/cart_cubit.dart';
 import '../../../presentation/cubits/favorites/cubit/favorites_cubit.dart';
@@ -16,9 +15,7 @@ import '../../../presentation/screens/home/cubit/home_sections_cubit.dart';
 class BlocModule {
   static void register(GetIt sl) {
     sl.registerFactory(() => HomeSectionsCubit(sl()));
-    sl.registerLazySingleton<AuthenticationCubit>(
-      () => AuthenticationCubit(sl(), sl()),
-    );
+
     sl.registerFactory(() => CartCubit(
           cartRepository: sl(),
           orderRepository: sl(),
