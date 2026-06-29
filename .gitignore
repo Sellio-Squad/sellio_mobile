@@ -47,8 +47,9 @@ packages/**/pubspec.lock
 **/*.g.dart
 **/*.g.part.dart
 **/*.mocks.dart
-**/l10n/app_localizations.dart
-**/l10n/app_localizations_*.dart
+# Flutter gen-l10n output (any output-class name)
+**/l10n/*_localizations.dart
+**/l10n/*_localizations_*.dart
 
 # ------------------------------------------------------------
 # Global Mobile Artifacts (Recursive Safety)
