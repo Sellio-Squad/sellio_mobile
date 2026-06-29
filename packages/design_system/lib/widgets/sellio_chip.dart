@@ -40,7 +40,6 @@ class SellioChip extends StatelessWidget {
       shape: shape,
       child: InkWell(
         onTap: onTap,
-        enableFeedback: true,
         customBorder: shape,
         child: Container(
           padding: padding,
