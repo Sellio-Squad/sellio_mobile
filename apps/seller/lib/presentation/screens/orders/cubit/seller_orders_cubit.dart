@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/entities/seller_order.dart';
-import '../../../../domain/entities/seller_orders_filter.dart';
 import '../../../../domain/repositories/seller_order_repository.dart';
 import 'seller_orders_state.dart';
 

@@ -7,14 +7,15 @@ import 'modules/bloc_module.dart';
 import 'modules/datasource_module.dart';
 import 'modules/repository_module.dart';
 
-final sl = GetIt.instance;
+final getIt = GetIt.instance;
+final sl = getIt;
 
-Future<void> init() async {
-  await StorageModule.register(sl);
-  await CoreModule.register(sl);
-  DataSourceModule.register(sl);
-  RepositoryModule.register(sl);
-  BlocModule.register(sl);
-  NavigationModule.register(sl);
-  AuthModule.register(sl);
+Future<void> initDI() async {
+  await initStorageDI();
+  await initCoreDI();
+  initDataSourceDI();
+  initRepositoryDI();
+  initCubitDI();
+  initNavigationDI();
+  initAuthDI();
 }
