@@ -6,6 +6,13 @@ enum SellerOrderStatus {
   cancelled,
 }
 
+enum SellerOrdersSort {
+  newestFirst,
+  oldestFirst,
+  highestTotal,
+  lowestTotal,
+}
+
 class SellerOrder extends Equatable {
   final String orderId;
   final DateTime orderDate;

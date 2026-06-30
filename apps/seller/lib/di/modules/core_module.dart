@@ -8,30 +8,29 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../data/core/api/api_endpoints.dart';
 import '../../data/core/api/seller_auth_configuration.dart';
 
-class CoreModule {
-  static Future<void> register(GetIt sl) async {
-    final authConfig = SellerAuthConfiguration();
+Future<void> initCoreDI() async {
+  final sl = GetIt.instance;
+  final authConfig = SellerAuthConfiguration();
 
-    sl.registerLazySingleton<InternetConnectionChecker>(
-      () => InternetConnectionChecker(),
-    );
+  sl.registerLazySingleton<InternetConnectionChecker>(
+    () => InternetConnectionChecker(),
+  );
 
-    sl.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(sl()),
-    );
+  sl.registerLazySingleton<NetworkInfo>(
+    () => NetworkInfoImpl(sl()),
+  );
 
-    sl.registerLazySingleton<ImagePickerService>(
-      () => ImagePickerServiceImpl(),
-    );
+  sl.registerLazySingleton<ImagePickerService>(
+    () => ImagePickerServiceImpl(),
+  );
 
-    sl.registerLazySingleton<ApiClient>(
-      () => DioClient(
-        baseUrl: ApiEndpoints.baseUrl,
-        storageService: sl(),
-        refreshTokenPath: authConfig.refreshToken,
-        connectTimeout: const Duration(seconds: 30),
-        receiveTimeout: const Duration(seconds: 30),
-      ),
-    );
-  }
+  sl.registerLazySingleton<ApiClient>(
+    () => DioClient(
+      baseUrl: ApiEndpoints.baseUrl,
+      storageService: sl(),
+      refreshTokenPath: authConfig.refreshToken,
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
+    ),
+  );
 }

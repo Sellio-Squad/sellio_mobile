@@ -13,12 +13,11 @@ import 'core/navigate/navigation_extensions.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final prefs = await SharedPreferences.getInstance();
-  await init();
+  await initDI();
 
   runApp(
     BlocProvider(
-      create: (context) => LocaleCubit(prefs),
+      create: (context) => LocaleCubit(sl<SharedPreferences>()),
       child: SellioThemeProvider(
         brightness: Brightness.light,
         child: const MyApp(),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/localization/l10n/localization_service.dart';
-import '../../../../domain/entities/seller_orders_filter.dart';
+import '../../../../domain/entities/seller_order.dart';
 import '../cubit/seller_orders_cubit.dart';
 import '../cubit/seller_orders_state.dart';
 import 'orders_filter_bottom_sheet.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 
 import '../../../../core/localization/l10n/localization_service.dart';
-import '../../../../domain/entities/seller_orders_filter.dart';
+import '../../../../domain/entities/seller_order.dart';
 
 class OrdersFilterBottomSheet extends StatefulWidget {
   final SellerOrdersSort initialSort;

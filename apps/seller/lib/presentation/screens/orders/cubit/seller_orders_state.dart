@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 import '../../../../domain/entities/seller_order.dart';
-import '../../../../domain/entities/seller_orders_filter.dart';
 
 sealed class SellerOrdersState extends Equatable {
   const SellerOrdersState();
