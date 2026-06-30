@@ -3,6 +3,7 @@ import 'modules/auth_module.dart';
 import 'modules/core_module.dart';
 import 'modules/storage_module.dart';
 import 'modules/navigation_module.dart';
+import 'modules/bloc_module.dart';
 import 'modules/datasource_module.dart';
 import 'modules/repository_module.dart';
 
@@ -13,6 +14,7 @@ Future<void> init() async {
   await CoreModule.register(sl);
   DataSourceModule.register(sl);
   RepositoryModule.register(sl);
+  BlocModule.register(sl);
   NavigationModule.register(sl);
   AuthModule.register(sl);
 }
