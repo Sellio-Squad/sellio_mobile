@@ -1,11 +1,11 @@
 import 'package:core/domain/repositories/country_repository.dart';
+import 'package:core/domain/validators/validation_result.dart';
 import 'package:core/error/result.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/repositories/auth_repository.dart';
 import '../../../../domain/validators/validation_error_type.dart';
 import '../../../../domain/validators/form_validators.dart';
-import '../../../../domain/validators/validation_result.dart';
 import '../../../shared/extensions.dart';
 import 'forgot_password_state.dart';
 

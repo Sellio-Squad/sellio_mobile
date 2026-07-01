@@ -1,7 +1,6 @@
-import '../../core/constants/auth_constants.dart';
+import 'package:core/core.dart';
 import 'form_field_type.dart';
 import 'validation_error_type.dart';
-import 'validation_result.dart';
 
 abstract class FormValidators {
   FormValidators._();
@@ -23,10 +22,12 @@ abstract class FormValidators {
   }
 
   static ValidationResult validatePhone(String phone, {int? minLength}) {
-    if (!AuthConstants.digitsOnly.hasMatch(phone)) {
-      return const ValidationResult.invalid(PhoneValidationError.digitsOnly);
+    if (!ValidatorUtils.isLettersOnly(phone) && !ValidationConstants.digitsOnly.hasMatch(phone)) {
+       return const ValidationResult.invalid(PhoneValidationError.digitsOnly);
     }
-    if (minLength != null && phone.length != minLength) {
+    
+    final targetLength = minLength ?? ValidationConstants.minPhoneLength;
+    if (phone.length < targetLength) {
       return const ValidationResult.invalid(PhoneValidationError.minLength);
     }
 
@@ -34,12 +35,12 @@ abstract class FormValidators {
   }
 
   static ValidationResult validatePassword(String password) {
-    if (password.length < AuthConstants.minPasswordLength) {
+    if (password.length < ValidationConstants.minPasswordLength) {
       return const ValidationResult.invalid(
         PasswordValidationError.minLength,
       );
     }
-    if (password.length > AuthConstants.maxPasswordLength) {
+    if (password.length > ValidationConstants.maxPasswordLength) {
       return const ValidationResult.invalid(
         PasswordValidationError.maxLength,
       );
@@ -61,10 +62,10 @@ abstract class FormValidators {
   }
 
   static ValidationResult validateFullName(String name) {
-    if (name.length < AuthConstants.minNameLength) {
+    if (name.length < ValidationConstants.minNameLength) {
       return const ValidationResult.invalid(FullNameValidationError.minLength);
     }
-    if (!AuthConstants.lettersAndSpaces.hasMatch(name)) {
+    if (!ValidationConstants.lettersAndSpaces.hasMatch(name)) {
       return const ValidationResult.invalid(
           FullNameValidationError.lettersOnly);
     }
@@ -73,10 +74,10 @@ abstract class FormValidators {
   }
 
   static ValidationResult validateCity(String city) {
-    if (city.length < AuthConstants.minLocationLength) {
+    if (city.length < ValidationConstants.minLocationLength) {
       return const ValidationResult.invalid(CityValidationError.minLength);
     }
-    if (!AuthConstants.lettersAndSpaces.hasMatch(city)) {
+    if (!ValidationConstants.lettersAndSpaces.hasMatch(city)) {
       return const ValidationResult.invalid(CityValidationError.lettersOnly);
     }
 

@@ -1,4 +1,4 @@
-import 'validation_error_type.dart';
+import 'validation_error.dart';
 
 class ValidationResult {
   final bool isValid;
