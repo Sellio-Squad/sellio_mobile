@@ -8,5 +8,15 @@
   "orders": "الطلبات",
   "products": "المنتجات",
   "account": "الحساب",
-  "create_product": "إنشاء منتج"
+  "create_product": "إنشاء منتج",
+  "store_name_required": "اسم المتجر مطلوب",
+  "store_name_too_short": "اسم المتجر قصير جدا",
+  "store_name_too_long": "اسم المتجر كبير جدا",
+  "store_description_required": "الوصف مطلوب",
+  "store_description_too_short": "الوصف قصير جدا",
+  "store_description_too_long": "الوصف كثير جدا",
+  "country_required": "الدولة مطلوبة",
+  "city_required": "المدينة مطلوبة",
+  "store_image_required": "صورة المتجر مطلوبة",
+  "store_cover_image_required": "صورة غلاف المتجر مطلوبة"
 }

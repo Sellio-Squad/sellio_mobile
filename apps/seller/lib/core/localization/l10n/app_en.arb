@@ -8,5 +8,15 @@
   "orders": "Orders",
   "products": "Products",
   "account": "Account",
-  "create_product": "Create Product"
+  "create_product": "Create Product",
+  "store_name_required": "Store name is required",
+  "store_name_too_short": "Store name is too short",
+  "store_name_too_long": "Store name is too long",
+  "store_description_required": "Store description is required",
+  "store_description_too_short": "Store description is too short",
+  "store_description_too_long": "Store description is too long",
+  "country_required": "Country is required",
+  "city_required": "City is required",
+  "store_image_required": "Store image is required",
+  "store_cover_image_required": "Store cover image is required"
 }
