@@ -14,6 +14,7 @@ class LoginScreen extends StatelessWidget {
   final CountryRepository countryRepository;
   final AuthenticationCubit authenticationCubit;
   final AuthNavigator navigator;
+  final bool showCloseButton;
 
   const LoginScreen({
     super.key,
@@ -21,6 +22,7 @@ class LoginScreen extends StatelessWidget {
     required this.countryRepository,
     required this.authenticationCubit,
     required this.navigator,
+    this.showCloseButton = true,
   });
 
   @override
@@ -31,15 +33,22 @@ class LoginScreen extends StatelessWidget {
         countryRepository: countryRepository,
         authenticationCubit: authenticationCubit,
       )..loadInitialCountry(),
-      child: _LoginScreenContent(navigator: navigator),
+      child: _LoginScreenContent(
+        navigator: navigator,
+        showCloseButton: showCloseButton,
+      ),
     );
   }
 }
 
 class _LoginScreenContent extends StatelessWidget {
   final AuthNavigator navigator;
+  final bool showCloseButton;
 
-  const _LoginScreenContent({required this.navigator});
+  const _LoginScreenContent({
+    required this.navigator,
+    required this.showCloseButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +58,7 @@ class _LoginScreenContent extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
           showLogo: true,
+          showCloseButton: showCloseButton,
           child: LoginBody(navigator: navigator),
         ),
       ),

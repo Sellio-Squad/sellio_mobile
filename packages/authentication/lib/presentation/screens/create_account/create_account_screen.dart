@@ -12,12 +12,14 @@ class CreateAccountScreen extends StatelessWidget {
   final AuthRepository authRepository;
   final CountryRepository countryRepository;
   final AuthNavigator navigator;
+  final bool showCloseButton;
 
   const CreateAccountScreen({
     super.key,
     required this.authRepository,
     required this.countryRepository,
     required this.navigator,
+    this.showCloseButton = true,
   });
 
   @override
@@ -27,15 +29,22 @@ class CreateAccountScreen extends StatelessWidget {
         authRepository: authRepository,
         countryRepository: countryRepository,
       )..loadInitialCountry(),
-      child: _CreateAccountScreenContent(navigator: navigator),
+      child: _CreateAccountScreenContent(
+        navigator: navigator,
+        showCloseButton: showCloseButton,
+      ),
     );
   }
 }
 
 class _CreateAccountScreenContent extends StatelessWidget {
   final AuthNavigator navigator;
+  final bool showCloseButton;
 
-  const _CreateAccountScreenContent({required this.navigator});
+  const _CreateAccountScreenContent({
+    required this.navigator,
+    required this.showCloseButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +54,7 @@ class _CreateAccountScreenContent extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
           showLogo: false,
+          showCloseButton: showCloseButton,
           child: CreateAccountBody(navigator: navigator),
         ),
       ),

@@ -15,12 +15,14 @@ class ResetPasswordScreen extends StatelessWidget {
   final AuthRepository authRepository;
   final CountryRepository countryRepository;
   final AuthNavigator navigator;
+  final bool showBackButton;
 
   const ResetPasswordScreen({
     super.key,
     required this.authRepository,
     required this.countryRepository,
     required this.navigator,
+    this.showBackButton = true,
   });
 
   @override
@@ -31,15 +33,22 @@ class ResetPasswordScreen extends StatelessWidget {
         countryRepository: countryRepository,
         startWithVerified: true,
       )..loadInitialCountry(),
-      child: _ResetPasswordScreenContent(navigator: navigator),
+      child: _ResetPasswordScreenContent(
+        navigator: navigator,
+        showBackButton: showBackButton,
+      ),
     );
   }
 }
 
 class _ResetPasswordScreenContent extends StatefulWidget {
   final AuthNavigator navigator;
+  final bool showBackButton;
 
-  const _ResetPasswordScreenContent({required this.navigator});
+  const _ResetPasswordScreenContent({
+    required this.navigator,
+    required this.showBackButton,
+  });
 
   @override
   State<_ResetPasswordScreenContent> createState() =>
@@ -108,6 +117,7 @@ class _ResetPasswordScreenContentState
         return Scaffold(
           appBar: SellioAppBar(
             title: context.authLocal.title_forget_password,
+            showBackButton: widget.showBackButton,
           ),
           backgroundColor: colors.surfaceLow,
           body: SafeArea(
