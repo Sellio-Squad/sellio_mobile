@@ -19,6 +19,10 @@ enum AppRoutes {
     name: 'resetPassword',
     path: '/resetPassword',
   ),
+  createStore(
+    name: 'create_store',
+    path: '/create_store',
+  ),
   dashboard(
     name: 'dashboard',
     path: '/dashboard',
