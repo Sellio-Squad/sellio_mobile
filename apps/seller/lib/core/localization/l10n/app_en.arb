@@ -9,6 +9,16 @@
   "products": "Products",
   "account": "Account",
   "create_product": "Create Product",
+  "create_store": "Create your store",
+  "enter_your_store_information": "Enter your store information",
+  "store_name": "Store name",
+  "description": "Description",
+  "country": "Country",
+  "city": "City",
+  "store_category": "Store category",
+  "store_photo": "store photo",
+  "store_cover_image": "store cover image",
+  "upload": "Upload",
   "store_name_required": "Store name is required",
   "store_name_too_short": "Store name is too short",
   "store_name_too_long": "Store name is too long",
@@ -18,5 +28,7 @@
   "country_required": "Country is required",
   "city_required": "City is required",
   "store_image_required": "Store image is required",
-  "store_cover_image_required": "Store cover image is required"
+  "store_cover_image_required": "Store cover image is required",
+  "store_created_successfully": "Store created successfully",
+  "success": "Success"
 }
