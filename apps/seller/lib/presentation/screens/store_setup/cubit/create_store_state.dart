@@ -107,6 +107,7 @@ class CreateStoreIdle extends CreateStoreState {
         nameError,
         descriptionError,
         cityError,
+        countryError,
         imageError,
         coverImageError,
         isFormValid,

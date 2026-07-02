@@ -9,4 +9,7 @@ class ApiEndpoints {
 
   // Seller
   static const String createStore = '$apiVersion/stores/create';
+
+  // Categories
+  static const String categoriesAll = '$apiVersion/category/all-categories';
 }

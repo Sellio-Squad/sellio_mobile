@@ -275,7 +275,6 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
       description: currentState.description.trim(),
       city: currentState.city,
       country: currentState.selectedCountry!.name,
-      categories: currentState.selectedCategories,
       profileImage: currentState.storeImage!,
       coverImage: currentState.coverImage!,
     );
