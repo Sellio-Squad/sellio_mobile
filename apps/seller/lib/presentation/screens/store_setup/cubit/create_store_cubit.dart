@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:core/core.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../data/models/store/create_store_request.dart';
 import '../../../../domain/entity/category.dart';
 import '../../../../domain/repositories/category_repository.dart';
 import '../../../../domain/repositories/store_repository.dart';
@@ -34,58 +37,45 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     final currentState = state;
     if (currentState is! CreateStoreIdle) return;
 
-    await Future.wait([
-      loadInitialCountry(),
-      loadCategories(),
-    ]);
-  }
-
-  Future<void> loadInitialCountry() async {
-    final currentState = state;
-    if (currentState is! CreateStoreIdle) return;
-
-    final countryCode = await _countryRepository.getCurrentCountryCode();
-    final allowedCodes = ['IQ', 'EG', 'SY', 'PS'];
-
-    if (allowedCodes.contains(countryCode.toUpperCase())) {
-      final country = Country.parse(countryCode);
-      _updateState(currentState.copyWith(selectedCountry: country));
-      loadCitiesForSelectedCountry(countryCode);
-    }
+    await loadCategories();
   }
 
   Future<void> loadCategories() async {
-    final currentState = state;
-    if (currentState is! CreateStoreIdle) return;
-
     final result = await _categoryRepository.getCategories();
 
     result.fold(
       onSuccess: (categories) {
-        _updateState(currentState.copyWith(allCategories: categories));
+        final latestState = state;
+        if (latestState is CreateStoreIdle) {
+          emit(latestState.copyWith(
+            allCategories: categories,
+            isFormValid: _isFormValid(latestState, allCategories: categories),
+          ));
+        }
       },
-      onFailure: (failure) {
-        // Handle failure if needed
-      },
+      onFailure: (failure) {},
     );
   }
 
   Future<void> loadCitiesForSelectedCountry(String iso2) async {
-    final currentState = state;
-    if (currentState is! CreateStoreIdle) return;
-
     final result = await _countryRepository.getCitiesByCountryIso2(iso2);
 
     result.fold(
       onSuccess: (cities) {
         final latestState = state;
         if (latestState is CreateStoreIdle &&
-            latestState.selectedCountry?.countryCode == iso2) {
-          _updateState(latestState.copyWith(cities: cities));
+            latestState.selectedCountry?.countryCode.toLowerCase() ==
+                iso2.toLowerCase()) {
+          final nextState = latestState.copyWith(cities: cities);
+          emit(nextState.copyWith(isFormValid: _isFormValid(nextState)));
         }
       },
       onFailure: (e) {
-        _updateState(currentState.copyWith(cities: []));
+        final latestState = state;
+        if (latestState is CreateStoreIdle) {
+          final nextState = latestState.copyWith(cities: []);
+          emit(nextState.copyWith(isFormValid: _isFormValid(nextState)));
+        }
       },
     );
   }
@@ -95,10 +85,12 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateName(value);
+    final error = result.error as StoreValidationError?;
 
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       storeName: value,
-      nameError: () => result.error as StoreValidationError?,
+      nameError: () => error,
+      isFormValid: _isFormValid(currentState, name: value, nError: error),
     ));
   }
 
@@ -107,10 +99,12 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateDescription(value);
+    final error = result.error as StoreValidationError?;
 
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       description: value,
-      descriptionError: () => result.error as StoreValidationError?,
+      descriptionError: () => error,
+      isFormValid: _isFormValid(currentState, desc: value, dError: error),
     ));
   }
 
@@ -119,10 +113,12 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateCity(value);
+    final error = result.error as StoreValidationError?;
 
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       city: value,
-      cityError: () => result.error as StoreValidationError?,
+      cityError: () => error,
+      isFormValid: _isFormValid(currentState, city: value, cError: error),
     ));
   }
 
@@ -134,19 +130,23 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
         currentState.selectedCategories.any((c) => c.id == category.id);
     final newSelection = isSelected ? <Category>[] : [category];
 
-    _updateState(currentState.copyWith(selectedCategories: newSelection));
+    emit(currentState.copyWith(
+      selectedCategories: newSelection,
+      isFormValid: _isFormValid(currentState, categories: newSelection),
+    ));
   }
 
   void updateSelectedCountry(Country country) {
     final currentState = state;
     if (currentState is! CreateStoreIdle) return;
 
-    _updateState(currentState.copyWith(
+    final nextState = currentState.copyWith(
       selectedCountry: country,
       city: '',
       cityError: () => null,
       countryError: () => null,
-    ));
+    );
+    emit(nextState.copyWith(isFormValid: _checkStrictFormValidity(nextState)));
     loadCitiesForSelectedCountry(country.countryCode);
   }
 
@@ -156,7 +156,7 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateName(value);
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       nameError: () => result.error as StoreValidationError?,
     ));
   }
@@ -167,7 +167,7 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateDescription(value);
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       descriptionError: () => result.error as StoreValidationError?,
     ));
   }
@@ -178,48 +178,75 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
     if (currentState is! CreateStoreIdle) return;
 
     final result = StoreValidators.validateCity(value);
-    _updateState(currentState.copyWith(
+    emit(currentState.copyWith(
       cityError: () => result.error as StoreValidationError?,
     ));
   }
 
   Future<void> pickStoreImage() async {
-    final currentState = state;
-    if (currentState is! CreateStoreIdle) return;
-
     final image = await _imagePickerService.pickFromGallery();
     if (image == null) return;
 
     final result = StoreValidators.validateImage(image);
+    final error = result.error as StoreValidationError?;
+    final latestState = state;
 
-    _updateState(currentState.copyWith(
-      storeImage: image,
-      imageError: () => result.error as StoreValidationError?,
-    ));
+    if (latestState is CreateStoreIdle) {
+      emit(latestState.copyWith(
+        storeImage: image,
+        imageError: () => error,
+        isFormValid: _isFormValid(latestState, sImage: image, iError: error),
+      ));
+    }
   }
 
   Future<void> pickCoverImage() async {
-    final currentState = state;
-    if (currentState is! CreateStoreIdle) return;
-
     final image = await _imagePickerService.pickFromGallery();
     if (image == null) return;
 
     final result = StoreValidators.validateCoverImage(image);
+    final error = result.error as StoreValidationError?;
+    final latestState = state;
 
-    _updateState(currentState.copyWith(
-      coverImage: image,
-      coverImageError: () => result.error as StoreValidationError?,
-    ));
+    if (latestState is CreateStoreIdle) {
+      emit(latestState.copyWith(
+        coverImage: image,
+        coverImageError: () => error,
+        isFormValid: _isFormValid(latestState, cImage: image, cvError: error),
+      ));
+    }
   }
 
-  void _updateState(CreateStoreIdle newState) {
-    emit(newState.copyWith(
-      isFormValid: _checkFormValidity(newState),
-    ));
+  bool _isFormValid(
+    CreateStoreIdle s, {
+    String? name,
+    String? desc,
+    String? city,
+    List<Category>? categories,
+    File? sImage,
+    File? cImage,
+    StoreValidationError? nError,
+    StoreValidationError? dError,
+    StoreValidationError? cError,
+    StoreValidationError? iError,
+    StoreValidationError? cvError,
+    List<Category>? allCategories,
+  }) {
+    return (name ?? s.storeName).isNotEmpty &&
+        (desc ?? s.description).isNotEmpty &&
+        (city ?? s.city).isNotEmpty &&
+        s.selectedCountry != null &&
+        (categories ?? s.selectedCategories).isNotEmpty &&
+        (sImage ?? s.storeImage) != null &&
+        (cImage ?? s.coverImage) != null &&
+        (nError ?? s.nameError) == null &&
+        (dError ?? s.descriptionError) == null &&
+        (cError ?? s.cityError) == null &&
+        (iError ?? s.imageError) == null &&
+        (cvError ?? s.coverImageError) == null;
   }
 
-  bool _checkFormValidity(CreateStoreIdle s) {
+  bool _checkStrictFormValidity(CreateStoreIdle s) {
     return s.storeName.isNotEmpty &&
         s.description.isNotEmpty &&
         s.city.isNotEmpty &&
@@ -256,7 +283,7 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
         !countryResult.isValid ||
         !imageResult.isValid ||
         !coverImageResult.isValid) {
-      _updateState(currentState.copyWith(
+      final nextState = currentState.copyWith(
         nameError: () => nameResult.error as StoreValidationError?,
         descriptionError: () =>
             descriptionResult.error as StoreValidationError?,
@@ -264,20 +291,25 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
         countryError: () => countryResult.error as StoreValidationError?,
         imageError: () => imageResult.error as StoreValidationError?,
         coverImageError: () => coverImageResult.error as StoreValidationError?,
-      ));
+      );
+      emit(
+          nextState.copyWith(isFormValid: _checkStrictFormValidity(nextState)));
       return;
     }
 
     emit(const CreateStoreSubmitting());
 
-    final result = await _storeRepository.createStore(
+    final request = CreateStoreRequest(
       name: currentState.storeName.trim(),
       description: currentState.description.trim(),
       city: currentState.city,
       country: currentState.selectedCountry!.name,
-      profileImage: currentState.storeImage!,
+      categoryIds: currentState.selectedCategories.map((c) => c.id).toList(),
+      avatarImage: currentState.storeImage!,
       coverImage: currentState.coverImage!,
     );
+
+    final result = await _storeRepository.createStore(request);
 
     result.fold(
       onSuccess: (store) {
@@ -285,13 +317,15 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
       },
       onFailure: (failure) {
         emit(CreateStoreFailure(failure.message));
-        _updateState(currentState.copyWith(
+        final nextState = currentState.copyWith(
           nameError: () => null,
           descriptionError: () => null,
           cityError: () => null,
           imageError: () => null,
           coverImageError: () => null,
-        ));
+        );
+        emit(nextState.copyWith(
+            isFormValid: _checkStrictFormValidity(nextState)));
       },
     );
   }

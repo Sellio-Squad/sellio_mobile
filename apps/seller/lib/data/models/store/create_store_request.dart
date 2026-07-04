@@ -1,34 +1,46 @@
-class CreateStoreRequest {
-  final String title;
-  final String description;
-  final String phoneNumber;
-  final String city;
-  final String government;
-  final String country;
-  final String avatarImageURL;
-  final String coverImageURL;
+import 'dart:io';
 
-  CreateStoreRequest({
-    required this.title,
+import 'package:dio/dio.dart';
+
+class CreateStoreRequest {
+  final String name;
+  final String description;
+  final String city;
+  final String country;
+  final List<String> categoryIds;
+  final File avatarImage;
+  final File coverImage;
+
+  const CreateStoreRequest({
+    required this.name,
     required this.description,
-    required this.phoneNumber,
     required this.city,
-    required this.government,
     required this.country,
-    required this.avatarImageURL,
-    required this.coverImageURL,
+    required this.categoryIds,
+    required this.avatarImage,
+    required this.coverImage,
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'title': title,
+  Future<FormData> toFormData() async {
+    final formData = FormData.fromMap({
+      'title': name,
       'description': description,
-      'phoneNumber': phoneNumber,
       'city': city,
-      'government': government,
       'country': country,
-      'avatarImageURL': avatarImageURL,
-      'coverImageURL': coverImageURL,
-    };
+      'avatarImage': await MultipartFile.fromFile(
+        avatarImage.path,
+        filename: avatarImage.path.split('/').last,
+      ),
+      'coverImage': await MultipartFile.fromFile(
+        coverImage.path,
+        filename: coverImage.path.split('/').last,
+      ),
+    });
+
+    for (final id in categoryIds) {
+      formData.fields.add(MapEntry('categoryIds', id));
+    }
+
+    return formData;
   }
 }

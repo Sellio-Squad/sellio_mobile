@@ -35,7 +35,7 @@ class CreateStoreListeners extends StatelessWidget {
       context.local.store_created_successfully,
       title: context.local.success,
     );
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (context.mounted) {
         context.navigator.goToDashboard();
       }
