@@ -28,6 +28,7 @@ export 'widgets/sellio_indicator.dart';
 export 'widgets/sellio_snack_bar.dart';
 export 'widgets/sellio_text_field.dart';
 export 'widgets/sellio_phone_field.dart';
+export 'widgets/sellio_remote_image.dart';
 export 'widgets/search/sellio_search_bar.dart';
 export 'widgets/utils/widgets_utils.dart';
 export 'utils/snackbar_helper.dart';
