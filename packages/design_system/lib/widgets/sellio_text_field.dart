@@ -108,7 +108,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
 
-    final Color borderColor = isError
+    final Color borderColor = !widget.enabled
+        ? context.theme.colors.stroke
+        : isError
         ? context.theme.colors.semanticError
         : isFocused
         ? context.theme.colors.primary
@@ -266,6 +268,16 @@ class _SellioTextFieldState extends State<SellioTextField> {
                     borderSide: BorderSide(
                       color: context.theme.colors.semanticError,
                     ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(widget.enabledBorderRadius),
+                    borderSide: BorderSide(color: borderColor, width: 0.5),
                   ),
                   errorStyle: errorStyle,
                 ),
