@@ -11,30 +11,10 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
   StoreRemoteDataSourceImpl(this._apiClient);
 
   @override
-  Future<StoreCreationResponse> register({
-    required String name,
-    required String description,
-    required String phoneNumber,
-    required String city,
-    required String government,
-    required String country,
-    required String avatarImageURL,
-    required String coverImageURL,
-  }) async {
-    final request = CreateStoreRequest(
-      title: name,
-      description: description,
-      phoneNumber: phoneNumber,
-      city: city,
-      government: government,
-      country: country,
-      avatarImageURL: avatarImageURL,
-      coverImageURL: coverImageURL,
-    );
-
+  Future<StoreCreationResponse> createStore(CreateStoreRequest request) async {
     final response = await _apiClient.post(
       ApiEndpoints.createStore,
-      data: request.toJson(),
+      data: await request.toFormData(),
     );
 
     return StoreCreationResponse.fromJson(response.data);

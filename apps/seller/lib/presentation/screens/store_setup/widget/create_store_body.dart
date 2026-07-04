@@ -26,6 +26,8 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
   late final FocusNode _storeNameFocusNode;
   late final FocusNode _descriptionFocusNode;
 
+  CreateStoreIdle? _lastIdleState;
+
   @override
   void initState() {
     super.initState();
@@ -71,48 +73,62 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: CreateStoreHeader(),
+    return BlocBuilder<CreateStoreCubit, CreateStoreState>(
+      builder: (context, state) {
+        if (state is CreateStoreIdle) {
+          _lastIdleState = state;
+        }
+
+        return Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: CreateStoreHeader(),
+                    ),
+                    const SizedBox(height: 24),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: _buildForm(state),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                 ),
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _buildForm(),
-                ),
-                const SizedBox(height: 24),
-              ],
+              ),
             ),
-          ),
-        ),
-        _buildFooter(),
-      ],
+            _buildFooter(state),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildForm(CreateStoreState state) {
     final colors = context.theme.colors;
     final typography = context.theme.typography;
 
-    return BlocBuilder<CreateStoreCubit, CreateStoreState>(
-      builder: (context, state) {
-        if (state is! CreateStoreIdle) return const SizedBox.shrink();
+    final displayState = _lastIdleState;
+    if (displayState == null) return const SizedBox.shrink();
 
-        return Column(
+    final isSubmitting = state is CreateStoreSubmitting;
+
+    return IgnorePointer(
+      ignoring: isSubmitting,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 300),
+        opacity: isSubmitting ? 0.6 : 1.0,
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SellioTextField(
               controller: _storeNameController,
               hintText: context.local.store_name,
-              isError: state.nameError != null,
-              errorMessage: state.nameError?.toLocalizedString(context),
+              isError: displayState.nameError != null,
+              errorMessage: displayState.nameError?.toLocalizedString(context),
               prefixIcon: SvgPicture.asset(
                 AppImages.store,
                 width: 24,
@@ -126,8 +142,9 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
               hintText: context.local.description,
               isParagraph: true,
               maxLine: 4,
-              isError: state.descriptionError != null,
-              errorMessage: state.descriptionError?.toLocalizedString(context),
+              isError: displayState.descriptionError != null,
+              errorMessage:
+                  displayState.descriptionError?.toLocalizedString(context),
             ),
             const SizedBox(height: 16),
             Row(
@@ -136,8 +153,9 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
                 Expanded(
                   child: SellioPickerField<Country>(
                     hintText: context.local.country,
-                    value: state.selectedCountry,
-                    errorText: state.countryError?.toLocalizedString(context),
+                    value: displayState.selectedCountry,
+                    errorText:
+                        displayState.countryError?.toLocalizedString(context),
                     prefixIcon: SvgPicture.asset(
                       AppImages.locationPin,
                       width: 24,
@@ -162,9 +180,12 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
                 Expanded(
                   child: SellioPickerField<String>(
                     hintText: context.local.city,
-                    value: state.city.isNotEmpty ? state.city : null,
-                    errorText: state.cityError?.toLocalizedString(context),
-                    items: state.cities
+                    value:
+                        displayState.city.isNotEmpty ? displayState.city : null,
+                    enabled: displayState.selectedCountry != null,
+                    errorText:
+                        displayState.cityError?.toLocalizedString(context),
+                    items: displayState.cities
                         .map((city) => SellioPickerItem(city, city))
                         .toList(),
                     onChanged: (city) {
@@ -183,7 +204,7 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
                   .copyWith(color: colors.title),
             ),
             const SizedBox(height: 12),
-            _buildCategoryChips(state),
+            _buildCategoryChips(displayState),
             const SizedBox(height: 24),
             Text(
               context.local.store_photo,
@@ -193,9 +214,9 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
             const SizedBox(height: 12),
             Center(
               child: _buildImageUpload(
-                image: state.storeImage,
+                image: displayState.storeImage,
                 onTap: () => context.read<CreateStoreCubit>().pickStoreImage(),
-                error: state.imageError?.toLocalizedString(context),
+                error: displayState.imageError?.toLocalizedString(context),
               ),
             ),
             const SizedBox(height: 24),
@@ -206,14 +227,14 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
             ),
             const SizedBox(height: 12),
             _buildImageUpload(
-              image: state.coverImage,
+              image: displayState.coverImage,
               onTap: () => context.read<CreateStoreCubit>().pickCoverImage(),
-              error: state.coverImageError?.toLocalizedString(context),
+              error: displayState.coverImageError?.toLocalizedString(context),
               isCover: true,
             ),
           ],
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -295,7 +316,10 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
     );
   }
 
-  Widget _buildFooter() {
+  Widget _buildFooter(CreateStoreState state) {
+    final isLoading = state is CreateStoreSubmitting;
+    final isEnabled = _lastIdleState?.isFormValid ?? false;
+
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -310,21 +334,14 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
       ),
       child: SafeArea(
         top: false,
-        child: BlocBuilder<CreateStoreCubit, CreateStoreState>(
-          builder: (context, state) {
-            final isLoading = state is CreateStoreSubmitting;
-            final isEnabled = state is CreateStoreIdle && state.isFormValid;
-
-            return SellioButton(
-              text: context.local.create_store,
-              onTap: isEnabled && !isLoading
-                  ? () => context.read<CreateStoreCubit>().createStore()
-                  : null,
-              isLoading: isLoading,
-              isEnabled: isEnabled,
-              suffixSvgPath: AppImages.arrowRight,
-            );
-          },
+        child: SellioButton(
+          text: context.local.create_store,
+          onTap: isEnabled && !isLoading
+              ? () => context.read<CreateStoreCubit>().createStore()
+              : null,
+          isLoading: isLoading,
+          isEnabled: isEnabled,
+          suffixSvgPath: AppImages.arrowRight,
         ),
       ),
     );

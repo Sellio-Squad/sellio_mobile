@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../themes/sellio_theme_provider.dart';
+
 import '../constants/app_images.dart';
+import '../themes/sellio_theme_provider.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -29,6 +30,7 @@ class SellioTextField extends StatefulWidget {
   final bool isError;
   final String? errorMessage;
   final bool readOnly;
+  final bool enabled;
   final VoidCallback? onTap;
   final ValueChanged<String>? onFieldSubmitted;
 
@@ -58,6 +60,7 @@ class SellioTextField extends StatefulWidget {
     this.isError = false,
     this.errorMessage,
     this.readOnly = false,
+    this.enabled = true,
     this.onTap,
     this.onFieldSubmitted,
   });
@@ -173,6 +176,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                 onTapOutside: (event) {
                   FocusScope.of(context).unfocus();
                 },
+                enabled: widget.enabled,
                 keyboardType: widget.inputType ?? TextInputType.text,
                 focusNode: _focusNode,
                 controller: _effectiveController,
