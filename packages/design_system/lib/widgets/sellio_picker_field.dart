@@ -14,6 +14,7 @@ class SellioPickerField<T> extends StatefulWidget {
   final Widget? suffixIcon;
   final FocusNode? focusNode;
   final double dropdownMaxHeight;
+  final bool isEnabled;
 
   const SellioPickerField({
     super.key,
@@ -29,6 +30,7 @@ class SellioPickerField<T> extends StatefulWidget {
     this.suffixIcon,
     this.focusNode,
     this.dropdownMaxHeight = 200,
+    this.isEnabled = true,
   });
 
   @override
@@ -231,17 +233,20 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
       link: _layerLink,
       child: Focus(
         focusNode: _focusNode,
-        canRequestFocus: true,
+        canRequestFocus: widget.isEnabled,
         child: SellioTextField(
           controller: _displayController,
           hintText: widget.hintText,
           prefixIcon: widget.prefixIcon,
           prefixIconPadding: widget.prefixIconPadding,
           readOnly: true,
+          isEnabled: widget.isEnabled,
+          fillColor: widget.isEnabled ? null : colors.disabled,
           suffixIcon:
               widget.suffixIcon ??
-              Icon(Icons.arrow_drop_down, color: colors.body),
-          onTap: _toggleFocus,
+                  Icon(Icons.arrow_drop_down,
+                      color: widget.isEnabled ? colors.body : colors.hint),
+          onTap: widget.isEnabled ? _toggleFocus : null,
         ),
       ),
     );

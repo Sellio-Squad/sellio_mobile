@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../themes/sellio_theme_provider.dart';
+
 import '../constants/app_images.dart';
+import '../themes/sellio_theme_provider.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -29,8 +30,10 @@ class SellioTextField extends StatefulWidget {
   final bool isError;
   final String? errorMessage;
   final bool readOnly;
+  final bool isEnabled;
   final VoidCallback? onTap;
   final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
 
   const SellioTextField({
     super.key,
@@ -58,8 +61,10 @@ class SellioTextField extends StatefulWidget {
     this.isError = false,
     this.errorMessage,
     this.readOnly = false,
+    this.isEnabled = true,
     this.onTap,
     this.onFieldSubmitted,
+    this.onChanged,
   });
 
   @override
@@ -170,6 +175,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
+                enabled: widget.isEnabled,
                 onTapOutside: (event) {
                   FocusScope.of(context).unfocus();
                 },
@@ -193,6 +199,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                   setState(() {
                     isError = value.isEmpty;
                   });
+                  widget.onChanged?.call(value);
                 },
                 onSubmitted: widget.onFieldSubmitted,
                 obscureText: isObscured,
