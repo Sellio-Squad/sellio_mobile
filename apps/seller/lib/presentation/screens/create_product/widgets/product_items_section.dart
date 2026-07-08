@@ -70,7 +70,7 @@ class ProductItemsSection extends StatelessWidget {
                         style: context.theme.typography.textTheme.bodyMedium,
                       ),
                       subtitle: Text(
-                        'Color: ${item.colorId ?? 'N/A'}, Size: ${item.sizeId ?? 'N/A'}',
+                        'Color: ${item.colorId}, Size: ${item.sizeId}',
                         style: context.theme.typography.textTheme.labelSmall,
                       ),
                       trailing: IconButton(
