@@ -1,6 +1,8 @@
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
+import 'package:seller/data/repositories/product_repository_impl.dart';
 import 'package:seller/data/repositories/seller_order_repository_impl.dart';
+import 'package:seller/domain/repositories/product_repository.dart';
 import 'package:seller/domain/repositories/seller_order_repository.dart';
 
 class RepositoryModule {
@@ -14,6 +16,10 @@ class RepositoryModule {
 
     sl.registerLazySingleton<SellerOrderRepository>(
       () => SellerOrderRepositoryImpl(dataSource: sl()),
+    );
+
+    sl.registerLazySingleton<ProductRepository>(
+      () => ProductRepositoryImpl(dataSource: sl()),
     );
   }
 }
