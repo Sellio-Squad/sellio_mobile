@@ -8,13 +8,11 @@ class StoreSeller {
   final String description;
   final String coverImage;
   final String profileImage;
-  final String? sale;
   final double rating;
   final Address address;
   final List<ContactInfo> contactInfoList;
   final List<Category> categories;
   final bool isActive;
-  final bool isFavorite;
 
   const StoreSeller({
     required this.id,
@@ -22,16 +20,13 @@ class StoreSeller {
     required this.description,
     required this.coverImage,
     required this.profileImage,
-    this.sale,
     this.rating = 0.0,
     required this.address,
     required this.contactInfoList,
     required this.categories,
     this.isActive = true,
-    required this.isFavorite,
   });
 
-  bool get hasSale => sale != null && sale!.isNotEmpty;
 
   StoreSeller copyWith({
     String? id,
@@ -39,13 +34,11 @@ class StoreSeller {
     String? description,
     String? coverImage,
     String? profileImage,
-    String? sale,
     double? rating,
     Address? address,
     List<ContactInfo>? contactInfoList,
     List<Category>? categories,
     bool? isActive,
-    bool? isFavorite,
   }) {
     return StoreSeller(
       id: id ?? this.id,
@@ -53,13 +46,11 @@ class StoreSeller {
       description: description ?? this.description,
       coverImage: coverImage ?? this.coverImage,
       profileImage: profileImage ?? this.profileImage,
-      sale: sale ?? this.sale,
       rating: rating ?? this.rating,
       address: address ?? this.address,
       categories: categories ?? this.categories,
       contactInfoList: contactInfoList ?? this.contactInfoList,
       isActive: isActive ?? this.isActive,
-      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 }

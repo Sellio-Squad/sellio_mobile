@@ -29,7 +29,6 @@ class StoreRepositoryImpl implements StoreRepository {
         ),
         contactInfoList: [],
         categories: [],
-        isFavorite: false,
         isActive: true,
       );
     });
