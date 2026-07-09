@@ -20,8 +20,8 @@ class ProductSummaryModel with _$ProductSummaryModel {
     return ProductSummaryModel(
       id: json['id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      image: json['image']?.toString() ?? '',
+      price: (json['minPrice'] as num?)?.toDouble() ?? 0.0,
+      image: json['mainImageUrl']?.toString() ?? '',
       isFavorite: json['isFavorite'] as bool? ?? false,
     );
   }
