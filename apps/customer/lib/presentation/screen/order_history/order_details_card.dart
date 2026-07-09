@@ -3,6 +3,7 @@ import 'package:design_system/themes/sellio_theme_provider.dart';
 import 'package:design_system/widgets/buttons/sellio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../domain/entities/order.dart';
 import '../../utils/date_format.dart';
