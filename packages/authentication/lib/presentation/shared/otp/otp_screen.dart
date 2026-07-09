@@ -2,9 +2,10 @@ import 'package:core/error/result.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/localization/auth_localization_service.dart';
-import '../../../../domain/repositories/auth_repository.dart';
+
 import '../../../../core/constants/auth_constants.dart';
+import '../../../../core/localization/auth_localization_service.dart';
+import '../../../domain/repository/auth_repository.dart';
 import '../../navigation/auth_navigator.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';

@@ -10,8 +10,8 @@ import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/navigation_extensions.dart';
 import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
-import 'domain/repositories/category_repository.dart';
-import 'domain/repositories/store_repository.dart';
+import 'domain/repository/category_repository.dart';
+import 'domain/repository/store_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
