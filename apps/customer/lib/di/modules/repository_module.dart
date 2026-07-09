@@ -1,26 +1,26 @@
 import 'package:core/core.dart';
 import 'package:get_it/get_it.dart';
-import 'package:sellio_mobile/data/repositories/favorites_repository_impl.dart';
+import 'package:sellio_mobile/data/repository/favorites_repository_impl.dart';
 
-import '../../../data/repositories/store_repository_impl.dart';
-import '../../../domain/repositories/store_repository.dart';
-import '../../data/repositories/cart_repository_impl.dart';
-import '../../data/repositories/category_details_repository_impl.dart';
-import '../../data/repositories/category_repository_impl.dart';
-import '../../data/repositories/category_section_repository_impl.dart';
-import '../../data/repositories/offers_repository_impl.dart';
-import '../../data/repositories/order_repository_impl.dart';
-import '../../data/repositories/product_repository_impl.dart';
-import '../../data/repositories/search_repository_impl.dart';
-import '../../domain/repositories/cart_repository.dart';
-import '../../domain/repositories/category_details_repository.dart';
-import '../../domain/repositories/category_repository.dart';
-import '../../domain/repositories/category_section_repository.dart';
-import '../../domain/repositories/favorites_repository.dart';
-import '../../domain/repositories/offers_repository.dart';
-import '../../domain/repositories/order_repository.dart';
-import '../../domain/repositories/product_repository.dart';
-import '../../domain/repositories/search_repository.dart';
+import '../../../data/repository/store_repository_impl.dart';
+import '../../../domain/repository/store_repository.dart';
+import '../../data/repository/cart_repository_impl.dart';
+import '../../data/repository/category_details_repository_impl.dart';
+import '../../data/repository/category_repository_impl.dart';
+import '../../data/repository/category_section_repository_impl.dart';
+import '../../data/repository/offers_repository_impl.dart';
+import '../../data/repository/order_repository_impl.dart';
+import '../../data/repository/product_repository_impl.dart';
+import '../../data/repository/search_repository_impl.dart';
+import '../../domain/repository/cart_repository.dart';
+import '../../domain/repository/category_details_repository.dart';
+import '../../domain/repository/category_repository.dart';
+import '../../domain/repository/category_section_repository.dart';
+import '../../domain/repository/favorites_repository.dart';
+import '../../domain/repository/offers_repository.dart';
+import '../../domain/repository/order_repository.dart';
+import '../../domain/repository/product_repository.dart';
+import '../../domain/repository/search_repository.dart';
 
 class RepositoryModule {
   static void register(GetIt sl) {

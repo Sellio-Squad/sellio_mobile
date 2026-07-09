@@ -2,9 +2,10 @@ import 'package:core/error/result.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/localization/auth_localization_service.dart';
-import '../../../../domain/repositories/auth_repository.dart';
+
 import '../../../../core/constants/auth_constants.dart';
+import '../../../../core/localization/auth_localization_service.dart';
+import '../../../domain/repository/auth_repository.dart';
 import '../../navigation/auth_navigator.dart';
 import 'cubit/otp_cubit.dart';
 import 'cubit/otp_state.dart';
@@ -19,6 +20,8 @@ class OtpScreen extends StatelessWidget {
   final int otpLength;
   final AuthRepository authRepository;
   final AuthNavigator navigator;
+  final bool showBackButton;
+  final bool showCloseButton;
 
   const OtpScreen({
     super.key,
@@ -30,6 +33,8 @@ class OtpScreen extends StatelessWidget {
     this.otpLength = AuthConstants.otpLength,
     required this.authRepository,
     required this.navigator,
+    this.showBackButton = true,
+    this.showCloseButton = true,
   });
 
   @override
@@ -47,6 +52,8 @@ class OtpScreen extends StatelessWidget {
         onVerifySuccess: onVerifySuccess,
         otpLength: otpLength,
         navigator: navigator,
+        showBackButton: showBackButton,
+        showCloseButton: showCloseButton,
       ),
     );
   }
@@ -59,6 +66,8 @@ class _OtpScreenContent extends StatefulWidget {
   final VoidCallback onVerifySuccess;
   final int otpLength;
   final AuthNavigator navigator;
+  final bool showBackButton;
+  final bool showCloseButton;
 
   const _OtpScreenContent({
     required this.title,
@@ -67,6 +76,8 @@ class _OtpScreenContent extends StatefulWidget {
     required this.onVerifySuccess,
     required this.otpLength,
     required this.navigator,
+    required this.showBackButton,
+    required this.showCloseButton,
   });
 
   @override
@@ -105,11 +116,12 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
         child: AuthBackgroundWrapper(
           containerPadding: const EdgeInsets.symmetric(vertical: 16),
           showLogo: true,
+          showCloseButton: widget.showCloseButton,
           child: Scaffold(
             backgroundColor: colors.surfaceLow,
             appBar: SellioAppBar(
               title: widget.title,
-              showBackButton: true,
+              showBackButton: widget.showBackButton,
             ),
             body: SafeArea(
               child: Padding(

@@ -1,8 +1,10 @@
 import 'dart:async';
+
 import 'package:core/error/result.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../domain/repositories/auth_repository.dart';
+
 import '../../../../core/constants/auth_constants.dart';
+import '../../../../domain/repository/auth_repository.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpState> {

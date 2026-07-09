@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../domain/entities/cart.dart';
 import '../../../../domain/entities/order.dart';
-import '../../../../domain/repositories/cart_repository.dart';
-import '../../../../domain/repositories/order_repository.dart';
+import '../../../../domain/repository/cart_repository.dart';
+import '../../../../domain/repository/order_repository.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
