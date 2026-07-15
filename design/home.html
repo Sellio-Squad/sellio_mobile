@@ -305,8 +305,8 @@
       background: var(--color-surface);
     }
     .category-img {
-      width: 56px;
-      height: 56px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -318,6 +318,14 @@
     .category-img svg {
       width: 24px;
       height: 24px;
+    }
+    .category-img.more-circle {
+      background: #F5F5F5;
+      border: 1.5px solid #CACACA;
+    }
+    .category-img.more-circle svg {
+      width: 32px;
+      height: 32px;
     }
     .category-img img {
       width: 100%;
@@ -372,6 +380,11 @@
       font-size: 48px;
       opacity: 0.5;
     }
+    .product-card .img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .product-card .fav-btn {
       position: absolute;
       top: 8px;
@@ -389,8 +402,8 @@
       z-index: 2;
     }
     .product-card .fav-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: var(--color-primary);
     }
     .product-card .fav-btn.favorited svg {
@@ -398,22 +411,40 @@
     }
     .product-card .discount-tag {
       position: absolute;
-      top: 8px;
+      top: 10px;
       left: 0;
+      z-index: 2;
+      width: 70px;
+      height: 34px;
       display: flex;
       align-items: center;
-      gap: 2px;
-      background: var(--color-secondary);
-      color: #fff;
-      padding: 4px 10px 4px 8px;
-      border-radius: 0 4px 4px 0;
-      font: var(--text-label-small);
-      z-index: 2;
+      justify-content: center;
     }
-    .product-card .discount-tag svg {
-      width: 14px;
-      height: 14px;
-      fill: #fff;
+    .product-card .discount-tag .discount-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .product-card .discount-tag .discount-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 12px;
+      padding-right: 12px;
+      padding-bottom: 6px;
+    }
+    .product-card .discount-tag .discount-content svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .product-card .discount-tag .discount-content span {
+      font: var(--text-label-small);
+      color: var(--color-secondary);
+      white-space: nowrap;
     }
     .product-card .card-content {
       padding: 10px;
@@ -464,8 +495,9 @@
     }
     .product-card .add-btn:active { opacity: 0.8; }
     .product-card .add-btn svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
+      filter: brightness(0) invert(1);
     }
 
     /* Trending section spacing */
@@ -501,6 +533,12 @@
       align-items: center;
       justify-content: center;
       font-size: 48px;
+      overflow: hidden;
+    }
+    .store-card .store-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .store-card .store-overlay {
       position: absolute;
@@ -520,8 +558,8 @@
     }
     .store-card .fav-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 4px;
+      right: 4px;
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -535,8 +573,8 @@
       z-index: 2;
     }
     .store-card .fav-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: var(--color-primary);
     }
     .store-card .fav-btn.favorited svg {
@@ -544,22 +582,41 @@
     }
     .store-card .store-discount {
       position: absolute;
-      top: 8px;
-      left: 0;
+      top: 10px;
+      left: 10px;
+      z-index: 2;
+      width: 70px;
+      height: 34px;
       display: flex;
       align-items: center;
-      gap: 2px;
-      background: var(--color-secondary);
-      color: #fff;
-      padding: 4px 10px 4px 8px;
-      border-radius: 0 4px 4px 0;
-      font: var(--text-label-small);
-      z-index: 2;
+      justify-content: center;
     }
-    .store-card .store-discount svg {
-      width: 14px;
-      height: 14px;
-      fill: #fff;
+    .store-card .store-discount .discount-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .store-card .store-discount .discount-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding-left: 12px;
+      padding-right: 12px;
+      padding-bottom: 6px;
+    }
+    .store-card .store-discount .discount-content svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      color: var(--color-secondary);
+    }
+    .store-card .store-discount .discount-content span {
+      font: var(--text-label-small);
+      color: var(--color-secondary);
+      white-space: nowrap;
     }
 
     /* Bottom nav */
@@ -650,6 +707,108 @@
 
 
 
+    /* Guest state overlay */
+    .guest-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: var(--color-surface);
+      z-index: 200;
+      flex-direction: column;
+    }
+    .guest-overlay.show {
+      display: flex;
+    }
+    .guest-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      text-align: center;
+    }
+    .guest-icon-circle {
+      width: 113px;
+      height: 113px;
+      border-radius: 50%;
+      background: var(--color-red-variant);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .guest-icon-circle svg {
+      width: 64px;
+      height: 64px;
+    }
+    .guest-title {
+      font: var(--text-title-medium);
+      color: rgba(31,31,31,0.87);
+      margin: 12px 0 4px;
+    }
+    .guest-desc {
+      font: var(--text-body-small);
+      color: var(--color-body-text);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .guest-login-btn {
+      font: var(--text-label-medium);
+      color: var(--color-on-primary);
+      background: var(--color-primary);
+      border: none;
+      border-radius: var(--button-radius);
+      padding: 13px 24px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .guest-login-btn:active { opacity: 0.85; }
+
+    /* Add-to-cart counter */
+    .counter-wrap {
+      display: flex;
+      align-items: center;
+      height: 32px;
+    }
+    .counter-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+    .counter-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    .counter-btn.minus {
+      background: var(--color-surface);
+    }
+    .counter-btn.minus svg {
+      fill: var(--color-body-text);
+      filter: none;
+    }
+    .counter-btn.plus {
+      background: var(--color-primary-variant);
+    }
+    .counter-btn.plus svg {
+      fill: var(--color-primary);
+      filter: none;
+    }
+    .counter-value {
+      font: var(--text-label-medium);
+      color: var(--color-title-text);
+      min-width: 24px;
+      text-align: center;
+      padding: 0 10px;
+    }
+
+    /* Discount banner - removed, using DiscountTag chips instead */
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -692,6 +851,26 @@
 
         <div class="gradient-bg" style="position:absolute;top:0;left:0;right:0;height:256px;background:linear-gradient(180deg, rgba(82,8,38,0.16) 0%, transparent 100%);z-index:0;pointer-events:none;"></div>
 
+        <!-- Guest overlay -->
+        <div class="guest-overlay" id="guest-overlay">
+          <div class="statusbar">
+            <span style="font-variant-numeric: tabular-nums;">9:41</span>
+            <span class="right">
+              <svg viewBox="0 0 17 11" aria-hidden><rect x="0"  y="7" width="3" height="4" rx="0.6"/><rect x="4"  y="5" width="3" height="6" rx="0.6"/><rect x="8"  y="3" width="3" height="8" rx="0.6"/><rect x="12" y="0" width="3" height="11" rx="0.6"/></svg>
+              <svg viewBox="0 0 17 11" aria-hidden><path d="M8.5 1.5C5.5 1.5 2.7 2.6 0.5 4.6L2 6.1C3.8 4.5 6.1 3.6 8.5 3.6c2.4 0 4.7 0.9 6.5 2.5l1.5-1.5c-2.2-2-5-3.1-8-3.1zM3.5 7.6L5 9.1c1-0.9 2.2-1.4 3.5-1.4 1.3 0 2.5 0.5 3.5 1.4l1.5-1.5c-1.4-1.3-3.1-2-5-2-1.9 0-3.6 0.7-5 2zM6.5 10.6l2 2 2-2c-0.5-0.5-1.2-0.8-2-0.8s-1.5 0.3-2 0.8z"/></svg>
+              <svg class="battery" viewBox="0 0 25 11" aria-hidden><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-opacity="0.45"/><rect x="22" y="3.5" width="1.5" height="4" rx="0.4" fill="currentColor" fill-opacity="0.45"/><rect x="2" y="2" width="18" height="7" rx="1.4"/></svg>
+            </span>
+          </div>
+          <div class="guest-content">
+            <div class="guest-icon-circle">
+              <svg viewBox="0 0 64 64" fill="none"><g opacity="0.4"><path d="M26.3338 6C19.3382 6 13.6671 11.6711 13.6671 18.6667C13.6671 25.6623 19.3382 31.3333 26.3338 31.3333C33.3293 31.3333 39.0005 25.6623 39.0005 18.6667C39.0005 11.6711 33.3293 6 26.3338 6Z" fill="#E54F40"/><path d="M40.1982 39.0647C31.7097 34.0895 20.9577 34.0895 12.4692 39.0647C12.2013 39.2218 11.8679 39.4069 11.4886 39.6175L11.4847 39.6197C9.79764 40.5562 7.20564 41.9951 5.43153 43.7045C4.32355 44.7722 3.23139 46.2141 3.03201 48.0098C2.81835 49.9338 3.67795 51.7095 5.32147 53.2509C8.12169 55.8767 11.5028 57.9999 15.8824 57.9999H36.7849C41.1646 57.9999 44.5457 55.877 47.346 53.2509C48.9894 51.7095 49.8489 49.9338 49.6353 48.0098C49.4358 46.2141 48.3438 44.7722 47.2358 43.7045C45.4619 41.9953 42.871 40.5569 41.184 39.6204C40.803 39.4089 40.467 39.2223 40.1982 39.0647Z" fill="#E54F40"/></g><path fill-rule="evenodd" clip-rule="evenodd" d="M42.3337 17.3334C42.3337 15.8606 43.5279 14.6667 45.0004 14.6667H58.3337C59.8065 14.6667 61.0004 15.8606 61.0004 17.3334C61.0004 18.8061 59.8065 20 58.3337 20H45.0004C43.5279 20 42.3337 18.8061 42.3337 17.3334Z" fill="#E54F40"/></svg>
+            </div>
+            <div class="guest-title">Not Registered</div>
+            <div class="guest-desc">Login to access your account</div>
+            <button class="guest-login-btn" id="guest-login-btn">Login</button>
+          </div>
+        </div>
+
         <div class="home-appbar" data-od-id="appbar">
           <div class="appbar-left">
             <div class="appbar-logo">
@@ -722,8 +901,6 @@
               <svg viewBox="0 0 24 24"><g opacity="0.4"><path d="M15 6C14.4477 6 14 6.44772 14 7C14 7.55228 14.4477 8 15 8L21 8C21.5523 8 22 7.55229 22 7C22 6.44772 21.5523 6 21 6H15Z" fill="#520826"/><path d="M3 16C2.44772 16 2 16.4477 2 17C2 17.5523 2.44772 18 3 18H9C9.55228 18 10 17.5523 10 17C10 16.4477 9.55228 16 9 16H3Z" fill="#520826"/></g><path d="M8.97475 3.25H9.02525C9.46971 3.24999 9.84076 3.24999 10.1454 3.27077C10.4625 3.29241 10.762 3.33905 11.0524 3.45933C11.7262 3.73844 12.2616 4.27379 12.5407 4.94762C12.661 5.23801 12.7076 5.53754 12.7292 5.85464C12.75 6.15924 12.75 6.53026 12.75 6.9747V7.02526C12.75 7.4697 12.75 7.84076 12.7292 8.14537C12.7076 8.46247 12.661 8.76199 12.5407 9.05238C12.2616 9.72621 11.7262 10.2616 11.0524 10.5407C10.762 10.661 10.4625 10.7076 10.1454 10.7292C9.84075 10.75 9.46972 10.75 9.02526 10.75H8.97474C8.53028 10.75 8.15925 10.75 7.85464 10.7292C7.53754 10.7076 7.23801 10.661 6.94762 10.5407C6.27379 10.2616 5.73844 9.72621 5.45933 9.05238C5.33905 8.76199 5.29241 8.46247 5.27077 8.14537C5.26757 8.09849 5.26487 8.05005 5.26258 8H3C2.44772 8 2 7.55229 2 7C2 6.44772 2.44772 6 3 6H5.26258C5.26487 5.94996 5.26757 5.90151 5.27077 5.85464C5.29241 5.53754 5.33905 5.23801 5.45933 4.94762C5.73844 4.27379 6.27379 3.73844 6.94762 3.45933C7.23801 3.33905 7.53754 3.29241 7.85464 3.27077C8.15925 3.24999 8.53029 3.24999 8.97475 3.25Z" fill="#520826"/><path d="M18.7374 18C18.7351 18.05 18.7324 18.0985 18.7292 18.1454C18.7076 18.4625 18.661 18.762 18.5407 19.0524C18.2616 19.7262 17.7262 20.2616 17.0524 20.5407C16.762 20.661 16.4625 20.7076 16.1454 20.7292C15.8408 20.75 15.4698 20.75 15.0253 20.75H14.9747C14.5303 20.75 14.1592 20.75 13.8546 20.7292C13.5375 20.7076 13.238 20.661 12.9476 20.5407C12.2738 20.2616 11.7384 19.7262 11.4593 19.0524C11.339 18.762 11.2924 18.4625 11.2708 18.1454C11.25 17.8408 11.25 17.4698 11.25 17.0253V16.9747C11.25 16.5303 11.25 16.1592 11.2708 15.8546C11.2924 15.5375 11.339 15.238 11.4593 14.9476C11.7384 14.2738 12.2738 13.7384 12.9476 13.4593C13.238 13.339 13.5375 13.2924 13.8546 13.2708C14.1592 13.25 14.5302 13.25 14.9747 13.25H15.0253C15.4697 13.25 15.8408 13.25 16.1454 13.2708C16.4625 13.2924 16.762 13.339 17.0524 13.4593C17.7262 13.7384 18.2616 14.2738 18.5407 14.9476C18.661 15.238 18.7076 15.5375 18.7292 15.8546C18.7324 15.9015 18.7351 15.95 18.7374 16H21C21.5523 16 22 16.4477 22 17C22 17.5523 21.5523 18 21 18H18.7374Z" fill="#520826"/></svg>
             </button>
           </div>
-
-
 
           <!-- Categories -->
           <div class="categories-section" data-od-id="categories-section">
@@ -769,13 +946,25 @@
       window.location.href = 'login.html';
     }
 
+    const isGuest = sessionStorage.getItem('isGuest') === 'true';
+
+    // Guest login button
+    document.getElementById('guest-login-btn').addEventListener('click', () => {
+      sessionStorage.removeItem('isGuest');
+      sessionStorage.setItem('loginRedirect', 'true');
+      window.location.href = 'login.html';
+    });
+
     // Flutter SVG icons
     const ICONS = {
       heart: `<svg viewBox="0 0 18 17" fill="none"><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M2.41241 0.920962C4.89656-0.602813 7.12508 0.00447571 8.47136 1.01551C8.69284 1.18183 8.84485 1.29567 8.95801 1.37254C9.07117 1.29567 9.22317 1.18183 9.44465 1.01551C10.7909 0.00447571 13.0195-0.602813 15.5036 0.920962C17.2213 1.9746 18.1878 4.1755 17.8487 6.70426C17.5079 9.24522 15.8632 12.1191 12.3802 14.6971C12.3511 14.7186 12.3222 14.74 12.2935 14.7613C11.0841 15.657 10.2831 16.2503 8.95801 16.2503C7.63296 16.2503 6.83197 15.657 5.62248 14.7613C5.59382 14.74 5.56492 14.7186 5.53579 14.6971C2.05278 12.1191 0.40813 9.24522 0.06734 6.70426C-0.271814 4.1755 0.694712 1.9746 2.41241 0.920962ZM8.82739 1.45308C8.82471 1.45429 8.82519 1.45389 8.82855 1.45254C8.82812 1.45274 8.82773 1.45292 8.82739 1.45308ZM9.08746 1.45254C9.09083 1.45389 9.09131 1.45429 9.08863 1.45308C9.08829 1.45292 9.0879 1.45274 9.08746 1.45254ZM7.72074 2.01504C6.72363 1.26623 5.05127 0.768712 3.066 1.98648C1.85089 2.73182 1.0192 4.39788 1.30625 6.5381C1.59165 8.66612 2.99761 11.2633 6.27945 13.6924C7.59792 14.6682 8.07915 15.0003 8.95801 15.0003C9.83687 15.0003 10.3181 14.6682 11.6366 13.6924C14.9184 11.2633 16.3244 8.66612 16.6098 6.5381C16.8968 4.39788 16.0651 2.73182 14.85 1.98648C12.8647 0.768712 11.1924 1.26623 10.1953 2.01504L10.1779 2.02813C9.95253 2.19735 9.75899 2.3427 9.60417 2.44406C9.5237 2.49674 9.4346 2.55039 9.34212 2.59218C9.25436 2.63184 9.11954 2.68145 8.95801 2.68145C8.79648 2.68145 8.66166 2.63184 8.57389 2.59218C8.48142 2.55039 8.39231 2.49674 8.31185 2.44406C8.15702 2.3427 7.96346 2.19733 7.73813 2.0281L7.72074 2.01504Z" fill="#520826"/><path fill-rule="evenodd" clip-rule="evenodd" d="M2.41241 0.920962C4.89656-0.602813 7.12508 0.00447571 8.47136 1.01551C8.719 1.20148 8.87978 1.32182 8.99652 1.39825C9.02758 1.41858 9.04987 1.432 9.06494 1.44056C9.35917 1.49129 9.58301 1.74773 9.58301 2.05645C9.58301 2.40163 9.30319 2.68145 8.95801 2.68145C8.79648 2.68145 8.66166 2.63184 8.57389 2.59218C8.48142 2.55039 8.39231 2.49674 8.31185 2.44406C8.15702 2.3427 7.96347 2.19733 7.73813 2.0281L7.72074 2.01504C6.72363 1.26623 5.05127 0.768712 3.066 1.98648C1.85089 2.73182 1.0192 4.39788 1.30625 6.5381C1.59165 8.66612 2.99761 11.2633 6.27945 13.6924C7.59792 14.6682 8.07915 15.0003 8.95801 15.0003C9.30319 15.0003 9.58301 15.2801 9.58301 15.6253C9.58301 15.9704 9.30319 16.2503 8.95801 16.2503C7.63296 16.2503 6.83197 15.657 5.62248 14.7613C5.59382 14.74 5.56492 14.7186 5.53579 14.6971C2.05278 12.1191 0.40813 9.24522 0.06734 6.70426C-0.271814 4.1755 0.694712 1.9746 2.41241 0.920962ZM9.08863 1.45308C9.08829 1.45292 9.0879 1.45274 9.08747 1.45254C9.09083 1.45389 9.09131 1.45429 9.08863 1.45308Z" fill="#520826"/></svg>`,
       heartFav: `<svg viewBox="0 0 20 20" fill="none"><path d="M3.45416 2.79596C5.93831 1.27219 8.16683 1.87948 9.51311 2.89051C9.73459 3.05683 9.8866 3.17067 9.99975 3.24754C10.1129 3.17067 10.2649 3.05683 10.4864 2.89051C11.8327 1.87948 14.0612 1.27219 16.5454 2.79596C18.2631 3.8496 19.2296 6.0505 18.8904 8.57926C18.5496 11.1202 16.905 13.9941 13.422 16.5721C12.2125 17.4678 11.3248 18.1253 9.99976 18.1253C8.67471 18.1253 7.78702 17.4678 6.57754 16.5721C3.09453 13.9941 1.44988 11.1202 1.10909 8.57926C0.769934 6.0505 1.73646 3.8496 3.45416 2.79596Z" fill="#520826"/></svg>`,
-      smallCart: `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.77969 5.625C3.79359 5.625 3.80754 5.625 3.82152 5.625L16.2206 5.625C16.6308 5.62495 17.0045 5.6249 17.3036 5.66863C17.6325 5.71671 17.9829 5.8317 18.2439 6.15045C18.5021 6.46573 18.5502 6.83096 18.5407 7.16305C18.5319 7.46983 18.4689 7.8453 18.3988 8.26324L18.1602 9.68666C18.1031 10.0271 17.7809 10.2568 17.4405 10.1997C17.1 10.1427 16.8703 9.82043 16.9274 9.48L17.1593 8.09651C17.2382 7.62587 17.2852 7.33705 17.2912 7.12716C17.294 7.02955 17.2863 6.97871 17.2804 6.95489C17.279 6.94951 17.2778 6.94594 17.2771 6.94386C17.2761 6.94336 17.2749 6.94277 17.2735 6.9421C17.2565 6.93424 17.2138 6.91878 17.1228 6.90548C16.9251 6.87658 16.6447 6.875 16.1788 6.875L3.82152 6.875C3.35559 6.875 3.0752 6.87658 2.8775 6.90548C2.78654 6.91878 2.74381 6.93424 2.72686 6.9421C2.72542 6.94277 2.72421 6.94336 2.72322 6.94386C2.72247 6.94594 2.72131 6.9495 2.71996 6.95489C2.71398 6.9787 2.70629 7.02955 2.70909 7.12716C2.71512 7.33705 2.7621 7.62587 2.841 8.09651L3.84397 14.0795C4.01277 15.0865 4.13112 15.786 4.28584 16.3104C4.43606 16.8196 4.60024 17.0877 4.81411 17.273C5.02609 17.4567 5.30534 17.5751 5.81177 17.6399C6.33689 17.7071 7.02363 17.7083 8.01834 17.7083H10.0002C10.3453 17.7083 10.6252 17.9882 10.6252 18.3333C10.6252 18.6785 10.3453 18.9583 10.0002 18.9583H7.9764C7.03378 18.9583 6.26675 18.9584 5.65301 18.8798C5.0115 18.7976 4.46229 18.6221 3.99562 18.2178C3.53085 17.8151 3.27259 17.2935 3.08693 16.6641C2.90823 16.0584 2.77837 15.2837 2.61783 14.3259L1.6082 8.30317C1.60596 8.28983 1.60373 8.27653 1.60151 8.26327C1.5314 7.84532 1.46842 7.46984 1.4596 7.16305C1.45007 6.83096 1.4982 6.46573 1.75641 6.15045C2.01746 5.8317 2.36779 5.71671 2.69667 5.66863C2.9958 5.6249 3.36951 5.62495 3.77969 5.625Z" fill="#520826"/><g opacity="0.4"><path d="M6.04157 6.24998C6.04157 4.06385 7.81377 2.29165 9.9999 2.29165C12.186 2.29165 13.9582 4.06385 13.9582 6.24998L15.2082 6.24998C15.2082 3.3735 12.8764 1.04165 9.9999 1.04165C7.12342 1.04165 4.79157 3.3735 4.79157 6.24998L6.04157 6.24998Z" fill="#520826"/><path d="M15.6249 11.6666C15.6249 11.3215 15.3451 11.0416 14.9999 11.0416C14.6547 11.0416 14.3749 11.3215 14.3749 11.6666L14.3749 14.375L11.6666 14.375C11.3214 14.375 11.0416 14.6548 11.0416 15C11.0416 15.3452 11.3214 15.625 11.6666 15.625L14.3749 15.625L14.3749 18.3333C14.3749 18.6785 14.6547 18.9583 14.9999 18.9583C15.3451 18.9583 15.6249 18.6785 15.6249 18.3333L15.6249 15.625L18.3332 15.625C18.6784 15.625 18.9582 15.3452 18.9582 15C18.9582 14.6548 18.6784 14.375 18.3332 14.375L15.6249 14.375L15.6249 11.6666Z" fill="#520826"/></g></svg>`,
+      smallCart: `<svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M3.77969 5.625C3.79359 5.625 3.80754 5.625 3.82152 5.625L16.2206 5.625C16.6308 5.62495 17.0045 5.6249 17.3036 5.66863C17.6325 5.71671 17.9829 5.8317 18.2439 6.15045C18.5021 6.46573 18.5502 6.83096 18.5407 7.16305C18.5319 7.46983 18.4689 7.8453 18.3988 8.26324L18.1602 9.68666C18.1031 10.0271 17.7809 10.2568 17.4405 10.1997C17.1 10.1427 16.8703 9.82043 16.9274 9.48L17.1593 8.09651C17.2382 7.62587 17.2852 7.33705 17.2912 7.12716C17.294 7.02955 17.2863 6.97871 17.2804 6.95489C17.279 6.94951 17.2778 6.94594 17.2771 6.94386C17.2761 6.94336 17.2749 6.94277 17.2735 6.9421C17.2565 6.93424 17.2138 6.91878 17.1228 6.90548C16.9251 6.87658 16.6447 6.875 16.1788 6.875L3.82152 6.875C3.35559 6.875 3.0752 6.87658 2.8775 6.90548C2.78654 6.91878 2.74381 6.93424 2.72686 6.9421C2.72542 6.94277 2.72421 6.94336 2.72322 6.94386C2.72247 6.94594 2.72131 6.9495 2.71996 6.95489C2.71398 6.9787 2.70629 7.02955 2.70909 7.12716C2.71512 7.33705 2.7621 7.62587 2.841 8.09651L3.84397 14.0795C4.01277 15.0865 4.13112 15.786 4.28584 16.3104C4.43606 16.8196 4.60024 17.0877 4.81411 17.273C5.02609 17.4567 5.30534 17.5751 5.81177 17.6399C6.33689 17.7071 7.02363 17.7083 8.01834 17.7083H10.0002C10.3453 17.7083 10.6252 17.9882 10.6252 18.3333C10.6252 18.6785 10.3453 18.9583 10.0002 18.9583H7.9764C7.03378 18.9583 6.26675 18.9584 5.65301 18.8798C5.0115 18.7976 4.46229 18.6221 3.99562 18.2178C3.53085 17.8151 3.27259 17.2935 3.08693 16.6641C2.90823 16.0584 2.77837 15.2837 2.61783 14.3259L1.6082 8.30317C1.60596 8.28983 1.60373 8.27653 1.60151 8.26327C1.5314 7.84532 1.46842 7.46984 1.4596 7.16305C1.45007 6.83096 1.4982 6.46573 1.75641 6.15045C2.01746 5.8317 2.36779 5.71671 2.69667 5.66863C2.9958 5.6249 3.36951 5.62495 3.77969 5.625Z" fill="#520826"/><g opacity="0.4"><path d="M6.04157 6.24998C6.04157 4.06385 7.81377 2.29165 9.9999 2.29165C12.186 2.29165 13.9582 4.06385 13.9582 6.24998L15.2082 6.24998C15.2082 3.3735 12.8764 1.04165 9.9999 1.04165C7.12342 1.04165 4.79157 3.3735 4.79157 6.24998L6.04157 6.24998Z" fill="#520826"/><path d="M15.6249 11.6666C15.6249 11.3215 15.3451 11.0416 14.9999 11.0416C14.6547 11.0416 14.3749 11.3215 14.3749 11.6666L14.3749 14.375L11.6666 14.375C11.3214 14.375 11.0416 14.6548 11.0416 15C11.0416 15.3452 11.3214 15.625 11.6666 15.625L14.3749 15.625L14.3749 18.3333C14.3749 18.6785 14.6547 18.9583 14.9999 18.9583C15.3451 18.9583 15.6249 18.6785 15.6249 18.3333L15.6249 15.625L18.3332 15.625C18.6784 15.625 18.9582 15.3452 18.9582 15C18.9582 14.6548 18.6784 14.375 18.3332 14.375L15.6249 14.375L15.6249 11.6666Z" fill="#520826"/></g></svg>`,
       add: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12.0555 1.25H11.9446C10.33 1.24998 9.04245 1.24997 8.03292 1.38474C6.99081 1.52385 6.13306 1.81872 5.45405 2.49291C4.59078 3.35007 4.34077 4.49906 4.25143 5.95404C4.22605 6.36747 4.54063 6.72321 4.95406 6.74859C5.3675 6.77398 5.72323 6.4594 5.74861 6.04596C5.83359 4.66205 6.06186 4.00324 6.51093 3.55734C6.86438 3.20641 7.35369 2.98872 8.2314 2.87155C9.13013 2.75157 10.3173 2.75 12 2.75C13.6828 2.75 14.8699 2.75157 15.7687 2.87155C16.6464 2.98872 17.1357 3.20641 17.4891 3.55734C17.9382 4.00324 18.1665 4.66205 18.2514 6.04596C18.2768 6.4594 18.6326 6.77398 19.046 6.74859C19.4594 6.72321 19.774 6.36747 19.7486 5.95404C19.6593 4.49906 19.4093 3.35007 18.546 2.49291C17.867 1.81872 17.0092 1.52385 15.9671 1.38474C14.9576 1.24997 13.6701 1.24998 12.0555 1.25Z" fill="#1F1F1F" fill-opacity="0.87"/><path d="M19.7486 18.046C19.774 17.6325 19.4594 17.2768 19.046 17.2514C18.6326 17.226 18.2768 17.5406 18.2514 17.954C18.1665 19.3379 17.9382 19.9968 17.4891 20.4427C17.1357 20.7936 16.6464 21.0113 15.7687 21.1285C14.8699 21.2484 13.6828 21.25 12 21.25C10.3173 21.25 9.13013 21.2484 8.23139 21.1285C7.35369 21.0113 6.86438 20.7936 6.51093 20.4427C6.06186 19.9968 5.83359 19.338 5.74861 17.954C5.72323 17.5406 5.3675 17.226 4.95406 17.2514C4.54063 17.2768 4.22605 17.6325 4.25143 18.046C4.34077 19.5009 4.59078 20.6499 5.45405 21.5071C6.13306 22.1813 6.99081 22.4762 8.03292 22.6153C9.04244 22.75 10.3299 22.75 11.9445 22.75H12.0555C13.6701 22.75 14.9576 22.75 15.9671 22.6153C17.0092 22.4762 17.867 22.1813 18.546 21.5071C19.4093 20.6499 19.6593 19.5009 19.7486 18.046Z" fill="#1F1F1F" fill-opacity="0.87"/><path d="M11 18.25C10.5858 18.25 10.25 18.5858 10.25 19C10.25 19.4142 10.5858 19.75 11 19.75H13C13.4142 19.75 13.75 19.4142 13.75 19C13.75 18.5858 13.4142 18.25 13 18.25H11Z" fill="#1F1F1F" fill-opacity="0.87"/><g opacity="0.4"><path d="M7.0392 9.52131C7.32711 9.22352 7.3191 8.74871 7.02131 8.4608C6.72352 8.17289 6.24871 8.1809 5.9608 8.47869L4.39695 10.0962C4.10109 10.4021 3.82938 10.6831 3.63815 10.9423C3.42684 11.2288 3.25 11.5706 3.25 12C3.25 12.4294 3.42684 12.7712 3.63815 13.0577C3.82938 13.3169 4.10109 13.5979 4.39696 13.9038L5.9608 15.5213C6.24871 15.8191 6.72352 15.8271 7.02131 15.5392C7.3191 15.2513 7.32711 14.7765 7.0392 14.4787L5.50602 12.8929C5.16919 12.5445 4.96971 12.3359 4.84526 12.1672C4.78833 12.09 4.76531 12.0446 4.75602 12.0215C4.74949 12.0053 4.7499 12.0011 4.74999 12.0002C4.7499 11.9992 4.74949 11.9947 4.75602 11.9785C4.76531 11.9554 4.78833 11.91 4.84526 11.8328C4.96971 11.6641 5.16919 11.4555 5.50602 11.1071L7.0392 9.52131Z" fill="#1F1F1F" fill-opacity="0.87"/><path d="M16.9608 9.52131C16.6729 9.22352 16.6809 8.74871 16.9787 8.4608C17.2765 8.17289 17.7513 8.1809 18.0392 8.47869L19.603 10.0962C19.8989 10.4021 20.1706 10.6831 20.3618 10.9423C20.5732 11.2288 20.75 11.5706 20.75 12C20.75 12.4294 20.5732 12.7712 20.3618 13.0577C20.1706 13.3169 19.8989 13.5979 19.603 13.9038L18.0392 15.5213C17.7513 15.8191 17.2765 15.8271 16.9787 15.5392C16.6809 15.2513 16.6729 14.7765 16.9608 14.4787L18.494 12.8929C18.8308 12.5445 19.0303 12.3359 19.1547 12.1672C19.2117 12.09 19.2347 12.0446 19.244 12.0215C19.2505 12.0053 19.2501 12.0011 19.25 12.0002C19.2501 11.9992 19.2505 11.9947 19.244 11.9785C19.2347 11.9554 19.2117 11.91 19.1547 11.8328C19.0303 11.6641 18.8308 11.4555 18.494 11.1071L16.9608 9.52131Z" fill="#1F1F1F" fill-opacity="0.87"/></g></svg>`,
-      discountTag: `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.16667 0.583333C0.844993 0.583333 0.536278 0.711216 0.306117 0.941377C0.0759556 1.17154-0.0519271 1.48025-0.0519271 1.80193V4.67693C-0.0519271 4.83821-0.0191171 4.99757 0.0447071 5.14283L5.12804 11.2262C5.3582 11.4563 5.66692 11.5842 5.98859 11.5842H8.86359C9.18527 11.5842 9.49398 11.4563 9.72415 11.2262L13.8075 7.14283C14.0376 6.91267 14.1655 6.60395 14.1655 6.28228V1.80193C14.1655 1.48025 14.0376 1.17154 13.8075 0.941377C13.5773 0.711216 13.2686 0.583333 12.9469 0.583333H1.16667ZM3.5 2.33333C4.19036 2.33333 4.75 2.89297 4.75 3.58333C4.75 4.27369 4.19036 4.83333 3.5 4.83333C2.80964 4.83333 2.25 4.27369 2.25 3.58333C2.25 2.89297 2.80964 2.33333 3.5 2.33333Z" fill="white" fill-opacity="0.87"/></svg>`,
+      discountIcon: `<svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.42938 0.488574C5.43569 0.764644 5.21701 0.99356 4.94094 0.999872C3.15116 1.04079 2.31853 1.22182 1.77017 1.77017C1.22182 2.31853 1.04079 3.15116 0.999872 4.94094C0.99356 5.21701 0.764644 5.43569 0.488574 5.42938C0.212503 5.42307-0.00617885 5.19415 0.00013328 4.91808C0.0402126 3.16516 0.197596 1.92854 1.06307 1.06307C1.92854 0.197596 3.16516 0.0402126 4.91808 0.00013328C5.19415-0.00617885 5.42307 0.212503 5.42938 0.488574ZM8.23729 0.488574C8.2436 0.212503 8.47252-0.00617885 8.74859 0.00013328C10.5015 0.0402126 11.7381 0.197596 12.6036 1.06307C13.4691 1.92854 13.6265 3.16516 13.6665 4.91808C13.6729 5.19415 13.4542 5.42307 13.1781 5.42938C12.902 5.43569 12.6731 5.21701 12.6668 4.94094C12.6259 3.15116 12.4449 2.31853 11.8965 1.77017C11.3481 1.22182 10.5155 1.04079 8.72573 0.999872C8.44966 0.99356 8.23098 0.764644 8.23729 0.488574ZM13.1781 8.23728C13.4542 8.24359 13.6729 8.47251 13.6665 8.74858C13.6265 10.5015 13.4691 11.7381 12.6036 12.6036C11.7381 13.4691 10.5015 13.6265 8.74859 13.6665C8.47252 13.6729 8.2436 13.4542 8.23729 13.1781C8.23098 12.902 8.44966 12.6731 8.72573 12.6668C10.5155 12.6259 11.3481 12.4449 11.8965 11.8965C12.4449 11.3481 12.6259 10.5155 12.6668 8.72572C12.6731 8.44965 12.902 8.23097 13.1781 8.23728ZM0.488574 8.23729C0.764644 8.23098 0.99356 8.44966 0.999872 8.72573C1.04079 10.5155 1.22182 11.3481 1.77017 11.8965C2.31853 12.4449 3.15116 12.6259 4.94094 12.6668C5.21701 12.6731 5.43569 12.902 5.42938 13.1781C5.42307 13.4542 5.19415 13.6729 4.91808 13.6665C3.16516 13.6265 1.92854 13.4691 1.06307 12.6036C0.197596 11.8937 0.0402126 10.5015 0.00013328 8.74859C-0.00617885 8.47252 0.212503 8.2436 0.488574 8.23729Z" fill="#F5A623"/><g opacity="0.4"><path d="M3.49987 4.16667C3.49987 3.79848 3.79835 3.5 4.16654 3.5H4.17253C4.54072 3.5 4.8392 3.79848 4.8392 4.16667C4.8392 4.53486 4.54072 4.83333 4.17253 4.83333H4.16654C3.79835 4.83333 3.49987 4.53486 3.49987 4.16667Z" fill="#F5A623"/><path d="M8.83321 9.5C8.83321 9.13181 9.13168 8.83333 9.49988 8.83333H9.50586C9.87405 8.83333 10.1725 9.13181 10.1725 9.5C10.1725 9.86819 9.87405 10.1667 9.50586 10.1667H9.49988C9.13168 10.1667 8.83321 9.86819 8.83321 9.5Z" fill="#F5A623"/><path d="M9.85355 4.52022C10.0488 4.32496 10.0488 4.00838 9.85355 3.81311C9.65829 3.61785 9.34171 3.61785 9.14644 3.81311L3.81311 9.14645C3.61785 9.34171 3.61785 9.65829 3.81311 9.85355C4.00837 10.0488 4.32495 10.0488 4.52022 9.85355L9.85355 4.52022Z" fill="#F5A623"/></g></svg>`,
+      discountFrame: `<svg width="70" height="34" viewBox="0 0 70 34" fill="none"><path d="M0 6C0 2.68629 2.68629 0 6 0H64C67.3137 0 70 2.68629 70 6V20C70 23.3137 67.3137 26 64 26H0V6Z" fill="#FEF3E1"/><path d="M6 0.25H64C67.1756 0.25 69.75 2.82436 69.75 6V20C69.75 23.1756 67.1756 25.75 64 25.75H0.25V6C0.25 2.82436 2.82436 0.25 6 0.25Z" stroke="#1F1F1F" stroke-opacity="0.12" stroke-width="0.5"/><path d="M8 34L0 26H8V34Z" fill="#FFCE7E"/></svg>`,
+      storeDiscountFrame: `<svg width="70" height="24" viewBox="0 0 70 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6C0 2.68629 2.68629 0 6 0H70V24H6C2.68629 24 0 21.3137 0 18V6Z" fill="#FEF3E1"/><path d="M6 0.25H69.75V23.75H6C2.82436 23.75 0.25 21.1756 0.25 18V6C0.25 2.82436 2.82436 0.25 6 0.25Z" stroke="#1F1F1F" stroke-opacity="0.12" stroke-width="0.5"/></svg>`,
+      upTo: `<svg viewBox="10 18 56 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 40V20" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M12 26L18 20L24 26" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="26" y="38" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="currentColor">UP</text><text x="52" y="42" font-family="Arial, sans-serif" font-size="14" font-weight="500" fill="currentColor">to</text></svg>`,
       // Bottom nav icons
       home: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 18V15V18Z" fill="#1F1F1F" fill-opacity="0.66"/><path d="M12 18V15" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.07 2.81997L3.14002 8.36997C2.36002 8.98997 1.86002 10.3 2.03002 11.28L3.36002 19.24C3.60002 20.66 4.96002 21.81 6.40002 21.81H17.6C19.03 21.81 20.4 20.65 20.64 19.24L21.97 11.28C22.13 10.3 21.63 8.98997 20.86 8.36997L13.93 2.82997C12.86 1.96997 11.13 1.96997 10.07 2.81997Z" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
       homeSelected: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.4" d="M12 1.25C11.1339 1.25 10.3597 1.52688 9.52381 1.99594C8.7139 2.45043 7.78586 3.12145 6.61887 3.96524L5.10984 5.05632C4.1733 5.73346 3.42528 6.27429 2.86109 6.77487C2.27855 7.29173 1.84274 7.807 1.5663 8.45513C1.28925 9.10469 1.22225 9.77045 1.25941 10.5381C1.29528 11.2789 1.43264 12.1727 1.60393 13.2872L1.91918 15.3387C2.16256 16.9225 2.35635 18.1836 2.64105 19.1662C2.93544 20.1821 3.35016 20.9887 4.0914 21.6052C4.82957 22.2192 5.7089 22.4926 6.78306 22.6231C7.828 22.75 9.14615 22.75 10.8111 22.75H13.1889C14.8539 22.75 16.172 22.75 17.2169 22.6231C18.2911 22.4926 19.1704 22.2192 19.9086 21.6052C20.6499 20.9887 21.0646 20.1821 21.359 19.1662C21.6437 18.1837 21.8374 16.9225 22.0808 15.3387L22.3961 13.2871C22.5674 12.1726 22.7047 11.2789 22.7406 10.5381C22.7778 9.77045 22.7108 9.10469 22.4337 8.45513C22.1573 7.807 21.7215 7.29173 21.1389 6.77487C20.5747 6.2743 19.8267 5.73347 18.8902 5.05633L17.3811 3.96525C16.2142 3.12146 15.2861 2.45043 14.4762 1.99594C13.6403 1.52688 12.8661 1.25 12 1.25Z" fill="#520826"/><path fill-rule="evenodd" clip-rule="evenodd" d="M9 18C9 17.4477 9.44772 17 10 17L14 17C14.5523 17 15 17.4477 15 18C15 18.5523 14.5523 19 14 19L10 19C9.44772 19 9 18.5523 9 18Z" fill="#520826"/></svg>`,
@@ -822,29 +1011,29 @@
       { name: 'Sports', img: 'https://picsum.photos/seed/sports/112/112', bg: '#F0F8FF' },
       { name: 'Books', img: 'https://picsum.photos/seed/books/112/112', bg: '#F8F0FF' },
       { name: 'Toys', img: 'https://picsum.photos/seed/toys/112/112', bg: '#FFFBF0' },
-      { name: 'More', iconKey: 'catAll', bg: '#F5F5F5' }
+      { name: 'More', isMore: true, bg: '#F5F5F5' }
     ];
 
     const PRODUCTS = [
-      { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', originalPrice: '450', discount: '33%', category: 'Electronics', emoji: '🎧', favorited: false },
-      { id: 2, title: 'Classic Denim Jacket', price: '189', originalPrice: '250', discount: '24%', category: 'Fashion', emoji: '🧥', favorited: true },
-      { id: 3, title: 'Stainless Steel Water Bottle', price: '79', originalPrice: null, discount: null, category: 'Home', emoji: '🍶', favorited: false },
-      { id: 4, title: 'Running Sneakers Pro', price: '450', originalPrice: '600', discount: '25%', category: 'Sports', emoji: '👟', favorited: false },
-      { id: 5, title: 'Organic Face Cream', price: '125', originalPrice: null, discount: null, category: 'Beauty', emoji: '🧴', favorited: false },
-      { id: 6, title: 'Smart Watch Series 5', price: '899', originalPrice: '1200', discount: '25%', category: 'Electronics', emoji: '⌚', favorited: true },
+      { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', originalPrice: '450', discount: '33%', category: 'Electronics', img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=320&h=320&fit=crop', favorited: false },
+      { id: 2, title: 'Classic Denim Jacket', price: '189', originalPrice: '250', discount: '24%', category: 'Fashion', img: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=320&h=320&fit=crop', favorited: true },
+      { id: 3, title: 'Stainless Steel Water Bottle', price: '79', originalPrice: null, discount: null, category: 'Home', img: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=320&h=320&fit=crop', favorited: false },
+      { id: 4, title: 'Running Sneakers Pro', price: '450', originalPrice: '600', discount: '25%', category: 'Sports', img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=320&h=320&fit=crop', favorited: false },
+      { id: 5, title: 'Organic Face Cream', price: '125', originalPrice: null, discount: null, category: 'Beauty', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=320&h=320&fit=crop', favorited: false },
+      { id: 6, title: 'Smart Watch Series 5', price: '899', originalPrice: '1200', discount: '25%', category: 'Electronics', img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=320&h=320&fit=crop', favorited: true },
     ];
 
     const STORES = [
-      { id: 1, name: 'Tech World Electronics', discount: '15% OFF', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', emoji: '💻', favorited: false },
-      { id: 2, name: 'Fashion Hub Outlet', discount: null, bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', emoji: '👗', favorited: true },
-      { id: 3, name: 'Home Essentials Store', discount: '10% OFF', bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', emoji: '🛋️', favorited: false },
+      { id: 1, name: 'Tech World Electronics', discount: '15', bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', img: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=266&fit=crop', favorited: false },
+      { id: 2, name: 'Fashion Hub Outlet', discount: null, bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', img: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=266&fit=crop', favorited: true },
+      { id: 3, name: 'Home Essentials Store', discount: '10', bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=266&fit=crop', favorited: false },
     ];
 
     // Render categories
     const categoriesGrid = document.getElementById('categories-grid');
     categoriesGrid.innerHTML = CATEGORIES.map(c => `
       <div class="category-item" data-od-id="category-${c.name.toLowerCase()}">
-        <div class="category-img" style="background:${c.bg}">${c.img ? `<img src="${c.img}" alt="${c.name}" loading="lazy" />` : (ICONS[c.iconKey] || '')}</div>
+        <div class="category-img${c.isMore ? ' more-circle' : ''}" style="background:${c.bg}">${c.isMore ? '<svg viewBox="0 0 24 24" fill="none"><circle cx="6" cy="12" r="2" fill="#1F1F1F" fill-opacity="0.66"/><circle cx="12" cy="12" r="2" fill="#1F1F1F" fill-opacity="0.66"/><circle cx="18" cy="12" r="2" fill="#1F1F1F" fill-opacity="0.66"/></svg>' : (c.img ? `<img src="${c.img}" alt="${c.name}" loading="lazy" />` : (ICONS[c.iconKey] || ''))}</div>
         <span class="category-name">${c.name}</span>
       </div>
     `).join('');
@@ -854,11 +1043,11 @@
     trendingProducts.innerHTML = PRODUCTS.map(p => `
       <div class="product-card" data-od-id="product-${p.id}">
         <div class="img-wrap">
-          <span class="img-placeholder">${p.emoji}</span>
+          <img src="${p.img}" alt="${p.title}" loading="lazy" />
           ${p.discount ? `
             <div class="discount-tag">
-              ${ICONS.discountTag}
-              ${p.discount}
+              <span class="discount-frame">${ICONS.discountFrame}</span>
+              <span class="discount-content">${ICONS.discountIcon}<span>${p.discount}</span></span>
             </div>
           ` : ''}
           <button class="fav-btn ${p.favorited ? 'favorited' : ''}" data-od-id="fav-${p.id}">
@@ -872,7 +1061,7 @@
             <span class="price">${p.price} EGP</span>
             ${p.originalPrice ? `<span class="original-price">${p.originalPrice}</span>` : ''}
           </div>
-          <button class="add-btn" data-od-id="add-${p.id}">
+          <button class="add-btn" data-od-id="add-${p.id}" data-product-id="${p.id}">
             ${ICONS.smallCart}
           </button>
         </div>
@@ -883,12 +1072,12 @@
     const storesList = document.getElementById('stores-list');
     storesList.innerHTML = STORES.map(s => `
       <div class="store-card" data-od-id="store-${s.id}">
-        <div class="store-bg" style="background:${s.bg}">${s.emoji}</div>
+        <div class="store-bg" style="background:${s.bg}"><img src="${s.img}" alt="${s.name}" loading="lazy" /></div>
         <div class="store-overlay"></div>
         ${s.discount ? `
           <div class="store-discount">
-            ${ICONS.discountTag}
-            ${s.discount}
+            <span class="discount-frame">${ICONS.discountFrame}</span>
+            <span class="discount-content">${ICONS.discountIcon}<span>${s.discount}% OFF</span></span>
           </div>
         ` : ''}
         <button class="fav-btn ${s.favorited ? 'favorited' : ''}" data-od-id="store-fav-${s.id}">
@@ -908,6 +1097,66 @@
       });
     });
 
+    // Cart state - counter for product cards
+    const cartCounts = {};
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.productId;
+        if (!id) return;
+        cartCounts[id] = (cartCounts[id] || 0) + 1;
+        renderCounter(btn, id);
+      });
+    });
+
+    function renderCounter(btn, id) {
+      const count = cartCounts[id] || 0;
+      if (count === 0) {
+        btn.outerHTML = `<button class="add-btn" data-od-id="add-${id}" data-product-id="${id}">${ICONS.smallCart}</button>`;
+        const newBtn = document.querySelector(`[data-product-id="${id}"]`);
+        if (newBtn) {
+          newBtn.addEventListener('click', () => {
+            cartCounts[id] = (cartCounts[id] || 0) + 1;
+            renderCounter(newBtn, id);
+          });
+        }
+        return;
+      }
+      const deleteIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 3C4.5 2.17157 5.17157 1.5 6 1.5H10C10.8284 1.5 11.5 2.17157 11.5 3V4H12.5C12.7761 4 13 4.22386 13 4.5V5.5C13 5.77614 12.7761 6 12.5 6H12.3L11.8 13C11.75 13.5523 11.2977 14 10.7455 14H5.25453C4.7023 14 4.25 13.5523 4.2 13L3.7 6H3.5C3.22386 6 3 5.77614 3 5.5V4.5C3 4.22386 3.22386 4 3.5 4H4.5V3ZM6 3H10V4H6V3ZM5 6L5.45 12.5H10.55L11 6H5Z" fill="${getComputedStyle(document.documentElement).getPropertyValue('--color-body-text').trim()}"/></svg>`;
+      const minusIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.83325 8.00002C1.83325 7.53978 2.20635 7.16669 2.66659 7.16669L13.3333 7.16669C13.7935 7.16669 14.1666 7.53978 14.1666 8.00002C14.1666 8.46026 13.7935 8.83335 13.3333 8.83335L2.66659 8.83335C2.20635 8.83335 1.83325 8.46026 1.83325 8.00002Z" fill="#1F1F1F" fill-opacity="0.66"/></svg>`;
+      const plusIcon = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 2.66669C8.36819 2.66669 8.66667 2.96516 8.66667 3.33335V7.33335H12.6667C13.0349 7.33335 13.3333 7.63183 13.3333 8.00002C13.3333 8.36821 13.0349 8.66669 12.6667 8.66669H8.66667V12.6667C8.66667 13.0349 8.36819 13.3333 8 13.3333C7.63181 13.3333 7.33333 13.0349 7.33333 12.6667V8.66669H3.33333C2.96514 8.66669 2.66667 8.36821 2.66667 8.00002C2.66667 7.63183 2.96514 7.33335 3.33333 7.33335H7.33333V3.33335C7.33333 2.96516 7.63181 2.66669 8 2.66669Z" fill="#520826"/></svg>`;
+      const isDelete = count === 1;
+      const counterHTML = `
+        <div class="counter-wrap">
+          <button class="counter-btn minus" data-counter-minus="${id}" data-product-id="${id}">${isDelete ? deleteIcon : minusIcon}</button>
+          <span class="counter-value">${String(count).padStart(2, '0')}</span>
+          <button class="counter-btn plus" data-counter-plus="${id}" data-product-id="${id}">${plusIcon}</button>
+        </div>
+      `;
+      btn.outerHTML = counterHTML;
+
+      // Attach minus handler
+      const minusBtn = document.querySelector(`[data-counter-minus="${id}"]`);
+      if (minusBtn) {
+        minusBtn.addEventListener('click', () => {
+          cartCounts[id] = Math.max(0, (cartCounts[id] || 1) - 1);
+          if (cartCounts[id] === 0) {
+            renderCounter(minusBtn, id);
+          } else {
+            renderCounter(minusBtn, id);
+          }
+        });
+      }
+
+      // Attach plus handler
+      const plusBtn = document.querySelector(`[data-counter-plus="${id}"]`);
+      if (plusBtn) {
+        plusBtn.addEventListener('click', () => {
+          cartCounts[id] = (cartCounts[id] || 0) + 1;
+          renderCounter(plusBtn, id);
+        });
+      }
+    }
+
     // Bottom nav tabs
     const ALL_NAV_ITEMS = document.querySelectorAll('.nav-item');
     ALL_NAV_ITEMS.forEach(item => {
@@ -926,9 +1175,17 @@
         }
 
         const tab = item.dataset.tab;
+        if (tab === 'cart') {
+          window.location.href = 'cart.html';
+          return;
+        }
         if (tab === 'account') {
-          sessionStorage.removeItem('isLoggedIn');
-          window.location.href = 'login.html';
+          if (isGuest) {
+            document.getElementById('guest-overlay').classList.add('show');
+          } else {
+            sessionStorage.removeItem('isLoggedIn');
+            window.location.href = 'login.html';
+          }
         }
       });
     });
