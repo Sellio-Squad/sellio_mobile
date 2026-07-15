@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sellio · Login</title>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { rubik: ['Rubik', 'system-ui', 'sans-serif'] },
+          colors: {
+            sellio: {
+              bg: '#2C0113',
+              primary: '#520826',
+              'primary-variant': '#FEF5F9',
+              secondary: '#F5A623',
+              surface: '#F8F8F8',
+              'surface-low': '#FFFFFF',
+              'surface-high': '#E6E6E6',
+              title: 'rgba(31,31,31,0.87)',
+              body: 'rgba(31,31,31,0.66)',
+              hint: 'rgba(31,31,31,0.38)',
+              stroke: 'rgba(31,31,31,0.12)',
+              'on-primary': 'rgba(255,255,255,0.87)',
+              disabled: '#E8EBED',
+              error: '#CF3E30',
+              'error-variant': '#FEEDEC',
+              green: '#0D6620',
+              'green-variant': '#E0F5E5',
+            },
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body { background: #1a0a10; font-family: 'Rubik', system-ui, sans-serif; display: grid; place-items: center; padding: 32px; }
+    @keyframes dotPulse { 0%,100%{opacity:0.3} 50%{opacity:1} }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    @keyframes fadeOut { from{opacity:1} to{opacity:0} }
+    @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+    @keyframes checkDraw { from{stroke-dashoffset:50} to{stroke-dashoffset:0} }
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    .slide-up { animation: slideUp 0.3s cubic-bezier(0.2,0,0,1) forwards; }
+    .fade-in { animation: fadeIn 0.2s ease forwards; }
+    .pop-in { animation: popIn 0.25s cubic-bezier(0.2,0,0,1) forwards; }
+    .shake { animation: shake 0.4s ease; }
+    .check-anim { stroke-dasharray: 50; animation: checkDraw 0.4s ease forwards 0.1s; }
+    .shimmer-bg { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+    input[type="tel"] { font-variant-numeric: tabular-nums; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback, useMemo, createContext, useContext } = React;
+
+    // ─── Design tokens ─────────────────────────────────────────────
+    const TOKENS = {
+      bg: '#2C0113',
+      primary: '#520826',
+      primaryVariant: '#FEF5F9',
+      surface: '#F8F8F8',
+      surfaceLow: '#FFFFFF',
+      surfaceHigh: '#E6E6E6',
+      title: 'rgba(31,31,31,0.87)',
+      body: 'rgba(31,31,31,0.66)',
+      hint: 'rgba(31,31,31,0.38)',
+      stroke: 'rgba(31,31,31,0.12)',
+      onPrimary: 'rgba(255,255,255,0.87)',
+      disabled: '#E8EBED',
+      error: '#CF3E30',
+      errorVariant: '#FEEDEC',
+      green: '#0D6620',
+      greenVariant: '#E0F5E5',
+    };
+
+    // ─── Country data ──────────────────────────────────────────────
+    const COUNTRIES = [
+      { code:'IQ', name:'Iraq', phone:'964', maxLen:10, flag:'🇮🇶', fav:true },
+      { code:'EG', name:'Egypt', phone:'20', maxLen:10, flag:'🇪🇬', fav:true },
+      { code:'PS', name:'Palestine', phone:'970', maxLen:9, flag:'🇵🇸', fav:true },
+      { code:'SY', name:'Syria', phone:'963', maxLen:10, flag:'🇸🇾', fav:true },
+      { code:'SA', name:'Saudi Arabia', phone:'966', maxLen:9, flag:'🇸🇦', fav:false },
+      { code:'AE', name:'UAE', phone:'971', maxLen:9, flag:'🇦🇪', fav:false },
+      { code:'JO', name:'Jordan', phone:'962', maxLen:9, flag:'🇯🇴', fav:false },
+      { code:'LB', name:'Lebanon', phone:'961', maxLen:8, flag:'🇱🇧', fav:false },
+      { code:'KW', name:'Kuwait', phone:'965', maxLen:8, flag:'🇰🇼', fav:false },
+      { code:'BH', name:'Bahrain', phone:'973', maxLen:8, flag:'🇧🇭', fav:false },
+      { code:'QA', name:'Qatar', phone:'974', maxLen:8, flag:'🇶🇦', fav:false },
+      { code:'OM', name:'Oman', phone:'968', maxLen:8, flag:'🇴🇲', fav:false },
+      { code:'TR', name:'Turkey', phone:'90', maxLen:10, flag:'🇹🇷', fav:false },
+      { code:'MA', name:'Morocco', phone:'212', maxLen:9, flag:'🇲🇦', fav:false },
+      { code:'DZ', name:'Algeria', phone:'213', maxLen:9, flag:'🇩🇿', fav:false },
+      { code:'TN', name:'Tunisia', phone:'216', maxLen:8, flag:'🇹🇳', fav:false },
+      { code:'LY', name:'Libya', phone:'218', maxLen:9, flag:'🇱🇾', fav:false },
+      { code:'SD', name:'Sudan', phone:'249', maxLen:9, flag:'🇸🇩', fav:false },
+      { code:'YE', name:'Yemen', phone:'967', maxLen:9, flag:'🇾🇪', fav:false },
+      { code:'LY', name:'Libya', phone:'218', maxLen:9, flag:'🇱🇾', fav:false },
+    ].filter((c,i,a) => a.findIndex(x=>x.code===c.code && x.phone===c.phone)===i);
+
+    const MOCK_CREDENTIALS = { phone: '1012345678', password: 'password123' };
+
+    // ─── Icons (SVG components) ────────────────────────────────────
+    const PhoneIcon = ({color='currentColor'}) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill={color}><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+    );
+    const LockIcon = ({color='currentColor'}) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill={color}><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+    );
+    const EyeIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+    );
+    const EyeOffIcon = () => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.804 11.804 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
+    );
+    const CloseIcon = () => (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    );
+    const ArrowDownIcon = () => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
+    );
+    const SearchIcon = ({size=16}) => (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    );
+    const ArrowRightIcon = () => (
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor"><path d="M1 5h7M5 1l4 4-4 4"/></svg>
+    );
+    const CheckIcon = ({size=48}) => (
+      <svg width={size} height={size} viewBox="0 0 52 52"><circle cx="26" cy="26" r="25" fill="none" stroke="#0D6620" strokeWidth="2"/><path className="check-anim" d="M14 27l7 7 16-16" fill="none" stroke="#0D6620" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    );
+    const CloseSmallIcon = () => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    );
+    const UserIcon = ({color='currentColor'}) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill={color}><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    );
+    const CityIcon = ({color='currentColor'}) => (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill={color}><path d="M15 11V5l-3-3-3 3v2H3v14h18V11h-6zm-8 8H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm6 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg>
+    );
+
+    // ─── Device Frame ──────────────────────────────────────────────
+    function DeviceFrame({ children, caption = 'Sellio · Login' }) {
+      return (
+        <div className="flex flex-col items-center gap-6">
+          <div className="font-rubik text-xs tracking-widest uppercase text-white/40">
+            <strong className="text-white font-medium">Sellio</strong> · {caption.split('·')[1]?.trim() || caption}
+          </div>
+          <div className="relative" style={{ width: 390, height: 844, borderRadius: 56, padding: 12, background: 'linear-gradient(160deg, #2a2a2c 0%, #1a1a1c 50%, #0e0e10 100%)', boxShadow: '0 0 0 1px rgba(255,255,255,0.04) inset, 0 0 0 2px #000 inset, 0 28px 60px -12px rgba(0,0,0,0.45), 0 8px 20px -8px rgba(0,0,0,0.35)', isolation: 'isolate' }}>
+            {/* Side rails */}
+            <span className="absolute" style={{ left: -1, top: 174, width: 3, height: 32, background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.06) 8%, transparent 16%, transparent 84%, rgba(255,255,255,0.04) 92%, transparent 100%)', borderRadius: 2 }} />
+            <span className="absolute" style={{ left: -1, top: 220, width: 3, height: 60, background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.06) 8%, transparent 16%, transparent 84%, rgba(255,255,255,0.04) 92%, transparent 100%)', borderRadius: 2 }} />
+            <span className="absolute" style={{ left: -1, top: 290, width: 3, height: 60, background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.06) 8%, transparent 16%, transparent 84%, rgba(255,255,255,0.04) 92%, transparent 100%)', borderRadius: 2 }} />
+            <span className="absolute" style={{ right: -1, top: 250, width: 3, height: 100, background: 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.06) 8%, transparent 16%, transparent 84%, rgba(255,255,255,0.04) 92%, transparent 100%)', borderRadius: 2 }} />
+            {/* Dynamic Island */}
+            <div className="absolute top-[22px] left-1/2 -translate-x-1/2 w-[124px] h-[36px] bg-black rounded-full z-10" />
+            {/* Screen surface */}
+            <div className="relative w-full h-full rounded-[44px] overflow-hidden flex flex-col" style={{ background: TOKENS.bg }}>
+              {children}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── Status Bar ────────────────────────────────────────────────
+    function StatusBar() {
+      return (
+        <div className="flex items-start justify-between px-[26px] pt-[18px] text-white font-rubik text-[15px] font-semibold tracking-tight relative z-[3]" style={{ flex: '0 0 47px' }}>
+          <span style={{ fontVariantNumeric: 'tabular-nums' }}>9:41</span>
+          <span className="inline-flex items-center gap-[6px]">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="white"><rect x="0" y="7" width="3" height="4" rx="0.6"/><rect x="4" y="5" width="3" height="6" rx="0.6"/><rect x="8" y="3" width="3" height="8" rx="0.6"/><rect x="12" y="0" width="3" height="11" rx="0.6"/></svg>
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="white"><path d="M8.5 1.5C5.5 1.5 2.7 2.6 0.5 4.6L2 6.1C3.8 4.5 6.1 3.6 8.5 3.6c2.4 0 4.7 0.9 6.5 2.5l1.5-1.5c-2.2-2-5-3.1-8-3.1zM3.5 7.6L5 9.1c1-0.9 2.2-1.4 3.5-1.4 1.3 0 2.5 0.5 3.5 1.4l1.5-1.5c-1.4-1.3-3.1-2-5-2-1.9 0-3.6 0.7-5 2zM6.5 10.6l2 2 2-2c-0.5-0.5-1.2-0.8-2-0.8s-1.5 0.3-2 0.8z"/></svg>
+            <svg width="25" height="11" viewBox="0 0 25 11" fill="white"><rect x="0.5" y="0.5" width="21" height="10" rx="2.5" fill="none" stroke="currentColor" strokeOpacity="0.45"/><rect x="22" y="3.5" width="1.5" height="4" rx="0.4" fill="currentColor" fillOpacity="0.45"/><rect x="2" y="2" width="18" height="7" rx="1.4"/></svg>
+          </span>
+        </div>
+      );
+    }
+
+    // ─── Home Indicator ────────────────────────────────────────────
+    function HomeIndicator() {
+      return (
+        <div className="relative" style={{ flex: '0 0 28px' }}>
+          <div className="absolute left-1/2 -translate-x-1/2 bottom-2 w-[134px] h-[5px] rounded-full bg-black/85" />
+        </div>
+      );
+    }
+
+    // ─── Country Picker Bottom Sheet ───────────────────────────────
+    function CountryPicker({ countries, selected, onSelect, onClose }) {
+      const [search, setSearch] = useState('');
+      const inputRef = useRef(null);
+      const favorites = countries.filter(c => c.fav);
+      const filtered = countries.filter(c =>
+        c.name.toLowerCase().includes(search.toLowerCase()) ||
+        c.phone.includes(search) ||
+        c.code.toLowerCase().includes(search.toLowerCase())
+      );
+      const nonFav = filtered.filter(c => !c.fav);
+
+      useEffect(() => { inputRef.current?.focus(); }, []);
+
+      return (
+        <div className="absolute inset-0 z-50 flex flex-col" style={{ background: 'rgba(0,0,0,0.4)' }} onClick={onClose}>
+          <div className="flex-1" />
+          <div className="bg-white rounded-t-2xl slide-up" style={{ maxHeight: '80%' }} onClick={e => e.stopPropagation()}>
+            {/* Handle */}
+            <div className="flex justify-center pt-3 pb-2"><div className="w-10 h-1 rounded-full bg-black/15" /></div>
+            {/* Search */}
+            <div className="px-4 pb-3">
+              <div className="flex items-center gap-2 bg-sellio-surface rounded-lg px-3 py-2.5 border border-sellio-stroke">
+                <SearchIcon size={16} />
+                <input ref={inputRef} type="text" placeholder="Search by name or code" value={search} onChange={e => setSearch(e.target.value)}
+                  className="flex-1 bg-transparent outline-none font-rubik text-sm text-sellio-title placeholder:text-sellio-body" />
+                {search && <button onClick={() => setSearch('')} className="text-sellio-body"><CloseSmallIcon /></button>}
+              </div>
+            </div>
+            {/* List */}
+            <div className="overflow-y-auto px-2 pb-6" style={{ maxHeight: 'calc(80vh - 120px)' }}>
+              {favorites.length > 0 && !search && (
+                <div className="mb-2">
+                  <div className="px-3 py-2 font-rubik text-xs font-medium text-sellio-body uppercase tracking-wider">Favorites</div>
+                  {favorites.map(c => (
+                    <button key={c.code + c.phone} onClick={() => { onSelect(c); onClose(); }}
+                      className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${selected?.code === c.code && selected?.phone === c.phone ? 'bg-sellio-primary/10' : 'hover:bg-gray-50'}`}>
+                      <span className="text-xl">{c.flag}</span>
+                      <span className="flex-1 text-left font-rubik text-sm text-sellio-title">{c.name}</span>
+                      <span className="font-rubik text-sm text-sellio-body">+{c.phone}</span>
+                      {selected?.code === c.code && selected?.phone === c.phone && (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="#520826"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div>
+                {!search && <div className="px-3 py-2 font-rubik text-xs font-medium text-sellio-body uppercase tracking-wider">All Countries</div>}
+                {nonFav.map(c => (
+                  <button key={c.code + c.phone} onClick={() => { onSelect(c); onClose(); }}
+                    className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg transition-colors ${selected?.code === c.code && selected?.phone === c.phone ? 'bg-sellio-primary/10' : 'hover:bg-gray-50'}`}>
+                    <span className="text-xl">{c.flag}</span>
+                    <span className="flex-1 text-left font-rubik text-sm text-sellio-title">{c.name}</span>
+                    <span className="font-rubik text-sm text-sellio-body">+{c.phone}</span>
+                    {selected?.code === c.code && selected?.phone === c.phone && (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="#520826"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                    )}
+                  </button>
+                ))}
+                {filtered.length === 0 && (
+                  <div className="px-4 py-8 text-center font-rubik text-sm text-sellio-body">No countries found</div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── Loading Dots ──────────────────────────────────────────────
+    function LoadingDots({ colors = [TOKENS.primary, TOKENS.primary, TOKENS.primary] }) {
+      return (
+        <div className="flex items-center gap-[7px]">
+          {colors.map((c, i) => (
+            <span key={i} className="w-[6px] h-[6px] rounded-full" style={{ background: c, animation: `dotPulse 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+          ))}
+        </div>
+      );
+    }
+
+    // ─── Login Screen ──────────────────────────────────────────────
+    function LoginScreen({ onNavigate }) {
+      const [phone, setPhone] = useState('');
+      const [password, setPassword] = useState('');
+      const [country, setCountry] = useState(COUNTRIES[0]);
+      const [showCountryPicker, setShowCountryPicker] = useState(false);
+      const [phoneFocused, setPhoneFocused] = useState(false);
+      const [passwordFocused, setPasswordFocused] = useState(false);
+      const [showPassword, setShowPassword] = useState(false);
+      const [phoneError, setPhoneError] = useState('');
+      const [passwordError, setPasswordError] = useState('');
+      const [isLoading, setIsLoading] = useState(false);
+      const [loginState, setLoginState] = useState(null); // null | 'success' | 'error'
+      const phoneRef = useRef(null);
+      const passwordRef = useRef(null);
+
+      const isFormValid = phone.length >= 6 && password.length >= 1;
+
+      const handlePhoneBlur = () => {
+        setPhoneFocused(false);
+        if (phone.length > 0 && phone.length < 6) {
+          setPhoneError('Phone number must be at least 6 digits');
+        } else if (phone.length > 0 && phone.length > country.maxLen) {
+          setPhoneError(`Phone number must be ${country.maxLen} digits`);
+        } else {
+          setPhoneError('');
+        }
+      };
+
+      const handlePasswordBlur = () => {
+        setPasswordFocused(false);
+        if (password.length > 0 && password.length < 6) {
+          setPasswordError('Password must be at least 6 characters');
+        } else {
+          setPasswordError('');
+        }
+      };
+
+      const handleLogin = () => {
+        if (!isFormValid || isLoading) return;
+        setIsLoading(true);
+        setLoginState(null);
+
+        setTimeout(() => {
+          setIsLoading(false);
+          if (phone === MOCK_CREDENTIALS.phone && password === MOCK_CREDENTIALS.password) {
+            setLoginState('success');
+          } else {
+            setLoginState('error');
+            if (phone !== MOCK_CREDENTIALS.phone) setPhoneError('Phone number not found');
+            if (password !== MOCK_CREDENTIALS.password) setPasswordError('Incorrect password');
+          }
+        }, 2000);
+      };
+
+      const handleCountrySelect = (c) => {
+        setCountry(c);
+        setPhone('');
+        setPhoneError('');
+      };
+
+      if (loginState === 'success') {
+        return (
+          <DeviceFrame caption="Sellio · Login">
+            <StatusBar />
+            <div className="flex-1 flex flex-col items-center justify-center px-6" style={{ background: TOKENS.bg }}>
+              <div className="pop-in mb-4"><CheckIcon size={72} /></div>
+              <div className="pop-in font-rubik text-xl font-semibold text-white text-center mb-2">Welcome Back!</div>
+              <div className="pop-in font-rubik text-sm text-white/60 text-center mb-8">Login successful</div>
+              <button onClick={() => setLoginState(null)} className="pop-in font-rubik text-sm font-medium px-8 py-3 rounded-lg" style={{ background: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.87)' }}>
+                Continue
+              </button>
+            </div>
+            <HomeIndicator />
+          </DeviceFrame>
+        );
+      }
+
+      return (
+        <DeviceFrame caption="Sellio · Login">
+          <StatusBar />
+
+          {/* Top section */}
+          <div className="relative" style={{ flex: '0 0 247px', background: TOKENS.bg, overflow: 'hidden' }}>
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(120,10,50,0.6) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 30% 60%, rgba(80,5,30,0.4) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 70% 40%, rgba(100,8,40,0.3) 0%, transparent 50%)' }} />
+            <button onClick={() => {}} className="absolute top-[40px] right-4 z-10 w-8 h-8 flex items-center justify-center" aria-label="Close"><CloseIcon /></button>
+            <div className="absolute top-[70px] left-1/2 -translate-x-1/2 z-10 font-rubik text-[28px] font-semibold text-white tracking-[0.08em] uppercase">SELLIO</div>
+          </div>
+
+          {/* White card */}
+          <div className="absolute left-0 right-0 bottom-0 flex flex-col z-[2] rounded-t-[24px]" style={{ top: 223, background: TOKENS.surfaceLow }}>
+            <div className="flex-1 overflow-y-auto px-4 pt-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              {/* Header */}
+              <div className="mb-10">
+                <h1 className="font-rubik text-[20px] font-semibold text-sellio-title mb-2" style={{ lineHeight: '30px' }}>Welcome Back!</h1>
+                <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Enter your information to login</p>
+              </div>
+
+              {/* Phone field */}
+              <div className="mb-4">
+                <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${phoneFocused ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : phoneError ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                  style={{ borderWidth: phoneFocused || phoneError ? 1 : 0.5 }}>
+                  <div className="pl-4 pr-3 flex items-center flex-shrink-0">
+                    <PhoneIcon color={phoneFocused ? TOKENS.primary : TOKENS.body} />
+                  </div>
+                  <button onClick={() => setShowCountryPicker(true)}
+                    className="flex items-center gap-1 px-2 flex-shrink-0 cursor-pointer border-r border-sellio-stroke mr-1">
+                    <ArrowDownIcon />
+                    <span className="text-lg">{country.flag}</span>
+                    <span className="font-rubik text-[16px] text-sellio-title whitespace-nowrap">+{country.phone}</span>
+                  </button>
+                  <input ref={phoneRef} type="tel" placeholder="Phone number" value={phone}
+                    maxLength={country.maxLen}
+                    onChange={e => { const v = e.target.value.replace(/\D/g, ''); setPhone(v); if (phoneError) setPhoneError(''); }}
+                    onFocus={() => { setPhoneFocused(true); setPhoneError(''); }}
+                    onBlur={handlePhoneBlur}
+                    className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                </div>
+                {phone.length > 0 && !phoneError && (
+                  <div className="flex justify-end mt-1.5 pr-1">
+                    <span className={`font-rubik text-xs ${phone.length > country.maxLen ? 'text-sellio-error font-bold' : 'text-sellio-body'}`}>{phone.length}/{country.maxLen}</span>
+                  </div>
+                )}
+                {phoneError && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{phoneError}</div>}
+              </div>
+
+              {/* Password field */}
+              <div className="mb-4">
+                <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${passwordFocused ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : passwordError ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                  style={{ borderWidth: passwordFocused || passwordError ? 1 : 0.5 }}>
+                  <div className="pl-4 pr-3 flex items-center flex-shrink-0">
+                    <LockIcon color={passwordError ? TOKENS.error : passwordFocused ? TOKENS.primary : TOKENS.body} />
+                  </div>
+                  <input ref={passwordRef} type={showPassword ? 'text' : 'password'} placeholder="Password" value={password}
+                    onChange={e => { setPassword(e.target.value); if (passwordError) setPasswordError(''); }}
+                    onFocus={() => { setPasswordFocused(true); setPasswordError(''); }}
+                    onBlur={handlePasswordBlur}
+                    className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                  <button onClick={() => setShowPassword(!showPassword)} className="w-9 h-9 flex items-center justify-center mr-2 text-sellio-body flex-shrink-0" aria-label="Toggle password visibility">
+                    {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </div>
+                {passwordError && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{passwordError}</div>}
+              </div>
+
+              {/* Error toast */}
+              {loginState === 'error' && (
+                <div className="flex items-center gap-2 bg-sellio-error-variant rounded-lg px-4 py-3 mb-4 fade-in">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={TOKENS.error}><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                  <span className="font-rubik text-sm text-sellio-error">Incorrect phone or password</span>
+                </div>
+              )}
+
+              {/* Forget password */}
+              <div className="flex justify-end mb-2">
+                <button onClick={() => onNavigate('forgot')} className="font-rubik text-xs font-medium text-sellio-primary py-2 bg-transparent border-none cursor-pointer">Forget your Password?</button>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-4 pb-4 flex-shrink-0">
+              <button onClick={handleLogin} disabled={!isFormValid || isLoading}
+                className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer gap-2 ${!isFormValid || isLoading ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                {isLoading ? (
+                  <LoadingDots colors={['rgba(255,255,255,0.3)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.87)']} />
+                ) : (
+                  <>
+                    <span>Login</span>
+                    <ArrowRightIcon />
+                  </>
+                )}
+              </button>
+
+              <div className="flex items-center gap-0 my-3">
+                <div className="flex-1 h-px bg-sellio-stroke" />
+                <span className="px-4 font-rubik text-xs font-medium text-sellio-body">OR</span>
+                <div className="flex-1 h-px bg-sellio-stroke" />
+              </div>
+
+              <button onClick={() => onNavigate('create')} className="flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium bg-sellio-primary-variant text-sellio-primary border-none cursor-pointer">
+                Create account
+              </button>
+            </div>
+          </div>
+
+          {/* Home indicator */}
+          <HomeIndicator />
+
+          {/* Country picker overlay */}
+          {showCountryPicker && (
+            <CountryPicker countries={COUNTRIES} selected={country} onSelect={handleCountrySelect} onClose={() => setShowCountryPicker(false)} />
+          )}
+        </DeviceFrame>
+      );
+    }
+
+    // ─── City Picker ───────────────────────────────────────────────
+    function CityPicker({ cities, value, onSelect, placeholder = 'City' }) {
+      const [open, setOpen] = useState(false);
+      const [search, setSearch] = useState('');
+      const inputRef = useRef(null);
+      const filtered = cities.filter(c => c.toLowerCase().includes(search.toLowerCase()));
+
+      useEffect(() => { if (open) inputRef.current?.focus(); }, [open]);
+
+      return (
+        <div className="relative">
+          <div onClick={() => setOpen(!open)} className="flex items-center justify-between bg-sellio-surface rounded-lg px-3 py-3.5 border border-sellio-stroke cursor-pointer">
+            <div className="flex items-center gap-3">
+              <CityIcon color={TOKENS.body} />
+              <span className={`font-rubik text-[16px] ${value ? 'text-sellio-title' : 'text-sellio-body'}`}>{value || placeholder}</span>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill={TOKENS.body}><path d="M7 10l5 5 5-5z"/></svg>
+          </div>
+          {open && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-sellio-stroke shadow-lg z-20 fade-in">
+              <div className="p-2 border-b border-sellio-stroke">
+                <div className="flex items-center gap-2 bg-sellio-surface rounded-lg px-3 py-2">
+                  <SearchIcon size={14} />
+                  <input ref={inputRef} type="text" placeholder="Search city..." value={search} onChange={e => setSearch(e.target.value)}
+                    className="flex-1 bg-transparent outline-none font-rubik text-sm text-sellio-title placeholder:text-sellio-body" />
+                </div>
+              </div>
+              <div className="max-h-[200px] overflow-y-auto p-1">
+                {filtered.map(city => (
+                  <button key={city} onClick={() => { onSelect(city); setOpen(false); setSearch(''); }}
+                    className={`w-full flex items-center gap-2 px-3 py-2.5 rounded font-rubik text-sm text-left transition-colors ${value === city ? 'bg-sellio-primary/10 text-sellio-primary font-semibold' : 'text-sellio-title hover:bg-gray-50'}`}>
+                    {value === city && <svg width="16" height="16" viewBox="0 0 24 24" fill="#520826"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>}
+                    {value === city ? null : <span className="w-4" />}
+                    {city}
+                  </button>
+                ))}
+                {filtered.length === 0 && <div className="px-3 py-4 text-center font-rubik text-sm text-sellio-body">No cities found</div>}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ─── OTP Input ─────────────────────────────────────────────────
+    function OTPInput({ length = 4, onComplete, value, onChange }) {
+      const [digits, setDigits] = useState(Array(length).fill(''));
+      const inputs = useRef([]);
+
+      useEffect(() => {
+        if (value === '') setDigits(Array(length).fill(''));
+      }, [value, length]);
+
+      const handleChange = (index, val) => {
+        if (!/^\d*$/.test(val)) return;
+        const newDigits = [...digits];
+        newDigits[index] = val.slice(-1);
+        setDigits(newDigits);
+        onChange(newDigits.join(''));
+        if (val && index < length - 1) {
+          inputs.current[index + 1]?.focus();
+        }
+        if (newDigits.every(d => d !== '')) {
+          onComplete?.(newDigits.join(''));
+        }
+      };
+
+      const handleKeyDown = (index, e) => {
+        if (e.key === 'Backspace' && !digits[index] && index > 0) {
+          inputs.current[index - 1]?.focus();
+          const newDigits = [...digits];
+          newDigits[index - 1] = '';
+          setDigits(newDigits);
+          onChange(newDigits.join(''));
+        }
+      };
+
+      const handlePaste = (e) => {
+        e.preventDefault();
+        const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, length);
+        const newDigits = Array(length).fill('');
+        pasted.split('').forEach((d, i) => { newDigits[i] = d; });
+        setDigits(newDigits);
+        onChange(newDigits.join(''));
+        if (pasted.length === length) {
+          onComplete?.(pasted);
+          inputs.current[length - 1]?.focus();
+        } else {
+          inputs.current[Math.min(pasted.length, length - 1)]?.focus();
+        }
+      };
+
+      return (
+        <div className="flex gap-3 justify-center">
+          {digits.map((d, i) => (
+            <input key={i} ref={el => inputs.current[i] = el} type="tel" inputMode="numeric" maxLength={1}
+              value={d} onChange={e => handleChange(i, e.target.value)} onKeyDown={e => handleKeyDown(i, e)} onPaste={handlePaste}
+              className="w-14 h-14 text-center font-rubik text-xl font-semibold rounded-lg border bg-sellio-surface outline-none transition-all duration-200"
+              style={{ borderColor: d ? TOKENS.primary : TOKENS.stroke, color: TOKENS.title, caretColor: TOKENS.primary }} />
+          ))}
+        </div>
+      );
+    }
+
+    // ─── Create Account Screen ─────────────────────────────────────
+    function CreateAccountScreen({ onNavigate }) {
+      const [fullName, setFullName] = useState('');
+      const [phone, setPhone] = useState('');
+      const [city, setCity] = useState('');
+      const [password, setPassword] = useState('');
+      const [confirmPassword, setConfirmPassword] = useState('');
+      const [country, setCountry] = useState(COUNTRIES[0]);
+      const [showCountryPicker, setShowCountryPicker] = useState(false);
+      const [showOtp, setShowOtp] = useState(false);
+      const [otpValue, setOtpValue] = useState('');
+      const [otpVerified, setOtpVerified] = useState(false);
+      const [isSubmitting, setIsSubmitting] = useState(false);
+      const [focusField, setFocusField] = useState('');
+      const [errors, setErrors] = useState({});
+      const [shakeField, setShakeField] = useState('');
+
+      const cities = ['Baghdad', 'Basra', 'Erbil', 'Sulaymaniyah', 'Najaf', 'Karbla', 'Mosul', 'Duhok', 'Kirkuk', 'Amman', 'Cairo', 'Dubai', 'Riyadh', 'Beirut', 'Damascus', 'Istanbul'];
+
+      const citiesList = cities;
+
+      const validate = () => {
+        const e = {};
+        if (fullName.length > 0 && fullName.trim().split(' ').length < 2) e.fullName = 'Enter first and last name';
+        if (phone.length > 0 && phone.length < 6) e.phone = 'Phone number must be at least 6 digits';
+        if (password.length > 0 && password.length < 6) e.password = 'Password must be at least 6 characters';
+        if (confirmPassword.length > 0 && confirmPassword !== password) e.confirmPassword = 'Passwords do not match';
+        setErrors(e);
+        return Object.keys(e).length === 0;
+      };
+
+      const isFormValid = fullName.trim().split(' ').length >= 2 && phone.length >= 6 && city.length > 0 && password.length >= 6 && confirmPassword === password;
+
+      const handleSubmit = () => {
+        if (!isFormValid) { validate(); return; }
+        setIsSubmitting(true);
+        setTimeout(() => {
+          setIsSubmitting(false);
+          setShowOtp(true);
+        }, 1500);
+      };
+
+      const handleOtpComplete = (otp) => {
+        if (otp === '1234') {
+          setOtpVerified(true);
+          setTimeout(() => {
+            onNavigate('login');
+          }, 1500);
+        } else {
+          setShakeField('otp');
+          setTimeout(() => setShakeField(''), 400);
+        }
+      };
+
+      if (otpVerified) {
+        return (
+          <DeviceFrame caption="Sellio · Create Account">
+            <StatusBar />
+            <div className="flex-1 flex flex-col items-center justify-center px-6" style={{ background: TOKENS.surfaceLow }}>
+              <div className="pop-in mb-4"><CheckIcon size={72} /></div>
+              <div className="pop-in font-rubik text-xl font-semibold text-sellio-title text-center mb-2">Account Created!</div>
+              <div className="pop-in font-rubik text-sm text-sellio-body text-center">Redirecting to login...</div>
+            </div>
+            <HomeIndicator />
+          </DeviceFrame>
+        );
+      }
+
+      return (
+        <DeviceFrame caption="Sellio · Create Account">
+          <StatusBar />
+
+          {/* Top section */}
+          <div className="relative" style={{ flex: '0 0 247px', background: TOKENS.bg, overflow: 'hidden' }}>
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(120,10,50,0.6) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 30% 60%, rgba(80,5,30,0.4) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 70% 40%, rgba(100,8,40,0.3) 0%, transparent 50%)' }} />
+            <button onClick={() => onNavigate('login')} className="absolute top-[40px] right-4 z-10 w-8 h-8 flex items-center justify-center" aria-label="Close"><CloseIcon /></button>
+            <div className="absolute top-[70px] left-1/2 -translate-x-1/2 z-10 font-rubik text-[28px] font-semibold text-white tracking-[0.08em] uppercase">SELLIO</div>
+          </div>
+
+          {/* White card */}
+          <div className="absolute left-0 right-0 bottom-0 flex flex-col z-[2] rounded-t-[24px]" style={{ top: 223, background: TOKENS.surfaceLow }}>
+            <div className="flex-1 overflow-y-auto px-4 pt-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              {/* Header */}
+              <div className="mb-6">
+                <h1 className="font-rubik text-[20px] font-semibold text-sellio-title mb-1" style={{ lineHeight: '30px' }}>Create Account</h1>
+                <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Enter your information to create account</p>
+              </div>
+
+              <div className="space-y-3">
+                {/* Full name */}
+                <div>
+                  <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'fullName' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.fullName ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                    style={{ borderWidth: focusField === 'fullName' || errors.fullName ? 1 : 0.5 }}>
+                    <div className="pl-4 pr-2 flex items-center flex-shrink-0"><UserIcon color={focusField === 'fullName' ? TOKENS.primary : TOKENS.body} /></div>
+                    <input type="text" placeholder="Full name" value={fullName}
+                      onChange={e => { setFullName(e.target.value); if (errors.fullName) setErrors(p => ({...p, fullName: ''})); }}
+                      onFocus={() => setFocusField('fullName')} onBlur={() => { setFocusField(''); if (fullName.length > 0 && fullName.trim().split(' ').length < 2) setErrors(p => ({...p, fullName: 'Enter first and last name'})); }}
+                      className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                  </div>
+                  {errors.fullName && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.fullName}</div>}
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'phone' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.phone ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                    style={{ borderWidth: focusField === 'phone' || errors.phone ? 1 : 0.5 }}>
+                    <div className="pl-4 pr-3 flex items-center flex-shrink-0"><PhoneIcon color={focusField === 'phone' ? TOKENS.primary : TOKENS.body} /></div>
+                    <button onClick={() => setShowCountryPicker(true)}
+                      className="flex items-center gap-1 px-2 flex-shrink-0 cursor-pointer border-r border-sellio-stroke mr-1">
+                      <ArrowDownIcon />
+                      <span className="text-lg">{country.flag}</span>
+                      <span className="font-rubik text-[16px] text-sellio-title whitespace-nowrap">+{country.phone}</span>
+                    </button>
+                    <input type="tel" placeholder="Phone number" value={phone} maxLength={country.maxLen}
+                      onChange={e => { const v = e.target.value.replace(/\D/g, ''); setPhone(v); if (errors.phone) setErrors(p => ({...p, phone: ''})); }}
+                      onFocus={() => setFocusField('phone')} onBlur={() => { setFocusField(''); if (phone.length > 0 && phone.length < 6) setErrors(p => ({...p, phone: 'Phone number must be at least 6 digits'})); }}
+                      className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                  </div>
+                  {phone.length > 0 && (
+                    <div className="flex justify-end mt-1 pr-1">
+                      <span className={`font-rubik text-xs ${phone.length > country.maxLen ? 'text-sellio-error font-bold' : 'text-sellio-body'}`}>{phone.length}/{country.maxLen}</span>
+                    </div>
+                  )}
+                  {errors.phone && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.phone}</div>}
+                </div>
+
+                {/* City picker */}
+                <CityPicker cities={citiesList} value={city} onSelect={setCity} placeholder="City" />
+
+                {/* Password */}
+                <div>
+                  <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'password' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.password ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                    style={{ borderWidth: focusField === 'password' || errors.password ? 1 : 0.5 }}>
+                    <div className="pl-4 pr-3 flex items-center flex-shrink-0"><LockIcon color={focusField === 'password' ? TOKENS.primary : TOKENS.body} /></div>
+                    <input type="password" placeholder="Password" value={password}
+                      onChange={e => { setPassword(e.target.value); if (errors.password) setErrors(p => ({...p, password: ''})); }}
+                      onFocus={() => setFocusField('password')} onBlur={() => { setFocusField(''); if (password.length > 0 && password.length < 6) setErrors(p => ({...p, password: 'Password must be at least 6 characters'})); }}
+                      className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                  </div>
+                  {errors.password && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.password}</div>}
+                </div>
+
+                {/* Confirm password */}
+                <div>
+                  <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'confirmPassword' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.confirmPassword ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                    style={{ borderWidth: focusField === 'confirmPassword' || errors.confirmPassword ? 1 : 0.5 }}>
+                    <div className="pl-4 pr-3 flex items-center flex-shrink-0"><LockIcon color={focusField === 'confirmPassword' ? TOKENS.primary : TOKENS.body} /></div>
+                    <input type="password" placeholder="Confirm password" value={confirmPassword}
+                      onChange={e => { setConfirmPassword(e.target.value); if (errors.confirmPassword) setErrors(p => ({...p, confirmPassword: ''})); }}
+                      onFocus={() => setFocusField('confirmPassword')} onBlur={() => { setFocusField(''); if (confirmPassword.length > 0 && confirmPassword !== password) setErrors(p => ({...p, confirmPassword: 'Passwords do not match'})); }}
+                      className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                  </div>
+                  {errors.confirmPassword && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.confirmPassword}</div>}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-4 pb-4 flex-shrink-0">
+              <button onClick={handleSubmit} disabled={!isFormValid || isSubmitting}
+                className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer ${!isFormValid || isSubmitting ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                {isSubmitting ? <LoadingDots colors={['rgba(255,255,255,0.3)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.87)']} /> : 'Continue'}
+              </button>
+              <div className="flex items-center justify-center gap-1 mt-3 pb-1">
+                <span className="font-rubik text-[14px] text-sellio-body">Already have account?</span>
+                <button onClick={() => onNavigate('login')} className="font-rubik text-[14px] font-medium text-sellio-primary bg-transparent border-none cursor-pointer">Login</button>
+              </div>
+            </div>
+          </div>
+
+          <HomeIndicator />
+
+          {showCountryPicker && (
+            <CountryPicker countries={COUNTRIES} selected={country} onSelect={c => { setCountry(c); setPhone(''); }} onClose={() => setShowCountryPicker(false)} />
+          )}
+
+          {/* OTP overlay */}
+          {showOtp && !otpVerified && (
+            <div className="absolute inset-0 z-50 flex flex-col" style={{ background: TOKENS.surfaceLow, borderRadius: 44 }}>
+              <StatusBar />
+              <div className="flex-1 flex flex-col px-4 pt-4">
+                <div className="mb-8">
+                  <h2 className="font-rubik text-[20px] font-semibold text-sellio-title mb-1" style={{ lineHeight: '30px' }}>Verify Phone</h2>
+                  <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Enter the 4-digit code sent to {phone}</p>
+                </div>
+                <div className={shakeField === 'otp' ? 'shake' : ''}>
+                  <OTPInput length={4} onComplete={handleOtpComplete} value={otpValue} onChange={setOtpValue} />
+                </div>
+                <div className="flex items-center justify-center gap-1 mt-6">
+                  <span className="font-rubik text-sm text-sellio-body">Didn't receive code?</span>
+                  <button className="font-rubik text-sm font-medium text-sellio-primary bg-transparent border-none cursor-pointer">Resend</button>
+                </div>
+              </div>
+              <div className="px-4 pb-4">
+                <button onClick={() => { if (otpValue === '1234') handleOtpComplete(otpValue); }}
+                  disabled={otpValue.length !== 4}
+                  className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer ${otpValue.length !== 4 ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                  Confirm
+                </button>
+              </div>
+              <HomeIndicator />
+            </div>
+          )}
+        </DeviceFrame>
+      );
+    }
+
+    // ─── Forgot Password Screen ────────────────────────────────────
+    function ForgotPasswordScreen({ onNavigate }) {
+      const [step, setStep] = useState('phone'); // phone | otp | reset | success
+      const [phone, setPhone] = useState('');
+      const [country, setCountry] = useState(COUNTRIES[0]);
+      const [showCountryPicker, setShowCountryPicker] = useState(false);
+      const [phoneFocused, setPhoneFocused] = useState(false);
+      const [phoneError, setPhoneError] = useState('');
+      const [otpValue, setOtpValue] = useState('');
+      const [countdown, setCountdown] = useState(55);
+      const [canResend, setCanResend] = useState(false);
+      const [newPassword, setNewPassword] = useState('');
+      const [confirmPassword, setConfirmPassword] = useState('');
+      const [focusField, setFocusField] = useState('');
+      const [errors, setErrors] = useState({});
+      const [isSending, setIsSending] = useState(false);
+      const [isResetting, setIsResetting] = useState(false);
+      const [shakeField, setShakeField] = useState('');
+
+      useEffect(() => {
+        if (step === 'otp' && countdown > 0) {
+          const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+          return () => clearTimeout(timer);
+        }
+        if (countdown === 0) setCanResend(true);
+      }, [countdown, step]);
+
+      const isPhoneValid = phone.length >= 6;
+
+      const handleSendOtp = () => {
+        if (!isPhoneValid || isSending) return;
+        setIsSending(true);
+        setTimeout(() => {
+          setIsSending(false);
+          setStep('otp');
+          setCountdown(55);
+          setCanResend(false);
+        }, 1500);
+      };
+
+      const handleOtpComplete = (otp) => {
+        if (otp === '1234') {
+          setStep('reset');
+        } else {
+          setShakeField('otp');
+          setTimeout(() => setShakeField(''), 400);
+        }
+      };
+
+      const isResetFormValid = newPassword.length >= 6 && confirmPassword === newPassword && confirmPassword.length > 0;
+
+      const handleResetPassword = () => {
+        const e = {};
+        if (newPassword.length > 0 && newPassword.length < 6) e.newPassword = 'Password must be at least 6 characters';
+        if (confirmPassword.length > 0 && confirmPassword !== newPassword) e.confirmPassword = 'Passwords do not match';
+        if (Object.keys(e).length > 0) { setErrors(e); return; }
+        if (!isResetFormValid || isResetting) return;
+        setIsResetting(true);
+        setTimeout(() => {
+          setIsResetting(false);
+          setStep('success');
+          setTimeout(() => onNavigate('login'), 1500);
+        }, 1500);
+      };
+
+      const handleResend = () => {
+        setCountdown(55);
+        setCanResend(false);
+        setOtpValue('');
+      };
+
+      return (
+        <DeviceFrame caption="Sellio · Forgot Password">
+          <StatusBar />
+
+          {/* Top section */}
+          <div className="relative" style={{ flex: '0 0 247px', background: TOKENS.bg, overflow: 'hidden' }}>
+            <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(120,10,50,0.6) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 30% 60%, rgba(80,5,30,0.4) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 70% 40%, rgba(100,8,40,0.3) 0%, transparent 50%)' }} />
+            <button onClick={() => {
+              if (step === 'otp') setStep('phone');
+              else if (step === 'reset') setStep('otp');
+              else onNavigate('login');
+            }} className="absolute top-[40px] right-4 z-10 w-8 h-8 flex items-center justify-center" aria-label="Close"><CloseIcon /></button>
+            <div className="absolute top-[70px] left-1/2 -translate-x-1/2 z-10 font-rubik text-[28px] font-semibold text-white tracking-[0.08em] uppercase">SELLIO</div>
+          </div>
+
+          {/* White card */}
+          <div className="absolute left-0 right-0 bottom-0 flex flex-col z-[2] rounded-t-[24px]" style={{ top: 223, background: TOKENS.surfaceLow }}>
+            <div className="flex-1 overflow-y-auto px-4 pt-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+              {/* Lock icon */}
+              <div className="flex justify-center mb-6">
+                <div className="w-[88px] h-[88px] rounded-full flex items-center justify-center" style={{ background: TOKENS.primaryVariant }}>
+                  <LockIcon color={TOKENS.primary} />
+                </div>
+              </div>
+
+              {step === 'phone' && (
+                <>
+                  <div className="mb-8">
+                    <h1 className="font-rubik text-[20px] font-semibold text-sellio-title mb-2" style={{ lineHeight: '30px' }}>Forget Password</h1>
+                    <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Enter your phone number to receive a verification code</p>
+                  </div>
+                  <div>
+                    <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${phoneFocused ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : 'border border-sellio-stroke'}`}
+                      style={{ borderWidth: phoneFocused ? 1 : 0.5 }}>
+                      <div className="pl-4 pr-3 flex items-center flex-shrink-0"><PhoneIcon color={phoneFocused ? TOKENS.primary : TOKENS.body} /></div>
+                      <button onClick={() => setShowCountryPicker(true)}
+                        className="flex items-center gap-1 px-2 flex-shrink-0 cursor-pointer border-r border-sellio-stroke mr-1">
+                        <ArrowDownIcon />
+                        <span className="text-lg">{country.flag}</span>
+                        <span className="font-rubik text-[16px] text-sellio-title whitespace-nowrap">+{country.phone}</span>
+                      </button>
+                      <input type="tel" placeholder="Phone number" value={phone} maxLength={country.maxLen}
+                        onChange={e => { setPhone(e.target.value.replace(/\D/g, '')); }}
+                        onFocus={() => setPhoneFocused(true)} onBlur={() => setPhoneFocused(false)}
+                        className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {step === 'otp' && (
+                <>
+                  <div className="mb-8">
+                    <h1 className="font-rubik text-[20px] font-semibold text-sellio-title mb-2" style={{ lineHeight: '30px' }}>Verify Phone</h1>
+                    <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Enter the 4-digit code sent to {phone}</p>
+                  </div>
+                  <div className={shakeField === 'otp' ? 'shake' : ''}>
+                    <OTPInput length={4} onComplete={handleOtpComplete} value={otpValue} onChange={setOtpValue} />
+                  </div>
+                  <div className="flex items-center justify-center gap-1 mt-6">
+                    {canResend ? (
+                      <button onClick={handleResend} className="font-rubik text-sm font-medium text-sellio-primary bg-transparent border-none cursor-pointer">Resend Code</button>
+                    ) : (
+                      <span className="font-rubik text-sm text-sellio-body">Resend in {countdown}s</span>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {step === 'reset' && (
+                <>
+                  <div className="mb-8">
+                    <h1 className="font-rubik text-[20px] font-semibold text-sellio-title mb-2" style={{ lineHeight: '30px' }}>Set New Password</h1>
+                    <p className="font-rubik text-[16px] text-sellio-body" style={{ lineHeight: '24px' }}>Create a new password for your account</p>
+                  </div>
+                  <div className="space-y-3">
+                    <div>
+                      <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'newPassword' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.newPassword ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                        style={{ borderWidth: focusField === 'newPassword' || errors.newPassword ? 1 : 0.5 }}>
+                        <div className="pl-4 pr-3 flex items-center flex-shrink-0"><LockIcon color={focusField === 'newPassword' ? TOKENS.primary : TOKENS.body} /></div>
+                        <input type="password" placeholder="New password" value={newPassword}
+                          onChange={e => { setNewPassword(e.target.value); if (errors.newPassword) setErrors(p => ({...p, newPassword: ''})); }}
+                          onFocus={() => setFocusField('newPassword')} onBlur={() => { setFocusField(''); }}
+                          className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                      </div>
+                      {errors.newPassword && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.newPassword}</div>}
+                    </div>
+                    <div>
+                      <div className={`flex items-center bg-sellio-surface rounded-lg transition-all duration-200 ${focusField === 'confirmPassword' ? 'border border-sellio-primary shadow-[0_4px_8px_rgba(82,8,38,0.12)]' : errors.confirmPassword ? 'border border-sellio-error' : 'border border-sellio-stroke'}`}
+                        style={{ borderWidth: focusField === 'confirmPassword' || errors.confirmPassword ? 1 : 0.5 }}>
+                        <div className="pl-4 pr-3 flex items-center flex-shrink-0"><LockIcon color={focusField === 'confirmPassword' ? TOKENS.primary : TOKENS.body} /></div>
+                        <input type="password" placeholder="Confirm password" value={confirmPassword}
+                          onChange={e => { setConfirmPassword(e.target.value); if (errors.confirmPassword) setErrors(p => ({...p, confirmPassword: ''})); }}
+                          onFocus={() => setFocusField('confirmPassword')} onBlur={() => { setFocusField(''); }}
+                          className="flex-1 bg-transparent outline-none font-rubik text-[16px] text-sellio-title placeholder:text-sellio-body py-3 px-3 min-w-0" />
+                      </div>
+                      {errors.confirmPassword && <div className="font-rubik text-xs text-sellio-error mt-1 ml-1">{errors.confirmPassword}</div>}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {step === 'success' && (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <div className="pop-in mb-4"><CheckIcon size={72} /></div>
+                  <div className="pop-in font-rubik text-xl font-semibold text-sellio-title text-center mb-2">Password Reset!</div>
+                  <div className="pop-in font-rubik text-sm text-sellio-body text-center">Redirecting to login...</div>
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            {step !== 'success' && (
+              <div className="px-4 pb-4 flex-shrink-0">
+                {step === 'phone' && (
+                  <button onClick={handleSendOtp} disabled={!isPhoneValid || isSending}
+                    className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer ${!isPhoneValid || isSending ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                    {isSending ? <LoadingDots colors={['rgba(255,255,255,0.3)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.87)']} /> : 'Send'}
+                  </button>
+                )}
+                {step === 'otp' && (
+                  <button onClick={() => { if (otpValue === '1234') handleOtpComplete(otpValue); }}
+                    disabled={otpValue.length !== 4}
+                    className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer ${otpValue.length !== 4 ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                    Confirm
+                  </button>
+                )}
+                {step === 'reset' && (
+                  <button onClick={handleResetPassword} disabled={!isResetFormValid || isResetting}
+                    className={`flex items-center justify-center w-full min-h-[48px] py-[9px] px-6 rounded-lg font-rubik text-[14px] font-medium transition-all duration-200 border-none cursor-pointer ${!isResetFormValid || isResetting ? 'bg-sellio-disabled text-sellio-hint cursor-not-allowed' : 'bg-sellio-primary text-sellio-on-primary'}`}>
+                    {isResetting ? <LoadingDots colors={['rgba(255,255,255,0.3)', 'rgba(255,255,255,0.6)', 'rgba(255,255,255,0.87)']} /> : 'Send'}
+                  </button>
+                )}
+              </div>
+            )}
+          </div>
+
+          <HomeIndicator />
+
+          {showCountryPicker && (
+            <CountryPicker countries={COUNTRIES} selected={country} onSelect={c => { setCountry(c); setPhone(''); }} onClose={() => setShowCountryPicker(false)} />
+          )}
+        </DeviceFrame>
+      );
+    }
+
+    // ─── App Router ────────────────────────────────────────────────
+    function App() {
+      const [screen, setScreen] = useState('login');
+
+      const navigate = useCallback((s) => setScreen(s), []);
+
+      return (
+        <div className="flex items-center justify-center min-h-screen">
+          {screen === 'login' && <LoginScreen onNavigate={navigate} />}
+          {screen === 'create' && <CreateAccountScreen onNavigate={navigate} />}
+          {screen === 'forgot' && <ForgotPasswordScreen onNavigate={navigate} />}
+        </div>
+      );
+    }
+
+    // ─── Mount ─────────────────────────────────────────────────────
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
