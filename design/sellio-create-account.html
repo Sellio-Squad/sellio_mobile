@@ -1043,7 +1043,7 @@
 
     document.getElementById('otp-confirm-btn').addEventListener('click', () => {
       const otp = otpInputs.map(el => el.value).join('');
-      if (otp === '1234') {
+      if (otp === '9999') {
         closeSheet('otp-overlay');
         showToast('success', 'Account created successfully!');
         setTimeout(() => { window.location.href = 'sellio-login.html'; }, 1500);
