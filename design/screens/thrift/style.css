@@ -1,7 +1,9 @@
 .screen { background: var(--color-surface-low); }
 
 .appbar {
-  flex: 0 0 auto; padding: 4px 16px 8px;
+  flex: 0 0 auto;
+  min-height: var(--appbar-height);
+  padding: 0 16px;
   display: flex; align-items: center;
   background: transparent;
 }
@@ -10,10 +12,7 @@
   color: var(--color-title-text);
 }
 
-.search-bar { background: var(--color-surface-low); }
-.search-bar .filter-btn { border-radius: 0 12px 12px 0; }
-
-.category-tabs-wrap { padding: 0 0 12px; }
+.category-tabs-wrap { padding: 0; }
 .category-tabs {
   display: flex; gap: 12px;
   padding: 0 16px;
@@ -26,7 +25,7 @@
 .cat-chip {
   display: inline-flex; align-items: center;
   border-radius: 100px;
-  padding: 4px 8px 4px 4px;
+  padding: 4px 12px 4px 8px;
   cursor: pointer; white-space: nowrap;
   border: none; font-family: var(--font-family);
   transition: background 200ms, color 200ms;
@@ -34,7 +33,7 @@
 }
 .cat-chip.selected { background: var(--color-primary); color: var(--color-on-primary); }
 .cat-chip.unselected { background: var(--color-surface); color: var(--color-body-text); }
-.cat-chip__label { padding: 0 8px; font: var(--text-label-small); }
+.cat-chip__label { padding: 0; font: var(--text-label-small); }
 .cat-chip.selected .cat-chip__label { color: var(--color-on-primary); }
 .cat-chip.unselected .cat-chip__label { color: var(--color-body-text); }
 
@@ -48,35 +47,4 @@
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 8px;
 }
 
-.product-card { aspect-ratio: 1 / 0.72; }
-
-.product-card__add-btn svg { width: 16px; height: 16px; filter: brightness(0) invert(1); }
-
-.counter {
-  display: flex;
-  align-items: center;
-  height: 32px;
-}
-.counter-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-.counter-btn:active { opacity: 0.8; }
-.counter-btn.minus { background: var(--color-surface); }
-.counter-btn.minus svg { width: 16px; height: 16px; color: var(--color-body-text); }
-.counter-btn.plus { background: var(--color-primary-variant); }
-.counter-btn.plus svg { width: 16px; height: 16px; color: var(--color-primary); }
-.counter-val {
-  min-width: 20px;
-  text-align: center;
-  font: var(--text-label-medium);
-  color: var(--color-title-text);
-  padding: 0 10px;
-}
+.product-card { aspect-ratio: 0.72; }

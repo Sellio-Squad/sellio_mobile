@@ -1,4 +1,5 @@
 document.getElementById('statusbar-main').innerHTML = getStatusHTML();
+document.getElementById('filter-btn').innerHTML = SHARED_ICONS.filter;
 populateBottomNav('thrift');
 
 initNavClickHandlers({
@@ -57,7 +58,7 @@ function renderProducts() {
     var discountHtml = p.discount
       ? '<div class="product-card__discount"><div class="discount-frame-wrap">' +
           '<div class="frame-bg">' + SHARED_ICONS.discountFrame + '</div>' +
-          '<div class="frame-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount + '</span></div>' +
+          '<div class="frame-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount.replace(' OFF', '') + '</span></div>' +
         '</div></div>'
       : '';
 

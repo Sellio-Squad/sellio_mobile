@@ -234,7 +234,7 @@ body {
   background: var(--color-surface-low);
   border-radius: var(--search-radius);
   height: 48px;
-  padding: 0 4px 0 0;
+  padding: 0;
 }
 .search-bar .input-wrap {
   flex: 1;
@@ -261,9 +261,9 @@ body {
 .search-bar input::placeholder { color: var(--color-hint-text); }
 .filter-btn {
   width: 48px;
-  height: 40px;
+  height: 48px;
   border: none;
-  border-radius: 10px;
+  border-radius: 0 12px 12px 0;
   background: var(--color-primary-variant);
   display: flex;
   align-items: center;
@@ -406,6 +406,36 @@ body {
   width: 16px;
   height: 16px;
   filter: brightness(0) invert(1);
+}
+
+/* ── Product Counter (shared by home + thrift) ── */
+.counter {
+  display: flex;
+  align-items: center;
+  height: 32px;
+}
+.counter-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.counter-btn:active { opacity: 0.8; }
+.counter-btn.minus { background: var(--color-surface); }
+.counter-btn.minus svg { width: 16px; height: 16px; color: var(--color-body-text); }
+.counter-btn.plus { background: var(--color-primary-variant); }
+.counter-btn.plus svg { width: 16px; height: 16px; color: var(--color-primary); }
+.counter-val {
+  min-width: 20px;
+  text-align: center;
+  font: var(--text-label-medium);
+  color: var(--color-title-text);
+  padding: 0 10px;
 }
 
 /* ═══════════════════════════════════════════════
