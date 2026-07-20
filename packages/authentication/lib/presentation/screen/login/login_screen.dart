@@ -58,7 +58,6 @@ class _LoginScreenContent extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
-          showLogo: true,
           showCloseButton: showCloseButton,
           child: LoginBody(navigator: navigator),
         ),
