@@ -54,7 +54,7 @@ class _CreateAccountScreenContent extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
-          showLogo: false,
+          showLogo: true,
           showCloseButton: showCloseButton,
           child: CreateAccountBody(navigator: navigator),
         ),
