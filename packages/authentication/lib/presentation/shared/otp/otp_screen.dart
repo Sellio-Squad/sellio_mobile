@@ -115,7 +115,6 @@ class _OtpScreenContentState extends State<_OtpScreenContent> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: AuthBackgroundWrapper(
           containerPadding: const EdgeInsets.symmetric(vertical: 16),
-          showLogo: true,
           showCloseButton: widget.showCloseButton,
           child: Scaffold(
             backgroundColor: colors.surfaceLow,
