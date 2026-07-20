@@ -1,30 +1,28 @@
 ﻿document.getElementById('statusbar-main').innerHTML = getStatusHTML();
     const COUNTRIES = [
-      { code: 'IQ', name: 'Iraq', dial: '+964', maxLength: 10 },
-      { code: 'EG', name: 'Egypt', dial: '+20', maxLength: 10 },
-      { code: 'PS', name: 'Palestine', dial: '+970', maxLength: 9 },
-      { code: 'SY', name: 'Syria', dial: '+963', maxLength: 10 },
-      { code: 'SA', name: 'Saudi Arabia', dial: '+966', maxLength: 9 },
-      { code: 'AE', name: 'United Arab Emirates', dial: '+971', maxLength: 9 },
-      { code: 'JO', name: 'Jordan', dial: '+962', maxLength: 9 },
-      { code: 'LB', name: 'Lebanon', dial: '+961', maxLength: 8 },
-      { code: 'KW', name: 'Kuwait', dial: '+965', maxLength: 8 },
-      { code: 'QA', name: 'Qatar', dial: '+974', maxLength: 8 },
-      { code: 'BH', name: 'Bahrain', dial: '+973', maxLength: 8 },
-      { code: 'OM', name: 'Oman', dial: '+968', maxLength: 8 },
-      { code: 'YE', name: 'Yemen', dial: '+967', maxLength: 9 },
-      { code: 'LY', name: 'Libya', dial: '+218', maxLength: 9 },
-      { code: 'MA', name: 'Morocco', dial: '+212', maxLength: 9 },
-      { code: 'TN', name: 'Tunisia', dial: '+216', maxLength: 8 },
-      { code: 'DZ', name: 'Algeria', dial: '+213', maxLength: 9 },
-      { code: 'SD', name: 'Sudan', dial: '+249', maxLength: 9 },
-      { code: 'TR', name: 'Turkey', dial: '+90', maxLength: 10 },
-      { code: 'IR', name: 'Iran', dial: '+98', maxLength: 10 },
+      { code: 'IQ', name: 'Iraq', flag: 'ðŸ‡®ðŸ‡¶', dial: '+964', maxLength: 10 },
+      { code: 'EG', name: 'Egypt', flag: 'ðŸ‡ªðŸ‡¬', dial: '+20', maxLength: 10 },
+      { code: 'PS', name: 'Palestine', flag: 'ðŸ‡µðŸ‡¸', dial: '+970', maxLength: 9 },
+      { code: 'SY', name: 'Syria', flag: 'ðŸ‡¸ðŸ‡¾', dial: '+963', maxLength: 10 },
+      { code: 'SA', name: 'Saudi Arabia', flag: 'ðŸ‡¸ðŸ‡¦', dial: '+966', maxLength: 9 },
+      { code: 'AE', name: 'United Arab Emirates', flag: 'ðŸ‡¦ðŸ‡ª', dial: '+971', maxLength: 9 },
+      { code: 'JO', name: 'Jordan', flag: 'ðŸ‡¯ðŸ‡´', dial: '+962', maxLength: 9 },
+      { code: 'LB', name: 'Lebanon', flag: 'ðŸ‡±ðŸ‡§', dial: '+961', maxLength: 8 },
+      { code: 'KW', name: 'Kuwait', flag: 'ðŸ‡°ðŸ‡¼', dial: '+965', maxLength: 8 },
+      { code: 'QA', name: 'Qatar', flag: 'ðŸ‡¶ðŸ‡¦', dial: '+974', maxLength: 8 },
+      { code: 'BH', name: 'Bahrain', flag: 'ðŸ‡§ðŸ‡­', dial: '+973', maxLength: 8 },
+      { code: 'OM', name: 'Oman', flag: 'ðŸ‡´ðŸ‡²', dial: '+968', maxLength: 8 },
+      { code: 'YE', name: 'Yemen', flag: 'ðŸ‡¾ðŸ‡ª', dial: '+967', maxLength: 9 },
+      { code: 'LY', name: 'Libya', flag: 'ðŸ‡±ðŸ‡¾', dial: '+218', maxLength: 9 },
+      { code: 'MA', name: 'Morocco', flag: 'ðŸ‡²ðŸ‡¦', dial: '+212', maxLength: 9 },
+      { code: 'TN', name: 'Tunisia', flag: 'ðŸ‡¹ðŸ‡³', dial: '+216', maxLength: 8 },
+      { code: 'DZ', name: 'Algeria', flag: 'ðŸ‡©ðŸ‡¿', dial: '+213', maxLength: 9 },
+      { code: 'SD', name: 'Sudan', flag: 'ðŸ‡¸ðŸ‡©', dial: '+249', maxLength: 9 },
+      { code: 'TR', name: 'Turkey', flag: 'ðŸ‡¹ðŸ‡·', dial: '+90', maxLength: 10 },
+      { code: 'IR', name: 'Iran', flag: 'ðŸ‡®ðŸ‡·', dial: '+98', maxLength: 10 },
     ];
 
     const FAVORITE_CODES = ['IQ', 'EG', 'PS', 'SY'];
-
-    const flagImg = (code) => `<img class="flag-img" src="https://flagcdn.com/w40/${code.toLowerCase()}.png" alt="${code}" />`;
 
     let selectedCountry = COUNTRIES.find(c => c.code === 'EG');
     let phoneValid = false;
@@ -86,7 +84,7 @@
       const renderItems = (items) => {
         items.forEach(c => {
           html += `<div class="country-item" data-code="${c.code}">
-            ${flagImg(c.code)}
+            <div class="flag">${c.flag}</div>
             <span class="name">${c.name}</span>
             <span class="code">${c.dial}</span>
           </div>`;
@@ -106,7 +104,7 @@
         item.addEventListener('click', () => {
           const code = item.dataset.code;
           selectedCountry = COUNTRIES.find(c => c.code === code);
-          countryFlagDisplay.innerHTML = flagImg(selectedCountry.code);
+          countryFlagDisplay.textContent = selectedCountry.flag;
           countryCodeDisplay.textContent = selectedCountry.dial;
           phoneInput.maxLength = selectedCountry.maxLength;
           phoneInput.value = '';
@@ -262,7 +260,5 @@
       window.location.href = '../create-account/';
     });
 
-    countryFlagDisplay.innerHTML = flagImg(selectedCountry.code);
-    countryCodeDisplay.textContent = selectedCountry.dial;
     renderCountryList();
     document.getElementById('statusbar-main').innerHTML = getStatusHTML();

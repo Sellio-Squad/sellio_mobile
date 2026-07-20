@@ -14,68 +14,39 @@
 </head>
 <body>
   <div class="stage">
-    <div class="caption"><strong>Sellio</strong> · Thrift</div>
-
+    <p class="caption">Sellio · <strong>Thrift</strong></p>
     <div class="device">
-      <span class="btn-rail left-1" aria-hidden></span>
-      <span class="btn-rail left-2" aria-hidden></span>
-      <span class="btn-rail left-3" aria-hidden></span>
-      <span class="btn-rail right-1" aria-hidden></span>
-      <span class="island" aria-hidden></span>
+      <div class="island"></div>
+      <div class="btn-rail left-1"></div>
+      <div class="btn-rail left-2"></div>
+      <div class="btn-rail left-3"></div>
+      <div class="btn-rail right-1"></div>
 
       <div class="screen">
         <div id="statusbar-main"></div>
 
-        <!-- App Bar -->
-        <div class="sellio-appbar">
-          <span class="sellio-appbar__title">Thrift</span>
+        <div class="appbar" data-od-id="appbar">
+          <span class="appbar__title">Thrift</span>
         </div>
 
-        <!-- Scrollable content -->
-        <div class="thrift-content" id="thrift-content">
-          <!-- Search Bar -->
-          <div class="search-wrap">
-            <div class="search-bar">
-              <div class="input-wrap">
-                <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <input type="text" placeholder="Search your favorite items" readonly />
-              </div>
-              <button class="filter-btn" id="filter-btn"></button>
+        <div class="search-wrap">
+          <div class="search-bar" data-od-id="search-bar">
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="text" placeholder="Search your favorite items" readonly />
             </div>
-          </div>
-
-          <!-- Category Tabs -->
-          <div class="category-tabs-wrap">
-            <div class="category-tabs" id="category-tabs"></div>
-          </div>
-
-          <!-- Loading Shimmer -->
-          <div class="thrift-loading" id="thrift-loading">
-            <div class="products-grid" id="products-grid-loading"></div>
-          </div>
-
-          <!-- Empty State -->
-          <div class="thrift-empty" id="thrift-empty">
-            <div class="empty-icon-circle">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M20 21V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16m16 0H4m16 0l1.28-2.55a1 1 0 00-.15-.87A1.98 1.98 0 0020 16.5M4 21l1.28-2.55a1 1 0 01.15-.87A1.98 1.98 0 014 16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="empty-title">No products found</div>
-            <div class="empty-desc">You can discover more products</div>
-            <button class="empty-cta" id="empty-cta">Start Exploring</button>
-          </div>
-
-          <!-- Products Grid -->
-          <div class="products-grid-wrap" id="products-grid-wrap">
-            <div class="products-grid" id="products-grid"></div>
-          </div>
-
-          <!-- Load More Shimmer -->
-          <div class="thrift-load-more" id="thrift-load-more">
-            <div class="products-grid" id="products-grid-load-more"></div>
+            <button class="filter-btn" data-od-id="filter-btn"></button>
           </div>
         </div>
 
-        <!-- Bottom Nav -->
+        <div class="category-tabs-wrap">
+          <div class="category-tabs" id="category-tabs"></div>
+        </div>
+
+        <div class="products-scroll">
+          <div class="products-grid" id="products-grid"></div>
+        </div>
+
         <div class="bottom-nav" data-od-id="bottom-nav">
           <button class="nav-item" data-tab="home" id="nav-home"></button>
           <button class="nav-item" data-tab="cart" id="nav-cart"></button>
@@ -86,8 +57,8 @@
         <div class="home-indicator" aria-hidden></div>
       </div>
     </div>
-    <div class="toast" id="toast">Added to cart</div>
   </div>
+  <div class="toast" id="toast">Added to cart</div>
 
   <script src="../../assets/shared-icons.js"></script>
   <script src="../../components/bottom-nav.js"></script>

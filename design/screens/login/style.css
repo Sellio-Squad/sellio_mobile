@@ -134,19 +134,14 @@
       fill: var(--color-title-text);
     }
     .country-flag {
-      width: 22px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .country-flag .flag-img {
-      width: 22px;
-      height: 16px;
-      object-fit: cover;
-      border-radius: 2px;
-      display: block;
+      font-size: 14px;
     }
     .country-code {
       font-size: 16px;
@@ -440,11 +435,14 @@
     .country-item:last-child { border-bottom: none; }
     .country-item:active { background: var(--color-surface); border-radius: 8px; }
 
-    .country-item .flag-img {
+    .country-item .flag {
       width: 28px;
-      height: 20px;
-      object-fit: cover;
-      border-radius: 3px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
       flex-shrink: 0;
     }
     .country-item .name {
