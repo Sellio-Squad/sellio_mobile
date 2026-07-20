@@ -226,7 +226,7 @@ body {
    Search Bar (generic)
    ═══════════════════════════════════════════════ */
 .search-wrap {
-  padding: 0 16px 12px;
+  padding: 0 16px 16px;
 }
 .search-bar {
   display: flex;
@@ -412,7 +412,9 @@ body {
 .counter {
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 40px;
+  background: var(--color-primary);
+  border-radius: 8px;
 }
 .counter-btn {
   width: 32px;

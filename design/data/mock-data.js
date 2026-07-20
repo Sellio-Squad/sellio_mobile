@@ -35,16 +35,16 @@ var STORES = [
 ];
 
 var THRIFT_PRODUCTS = [
-  { id: 1, title: 'Wireless Bluetooth Headphones', price: 'EGP 299', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: '33% OFF', isFavorite: false },
-  { id: 2, title: "Men's Casual Denim Jacket", price: 'EGP 450', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: null, isFavorite: true },
-  { id: 3, title: 'Stainless Steel Water Bottle', price: 'EGP 120', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=320&h=352&fit=crop&auto=format', category: 'home', discount: '15% OFF', isFavorite: false },
-  { id: 4, title: 'Running Sneakers Pro', price: 'EGP 899', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=320&h=352&fit=crop&auto=format', category: 'sports', discount: null, isFavorite: false },
-  { id: 5, title: 'Organic Face Cream', price: 'EGP 185', image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=320&h=352&fit=crop&auto=format', category: 'beauty', discount: '20% OFF', isFavorite: false },
-  { id: 6, title: 'Smartwatch Series X', price: 'EGP 1200', image: 'https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: null, isFavorite: false },
-  { id: 7, title: 'Canvas Backpack - Urban', price: 'EGP 350', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: '25% OFF', isFavorite: true },
-  { id: 8, title: 'Ceramic Coffee Mug Set', price: 'EGP 95', image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=320&h=352&fit=crop&auto=format', category: 'home', discount: null, isFavorite: false },
-  { id: 9, title: 'Yoga Mat Premium', price: 'EGP 220', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=320&h=352&fit=crop&auto=format', category: 'sports', discount: '10% OFF', isFavorite: false },
-  { id: 10, title: 'Bestseller Novel Collection', price: 'EGP 75', image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=320&h=352&fit=crop&auto=format', category: 'books', discount: null, isFavorite: false },
-  { id: 11, title: 'Building Blocks Set', price: 'EGP 150', image: 'https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=320&h=352&fit=crop&auto=format', category: 'toys', discount: '30% OFF', isFavorite: false },
-  { id: 12, title: 'Wireless Phone Charger', price: 'EGP 199', image: 'https://images.unsplash.com/photo-1615526675159-e0481f089953?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: null, isFavorite: false }
+  { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: '33% OFF', isFavorite: false },
+  { id: 2, title: "Men's Casual Denim Jacket", price: '450', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: null, isFavorite: true },
+  { id: 3, title: 'Stainless Steel Water Bottle', price: '120', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=320&h=352&fit=crop&auto=format', category: 'home', discount: '15% OFF', isFavorite: false },
+  { id: 4, title: 'Running Sneakers Pro', price: '899', image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=320&h=352&fit=crop&auto=format', category: 'sports', discount: null, isFavorite: false },
+  { id: 5, title: 'Organic Face Cream', price: '185', image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=320&h=352&fit=crop&auto=format', category: 'beauty', discount: '20% OFF', isFavorite: false },
+  { id: 6, title: 'Smartwatch Series X', price: '1200', image: 'https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: null, isFavorite: false },
+  { id: 7, title: 'Canvas Backpack - Urban', price: '350', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: '25% OFF', isFavorite: true },
+  { id: 8, title: 'Ceramic Coffee Mug Set', price: '95', image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=320&h=352&fit=crop&auto=format', category: 'home', discount: null, isFavorite: false },
+  { id: 9, title: 'Yoga Mat Premium', price: '220', image: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=320&h=352&fit=crop&auto=format', category: 'sports', discount: '10% OFF', isFavorite: false },
+  { id: 10, title: 'Bestseller Novel Collection', price: '75', image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=320&h=352&fit=crop&auto=format', category: 'books', discount: null, isFavorite: false },
+  { id: 11, title: 'Building Blocks Set', price: '150', image: 'https://images.unsplash.com/photo-1587654780291-39c9404d7dd0?w=320&h=352&fit=crop&auto=format', category: 'toys', discount: '30% OFF', isFavorite: false },
+  { id: 12, title: 'Wireless Phone Charger', price: '199', image: 'https://images.unsplash.com/photo-1615526675159-e0481f089953?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: null, isFavorite: false }
 ];
