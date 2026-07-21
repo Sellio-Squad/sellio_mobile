@@ -17,7 +17,8 @@ If something already exists in a shared file, import and reuse it. Only add scre
 
 ## Project rules
 - **NEVER read from or work on the C version — only work on the D (design) version.**
-- **Write files on `D:\workshop\sellio_mobile\design\`** — NOT the C:\ Open Design workspace.
+- **NEVER write files to the Open Design workspace (C:\Users\aboud\AppData\Roaming\Open Design\...). All files MUST be written to `D:\workshop\sellio_mobile\design\`.**
+- **NEVER copy files to the workspace.** The workspace is read-only for preview. All edits go to D.
 - **Match the Flutter design 100%** — same tokens, same SVG icons, same spacing, same layout.
 - **Mock data only** — no business logic. This is a design prototype.
 - **Feature-by-feature** — build/refine one screen at a time.

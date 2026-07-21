@@ -72,16 +72,44 @@ function renderFeaturedProducts() {
     return '<div class="featured-card" data-od-id="featured-' + p.id + '" data-product-id="' + p.id + '">' +
       '<div class="img-wrap">' +
         '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" />' +
+        '<button class="fav-btn" data-fav-id="' + p.id + '">' +
+          SHARED_ICONS.heart +
+        '</button>' +
       '</div>' +
       '<div class="card-content">' +
         '<div class="product-title">' + p.title + '</div>' +
-        '<div class="product-desc">' + p.description + '</div>' +
         '<div class="price">' + p.price.toLocaleString() + ' EGP</div>' +
+        '<div class="card-cart-row">' +
+          '<button class="card-add-btn" data-add-id="' + p.id + '">' +
+            SHARED_ICONS.smallCart +
+          '</button>' +
+        '</div>' +
       '</div>' +
     '</div>';
   }).join('');
   document.getElementById('featured-scroll').innerHTML = html;
 
+  // Favorite toggle on featured cards
+  document.querySelectorAll('.featured-card .fav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      this.classList.toggle('favorited');
+      var isFav = this.classList.contains('favorited');
+      this.innerHTML = isFav ? SHARED_ICONS.heartFav : SHARED_ICONS.heart;
+    });
+  });
+
+  // Add-to-cart on featured cards
+  document.querySelectorAll('.featured-card .card-add-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var id = parseInt(this.dataset.addId);
+      ProductCounter.addToCart(id);
+      showToast('Added to cart');
+    });
+  });
+
+  // Product tap on featured cards
   document.querySelectorAll('.featured-card').forEach(function(card) {
     card.addEventListener('click', function() {
     });
@@ -141,17 +169,23 @@ function renderProducts() {
         '<div class="store-product-card__desc">' + p.description + '</div>' +
         '<div class="store-product-card__price">' + p.price.toLocaleString() + ' EGP</div>' +
       '</div>' +
+      '<div class="store-product-card__actions" data-cart-row="' + p.id + '">' +
+      '</div>' +
     '</div>';
   }).join('');
   document.getElementById('store-products').innerHTML = html;
 
+  // Render product counters (add-to-cart / increment/decrement)
+  ProductCounter.renderAllCounters();
+
+  // Product tap
   document.querySelectorAll('.store-product-card').forEach(function(card) {
     card.addEventListener('click', function() {
     });
   });
 }
 
-// Favorite button
+// Favorite button in app bar
 document.getElementById('store-fav-btn').addEventListener('click', function() {
   var isFav = this.classList.toggle('favorited');
   if (isFav) {

@@ -212,17 +212,23 @@
 .featured-scroll::-webkit-scrollbar { display: none; }
 .featured-scroll { scrollbar-width: none; }
 
+/* Featured Card — matches Flutter SellioProductVerticalCard */
 .featured-card {
-  min-width: 160px;
-  max-width: 160px;
+  min-width: 170px;
+  max-width: 170px;
+  height: 236px;
   background: var(--color-surface-low);
   border-radius: var(--card-radius);
   border: 1px solid var(--color-stroke-border);
   overflow: hidden;
   scroll-snap-align: start;
   flex-shrink: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .featured-card .img-wrap {
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   background: var(--color-surface);
@@ -230,14 +236,40 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  flex-shrink: 0;
 }
 .featured-card .img-wrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+.featured-card .fav-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+.featured-card .fav-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+}
 .featured-card .card-content {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
 }
 .featured-card .product-title {
   font: var(--text-label-medium);
@@ -247,22 +279,41 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.featured-card .product-desc {
-  font: var(--text-label-xsmall);
-  color: var(--color-body-text);
-  margin-bottom: 6px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .featured-card .price {
   font: var(--text-title-small);
   color: var(--color-primary);
+  margin-top: auto;
+}
+.featured-card .card-cart-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+.featured-card .card-add-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+.featured-card .card-add-btn:active { transform: scale(0.9); }
+.featured-card .card-add-btn svg {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
 }
 
-/* Category Tabs */
+/* Category Tabs — matches Flutter 52px height with 6px vertical padding */
 .store-tabs-wrap {
   margin-top: 20px;
+  height: 52px;
+  display: flex;
+  align-items: center;
 }
 .store-tabs {
   display: flex;
@@ -282,7 +333,7 @@
   gap: 12px;
 }
 
-/* Horizontal Product Card */
+/* Horizontal Product Card — matches Flutter SellioProductHorizontalCard */
 .store-product-card {
   height: 89px;
   display: flex;
@@ -332,6 +383,13 @@
   font: var(--text-title-small);
   color: var(--color-primary);
   margin-top: 4px;
+}
+.store-product-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 8px;
+  flex-shrink: 0;
 }
 
 /* Empty State */
@@ -429,6 +487,29 @@
 .shimmer-line--short { width: 30%; }
 .shimmer-line--medium { width: 70%; }
 .shimmer-line--full { width: 100%; }
+.shimmer-featured-title {
+  padding: 16px 0 12px;
+}
+.shimmer-featured-cards {
+  display: flex;
+  gap: 12px;
+  overflow: hidden;
+}
+.shimmer-featured-card {
+  min-width: 170px;
+  height: 236px;
+  border-radius: 12px;
+  background: var(--color-surface);
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-featured-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
 .shimmer-tabs {
   display: flex;
   gap: 12px;
