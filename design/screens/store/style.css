@@ -308,12 +308,16 @@
   filter: brightness(0) invert(1);
 }
 
-/* Category Tabs — matches Flutter 52px height with 6px vertical padding */
+/* Category Tabs — matches Flutter 52px height, sticky on scroll */
 .store-tabs-wrap {
-  margin-top: 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   height: 52px;
   display: flex;
   align-items: center;
+  background: var(--color-surface);
+  flex-shrink: 0;
 }
 .store-tabs {
   display: flex;
