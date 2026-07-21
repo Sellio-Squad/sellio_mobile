@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Design System</title>
+  <link rel="stylesheet" href="../assets/tokens.css">
+  <link rel="stylesheet" href="../assets/components.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0; padding: 40px 32px;
+      background: #1a0a10;
+      font-family: var(--font-family);
+      color: #fff;
+      min-height: 100vh;
+    }
+    h1 {
+      font: 600 28px/1.2 var(--font-family);
+      color: #fff; margin: 0 0 8px;
+    }
+    .subtitle {
+      font: 400 14px/1.4 var(--font-family);
+      color: rgba(255,255,255,0.5); margin: 0 0 40px;
+    }
+    .section { margin-bottom: 32px; }
+    .section-title {
+      font: 500 16px/1.4 var(--font-family);
+      color: rgba(255,255,255,0.7); margin: 0 0 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      display: block;
+      padding: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .card:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .card-name {
+      font: 600 16px/1.3 var(--font-family);
+      color: #fff; margin-bottom: 4px;
+    }
+    .card-desc {
+      font: 400 13px/1.4 var(--font-family);
+      color: rgba(255,255,255,0.5);
+    }
+    .card-badge {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 3px 8px;
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+      font: 500 11px/1 var(--font-family);
+      border-radius: 100px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sellio Design System</h1>
+  <p class="subtitle">Interactive prototype matching the Flutter mobile app</p>
+
+  <div class="section">
+    <div class="section-title">Screens</div>
+    <div class="grid">
+      <a class="card" href="home/index.html">
+        <div class="card-name">Home</div>
+        <div class="card-desc">App bar, search, categories grid, trending products, top stores, bottom nav, guest overlay</div>
+        <span class="card-badge">App Screen</span>
+      </a>
+      <a class="card" href="cart/index.html">
+        <div class="card-name">Cart</div>
+        <div class="card-desc">Cart items list, counters, dashed dividers, note section, order confirmation bottom sheet</div>
+        <span class="card-badge">App Screen</span>
+      </a>
+      <a class="card" href="thrift/index.html">
+        <div class="card-name">Thrift</div>
+        <div class="card-desc">Search bar, category tabs, 2-column product grid with filter</div>
+        <span class="card-badge">App Screen</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Auth Screens</div>
+    <div class="grid">
+      <a class="card" href="login/index.html">
+        <div class="card-name">Login</div>
+        <div class="card-desc">Phone/email form, country selector, validation states</div>
+      </a>
+      <a class="card" href="create-account/index.html">
+        <div class="card-name">Create Account</div>
+        <div class="card-desc">Registration form with OTP verification (code: 9999)</div>
+      </a>
+      <a class="card" href="forgot-password/index.html">
+        <div class="card-name">Forgot Password</div>
+        <div class="card-desc">3-step flow: phone, OTP (9999), reset password</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Design Tokens</div>
+    <div class="grid">
+      <a class="card" href="../design-system/index.html">
+        <div class="card-name">Design System Preview</div>
+        <div class="card-desc">Colors, typography, spacing, component classes reference</div>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

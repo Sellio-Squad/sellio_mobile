@@ -1,0 +1,288 @@
+/* ============================================
+   SELLIO DESIGN SYSTEM — CSS TOKENS
+   Auto-generated from Flutter design_system package
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* ──────────────────────────────────────────
+     COLORS — SellioColorScheme
+     ────────────────────────────────────────── */
+
+  /* Brand */
+  --color-primary: #520826;
+  --color-primary-variant: #FEF5F9;
+  --color-secondary: #F5A623;
+  --color-secondary-variant: #FEF3E1;
+
+  /* Surfaces */
+  --color-surface-low: #FFFFFF;
+  --color-surface: #F8F8F8;
+  --color-surface-high: #E6E6E6;
+
+  /* Text */
+  --color-title: #1F1F1F;
+  --color-body: #1F1F1F;
+  --color-hint: #1F1F1F;
+  --color-stroke: #1F1F1F;
+
+  /* Text with actual opacity applied */
+  --color-title-text: rgba(31, 31, 31, 0.87);
+  --color-body-text: rgba(31, 31, 31, 0.66);
+  --color-hint-text: rgba(31, 31, 31, 0.38);
+  --color-stroke-border: rgba(31, 31, 31, 0.12);
+
+  /* On Colors */
+  --color-on-primary: rgba(255, 255, 255, 0.87);
+  --color-on-primary-solid: #FFFFFF;
+
+  /* States */
+  --color-disabled: #E8EBED;
+  --color-red: #E54F40;
+  --color-error-variant: #FEEDEC;
+  --color-green: #0D6620;
+  --color-green-variant: #E0F5E5;
+  --color-red-variant: #FEEDEC;
+  --color-purple-variant: #FEF5F9;
+  --color-semantic-error: #CF3E30;
+  --color-neutrals-hint: #BBBBBB;
+
+  /* Special */
+  --color-auth-background: #2C0113;
+  --color-shadow: rgba(82, 8, 38, 0.12);
+  --color-upload-image-tint: rgba(0, 0, 0, 0.44);
+
+  /* Loading Shimmer */
+  --loading-dark-1: rgba(82, 8, 38, 0.12);
+  --loading-dark-2: rgba(82, 8, 38, 0.50);
+  --loading-dark-3: rgba(82, 8, 38, 0.87);
+  --loading-light-1: rgba(255, 255, 255, 0.12);
+  --loading-light-2: rgba(255, 255, 255, 0.50);
+  --loading-light-3: rgba(255, 255, 255, 0.87);
+
+  /* ──────────────────────────────────────────
+     TYPOGRAPHY — SellioTextTheme
+     Font: Rubik (400, 500, 600)
+     ────────────────────────────────────────── */
+
+  --font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+  /* Display / Headlines */
+  --text-headline-large: 600 28px/42px var(--font-family);
+  --text-headline-medium: 600 24px/36px var(--font-family);
+  --text-headline-small: 600 20px/30px var(--font-family);
+
+  /* Titles */
+  --text-title-large: 500 20px/30px var(--font-family);
+  --text-title-medium: 500 18px/28px var(--font-family);
+  --text-title-small: 500 16px/24px var(--font-family);
+
+  /* Body */
+  --text-body-large: 400 18px/28px var(--font-family);
+  --text-body-medium: 400 16px/24px var(--font-family);
+  --text-body-small: 400 14px/22px var(--font-family);
+
+  /* Labels */
+  --text-label-large: 500 16px/24px var(--font-family);
+  --text-label-medium: 500 14px/22px var(--font-family);
+  --text-label-small: 500 12px/18px var(--font-family);
+  --text-label-xsmall: 400 10px/14px var(--font-family);
+
+  /* OTP */
+  --text-otp-digit: 700 40px/1 var(--font-family);
+
+  /* ──────────────────────────────────────────
+     SPACING — LayoutConstants
+     ────────────────────────────────────────── */
+
+  /* Padding */
+  --spacing-padding-horizontal: 16px;
+  --spacing-padding-vertical: 8px;
+  --spacing-padding-small: 8px;
+  --spacing-padding-medium: 12px;
+  --spacing-padding-large: 16px;
+
+  /* Section / Item */
+  --spacing-section: 8px;
+  --spacing-item: 12px;
+
+  /* ──────────────────────────────────────────
+     ICON SIZES
+     ────────────────────────────────────────── */
+
+  --icon-size-small: 16px;
+  --icon-size-medium: 24px;
+  --icon-size-large: 32px;
+
+  /* ──────────────────────────────────────────
+     BORDER RADIUS
+     ────────────────────────────────────────── */
+
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-pill: 100px;
+
+  /* ──────────────────────────────────────────
+     COMPONENT-SPECIFIC TOKENS
+     ────────────────────────────────────────── */
+
+  /* Button */
+  --button-vertical-padding: 9px;
+  --button-horizontal-padding: 24px;
+  --button-border-radius: 8px;
+  --button-icon-width: 20px;
+  --button-icon-height: 20px;
+  --button-icon-gap: 8px;
+
+  /* TextField */
+  --field-border-radius: 8px;
+  --field-border-width: 0.5px;
+  --field-border-width-focused: 1px;
+  --field-fill: var(--color-surface);
+  --field-padding-vertical: 14px;
+  --field-padding-horizontal: 12px;
+  --field-focus-shadow: 0 4px 8px var(--color-shadow);
+  --field-prefix-padding: 16px;
+
+  /* Switch */
+  --switch-width: 52px;
+  --switch-height: 32px;
+  --switch-thumb-size: 24px;
+  --switch-thumb-size-disabled: 16px;
+  --switch-duration: 200ms;
+
+  /* Chip */
+  --chip-padding-inner: 4px;
+  --chip-icon-container-size: 30px;
+  --chip-icon-size: 20px;
+  --chip-icon-gap: 8px;
+
+  /* OTP Card */
+  --otp-card-width: 68px;
+  --otp-card-height: 106px;
+  --otp-card-radius: 8px;
+  --otp-digit-size: 40px;
+  --otp-cursor-width: 29px;
+  --otp-cursor-height: 3px;
+
+  /* Checkbox */
+  --checkbox-size: 20px;
+  --checkbox-border-width: 1.5px;
+  --checkbox-radius: 4px;
+  --checkbox-icon-size: 10px;
+
+  /* Radio */
+  --radio-size: 20px;
+  --radio-border-width: 1.5px;
+  --radio-inner-size: 8px;
+
+  /* Bottom Nav */
+  --nav-height: 58px;
+  --nav-icon-size: 24px;
+  --nav-label-size: 10px;
+  --nav-center-button-size: 70px;
+  --nav-center-button-border: 4px;
+  --nav-shadow: 0 -4px 12px rgba(0, 0, 0, 0.04);
+  --nav-duration: 200ms;
+
+  /* Bottom Sheet */
+  --sheet-max-height: 90%;
+  --sheet-border-radius-top: 16px;
+  --sheet-drag-handle-width: 44px;
+  --sheet-drag-handle-height: 4px;
+  --sheet-content-padding-vertical: 24px;
+  --sheet-content-padding-horizontal: 16px;
+
+  /* Snackbar */
+  --snackbar-radius: 4px;
+  --snackbar-padding: 8px;
+  --snackbar-shadow: 0 4px 24px;
+  --snackbar-icon-container-size: 46px;
+  --snackbar-icon-size: 28px;
+  --snackbar-close-size: 20px;
+  --snackbar-enter-duration: 280ms;
+  --snackbar-auto-dismiss-error: 4000ms;
+  --snackbar-auto-dismiss-success: 3000ms;
+
+  /* Favorite Button */
+  --fav-size: 32px;
+  --fav-bg: rgba(255, 255, 255, 0.60);
+  --fav-blur: 12px;
+  --fav-icon-size: 20px;
+
+  /* Card (Product) */
+  --card-radius: 12px;
+  --card-thumbnail-size: 44px;
+  --card-counter-height: 40px;
+  --card-icon-button-size: 32px;
+  --card-content-padding: 10px;
+
+  /* App Bar */
+  --appbar-height: 68px;
+  --appbar-back-size: 24px;
+  --appbar-leading-padding: 16px;
+  --appbar-title-spacing: 12px;
+
+  /* Indicator */
+  --indicator-active-size: 6px;
+  --indicator-inactive-size: 4px;
+  --indicator-gap: 2px;
+  --indicator-duration: 300ms;
+
+  /* Discount Tag */
+  --discount-icon-size: 16px;
+  --discount-icon-gap: 4px;
+
+  /* Search Bar */
+  --search-radius: 12px;
+  --search-icon-size: 24px;
+  --search-filter-width: 48px;
+
+  /* Dashed Divider */
+  --divider-dash-width: 12px;
+  --divider-dash-spacing: 4px;
+
+  /* ──────────────────────────────────────────
+     SHADOWS
+     ────────────────────────────────────────── */
+
+  --shadow-field-focus: 0 4px 8px var(--color-shadow);
+  --shadow-nav: 0 -4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-snackbar-error: 0 4px 24px rgba(229, 79, 64, 0.35);
+  --shadow-snackbar-success: 0 4px 24px rgba(13, 102, 32, 0.35);
+  --shadow-checkbox: 0 2px 4px rgba(82, 8, 38, 0.10);
+  --shadow-otp-focus: 0 2px 8px rgba(82, 8, 38, 0.15);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+  /* ──────────────────────────────────────────
+     ANIMATIONS
+     ────────────────────────────────────────── */
+
+  --duration-loading-dots: 1200ms;
+  --duration-switch: 200ms;
+  --duration-thumbnail: 180ms;
+  --duration-indicator: 300ms;
+  --duration-nav-item: 200ms;
+  --duration-center-button: 150ms;
+  --duration-snackbar: 280ms;
+}
+
+/* ──────────────────────────────────────────
+   UTILITY: Typography classes
+   ────────────────────────────────────────── */
+
+.text-headline-large   { font: var(--text-headline-large); color: var(--color-title-text); }
+.text-headline-medium  { font: var(--text-headline-medium); color: var(--color-title-text); }
+.text-headline-small   { font: var(--text-headline-small); color: var(--color-title-text); }
+.text-title-large      { font: var(--text-title-large); color: var(--color-title-text); }
+.text-title-medium     { font: var(--text-title-medium); color: var(--color-title-text); }
+.text-title-small      { font: var(--text-title-small); color: var(--color-title-text); }
+.text-body-large       { font: var(--text-body-large); color: var(--color-body-text); }
+.text-body-medium      { font: var(--text-body-medium); color: var(--color-body-text); }
+.text-body-small       { font: var(--text-body-small); color: var(--color-body-text); }
+.text-label-large      { font: var(--text-label-large); color: var(--color-title-text); }
+.text-label-medium     { font: var(--text-label-medium); color: var(--color-title-text); }
+.text-label-small      { font: var(--text-label-small); color: var(--color-title-text); }
+.text-label-xsmall     { font: var(--text-label-xsmall); color: var(--color-body-text); }

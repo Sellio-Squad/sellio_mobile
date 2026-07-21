@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Cart</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <p class="caption"><strong>Sellio</strong> · Cart</p>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen">
+        <div id="statusbar-main"></div>
+
+        <!-- App bar -->
+        <div class="cart-appbar" data-od-id="appbar">
+          <div class="cart-appbar__title">Cart</div>
+        </div>
+
+        <!-- Scrollable content -->
+        <div class="cart-content" id="cart-content"></div>
+
+        <!-- Bottom bar -->
+        <div class="cart-bottom-bar" id="cart-bottom-bar" style="display:none;">
+          <div class="cart-bottom-bar__price-row">
+            <div class="cart-bottom-bar__discount-icon" id="cart-total-icon"></div>
+            <div class="cart-bottom-bar__label">Total price</div>
+            <div class="cart-bottom-bar__price" id="total-price">0 EGP</div>
+          </div>
+          <button class="sellio-button sellio-button--primary" id="confirm-btn" data-od-id="confirm-btn">
+            <span id="confirm-btn-text">Confirm order (0)</span>
+            <span class="btn-icon" id="confirm-icon"></span>
+          </button>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav" data-od-id="bottom-nav">
+          <button class="nav-item" data-tab="home" id="nav-home"></button>
+          <button class="nav-item active" data-tab="cart" id="nav-cart"></button>
+          <button class="nav-center" data-tab="customize" id="nav-customize"></button>
+          <button class="nav-item" data-tab="thrift" id="nav-thrift"></button>
+          <button class="nav-item" data-tab="account" id="nav-account"></button>
+        </div>
+        <div class="home-indicator" aria-hidden></div>
+
+        <!-- Order confirmation overlay -->
+        <div class="order-overlay" id="order-overlay">
+          <div class="order-sheet">
+            <div class="order-sheet__handle">
+              <div class="order-sheet__handle-bar"></div>
+            </div>
+            <div class="order-sheet__icon-wrap">
+              <img src="../../assets/package-delivered.svg" alt="Order confirmed" style="width:64px;height:64px;" />
+            </div>
+            <div class="order-sheet__number">
+              <img src="../../assets/ic_product.svg" alt="Product" style="width:18px;height:18px;" />
+              <span>Order #2002124</span>
+            </div>
+            <div class="order-sheet__text">Your order has been received successfully!</div>
+            <button class="sellio-button sellio-button--secondary" id="back-to-shopping-btn">Back to shopping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast">Added to cart</div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/bottom-nav.js"></script>
+  <script src="../../components/toast.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

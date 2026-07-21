@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Home</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="caption"><strong>Sellio</strong> · Home</div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen">
+        <div id="statusbar-main"></div>
+
+        <div class="gradient-bg" style="position:absolute;top:0;left:0;right:0;height:256px;background:linear-gradient(180deg, rgba(82,8,38,0.16) 0%, transparent 100%);z-index:0;pointer-events:none;"></div>
+
+        <!-- Guest overlay -->
+        <div class="guest-overlay" id="guest-overlay">
+          <div id="statusbar-guest"></div>
+          <div class="guest-content">
+            <div class="guest-icon-circle">
+              <svg viewBox="0 0 64 64" fill="none"><g opacity="0.4"><path d="M26.3338 6C19.3382 6 13.6671 11.6711 13.6671 18.6667C13.6671 25.6623 19.3382 31.3333 26.3338 31.3333C33.3293 31.3333 39.0005 25.6623 39.0005 18.6667C39.0005 11.6711 33.3293 6 26.3338 6Z" fill="#E54F40"/><path d="M40.1982 39.0647C31.7097 34.0895 20.9577 34.0895 12.4692 39.0647C12.2013 39.2218 11.8679 39.4069 11.4886 39.6175L11.4847 39.6197C9.79764 40.5562 7.20564 41.9951 5.43153 43.7045C4.32355 44.7722 3.23139 46.2141 3.03201 48.0098C2.81835 49.9338 3.67795 51.7095 5.32147 53.2509C8.12169 55.8767 11.5028 57.9999 15.8824 57.9999H36.7849C41.1646 57.9999 44.5457 55.877 47.346 53.2509C48.9894 51.7095 49.8489 49.9338 49.6353 48.0098C49.4358 46.2141 48.3438 44.7722 47.2358 43.7045C45.4619 41.9953 42.871 40.5569 41.184 39.6204C40.803 39.4089 40.467 39.2223 40.1982 39.0647Z" fill="#E54F40"/></g><path fill-rule="evenodd" clip-rule="evenodd" d="M42.3337 17.3334C42.3337 15.8606 43.5279 14.6667 45.0004 14.6667H58.3337C59.8065 14.6667 61.0004 15.8606 61.0004 17.3334C61.0004 18.8061 59.8065 20 58.3337 20H45.0004C43.5279 20 42.3337 18.8061 42.3337 17.3334Z" fill="#E54F40"/></svg>
+            </div>
+            <div class="guest-title">Not Registered</div>
+            <div class="guest-desc">Login to access your account</div>
+            <button class="guest-login-btn" id="guest-login-btn">Login</button>
+          </div>
+          <div class="home-indicator" aria-hidden></div>
+        </div>
+
+        <!-- Main content -->
+        <div class="home-content" id="home-content">
+          <!-- App bar -->
+          <div class="home-appbar">
+            <div class="appbar-left">
+              <div class="appbar-logo"><img src="../../assets/sellio.webp" alt="Sellio" /></div>
+              <div class="appbar-welcome">
+                <span class="name" id="welcome-name">Welcome, John</span>
+                <span class="location" id="welcome-location">
+                  <svg viewBox="0 0 14 14" fill="none"><path d="M7 1C4.51 1 2.5 3.01 2.5 5.5C2.5 9.25 7 13 7 13C7 13 11.5 9.25 11.5 5.5C11.5 3.01 9.49 1 7 1ZM7 7.25C6.035 7.25 5.25 6.465 5.25 5.5C5.25 4.535 6.035 3.75 7 3.75C7.965 3.75 8.75 4.535 8.75 5.5C8.75 6.465 7.965 7.25 7 7.25Z" fill="currentColor"/></svg>
+                  <span>Cairo, Egypt</span>
+                </span>
+              </div>
+            </div>
+            <div class="appbar-bell">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" fill="#1F1F1F"/></svg>
+              <span class="badge"></span>
+            </div>
+          </div>
+
+          <!-- Search bar -->
+          <div class="home-search">
+            <div class="input-wrap">
+              <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <input type="text" placeholder="Search your favorite items" readonly />
+            </div>
+            <button class="filter-btn" data-od-id="filter-btn" id="filter-btn"></button>
+          </div>
+
+          <!-- Categories -->
+          <div class="categories-section" data-od-id="categories-section">
+            <div class="categories-grid" id="categories-grid"></div>
+          </div>
+
+          <!-- Trending Products -->
+          <div class="trending-section">
+            <div class="section-header" data-od-id="trending-header">
+              <h2>Trending Products</h2>
+              <button class="see-all">See All <svg viewBox="0 0 20 20" fill="none"><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M12.6042 10.0033C12.6042 9.54302 12.2312 9.16992 11.7709 9.16992L3.43758 9.16992C2.97734 9.16992 2.60425 9.54302 2.60425 10.0033C2.60425 10.4635 2.97734 10.8366 3.43758 10.8366L11.7709 10.8366C12.2312 10.8366 12.6042 10.4635 12.6042 10.0033Z" fill="currentColor"/><path d="M16.9281 8.98059C17.1722 9.23613 17.3958 9.56498 17.3958 10.0022C17.3958 10.4395 17.1722 10.7667 16.9281 11.0223C16.7008 11.2602 16.343 11.542 15.9791 11.8287L15.1342 12.4942C14.5155 12.9817 13.9975 13.3897 13.5665 13.6398C13.1329 13.8914 12.5999 14.0958 12.0472 13.851C11.4794 13.5997 11.2943 13.0562 11.2192 12.5672C11.1457 12.0888 11.1457 11.4473 11.1457 10.6902L11.1457 9.31264C11.1457 8.55554 11.1457 7.914 11.2192 7.43561C11.2943 6.94661 11.4794 6.40319 12.0472 6.1518C12.5999 5.90709 13.1329 6.11148 13.5665 6.36303C13.9975 6.61314 14.5155 7.02119 15.1342 7.50867L15.9791 8.17419C16.343 8.46087 16.7008 8.74262 16.9281 8.98059Z" fill="currentColor"/></svg></button>
+            </div>
+            <div class="products-scroll" id="trending-products"></div>
+          </div>
+
+          <!-- Top Stores -->
+          <div class="stores-section">
+            <div class="section-header" data-od-id="stores-header">
+              <h2>Top Stores</h2>
+              <button class="see-all">See All <svg viewBox="0 0 20 20" fill="none"><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M12.6042 10.0033C12.6042 9.54302 12.2312 9.16992 11.7709 9.16992L3.43758 9.16992C2.97734 9.16992 2.60425 9.54302 2.60425 10.0033C2.60425 10.4635 2.97734 10.8366 3.43758 10.8366L11.7709 10.8366C12.2312 10.8366 12.6042 10.4635 12.6042 10.0033Z" fill="currentColor"/><path d="M16.9281 8.98059C17.1722 9.23613 17.3958 9.56498 17.3958 10.0022C17.3958 10.4395 17.1722 10.7667 16.9281 11.0223C16.7008 11.2602 16.343 11.542 15.9791 11.8287L15.1342 12.4942C14.5155 12.9817 13.9975 13.3897 13.5665 13.6398C13.1329 13.8914 12.5999 14.0958 12.0472 13.851C11.4794 13.5997 11.2943 13.0562 11.2192 12.5672C11.1457 12.0888 11.1457 11.4473 11.1457 10.6902L11.1457 9.31264C11.1457 8.55554 11.1457 7.914 11.2192 7.43561C11.2943 6.94661 11.4794 6.40319 12.0472 6.1518C12.5999 5.90709 13.1329 6.11148 13.5665 6.36303C13.9975 6.61314 14.5155 7.02119 15.1342 7.50867L15.9791 8.17419C16.343 8.46087 16.7008 8.74262 16.9281 8.98059Z" fill="currentColor"/></svg></button>
+            </div>
+            <div class="stores-list" id="stores-list"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav" data-od-id="bottom-nav">
+          <button class="nav-item active" data-tab="home" id="nav-home"></button>
+          <button class="nav-item" data-tab="cart" id="nav-cart"><span class="cart-badge" id="cart-badge">0</span></button>
+          <button class="nav-center" data-tab="customize" id="nav-customize"></button>
+          <button class="nav-item" data-tab="thrift" id="nav-thrift"></button>
+          <button class="nav-item" data-tab="account" id="nav-account"></button>
+        </div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+    <div class="toast" id="toast">Added to cart</div>
+  </div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/bottom-nav.js"></script>
+  <script src="../../components/product-counter.js"></script>
+  <script src="../../components/favorites.js"></script>
+  <script src="../../data/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sellio Design System</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body { background: #F8F8F8; padding: 40px 24px 80px; }
+    .ds-section { margin-bottom: 48px; }
+    .ds-section__title {
+      font: var(--text-headline-small);
+      color: var(--color-primary);
+      margin-bottom: 4px;
+    }
+    .ds-section__desc {
+      font: var(--text-body-small);
+      color: var(--color-body-text);
+      margin-bottom: 24px;
+    }
+    .ds-subsection { margin-bottom: 32px; }
+    .ds-subsection__title {
+      font: var(--text-title-small);
+      color: var(--color-title-text);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-stroke-border);
+    }
+    .ds-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+    .ds-card {
+      background: var(--color-surface-low);
+      border-radius: var(--radius-medium);
+      padding: 24px;
+      border: 1px solid var(--color-stroke-border);
+    }
+    .ds-label {
+      font: var(--text-label-small);
+      color: var(--color-body-text);
+      margin-bottom: 8px;
+    }
+    /* Color swatches */
+    .ds-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .ds-swatch {
+      border-radius: var(--radius-medium);
+      overflow: hidden;
+      border: 1px solid var(--color-stroke-border);
+    }
+    .ds-swatch__color {
+      height: 64px;
+      display: flex;
+      align-items: flex-end;
+      padding: 4px 8px;
+    }
+    .ds-swatch__label {
+      font: var(--text-label-xsmall);
+      padding: 8px;
+      background: white;
+    }
+    .ds-swatch__hex {
+      font: var(--text-label-xsmall);
+      color: var(--color-body-text);
+      padding: 0 8px 6px;
+      background: white;
+    }
+    /* Typography samples */
+    .ds-type-sample {
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-stroke-border);
+    }
+    .ds-type-sample:last-child { border-bottom: none; }
+    .ds-type-meta {
+      font: var(--text-label-xsmall);
+      color: var(--color-body-text);
+      margin-bottom: 4px;
+    }
+    .ds-field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 360px;
+    }
+    .ds-inline {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .ds-inline > * { flex-shrink: 0; }
+    .ds-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 720px;
+    }
+    .ds-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      max-width: 480px;
+    }
+    .ds-page-title {
+      font: var(--text-headline-large);
+      color: var(--color-title-text);
+      margin-bottom: 8px;
+    }
+    .ds-page-subtitle {
+      font: var(--text-body-large);
+      color: var(--color-body-text);
+      margin-bottom: 40px;
+    }
+    .ds-nav-link {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font: var(--text-label-medium);
+      color: var(--color-primary);
+      background: var(--color-primary-variant);
+      text-decoration: none;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADER -->
+  <div style="max-width: 960px; margin: 0 auto;">
+    <div class="ds-page-title">Sellio Design System</div>
+    <div class="ds-page-subtitle">Tokens, components, and patterns — ported from Flutter 1:1</div>
+    <div style="margin-bottom: 40px;">
+      <a href="../screens/login.html" class="ds-nav-link">Login Screen</a>
+      <a href="../screens/create-account.html" class="ds-nav-link">Create Account</a>
+      <a href="../screens/forgot-password.html" class="ds-nav-link">Forgot Password</a>
+    </div>
+
+    <!-- ============================================
+         COLORS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Colors</div>
+      <div class="ds-section__desc">All color tokens from SellioColorScheme, including opacity-based text colors.</div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Brand</div>
+        <div class="ds-swatch-grid">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#520826"></div>
+            <div class="ds-swatch__label">primary</div>
+            <div class="ds-swatch__hex">#520826</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#FEF5F9"></div>
+            <div class="ds-swatch__label">primaryVariant</div>
+            <div class="ds-swatch__hex">#FEF5F9</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#F5A623"></div>
+            <div class="ds-swatch__label">secondary</div>
+            <div class="ds-swatch__hex">#F5A623</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#FEF3E1"></div>
+            <div class="ds-swatch__label">secondaryVariant</div>
+            <div class="ds-swatch__hex">#FEF3E1</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#2C0113"></div>
+            <div class="ds-swatch__label">authBackground</div>
+            <div class="ds-swatch__hex">#2C0113</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Surfaces</div>
+        <div class="ds-swatch-grid">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#FFFFFF; border-bottom: 1px solid #E6E6E6"></div>
+            <div class="ds-swatch__label">surfaceLow</div>
+            <div class="ds-swatch__hex">#FFFFFF</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#F8F8F8"></div>
+            <div class="ds-swatch__label">surface</div>
+            <div class="ds-swatch__hex">#F8F8F8</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#E6E6E6"></div>
+            <div class="ds-swatch__label">surfaceHigh</div>
+            <div class="ds-swatch__hex">#E6E6E6</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#E8EBED"></div>
+            <div class="ds-swatch__label">disabled</div>
+            <div class="ds-swatch__hex">#E8EBED</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Text (Opacity-based)</div>
+        <div class="ds-swatch-grid">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#DE1F1F1F"></div>
+            <div class="ds-swatch__label">title (87%)</div>
+            <div class="ds-swatch__hex">#DE1F1F1F</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#A81F1F1F"></div>
+            <div class="ds-swatch__label">body (66%)</div>
+            <div class="ds-swatch__hex">#A81F1F1F</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#611F1F1F"></div>
+            <div class="ds-swatch__label">hint (38%)</div>
+            <div class="ds-swatch__hex">#611F1F1F</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#1F1F1F1F"></div>
+            <div class="ds-swatch__label">stroke (12%)</div>
+            <div class="ds-swatch__hex">#1F1F1F1F</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">States</div>
+        <div class="ds-swatch-grid">
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#E54F40"></div>
+            <div class="ds-swatch__label">red</div>
+            <div class="ds-swatch__hex">#E54F40</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#CF3E30"></div>
+            <div class="ds-swatch__label">semanticError</div>
+            <div class="ds-swatch__hex">#CF3E30</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#FEEDEC"></div>
+            <div class="ds-swatch__label">errorVariant</div>
+            <div class="ds-swatch__hex">#FEEDEC</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#0D6620"></div>
+            <div class="ds-swatch__label">green</div>
+            <div class="ds-swatch__hex">#0D6620</div>
+          </div>
+          <div class="ds-swatch">
+            <div class="ds-swatch__color" style="background:#E0F5E5"></div>
+            <div class="ds-swatch__label">greenVariant</div>
+            <div class="ds-swatch__hex">#E0F5E5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TYPOGRAPHY
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Typography</div>
+      <div class="ds-section__desc">Rubik font family (400, 500, 600). All sizes and line heights from SellioTextTheme.</div>
+
+      <div class="ds-card">
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">headlineLarge — 28px / 42px / 600</div>
+          <div class="text-headline-large">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">headlineMedium — 24px / 36px / 600</div>
+          <div class="text-headline-medium">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">headlineSmall — 20px / 30px / 600</div>
+          <div class="text-headline-small">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">titleLarge — 20px / 30px / 500</div>
+          <div class="text-title-large">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">titleMedium — 18px / 28px / 500</div>
+          <div class="text-title-medium">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">titleSmall — 16px / 24px / 500</div>
+          <div class="text-title-small">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">bodyLarge — 18px / 28px / 400</div>
+          <div class="text-body-large">The quick brown fox jumps over the lazy dog</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">bodyMedium — 16px / 24px / 400</div>
+          <div class="text-body-medium">The quick brown fox jumps over the lazy dog</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">bodySmall — 14px / 22px / 400</div>
+          <div class="text-body-small">The quick brown fox jumps over the lazy dog</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">labelLarge — 16px / 24px / 500</div>
+          <div class="text-label-large">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">labelMedium — 14px / 22px / 500</div>
+          <div class="text-label-medium">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">labelSmall — 12px / 18px / 500</div>
+          <div class="text-label-small">The quick brown fox</div>
+        </div>
+        <div class="ds-type-sample">
+          <div class="ds-type-meta">labelXSmall — 10px / 14px / 400</div>
+          <div class="text-label-xsmall">The quick brown fox jumps over the lazy dog</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SPACING
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Spacing & Layout</div>
+      <div class="ds-section__desc">All padding, spacing, icon sizes, and radius tokens.</div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Padding</div>
+        <div class="ds-card">
+          <div class="ds-row" style="align-items:flex-end; gap:24px;">
+            <div><div class="ds-label">paddingSmall: 8px</div><div style="width:8px;height:8px;background:var(--color-primary);border-radius:2px"></div></div>
+            <div><div class="ds-label">paddingMedium: 12px</div><div style="width:12px;height:12px;background:var(--color-primary);border-radius:2px"></div></div>
+            <div><div class="ds-label">paddingLarge: 16px</div><div style="width:16px;height:16px;background:var(--color-primary);border-radius:2px"></div></div>
+            <div><div class="ds-label">sectionSpacing: 8px</div><div style="width:8px;height:8px;background:var(--color-secondary);border-radius:2px"></div></div>
+            <div><div class="ds-label">itemSpacing: 12px</div><div style="width:12px;height:12px;background:var(--color-secondary);border-radius:2px"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Icon Sizes</div>
+        <div class="ds-card">
+          <div class="ds-row" style="align-items:flex-end; gap:24px;">
+            <div><div class="ds-label">small: 16px</div><div style="width:16px;height:16px;background:var(--color-primary);border-radius:2px"></div></div>
+            <div><div class="ds-label">medium: 24px</div><div style="width:24px;height:24px;background:var(--color-primary);border-radius:2px"></div></div>
+            <div><div class="ds-label">large: 32px</div><div style="width:32px;height:32px;background:var(--color-primary);border-radius:2px"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Border Radius</div>
+        <div class="ds-card">
+          <div class="ds-row" style="align-items:flex-end; gap:24px;">
+            <div><div class="ds-label">small: 4px</div><div style="width:40px;height:40px;background:var(--color-primary);border-radius:4px"></div></div>
+            <div><div class="ds-label">medium: 8px</div><div style="width:40px;height:40px;background:var(--color-primary);border-radius:8px"></div></div>
+            <div><div class="ds-label">large: 12px</div><div style="width:40px;height:40px;background:var(--color-primary);border-radius:12px"></div></div>
+            <div><div class="ds-label">pill: 100px</div><div style="width:80px;height:40px;background:var(--color-primary);border-radius:100px"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         BUTTONS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Buttons</div>
+      <div class="ds-section__desc">SellioButton — primary, secondary, disabled, and loading states.</div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">States</div>
+        <div class="ds-2col">
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Primary (enabled)</div>
+            <button class="sellio-button sellio-button--primary">Login</button>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Disabled</div>
+            <button class="sellio-button sellio-button--disabled">Login</button>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Secondary</div>
+            <button class="sellio-button sellio-button--secondary">Create account</button>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Loading (dots)</div>
+            <button class="sellio-button sellio-button--primary">
+              <span class="sellio-loading-dots">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-subsection">
+        <div class="ds-subsection__title">Small / Outline</div>
+        <div class="ds-inline">
+          <button class="sellio-button sellio-button--primary sellio-button--small">Verify</button>
+          <button class="sellio-button sellio-button--outline sellio-button--small">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         TEXT FIELDS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Text Fields</div>
+      <div class="ds-section__desc">SellioTextField — default, focused, error, and phone field variants.</div>
+
+      <div class="ds-2col">
+        <div class="ds-field-group">
+          <div class="sellio-field">
+            <div class="sellio-field__input-wrap">
+              <div class="sellio-field__prefix">
+                <div class="sellio-field__prefix-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+              </div>
+              <input type="text" class="sellio-field__input" placeholder="Full name" value="Ahmed Hassan">
+            </div>
+          </div>
+          <div class="sellio-field sellio-field--error">
+            <div class="sellio-field__input-wrap">
+              <input type="text" class="sellio-field__input" placeholder="Password" value="123">
+            </div>
+            <div class="sellio-field__error">Password must be at least 6 characters</div>
+          </div>
+          <div class="sellio-field sellio-field--focused">
+            <div class="sellio-field__input-wrap">
+              <input type="text" class="sellio-field__input" placeholder="Email" value="ahmed@example.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="ds-field-group">
+          <div class="sellio-field sellio-phone-field">
+            <div class="sellio-field__input-wrap">
+              <div class="sellio-country-select">
+                <span style="font-size:16px">🇪🇬</span>
+                <span class="sellio-country-code">+20</span>
+                <svg class="sellio-arrow-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <input type="tel" class="sellio-field__input" placeholder="Phone number" value="1012345678">
+              <div class="sellio-field__suffix">
+                <span class="sellio-field__counter">10/10</span>
+              </div>
+            </div>
+          </div>
+          <div class="sellio-field">
+            <div class="sellio-field__input-wrap">
+              <div class="sellio-field__prefix">
+                <div class="sellio-field__prefix-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                </div>
+              </div>
+              <input type="password" class="sellio-field__input" placeholder="Password" value="password123">
+              <div class="sellio-field__suffix">
+                <div class="sellio-field__suffix-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         CHIPS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Chips</div>
+      <div class="ds-section__desc">SellioChip — selected and unselected states.</div>
+
+      <div class="ds-card">
+        <div class="ds-inline">
+          <button class="sellio-chip sellio-chip--selected">
+            <div class="sellio-chip__icon-container">
+              <svg class="sellio-chip__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <span class="sellio-chip__label">All</span>
+          </button>
+          <button class="sellio-chip sellio-chip--unselected">
+            <div class="sellio-chip__icon-container">
+              <svg class="sellio-chip__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <span class="sellio-chip__label">Groceries</span>
+          </button>
+          <button class="sellio-chip sellio-chip--unselected">
+            <div class="sellio-chip__icon-container">
+              <svg class="sellio-chip__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+            </div>
+            <span class="sellio-chip__label">Beverages</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SWITCH
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Switch</div>
+      <div class="ds-section__desc">SellioSwitch — on, off, and disabled states.</div>
+
+      <div class="ds-card">
+        <div class="ds-inline" style="gap:24px">
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">On</div>
+            <div class="sellio-switch sellio-switch--on" onclick="this.classList.toggle('sellio-switch--on');this.classList.toggle('sellio-switch--off')">
+              <div class="sellio-switch__thumb"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Off</div>
+            <div class="sellio-switch sellio-switch--off" onclick="this.classList.toggle('sellio-switch--on');this.classList.toggle('sellio-switch--off')">
+              <div class="sellio-switch__thumb"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Disabled On</div>
+            <div class="sellio-switch sellio-switch--on sellio-switch--disabled">
+              <div class="sellio-switch__thumb"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Disabled Off</div>
+            <div class="sellio-switch sellio-switch--off sellio-switch--disabled">
+              <div class="sellio-switch__thumb"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         CHECKBOX & RADIO
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Checkbox & Radio</div>
+      <div class="ds-section__desc">SellioCheckbox and SellioRadioButton — checked, unchecked, disabled states.</div>
+
+      <div class="ds-card">
+        <div class="ds-inline" style="gap:24px">
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Checkbox unchecked</div>
+            <div class="sellio-checkbox" onclick="this.classList.toggle('sellio-checkbox--checked')">
+              <svg class="sellio-checkbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Checkbox checked</div>
+            <div class="sellio-checkbox sellio-checkbox--checked">
+              <svg class="sellio-checkbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Checkbox disabled</div>
+            <div class="sellio-checkbox sellio-checkbox--disabled">
+              <svg class="sellio-checkbox__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+          </div>
+          <div style="width:1px;height:32px;background:var(--color-stroke-border)"></div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Radio unchecked</div>
+            <div class="sellio-radio" onclick="this.classList.toggle('sellio-radio--checked')">
+              <div class="sellio-radio__inner"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Radio checked</div>
+            <div class="sellio-radio sellio-radio--checked">
+              <div class="sellio-radio__inner"></div>
+            </div>
+          </div>
+          <div>
+            <div class="ds-label" style="margin-bottom:8px">Radio disabled</div>
+            <div class="sellio-radio sellio-radio--disabled">
+              <div class="sellio-radio__inner"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         OTP INPUT
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">OTP Input</div>
+      <div class="ds-section__desc">OTPInputCard — focused, filled, and empty states.</div>
+
+      <div class="ds-card">
+        <div class="ds-label" style="margin-bottom:12px">Enter OTP: 1 2 3 _</div>
+        <div class="sellio-otp">
+          <div class="sellio-otp__card sellio-otp__card--filled"><span class="sellio-otp__digit">1</span></div>
+          <div class="sellio-otp__card sellio-otp__card--filled"><span class="sellio-otp__digit">2</span></div>
+          <div class="sellio-otp__card sellio-otp__card--filled"><span class="sellio-otp__digit">3</span></div>
+          <div class="sellio-otp__card sellio-otp__card--focused"><div class="sellio-otp__cursor"></div></div>
+          <div class="sellio-otp__card"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         BOTTOM SHEET
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Bottom Sheet</div>
+      <div class="ds-section__desc">SellioBottomSheet — click to open, drag handle to dismiss.</div>
+
+      <div>
+        <button class="sellio-button sellio-button--primary sellio-button--small" onclick="document.getElementById('demo-sheet').classList.remove('sellio-sheet-overlay--hidden')">
+          Open Bottom Sheet
+        </button>
+      </div>
+
+      <div id="demo-sheet" class="sellio-sheet-overlay sellio-sheet-overlay--hidden" onclick="if(event.target===this)this.classList.add('sellio-sheet-overlay--hidden')">
+        <div class="sellio-sheet">
+          <div class="sellio-sheet__handle"><div class="sellio-sheet__handle-bar"></div></div>
+          <div class="sellio-sheet__title">Select Country</div>
+          <div class="sellio-sheet__list">
+            <div class="sellio-sheet__item" onclick="document.getElementById('demo-sheet').classList.add('sellio-sheet-overlay--hidden')">
+              <span style="font-size:20px">🇪🇬</span>
+              <span class="sellio-sheet__item-name">Egypt</span>
+              <span class="sellio-sheet__item-code">+20</span>
+            </div>
+            <div class="sellio-sheet__item" onclick="document.getElementById('demo-sheet').classList.add('sellio-sheet-overlay--hidden')">
+              <span style="font-size:20px">🇸🇦</span>
+              <span class="sellio-sheet__item-name">Saudi Arabia</span>
+              <span class="sellio-sheet__item-code">+966</span>
+            </div>
+            <div class="sellio-sheet__item" onclick="document.getElementById('demo-sheet').classList.add('sellio-sheet-overlay--hidden')">
+              <span style="font-size:20px">🇦🇪</span>
+              <span class="sellio-sheet__item-name">UAE</span>
+              <span class="sellio-sheet__item-code">+971</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SNACKBAR
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Snackbar</div>
+      <div class="ds-section__desc">SellioSnackBar — error and success variants.</div>
+
+      <div class="ds-inline">
+        <button class="sellio-button sellio-button--primary sellio-button--small" onclick="showSnackbar('error')">
+          Show Error
+        </button>
+        <button class="sellio-button sellio-button--primary sellio-button--small" onclick="showSnackbar('success')">
+          Show Success
+        </button>
+      </div>
+    </div>
+
+    <!-- ============================================
+         APP BAR
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">App Bar</div>
+      <div class="ds-section__desc">SellioAppBar — with back button, title, and optional subtitle.</div>
+
+      <div class="ds-card" style="padding:0; overflow:hidden;">
+        <div class="sellio-appbar">
+          <div class="sellio-appbar__back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </div>
+          <div>
+            <div class="sellio-appbar__title">Product Details</div>
+          </div>
+        </div>
+        <div class="sellio-divider"></div>
+        <div class="sellio-appbar">
+          <div class="sellio-appbar__back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </div>
+          <div>
+            <div class="sellio-appbar__title">My Cart</div>
+            <div class="sellio-appbar__subtitle">3 items</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SECTION HEADER
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Section Header</div>
+      <div class="ds-section__desc">SectionHeader — title with optional action link.</div>
+
+      <div class="ds-card" style="padding:0">
+        <div class="sellio-section-header" style="padding:12px 16px">
+          <span class="sellio-section-header__title">Popular Products</span>
+          <button class="sellio-section-header__action">See All</button>
+        </div>
+        <div class="sellio-divider"></div>
+        <div class="sellio-section-header" style="padding:12px 16px">
+          <span class="sellio-section-header__title">My Orders</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         EMPTY STATE
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Empty State</div>
+      <div class="ds-section__desc">EmptySection — used when there's no data to display.</div>
+
+      <div class="ds-card">
+        <div class="sellio-empty">
+          <div class="sellio-empty__icon-container" style="background: var(--color-primary-variant)">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
+          <div class="sellio-empty__title">No orders yet</div>
+          <div class="sellio-empty__description">Start shopping to see your orders here</div>
+          <button class="sellio-button sellio-button--primary sellio-button--small">Browse Products</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SEARCH BAR
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Search Bar</div>
+      <div class="ds-section__desc">SellioSearchBar — input with filter button.</div>
+
+      <div class="ds-card" style="max-width:400px">
+        <div class="sellio-search">
+          <div class="sellio-search__input-wrap">
+            <svg class="sellio-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" class="sellio-search__input" placeholder="Search products...">
+          </div>
+          <button class="sellio-search__filter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 21v-7m0 0V3m0 11h4m-4 0H1m16 7v-4m0 0V3m0 14h-4m4 0h4M1 7h4M1 3h4m14 4h4m-4 0h-4"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         INDICATORS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Page Indicators</div>
+      <div class="ds-section__desc">SellioIndicator — active/inactive dot indicators for carousels.</div>
+
+      <div class="ds-card">
+        <div class="ds-inline">
+          <div class="sellio-indicator">
+            <div class="sellio-indicator__dot sellio-indicator__dot--active"></div>
+            <div class="sellio-indicator__dot sellio-indicator__dot--inactive"></div>
+            <div class="sellio-indicator__dot sellio-indicator__dot--inactive"></div>
+            <div class="sellio-indicator__dot sellio-indicator__dot--inactive"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         DIVIDERS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Dividers</div>
+      <div class="ds-section__desc">Solid and dashed dividers.</div>
+
+      <div class="ds-card">
+        <div class="ds-label" style="margin-bottom:8px">Solid divider</div>
+        <div class="sellio-divider" style="margin-bottom:16px"></div>
+        <div class="ds-label" style="margin-bottom:8px">Dashed divider</div>
+        <div class="sellio-dashed-divider"></div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         BOTTOM NAV (static mockup)
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Bottom Navigation</div>
+      <div class="ds-section__desc">SellioBottomNavBar — 5-tab layout with center FAB. Shown as static preview.</div>
+
+      <div class="ds-card" style="padding:0; overflow:hidden; max-width:360px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-around;padding:8px 12px;background:var(--color-surface-low);box-shadow:var(--shadow-nav)">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--color-primary)"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span style="font-size:10px;font-weight:600;color:var(--color-primary)">Home</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--color-body-text)"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            <span style="font-size:10px;font-weight:400;color:var(--color-body-text)">Categories</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <div style="width:70px;height:70px;border-radius:50%;background:var(--color-primary);border:4px solid var(--color-surface-low);display:flex;align-items:center;justify-content:center;margin-top:-35px;box-shadow:var(--shadow-nav)">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 4v16m-8-8h16" stroke="white" stroke-width="2" fill="none"/></svg>
+            </div>
+            <span style="font-size:10px;font-weight:400;color:var(--color-body-text)">Sell</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--color-body-text)"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+            <span style="font-size:10px;font-weight:400;color:var(--color-body-text)">Cart</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--color-body-text)"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span style="font-size:10px;font-weight:400;color:var(--color-body-text)">Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================
+         ANIMATION TOKENS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Animation Tokens</div>
+      <div class="ds-section__desc">Duration and curve values used across components.</div>
+
+      <div class="ds-card" style="max-width:480px">
+        <table style="width:100%;border-collapse:collapse;font:var(--text-label-medium);color:var(--color-title-text)">
+          <thead>
+            <tr style="text-align:left;border-bottom:1px solid var(--color-stroke-border)">
+              <th style="padding:8px 4px;font:var(--text-label-medium);color:var(--color-body-text)">Context</th>
+              <th style="padding:8px 4px;font:var(--text-label-medium);color:var(--color-body-text)">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Loading dots</td><td style="padding:8px 4px">1200ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Switch toggle</td><td style="padding:8px 4px">200ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Thumbnail selection</td><td style="padding:8px 4px">180ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Page indicator</td><td style="padding:8px 4px">300ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Nav item</td><td style="padding:8px 4px">200ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Center button tap</td><td style="padding:8px 4px">150ms</td></tr>
+            <tr style="border-bottom:1px solid var(--color-stroke-border)"><td style="padding:8px 4px">Snackbar enter/exit</td><td style="padding:8px 4px">280ms</td></tr>
+            <tr><td style="padding:8px 4px">Snackbar auto-dismiss</td><td style="padding:8px 4px">4s error / 3s success</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============================================
+         SHADOWS
+         ============================================ -->
+    <div class="ds-section">
+      <div class="ds-section__title">Shadows</div>
+      <div class="ds-section__desc">Box shadow tokens used across components.</div>
+
+      <div class="ds-inline" style="gap:16px">
+        <div>
+          <div class="ds-label" style="margin-bottom:8px">Field focus</div>
+          <div style="width:80px;height:48px;background:white;border-radius:8px;box-shadow:var(--shadow-field-focus)"></div>
+        </div>
+        <div>
+          <div class="ds-label" style="margin-bottom:8px">OTP focus</div>
+          <div style="width:68px;height:106px;background:white;border-radius:8px;box-shadow:var(--shadow-otp-focus)"></div>
+        </div>
+        <div>
+          <div class="ds-label" style="margin-bottom:8px">Dropdown</div>
+          <div style="width:80px;height:48px;background:white;border-radius:8px;box-shadow:var(--shadow-dropdown)"></div>
+        </div>
+        <div>
+          <div class="ds-label" style="margin-bottom:8px">Snackbar error</div>
+          <div style="width:80px;height:48px;background:white;border-radius:4px;box-shadow:var(--shadow-snackbar-error)"></div>
+        </div>
+        <div>
+          <div class="ds-label" style="margin-bottom:8px">Snackbar success</div>
+          <div style="width:80px;height:48px;background:white;border-radius:4px;box-shadow:var(--shadow-snackbar-success)"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Snackbar demo element -->
+  <div id="demo-snackbar" class="sellio-snackbar sellio-snackbar--error" style="top:26px">
+    <div class="sellio-snackbar__icon-container">
+      <svg class="sellio-snackbar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+    </div>
+    <div class="sellio-snackbar__content">
+      <div class="sellio-snackbar__title">Error</div>
+      <div class="sellio-snackbar__message">Something went wrong. Please try again.</div>
+    </div>
+    <div class="sellio-snackbar__close" onclick="hideSnackbar()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>
+
+  <script>
+    let snackbarTimeout;
+    function showSnackbar(type) {
+      const el = document.getElementById('demo-snackbar');
+      el.className = 'sellio-snackbar sellio-snackbar--' + type + ' sellio-snackbar--visible';
+      el.querySelector('.sellio-snackbar__title').textContent = type === 'error' ? 'Error' : 'Success';
+      el.querySelector('.sellio-snackbar__message').textContent = type === 'error'
+        ? 'Something went wrong. Please try again.'
+        : 'Your action was completed successfully.';
+      clearTimeout(snackbarTimeout);
+      snackbarTimeout = setTimeout(hideSnackbar, type === 'error' ? 4000 : 3000);
+    }
+    function hideSnackbar() {
+      document.getElementById('demo-snackbar').classList.remove('sellio-snackbar--visible');
+    }
+  </script>
+
+</body>
+</html>

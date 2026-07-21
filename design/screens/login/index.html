@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio - Login</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="stage">
+    <div class="caption"><strong>Sellio</strong> · Login</div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1"  aria-hidden></span>
+      <span class="btn-rail left-2"  aria-hidden></span>
+      <span class="btn-rail left-3"  aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island"           aria-hidden></span>
+
+      <div class="screen screen--primary">
+        <div id="statusbar-main" class="statusbar-white"></div>
+
+        <div class="top-section">
+          <img class="top-section__bg" src="../../assets/login_top_section.webp" alt="" />
+          <button class="close-btn" aria-label="Close" data-od-id="close-btn">
+            <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+          <div class="logo" data-od-id="logo"><img src="../../assets/sellio.webp" alt="Sellio" class="logo-dark" /><img src="../../assets/sellio_white.webp" alt="Sellio" /></div>
+        </div>
+
+        <div class="white-card" data-od-id="white-card">
+          <div class="card-content" data-od-id="card-content">
+            <div class="header-section" data-od-id="header">
+              <h1>Welcome Back!</h1>
+              <p>Enter your information to login</p>
+            </div>
+
+            <div class="form-group" data-od-id="phone-field">
+              <div class="input-container" id="phone-container">
+                <div class="input-icon">
+                  <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.46.57 3.58a1 1 0 01-.24 1.01l-2.2 2.2z"/></svg>
+                </div>
+                <div class="country-selector" id="country-selector">
+                  <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="currentColor"/></svg>
+                  <div class="country-flag" id="country-flag-display"></div>
+                  <span class="country-code" id="country-code-display">+20</span>
+                </div>
+                <input type="tel" class="input-field" placeholder="Phone number" id="phone-input" maxlength="10" data-od-id="phone-input" />
+              </div>
+              <div class="error-msg" id="phone-error">Phone number is required</div>
+              <div class="phone-counter" id="phone-counter">0/10</div>
+            </div>
+
+            <div class="form-group" data-od-id="password-field">
+              <div class="input-container password-field" id="password-container">
+                <div class="input-icon">
+                  <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2z"/></svg>
+                </div>
+                <input type="password" class="input-field" placeholder="Password" id="password-input" data-od-id="password-input" />
+                <button class="eye-btn" id="eye-toggle" aria-label="Toggle password visibility" data-od-id="eye-toggle">
+                  <svg viewBox="0 0 24 24" id="eye-open"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                  <svg viewBox="0 0 24 24" id="eye-closed" style="display:none;"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46A11.804 11.804 0 001 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/></svg>
+                </button>
+              </div>
+              <div class="error-msg" id="password-error">Password must be at least 6 characters</div>
+            </div>
+
+            <div class="forget-row" data-od-id="forget-row">
+              <button class="forget-btn" data-od-id="forget-btn">Forget your Password?</button>
+            </div>
+          </div>
+
+          <div class="card-footer" data-od-id="footer">
+            <button class="btn-login" id="login-btn" disabled data-od-id="login-btn">
+              <span class="btn-text">Login</span>
+              <span class="loading-dots" id="loading-dots">
+                <span></span><span></span><span></span>
+              </span>
+              <svg class="arrow" viewBox="0 0 10 10" id="login-arrow"><path d="M1 5h7M5 1l4 4-4 4"/></svg>
+            </button>
+
+            <div class="divider-row">
+              <div class="line"></div>
+              <span class="or-text">OR</span>
+              <div class="line"></div>
+            </div>
+
+            <button class="btn-create" data-od-id="create-btn">Create account</button>
+          </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast">
+          <svg viewBox="0 0 24 24" id="toast-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span id="toast-text"></span>
+        </div>
+
+        <!-- Success overlay -->
+        <div class="success-overlay" id="success-overlay">
+          <div class="success-check">
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+          </div>
+          <p>Login Successful</p>
+          <span class="sub">Redirecting to home...</span>
+        </div>
+
+        <!-- Country Picker Bottom Sheet -->
+        <div class="sheet-overlay" id="sheet-overlay">
+          <div class="country-sheet" id="country-sheet">
+            <div class="sheet-handle"></div>
+            <div class="sheet-header">
+              <h3>Select Country</h3>
+              <div class="search-container">
+                <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" placeholder="Search by name or code" id="country-search" />
+              </div>
+            </div>
+            <div class="sheet-favorites">
+              <div class="fav-label">Favorite Countries</div>
+            </div>
+            <div class="country-list" id="country-list"></div>
+          </div>
+        </div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+  </div>
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/bottom-nav.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
