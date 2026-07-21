@@ -16,6 +16,7 @@ Shared files (read these first):
 If something already exists in a shared file, import and reuse it. Only add screen-specific code that does not already exist.
 
 ## Project rules
+- **NEVER read from or work on the C version — only work on the D (design) version.**
 - **Write files on `D:\workshop\sellio_mobile\design\`** — NOT the C:\ Open Design workspace.
 - **Match the Flutter design 100%** — same tokens, same SVG icons, same spacing, same layout.
 - **Mock data only** — no business logic. This is a design prototype.

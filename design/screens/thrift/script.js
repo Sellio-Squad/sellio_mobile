@@ -27,17 +27,19 @@ var CATEGORIES = [
 ];
 
 var selectedCategory = 'all';
+var PRODUCTS = THRIFT_PRODUCTS;
 
 function renderCategoryTabs() {
-  var container = document.getElementById('category-tabs');
+  var container = document.getElementById('thrift-tabs');
   container.innerHTML = CATEGORIES.map(function(cat) {
     var isSelected = cat.id === selectedCategory;
-    return '<button class="cat-chip ' + (isSelected ? 'selected' : 'unselected') + '" data-id="' + cat.id + '">' +
-      '<span class="cat-chip__label">' + cat.name + '</span>' +
+    var cls = 'sellio-chip ' + (isSelected ? 'sellio-chip--selected' : 'sellio-chip--unselected');
+    return '<button class="' + cls + '" data-id="' + cat.id + '">' +
+      '<span class="sellio-chip__label">' + cat.name + '</span>' +
     '</button>';
   }).join('');
 
-  container.querySelectorAll('.cat-chip').forEach(function(chip) {
+  container.querySelectorAll('.sellio-chip').forEach(function(chip) {
     chip.addEventListener('click', function() {
       selectedCategory = this.dataset.id;
       renderCategoryTabs();
@@ -46,13 +48,22 @@ function renderCategoryTabs() {
   });
 }
 
-var PRODUCTS = THRIFT_PRODUCTS;
-
 function renderProducts() {
-  var container = document.getElementById('products-grid');
+  var container = document.getElementById('thrift-products');
+  var emptyEl = document.getElementById('thrift-empty');
+
   var filtered = selectedCategory === 'all'
     ? PRODUCTS
     : PRODUCTS.filter(function(p) { return p.category === selectedCategory; });
+
+  if (filtered.length === 0) {
+    container.style.display = 'none';
+    emptyEl.style.display = '';
+    return;
+  }
+
+  container.style.display = '';
+  emptyEl.style.display = 'none';
 
   container.innerHTML = filtered.map(function(p) {
     var discountHtml = p.discount
@@ -95,9 +106,57 @@ function renderProducts() {
   ProductCounter.renderAllCounters();
 }
 
+function renderLoadingTabs() {
+  var container = document.getElementById('loading-tabs');
+  var html = '';
+  for (var i = 0; i < 6; i++) {
+    html += '<div class="shimmer-tab"></div>';
+  }
+  container.innerHTML = html;
+}
+
+function renderLoadingGrid() {
+  var container = document.getElementById('loading-grid');
+  var html = '';
+  for (var i = 0; i < 8; i++) {
+    html += '<div class="shimmer-card">' +
+      '<div class="shimmer-card__img"></div>' +
+      '<div class="shimmer-card__line"></div>' +
+      '<div class="shimmer-card__line shimmer-card__line--short"></div>' +
+    '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function showLoading() {
+  document.getElementById('thrift-loading').style.display = '';
+  document.getElementById('thrift-products').style.display = 'none';
+  document.getElementById('thrift-empty').style.display = 'none';
+  document.getElementById('thrift-tabs-wrap').style.display = 'none';
+}
+
+function showContent() {
+  document.getElementById('thrift-loading').style.display = 'none';
+  document.getElementById('thrift-tabs-wrap').style.display = '';
+  renderCategoryTabs();
+  renderProducts();
+}
+
 ProductCounter.init({
   onBadgeUpdate: null
 });
 
-renderCategoryTabs();
-renderProducts();
+showLoading();
+renderLoadingTabs();
+renderLoadingGrid();
+
+setTimeout(function() {
+  showContent();
+}, 800);
+
+var contentEl = document.getElementById('thrift-content');
+contentEl.addEventListener('scroll', function() {
+  if (contentEl.scrollTop + contentEl.clientHeight >= contentEl.scrollHeight - 200) {
+    // Infinite scroll placeholder — no more data to load in mock
+  }
+});

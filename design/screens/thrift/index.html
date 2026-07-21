@@ -25,26 +25,40 @@
       <div class="screen">
         <div id="statusbar-main"></div>
 
-        <div class="appbar" data-od-id="appbar">
-          <span class="appbar__title">Thrift</span>
+        <div class="sellio-appbar" data-od-id="appbar">
+          <span class="sellio-appbar__title">Thrift</span>
         </div>
 
-        <div class="search-wrap">
+        <div class="search-wrap" data-od-id="search-wrap">
           <div class="search-bar" data-od-id="search-bar">
             <div class="input-wrap">
-              <svg viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
               <input type="text" placeholder="Search your favorite items" readonly />
             </div>
-            <button class="filter-btn" data-od-id="filter-btn"></button>
+            <button class="filter-btn" data-od-id="filter-btn" id="filter-btn"></button>
           </div>
         </div>
 
-        <div class="category-tabs-wrap">
-          <div class="category-tabs" id="category-tabs"></div>
+        <div class="thrift-tabs-wrap" id="thrift-tabs-wrap">
+          <div class="thrift-tabs" id="thrift-tabs"></div>
         </div>
 
-        <div class="products-scroll">
-          <div class="products-grid" id="products-grid"></div>
+        <div class="thrift-content" id="thrift-content">
+          <div class="thrift-loading" id="thrift-loading">
+            <div class="thrift-loading-tabs" id="loading-tabs"></div>
+            <div class="thrift-loading-grid" id="loading-grid"></div>
+          </div>
+
+          <div class="thrift-empty" id="thrift-empty" style="display:none;">
+            <div class="sellio-empty__icon-container" style="background:var(--color-purple-variant);">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M20 8H17V4C17 2.9 16.1 2 15 2H9C7.9 2 7 2.9 7 4V8H4C2.9 8 2 8.9 2 10V20C2 21.1 2.9 22 4 22H20C21.1 22 22 21.1 22 20V10C22 8.9 21.1 8 20 8ZM9 4H15V8H9V4Z" fill="var(--color-primary)"/></svg>
+            </div>
+            <div class="sellio-empty__title">No products found</div>
+            <div class="sellio-empty__description">You can discover more products</div>
+            <button class="sellio-button sellio-button--secondary sellio-button--small" id="empty-cta">Start Exploring</button>
+          </div>
+
+          <div class="thrift-products" id="thrift-products"></div>
         </div>
 
         <div class="bottom-nav" data-od-id="bottom-nav">
