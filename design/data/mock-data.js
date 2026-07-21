@@ -34,6 +34,39 @@ var STORES = [
   { id: 3, name: 'Home Essentials Store', discount: '10', bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&h=266&fit=crop', favorited: false }
 ];
 
+var STORE_DETAIL = {
+  id: 1,
+  name: 'Tech World Electronics',
+  coverImage: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&h=380&fit=crop',
+  profileImage: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=200&h=200&fit=crop',
+  description: 'Your one-stop shop for the latest electronics, gadgets, and accessories. We offer competitive prices and genuine products with warranty.',
+  address: { country: 'Egypt', city: 'Cairo' },
+  rating: 4.5,
+  sale: '15',
+  isFavorite: false,
+  categories: [
+    { id: 'all', name: 'All' },
+    { id: 'phones', name: 'Phones' },
+    { id: 'laptops', name: 'Laptops' },
+    { id: 'accessories', name: 'Accessories' },
+    { id: 'audio', name: 'Audio' }
+  ],
+  products: [
+    { id: 101, title: 'Wireless Bluetooth Headphones', description: 'Premium noise-cancelling over-ear headphones', price: 299, images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'audio'] },
+    { id: 102, title: 'Smart Watch Series 5', description: 'Latest smartwatch with health tracking', price: 899, images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'accessories'] },
+    { id: 103, title: 'Wireless Phone Charger', description: 'Fast wireless charging pad for all devices', price: 199, images: ['https://images.unsplash.com/photo-1615526675159-e0481f089953?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'accessories'] },
+    { id: 104, title: 'Laptop Pro 16"', description: 'High-performance laptop for professionals', price: 4500, images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'laptops'] },
+    { id: 105, title: 'USB-C Hub Adapter', description: '7-in-1 USB-C hub with HDMI output', price: 250, images: ['https://images.unsplash.com/photo-1625842268584-8f3296236761?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'accessories'] },
+    { id: 106, title: 'Wireless Earbuds Pro', description: 'Compact earbuds with active noise cancellation', price: 450, images: ['https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'audio'] },
+    { id: 107, title: 'Smartphone Galaxy S24', description: 'Latest flagship smartphone with AI features', price: 3200, images: ['https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'phones'] },
+    { id: 108, title: 'Portable Power Bank', description: '20000mAh fast charging power bank', price: 350, images: ['https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'accessories'] }
+  ],
+  featuredProducts: [
+    { id: 201, title: 'iPhone 15 Pro Max', description: 'Apple latest titanium smartphone', price: 57000, images: ['https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'phones'] },
+    { id: 202, title: 'MacBook Air M3', description: 'Thin and light laptop with M3 chip', price: 42000, images: ['https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=320&h=320&fit=crop'], subCategoriesIds: ['all', 'laptops'] }
+  ]
+};
+
 var THRIFT_PRODUCTS = [
   { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: '33% OFF', isFavorite: false },
   { id: 2, title: "Men's Casual Denim Jacket", price: '450', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: null, isFavorite: true },

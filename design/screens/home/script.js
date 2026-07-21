@@ -67,7 +67,7 @@ document.getElementById('trending-products').innerHTML = PRODUCTS.map(function(p
 }).join('');
 
 document.getElementById('stores-list').innerHTML = STORES.map(function(s) {
-  return '<div class="store-card" data-od-id="store-' + s.id + '">' +
+  return '<div class="store-card" data-od-id="store-' + s.id + '" data-store-id="' + s.id + '">' +
     '<div class="store-bg" style="background:' + s.bg + '"><img src="' + s.img + '" alt="' + s.name + '" loading="lazy" /></div>' +
     '<div class="store-overlay"></div>' +
     (s.discount
@@ -82,6 +82,13 @@ document.getElementById('stores-list').innerHTML = STORES.map(function(s) {
     '<div class="store-name">' + s.name + '</div>' +
   '</div>';
 }).join('');
+
+document.querySelectorAll('.store-card').forEach(function(card) {
+  card.addEventListener('click', function(e) {
+    if (e.target.closest('.fav-btn')) return;
+    window.location.href = '../store/';
+  });
+});
 
 initFavorites('.fav-btn');
 

@@ -5,6 +5,7 @@ populateBottomNav('thrift');
 initNavClickHandlers({
   home: function() { window.location.href = '../home/'; },
   cart: function() { window.location.href = '../cart/'; },
+  thrift: function() { window.location.href = '../thrift/'; },
   account: function() {
     var isLoggedIn = sessionStorage.getItem('isLoggedIn');
     if (isLoggedIn) {
@@ -103,6 +104,12 @@ function renderProducts() {
     });
   });
 
+  container.querySelectorAll('.product-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.product-card__fav') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+    });
+  });
+
   ProductCounter.renderAllCounters();
 }
 
@@ -153,6 +160,10 @@ renderLoadingGrid();
 setTimeout(function() {
   showContent();
 }, 800);
+
+document.getElementById('empty-cta').addEventListener('click', function() {
+  window.location.href = '../home/';
+});
 
 var contentEl = document.getElementById('thrift-content');
 contentEl.addEventListener('scroll', function() {
