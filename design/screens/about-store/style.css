@@ -1,0 +1,238 @@
+/* ── About Store Screen ── */
+
+/* App Bar */
+.about-appbar {
+  display: flex;
+  align-items: center;
+  height: var(--appbar-height);
+  padding: 0 var(--spacing-padding-horizontal);
+  background: transparent;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.about-appbar .sellio-appbar__title {
+  flex: 1;
+  font: var(--text-title-medium);
+  color: var(--color-title-text);
+}
+
+/* Content */
+.about-content {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--spacing-padding-horizontal) var(--spacing-padding-medium);
+  -webkit-overflow-scrolling: touch;
+}
+.about-content::-webkit-scrollbar { display: none; }
+.about-content { scrollbar-width: none; }
+
+/* Loading */
+.about-loading {
+  display: none;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+.about-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-stroke-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Rating Section — matches Flutter RatingSection */
+.rating-section {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-padding-medium) 0;
+}
+.rating-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+.rating-avg {
+  font: var(--text-headline-medium);
+  color: var(--color-title-text);
+}
+.rating-stars {
+  display: flex;
+  gap: 2px;
+  margin: 8px 0;
+}
+.rating-stars svg {
+  width: 12px;
+  height: 12px;
+}
+.rating-total {
+  font: var(--text-label-xsmall);
+  color: var(--color-hint-text);
+}
+.rating-divider {
+  width: 1px;
+  align-self: stretch;
+  margin: 0 24px;
+  background: var(--color-stroke-border);
+}
+.rating-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Rating Bar Item — matches Flutter RatingBarItem */
+.rating-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rating-bar-label {
+  font: var(--text-label-xsmall);
+  color: var(--color-body-text);
+  min-width: 10px;
+  text-align: center;
+}
+.rating-bar-track {
+  flex: 1;
+  height: 4px;
+  border-radius: 100px;
+  background: var(--color-stroke-border);
+  overflow: hidden;
+}
+.rating-bar-fill {
+  height: 100%;
+  border-radius: 100px;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+
+/* Divider — matches Flutter HorizontalDriver (24px vertical padding) */
+.about-divider {
+  height: 1px;
+  background: var(--color-stroke-border);
+  margin: 24px 0;
+}
+
+/* Section Title */
+.about-section-title {
+  font: var(--text-title-medium);
+  color: var(--color-title-text);
+  margin: 0 0 12px;
+}
+
+/* Contact Info Item — matches Flutter ContactInfoItem */
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+.contact-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: var(--color-primary-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.contact-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+}
+.contact-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.contact-label {
+  font: var(--text-body-small);
+  color: var(--color-body-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.contact-value {
+  font: var(--text-label-medium);
+  color: var(--color-title-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Address Item — matches Flutter AddressItem */
+.address-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+.address-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: var(--color-primary-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.address-icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-primary);
+}
+.address-text {
+  font: var(--text-label-medium);
+  color: var(--color-body-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Map View — matches Flutter StoreMapView (160px height) */
+.map-view {
+  width: 100%;
+  height: 160px;
+  border-radius: var(--radius-medium);
+  border: 0.5px solid var(--color-stroke-border);
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--color-hint-text);
+}
+.map-placeholder svg {
+  width: 32px;
+  height: 32px;
+}
+.map-placeholder span {
+  font: var(--text-label-small);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

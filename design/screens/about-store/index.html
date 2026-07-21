@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · About Store</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="caption"><strong>Sellio</strong> · About Store</div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen screen--surface-low">
+        <div id="statusbar-main"></div>
+
+        <!-- App Bar -->
+        <div class="about-appbar">
+          <div class="sellio-appbar__back" id="about-back">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="sellio-appbar__title">About Store</div>
+        </div>
+
+        <!-- Loading -->
+        <div class="about-loading" id="about-loading">
+          <div class="about-loading__spinner"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="about-content" id="about-content">
+          <!-- Rating Section -->
+          <div class="rating-section">
+            <div class="rating-left">
+              <div class="rating-avg" id="rating-avg"></div>
+              <div class="rating-stars" id="rating-stars"></div>
+              <div class="rating-total" id="rating-total"></div>
+            </div>
+            <div class="rating-divider"></div>
+            <div class="rating-right" id="rating-bars"></div>
+          </div>
+
+          <!-- Divider -->
+          <div class="about-divider"></div>
+
+          <!-- Contact Info -->
+          <h2 class="about-section-title">Contact Info</h2>
+          <div class="contact-list" id="contact-list"></div>
+
+          <!-- Divider -->
+          <div class="about-divider"></div>
+
+          <!-- Address -->
+          <h2 class="about-section-title">Address</h2>
+          <div class="address-item" id="address-item">
+            <div class="address-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13401 2 5 5.13401 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13401 15.866 2 12 2ZM12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9C14.5 10.3807 13.3807 11.5 12 11.5Z" fill="currentColor"/></svg>
+            </div>
+            <div class="address-text" id="address-text"></div>
+          </div>
+
+          <!-- Map Placeholder -->
+          <div class="map-view" id="map-view">
+            <div class="map-placeholder">
+              <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C8.13401 2 5 5.13401 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13401 15.866 2 12 2ZM12 11.5C10.6193 11.5 9.5 10.3807 9.5 9C9.5 7.61929 10.6193 6.5 12 6.5C13.3807 6.5 14.5 7.61929 14.5 9C14.5 10.3807 13.3807 11.5 12 11.5Z" fill="currentColor"/></svg>
+              <span>15 Ramadan Street, Heliopolis, Cairo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../data/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
