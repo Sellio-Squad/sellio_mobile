@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../../data/mock/repositories_impl/mock_notification_repository_impl.dart';
-import '../../domain/repositories/notification_repository.dart';
+import '../../domain/repository/notification_repository.dart';
 
 class MockRepositoryModule {
   static void register(GetIt sl) {

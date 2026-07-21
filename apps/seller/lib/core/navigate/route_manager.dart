@@ -2,15 +2,17 @@ import 'package:authentication/authentication.dart' as auth;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:seller/di/injection_container.dart';
-import 'package:seller/presentation/screens/account/account_screen.dart';
-import 'package:seller/presentation/screens/create_product/create_product_screen.dart';
-import 'package:seller/presentation/screens/dashboard/dashboard_screen.dart';
-import 'package:seller/presentation/screens/main/seller_dashboard.dart';
-import 'package:seller/presentation/screens/orders/orders_screen.dart';
-import 'package:seller/presentation/screens/products/products_screen.dart';
+import 'package:seller/presentation/screen/account/account_screen.dart';
+import 'package:seller/presentation/screen/create_product/create_product_screen.dart';
+import 'package:seller/presentation/screen/dashboard/dashboard_screen.dart';
+import 'package:seller/presentation/screen/main/seller_dashboard.dart';
+import 'package:seller/presentation/screen/orders/orders_screen.dart';
+import 'package:seller/presentation/screen/products/products_screen.dart';
+import 'package:seller/presentation/screen/store_setup/create_store_screen.dart';
+
 import '../localization/l10n/localization_service.dart';
-import 'navigation_extensions.dart';
 import 'app_routes.dart';
+import 'navigation_extensions.dart';
 import 'route_args.dart';
 
 class RouteGenerator {
@@ -35,6 +37,7 @@ class RouteGenerator {
             countryRepository: sl(),
             authenticationCubit: sl(),
             navigator: context.navigator,
+            showCloseButton: false,
           ),
         ),
       ),
@@ -47,6 +50,7 @@ class RouteGenerator {
             authRepository: sl(),
             countryRepository: sl(),
             navigator: context.navigator,
+            showCloseButton: false,
           ),
         ),
       ),
@@ -59,6 +63,7 @@ class RouteGenerator {
             authRepository: sl(),
             countryRepository: sl(),
             navigator: context.navigator,
+            showBackButton: false,
           ),
         ),
       ),
@@ -78,6 +83,8 @@ class RouteGenerator {
               onVerifySuccess: args.onVerifySuccess,
               authRepository: sl(),
               navigator: context.navigator,
+              showBackButton: false,
+              showCloseButton: false,
             ),
           );
         },
@@ -91,7 +98,16 @@ class RouteGenerator {
             authRepository: sl(),
             countryRepository: sl(),
             navigator: context.navigator,
+            showBackButton: false,
           ),
+        ),
+      ),
+      GoRoute(
+        name: AppRoutes.createStore.name,
+        path: AppRoutes.createStore.path,
+        pageBuilder: (context, state) => MaterialPage(
+          key: state.pageKey,
+          child: const CreateStoreScreen(),
         ),
       ),
       StatefulShellRoute.indexedStack(

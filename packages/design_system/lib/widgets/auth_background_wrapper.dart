@@ -5,7 +5,7 @@ import '../themes/sellio_theme_provider.dart';
 
 class AuthBackgroundWrapper extends StatelessWidget {
   final Widget child;
-  final bool showLogo;
+  final bool showCloseButton;
   final double topPadding;
   final double bottomPadding;
   final EdgeInsets containerPadding;
@@ -13,7 +13,7 @@ class AuthBackgroundWrapper extends StatelessWidget {
   const AuthBackgroundWrapper({
     super.key,
     required this.child,
-    this.showLogo = true,
+    this.showCloseButton = true,
     this.topPadding = 80.0,
     this.bottomPadding = 40.0,
     this.containerPadding = const EdgeInsets.all(16),
@@ -39,8 +39,8 @@ class AuthBackgroundWrapper extends StatelessWidget {
               children: [
                 _buildTopBackground(context),
                 _buildBottomSection(context, colors),
-                if (showLogo) _buildTopLogo(context),
-                _buildCloseButton(context),
+                _buildTopLogo(context),
+                if (showCloseButton) _buildCloseButton(context),
               ],
             ),
           ),

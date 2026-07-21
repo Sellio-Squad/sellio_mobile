@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'di/injection_container.dart';
+
 import 'core/localization/l10n/app_localizations.dart';
-import 'core/navigate/route_manager.dart';
 import 'core/navigate/navigation_extensions.dart';
+import 'core/navigate/route_manager.dart';
+import 'di/injection_container.dart';
+import 'domain/repository/category_repository.dart';
+import 'domain/repository/store_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider(create: (_) => sl<AuthRepository>()),
         RepositoryProvider(create: (_) => sl<UserRepository>()),
         RepositoryProvider(create: (_) => sl<CountryRepository>()),
+        RepositoryProvider(create: (_) => sl<StoreRepository>()),
+        RepositoryProvider(create: (_) => sl<CategoryRepository>()),
+        RepositoryProvider(create: (_) => sl<ImagePickerService>()),
       ],
       child: MultiBlocProvider(
         providers: [

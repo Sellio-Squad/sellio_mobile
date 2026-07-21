@@ -15,7 +15,7 @@ class ApiEndpoints {
   static const String productsUsed = '$apiVersion/products/used';
   static const String productsFeatured = '$apiVersion/products/featured';
   static const String productsSearch = '$apiVersion/products/search';
-  static const String productsTrending = '$apiVersion/product-items/trending';
+  static const String productsTrending = '$apiVersion/products/trending';
 
   static String productById(String productId) =>
       '$apiVersion/products/$productId';

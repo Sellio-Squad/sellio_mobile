@@ -4,6 +4,13 @@ import 'package:seller/data/repositories/product_repository_impl.dart';
 import 'package:seller/data/repositories/seller_order_repository_impl.dart';
 import 'package:seller/domain/repositories/product_repository.dart';
 import 'package:seller/domain/repositories/seller_order_repository.dart';
+import 'package:seller/data/repository/seller_order_repository_impl.dart';
+import 'package:seller/domain/repository/seller_order_repository.dart';
+
+import '../../data/repository/category_repository_impl.dart';
+import '../../data/repository/store_repository_impl.dart';
+import '../../domain/repository/category_repository.dart';
+import '../../domain/repository/store_repository.dart';
 
 class RepositoryModule {
   static void register(GetIt sl) {
@@ -20,6 +27,14 @@ class RepositoryModule {
 
     sl.registerLazySingleton<ProductRepository>(
       () => ProductRepositoryImpl(dataSource: sl()),
+    );
+
+    sl.registerLazySingleton<StoreRepository>(
+      () => StoreRepositoryImpl(sl()),
+    );
+
+    sl.registerLazySingleton<CategoryRepository>(
+      () => CategoryRepositoryImpl(remoteDataSource: sl()),
     );
   }
 }

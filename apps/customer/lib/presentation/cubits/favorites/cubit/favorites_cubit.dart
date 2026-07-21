@@ -1,8 +1,9 @@
 import 'package:authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../domain/entities/product.dart';
 import '../../../../domain/entities/store.dart';
-import '../../../../domain/repositories/favorites_repository.dart';
+import '../../../../domain/repository/favorites_repository.dart';
 import 'favorites_state.dart';
 
 enum FavoriteType { product, store }

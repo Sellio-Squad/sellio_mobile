@@ -1,4 +1,4 @@
-import '../../../domain/entities/seller_order.dart';
+import '../../../domain/entity/seller_order.dart';
 import '../../fake/seller_order_fake_data.dart';
 import '../seller_order_datasource.dart';
 
