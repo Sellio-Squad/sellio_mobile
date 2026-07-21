@@ -13,7 +13,7 @@
 
 /* ── Content Area ── */
 .thrift-content {
-  flex: 1; overflow-y: auto;
+  flex: 1; min-height: 0; overflow-y: auto;
   padding-bottom: 90px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;

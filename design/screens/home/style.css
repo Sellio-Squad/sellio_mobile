@@ -245,7 +245,7 @@
   left: 0;
   z-index: 2;
   width: 70px;
-  height: 34px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,7 +262,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0 12px 6px;
+  padding: 4px 8px 0;
 }
 .h-product-card .discount-tag .discount-content svg {
   width: 16px;
@@ -421,7 +421,7 @@
   left: -4px;
   z-index: 2;
   width: 70px;
-  height: 34px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -438,7 +438,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0 12px 6px;
+  padding: 4px 8px 0;
 }
 .store-card .store-discount .discount-content svg {
   width: 16px;
