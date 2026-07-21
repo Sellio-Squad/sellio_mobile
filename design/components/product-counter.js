@@ -56,7 +56,7 @@ var ProductCounter = (function() {
   }
 
   function renderAllCounters() {
-    document.querySelectorAll('.product-card__cart-row[data-cart-row]').forEach(function(row) {
+    document.querySelectorAll('[data-cart-row]').forEach(function(row) {
       renderCounter(row, parseInt(row.dataset.cartRow));
     });
   }
@@ -68,7 +68,7 @@ var ProductCounter = (function() {
   function addToCart(productId) {
     cartCounts[productId] = 1;
     notifyBadge();
-    document.querySelectorAll('.product-card__cart-row[data-cart-row="' + productId + '"]').forEach(function(el) {
+    document.querySelectorAll('[data-cart-row="' + productId + '"]').forEach(function(el) {
       renderCounter(el, productId);
     });
   }
@@ -76,7 +76,7 @@ var ProductCounter = (function() {
   function incrementProduct(productId) {
     cartCounts[productId] = (cartCounts[productId] || 0) + 1;
     notifyBadge();
-    document.querySelectorAll('.product-card__cart-row[data-cart-row="' + productId + '"]').forEach(function(el) {
+    document.querySelectorAll('[data-cart-row="' + productId + '"]').forEach(function(el) {
       renderCounter(el, productId);
     });
   }
@@ -84,7 +84,7 @@ var ProductCounter = (function() {
   function decrementProduct(productId) {
     cartCounts[productId] = (cartCounts[productId] || 1) - 1;
     notifyBadge();
-    document.querySelectorAll('.product-card__cart-row[data-cart-row="' + productId + '"]').forEach(function(el) {
+    document.querySelectorAll('[data-cart-row="' + productId + '"]').forEach(function(el) {
       renderCounter(el, productId);
     });
   }

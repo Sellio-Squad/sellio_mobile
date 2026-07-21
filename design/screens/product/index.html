@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Product</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="caption"><strong>Sellio</strong> · Product</div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen">
+        <div id="statusbar-main"></div>
+
+        <!-- Shimmer Loading State -->
+        <div class="product-loading" id="product-loading">
+          <div class="shimmer-img-group">
+            <div class="shimmer-col">
+              <div class="shimmer-box" style="width:110px;height:110px;border-radius:8px;"></div>
+              <div style="height:4px"></div>
+              <div class="shimmer-box" style="width:110px;height:110px;border-radius:8px;"></div>
+            </div>
+            <div style="width:4px"></div>
+            <div class="shimmer-box" style="flex:1;height:224px;border-radius:8px;"></div>
+          </div>
+          <div style="height:20px"></div>
+          <div class="shimmer-row">
+            <div class="shimmer-line" style="width:20%;"></div>
+            <div class="shimmer-line" style="width:20%;"></div>
+            <div style="flex:1"></div>
+            <div class="shimmer-line" style="width:20%;"></div>
+          </div>
+          <div style="height:20px"></div>
+          <div class="shimmer-desc-lines">
+            <div class="shimmer-line" style="width:90%;"></div>
+            <div class="shimmer-line" style="width:85%;"></div>
+            <div class="shimmer-line" style="width:88%;"></div>
+            <div class="shimmer-line" style="width:75%;"></div>
+            <div class="shimmer-line" style="width:80%;"></div>
+            <div class="shimmer-line" style="width:70%;"></div>
+            <div class="shimmer-line" style="width:65%;"></div>
+          </div>
+          <div style="height:8px"></div>
+          <div class="shimmer-line" style="width:65%;"></div>
+          <div style="height:24px"></div>
+          <div class="shimmer-box" style="width:100%;height:120px;border-radius:8px;"></div>
+        </div>
+
+        <!-- Content State -->
+        <div class="product-content" id="product-content" style="display:none;">
+          <!-- App Bar -->
+          <div class="sellio-appbar">
+            <div class="sellio-appbar__back" id="back-btn">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="sellio-appbar__title" id="product-title"></div>
+            <button class="product-fav-btn" id="product-fav-btn"></button>
+          </div>
+
+          <!-- Scrollable body -->
+          <div class="product-scroll-body">
+            <!-- Image Grid -->
+            <div class="product-image-grid" id="product-images"></div>
+
+            <!-- Price + Counter Row -->
+            <div class="product-info-section">
+              <div class="product-price-row" id="product-price-row"></div>
+              <div class="product-counter-section" id="product-counter-section"></div>
+            </div>
+
+            <!-- Description -->
+            <div class="product-description" id="product-description"></div>
+
+            <!-- Note TextField -->
+            <div class="product-note-wrap">
+              <div class="product-note-field">
+                <textarea class="product-note-input" id="product-note" placeholder="Note (optional)" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast" id="toast">Added to cart</div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/product-counter.js"></script>
+  <script src="../../components/favorites.js"></script>
+  <script src="../../data/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

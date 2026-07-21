@@ -90,6 +90,13 @@ document.querySelectorAll('.store-card').forEach(function(card) {
   });
 });
 
+document.querySelectorAll('.h-product-card').forEach(function(card) {
+  card.addEventListener('click', function(e) {
+    if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+    window.location.href = '../product/';
+  });
+});
+
 initFavorites('.fav-btn');
 
 ProductCounter.init({

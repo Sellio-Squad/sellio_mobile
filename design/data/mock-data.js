@@ -87,6 +87,21 @@ var ABOUT_STORE_DATA = {
   }
 };
 
+var PRODUCT_DETAIL = {
+  id: 1,
+  title: 'Wireless Bluetooth Headphones',
+  description: 'Premium wireless headphones with active noise cancellation, 30-hour battery life, and crystal-clear audio quality. Comfortable over-ear design with soft padding for extended listening sessions.',
+  minPrice: 299,
+  maxDiscount: 33,
+  isFavorite: false,
+  images: [
+    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=320&h=320&fit=crop',
+    'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=320&fit=crop',
+    'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop'
+  ],
+  category: 'Electronics'
+};
+
 var THRIFT_PRODUCTS = [
   { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: '33% OFF', isFavorite: false },
   { id: 2, title: "Men's Casual Denim Jacket", price: '450', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: null, isFavorite: true },

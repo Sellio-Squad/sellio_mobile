@@ -40,7 +40,8 @@ design/
     ├── home/
     ├── cart/
     ├── thrift/
-    └── about-store/
+    ├── about-store/
+    └── product/
 ```
 
 ## Conventions

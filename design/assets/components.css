@@ -332,9 +332,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: var(--chip-icon-gap);
-  padding: var(--chip-padding-inner);
-  padding-left: 4px;
-  padding-right: 8px;
+  padding: 4px 12px 4px 8px;
   border-radius: var(--radius-pill);
   border: none;
   cursor: pointer;
@@ -362,7 +360,7 @@ body {
 }
 
 .sellio-chip--selected .sellio-chip__icon-container {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.125);
 }
 
 .sellio-chip--unselected .sellio-chip__icon-container {
@@ -380,7 +378,7 @@ body {
 }
 
 .sellio-chip--selected .sellio-chip__label {
-  color: var(--color-on-primary-solid);
+  color: var(--color-on-primary);
 }
 
 .sellio-chip--unselected .sellio-chip__label {

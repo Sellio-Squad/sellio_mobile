@@ -107,6 +107,7 @@ function renderProducts() {
   container.querySelectorAll('.product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
       if (e.target.closest('.product-card__fav') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      window.location.href = '../product/';
     });
   });
 

@@ -111,7 +111,9 @@ function renderFeaturedProducts() {
 
   // Product tap on featured cards
   document.querySelectorAll('.featured-card').forEach(function(card) {
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.fav-btn') || e.target.closest('.card-add-btn')) return;
+      window.location.href = '../product/';
     });
   });
 }
@@ -160,16 +162,18 @@ function renderProducts() {
   }
 
   var html = filtered.map(function(p) {
-    return '<div class="store-product-card" data-od-id="product-' + p.id + '" data-product-id="' + p.id + '">' +
-      '<div class="store-product-card__img">' +
+    return '<div class="sellio-product-h-card store-product-card" data-od-id="product-' + p.id + '" data-product-id="' + p.id + '">' +
+      '<div class="sellio-product-h-card__image">' +
         '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" />' +
       '</div>' +
-      '<div class="store-product-card__content">' +
-        '<div class="store-product-card__title">' + p.title + '</div>' +
-        '<div class="store-product-card__desc">' + p.description + '</div>' +
-        '<div class="store-product-card__price">' + p.price.toLocaleString() + ' EGP</div>' +
+      '<div class="sellio-product-h-card__content">' +
+        '<div class="sellio-product-h-card__title">' + p.title + '</div>' +
+        '<div class="sellio-product-h-card__description">' + p.description + '</div>' +
+        '<div class="sellio-product-h-card__prices">' +
+          '<span class="sellio-product-h-card__price">' + p.price.toLocaleString() + ' EGP</span>' +
+        '</div>' +
       '</div>' +
-      '<div class="store-product-card__actions" data-cart-row="' + p.id + '">' +
+      '<div class="sellio-product-h-card__actions" data-cart-row="' + p.id + '">' +
       '</div>' +
     '</div>';
   }).join('');
@@ -180,7 +184,9 @@ function renderProducts() {
 
   // Product tap
   document.querySelectorAll('.store-product-card').forEach(function(card) {
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      window.location.href = '../product/';
     });
   });
 }

@@ -1,0 +1,255 @@
+/* ═══════════════════════════════════════════════
+   Product Detail Screen — matches Flutter ProductDetailsScreen
+   ═══════════════════════════════════════════════ */
+
+/* ── Content Container ── */
+.product-content {
+  flex-direction: column;
+}
+
+/* ── Scrollable Body ── */
+.product-scroll-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 100px;
+}
+.product-scroll-body::-webkit-scrollbar { display: none; }
+
+/* ── Favorite Button (AppBar action) ── */
+.product-fav-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.product-fav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ═══════════════════════════════════════════════
+   Image Grid — Flutter productImagesSection
+   Left column: 2x 110×110 stacked, 4px gap
+   Right: 1 expanded image, 224px height
+   Padding: 16px all sides
+   ═══════════════════════════════════════════════ */
+.product-image-grid {
+  display: flex;
+  gap: 4px;
+  padding: 16px;
+}
+
+.product-image-grid .img-col-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.product-image-grid .img-thumb {
+  width: 110px;
+  height: 110px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.product-image-grid .img-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-image-grid .img-main {
+  flex: 1;
+  height: 224px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+
+.product-image-grid .img-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ═══════════════════════════════════════════════
+   Price + Counter Row
+   ═══════════════════════════════════════════════ */
+.product-info-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.product-price-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.product-price-row .price-current {
+  font: var(--text-title-small);
+  color: var(--color-primary);
+}
+
+.product-price-row .price-original {
+  font: var(--text-title-small);
+  color: var(--color-hint-text);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-hint-text);
+}
+
+/* ── Product Counter (Flutter productCounterSection) ── */
+.product-counter-section {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.product-counter-section .counter-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.product-counter-section .counter-btn--minus {
+  background: var(--color-surface);
+}
+
+.product-counter-section .counter-btn--plus {
+  background: var(--color-primary-variant);
+}
+
+.product-counter-section .counter-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.product-counter-section .counter-count {
+  padding: 3px 8px;
+  font: var(--text-label-medium);
+  color: var(--color-title-text);
+  min-width: 20px;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════
+   Description
+   ═══════════════════════════════════════════════ */
+.product-description {
+  padding: 16px 16px 0;
+  font: var(--text-body-medium);
+  color: var(--color-body-text);
+}
+
+/* ═══════════════════════════════════════════════
+   Note TextField — SellioTextField paragraph variant
+   ═══════════════════════════════════════════════ */
+.product-note-wrap {
+  padding: 16px;
+}
+
+.product-note-field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.product-note-input {
+  width: 100%;
+  min-height: 100px;
+  padding: var(--field-padding-vertical) var(--field-padding-horizontal);
+  background: var(--field-fill);
+  border: var(--field-border-width) solid var(--color-stroke-border);
+  border-radius: var(--field-border-radius);
+  font: var(--text-body-medium);
+  color: var(--color-title-text);
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--duration-switch) ease, box-shadow var(--duration-switch) ease;
+}
+
+.product-note-input::placeholder {
+  font: var(--text-label-medium);
+  color: var(--color-body-text);
+}
+
+.product-note-input:focus {
+  border-width: var(--field-border-width-focused);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-field-focus);
+}
+
+/* ═══════════════════════════════════════════════
+   Shimmer Loading
+   ═══════════════════════════════════════════════ */
+.product-loading {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.shimmer-img-group {
+  display: flex;
+  gap: 4px;
+}
+
+.shimmer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.shimmer-box,
+.shimmer-line {
+  background: var(--color-surface);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-box::after,
+.shimmer-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--loading-light-1), transparent);
+  animation: shimmerSweep 1.5s infinite;
+}
+
+.shimmer-line {
+  height: 18px;
+}
+
+.shimmer-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.shimmer-desc-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
