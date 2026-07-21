@@ -1,31 +1,5 @@
 ﻿document.getElementById('statusbar-main').innerHTML = getStatusHTML();
-    const COUNTRIES = [
-      { code: 'IQ', name: 'Iraq', flag: 'ðŸ‡®ðŸ‡¶', dial: '+964', maxLength: 10 },
-      { code: 'EG', name: 'Egypt', flag: 'ðŸ‡ªðŸ‡¬', dial: '+20', maxLength: 10 },
-      { code: 'PS', name: 'Palestine', flag: 'ðŸ‡µðŸ‡¸', dial: '+970', maxLength: 9 },
-      { code: 'SY', name: 'Syria', flag: 'ðŸ‡¸ðŸ‡¾', dial: '+963', maxLength: 10 },
-      { code: 'SA', name: 'Saudi Arabia', flag: 'ðŸ‡¸ðŸ‡¦', dial: '+966', maxLength: 9 },
-      { code: 'AE', name: 'United Arab Emirates', flag: 'ðŸ‡¦ðŸ‡ª', dial: '+971', maxLength: 9 },
-      { code: 'JO', name: 'Jordan', flag: 'ðŸ‡¯ðŸ‡´', dial: '+962', maxLength: 9 },
-      { code: 'LB', name: 'Lebanon', flag: 'ðŸ‡±ðŸ‡§', dial: '+961', maxLength: 8 },
-      { code: 'KW', name: 'Kuwait', flag: 'ðŸ‡°ðŸ‡¼', dial: '+965', maxLength: 8 },
-      { code: 'QA', name: 'Qatar', flag: 'ðŸ‡¶ðŸ‡¦', dial: '+974', maxLength: 8 },
-      { code: 'BH', name: 'Bahrain', flag: 'ðŸ‡§ðŸ‡­', dial: '+973', maxLength: 8 },
-      { code: 'OM', name: 'Oman', flag: 'ðŸ‡´ðŸ‡²', dial: '+968', maxLength: 8 },
-      { code: 'YE', name: 'Yemen', flag: 'ðŸ‡¾ðŸ‡ª', dial: '+967', maxLength: 9 },
-      { code: 'LY', name: 'Libya', flag: 'ðŸ‡±ðŸ‡¾', dial: '+218', maxLength: 9 },
-      { code: 'MA', name: 'Morocco', flag: 'ðŸ‡²ðŸ‡¦', dial: '+212', maxLength: 9 },
-      { code: 'TN', name: 'Tunisia', flag: 'ðŸ‡¹ðŸ‡³', dial: '+216', maxLength: 8 },
-      { code: 'DZ', name: 'Algeria', flag: 'ðŸ‡©ðŸ‡¿', dial: '+213', maxLength: 9 },
-      { code: 'SD', name: 'Sudan', flag: 'ðŸ‡¸ðŸ‡©', dial: '+249', maxLength: 9 },
-      { code: 'TR', name: 'Turkey', flag: 'ðŸ‡¹ðŸ‡·', dial: '+90', maxLength: 10 },
-      { code: 'IR', name: 'Iran', flag: 'ðŸ‡®ðŸ‡·', dial: '+98', maxLength: 10 },
-    ];
-
-    const FAVORITE_CODES = ['IQ', 'EG', 'PS', 'SY'];
     const CITIES = ['Baghdad', 'Basra', 'Erbil', 'Mosul', 'Sulaymaniyah', 'Najaf', 'Karbala', 'Cairo', 'Alexandria', 'Giza', 'Riyadh', 'Jeddah', 'Dubai', 'Abu Dhabi', 'Amman', 'Beirut'];
-
-    let selectedCountry = COUNTRIES.find(c => c.code === 'EG');
     let selectedCity = '';
     let otpCountdown = 55;
 
@@ -50,28 +24,7 @@
       continueBtn.disabled = !(nameOk && phoneOk && cityOk && passOk && confirmOk);
     }
 
-    function renderCountryList(filter = '') {
-      const favs = COUNTRIES.filter(c => FAVORITE_CODES.includes(c.code));
-      const rest = COUNTRIES.filter(c => !FAVORITE_CODES.includes(c.code));
-      const ff = filter ? favs.filter(c => c.name.toLowerCase().includes(filter) || c.dial.includes(filter)) : favs;
-      const fr = filter ? rest.filter(c => c.name.toLowerCase().includes(filter) || c.dial.includes(filter)) : rest;
-      let html = '';
-      [...ff, ...fr].forEach(c => {
-        html += `<div class="country-item" data-code="${c.code}"><div class="flag">${c.flag}</div><span class="name">${c.name}</span><span class="code">${c.dial}</span></div>`;
-      });
-      document.getElementById('country-list').innerHTML = html;
-      document.querySelectorAll('#country-list .country-item').forEach(item => {
-        item.addEventListener('click', () => {
-          selectedCountry = COUNTRIES.find(c => c.code === item.dataset.code);
-          document.getElementById('country-flag-display').textContent = selectedCountry.flag;
-          document.getElementById('country-code-display').textContent = selectedCountry.dial;
-          phoneInput.maxLength = selectedCountry.maxLength;
-          phoneInput.value = '';
-          closeSheet('sheet-overlay');
-          validateForm();
-        });
-      });
-    }
+
 
     function renderCityList(filter = '') {
       const cities = filter ? CITIES.filter(c => c.toLowerCase().includes(filter)) : CITIES;
@@ -91,10 +44,6 @@
 
     function openSheet(id) { document.getElementById(id).classList.add('open'); }
     function closeSheet(id) { document.getElementById(id).classList.remove('open'); }
-
-    document.getElementById('country-selector').addEventListener('click', () => { openSheet('sheet-overlay'); renderCountryList(); setTimeout(() => document.getElementById('country-search').focus(), 350); });
-    document.getElementById('sheet-overlay').addEventListener('click', (e) => { if (e.target.id === 'sheet-overlay') closeSheet('sheet-overlay'); });
-    document.getElementById('country-search').addEventListener('input', (e) => renderCountryList(e.target.value.toLowerCase()));
 
     cityPicker.addEventListener('click', () => { openSheet('city-sheet-overlay'); renderCityList(); setTimeout(() => document.getElementById('city-search').focus(), 350); });
     document.getElementById('city-sheet-overlay').addEventListener('click', (e) => { if (e.target.id === 'city-sheet-overlay') closeSheet('city-sheet-overlay'); });
@@ -223,6 +172,7 @@
     document.getElementById('close-btn').addEventListener('click', () => { window.location.href = '../login/'; });
     document.getElementById('login-link').addEventListener('click', () => { window.location.href = '../login/'; });
 
-    renderCountryList();
+    initCountryPicker(function() {
+      validateForm();
+    });
     renderCityList();
-    document.getElementById('statusbar-main').innerHTML = getStatusHTML();

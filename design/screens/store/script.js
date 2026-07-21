@@ -211,6 +211,11 @@ initNavClickHandlers({
   },
 });
 
+// Info button → About Store
+document.getElementById('store-info-btn').addEventListener('click', function() {
+  window.location.href = '../about-store/';
+});
+
 // Simulate loading
 showLoading();
 setTimeout(function() {

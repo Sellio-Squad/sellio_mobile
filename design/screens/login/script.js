@@ -1,32 +1,4 @@
 ﻿document.getElementById('statusbar-main').innerHTML = getStatusHTML();
-    const COUNTRIES = [
-      { code: 'IQ', name: 'Iraq', dial: '+964', maxLength: 10 },
-      { code: 'EG', name: 'Egypt', dial: '+20', maxLength: 10 },
-      { code: 'PS', name: 'Palestine', dial: '+970', maxLength: 9 },
-      { code: 'SY', name: 'Syria', dial: '+963', maxLength: 10 },
-      { code: 'SA', name: 'Saudi Arabia', dial: '+966', maxLength: 9 },
-      { code: 'AE', name: 'United Arab Emirates', dial: '+971', maxLength: 9 },
-      { code: 'JO', name: 'Jordan', dial: '+962', maxLength: 9 },
-      { code: 'LB', name: 'Lebanon', dial: '+961', maxLength: 8 },
-      { code: 'KW', name: 'Kuwait', dial: '+965', maxLength: 8 },
-      { code: 'QA', name: 'Qatar', dial: '+974', maxLength: 8 },
-      { code: 'BH', name: 'Bahrain', dial: '+973', maxLength: 8 },
-      { code: 'OM', name: 'Oman', dial: '+968', maxLength: 8 },
-      { code: 'YE', name: 'Yemen', dial: '+967', maxLength: 9 },
-      { code: 'LY', name: 'Libya', dial: '+218', maxLength: 9 },
-      { code: 'MA', name: 'Morocco', dial: '+212', maxLength: 9 },
-      { code: 'TN', name: 'Tunisia', dial: '+216', maxLength: 8 },
-      { code: 'DZ', name: 'Algeria', dial: '+213', maxLength: 9 },
-      { code: 'SD', name: 'Sudan', dial: '+249', maxLength: 9 },
-      { code: 'TR', name: 'Turkey', dial: '+90', maxLength: 10 },
-      { code: 'IR', name: 'Iran', dial: '+98', maxLength: 10 },
-    ];
-
-    const FAVORITE_CODES = ['IQ', 'EG', 'PS', 'SY'];
-
-    const flagImg = (code) => `<img class="flag-img" src="https://flagcdn.com/w40/${code.toLowerCase()}.png" alt="${code}" />`;
-
-    let selectedCountry = COUNTRIES.find(c => c.code === 'EG');
     let phoneValid = false;
     let passwordValid = false;
 
@@ -44,13 +16,6 @@
     const phoneError = document.getElementById('phone-error');
     const passwordError = document.getElementById('password-error');
     const phoneCounter = document.getElementById('phone-counter');
-    const countryFlagDisplay = document.getElementById('country-flag-display');
-    const countryCodeDisplay = document.getElementById('country-code-display');
-    const countrySelector = document.getElementById('country-selector');
-    const sheetOverlay = document.getElementById('sheet-overlay');
-    const countrySheet = document.getElementById('country-sheet');
-    const countryList = document.getElementById('country-list');
-    const countrySearch = document.getElementById('country-search');
     const toast = document.getElementById('toast');
     const toastText = document.getElementById('toast-text');
     const toastIcon = document.getElementById('toast-icon');
@@ -75,68 +40,6 @@
         phoneCounter.classList.remove('visible');
       }
     }
-
-    function renderCountryList(filter = '') {
-      const favs = COUNTRIES.filter(c => FAVORITE_CODES.includes(c.code));
-      const rest = COUNTRIES.filter(c => !FAVORITE_CODES.includes(c.code));
-      const filteredFavs = filter ? favs.filter(c => c.name.toLowerCase().includes(filter) || c.dial.includes(filter) || c.code.toLowerCase().includes(filter)) : favs;
-      const filteredRest = filter ? rest.filter(c => c.name.toLowerCase().includes(filter) || c.dial.includes(filter) || c.code.toLowerCase().includes(filter)) : rest;
-
-      let html = '';
-      const renderItems = (items) => {
-        items.forEach(c => {
-          html += `<div class="country-item" data-code="${c.code}">
-            ${flagImg(c.code)}
-            <span class="name">${c.name}</span>
-            <span class="code">${c.dial}</span>
-          </div>`;
-        });
-      };
-
-      if (filteredFavs.length > 0) {
-        renderItems(filteredFavs);
-      }
-      if (filteredRest.length > 0) {
-        renderItems(filteredRest);
-      }
-
-      countryList.innerHTML = html;
-
-      countryList.querySelectorAll('.country-item').forEach(item => {
-        item.addEventListener('click', () => {
-          const code = item.dataset.code;
-          selectedCountry = COUNTRIES.find(c => c.code === code);
-          countryFlagDisplay.innerHTML = flagImg(selectedCountry.code);
-          countryCodeDisplay.textContent = selectedCountry.dial;
-          phoneInput.maxLength = selectedCountry.maxLength;
-          phoneInput.value = '';
-          updatePhoneCounter();
-          updateLoginBtn();
-          closeSheet();
-        });
-      });
-    }
-
-    function openSheet() {
-      sheetOverlay.classList.add('open');
-      countrySearch.value = '';
-      renderCountryList();
-      setTimeout(() => countrySearch.focus(), 350);
-    }
-
-    function closeSheet() {
-      sheetOverlay.classList.remove('open');
-    }
-
-    countrySelector.addEventListener('click', openSheet);
-
-    sheetOverlay.addEventListener('click', (e) => {
-      if (e.target === sheetOverlay) closeSheet();
-    });
-
-    countrySearch.addEventListener('input', (e) => {
-      renderCountryList(e.target.value.toLowerCase());
-    });
 
     phoneInput.addEventListener('focus', () => {
       phoneContainer.classList.add('focused');
@@ -262,7 +165,7 @@
       window.location.href = '../create-account/';
     });
 
-    countryFlagDisplay.innerHTML = flagImg(selectedCountry.code);
-    countryCodeDisplay.textContent = selectedCountry.dial;
-    renderCountryList();
-    document.getElementById('statusbar-main').innerHTML = getStatusHTML();
+    initCountryPicker(function() {
+      updatePhoneCounter();
+      updateLoginBtn();
+    });

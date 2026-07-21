@@ -67,6 +67,26 @@ var STORE_DETAIL = {
   ]
 };
 
+var ABOUT_STORE_DATA = {
+  rating: {
+    averageRating: 4.5,
+    totalReviews: 128,
+    ratingDistribution: { 5: 72, 4: 35, 3: 12, 2: 5, 1: 4 }
+  },
+  contactInfoList: [
+    { type: 'phone', title: 'Phone', provider: '+20 123 456 7890' },
+    { type: 'whatsapp', title: 'WhatsApp', provider: '+20 123 456 7890' },
+    { type: 'email', title: 'Email', provider: 'techworld@example.com' },
+    { type: 'facebook', title: 'Facebook', provider: 'Tech World Electronics' },
+    { type: 'website', title: 'Website', provider: 'www.techworld.com' }
+  ],
+  address: {
+    fullAddress: '15 Ramadan Street, Heliopolis, Cairo, Egypt',
+    latitude: 29.8750,
+    longitude: 31.3425
+  }
+};
+
 var THRIFT_PRODUCTS = [
   { id: 1, title: 'Wireless Bluetooth Headphones', price: '299', image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=320&h=352&fit=crop&auto=format', category: 'electronics', discount: '33% OFF', isFavorite: false },
   { id: 2, title: "Men's Casual Denim Jacket", price: '450', image: 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=320&h=352&fit=crop&auto=format', category: 'fashion', discount: null, isFavorite: true },

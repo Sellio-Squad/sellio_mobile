@@ -11,7 +11,7 @@ Shared files (read these first):
 - `assets/shared.css` — device frame, status bar, bottom nav, home indicator, search bar, product card, toast
 - `assets/auth.css` — shared auth form styles (inputs, country picker, toast, OTP, bottom sheet)
 - `assets/shared-icons.js` — all Flutter SVG icons as JS constants (`ICONS`, `SHARED_ICONS`) + `getStatusHTML()`
-- `components/` — `bottom-nav.js`, `product-counter.js`, `favorites.js`, `toast.js`
+- `components/` — `bottom-nav.js`, `product-counter.js`, `favorites.js`, `toast.js`, `country-picker.js`
 - `data/mock-data.js` — shared `CATEGORIES`, `PRODUCTS`, `STORES`, `THRIFT_PRODUCTS`
 
 If something already exists in a shared file, import and reuse it. Only add screen-specific code that does not already exist.
@@ -39,7 +39,8 @@ design/
     ├── forgot-password/
     ├── home/
     ├── cart/
-    └── thrift/
+    ├── thrift/
+    └── about-store/
 ```
 
 ## Conventions
@@ -50,3 +51,4 @@ design/
 - Force monochrome SVGs white with `filter: brightness(0) invert(1)` (matches Flutter `ColorFilter.mode(onPrimary, BlendMode.srcIn)`).
 - Auth simulation via `sessionStorage`: `isLoggedIn`, `isGuest`. OTP code is `9999`.
 - Country flags render as real PNGs via `flagcdn.com/w40/<code>.png` (not emoji).
+- Country picker shared via `components/country-picker.js`. Auth screens call `initCountryPicker(onSelect)` at the bottom of `script.js`. The `onSelect(country)` callback handles screen-specific logic (e.g. `validateForm()`, `updateSendBtn()`).
