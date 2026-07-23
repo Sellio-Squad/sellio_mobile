@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../domain/entity/category.dart';
 import '../../../../domain/entity/product_item.dart';
 import '../../../../domain/entity/subcategory.dart';
+import '../../../../domain/validators/product_validation_error.dart';
 
 sealed class CreateProductState extends Equatable {
   const CreateProductState();
@@ -44,9 +45,16 @@ class CreateProductFormState extends CreateProductState {
 
   final List<ProductItem> items;
   final bool isSubmitting;
-  final String? error;
+  final Object? error;
   final bool isSuccess;
   final bool isLoadingMetadata;
+
+  final ProductValidationError? titleError;
+  final ProductValidationError? descriptionError;
+  final ProductValidationError? imageError;
+  final ProductValidationError? priceError;
+  final ProductValidationError? categoryError;
+  final bool isFormValid;
 
   const CreateProductFormState({
     this.title = '',
@@ -73,6 +81,12 @@ class CreateProductFormState extends CreateProductState {
     this.error,
     this.isSuccess = false,
     this.isLoadingMetadata = false,
+    this.titleError,
+    this.descriptionError,
+    this.imageError,
+    this.priceError,
+    this.categoryError,
+    this.isFormValid = false,
   });
 
   CreateProductFormState copyWith({
@@ -97,9 +111,15 @@ class CreateProductFormState extends CreateProductState {
     String? discountId,
     List<ProductItem>? items,
     bool? isSubmitting,
-    String? error,
+    Object? error,
     bool? isSuccess,
     bool? isLoadingMetadata,
+    ProductValidationError? Function()? titleError,
+    ProductValidationError? Function()? descriptionError,
+    ProductValidationError? Function()? imageError,
+    ProductValidationError? Function()? priceError,
+    ProductValidationError? Function()? categoryError,
+    bool? isFormValid,
   }) {
     return CreateProductFormState(
       title: title ?? this.title,
@@ -126,6 +146,14 @@ class CreateProductFormState extends CreateProductState {
       error: error,
       isSuccess: isSuccess ?? this.isSuccess,
       isLoadingMetadata: isLoadingMetadata ?? this.isLoadingMetadata,
+      titleError: titleError != null ? titleError() : this.titleError,
+      descriptionError:
+          descriptionError != null ? descriptionError() : this.descriptionError,
+      imageError: imageError != null ? imageError() : this.imageError,
+      priceError: priceError != null ? priceError() : this.priceError,
+      categoryError:
+          categoryError != null ? categoryError() : this.categoryError,
+      isFormValid: isFormValid ?? this.isFormValid,
     );
   }
 
@@ -155,5 +183,11 @@ class CreateProductFormState extends CreateProductState {
         error,
         isSuccess,
         isLoadingMetadata,
+        titleError,
+        descriptionError,
+        imageError,
+        priceError,
+        categoryError,
+        isFormValid,
       ];
 }

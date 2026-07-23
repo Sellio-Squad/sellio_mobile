@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,9 +42,14 @@ class CreateProductView extends StatelessWidget {
             );
             context.pop();
           } else if (state.error != null) {
+            final error = state.error;
+            final message = error is ValidationError
+                ? error.toLocalizedString(context)
+                : error.toString();
+
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.error!),
+                content: Text(message),
                 backgroundColor: context.theme.colors.semanticError,
               ),
             );

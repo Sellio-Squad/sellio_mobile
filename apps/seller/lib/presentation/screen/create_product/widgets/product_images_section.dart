@@ -67,7 +67,10 @@ class ProductImagesSection extends StatelessWidget {
                     color: context.theme.colors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                        color: context.theme.colors.stroke.withOpacity(0.5)),
+                      color: state.imageError != null
+                          ? context.theme.colors.semanticError
+                          : context.theme.colors.stroke.withOpacity(0.5),
+                    ),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +80,9 @@ class ProductImagesSection extends StatelessWidget {
                         width: 48,
                         height: 48,
                         colorFilter: ColorFilter.mode(
-                          context.theme.colors.title,
+                          state.imageError != null
+                              ? context.theme.colors.semanticError
+                              : context.theme.colors.title,
                           BlendMode.srcIn,
                         ),
                       ),
@@ -87,7 +92,9 @@ class ProductImagesSection extends StatelessWidget {
                         style: context.theme.typography.textTheme.bodyMedium
                             .copyWith(
                           fontWeight: FontWeight.w600,
-                          color: context.theme.colors.title,
+                          color: state.imageError != null
+                              ? context.theme.colors.semanticError
+                              : context.theme.colors.title,
                         ),
                       ),
                     ],
@@ -95,6 +102,19 @@ class ProductImagesSection extends StatelessWidget {
                 ),
               ),
             ),
+            if (state.imageError != null)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    state.imageError!.toLocalizedString(context),
+                    style:
+                        context.theme.typography.textTheme.labelSmall.copyWith(
+                      color: context.theme.colors.semanticError,
+                    ),
+                  ),
+                ),
+              ),
             const Gap(24),
             if (allImages.isNotEmpty)
               SingleChildScrollView(

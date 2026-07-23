@@ -21,6 +21,8 @@ class ProductInfoSection extends StatelessWidget {
           children: [
             SellioTextField(
               hintText: 'Product name',
+              errorMessage: state.titleError?.toLocalizedString(context),
+              isError: state.titleError != null,
               prefixIcon: SvgPicture.asset(
                 AppImages.package,
                 width: 20,
@@ -36,6 +38,8 @@ class ProductInfoSection extends StatelessWidget {
             const Gap(16),
             SellioTextField(
               hintText: 'Description',
+              errorMessage: state.descriptionError?.toLocalizedString(context),
+              isError: state.descriptionError != null,
               isParagraph: true,
               maxLine: 6,
               onChanged: (value) =>

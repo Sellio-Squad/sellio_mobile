@@ -25,10 +25,13 @@ class PriceSection extends StatelessWidget {
         const prefixPadding = EdgeInsets.only(left: 16, right: 10);
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: SellioTextField(
                 hintText: 'Price',
+                errorMessage: state.priceError?.toLocalizedString(context),
+                isError: state.priceError != null,
                 inputType: TextInputType.number,
                 prefixIcon: const SizedBox(
                   width: prefixWidth,

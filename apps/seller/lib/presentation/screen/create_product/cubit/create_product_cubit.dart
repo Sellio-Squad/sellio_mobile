@@ -5,6 +5,8 @@ import '../../../../data/datasource/fake/fake_create_product_datasource.dart';
 import '../../../../domain/entity/create_product_params.dart';
 import '../../../../domain/entity/product_item.dart';
 import '../../../../domain/repository/product_repository.dart';
+import '../../../../domain/validators/product_validation_error.dart';
+import '../../../../domain/validators/product_validators.dart';
 import 'create_product_state.dart';
 
 class CreateProductCubit extends Cubit<CreateProductState> {
@@ -44,10 +46,16 @@ class CreateProductCubit extends Cubit<CreateProductState> {
   }
 
   Future<void> updateCategory(String categoryId) async {
+    final result = ProductValidators.validateCategory(categoryId);
+    final error = result.error as ProductValidationError?;
+
     _updateForm((state) => state.copyWith(
           categoryId: categoryId,
+          categoryError: () => error,
           subCategoryIds: [],
           subcategories: [], // Clear old subcategories
+          isFormValid:
+              _isFormValid(state, categoryId: categoryId, cError: error),
         ));
 
     final subcategories =
@@ -56,15 +64,37 @@ class CreateProductCubit extends Cubit<CreateProductState> {
   }
 
   void updateTitle(String title) {
-    _updateForm((state) => state.copyWith(title: title));
+    final result = ProductValidators.validateTitle(title);
+    final error = result.error as ProductValidationError?;
+
+    _updateForm((state) => state.copyWith(
+          title: title,
+          titleError: () => error,
+          isFormValid: _isFormValid(state, title: title, tError: error),
+        ));
   }
 
   void updateDescription(String description) {
-    _updateForm((state) => state.copyWith(description: description));
+    final result = ProductValidators.validateDescription(description);
+    final error = result.error as ProductValidationError?;
+
+    _updateForm((state) => state.copyWith(
+          description: description,
+          descriptionError: () => error,
+          isFormValid:
+              _isFormValid(state, description: description, dError: error),
+        ));
   }
 
   void updatePrice(double price) {
-    _updateForm((state) => state.copyWith(price: price));
+    final result = ProductValidators.validatePrice(price);
+    final error = result.error as ProductValidationError?;
+
+    _updateForm((state) => state.copyWith(
+          price: price,
+          priceError: () => error,
+          isFormValid: _isFormValid(state, price: price, pError: error),
+        ));
   }
 
   void updateStock(int stock) {
@@ -72,7 +102,14 @@ class CreateProductCubit extends Cubit<CreateProductState> {
   }
 
   void updateMainImage(String path) {
-    _updateForm((state) => state.copyWith(mainImagePath: path));
+    final result = ProductValidators.validateMainImage(path);
+    final error = result.error as ProductValidationError?;
+
+    _updateForm((state) => state.copyWith(
+          mainImagePath: path,
+          imageError: () => error,
+          isFormValid: _isFormValid(state, mainImagePath: path, iError: error),
+        ));
   }
 
   void addAdditionalImage(String path) {
@@ -217,30 +254,72 @@ class CreateProductCubit extends Cubit<CreateProductState> {
   }
 
   bool _validate(CreateProductFormState state) {
-    if (state.title.isEmpty) {
-      _emitError('Title is required');
+    final titleResult = ProductValidators.validateTitle(state.title);
+    final descriptionResult =
+        ProductValidators.validateDescription(state.description);
+    final imageResult =
+        ProductValidators.validateMainImage(state.mainImagePath);
+    final priceResult = ProductValidators.validatePrice(state.price);
+    final categoryResult = ProductValidators.validateCategory(state.categoryId);
+
+    if (!titleResult.isValid ||
+        !descriptionResult.isValid ||
+        !imageResult.isValid ||
+        !priceResult.isValid ||
+        !categoryResult.isValid) {
+      _updateForm((s) => s.copyWith(
+            titleError: () => titleResult.error as ProductValidationError?,
+            descriptionError: () =>
+                descriptionResult.error as ProductValidationError?,
+            imageError: () => imageResult.error as ProductValidationError?,
+            priceError: () => priceResult.error as ProductValidationError?,
+            categoryError: () =>
+                categoryResult.error as ProductValidationError?,
+          ));
+
+      // Emit first error as a general error for SnackBar if needed
+      final firstError = titleResult.error ??
+          descriptionResult.error ??
+          imageResult.error ??
+          priceResult.error ??
+          categoryResult.error;
+
+      if (firstError != null) {
+        _emitError(firstError);
+      }
+
       return false;
     }
-    if (state.description.isEmpty) {
-      _emitError('Description is required');
-      return false;
-    }
-    if (state.mainImagePath == null || state.mainImagePath!.isEmpty) {
-      _emitError('Main image is required');
-      return false;
-    }
-    if (state.price <= 0) {
-      _emitError('Price must be greater than 0');
-      return false;
-    }
-    if (state.categoryId.isEmpty) {
-      _emitError('Category is required');
-      return false;
-    }
+
     return true;
   }
 
-  void _emitError(String message) {
+  bool _isFormValid(
+    CreateProductFormState s, {
+    String? title,
+    String? description,
+    String? mainImagePath,
+    double? price,
+    String? categoryId,
+    ProductValidationError? tError,
+    ProductValidationError? dError,
+    ProductValidationError? iError,
+    ProductValidationError? pError,
+    ProductValidationError? cError,
+  }) {
+    return (title ?? s.title).isNotEmpty &&
+        (description ?? s.description).isNotEmpty &&
+        (mainImagePath ?? s.mainImagePath) != null &&
+        (price ?? s.price) > 0 &&
+        (categoryId ?? s.categoryId).isNotEmpty &&
+        (tError ?? s.titleError) == null &&
+        (dError ?? s.descriptionError) == null &&
+        (iError ?? s.imageError) == null &&
+        (pError ?? s.priceError) == null &&
+        (cError ?? s.categoryError) == null;
+  }
+
+  void _emitError(Object message) {
     if (state is CreateProductFormState) {
       emit((state as CreateProductFormState).copyWith(error: message));
     }

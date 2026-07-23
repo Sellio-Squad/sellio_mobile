@@ -37,6 +37,8 @@ class CategorySelectionSection extends StatelessWidget {
                   Expanded(
                     child: SellioPickerField<String>(
                       hintText: 'Category',
+                      errorText:
+                          state.categoryError?.toLocalizedString(context),
                       items: state.categories
                           .map((cat) => SellioPickerItem(cat.id, cat.name))
                           .toList(),
