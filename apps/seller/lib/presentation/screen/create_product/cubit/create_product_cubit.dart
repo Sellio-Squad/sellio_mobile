@@ -2,14 +2,13 @@ import 'package:authentication/authentication.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../data/datasource/fake/fake_create_product_datasource.dart';
-import '../../../../domain/entities/create_product_params.dart';
-import '../../../../domain/entities/product_item.dart';
-import '../../../../domain/repositories/product_repository.dart';
+import '../../../../domain/entity/create_product_params.dart';
+import '../../../../domain/entity/product_item.dart';
+import '../../../../domain/repository/product_repository.dart';
 import 'create_product_state.dart';
 
 class CreateProductCubit extends Cubit<CreateProductState> {
   final ProductRepository _productRepository;
-  final AuthenticationCubit _authCubit;
   final FakeCreateProductDataSource _metadataDataSource;
 
   CreateProductCubit({
@@ -17,7 +16,6 @@ class CreateProductCubit extends Cubit<CreateProductState> {
     required AuthenticationCubit authCubit,
     required FakeCreateProductDataSource metadataDataSource,
   })  : _productRepository = productRepository,
-        _authCubit = authCubit,
         _metadataDataSource = metadataDataSource,
         super(const CreateProductInitial());
 
@@ -180,7 +178,7 @@ class CreateProductCubit extends Cubit<CreateProductState> {
       }
 
       // 2. Prepare params with file paths for single multipart request
-      final params = CreateProductParams(
+      final params = AddProduct(
         title: currentState.title,
         description: currentState.description,
         mainImagePath: currentState.mainImagePath!,

@@ -68,7 +68,7 @@ class CategorySelectionSection extends StatelessWidget {
                         }
                       },
                       // Disable if no category selected or still loading
-                      isEnabled: state.categoryId.isNotEmpty &&
+                      enabled: state.categoryId.isNotEmpty &&
                           !state.isLoadingMetadata,
                     ),
                   ),

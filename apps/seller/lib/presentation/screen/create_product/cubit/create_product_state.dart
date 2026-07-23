@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../domain/entities/category.dart';
-import '../../../../domain/entities/product_item.dart';
-import '../../../../domain/entities/subcategory.dart';
+import '../../../../domain/entity/category.dart';
+import '../../../../domain/entity/product_item.dart';
+import '../../../../domain/entity/subcategory.dart';
 
 sealed class CreateProductState extends Equatable {
   const CreateProductState();
