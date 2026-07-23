@@ -1,5 +1,5 @@
-import '../../../../domain/entities/category.dart';
-import '../../../../domain/entities/subcategory.dart';
+import '../../../domain/entity/category.dart';
+import '../../../domain/entity/subcategory.dart';
 
 abstract class FakeCreateProductDataSource {
   Future<List<Category>> getCategories();

@@ -1,7 +1,7 @@
-import '../../domain/entities/create_product_params.dart';
+import '../../domain/entity/create_product_params.dart';
 
 abstract class ProductDataSource {
-  Future<void> createProduct(CreateProductParams params);
+  Future<void> createProduct(AddProduct params);
 
   Future<String> getOwnerStoreId();
 }

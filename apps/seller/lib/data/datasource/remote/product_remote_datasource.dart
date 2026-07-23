@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 import 'package:dio/dio.dart';
 
-import '../../../domain/entities/create_product_params.dart';
+import '../../../domain/entity/create_product_params.dart';
 import '../../core/api/api_endpoints.dart';
 import '../product_datasource.dart';
 
@@ -12,7 +12,7 @@ class ProductRemoteDataSource implements ProductDataSource {
       : _apiClient = apiClient;
 
   @override
-  Future<void> createProduct(CreateProductParams params) async {
+  Future<void> createProduct(AddProduct params) async {
     // Construct FormData for multipart request
     final formDataMap = {
       'title': params.title,
