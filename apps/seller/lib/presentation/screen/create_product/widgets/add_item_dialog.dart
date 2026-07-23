@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gap/flutter_gap.dart';
 
-import '../../../../domain/entities/product_item.dart';
+import '../../../../domain/entity/product_item.dart';
 import '../cubit/create_product_cubit.dart';
 
 class AddItemDialog extends StatefulWidget {
