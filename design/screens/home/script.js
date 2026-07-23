@@ -24,14 +24,29 @@ document.getElementById('statusbar-guest').innerHTML = getStatusHTML();
 document.getElementById('filter-btn').innerHTML = SHARED_ICONS.filter;
 populateBottomNav('home');
 
-document.getElementById('categories-grid').innerHTML = CATEGORIES.map(function(c) {
-  return '<div class="category-item" data-od-id="category-' + c.name.toLowerCase() + '">' +
+var homeCategories = CATEGORIES.filter(function(c) { return !c.isMore; }).slice(0, 7);
+homeCategories.push({ name: 'More', isMore: true, bg: '#F5F5F5' });
+
+document.getElementById('categories-grid').innerHTML = homeCategories.map(function(c) {
+  var clickable = c.isMore ? ' id="categories-more-btn"' : ' data-category="' + c.name + '"';
+  return '<div class="category-item" data-od-id="category-' + c.name.toLowerCase() + '"' + clickable + '>' +
     '<div class="category-img' + (c.isMore ? ' more-circle' : '') + '" style="background:' + c.bg + '">' +
       (c.isMore ? ICONS.more : (c.img ? '<img src="' + c.img + '" alt="' + c.name + '" loading="lazy" />' : (ICONS[c.iconKey] || ''))) +
     '</div>' +
     '<span class="category-name">' + c.name + '</span>' +
   '</div>';
 }).join('');
+
+document.getElementById('categories-more-btn').addEventListener('click', function() {
+  window.location.href = '../all-categories/';
+});
+
+document.querySelectorAll('.category-item[data-category]').forEach(function(item) {
+  item.addEventListener('click', function() {
+    var name = this.dataset.category;
+    window.location.href = '../category/?name=' + encodeURIComponent(name);
+  });
+});
 
 document.getElementById('trending-products').innerHTML = PRODUCTS.map(function(p) {
   var discountHtml = p.discount

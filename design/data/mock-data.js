@@ -10,6 +10,19 @@ var CATEGORIES = [
   { name: 'Sports', img: 'https://images.unsplash.com/photo-1461896836934-bd45ba8b0e28?w=112&h=112&fit=crop', bg: '#F0F8FF' },
   { name: 'Books', img: 'https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=112&h=112&fit=crop', bg: '#F8F0FF' },
   { name: 'Toys', img: 'https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=112&h=112&fit=crop', bg: '#FFFBF0' },
+  { name: 'Automotive', img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=112&h=112&fit=crop', bg: '#F0F0FF' },
+  { name: 'Baby & Kids', img: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=112&h=112&fit=crop', bg: '#FFF0F8' },
+  { name: 'Garden', img: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=112&h=112&fit=crop', bg: '#F0FFF0' },
+  { name: 'Health', img: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=112&h=112&fit=crop', bg: '#F5F0FF' },
+  { name: 'Music', img: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=112&h=112&fit=crop', bg: '#FFF5F0' },
+  { name: 'Pet Supplies', img: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=112&h=112&fit=crop', bg: '#FFF8F0' },
+  { name: 'Art & Crafts', img: 'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=112&h=112&fit=crop', bg: '#FFF0FF' },
+  { name: 'Gaming', img: 'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=112&h=112&fit=crop', bg: '#F0F0FF' },
+  { name: 'Jewelry', img: 'https://images.unsplash.com/photo-1515562141589-67f0d93e6b53?w=112&h=112&fit=crop', bg: '#FFFBF0' },
+  { name: 'Furniture', img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=112&h=112&fit=crop', bg: '#F5F0FF' },
+  { name: 'Kitchen', img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=112&h=112&fit=crop', bg: '#F0F8FF' },
+  { name: 'Office', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=112&h=112&fit=crop', bg: '#F0F4FF' },
+  { name: 'Collectibles', img: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=112&h=112&fit=crop', bg: '#FFF8E0' },
   { name: 'More', isMore: true, bg: '#F5F5F5' }
 ];
 
@@ -100,6 +113,85 @@ var PRODUCT_DETAIL = {
     'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=400&h=400&fit=crop'
   ],
   category: 'Electronics'
+};
+
+var CATEGORY_DATA = {
+  'Electronics': {
+    subcategories: [
+      { id: 'all', name: 'All' },
+      { id: 'phones', name: 'Phones' },
+      { id: 'laptops', name: 'Laptops' },
+      { id: 'accessories', name: 'Accessories' },
+      { id: 'audio', name: 'Audio' }
+    ],
+    products: [
+      { id: 301, title: 'Wireless Bluetooth Headphones', description: 'Premium noise-cancelling over-ear headphones', price: 299, originalPrice: 450, discount: '33%', images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=320&h=320&fit=crop'], subcategories: ['all', 'audio'], isFavorite: false },
+      { id: 302, title: 'Smart Watch Series 5', description: 'Latest smartwatch with health tracking', price: 899, originalPrice: 1200, discount: '25%', images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=320&h=320&fit=crop'], subcategories: ['all', 'accessories'], isFavorite: true },
+      { id: 303, title: 'Wireless Phone Charger', description: 'Fast wireless charging pad for all devices', price: 199, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1615526675159-e0481f089953?w=320&h=320&fit=crop'], subcategories: ['all', 'accessories'], isFavorite: false },
+      { id: 304, title: 'Smartphone Galaxy S24', description: 'Latest flagship smartphone with AI features', price: 3200, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=320&h=320&fit=crop'], subcategories: ['all', 'phones'], isFavorite: false },
+      { id: 305, title: 'Laptop Pro 16"', description: 'High-performance laptop for professionals', price: 4500, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=320&h=320&fit=crop'], subcategories: ['all', 'laptops'], isFavorite: false },
+      { id: 306, title: 'Wireless Earbuds Pro', description: 'Compact earbuds with active noise cancellation', price: 450, originalPrice: 600, discount: '25%', images: ['https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=320&h=320&fit=crop'], subcategories: ['all', 'audio'], isFavorite: false },
+      { id: 307, title: 'USB-C Hub Adapter', description: '7-in-1 USB-C hub with HDMI output', price: 250, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1625842268584-8f3296236761?w=320&h=320&fit=crop'], subcategories: ['all', 'accessories'], isFavorite: false },
+      { id: 308, title: 'Portable Power Bank', description: '20000mAh fast charging power bank', price: 350, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=320&h=320&fit=crop'], subcategories: ['all', 'accessories'], isFavorite: false }
+    ]
+  },
+  'Fashion': {
+    subcategories: [
+      { id: 'all', name: 'All' },
+      { id: 'men', name: 'Men' },
+      { id: 'women', name: 'Women' },
+      { id: 'shoes', name: 'Shoes' },
+      { id: 'bags', name: 'Bags' }
+    ],
+    products: [
+      { id: 311, title: 'Classic Denim Jacket', description: 'Vintage wash denim jacket for all seasons', price: 189, originalPrice: 250, discount: '24%', images: ['https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=320&h=320&fit=crop'], subcategories: ['all', 'men'], isFavorite: true },
+      { id: 312, title: 'Canvas Backpack - Urban', description: 'Durable canvas backpack with laptop compartment', price: 350, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=320&h=320&fit=crop'], subcategories: ['all', 'bags'], isFavorite: false },
+      { id: 313, title: 'Running Sneakers Pro', description: 'Lightweight running shoes with cushion support', price: 450, originalPrice: 600, discount: '25%', images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=320&h=320&fit=crop'], subcategories: ['all', 'shoes'], isFavorite: false },
+      { id: 314, title: 'Summer Floral Dress', description: 'Elegant floral print maxi dress', price: 299, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=320&h=320&fit=crop'], subcategories: ['all', 'women'], isFavorite: false },
+      { id: 315, title: 'Leather Crossbody Bag', description: 'Genuine leather crossbody with adjustable strap', price: 520, originalPrice: null, discount: '15%', images: ['https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=320&h=320&fit=crop'], subcategories: ['all', 'bags'], isFavorite: false },
+      { id: 316, title: 'Casual Polo Shirt', description: 'Premium cotton polo in classic fit', price: 149, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1625910513413-5fc42fdaeb27?w=320&h=320&fit=crop'], subcategories: ['all', 'men'], isFavorite: false }
+    ]
+  },
+  'Home': {
+    subcategories: [
+      { id: 'all', name: 'All' },
+      { id: 'decor', name: 'Decor' },
+      { id: 'kitchen', name: 'Kitchen' },
+      { id: 'bedding', name: 'Bedding' }
+    ],
+    products: [
+      { id: 321, title: 'Ceramic Coffee Mug Set', description: 'Set of 4 handcrafted ceramic mugs', price: 95, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=320&h=320&fit=crop'], subcategories: ['all', 'kitchen'], isFavorite: false },
+      { id: 322, title: 'Stainless Steel Water Bottle', description: 'Double-wall insulated 750ml bottle', price: 79, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=320&h=320&fit=crop'], subcategories: ['all', 'kitchen'], isFavorite: false },
+      { id: 323, title: 'Scented Candle Collection', description: 'Hand-poured soy wax candles set of 3', price: 120, originalPrice: 150, discount: '20%', images: ['https://images.unsplash.com/photo-1602028915047-37269d1a73f7?w=320&h=320&fit=crop'], subcategories: ['all', 'decor'], isFavorite: false },
+      { id: 324, title: 'Memory Foam Pillow', description: 'Ergonomic cervical support pillow', price: 280, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1592789705501-f4f1a4d3d6d8?w=320&h=320&fit=crop'], subcategories: ['all', 'bedding'], isFavorite: false }
+    ]
+  },
+  'Beauty': {
+    subcategories: [
+      { id: 'all', name: 'All' },
+      { id: 'skincare', name: 'Skincare' },
+      { id: 'makeup', name: 'Makeup' },
+      { id: 'haircare', name: 'Haircare' }
+    ],
+    products: [
+      { id: 331, title: 'Organic Face Cream', description: 'Hydrating moisturizer with hyaluronic acid', price: 125, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=320&h=320&fit=crop'], subcategories: ['all', 'skincare'], isFavorite: false },
+      { id: 332, title: 'Vitamin C Serum', description: 'Brightening serum with 20% vitamin C', price: 189, originalPrice: 250, discount: '24%', images: ['https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=320&h=320&fit=crop'], subcategories: ['all', 'skincare'], isFavorite: false },
+      { id: 333, title: 'Matte Lipstick Set', description: 'Long-lasting matte lipstick in 6 shades', price: 210, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=320&h=320&fit=crop'], subcategories: ['all', 'makeup'], isFavorite: false }
+    ]
+  },
+  'Sports': {
+    subcategories: [
+      { id: 'all', name: 'All' },
+      { id: 'fitness', name: 'Fitness' },
+      { id: 'outdoor', name: 'Outdoor' },
+      { id: 'cycling', name: 'Cycling' }
+    ],
+    products: [
+      { id: 341, title: 'Yoga Mat Premium', description: 'Non-slip eco-friendly yoga mat 6mm', price: 220, originalPrice: null, discount: '10%', images: ['https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=320&h=320&fit=crop'], subcategories: ['all', 'fitness'], isFavorite: false },
+      { id: 342, title: 'Resistance Bands Set', description: 'Set of 5 bands with different resistance levels', price: 85, originalPrice: null, discount: null, images: ['https://images.unsplash.com/photo-1598289431512-b97b0917affc?w=320&h=320&fit=crop'], subcategories: ['all', 'fitness'], isFavorite: false },
+      { id: 343, title: 'Camping Tent 4-Person', description: 'Waterproof family camping tent', price: 890, originalPrice: 1200, discount: '25%', images: ['https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=320&h=320&fit=crop'], subcategories: ['all', 'outdoor'], isFavorite: false }
+    ]
+  }
 };
 
 var THRIFT_PRODUCTS = [

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Category</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="caption"><strong>Sellio</strong> · <span id="page-caption">Category</span></div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen">
+        <div id="statusbar-main"></div>
+
+        <!-- Loading Shimmer -->
+        <div class="cat-loading" id="cat-loading">
+          <div class="shimmer-search"></div>
+          <div class="shimmer-tabs">
+            <div class="shimmer-tab"></div>
+            <div class="shimmer-tab"></div>
+            <div class="shimmer-tab"></div>
+            <div class="shimmer-tab"></div>
+          </div>
+          <div class="shimmer-grid">
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+            <div class="shimmer-v-card"><div class="shimmer-img"></div><div class="shimmer-text-lines"><div class="shimmer-line shimmer-line--short"></div><div class="shimmer-line shimmer-line--long"></div><div class="shimmer-line shimmer-line--medium"></div></div></div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="cat-content" id="cat-content">
+          <!-- App Bar -->
+          <div class="cat-appbar">
+            <div class="sellio-appbar__back" id="cat-back">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="sellio-appbar__title" id="cat-title"></div>
+          </div>
+
+          <!-- Scroll Container -->
+          <div class="cat-scroll" id="cat-scroll">
+            <!-- Search Bar -->
+            <div class="cat-search">
+              <div class="input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <input type="text" id="cat-search-input" placeholder="Search in category" readonly />
+              </div>
+            </div>
+
+            <!-- Sticky Subcategory Tabs -->
+            <div class="cat-tabs-wrap">
+              <div class="cat-tabs" id="cat-tabs"></div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="cat-products" id="cat-products"></div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav" data-od-id="bottom-nav">
+          <button class="nav-item" data-tab="home" id="nav-home"></button>
+          <button class="nav-item" data-tab="cart" id="nav-cart"><span class="cart-badge" id="cart-badge">0</span></button>
+          <button class="nav-center" data-tab="customize" id="nav-customize"></button>
+          <button class="nav-item" data-tab="thrift" id="nav-thrift"></button>
+          <button class="nav-item" data-tab="account" id="nav-account"></button>
+        </div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+    <div class="toast" id="toast">Added to cart</div>
+  </div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/bottom-nav.js"></script>
+  <script src="../../components/product-counter.js"></script>
+  <script src="../../components/favorites.js"></script>
+  <script src="../../components/toast.js"></script>
+  <script src="../../data/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
