@@ -218,27 +218,9 @@
   object-fit: cover;
 }
 .h-product-card .fav-btn {
-  position: absolute;
   top: 8px;
   right: 8px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-  z-index: 2;
 }
-.h-product-card .fav-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--color-primary);
-}
-.h-product-card .fav-btn.favorited svg { fill: var(--color-primary-variant); }
 .h-product-card .discount-tag {
   position: absolute;
   top: 10px;
@@ -394,27 +376,9 @@
   white-space: nowrap;
 }
 .store-card .fav-btn {
-  position: absolute;
   top: 4px;
   right: 4px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: none;
-  z-index: 2;
 }
-.store-card .fav-btn svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--color-primary);
-}
-.store-card .fav-btn.favorited svg { fill: var(--color-primary-variant); }
 .store-card .store-discount {
   position: absolute;
   top: -4px;

@@ -74,13 +74,11 @@ function renderProducts() {
         '</div></div>'
       : '';
 
-    var favSvg = p.isFavorite ? SHARED_ICONS.heartFav : SHARED_ICONS.heart;
-
     return '<div class="product-card" data-id="' + p.id + '">' +
       '<div class="product-card__img-wrap">' +
         '<img src="' + p.image + '" alt="' + p.title + '" loading="lazy" />' +
         discountHtml +
-        '<button class="product-card__fav" data-fav="' + p.id + '">' + favSvg + '</button>' +
+        getHeartBtnHTML(p.isFavorite, p.id) +
       '</div>' +
       '<div class="product-card__content">' +
         '<div class="product-card__title">' + p.title + '</div>' +
@@ -92,21 +90,17 @@ function renderProducts() {
     '</div>';
   }).join('');
 
-  container.querySelectorAll('.product-card__fav').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var id = parseInt(this.dataset.fav);
+  initFavorites('.product-card .fav-btn', {
+    onToggle: function(btn, isFav) {
+      var id = parseInt(btn.dataset.favId);
       var product = PRODUCTS.find(function(p) { return p.id === id; });
-      if (product) {
-        product.isFavorite = !product.isFavorite;
-        renderProducts();
-      }
-    });
+      if (product) product.isFavorite = isFav;
+    }
   });
 
   container.querySelectorAll('.product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
-      if (e.target.closest('.product-card__fav') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
       window.location.href = '../product/';
     });
   });
