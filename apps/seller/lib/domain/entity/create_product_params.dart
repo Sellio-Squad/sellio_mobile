@@ -2,20 +2,20 @@ import 'package:equatable/equatable.dart';
 
 import 'product_item.dart';
 
-class CreateProductParams extends Equatable {
+class AddProduct extends Equatable {
   final String title;
   final String description;
-  final String mainImagePath; // Local file path for upload
+  final String mainImagePath;
   final String storeId;
   final String categoryId;
   final double price;
   final bool isFeatured;
   final bool isAvailable;
   final List<String> subCategoryIds;
-  final List<String> additionalImagePaths; // Local file paths for upload
+  final List<String> additionalImagePaths;
   final List<ProductItem> items;
 
-  const CreateProductParams({
+  const AddProduct({
     required this.title,
     required this.description,
     required this.mainImagePath,
