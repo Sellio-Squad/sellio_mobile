@@ -3,8 +3,8 @@ import 'package:equatable/equatable.dart';
 class ProductItem extends Equatable {
   final double price;
   final String discountId;
-  final String colorId;
-  final String sizeId;
+  final String? colorId;
+  final String? sizeId;
   final int weightId;
   final int stock;
 
