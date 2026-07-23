@@ -42,7 +42,6 @@ class _CreateStoreScreenContent extends StatelessWidget {
               GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: const AuthBackgroundWrapper(
-                  showLogo: true,
                   showCloseButton: false,
                   child: CreateStoreBody(),
                 ),
