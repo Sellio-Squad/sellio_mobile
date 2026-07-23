@@ -5,6 +5,7 @@
 /* ── Content Container ── */
 .product-content {
   flex-direction: column;
+  background: var(--color-surface-low);
 }
 
 /* ── Scrollable Body ── */
