@@ -1,7 +1,7 @@
 import 'package:core/core.dart';
 
-import '../../domain/entities/create_product_params.dart';
-import '../../domain/repositories/product_repository.dart';
+import '../../domain/entity/create_product_params.dart';
+import '../../domain/repository/product_repository.dart';
 import '../datasource/product_datasource.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
@@ -11,7 +11,7 @@ class ProductRepositoryImpl implements ProductRepository {
       : _dataSource = dataSource;
 
   @override
-  Future<Result<void>> createProduct(CreateProductParams params) {
+  Future<Result<void>> createProduct(AddProduct params) {
     return RepositoryCallHandler.callVoid(() async {
       await _dataSource.createProduct(params);
     });
