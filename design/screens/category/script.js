@@ -90,24 +90,27 @@ function renderProducts() {
   }
 
   var html = filtered.map(function(p) {
-    var discountTag = p.discount ? '<div class="sellio-product-v-card__category">' + p.discount + ' OFF</div>' : '';
-    var originalPrice = p.originalPrice ? '<span class="sellio-product-v-card__original-price">' + p.originalPrice + ' EGP</span>' : '';
+    var discountHtml = p.discount
+      ? '<div class="product-card__discount">' +
+          '<span class="product-card__discount-frame">' + SHARED_ICONS.discountFrame + '</span>' +
+          '<span class="product-card__discount-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount + '</span></span>' +
+        '</div>'
+      : '';
+    var originalPrice = p.originalPrice ? '<span class="product-card__original-price">' + p.originalPrice + ' EGP</span>' : '';
 
-    return '<div class="sellio-product-v-card cat-product-card" data-product-id="' + p.id + '">' +
-      '<div class="sellio-product-v-card__image">' +
-        '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />' +
-        '<button class="sellio-product-v-card__favorite" data-fav-id="' + p.id + '">' +
-          (p.isFavorite ? SHARED_ICONS.heartFav : SHARED_ICONS.heart) +
-        '</button>' +
+    return '<div class="product-card" data-product-id="' + p.id + '">' +
+      '<div class="product-card__img-wrap">' +
+        '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" />' +
+        discountHtml +
+        getHeartBtnHTML(p.isFavorite, p.id) +
       '</div>' +
-      '<div class="sellio-product-v-card__content">' +
-        discountTag +
-        '<div class="sellio-product-v-card__title">' + p.title + '</div>' +
-        '<div class="sellio-product-v-card__prices">' +
-          '<span class="sellio-product-v-card__price">' + p.price + ' EGP</span>' +
+      '<div class="product-card__content">' +
+        '<div class="product-card__title">' + p.title + '</div>' +
+        '<div class="product-card__price-row">' +
+          '<span class="product-card__price">' + p.price + ' EGP</span>' +
           originalPrice +
         '</div>' +
-        '<div class="sellio-product-v-card__actions" data-cart-row="' + p.id + '"></div>' +
+        '<div class="product-card__cart-row" data-cart-row="' + p.id + '"></div>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -117,13 +120,14 @@ function renderProducts() {
   ProductCounter.renderAllCounters();
 
   // Favorite toggles
-  initFavorites('.cat-product-card .sellio-product-v-card__favorite');
+  initFavorites('.product-card .fav-btn');
 
   // Product tap (navigate to product detail)
-  document.querySelectorAll('.cat-product-card').forEach(function(card) {
+  document.querySelectorAll('.product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
-      if (e.target.closest('.sellio-product-v-card__favorite') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
-      window.location.href = '../product/';
+      if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      var productId = card.getAttribute('data-product-id');
+      window.location.href = '../product/?id=' + productId;
     });
   });
 }
@@ -161,3 +165,8 @@ showLoading();
 setTimeout(function() {
   showContent();
 }, 800);
+
+// Search bar tap → navigate to search screen
+document.querySelector('.cat-search .input-wrap').addEventListener('click', function() {
+  window.location.href = '../search/?q=' + encodeURIComponent(categoryName);
+});

@@ -68,10 +68,10 @@ function renderProducts() {
 
   container.innerHTML = filtered.map(function(p) {
     var discountHtml = p.discount
-      ? '<div class="product-card__discount"><div class="discount-frame-wrap">' +
-          '<div class="frame-bg">' + SHARED_ICONS.discountFrame + '</div>' +
-          '<div class="frame-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount.replace(' OFF', '') + '</span></div>' +
-        '</div></div>'
+      ? '<div class="product-card__discount">' +
+          '<span class="product-card__discount-frame">' + SHARED_ICONS.discountFrame + '</span>' +
+          '<span class="product-card__discount-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount.replace(' OFF', '') + '</span></span>' +
+        '</div>'
       : '';
 
     return '<div class="product-card" data-id="' + p.id + '">' +
@@ -82,7 +82,9 @@ function renderProducts() {
       '</div>' +
       '<div class="product-card__content">' +
         '<div class="product-card__title">' + p.title + '</div>' +
-        '<div class="product-card__price">' + p.price + '</div>' +
+        '<div class="product-card__price-row">' +
+          '<span class="product-card__price">' + p.price + '</span>' +
+        '</div>' +
         '<div class="product-card__cart-row" data-cart-row="' + p.id + '">' +
           '<button class="product-card__add-btn" data-add="' + p.id + '">' + SHARED_ICONS.smallCart + '</button>' +
         '</div>' +
@@ -101,7 +103,8 @@ function renderProducts() {
   container.querySelectorAll('.product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
       if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
-      window.location.href = '../product/';
+      var productId = card.getAttribute('data-id');
+      window.location.href = '../product/?id=' + productId;
     });
   });
 
@@ -165,4 +168,8 @@ contentEl.addEventListener('scroll', function() {
   if (contentEl.scrollTop + contentEl.clientHeight >= contentEl.scrollHeight - 200) {
     // Infinite scroll placeholder — no more data to load in mock
   }
+});
+
+document.querySelector('.search-wrap .input-wrap').addEventListener('click', function() {
+  window.location.href = '../search/';
 });

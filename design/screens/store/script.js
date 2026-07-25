@@ -1,6 +1,8 @@
 // Store Details Screen
 var selectedCategoryIndex = 0;
-var store = STORE_DETAIL;
+var urlParams = new URLSearchParams(window.location.search);
+var storeId = parseInt(urlParams.get('id')) || 1;
+var store = getStoreDetail(storeId);
 
 // Status bar
 document.getElementById('statusbar-main').innerHTML = getStatusHTML();
@@ -69,42 +71,31 @@ function renderStore() {
 
 function renderFeaturedProducts() {
   var html = store.featuredProducts.map(function(p) {
-    return '<div class="featured-card" data-od-id="featured-' + p.id + '" data-product-id="' + p.id + '">' +
-      '<div class="img-wrap">' +
+    return '<div class="product-card" data-product-id="' + p.id + '">' +
+      '<div class="product-card__img-wrap">' +
         '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" />' +
         getHeartBtnHTML(false, p.id) +
       '</div>' +
-      '<div class="card-content">' +
-        '<div class="product-title">' + p.title + '</div>' +
-        '<div class="price">' + p.price.toLocaleString() + ' EGP</div>' +
-        '<div class="card-cart-row">' +
-          '<button class="card-add-btn" data-add-id="' + p.id + '">' +
-            SHARED_ICONS.smallCart +
-          '</button>' +
+      '<div class="product-card__content">' +
+        '<div class="product-card__title">' + p.title + '</div>' +
+        '<div class="product-card__price-row">' +
+          '<span class="product-card__price">' + p.price.toLocaleString() + ' EGP</span>' +
         '</div>' +
+        '<div class="product-card__cart-row" data-cart-row="' + p.id + '"></div>' +
       '</div>' +
     '</div>';
   }).join('');
   document.getElementById('featured-scroll').innerHTML = html;
 
-  // Initialize favorite toggles on featured cards
-  initFavorites('.featured-card .fav-btn');
-
-  // Add-to-cart on featured cards
-  document.querySelectorAll('.featured-card .card-add-btn').forEach(function(btn) {
-    btn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      var id = parseInt(this.dataset.addId);
-      ProductCounter.addToCart(id);
-      showToast('Added to cart');
-    });
-  });
+  // Favorite toggles
+  initFavorites('#featured-scroll .fav-btn');
 
   // Product tap on featured cards
-  document.querySelectorAll('.featured-card').forEach(function(card) {
+  document.querySelectorAll('#featured-scroll .product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
-      if (e.target.closest('.fav-btn') || e.target.closest('.card-add-btn')) return;
-      window.location.href = '../product/';
+      if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      var productId = card.getAttribute('data-product-id');
+      window.location.href = '../product/?id=' + productId;
     });
   });
 }
@@ -153,18 +144,17 @@ function renderProducts() {
   }
 
   var html = filtered.map(function(p) {
-    return '<div class="sellio-product-h-card store-product-card" data-od-id="product-' + p.id + '" data-product-id="' + p.id + '">' +
-      '<div class="sellio-product-h-card__image">' +
+    return '<div class="product-card" data-product-id="' + p.id + '">' +
+      '<div class="product-card__img-wrap">' +
         '<img src="' + p.images[0] + '" alt="' + p.title + '" loading="lazy" />' +
+        getHeartBtnHTML(false, p.id) +
       '</div>' +
-      '<div class="sellio-product-h-card__content">' +
-        '<div class="sellio-product-h-card__title">' + p.title + '</div>' +
-        '<div class="sellio-product-h-card__description">' + p.description + '</div>' +
-        '<div class="sellio-product-h-card__prices">' +
-          '<span class="sellio-product-h-card__price">' + p.price.toLocaleString() + ' EGP</span>' +
+      '<div class="product-card__content">' +
+        '<div class="product-card__title">' + p.title + '</div>' +
+        '<div class="product-card__price-row">' +
+          '<span class="product-card__price">' + p.price.toLocaleString() + ' EGP</span>' +
         '</div>' +
-      '</div>' +
-      '<div class="sellio-product-h-card__actions" data-cart-row="' + p.id + '">' +
+        '<div class="product-card__cart-row" data-cart-row="' + p.id + '"></div>' +
       '</div>' +
     '</div>';
   }).join('');
@@ -174,10 +164,11 @@ function renderProducts() {
   ProductCounter.renderAllCounters();
 
   // Product tap
-  document.querySelectorAll('.store-product-card').forEach(function(card) {
+  document.querySelectorAll('#store-products .product-card').forEach(function(card) {
     card.addEventListener('click', function(e) {
-      if (e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
-      window.location.href = '../product/';
+      if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
+      var productId = card.getAttribute('data-product-id');
+      window.location.href = '../product/?id=' + productId;
     });
   });
 }
@@ -207,7 +198,7 @@ initNavClickHandlers({
 
 // Info button → About Store
 document.getElementById('store-info-btn').addEventListener('click', function() {
-  window.location.href = '../about-store/';
+  window.location.href = '../about-store/?id=' + storeId;
 });
 
 // Simulate loading

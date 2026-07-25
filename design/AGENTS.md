@@ -41,7 +41,9 @@ design/
     ├── cart/
     ├── thrift/
     ├── about-store/
-    └── product/
+    ├── product/
+    ├── notification/
+    └── search/
 ```
 
 ## Conventions

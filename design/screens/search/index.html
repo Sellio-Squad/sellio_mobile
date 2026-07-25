@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sellio · Search</title>
+  <link rel="stylesheet" href="../../assets/tokens.css">
+  <link rel="stylesheet" href="../../assets/components.css">
+  <link rel="stylesheet" href="../../assets/shared.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stage">
+    <div class="caption"><strong>Sellio</strong> · Search</div>
+
+    <div class="device" data-od-id="device">
+      <span class="btn-rail left-1" aria-hidden></span>
+      <span class="btn-rail left-2" aria-hidden></span>
+      <span class="btn-rail left-3" aria-hidden></span>
+      <span class="btn-rail right-1" aria-hidden></span>
+      <span class="island" aria-hidden></span>
+
+      <div class="screen">
+        <div id="statusbar-main"></div>
+
+        <!-- App Bar -->
+        <div class="sellio-appbar">
+          <div class="sellio-appbar__back" id="search-back">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <input type="text" id="search-input" placeholder="Search your favorite items" autofocus />
+          </div>
+          <button class="search-clear-btn" id="search-clear-btn" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <!-- Scrollable content -->
+        <div class="search-content" id="search-content">
+          <!-- Recent Searches (shown when input is empty) -->
+          <div class="recent-section" id="recent-section">
+            <div class="recent-header">
+              <span class="recent-title">Recent Searches</span>
+              <button class="recent-clear" id="recent-clear-btn">Clear all</button>
+            </div>
+            <div class="recent-chips" id="recent-chips"></div>
+          </div>
+
+          <!-- Search Results -->
+          <div class="results-section" id="results-section" style="display:none;">
+            <div class="results-header">
+              <span class="results-count" id="results-count"></span>
+            </div>
+            <div class="results-grid" id="results-grid"></div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="search-empty" id="search-empty" style="display:none;">
+            <div class="search-empty__icon">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.38"/><path d="M20 20L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.38"/></svg>
+            </div>
+            <div class="search-empty__title">No results found</div>
+            <div class="search-empty__desc">Try a different search term or browse categories</div>
+          </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <div class="bottom-nav" data-od-id="bottom-nav">
+          <button class="nav-item" data-tab="home" id="nav-home"></button>
+          <button class="nav-item" data-tab="cart" id="nav-cart"><span class="cart-badge" id="cart-badge">0</span></button>
+          <button class="nav-center" data-tab="customize" id="nav-customize"></button>
+          <button class="nav-item" data-tab="thrift" id="nav-thrift"></button>
+          <button class="nav-item" data-tab="account" id="nav-account"></button>
+        </div>
+
+        <div class="home-indicator" aria-hidden></div>
+      </div>
+    </div>
+    <div class="toast" id="toast">Added to cart</div>
+  </div>
+
+  <script src="../../assets/shared-icons.js"></script>
+  <script src="../../components/bottom-nav.js"></script>
+  <script src="../../components/product-counter.js"></script>
+  <script src="../../components/favorites.js"></script>
+  <script src="../../data/mock-data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

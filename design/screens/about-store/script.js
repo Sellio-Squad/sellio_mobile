@@ -1,5 +1,7 @@
 // About Store Screen
-var aboutData = ABOUT_STORE_DATA;
+var urlParams = new URLSearchParams(window.location.search);
+var storeId = parseInt(urlParams.get('id')) || 1;
+var aboutData = getAboutStoreData(storeId);
 
 // Status bar
 document.getElementById('statusbar-main').innerHTML = getStatusHTML();

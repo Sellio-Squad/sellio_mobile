@@ -1,0 +1,200 @@
+/* ═══════════════════════════════════════════════
+   Notification Screen — matches Flutter NotificationScreen
+   ═══════════════════════════════════════════════ */
+
+/* ── Loading state ── */
+.notif-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.notif-loading__spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-stroke-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: notifSpin 0.8s linear infinite;
+}
+
+@keyframes notifSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Empty state ── */
+.notif-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 24px;
+  text-align: center;
+}
+
+.notif-empty svg {
+  color: var(--color-body-text);
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+.notif-empty__title {
+  font: var(--text-title-medium);
+  color: var(--color-body-text);
+  margin-bottom: 8px;
+}
+
+.notif-empty__desc {
+  font: var(--text-body-medium);
+  color: var(--color-body-text);
+  opacity: 0.7;
+}
+
+/* ── Error state ── */
+.notif-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 24px;
+  text-align: center;
+}
+
+.notif-error svg {
+  margin-bottom: 16px;
+}
+
+.notif-error__title {
+  font: var(--text-title-medium);
+  color: var(--color-body-text);
+  margin-bottom: 8px;
+}
+
+.notif-error__desc {
+  font: var(--text-body-medium);
+  color: var(--color-body-text);
+  opacity: 0.7;
+  margin-bottom: 24px;
+}
+
+.notif-error__retry {
+  min-width: 120px;
+}
+
+/* ── Content ── */
+.notif-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-top: 8px;
+  padding-bottom: 100px;
+}
+
+/* ── Date header ── */
+.notif-date-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 16px 8px;
+}
+
+.notif-date-header__text {
+  font: var(--text-label-small);
+  font-weight: 600;
+  color: var(--color-body-text);
+  white-space: nowrap;
+}
+
+.notif-date-header__line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-stroke-border);
+}
+
+/* ── Notification item ── */
+.notif-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.notif-item__bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: #E54F40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+}
+
+.notif-item--swiped .notif-item__bg {
+  transform: translateX(0);
+}
+
+.notif-item__inner {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 16px;
+  background: var(--color-surface-low);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.notif-item--swiped .notif-item__inner {
+  transform: translateX(-80px);
+}
+
+.notif-item__icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notif-item__icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color-title-text);
+}
+
+.notif-item__body {
+  flex: 1;
+  margin-left: 8px;
+  min-width: 0;
+}
+
+.notif-item__text {
+  font: var(--text-body-small);
+  color: var(--color-body-text);
+  line-height: 1.4;
+}
+
+.notif-item__text strong {
+  font-weight: 600;
+  font-family: 'Rubik', sans-serif;
+}
+
+.notif-item__time {
+  font: var(--text-label-small);
+  color: var(--color-body-text);
+  margin-top: 2px;
+}
+
+.notif-item__divider {
+  margin: 0 16px;
+  height: 1px;
+  background: var(--color-stroke-border);
+}

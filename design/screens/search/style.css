@@ -1,0 +1,157 @@
+/* ── Search Input in App Bar ── */
+.search-input-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-surface);
+  border-radius: var(--search-radius);
+  height: 48px;
+  padding: 0 12px;
+}
+.search-input-wrap .search-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--color-hint-text);
+}
+.search-input-wrap input {
+  flex: 1;
+  border: none;
+  background: none;
+  outline: none;
+  font: var(--text-body-medium);
+  color: var(--color-title-text);
+  width: 100%;
+  padding: 0;
+}
+.search-input-wrap input::placeholder { color: var(--color-hint-text); }
+
+/* ── Clear Button ── */
+.search-clear-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.search-clear-btn svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-hint-text);
+}
+
+/* ── Search Content ── */
+.search-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 90px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.search-content::-webkit-scrollbar { display: none; }
+
+/* ── Recent Searches ── */
+.recent-section {
+  padding: 16px;
+}
+.recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.recent-title {
+  font: var(--text-title-small);
+  color: var(--color-title-text);
+}
+.recent-clear {
+  font: var(--text-label-medium);
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+}
+.recent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.recent-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-stroke-border);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.recent-chip:active { background: var(--color-surface-high); }
+.recent-chip__icon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-hint-text);
+  flex-shrink: 0;
+}
+.recent-chip__label {
+  font: var(--text-label-medium);
+  color: var(--color-body-text);
+  white-space: nowrap;
+}
+
+/* ── Results Header ── */
+.results-section {
+  padding: 0 16px;
+}
+.results-header {
+  margin-bottom: 12px;
+}
+.results-count {
+  font: var(--text-label-medium);
+  color: var(--color-body-text);
+}
+
+/* ── Results Grid ── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 8px;
+}
+
+/* ── Empty State ── */
+.search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 32px;
+  text-align: center;
+}
+.search-empty__icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+  color: var(--color-hint-text);
+}
+.search-empty__icon svg { width: 100%; height: 100%; }
+.search-empty__title {
+  font: var(--text-title-medium);
+  color: var(--color-title-text);
+  margin-bottom: 4px;
+}
+.search-empty__desc {
+  font: var(--text-body-small);
+  color: var(--color-body-text);
+}
+
+/* ── App bar with search input uses sellio-appbar base ── */
+.sellio-appbar {
+  gap: 8px;
+}

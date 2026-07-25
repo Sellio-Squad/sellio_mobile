@@ -285,23 +285,27 @@ body {
 .screen-content::-webkit-scrollbar { display: none; }
 
 /* ═══════════════════════════════════════════════
-   Product Card — Vertical (shared by home + thrift)
+   Product Card — canonical (matches home design)
    ═══════════════════════════════════════════════ */
+
 .product-card {
   background: var(--color-surface-low);
-  border: 1px solid var(--color-stroke-border);
   border-radius: var(--card-radius);
+  border: 1px solid var(--color-stroke-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  position: relative;
 }
 .product-card__img-wrap {
   position: relative;
   width: 100%;
-  flex: 1;
-  min-height: 0;
+  aspect-ratio: 1;
   background: var(--color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 .product-card__img-wrap img {
@@ -309,88 +313,46 @@ body {
   height: 100%;
   object-fit: cover;
 }
-.product-card__fav {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.6);
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-.product-card__fav svg { width: 20px; height: 20px; color: var(--color-primary); }
 
-/* Favorite button — shared across all product/store card hearts */
-.fav-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: var(--fav-size);
-  height: var(--fav-size);
-  border-radius: 50%;
-  background: var(--fav-bg);
-  backdrop-filter: blur(var(--fav-blur));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  z-index: 2;
-}
-.fav-btn svg {
-  width: var(--fav-icon-size);
-  height: var(--fav-icon-size);
-  color: var(--color-primary);
-}
-.fav-btn.favorited svg {
-  color: var(--color-primary-variant);
-}
-
+/* ── Discount tag ── */
 .product-card__discount {
   position: absolute;
   top: 10px;
-  left: 10px;
-}
-.discount-frame-wrap {
-  position: relative;
+  left: 0;
+  z-index: 2;
   width: 70px;
   height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.discount-frame-wrap .frame-bg {
+.product-card__discount-frame {
   position: absolute;
   inset: 0;
-}
-.discount-frame-wrap .frame-bg img,
-.discount-frame-wrap .frame-bg svg {
   width: 100%;
   height: 100%;
-  display: block;
 }
-.discount-frame-wrap .frame-content {
+.product-card__discount-content {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 4px;
-  height: 100%;
-  padding: 0 12px 8px;
+  padding: 4px 8px 0;
 }
-.discount-frame-wrap .frame-content svg {
+.product-card__discount-content svg {
   width: 16px;
   height: 16px;
+  flex-shrink: 0;
   color: var(--color-secondary);
 }
-.discount-frame-wrap .frame-content span {
+.product-card__discount-content span {
   font: var(--text-label-small);
   color: var(--color-secondary);
+  white-space: nowrap;
 }
+
+/* ── Content ── */
 .product-card__content {
   padding: 10px;
   display: flex;
@@ -399,16 +361,24 @@ body {
 .product-card__title {
   font: var(--text-label-medium);
   color: var(--color-title-text);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  margin-bottom: 6px;
   overflow: hidden;
-  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.product-card__price-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .product-card__price {
   font: var(--text-title-small);
   color: var(--color-primary);
-  margin-top: 6px;
+}
+.product-card__original-price {
+  font: var(--text-label-xsmall);
+  color: var(--color-hint-text);
+  text-decoration: line-through;
 }
 .product-card__cart-row {
   display: flex;
@@ -435,13 +405,38 @@ body {
   filter: brightness(0) invert(1);
 }
 
-/* ── Product Counter (shared by home + thrift) ── */
+/* ── Favorite button ── */
+.fav-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: var(--fav-size);
+  height: var(--fav-size);
+  border-radius: 50%;
+  background: var(--fav-bg);
+  backdrop-filter: blur(var(--fav-blur));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+.fav-btn svg {
+  width: var(--fav-icon-size);
+  height: var(--fav-icon-size);
+  color: var(--color-primary);
+}
+.fav-btn.favorited svg {
+  color: var(--color-primary-variant);
+}
+
+/* ── Product Counter ── */
 .counter {
   display: flex;
   align-items: center;
-  height: 40px;
-  background: var(--color-primary);
-  border-radius: 8px;
+  height: 32px;
+  gap: 0;
 }
 .counter-btn {
   width: 32px;

@@ -6,7 +6,8 @@
 (function() {
   'use strict';
 
-  var product = PRODUCT_DETAIL;
+  var productId = parseInt(new URLSearchParams(window.location.search).get('id')) || 1;
+  var product = getProductDetail(productId);
   var isFav = product.isFavorite;
   var count = 0;
 
@@ -80,13 +81,12 @@
   function renderPrice() {
     var container = document.getElementById('product-price-row');
     var html = '';
-    var hasDiscount = product.maxDiscount && product.maxDiscount > 0;
+    var hasDiscount = product.discount && product.originalPrice;
 
     if (hasDiscount) {
-      var originalPrice = product.minPrice / (1 - product.maxDiscount / 100);
-      html += '<span class="price-original">' + originalPrice.toFixed(0) + ' EGP</span>';
+      html += '<span class="price-original">' + product.originalPrice + ' EGP</span>';
     }
-    html += '<span class="price-current">' + product.minPrice.toFixed(0) + ' EGP</span>';
+    html += '<span class="price-current">' + product.price.toLocaleString() + ' EGP</span>';
 
     container.innerHTML = html;
   }

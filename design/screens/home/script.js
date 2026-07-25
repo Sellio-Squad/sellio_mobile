@@ -50,23 +50,23 @@ document.querySelectorAll('.category-item[data-category]').forEach(function(item
 
 document.getElementById('trending-products').innerHTML = PRODUCTS.map(function(p) {
   var discountHtml = p.discount
-    ? '<div class="discount-tag">' +
-        '<span class="discount-frame">' + SHARED_ICONS.discountFrame + '</span>' +
-        '<span class="discount-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount + '</span></span>' +
+    ? '<div class="product-card__discount">' +
+        '<span class="product-card__discount-frame">' + SHARED_ICONS.discountFrame + '</span>' +
+        '<span class="product-card__discount-content">' + SHARED_ICONS.discountIcon + '<span>' + p.discount + '</span></span>' +
       '</div>'
     : '';
 
-  return '<div class="h-product-card" data-od-id="product-' + p.id + '">' +
-    '<div class="img-wrap">' +
+  return '<div class="product-card" data-od-id="product-' + p.id + '">' +
+    '<div class="product-card__img-wrap">' +
       '<img src="' + p.img + '" alt="' + p.title + '" loading="lazy" />' +
       discountHtml +
       getHeartBtnHTML(p.favorited, p.id) +
     '</div>' +
-    '<div class="card-content">' +
-      '<div class="product-title">' + p.title + '</div>' +
-      '<div class="price-row">' +
-        '<span class="price">' + p.price + ' EGP</span>' +
-        (p.originalPrice ? '<span class="original-price">' + p.originalPrice + '</span>' : '') +
+    '<div class="product-card__content">' +
+      '<div class="product-card__title">' + p.title + '</div>' +
+      '<div class="product-card__price-row">' +
+        '<span class="product-card__price">' + p.price + ' EGP</span>' +
+        (p.originalPrice ? '<span class="product-card__original-price">' + p.originalPrice + '</span>' : '') +
       '</div>' +
       '<div class="product-card__cart-row" data-cart-row="' + p.id + '">' +
         '<button class="product-card__add-btn" data-product-id="' + p.id + '">' +
@@ -95,14 +95,16 @@ document.getElementById('stores-list').innerHTML = STORES.map(function(s) {
 document.querySelectorAll('.store-card').forEach(function(card) {
   card.addEventListener('click', function(e) {
     if (e.target.closest('.fav-btn')) return;
-    window.location.href = '../store/';
+    var storeId = card.getAttribute('data-store-id');
+    window.location.href = '../store/?id=' + storeId;
   });
 });
 
-document.querySelectorAll('.h-product-card').forEach(function(card) {
+document.querySelectorAll('.product-card').forEach(function(card) {
   card.addEventListener('click', function(e) {
     if (e.target.closest('.fav-btn') || e.target.closest('.product-card__add-btn') || e.target.closest('.counter')) return;
-    window.location.href = '../product/';
+    var productId = card.getAttribute('data-od-id').replace('product-', '');
+    window.location.href = '../product/?id=' + productId;
   });
 });
 
@@ -127,4 +129,16 @@ initNavClickHandlers({
       window.location.href = '../login/';
     }
   },
+});
+
+var bellBtn = document.querySelector('.appbar-bell');
+if (bellBtn) {
+  bellBtn.style.cursor = 'pointer';
+  bellBtn.addEventListener('click', function() {
+    window.location.href = '../notification/';
+  });
+}
+
+document.querySelector('.home-search .input-wrap').addEventListener('click', function() {
+  window.location.href = '../search/';
 });
