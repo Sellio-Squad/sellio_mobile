@@ -52,5 +52,10 @@
   "store_image_required": "صورة المتجر مطلوبة",
   "store_cover_image_required": "صورة غلاف المتجر مطلوبة",
   "store_created_successfully": "تم إنشاء المتجر بنجاح",
-  "success": "نجاح"
+  "success": "نجاح",
+  "product_title_required": "عنوان المنتج مطلوب",
+  "product_description_required": "وصف المنتج مطلوب",
+  "product_image_required": "صورة المنتج مطلوبة",
+  "product_price_invalid": "يجب أن يكون السعر أكبر من 0",
+  "product_category_required": "الفئة مطلوبة"
 }

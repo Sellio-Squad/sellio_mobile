@@ -33,6 +33,7 @@ class SellioTextField extends StatefulWidget {
   final bool enabled;
   final VoidCallback? onTap;
   final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
 
   const SellioTextField({
     super.key,
@@ -63,6 +64,7 @@ class SellioTextField extends StatefulWidget {
     this.enabled = true,
     this.onTap,
     this.onFieldSubmitted,
+    this.onChanged,
   });
 
   @override
@@ -199,6 +201,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                   setState(() {
                     isError = value.isEmpty;
                   });
+                  widget.onChanged?.call(value);
                 },
                 onSubmitted: widget.onFieldSubmitted,
                 obscureText: isObscured,

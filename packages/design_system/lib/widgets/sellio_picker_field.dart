@@ -244,6 +244,8 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
             prefixIconPadding: widget.prefixIconPadding,
             readOnly: true,
             enabled: widget.enabled,
+            errorMessage: widget.errorText,
+            isError: widget.errorText != null,
             suffixIcon:
                 widget.suffixIcon ??
                 Icon(

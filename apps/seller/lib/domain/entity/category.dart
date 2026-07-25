@@ -1,4 +1,6 @@
-class Category {
+import 'package:equatable/equatable.dart';
+
+class Category extends Equatable {
   final String id;
   final String name;
   final String imageUrl;
@@ -9,6 +11,8 @@ class Category {
     this.imageUrl = '',
   });
 
+  @override
+  List<Object?> get props => [id, name];
   Category copyWith({
     String? id,
     String? name,

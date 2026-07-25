@@ -52,5 +52,10 @@
   "store_image_required": "Store image is required",
   "store_cover_image_required": "Store cover image is required",
   "store_created_successfully": "Store created successfully",
+  "product_title_required": "Product title is required",
+  "product_description_required": "Product description is required",
+  "product_image_required": "Product image is required",
+  "product_price_invalid": "Price must be greater than 0",
+  "product_category_required": "Category is required",
   "success": "Success"
 }
