@@ -259,6 +259,9 @@ body {
   padding: 0;
 }
 .search-bar input::placeholder { color: var(--color-hint-text); }
+.search-bar.has-filter {
+  border-radius: 12px 0 0 12px;
+}
 .filter-btn {
   width: 48px;
   height: 48px;
@@ -271,7 +274,7 @@ body {
   cursor: pointer;
   flex-shrink: 0;
 }
-.filter-btn svg { width: 24px; height: 24px; color: var(--color-primary); }
+.filter-btn svg { width: 24px; height: 24px; color: var(--color-on-primary); }
 
 /* ═══════════════════════════════════════════════
    Scrollable Content (generic)

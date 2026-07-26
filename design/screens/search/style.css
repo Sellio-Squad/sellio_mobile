@@ -1,48 +1,17 @@
-/* ── Search Input in App Bar ── */
-.search-input-wrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--color-surface);
-  border-radius: var(--search-radius);
-  height: 48px;
-  padding: 0 12px;
-}
-.search-input-wrap .search-icon {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  color: var(--color-hint-text);
-}
-.search-input-wrap input {
-  flex: 1;
-  border: none;
-  background: none;
-  outline: none;
-  font: var(--text-body-medium);
-  color: var(--color-title-text);
-  width: 100%;
-  padding: 0;
-}
-.search-input-wrap input::placeholder { color: var(--color-hint-text); }
+/* Search bar uses shared.css classes: .search-wrap, .search-bar, .input-wrap, .search-icon, .filter-btn */
 
-/* ── Clear Button ── */
-.search-clear-btn {
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: none;
+/* ── Search Row (wraps search-bar + filter-btn as siblings, matching Flutter Row) ── */
+.search-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
+  align-items: stretch;
+  height: 48px;
 }
-.search-clear-btn svg {
-  width: 20px;
-  height: 20px;
-  color: var(--color-hint-text);
+.search-row .search-bar {
+  flex: 1;
+  min-width: 0;
+}
+.search-row .filter-btn svg {
+  color: var(--color-primary);
 }
 
 /* ── Search Content ── */
@@ -55,9 +24,28 @@
 }
 .search-content::-webkit-scrollbar { display: none; }
 
+/* ── Initial State ── */
+.search-initial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70%;
+  gap: 12px;
+}
+.search-initial__icon {
+  width: 64px;
+  height: 64px;
+  color: var(--color-hint-text);
+}
+.search-initial__title {
+  font: var(--text-title-small);
+  color: var(--color-title-text);
+}
+
 /* ── Recent Searches ── */
 .recent-section {
-  padding: 16px;
+  padding: 12px 16px;
 }
 .recent-header {
   display: flex;
@@ -80,7 +68,7 @@
 .recent-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px;
 }
 .recent-chip {
   display: flex;
@@ -89,7 +77,7 @@
   background: var(--color-surface);
   border: 1px solid var(--color-stroke-border);
   border-radius: var(--radius-pill);
-  padding: 8px 14px;
+  padding: 11px 16px;
   cursor: pointer;
   transition: background 0.15s;
 }
@@ -101,37 +89,127 @@
   flex-shrink: 0;
 }
 .recent-chip__label {
-  font: var(--text-label-medium);
+  font: var(--text-body-small);
   color: var(--color-body-text);
   white-space: nowrap;
 }
 
-/* ── Results Header ── */
-.results-section {
-  padding: 0 16px;
+/* ── Category Tabs (Products / Stores) ── */
+.category-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 12px;
 }
-.results-header {
-  margin-bottom: 12px;
+.category-tab {
+  display: flex;
+  align-items: center;
+  gap: var(--chip-icon-gap);
+  background: var(--color-surface);
+  border: 1px solid var(--color-stroke-border);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px 6px 8px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  height: 36px;
 }
-.results-count {
+.category-tab:active { background: var(--color-surface-high); }
+.category-tab__icon {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.category-tab__label {
   font: var(--text-label-medium);
   color: var(--color-body-text);
 }
+.category-tab--selected {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.category-tab--selected .category-tab__icon {
+  color: var(--color-on-primary);
+}
+.category-tab--selected .category-tab__label {
+  color: var(--color-on-primary);
+}
 
-/* ── Results Grid ── */
+/* ── Results Section ── */
+.results-section {
+  padding: 0;
+}
 .results-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px 8px;
+  padding: 0 16px 12px;
+}
+
+/* ── Store Cards (in search results) ── */
+.results-stores {
+  padding: 0 8px;
+}
+.search-store-card {
+  position: relative;
+  width: calc(100% - 24px);
+  margin: 8px 8px;
+  height: 133px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.search-store-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.search-store-card__title {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: var(--text-title-small);
+  color: var(--color-on-primary);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  padding: 0 8px;
+}
+.search-store-card__fav {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+.search-store-card__fav svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-primary);
 }
 
 /* ── Empty State ── */
 .search-empty {
   display: flex;
   flex-direction: column;
+}
+.search-empty__body {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 32px;
+  flex: 1;
+  padding: 0 32px;
   text-align: center;
 }
 .search-empty__icon {
@@ -140,18 +218,116 @@
   margin-bottom: 16px;
   color: var(--color-hint-text);
 }
-.search-empty__icon svg { width: 100%; height: 100%; }
 .search-empty__title {
-  font: var(--text-title-medium);
+  font: var(--text-title-small);
   color: var(--color-title-text);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 .search-empty__desc {
   font: var(--text-body-small);
   color: var(--color-body-text);
 }
 
-/* ── App bar with search input uses sellio-appbar base ── */
-.sellio-appbar {
+/* ── Filter Bottom Sheet (matches Flutter SellioBottomSheet + FilterBottomSheet) ── */
+.filter-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 300;
+  display: flex;
+  align-items: flex-end;
+}
+.filter-overlay.show { display: flex; }
+
+.filter-sheet {
+  width: 100%;
+  background: var(--color-surface-low);
+  border-radius: 16px 16px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+  max-height: 90%;
+}
+.filter-overlay.show .filter-sheet {
+  transform: translateY(0);
+}
+
+.filter-sheet__handle {
+  width: 44px;
+  height: 4px;
+  background: var(--color-stroke-border);
+  border-radius: 100px;
+  margin: 6px auto 0;
+}
+
+.filter-sheet__content {
+  padding: 24px 16px;
+}
+
+.filter-sheet__title {
+  font: var(--text-title-medium);
+  color: var(--color-title-text);
+  margin-bottom: 24px;
+}
+
+.filter-sheet__chips {
+  display: flex;
   gap: 8px;
+  margin-bottom: 24px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--chip-icon-gap);
+  padding: 4px 12px 4px 8px;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  font: var(--text-label-small);
+  transition: background var(--duration-switch) ease;
+  height: 40px;
+}
+
+.filter-chip--selected {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.filter-chip--unselected {
+  background: var(--color-surface);
+  color: var(--color-body-text);
+}
+
+.filter-sheet__save {
+  width: 100%;
+  padding: 9px 24px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: 8px;
+  font: var(--text-label-medium);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.filter-sheet__save:active {
+  background: var(--color-primary-dark);
+}
+
+/* ── Shimmer loading ── */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer-line {
+  background: var(--color-surface);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--loading-light-1), transparent);
+  animation: shimmer 1.5s infinite;
 }

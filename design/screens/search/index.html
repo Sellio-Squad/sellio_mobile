@@ -26,24 +26,40 @@
       <div class="screen">
         <div id="statusbar-main"></div>
 
-        <!-- App Bar -->
+        <!-- App Bar (standard sellio-appbar) -->
         <div class="sellio-appbar">
           <div class="sellio-appbar__back" id="search-back">
             <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
-          <div class="search-input-wrap">
-            <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11.5" cy="11.5" r="9.5" stroke="#1F1F1F" stroke-opacity="0.38" stroke-width="1.5" fill="none"/><path d="M20 20L22 22" stroke="#1F1F1F" stroke-opacity="0.66" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <input type="text" id="search-input" placeholder="Search your favorite items" autofocus />
+          <div class="sellio-appbar__title">Search</div>
+        </div>
+
+        <!-- Search Bar (below app bar, matches Flutter SellioSearchBar) -->
+        <div class="search-wrap" id="search-bar-wrap">
+          <div class="search-row">
+            <div class="search-bar" id="search-bar">
+              <div class="input-wrap">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none"><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C12.3826 18 14.0903 17.2688 15.3542 16.0864L18.9327 19.6649C19.3232 20.0554 19.9563 20.0554 20.3469 19.6649C20.7374 19.2743 20.7374 18.6412 20.3469 18.2507L16.7683 14.6721C17.8856 13.2955 18.5 11.4837 18.5 9.5C18.5 5.35786 15.1421 2 11 2H10.5C6.35786 2 3 5.35786 3 9.5V10.5Z" fill="currentColor"/></svg>
+                <input type="text" id="search-input" placeholder="Search your favorite items" autofocus />
+              </div>
+            </div>
+            <button class="filter-btn" id="search-filter-btn" style="display:none;">
+              <span id="filter-icon"></span>
+            </button>
           </div>
-          <button class="search-clear-btn" id="search-clear-btn" style="display:none;">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
         </div>
 
         <!-- Scrollable content -->
         <div class="search-content" id="search-content">
+
+          <!-- Initial State (shown when no search has been done) -->
+          <div class="search-initial" id="search-initial">
+            <svg class="search-initial__icon" viewBox="0 0 24 24" fill="none"><path opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C12.3826 18 14.0903 17.2688 15.3542 16.0864L18.9327 19.6649C19.3232 20.0554 19.9563 20.0554 20.3469 19.6649C20.7374 19.2743 20.7374 18.6412 20.3469 18.2507L16.7683 14.6721C17.8856 13.2955 18.5 11.4837 18.5 9.5C18.5 5.35786 15.1421 2 11 2H10.5C6.35786 2 3 5.35786 3 9.5V10.5Z" fill="currentColor"/></svg>
+            <div class="search-initial__title">Start exploring your favorite items</div>
+          </div>
+
           <!-- Recent Searches (shown when input is empty) -->
-          <div class="recent-section" id="recent-section">
+          <div class="recent-section" id="recent-section" style="display:none;">
             <div class="recent-header">
               <span class="recent-title">Recent Searches</span>
               <button class="recent-clear" id="recent-clear-btn">Clear all</button>
@@ -53,19 +69,20 @@
 
           <!-- Search Results -->
           <div class="results-section" id="results-section" style="display:none;">
-            <div class="results-header">
-              <span class="results-count" id="results-count"></span>
-            </div>
+            <!-- Category Tabs (Products / Stores) -->
+            <div class="category-tabs" id="category-tabs"></div>
             <div class="results-grid" id="results-grid"></div>
+            <div class="results-stores" id="results-stores" style="display:none;"></div>
           </div>
 
           <!-- Empty State -->
           <div class="search-empty" id="search-empty" style="display:none;">
-            <div class="search-empty__icon">
-              <svg viewBox="0 0 24 24" fill="none"><circle cx="11.5" cy="11.5" r="9.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.38"/><path d="M20 20L22 22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.38"/></svg>
+            <div class="category-tabs" id="empty-category-tabs"></div>
+            <div class="search-empty__body">
+              <svg class="search-empty__icon" viewBox="0 0 80 80" fill="none"><circle cx="35" cy="35" r="28" stroke="currentColor" stroke-width="2" opacity="0.38"/><path d="M56 56L70 70" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.38"/></svg>
+              <div class="search-empty__title">No results found</div>
+              <div class="search-empty__desc">Please check your spelling or try a different search</div>
             </div>
-            <div class="search-empty__title">No results found</div>
-            <div class="search-empty__desc">Try a different search term or browse categories</div>
           </div>
         </div>
 
@@ -76,6 +93,22 @@
           <button class="nav-center" data-tab="customize" id="nav-customize"></button>
           <button class="nav-item" data-tab="thrift" id="nav-thrift"></button>
           <button class="nav-item" data-tab="account" id="nav-account"></button>
+        </div>
+
+        <!-- Filter Bottom Sheet (matches Flutter FilterBottomSheet) -->
+        <div class="filter-overlay" id="filter-overlay" style="display:none;">
+          <div class="filter-sheet" id="filter-sheet">
+            <div class="filter-sheet__handle"></div>
+            <div class="filter-sheet__content">
+              <div class="filter-sheet__title">Filter</div>
+              <div class="filter-sheet__chips" id="filter-chips">
+                <button class="filter-chip filter-chip--selected" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="near_by_you">Near by you</button>
+                <button class="filter-chip" data-filter="high_rating">High rating</button>
+              </div>
+              <button class="filter-sheet__save" id="filter-save-btn">Save</button>
+            </div>
+          </div>
         </div>
 
         <div class="home-indicator" aria-hidden></div>
