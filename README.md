@@ -41,6 +41,16 @@ sellio_mobile/
     ```
     (Run this inside specific app directories if they use code generation)
 
+#### One command
+
+```bash
+melos clean;
+melos exec -- flutter clean;
+melos bootstrap;
+melos exec --depends-on="flutter_localizations" -- flutter gen-l10n;
+melos exec --depends-on="build_runner" -- "flutter pub run build_runner build --delete-conflicting-outputs"
+```
+
 ## Running the Apps
 
 ### Customer App
