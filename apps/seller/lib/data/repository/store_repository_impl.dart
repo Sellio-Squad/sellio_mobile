@@ -33,4 +33,11 @@ class StoreRepositoryImpl implements StoreRepository {
       );
     });
   }
+
+  @override
+  Future<Result<String>> getStoreId() {
+    return RepositoryCallHandler.call<String>(() async {
+      return _remoteDataSource.getStoreId();
+    });
+  }
 }

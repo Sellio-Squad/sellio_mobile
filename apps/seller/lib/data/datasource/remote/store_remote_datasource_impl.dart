@@ -19,4 +19,14 @@ class StoreRemoteDataSourceImpl implements StoreRemoteDataSource {
 
     return StoreCreationResponse.fromJson(response.data);
   }
+
+  @override
+  Future<String> getStoreId() async {
+    final response = await _apiClient.get(ApiEndpoints.storeOwner);
+    final data = response.data;
+    if (data is Map<String, dynamic>) {
+      return (data['id'] ?? data['_id'])?.toString() ?? '';
+    }
+    return '';
+  }
 }
