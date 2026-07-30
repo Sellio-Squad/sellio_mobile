@@ -128,10 +128,10 @@ class CreateStoreSuccess extends CreateStoreState {
 }
 
 class CreateStoreFailure extends CreateStoreState {
-  final String errorMessage;
+  final String message;
 
-  const CreateStoreFailure(this.errorMessage);
+  const CreateStoreFailure(this.message);
 
   @override
-  List<Object?> get props => [errorMessage];
+  List<Object?> get props => [message];
 }

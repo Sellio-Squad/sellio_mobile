@@ -35,7 +35,7 @@ class _CreateStoreScreenContent extends StatelessWidget {
     return CreateStoreListeners(
       child: BlocBuilder<CreateStoreCubit, CreateStoreState>(
         builder: (context, state) {
-          final isSubmitting = state is CreateStoreSubmitting;
+          final isLoading = state is CreateStoreSubmitting;
 
           return Stack(
             children: [
@@ -46,7 +46,7 @@ class _CreateStoreScreenContent extends StatelessWidget {
                   child: CreateStoreBody(),
                 ),
               ),
-              if (isSubmitting)
+              if (isLoading)
                 Container(
                   color: Colors.black.withOpacity(0.3),
                   child: const Center(
