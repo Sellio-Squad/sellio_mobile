@@ -44,18 +44,13 @@ class AppNavigatorImpl implements AppNavigator {
   }
 
   @override
-  void pushCreateStore() {
-    RouteGenerator.router.pushNamed(AppRoutes.createStore.name);
-  }
-
-  @override
-  void goToDashboard() {
-    RouteGenerator.router.goNamed(AppRoutes.dashboard.name);
+  void goToCreateStore() {
+    RouteGenerator.router.goNamed(AppRoutes.createStore.name);
   }
 
   @override
   void goToHome() {
-    RouteGenerator.router.goNamed(AppRoutes.createStore.name);
+    RouteGenerator.router.goNamed(AppRoutes.dashboard.name);
   }
 
   @override
