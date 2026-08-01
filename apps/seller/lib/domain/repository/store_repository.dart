@@ -5,4 +5,6 @@ import '../entity/store_seller.dart';
 
 abstract class StoreRepository {
   Future<Result<StoreSeller>> createStore(CreateStoreRequest request);
+
+  Future<Result<String>> getStoreId();
 }

@@ -53,7 +53,9 @@ class CreateStoreCubit extends Cubit<CreateStoreState> {
           ));
         }
       },
-      onFailure: (failure) {},
+      onFailure: (failure) {
+        emit(CreateStoreFailure(failure.message));
+      },
     );
   }
 

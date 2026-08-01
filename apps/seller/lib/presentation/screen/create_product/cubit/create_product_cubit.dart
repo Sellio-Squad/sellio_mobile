@@ -5,19 +5,23 @@ import '../../../../data/datasource/fake/fake_create_product_datasource.dart';
 import '../../../../domain/entity/create_product_params.dart';
 import '../../../../domain/entity/product_item.dart';
 import '../../../../domain/repository/product_repository.dart';
+import '../../../../domain/repository/store_repository.dart';
 import '../../../../domain/validators/product_validation_error.dart';
 import '../../../../domain/validators/product_validators.dart';
 import 'create_product_state.dart';
 
 class CreateProductCubit extends Cubit<CreateProductState> {
   final ProductRepository _productRepository;
+  final StoreRepository _storeRepository;
   final FakeCreateProductDataSource _metadataDataSource;
 
   CreateProductCubit({
     required ProductRepository productRepository,
+    required StoreRepository storeRepository,
     required AuthenticationCubit authCubit,
     required FakeCreateProductDataSource metadataDataSource,
   })  : _productRepository = productRepository,
+        _storeRepository = storeRepository,
         _metadataDataSource = metadataDataSource,
         super(const CreateProductInitial());
 
@@ -182,7 +186,7 @@ class CreateProductCubit extends Cubit<CreateProductState> {
 
     try {
       // 0. Get storeId dynamically based on the current user's token
-      final storeResult = await _productRepository.getOwnerStoreId();
+      final storeResult = await _storeRepository.getStoreId();
 
       String? storeId;
       storeResult.fold(

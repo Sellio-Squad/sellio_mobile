@@ -16,11 +16,4 @@ class ProductRepositoryImpl implements ProductRepository {
       await _dataSource.createProduct(params);
     });
   }
-
-  @override
-  Future<Result<String>> getOwnerStoreId() {
-    return RepositoryCallHandler.call<String>(() async {
-      return _dataSource.getOwnerStoreId();
-    });
-  }
 }

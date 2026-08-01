@@ -40,6 +40,15 @@ class _CreateStoreBodyState extends State<CreateStoreBody> {
     _setupListeners();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final cubitState = context.read<CreateStoreCubit>().state;
+    if (cubitState is CreateStoreIdle && _lastIdleState == null) {
+      _lastIdleState = cubitState;
+    }
+  }
+
   void _setupListeners() {
     final cubit = context.read<CreateStoreCubit>();
     _storeNameController.addListener(() {

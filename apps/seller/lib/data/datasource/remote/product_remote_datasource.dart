@@ -41,10 +41,4 @@ class ProductRemoteDataSource implements ProductDataSource {
       data: formData,
     );
   }
-
-  @override
-  Future<String> getOwnerStoreId() async {
-    final response = await _apiClient.get(ApiEndpoints.storeOwner);
-    return response.data['id'] as String;
-  }
 }

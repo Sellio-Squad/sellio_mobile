@@ -229,32 +229,43 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
+    final isFocused = _focusNode.hasFocus;
 
     return CompositedTransformTarget(
       link: _layerLink,
       child: Focus(
         focusNode: _focusNode,
         canRequestFocus: widget.enabled,
-        child: Opacity(
-          opacity: widget.enabled ? 1.0 : 0.6,
-          child: SellioTextField(
-            controller: _displayController,
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon,
-            prefixIconPadding: widget.prefixIconPadding,
-            readOnly: true,
-            enabled: widget.enabled,
-            errorMessage: widget.errorText,
-            isError: widget.errorText != null,
-            suffixIcon:
-                widget.suffixIcon ??
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: widget.enabled
-                      ? colors.body
-                      : colors.body.withValues(alpha: 0.5),
-                ),
-            onTap: _toggleFocus,
+        onFocusChange: (hasFocus) {
+          setState(() {}); // Rebuild to update visual state when focus changes
+        },
+        child: GestureDetector(
+          onTap: _toggleFocus,
+          behavior: HitTestBehavior.opaque,
+          child: Opacity(
+            opacity: widget.enabled ? 1.0 : 0.6,
+            child: IgnorePointer(
+              ignoring: true,
+              child: SellioTextField(
+                key: ValueKey('${widget.errorText}_$isFocused'),
+                controller: _displayController,
+                hintText: widget.hintText,
+                prefixIcon: widget.prefixIcon,
+                prefixIconPadding: widget.prefixIconPadding,
+                readOnly: true,
+                enabled: widget.enabled,
+                errorMessage: isFocused ? null : widget.errorText,
+                isError: isFocused ? false : (widget.errorText != null),
+                suffixIcon:
+                    widget.suffixIcon ??
+                    Icon(
+                      Icons.arrow_drop_down,
+                      color: widget.enabled
+                          ? colors.body
+                          : colors.body.withValues(alpha: 0.5),
+                    ),
+              ),
+            ),
           ),
         ),
       ),
