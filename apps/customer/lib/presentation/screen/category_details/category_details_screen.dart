@@ -224,24 +224,25 @@ class _ProductsGrid extends StatelessWidget {
                     }
 
                     return CustomerProductCard(
+                      cardKey: ValueKey(product.id),
                       productId: product.id,
-                      imageUrl:
-                          product.images.isNotEmpty ? product.images.first : '',
+                      imageUrl: product.images.isNotEmpty
+                          ? product.images.first
+                          : '',
                       title: product.title,
                       formattedPrice: product.minPrice.toString(),
-                      rawPrice: double.tryParse(product.minPrice
-                              .toString()
-                              .replaceAll(RegExp(r'[^\d.]'), '')) ??
-                          0.0,
-                      currency: product.currency,
                       isFavorite: isFavorite,
-                      onTap: () =>
-                          navigateToProductDetails(context, product.id),
+                      onTap: () {
+                        navigateToProductDetails(
+                          context,
+                          product.id,
+                        );
+                      },
                       onFavoriteToggle: () {
                         context.read<FavoritesCubit>().toggleFavorite(
-                              product.id,
-                              FavoriteType.product,
-                            );
+                          product.id,
+                          FavoriteType.product,
+                        );
                       },
                     );
                   },
