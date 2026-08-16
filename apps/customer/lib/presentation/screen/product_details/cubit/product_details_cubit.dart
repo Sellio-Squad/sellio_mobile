@@ -72,36 +72,35 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
     emit(currentState.copyWith(isFavorite: updatedFavorite));
   }
 
-  void addToCart() {
+  void addToCart() async {
     final currentState = state;
-    if (currentState is! ProductDetailsLoaded) return;
+
+    if (currentState is! ProductDetailsLoaded) {
+      return;
+    }
 
     final product = currentState.product;
-    final productImage = product.images.isNotEmpty ? product.images.first : '';
 
-    _cartCubit.addToCart(
+    await _cartCubit.addToCart(
       productId: product.id,
-      productName: product.title,
-      productImage: productImage,
-      price: product.minPrice,
-      currency: product.currency,
       quantity: 1,
     );
 
-    emit(const ProductDetailsAddToCartSuccess(
-      message: 'Product added successfully',
-    ));
+    final updatedCount =
+        _cartCubit.state.productCounts[product.id] ??
+            currentState.productCount + 1;
 
-    emit(currentState.copyWith(productCount: currentState.productCount + 1));
-  }
+    emit(
+      const ProductDetailsAddToCartSuccess(
+        message: 'Product added successfully',
+      ),
+    );
 
-  String _extractErrorMessage(List results) {
-    for (final result in results) {
-      if (result is! Success) {
-        return "Something went wrong";
-      }
-    }
-    return 'Something went wrong';
+    emit(
+      currentState.copyWith(
+        productCount: updatedCount,
+      ),
+    );
   }
 
   @override

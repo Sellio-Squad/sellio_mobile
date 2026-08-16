@@ -33,36 +33,27 @@ abstract class _Strings {
   static const String addFavorite = 'Add to favourites';
 }
 
-/// This widget must be placed inside a parent with bounded height
-/// (e.g., [SizedBox], [GridView] with fixed cross-axis extent) because
-/// the image section uses [Expanded] to fill available vertical space.
 class SellioProductVerticalCard extends StatefulWidget {
-  // ── Required ─────────────────────────────────────────────────────────────
   final String imageUrl;
   final String title;
   final String price;
-  // ── Optional – gallery ────────────────────────────────────────────────────
+
   final List<String>? thumbnailImages;
   final int selectedThumbnailIndex;
   final ValueChanged<int>? onThumbnailSelected;
 
-  // ── Optional – pricing ───────────────────────────────────────────────────
   final String? originalPrice;
   final String? discountText;
 
-  // ── Optional – metadata ──────────────────────────────────────────────────
   final String? category;
 
-  // ── Optional – stock status ──────────────────────────────────────────────
   final bool isOutOfStock;
 
-  // ── Optional – interaction ───────────────────────────────────────────────
   final bool isFavorite;
   final VoidCallback? onTap;
   final VoidCallback? onFavoriteToggle;
   final VoidCallback? onAddToCart;
 
-  // ── Optional – in-cart counter ───────────────────────────────────────────
   final int? count;
   final VoidCallback? onIncrement;
   final VoidCallback? onDecrement;
@@ -93,17 +84,22 @@ class SellioProductVerticalCard extends StatefulWidget {
       _SellioProductVerticalCardState();
 }
 
-class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
+class _SellioProductVerticalCardState
+    extends State<SellioProductVerticalCard> {
   String get _activeImageUrl {
     final thumbs = widget.thumbnailImages;
+
     if (thumbs != null && thumbs.isNotEmpty) {
       final maxIndex = thumbs.length - 1;
+
       final clampedIndex = widget.selectedThumbnailIndex.clamp(
         0,
-        maxIndex.clamp(0, maxIndex),
+        maxIndex,
       );
+
       return thumbs[clampedIndex];
     }
+
     return widget.imageUrl;
   }
 
@@ -119,29 +115,39 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     return Material(
       color: colors.surfaceLow,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: colors.stroke, width: 1),
-        borderRadius: BorderRadius.circular(_Dimensions.cardRadius),
+        side: BorderSide(
+          color: colors.stroke,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(
+          _Dimensions.cardRadius,
+        ),
       ),
       clipBehavior: Clip.antiAlias,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      child: InkWell(
         onTap: widget.onTap,
+        borderRadius: BorderRadius.circular(
+          _Dimensions.cardRadius,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Main image + overlays ─────────────────────────────────
             Expanded(
               child: RepaintBoundary(
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
                     _buildMainImage(theme),
+
                     if (widget.discountText != null)
                       Positioned(
                         top: _Dimensions.overlayPadding,
                         left: _Dimensions.overlayPadding,
-                        child: DiscountTag(discountText: widget.discountText!),
+                        child: DiscountTag(
+                          discountText: widget.discountText!,
+                        ),
                       ),
+
                     if (widget.onFavoriteToggle != null)
                       Positioned(
                         top: _Dimensions.overlayPadding,
@@ -153,9 +159,10 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
               ),
             ),
 
-            // ── Content below image ───────────────────────────────────
             Padding(
-              padding: const EdgeInsets.all(_Dimensions.contentPadding),
+              padding: const EdgeInsets.all(
+                _Dimensions.contentPadding,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -163,12 +170,16 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                   if (widget.thumbnailImages != null &&
                       widget.thumbnailImages!.isNotEmpty) ...[
                     _buildThumbnailStrip(colors),
-                    const SizedBox(height: _Dimensions.spacingMedium),
+                    const SizedBox(
+                      height: _Dimensions.spacingMedium,
+                    ),
                   ],
 
                   Text(
                     widget.title,
-                    style: textTheme.labelMedium.copyWith(color: colors.title),
+                    style: textTheme.labelMedium.copyWith(
+                      color: colors.title,
+                    ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -187,9 +198,19 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                     ),
                   ],
 
-                  const SizedBox(height: _Dimensions.spacingSmall),
-                  _buildPriceRow(colors, textTheme),
-                  const SizedBox(height: _Dimensions.spacingMedium),
+                  const SizedBox(
+                    height: _Dimensions.spacingSmall,
+                  ),
+
+                  _buildPriceRow(
+                    colors,
+                    textTheme,
+                  ),
+
+                  const SizedBox(
+                    height: _Dimensions.spacingMedium,
+                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -214,7 +235,9 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     );
   }
 
-  Widget _buildMainImage(SellioTheme theme) {
+  Widget _buildMainImage(
+      SellioTheme theme,
+      ) {
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -224,9 +247,10 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
           width: double.infinity,
           fit: BoxFit.cover,
         ),
+
         if (widget.isOutOfStock)
           ColoredBox(
-            color: theme.colors.surfaceHigh.withOpacity(0.7),
+            color: theme.colors.surfaceHigh.withValues(alpha: 0.7),
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -235,7 +259,9 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
                 ),
                 decoration: BoxDecoration(
                   color: theme.colors.title.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(_Dimensions.smallRadius),
+                  borderRadius: BorderRadius.circular(
+                    _Dimensions.smallRadius,
+                  ),
                 ),
                 child: Semantics(
                   label: _Strings.outOfStock,
@@ -254,40 +280,65 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     );
   }
 
-  Widget _buildThumbnailStrip(SellioColorScheme colors) {
+  Widget _buildThumbnailStrip(
+      SellioColorScheme colors,
+      ) {
     final thumbs = widget.thumbnailImages!;
+
     return SizedBox(
       height: _Dimensions.thumbnailSize,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: thumbs.length,
-        separatorBuilder: (_, _) =>
-            const SizedBox(width: _Dimensions.thumbnailSeparator),
+        separatorBuilder: (_, __) {
+          return const SizedBox(
+            width: _Dimensions.thumbnailSeparator,
+          );
+        },
         itemBuilder: (context, index) {
-          final isSelected = index == widget.selectedThumbnailIndex;
-          return GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () {
-              widget.onThumbnailSelected?.call(index);
-            },
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              width: _Dimensions.thumbnailSize,
-              height: _Dimensions.thumbnailSize,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(_Dimensions.mediumRadius),
-                border: Border.all(
-                  color: isSelected ? colors.secondary : Colors.transparent,
-                  width: 2,
-                ),
+          final isSelected =
+              index == widget.selectedThumbnailIndex;
+
+          return Material(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(
+              _Dimensions.mediumRadius,
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () {
+                widget.onThumbnailSelected?.call(index);
+              },
+              borderRadius: BorderRadius.circular(
+                _Dimensions.mediumRadius,
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(_Dimensions.smallRadius),
-                child: SellioRemoteImage(
-                  imageUrl: thumbs[index],
-                  width: _Dimensions.thumbnailSize,
-                  height: _Dimensions.thumbnailSize,
-                  fit: BoxFit.cover,
+              child: AnimatedContainer(
+                duration: const Duration(
+                  milliseconds: 180,
+                ),
+                width: _Dimensions.thumbnailSize,
+                height: _Dimensions.thumbnailSize,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    _Dimensions.mediumRadius,
+                  ),
+                  border: Border.all(
+                    color: isSelected
+                        ? colors.secondary
+                        : Colors.transparent,
+                    width: 2,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    _Dimensions.smallRadius,
+                  ),
+                  child: SellioRemoteImage(
+                    imageUrl: thumbs[index],
+                    width: _Dimensions.thumbnailSize,
+                    height: _Dimensions.thumbnailSize,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -297,20 +348,25 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     );
   }
 
-  Widget _buildPriceRow(SellioColorScheme colors, SellioTextTheme textTheme) {
+  Widget _buildPriceRow(
+      SellioColorScheme colors,
+      SellioTextTheme textTheme,
+      ) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        // Trusting caller formats currency directly moving forward
         Flexible(
           child: Text(
             widget.price,
-            style: textTheme.titleSmall.copyWith(color: colors.primary),
+            style: textTheme.titleSmall.copyWith(
+              color: colors.primary,
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
         ),
+
         if (widget.originalPrice != null) ...[
           const SizedBox(width: 6),
           Flexible(
@@ -329,31 +385,43 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     );
   }
 
-  Widget _buildAddToCartButton(SellioColorScheme colors) {
+  Widget _buildAddToCartButton(
+      SellioColorScheme colors,
+      ) {
+    final isDisabled = widget.isOutOfStock;
+
     return Semantics(
-      label: widget.isOutOfStock ? _Strings.outOfStock : _Strings.addToCart,
+      label: isDisabled
+          ? _Strings.outOfStock
+          : _Strings.addToCart,
       button: true,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: widget.isOutOfStock ? null : widget.onAddToCart,
-        child: Container(
-          width: _Dimensions.iconButtonSize,
-          height: _Dimensions.iconButtonSize,
-          decoration: BoxDecoration(
-            color: widget.isOutOfStock ? colors.disabled : colors.primary,
-            shape: BoxShape.circle,
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: Center(
-            child: SvgPicture.asset(
-              AppImages.cartSmall,
-              colorFilter: ColorFilter.mode(
-                widget.isOutOfStock ? colors.hint : colors.onPrimary,
-                BlendMode.srcIn,
+      child: Material(
+        color: isDisabled
+            ? colors.disabled
+            : colors.primary,
+        shape: const CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: isDisabled
+              ? null
+              : widget.onAddToCart,
+          child: SizedBox(
+            width: _Dimensions.iconButtonSize,
+            height: _Dimensions.iconButtonSize,
+            child: Center(
+              child: SvgPicture.asset(
+                AppImages.cartSmall,
+                colorFilter: ColorFilter.mode(
+                  isDisabled
+                      ? colors.hint
+                      : colors.onPrimary,
+                  BlendMode.srcIn,
+                ),
+                width: _Dimensions.iconSize,
+                height: _Dimensions.iconSize,
+                fit: BoxFit.scaleDown,
               ),
-              width: _Dimensions.iconSize,
-              height: _Dimensions.iconSize,
-              fit: BoxFit.scaleDown,
             ),
           ),
         ),
@@ -362,10 +430,10 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
   }
 
   Widget _buildCounter(
-    SellioColorScheme colors,
-    SellioTextTheme textTheme,
-    int effectiveCount,
-  ) {
+      SellioColorScheme colors,
+      SellioTextTheme textTheme,
+      int effectiveCount,
+      ) {
     return SizedBox(
       height: _Dimensions.iconButtonSize,
       child: Row(
@@ -373,19 +441,27 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _buildCounterButton(
-            icon: effectiveCount == 1 ? AppImages.delete : AppImages.remove,
+            icon: effectiveCount == 1
+                ? AppImages.delete
+                : AppImages.remove,
             iconColor: colors.body,
             bgColor: colors.surface,
             onTap: widget.onDecrement,
             semanticLabel: 'Decrease quantity',
           ),
+
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
             child: Text(
               effectiveCount.toString().padLeft(2, '0'),
-              style: textTheme.labelMedium.copyWith(color: colors.title),
+              style: textTheme.labelMedium.copyWith(
+                color: colors.title,
+              ),
             ),
           ),
+
           _buildCounterButton(
             icon: AppImages.add,
             iconColor: colors.primary,
@@ -408,24 +484,31 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     return Semantics(
       label: semanticLabel,
       button: true,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          width: _Dimensions.iconButtonSize,
-          height: _Dimensions.iconButtonSize,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(_Dimensions.mediumRadius),
+      child: Material(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(
+          _Dimensions.mediumRadius,
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(
+            _Dimensions.mediumRadius,
           ),
-          clipBehavior: Clip.antiAlias,
-          child: Center(
-            child: SvgPicture.asset(
-              icon,
-              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-              width: _Dimensions.iconSize,
-              height: _Dimensions.iconSize,
-              fit: BoxFit.scaleDown,
+          child: SizedBox(
+            width: _Dimensions.iconButtonSize,
+            height: _Dimensions.iconButtonSize,
+            child: Center(
+              child: SvgPicture.asset(
+                icon,
+                colorFilter: ColorFilter.mode(
+                  iconColor,
+                  BlendMode.srcIn,
+                ),
+                width: _Dimensions.iconSize,
+                height: _Dimensions.iconSize,
+                fit: BoxFit.scaleDown,
+              ),
             ),
           ),
         ),
@@ -433,9 +516,13 @@ class _SellioProductVerticalCardState extends State<SellioProductVerticalCard> {
     );
   }
 
-  Widget _buildFavoriteButton(SellioColorScheme colors) {
+  Widget _buildFavoriteButton(
+      SellioColorScheme colors,
+      ) {
     return Semantics(
-      label: widget.isFavorite ? _Strings.removeFavorite : _Strings.addFavorite,
+      label: widget.isFavorite
+          ? _Strings.removeFavorite
+          : _Strings.addFavorite,
       button: true,
       child: ClipOval(
         child: ColoredBox(

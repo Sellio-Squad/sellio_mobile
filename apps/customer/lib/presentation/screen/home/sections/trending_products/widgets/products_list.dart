@@ -85,15 +85,19 @@ class ProductsList extends StatelessWidget {
 class _ProductItem extends StatelessWidget {
   final ProductSummaryUIModel product;
 
-  const _ProductItem({required this.product});
+  const _ProductItem({
+    required this.product,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, favoritesState) {
-        bool isFavorite = product.isFavorite;
+        var isFavorite = product.isFavorite;
+
         if (favoritesState is FavoritesLoaded) {
-          isFavorite = favoritesState.favoriteProductIds.contains(product.id);
+          isFavorite =
+              favoritesState.favoriteProductIds.contains(product.id);
         }
 
         return CustomerProductCard(
@@ -102,16 +106,18 @@ class _ProductItem extends StatelessWidget {
           imageUrl: product.imageUrl,
           title: product.title,
           formattedPrice: product.price,
-          rawPrice: double.tryParse(
-                  product.price.replaceAll(RegExp(r'[^\d.]'), '')) ??
-              0.0,
-          currency: '\$',
           isFavorite: isFavorite,
-          onTap: () => navigateToProductDetails(context, product.id),
+          onTap: () {
+            navigateToProductDetails(
+              context,
+              product.id,
+            );
+          },
           onFavoriteToggle: () {
-            context
-                .read<FavoritesCubit>()
-                .toggleFavorite(product.id, FavoriteType.product);
+            context.read<FavoritesCubit>().toggleFavorite(
+              product.id,
+              FavoriteType.product,
+            );
           },
         );
       },
