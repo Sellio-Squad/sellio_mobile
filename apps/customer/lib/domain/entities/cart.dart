@@ -1,29 +1,27 @@
 class Cart {
   final String id;
-  final String userId;
   final List<CartItem> items;
   final double totalPrice;
+  final int itemCount;
 
   const Cart({
     required this.id,
-    required this.userId,
     required this.items,
     required this.totalPrice,
+    required this.itemCount,
   });
-
-  int get itemCount => items.fold(0, (sum, item) => sum + item.quantity);
 
   Cart copyWith({
     String? id,
-    String? userId,
     List<CartItem>? items,
     double? totalPrice,
+    int? itemCount,
   }) {
     return Cart(
       id: id ?? this.id,
-      userId: userId ?? this.userId,
       items: items ?? this.items,
       totalPrice: totalPrice ?? this.totalPrice,
+      itemCount: itemCount ?? this.itemCount,
     );
   }
 }
@@ -31,41 +29,39 @@ class Cart {
 class CartItem {
   final String id;
   final String productId;
-  final String productName;
+  final String productTitle;
   final String productImage;
-  final double price;
+  final double unitPrice;
   final int quantity;
-  final String currency;
+  final double totalPrice;
 
   const CartItem({
     required this.id,
     required this.productId,
-    required this.productName,
+    required this.productTitle,
     required this.productImage,
-    required this.price,
+    required this.unitPrice,
     required this.quantity,
-    required this.currency,
+    required this.totalPrice,
   });
-
-  double get totalPrice => price * quantity;
 
   CartItem copyWith({
     String? id,
     String? productId,
-    String? productName,
+    String? productTitle,
     String? productImage,
-    double? price,
+    double? unitPrice,
     int? quantity,
-    String? currency,
+    double? totalPrice,
   }) {
     return CartItem(
       id: id ?? this.id,
       productId: productId ?? this.productId,
-      productName: productName ?? this.productName,
+      productTitle: productTitle ?? this.productTitle,
       productImage: productImage ?? this.productImage,
-      price: price ?? this.price,
+      unitPrice: unitPrice ?? this.unitPrice,
       quantity: quantity ?? this.quantity,
-      currency: currency ?? this.currency,
+      totalPrice: totalPrice ?? this.totalPrice,
     );
   }
 }
