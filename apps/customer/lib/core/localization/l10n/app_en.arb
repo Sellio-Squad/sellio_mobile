@@ -261,6 +261,8 @@
   "field_required": "Should not be empty",
   "all_orders": "All Orders",
   "error": "Error",
+   "order_cancelled_successfully": "Order cancelled successfully",
+       "order_cancel_failed": "Something went wrong while cancelling the order",
   "success": "Success",
   "cart_empty_screen": "Login to continue your checkout and place your order",
   "search_in": "Search in {category_name}...",
