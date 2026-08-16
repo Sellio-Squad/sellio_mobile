@@ -46,7 +46,7 @@ class RepositoryModule {
     //
     sl.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(
-        localDataSource: sl(),
+        remoteDataSource: sl(),
       ),
     );
     //
