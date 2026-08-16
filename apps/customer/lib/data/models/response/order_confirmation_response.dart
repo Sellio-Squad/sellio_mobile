@@ -10,6 +10,8 @@ class OrderConfirmationResponse with _$OrderConfirmationResponse {
     required List<String> orderIds,
   }) = _OrderConfirmationResponse;
 
-  factory OrderConfirmationResponse.fromJson(Map<String, dynamic> json) =>
+  factory OrderConfirmationResponse.fromJson(
+      Map<String, dynamic> json,
+      ) =>
       _$OrderConfirmationResponseFromJson(json);
 }

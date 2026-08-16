@@ -9,13 +9,27 @@ import 'cubit/order_history_state.dart';
 import 'order_details_card.dart';
 import 'order_history_tabs.dart';
 
-class OrderHistoryScreen extends StatelessWidget {
+class OrderHistoryScreen extends StatefulWidget {
   const OrderHistoryScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    context.read<OrderHistoryCubit>().loadOrders();
+  State<OrderHistoryScreen> createState() =>
+      _OrderHistoryScreenState();
+}
 
+class _OrderHistoryScreenState
+    extends State<OrderHistoryScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<OrderHistoryCubit>().loadOrders();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -24,17 +38,60 @@ class OrderHistoryScreen extends StatelessWidget {
           showBackButton: true,
           title: context.local.order_history,
         ),
-        body: BlocBuilder<OrderHistoryCubit, OrderHistoryState>(
+        body: BlocConsumer<
+            OrderHistoryCubit,
+            OrderHistoryState>(
+            listener: (context, state) {
+              if (state is OrderHistoryLoaded) {
+                if (state.cancelSuccess) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          context.local.order_cancelled_successfully,
+                        ),
+                      ),
+                    );
+                }
+
+                if (state.errorMessage != null) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          state.errorMessage!.isNotEmpty
+                              ? state.errorMessage!
+                              : context.local.order_cancel_failed,
+                        ),
+                      ),
+                    );
+                }
+              }
+            },
           builder: (context, state) {
-            if (state is OrderHistoryLoading || state is OrderHistoryInitial) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is OrderHistoryError) {
-              return Center(child: Text(state.message));
-            } else if (state is OrderHistoryLoaded) {
+            if (state is OrderHistoryLoading ||
+                state is OrderHistoryInitial) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (state is OrderHistoryError) {
+              return Center(
+                child: Text(
+                  state.message,
+                ),
+              );
+            }
+
+            if (state is OrderHistoryLoaded) {
               return OrderSection(
                 orders: state.orders,
               );
             }
+
             return const SizedBox.shrink();
           },
         ),
@@ -46,13 +103,17 @@ class OrderHistoryScreen extends StatelessWidget {
 class OrderSection extends StatelessWidget {
   final List<Order> orders;
 
-  const OrderSection({super.key, required this.orders});
+  const OrderSection({
+    super.key,
+    required this.orders,
+  });
 
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
         const OrderHistoryTabs(),
+
         if (orders.isEmpty)
           SliverFillRemaining(
             hasScrollBody: false,
@@ -63,14 +124,29 @@ class OrderSection extends StatelessWidget {
         else
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 final order = orders[index];
+
                 return Padding(
                   padding: const EdgeInsets.all(16),
                   child: OrderDetailsCard(
                     order: order,
-                    onCancelClick: () {},
+
+                    onCancelClick:
+                    order.status ==
+                        OrderStatus.cancelled
+                        ? null
+                        : () {
+                      context
+                          .read<
+                          OrderHistoryCubit>()
+                          .cancelOrder(
+                        order.orderId,
+                      );
+                    },
+
                     onViewDetailsClick: () {},
+
                     onOrderAgainClick: () {},
                   ),
                 );
@@ -83,12 +159,15 @@ class OrderSection extends StatelessWidget {
   }
 }
 
-Widget emptyOrderHistory(BuildContext context) {
+Widget emptyOrderHistory(
+    BuildContext context,
+    ) {
   return EmptySection(
     buttonText: context.local.start_exploring,
     icon: AppImages.noOrderHistory,
     title: context.local.no_order_history,
-    description: context.local.start_exploring_favorite_items,
+    description:
+    context.local.start_exploring_favorite_items,
     color: context.theme.colors.purpleVariant,
     onTap: () {},
   );

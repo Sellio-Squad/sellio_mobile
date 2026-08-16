@@ -25,6 +25,7 @@ class OrderItemModel with _$OrderItemModel {
     required String id,
     required String productId,
     required String productName,
+    String? productImageUrl,
     required int quantity,
     required double price,
     required DateTime createdAt,

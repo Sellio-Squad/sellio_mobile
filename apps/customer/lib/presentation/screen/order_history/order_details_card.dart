@@ -2,7 +2,7 @@ import 'package:design_system/constants/app_images.dart';
 import 'package:design_system/themes/sellio_theme_provider.dart';
 import 'package:design_system/widgets/buttons/sellio_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../core/localization/l10n/localization_service.dart';
 import '../../../domain/entities/order.dart';
@@ -33,6 +33,12 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
   Widget build(BuildContext context) {
     final order = widget.order;
 
+    final canCancel =
+        order.status != OrderStatus.cancelled &&
+            widget.onCancelClick != null;
+
+    final storeLogoUrl = order.storeLogoUrl?.trim();
+
     Color bgColor;
     Color textColor;
     String statusText;
@@ -43,11 +49,13 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
         textColor = context.theme.colors.secondary;
         statusText = context.local.processing;
         break;
+
       case OrderStatus.completed:
         bgColor = context.theme.colors.greenVariant;
         textColor = context.theme.colors.green;
         statusText = context.local.completed;
         break;
+
       case OrderStatus.cancelled:
         bgColor = context.theme.colors.errorVariant;
         textColor = context.theme.colors.red;
@@ -66,15 +74,18 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            mainAxisSize: MainAxisSize.max,
             children: [
-              SvgPicture.asset(AppImages.orderIcon, width: 20, height: 20),
+              SvgPicture.asset(
+                AppImages.orderIcon,
+                width: 20,
+                height: 20,
+              ),
               const SizedBox(width: 4),
               Expanded(
                 child: Text(
                   "${context.local.order} #${order.orderId}",
-                  style:
-                      context.theme.typography.textTheme.labelMedium.copyWith(
+                  style: context.theme.typography.textTheme.labelMedium
+                      .copyWith(
                     color: context.theme.colors.title,
                   ),
                   maxLines: 1,
@@ -84,7 +95,10 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               const SizedBox(width: 8),
               Container(
                 alignment: Alignment.centerRight,
-                padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 4,
+                  horizontal: 8,
+                ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100),
                   color: bgColor,
@@ -92,31 +106,47 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                 child: Text(
                   statusText,
                   style: context.theme.typography.textTheme.labelXSmall
-                      .copyWith(color: textColor),
+                      .copyWith(
+                    color: textColor,
+                  ),
                 ),
               ),
             ],
           ),
+
           const SizedBox(height: 8),
+
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              "${context.local.placed_on} ${formatDateToReadable(order.orderDate)}",
-              style: context.theme.typography.textTheme.labelXSmall.copyWith(
+              "${context.local.placed_on} "
+                  "${formatDateToReadable(order.orderDate)}",
+              style: context.theme.typography.textTheme.labelXSmall
+                  .copyWith(
                 color: context.theme.colors.body,
               ),
             ),
           ),
+
           const SizedBox(height: 12),
+
           GestureDetector(
-            onTap: () => setState(() => _isExpanded = !_isExpanded),
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+              ),
               child: Row(
                 children: [
                   AnimatedRotation(
                     turns: _isExpanded ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 200),
+                    duration: const Duration(
+                      milliseconds: 200,
+                    ),
                     child: SvgPicture.asset(
                       AppImages.arrowDown,
                       width: 16,
@@ -127,26 +157,59 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
                       ),
                     ),
                   ),
+
                   const SizedBox(width: 8),
+
                   CircleAvatar(
                     radius: 16,
-                    backgroundImage: NetworkImage(order.storeLogoUrl ?? ''),
+                    backgroundColor:
+                    context.theme.colors.surfaceLow,
+                    backgroundImage: storeLogoUrl != null &&
+                        storeLogoUrl.isNotEmpty
+                        ? NetworkImage(storeLogoUrl)
+                        : null,
+                    child: storeLogoUrl == null ||
+                        storeLogoUrl.isEmpty
+                        ? Icon(
+                      Icons.store_outlined,
+                      size: 16,
+                      color: context.theme.colors.body,
+                    )
+                        : null,
                   ),
+
                   const SizedBox(width: 8),
+
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
                       children: [
                         Text(
                           order.storeName,
-                          style: context.theme.typography.textTheme.labelSmall
-                              .copyWith(color: context.theme.colors.body),
+                          style: context
+                              .theme
+                              .typography
+                              .textTheme
+                              .labelSmall
+                              .copyWith(
+                            color:
+                            context.theme.colors.body,
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          "${order.items.length} ${context.local.items}",
-                          style: context.theme.typography.textTheme.labelXSmall
-                              .copyWith(color: context.theme.colors.body),
+                          "${order.items.length} "
+                              "${context.local.items}",
+                          style: context
+                              .theme
+                              .typography
+                              .textTheme
+                              .labelXSmall
+                              .copyWith(
+                            color:
+                            context.theme.colors.body,
+                          ),
                         ),
                       ],
                     ),
@@ -155,6 +218,7 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               ),
             ),
           ),
+
           AnimatedCrossFade(
             firstChild: const SizedBox.shrink(),
             secondChild: Container(
@@ -162,26 +226,55 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
               child: Column(
                 children: order.items.map((item) {
                   return Container(
-                    padding: const EdgeInsets.fromLTRB(24, 5, 12, 5),
+                    padding: const EdgeInsets.fromLTRB(
+                      24,
+                      5,
+                      12,
+                      5,
+                    ),
                     child: Row(
                       children: [
                         Text(
                           "${item.quantity}X",
-                          style: context.theme.typography.textTheme.labelSmall
-                              .copyWith(color: context.theme.colors.body),
+                          style: context
+                              .theme
+                              .typography
+                              .textTheme
+                              .labelSmall
+                              .copyWith(
+                            color:
+                            context.theme.colors.body,
+                          ),
                         ),
+
                         const SizedBox(width: 8),
+
                         Expanded(
                           child: Text(
                             item.productName,
-                            style: context.theme.typography.textTheme.labelSmall
-                                .copyWith(color: context.theme.colors.body),
+                            style: context
+                                .theme
+                                .typography
+                                .textTheme
+                                .labelSmall
+                                .copyWith(
+                              color:
+                              context.theme.colors.body,
+                            ),
                           ),
                         ),
+
                         Text(
                           "\$${item.price.toStringAsFixed(2)}",
-                          style: context.theme.typography.textTheme.labelSmall
-                              .copyWith(color: context.theme.colors.primary),
+                          style: context
+                              .theme
+                              .typography
+                              .textTheme
+                              .labelSmall
+                              .copyWith(
+                            color: context
+                                .theme.colors.primary,
+                          ),
                         ),
                       ],
                     ),
@@ -192,30 +285,48 @@ class _OrderDetailsCardState extends State<OrderDetailsCard> {
             crossFadeState: _isExpanded
                 ? CrossFadeState.showSecond
                 : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(
+              milliseconds: 200,
+            ),
           ),
+
           const SizedBox(height: 16),
-          Row(children: [
-            Expanded(
-              flex: 3,
-              child: SellioButton(
-                text: context.local.view_details,
-                onTap: widget.onViewDetailsClick,
-                textStyle: context.theme.typography.textTheme.labelSmall,
+
+          Row(
+            children: [
+              Expanded(
+                flex: canCancel ? 3 : 1,
+                child: SellioButton(
+                  text: context.local.view_details,
+                  onTap: widget.onViewDetailsClick,
+                  textStyle: context
+                      .theme
+                      .typography
+                      .textTheme
+                      .labelSmall,
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              flex: 2,
-              child: SellioButton(
-                text: context.local.cancel_order,
-                backgroundColor: context.theme.colors.errorVariant,
-                textColor: context.theme.colors.red,
-                onTap: widget.onCancelClick!,
-                textStyle: context.theme.typography.textTheme.labelSmall,
-              ),
-            ),
-          ])
+
+              if (canCancel) ...[
+                const SizedBox(width: 8),
+                Expanded(
+                  flex: 2,
+                  child: SellioButton(
+                    text: context.local.cancel_order,
+                    backgroundColor:
+                    context.theme.colors.errorVariant,
+                    textColor: context.theme.colors.red,
+                    onTap: widget.onCancelClick!,
+                    textStyle: context
+                        .theme
+                        .typography
+                        .textTheme
+                        .labelSmall,
+                  ),
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );
