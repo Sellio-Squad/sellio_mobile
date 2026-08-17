@@ -116,10 +116,14 @@ class _CartScreenState extends State<CartScreen> {
 
     if (state is CartOrderSuccess) {
       _noteController.clear();
-      OrderConfirmationDialog.show(context);
+
+      OrderConfirmationDialog.show(
+        context,
+        orderIds: state.orderIds,
+      );
+
       return;
     }
-
     if (state is CartError) {
       _showErrorSnackBar(state.message);
     }

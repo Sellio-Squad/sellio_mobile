@@ -205,8 +205,15 @@
   "filter": "فلتر",
   "near_by_you": "القريب لك",
   "high_rating": "الأعلى تقييم",
-
-
+   "order_number": "الطلب رقم #{orderId}",
+   "@order_number": {
+     "description": "Displays the order number",
+     "placeholders": {
+       "orderId": {
+         "type": "String"
+       }
+     }
+   },
   "no_order_history": "لا يوجد سجل طلبات!",
   "start_exploring": "ابدأ الاستكشاف",
   "start_exploring_favorite_items": "ابدأ استكشاف وشراء العناصر المفضلة لديك",

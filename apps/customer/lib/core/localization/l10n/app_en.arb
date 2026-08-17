@@ -261,6 +261,15 @@
   "field_required": "Should not be empty",
   "all_orders": "All Orders",
   "error": "Error",
+ "order_number": "Order #{orderId}",
+  "@order_number": {
+    "description": "Displays the order number",
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
    "order_cancelled_successfully": "Order cancelled successfully",
        "order_cancel_failed": "Something went wrong while cancelling the order",
   "success": "Success",
