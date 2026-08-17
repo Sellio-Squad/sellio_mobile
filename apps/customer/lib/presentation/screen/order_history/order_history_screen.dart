@@ -129,24 +129,19 @@ class OrderSection extends StatelessWidget {
 
                 return Padding(
                   padding: const EdgeInsets.all(16),
-                  child: OrderDetailsCard(
+                  child:OrderDetailsCard(
                     order: order,
 
                     onCancelClick:
-                    order.status ==
-                        OrderStatus.cancelled
-                        ? null
-                        : () {
+                    order.status == OrderStatus.processing
+                        ? () {
                       context
-                          .read<
-                          OrderHistoryCubit>()
-                          .cancelOrder(
-                        order.orderId,
-                      );
-                    },
+                          .read<OrderHistoryCubit>()
+                          .cancelOrder(order.orderId);
+                    }
+                        : null,
 
                     onViewDetailsClick: () {},
-
                     onOrderAgainClick: () {},
                   ),
                 );
