@@ -8,8 +8,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../data/core/api/api_endpoints.dart';
 import '../../data/core/api/seller_auth_configuration.dart';
 
-Future<void> initCoreDI() async {
-  final sl = GetIt.instance;
+Future<void> initCoreDI(GetIt sl) async {
   final authConfig = SellerAuthConfiguration();
 
   sl.registerLazySingleton<InternetConnectionChecker>(

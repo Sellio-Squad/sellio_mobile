@@ -14,6 +14,7 @@ class SellioPickerField<T> extends StatefulWidget {
   final Widget? suffixIcon;
   final FocusNode? focusNode;
   final double dropdownMaxHeight;
+  final bool enabled;
 
   const SellioPickerField({
     super.key,
@@ -29,6 +30,7 @@ class SellioPickerField<T> extends StatefulWidget {
     this.suffixIcon,
     this.focusNode,
     this.dropdownMaxHeight = 200,
+    this.enabled = true,
   });
 
   @override
@@ -216,6 +218,7 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
   }
 
   void _toggleFocus() {
+    if (!widget.enabled) return;
     if (!_focusNode.hasFocus) {
       _focusNode.requestFocus();
     } else {
@@ -226,22 +229,44 @@ class _SellioPickerFieldState<T> extends State<SellioPickerField<T>> {
   @override
   Widget build(BuildContext context) {
     final colors = context.theme.colors;
+    final isFocused = _focusNode.hasFocus;
 
     return CompositedTransformTarget(
       link: _layerLink,
       child: Focus(
         focusNode: _focusNode,
-        canRequestFocus: true,
-        child: SellioTextField(
-          controller: _displayController,
-          hintText: widget.hintText,
-          prefixIcon: widget.prefixIcon,
-          prefixIconPadding: widget.prefixIconPadding,
-          readOnly: true,
-          suffixIcon:
-              widget.suffixIcon ??
-              Icon(Icons.arrow_drop_down, color: colors.body),
+        canRequestFocus: widget.enabled,
+        onFocusChange: (hasFocus) {
+          setState(() {}); // Rebuild to update visual state when focus changes
+        },
+        child: GestureDetector(
           onTap: _toggleFocus,
+          behavior: HitTestBehavior.opaque,
+          child: Opacity(
+            opacity: widget.enabled ? 1.0 : 0.6,
+            child: IgnorePointer(
+              ignoring: true,
+              child: SellioTextField(
+                key: ValueKey('${widget.errorText}_$isFocused'),
+                controller: _displayController,
+                hintText: widget.hintText,
+                prefixIcon: widget.prefixIcon,
+                prefixIconPadding: widget.prefixIconPadding,
+                readOnly: true,
+                enabled: widget.enabled,
+                errorMessage: isFocused ? null : widget.errorText,
+                isError: isFocused ? false : (widget.errorText != null),
+                suffixIcon:
+                    widget.suffixIcon ??
+                    Icon(
+                      Icons.arrow_drop_down,
+                      color: widget.enabled
+                          ? colors.body
+                          : colors.body.withValues(alpha: 0.5),
+                    ),
+              ),
+            ),
+          ),
         ),
       ),
     );

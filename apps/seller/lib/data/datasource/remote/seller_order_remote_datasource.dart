@@ -1,6 +1,6 @@
 import 'package:core/data/network/api_client.dart';
 
-import '../../../domain/entities/seller_order.dart';
+import '../../../domain/entity/seller_order.dart';
 import '../../core/api/api_endpoints.dart';
 import '../seller_order_datasource.dart';
 

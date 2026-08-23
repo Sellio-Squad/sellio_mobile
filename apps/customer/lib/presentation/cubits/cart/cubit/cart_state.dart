@@ -42,22 +42,43 @@ class CartLoaded extends CartState {
     );
   }
 }
-
-class CartOrderSuccess extends CartState {
-  const CartOrderSuccess();
-}
-
 class CartError extends CartState {
   final String message;
+  final int errorId;
 
-  const CartError({
+  CartError({
     required this.message,
+    super.cart,
+    super.productCounts,
+  }) : errorId = DateTime.now().microsecondsSinceEpoch;
+
+  @override
+  List<Object?> get props => [
+    message,
+    errorId,
+    cart,
+    productCounts,
+  ];
+}
+
+class CartOrderSuccess extends CartState {
+  final String message;
+  final List<String> orderIds;
+
+  const CartOrderSuccess({
+    required this.message,
+    required this.orderIds,
     super.cart,
     super.productCounts,
   });
 
   @override
-  List<Object?> get props => [message, cart, productCounts];
+  List<Object?> get props => [
+    message,
+    orderIds,
+    cart,
+    productCounts,
+  ];
 }
 
 class CartUserNotLoggedIn extends CartState {

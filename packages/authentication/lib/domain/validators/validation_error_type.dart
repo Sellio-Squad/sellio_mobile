@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:core/core.dart';
 import '../../core/localization/auth_localization_service.dart';
-
-// Base sealed class
-sealed class ValidationError {
-  String toLocalizedString(BuildContext context);
-}
 
 // Phone validation errors
 enum PhoneValidationError implements ValidationError {

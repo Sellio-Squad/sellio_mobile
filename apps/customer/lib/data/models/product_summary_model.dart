@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:design_system/design_system.dart';
-import '../../presentation/screens/home/sections/trending_products/models/product_summary_ui_model.dart';
+import '../../presentation/screen/home/sections/trending_products/models/product_summary_ui_model.dart';
 
 part 'product_summary_model.freezed.dart';
 
@@ -20,8 +20,8 @@ class ProductSummaryModel with _$ProductSummaryModel {
     return ProductSummaryModel(
       id: json['id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      image: json['image']?.toString() ?? '',
+      price: (json['minPrice'] as num?)?.toDouble() ?? 0.0,
+      image: json['mainImageUrl']?.toString() ?? '',
       isFavorite: json['isFavorite'] as bool? ?? false,
     );
   }
