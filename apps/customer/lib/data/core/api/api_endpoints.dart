@@ -9,7 +9,14 @@ class ApiEndpoints {
 
   // User
   static const String userInsert = '$apiVersion/user/insert';
+// cart
+  static const String cart = '/v1/cart';
 
+  static const String cartItems = '/v1/cart/items';
+
+  static String cartItemById(String itemId) {
+    return '/v1/cart/items/$itemId';
+  }
   // Products
   static const String products = '$apiVersion/products';
   static const String productsUsed = '$apiVersion/products/used';
@@ -67,7 +74,6 @@ class ApiEndpoints {
       '$apiVersion/products/subcategory/$subcategoryId';
 
   // Cart
-  static String cart(String userId) => '$apiVersion/cart/$userId';
   static const String cartAdd = '$apiVersion/cart/add';
   static const String cartRemove = '$apiVersion/cart/remove';
   static const String cartUpdate = '$apiVersion/cart/update';
@@ -75,15 +81,13 @@ class ApiEndpoints {
   static String cartClear(String userId) => '$apiVersion/cart/$userId/clear';
 
   // Orders
-  static const String orders = '$apiVersion/orders';
-  static const String orderConfirm = '$apiVersion/orders/confirm';
-  static const String ordersHistory = '$apiVersion/orders/history';
+  static const String orderConfirm = '/v1/orders/confirm';
 
-  static String orderById(String orderId) => '$apiVersion/orders/$orderId';
+  static const String ordersHistory = '/v1/orders/history';
 
-  static String orderCancel(String orderId) =>
-      '$apiVersion/orders/$orderId/cancel';
-
+  static String orderCancel(String orderId) {
+    return '/v1/orders/$orderId/cancel';
+  }
   // Favorites
   static const String favoriteProducts = '$apiVersion/favorite-products';
   static const String favoriteStores = '$apiVersion/favorite-stores';

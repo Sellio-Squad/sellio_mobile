@@ -1,75 +1,86 @@
 import 'package:core/core.dart';
+
 import '../../core/api/api_endpoints.dart';
 import '../../models/common/paginated_response.dart';
-import '../../models/order_create_item_model.dart';
 import '../../models/order_model.dart';
 import '../../models/response/order_confirmation_response.dart';
 
 abstract class OrderRemoteDataSource {
-  Future<OrderConfirmationResponse> createOrder({
-    required List<OrderCreateItemModel> items,
+  Future<OrderConfirmationResponse> confirmOrder({
+    String? note,
   });
 
-  Future<PaginatedResponse<OrderModel>> getOrders({
+  Future<PaginatedResponse<OrderModel>> getOrderHistory({
     String? status,
     int page = 0,
-    int pageSize = 20,
+    int pageSize = 10,
+    List<String> sort = const [
+      'createdAt,DESC',
+    ],
   });
 
-  Future<OrderModel> getOrderById(String orderId);
-
-  Future<OrderModel> cancelOrder(String orderId);
+  Future<void> cancelOrder({
+    required String orderId,
+  });
 }
 
-class OrderRemoteDataSourceImpl implements OrderRemoteDataSource {
+class OrderRemoteDataSourceImpl
+    implements OrderRemoteDataSource {
   final ApiClient _httpClient;
 
   OrderRemoteDataSourceImpl(this._httpClient);
 
   @override
-  Future<OrderConfirmationResponse> createOrder({
-    required List<OrderCreateItemModel> items,
+  Future<OrderConfirmationResponse> confirmOrder({
+    String? note,
   }) async {
     final response = await _httpClient.post(
       ApiEndpoints.orderConfirm,
-      data: {'items': items},
+      data: {
+        'note': note?.trim() ?? '',
+      },
     );
 
-    return OrderConfirmationResponse.fromJson(response.data);
+    return OrderConfirmationResponse.fromJson(
+      response.data,
+    );
   }
 
   @override
-  Future<PaginatedResponse<OrderModel>> getOrders({
+  Future<PaginatedResponse<OrderModel>>
+  getOrderHistory({
     String? status,
     int page = 0,
-    int pageSize = 20,
+    int pageSize = 10,
+    List<String> sort = const [
+      'createdAt,DESC',
+    ],
   }) async {
-    final queryParams = <String, dynamic>{
-      'page': page,
-      'size': pageSize,
-      if (status != null) 'status': status,
-    };
-
     final response = await _httpClient.get(
       ApiEndpoints.ordersHistory,
-      queryParameters: queryParams,
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+        'sort': sort,
+        if (status != null && status.isNotEmpty)
+          'status': status,
+      },
     );
 
     return PaginatedResponse.fromJson(
       response.data,
-      (json) => OrderModel.fromJson(json),
+          (json) => OrderModel.fromJson(
+        json,
+      ),
     );
   }
 
   @override
-  Future<OrderModel> getOrderById(String orderId) async {
-    final response = await _httpClient.get(ApiEndpoints.orderById(orderId));
-    return OrderModel.fromJson(response.data);
-  }
-
-  @override
-  Future<OrderModel> cancelOrder(String orderId) async {
-    final response = await _httpClient.put(ApiEndpoints.orderCancel(orderId));
-    return OrderModel.fromJson(response.data);
+  Future<void> cancelOrder({
+    required String orderId,
+  }) async {
+    await _httpClient.put(
+      ApiEndpoints.orderCancel(orderId),
+    );
   }
 }

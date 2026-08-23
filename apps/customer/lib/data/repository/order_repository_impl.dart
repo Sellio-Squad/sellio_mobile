@@ -1,66 +1,89 @@
 import 'package:core/core.dart';
-import 'package:sellio_mobile/data/mappers/order_mapper.dart';
 
+import '../../domain/entities/OrderConfirmation.dart';
 import '../../domain/entities/order.dart';
 import '../../domain/repository/order_repository.dart';
 import '../datasource/remote/order_remote_datasource.dart';
-import '../models/order_create_item_model.dart';
+import '../mappers/order_mapper.dart';
 
-class OrderRepositoryImpl implements OrderRepository {
+class OrderRepositoryImpl
+    implements OrderRepository {
   final OrderRemoteDataSource _remoteDataSource;
 
   OrderRepositoryImpl({
     required OrderRemoteDataSource remoteDataSource,
   }) : _remoteDataSource = remoteDataSource;
 
-  String? _statusToString(OrderStatus? status) {
-    return status?.name.toUpperCase();
+  String? _statusToString(
+      OrderStatus? status,
+      ) {
+    switch (status) {
+      case OrderStatus.processing:
+        return 'PROCESSING';
+
+      case OrderStatus.completed:
+        return 'COMPLETED';
+
+      case OrderStatus.cancelled:
+        return 'CANCELLED';
+
+      case null:
+        return null;
+    }
   }
 
   @override
-  Future<Result<void>> createOrder({required List<OrderItem> items}) async {
-    return RepositoryCallHandler.callVoid(() async {
-      _remoteDataSource.createOrder(
-        items: items
-            .map((item) => OrderCreateItemModel(
-                  productItemId: item.id,
-                  quantity: item.quantity,
-                ))
-            .toList(),
+  Future<Result<OrderConfirmation>> confirmOrder({
+    String? note,
+  }) {
+    return RepositoryCallHandler.call<
+        OrderConfirmation>(() async {
+      final response =
+      await _remoteDataSource.confirmOrder(
+        note: note,
       );
+
+      return response.toEntity();
     });
   }
 
   @override
-  Future<Result<List<Order>>> getOrders({
+  Future<Result<List<Order>>> getOrderHistory({
     OrderStatus? status,
-    int page = 1,
-    int limit = 20,
-  }) async {
-    return RepositoryCallHandler.call<List<Order>>(() async {
-      final paginatedResponse = await _remoteDataSource.getOrders(
+    int page = 0,
+    int pageSize = 10,
+    List<String> sort = const [
+      'createdAt,DESC',
+    ],
+  }) {
+    return RepositoryCallHandler.call<
+        List<Order>>(() async {
+      final response =
+      await _remoteDataSource.getOrderHistory(
         status: _statusToString(status),
-        page: page - 1,
-        pageSize: limit,
+        page: page,
+        pageSize: pageSize,
+        sort: sort,
       );
 
-      return paginatedResponse.data.map((model) => model.toEntity()).toList();
+      return response.data
+          .map(
+            (model) => model.toEntity(),
+      )
+          .toList();
     });
   }
 
   @override
-  Future<Result<Order>> getOrderById(String orderId) async {
-    return RepositoryCallHandler.call<Order>(() async {
-      final orderModel = await _remoteDataSource.getOrderById(orderId);
-      return orderModel.toEntity();
-    });
-  }
+  Future<Result<void>> cancelOrder({
+    required String orderId,
+  }) {
+    return RepositoryCallHandler.call<void>(() async {
+      await _remoteDataSource.cancelOrder(
+        orderId: orderId,
+      );
 
-  @override
-  Future<Result<Order>> cancelOrder(String orderId) async {
-    return RepositoryCallHandler.call<Order>(() async {
-      final orderModel = await _remoteDataSource.cancelOrder(orderId);
-      return orderModel.toEntity();
+      return;
     });
   }
 }

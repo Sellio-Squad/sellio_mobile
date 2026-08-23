@@ -9,24 +9,33 @@ import '../constants/cart_constants.dart';
 
 class OrderConfirmationDialog {
   static Future<void> show(
-    BuildContext context,
-  ) {
+      BuildContext context, {
+        required List<String> orderIds,
+      }) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(CartConstants.bottomSheetRadius),
+          top: Radius.circular(
+            CartConstants.bottomSheetRadius,
+          ),
         ),
       ),
-      builder: (_) => const _OrderConfirmationContent(),
+      builder: (_) => _OrderConfirmationContent(
+        orderIds: orderIds,
+      ),
     );
   }
 }
 
 class _OrderConfirmationContent extends StatelessWidget {
-  const _OrderConfirmationContent();
+  final List<String> orderIds;
+
+  const _OrderConfirmationContent({
+    required this.orderIds,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,60 +44,109 @@ class _OrderConfirmationContent extends StatelessWidget {
     final colors = theme.colors;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 24,
+        vertical: 24,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-         _buildBottomSheetDeign(colors),
+          _buildBottomSheetDesign(colors),
           _buildIcon(colors),
           const Gap(24),
-          _buildOrderNumber(colors, textTheme),
+
+          _buildOrderNumber(
+            context,
+            colors,
+            textTheme,
+          ),
+
           const Gap(8),
-          _buildOrderReceived(context, colors, textTheme),
+
+          _buildOrderReceived(
+            context,
+            colors,
+            textTheme,
+          ),
+
           const Gap(24),
-          _buildBackButton(context, theme),
+
+          _buildBackButton(
+            context,
+            theme,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildBottomSheetDeign(dynamic colors) {
+  Widget _buildBottomSheetDesign(
+      dynamic colors,
+      ) {
     return Container(
       width: 40,
       height: 4,
-      margin: const EdgeInsets.only(bottom: 24),
+      margin: const EdgeInsets.only(
+        bottom: 24,
+      ),
       decoration: BoxDecoration(
         color: colors.stroke,
         borderRadius: BorderRadius.circular(2),
       ),
     );
-          }
-
-  Widget _buildOrderNumber(dynamic colors, dynamic textTheme) {
-         return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          AppImages.product,
-          width: 18,
-          height: 18,
-          colorFilter: ColorFilter.mode(
-            colors.title,
-            BlendMode.srcIn,
-          ),
-        ),
-        const Gap(8),
-        Text(
-          "Order #2002124",
-          style: textTheme.labelMedium.copyWith(
-            color: colors.title,
-          ),
-        ),
-      ],
-    );
   }
 
-  Widget _buildOrderReceived(BuildContext context, colors, textTheme) {
+  Widget _buildOrderNumber(
+      BuildContext context,
+      dynamic colors,
+      dynamic textTheme,
+      ) {
+    if (orderIds.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    return SizedBox(
+      width: double.infinity,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              AppImages.product,
+              width: 18,
+              height: 18,
+              colorFilter: ColorFilter.mode(
+                colors.title,
+                BlendMode.srcIn,
+              ),
+            ),
+
+            const Gap(8),
+
+            Text(
+              context.local.order_number(
+                orderIds.first,
+              ),
+              maxLines: 1,
+              softWrap: false,
+              style: textTheme.labelMedium.copyWith(
+                color: colors.title,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget _buildOrderReceived(
+      BuildContext context,
+      dynamic colors,
+      dynamic textTheme,
+      ) {
     return Text(
       context.local.order_received,
       textAlign: TextAlign.center,
@@ -99,9 +157,13 @@ class _OrderConfirmationContent extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon(dynamic colors) {
+  Widget _buildIcon(
+      dynamic colors,
+      ) {
     return Container(
-      padding: const EdgeInsets.all(CartConstants.confirmationIconPadding),
+      padding: const EdgeInsets.all(
+        CartConstants.confirmationIconPadding,
+      ),
       width: CartConstants.confirmationIconSize,
       height: CartConstants.confirmationIconSize,
       decoration: BoxDecoration(
@@ -118,11 +180,15 @@ class _OrderConfirmationContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBackButton(BuildContext context, dynamic theme) {
+  Widget _buildBackButton(
+      BuildContext context,
+      dynamic theme,
+      ) {
     return SellioButton(
       text: context.local.back_to_shopping,
       textColor: context.theme.colors.primary,
-      backgroundColor: context.theme.colors.primaryVariant,
+      backgroundColor:
+      context.theme.colors.primaryVariant,
       onTap: () {
         context.navigator.pop();
         context.navigator.goToHome();

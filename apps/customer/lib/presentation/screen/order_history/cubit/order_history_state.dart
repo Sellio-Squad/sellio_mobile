@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../domain/entities/order.dart';
 
-sealed class OrderHistoryState extends Equatable {
+abstract class OrderHistoryState extends Equatable {
   const OrderHistoryState();
 
   @override
@@ -22,32 +22,35 @@ class OrderHistoryLoaded extends OrderHistoryState {
   final int selectedTabIndex;
   final bool hasAnyOrders;
 
+  final bool cancelSuccess;
+  final String? errorMessage;
+
   const OrderHistoryLoaded({
     required this.orders,
     required this.selectedTabIndex,
     required this.hasAnyOrders,
+    this.cancelSuccess = false,
+    this.errorMessage,
   });
 
-  OrderHistoryLoaded copyWith({
-    List<Order>? orders,
-    int? selectedTabIndex,
-    bool? hasAnyOrders,
-  }) {
-    return OrderHistoryLoaded(
-        orders: orders ?? this.orders,
-        selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
-        hasAnyOrders: hasAnyOrders ?? this.hasAnyOrders);
-  }
-
   @override
-  List<Object?> get props => [orders, selectedTabIndex, hasAnyOrders];
+  List<Object?> get props => [
+    orders,
+    selectedTabIndex,
+    hasAnyOrders,
+    cancelSuccess,
+    errorMessage,
+  ];
 }
-
 class OrderHistoryError extends OrderHistoryState {
   final String message;
 
-  const OrderHistoryError({required this.message});
+  const OrderHistoryError({
+    required this.message,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [
+    message,
+  ];
 }

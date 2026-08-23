@@ -20,14 +20,19 @@ class MoreTrendingScreen extends StatefulWidget {
 }
 
 class _MoreTrendingScreenState extends State<MoreTrendingScreen> {
-  late MoreTrendingCubit cubit;
+  late final MoreTrendingCubit cubit;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    cubit = MoreTrendingCubit(context.read<ProductRepository>());
+
+    cubit = MoreTrendingCubit(
+      context.read<ProductRepository>(),
+    );
+
     cubit.loadTrendingProducts();
+
     _scrollController.addListener(_onScroll);
   }
 
@@ -41,6 +46,7 @@ class _MoreTrendingScreenState extends State<MoreTrendingScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    cubit.close();
     super.dispose();
   }
 
@@ -54,7 +60,9 @@ class _MoreTrendingScreenState extends State<MoreTrendingScreen> {
           title: context.local.trending_products,
           showBackButton: true,
         ),
-        body: _MoreTrendingContent(scrollController: _scrollController),
+        body: _MoreTrendingContent(
+          scrollController: _scrollController,
+        ),
       ),
     );
   }
@@ -63,14 +71,18 @@ class _MoreTrendingScreenState extends State<MoreTrendingScreen> {
 class _MoreTrendingContent extends StatelessWidget {
   final ScrollController scrollController;
 
-  const _MoreTrendingContent({required this.scrollController});
+  const _MoreTrendingContent({
+    required this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoreTrendingCubit, MoreTrendingState>(
       builder: (context, state) {
         if (state.isLoading && state.items.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
 
         if (state.items.isEmpty && !state.isLoading) {
@@ -83,12 +95,19 @@ class _MoreTrendingContent extends StatelessWidget {
         }
 
         return RefreshIndicator(
-          onRefresh: () => context.read<MoreTrendingCubit>().refresh(),
+          onRefresh: () {
+            return context.read<MoreTrendingCubit>().refresh();
+          },
           child: CustomScrollView(
             controller: scrollController,
+            physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
-              _buildProductsGrid(context, state),
-              if (state.isLoadingMore) _buildLoadingMore(),
+              _buildProductsGrid(
+                context,
+                state,
+              ),
+              if (state.isLoadingMore)
+                _buildLoadingMore(),
             ],
           ),
         );
@@ -96,51 +115,72 @@ class _MoreTrendingContent extends StatelessWidget {
     );
   }
 
-  Widget _buildProductsGrid(BuildContext context, MoreTrendingState state) {
+  Widget _buildProductsGrid(
+      BuildContext context,
+      MoreTrendingState state,
+      ) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 12,
+      ),
       sliver: SliverLayoutBuilder(
         builder: (context, constraints) {
           final screenWidth = constraints.crossAxisExtent;
           const cardWidth = 170.0;
-          final crossAxisCount = (screenWidth / cardWidth).floor().clamp(1, 6);
+
+          final crossAxisCount =
+          (screenWidth / cardWidth)
+              .floor()
+              .clamp(1, 6);
 
           return SliverGrid(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
+                  (context, index) {
                 final product = state.items[index];
-                final imageUrl = product.images.isNotEmpty
+
+                final imageUrl =
+                product.images.isNotEmpty
                     ? product.images.first
                     : AppImages.cartProduct;
 
                 return CustomerProductCard(
                   cardKey: ValueKey(product.id),
+
                   productId: product.id,
+
                   imageUrl: imageUrl,
+
                   title: product.title,
-                  formattedPrice: product.minPrice.toString(),
-                  rawPrice: double.tryParse(product.minPrice
-                          .toString()
-                          .replaceAll(RegExp(r'[^\d.]'), '')) ??
-                      0.0,
-                  currency: 'EGP',
+
+                  formattedPrice:
+                  product.minPrice.toString(),
+
                   isFavorite: product.isFavorite,
+
                   onFavoriteToggle: () {
                     context
                         .read<FavoritesCubit>()
-                        .toggleFavorite(product.id, FavoriteType.product);
+                        .toggleFavorite(
+                      product.id,
+                      FavoriteType.product,
+                    );
                   },
+
                   onTap: () {
                     GoRouter.of(context).push(
                       AppRoutes.productDetails.path,
-                      extra: ProductDetailsArgs(productId: product.id),
+                      extra: ProductDetailsArgs(
+                        productId: product.id,
+                      ),
                     );
                   },
                 );
               },
               childCount: state.items.length,
             ),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: 8,
               mainAxisSpacing: 12,
@@ -155,8 +195,12 @@ class _MoreTrendingContent extends StatelessWidget {
   Widget _buildLoadingMore() {
     return const SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
-        child: Center(child: CircularProgressIndicator()),
+        padding: EdgeInsets.symmetric(
+          vertical: 20,
+        ),
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
       ),
     );
   }

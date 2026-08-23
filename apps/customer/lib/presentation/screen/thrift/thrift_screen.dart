@@ -58,8 +58,12 @@ class _ThriftScreenState extends State<ThriftScreen> {
       value: cubit,
       child: Scaffold(
         backgroundColor: colors.surfaceLow,
-        appBar: SellioAppBar(title: context.local.thrift),
-        body: ThriftContent(scrollController: _scrollController),
+        appBar: SellioAppBar(
+          title: context.local.thrift,
+        ),
+        body: ThriftContent(
+          scrollController: _scrollController,
+        ),
       ),
     );
   }
@@ -75,12 +79,17 @@ class _ThriftScreenState extends State<ThriftScreen> {
 class ThriftContent extends StatelessWidget {
   final ScrollController scrollController;
 
-  const ThriftContent({super.key, required this.scrollController});
+  const ThriftContent({
+    super.key,
+    required this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => context.read<ThriftProductsCubit>().refresh(),
+      onRefresh: () {
+        return context.read<ThriftProductsCubit>().refresh();
+      },
       child: CustomScrollView(
         controller: scrollController,
         physics: const AlwaysScrollableScrollPhysics(),
@@ -97,52 +106,75 @@ class ThriftContent extends StatelessWidget {
   Widget _buildSearchBar(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        padding: const EdgeInsets.fromLTRB(
+          16,
+          0,
+          16,
+          16,
+        ),
         child: SellioSearchBar(
           hintText: context.local.search_your_favorite_items,
           isReadOnly: true,
           isShowFilterIcon: true,
-          onTextFieldClicked: () => context.navigator.pushSearch(),
+          onTextFieldClicked: () {
+            context.navigator.pushSearch();
+          },
           onFilterIconClicked: () {
             // TODO: Show filter dialog
           },
-          onTextSubmitted: (text) => context.navigator.pushSearch(),
+          onTextSubmitted: (_) {
+            context.navigator.pushSearch();
+          },
         ),
       ),
     );
   }
 
   Widget _buildCategoryTabs(BuildContext context) {
-    return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
-      buildWhen: (previous, current) =>
-          previous.categories != current.categories ||
-          previous.selectedCategoryId != current.selectedCategoryId,
+    return BlocBuilder<
+        ThriftProductsCubit,
+        ThriftProductsState>(
+      buildWhen: (previous, current) {
+        return previous.categories != current.categories ||
+            previous.selectedCategoryId !=
+                current.selectedCategoryId;
+      },
       builder: (context, state) {
-        final cubit = context.read<ThriftProductsCubit>();
+        final cubit =
+        context.read<ThriftProductsCubit>();
 
         final tabs = [
           CategoryTabData(
-            id: "all",
+            id: 'all',
             name: context.local.all,
           ),
           ...state.categories.map(
-            (c) => CategoryTabData(
-              id: c.id,
-              name: c.name,
-            ),
+                (category) {
+              return CategoryTabData(
+                id: category.id,
+                name: category.name,
+              );
+            },
           ),
         ];
 
-        final selectedIndex =
-            tabs.indexWhere((t) => t.id == (state.selectedCategoryId ?? "all"));
+        final selectedIndex = tabs.indexWhere(
+              (tab) =>
+          tab.id ==
+              (state.selectedCategoryId ?? 'all'),
+        );
 
         return SliverToBoxAdapter(
           child: CategoryTabs(
             categories: tabs,
-            selectedIndex: selectedIndex >= 0 ? selectedIndex : 0,
+            selectedIndex:
+            selectedIndex >= 0 ? selectedIndex : 0,
             onCategorySelected: (index) {
               final selectedId =
-                  tabs[index].id == "all" ? null : tabs[index].id;
+              tabs[index].id == 'all'
+                  ? null
+                  : tabs[index].id;
+
               cubit.selectCategory(selectedId);
             },
           ),
@@ -152,14 +184,20 @@ class ThriftContent extends StatelessWidget {
   }
 
   Widget _buildProductsGrid(BuildContext context) {
-    return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
-      buildWhen: (previous, current) =>
-          previous.isLoading != current.isLoading ||
-          previous.items != current.items ||
-          previous.errorMessage != current.errorMessage,
+    return BlocBuilder<
+        ThriftProductsCubit,
+        ThriftProductsState>(
+      buildWhen: (previous, current) {
+        return previous.isLoading != current.isLoading ||
+            previous.items != current.items ||
+            previous.errorMessage != current.errorMessage;
+      },
       builder: (context, state) {
-        if (state.isLoading && state.items.isEmpty) {
-          return const ThriftLoadingMoreShimmer(count: 6);
+        if (state.isLoading &&
+            state.items.isEmpty) {
+          return const ThriftLoadingMoreShimmer(
+            count: 6,
+          );
         }
 
         if (state.items.isEmpty) {
@@ -169,59 +207,100 @@ class ThriftContent extends StatelessWidget {
               child: EmptySection(
                 icon: AppImages.noOrderHistory,
                 title: context.local.no_products_found,
-                description: context.local.you_can_dicover_more_products,
-                buttonText: context.local.start_exploring_more,
-                color: context.theme.colors.purpleVariant,
-                onTap: () => context.navigator.goToHome(),
+                description:
+                context.local.you_can_dicover_more_products,
+                buttonText:
+                context.local.start_exploring_more,
+                color:
+                context.theme.colors.purpleVariant,
+                onTap: () {
+                  context.navigator.goToHome();
+                },
               ),
             ),
           );
         }
 
         return SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
           sliver: SliverLayoutBuilder(
             builder: (context, constraints) {
-              final screenWidth = constraints.crossAxisExtent;
+              final screenWidth =
+                  constraints.crossAxisExtent;
+
               const cardWidth = 170.0;
+
               final crossAxisCount =
-                  (screenWidth / cardWidth).floor().clamp(1, 6);
+              (screenWidth / cardWidth)
+                  .floor()
+                  .clamp(1, 6);
 
               return SliverGrid(
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final product = state.items[index];
+                      (context, index) {
+                    final product =
+                    state.items[index];
 
-                    return BlocBuilder<FavoritesCubit, FavoritesState>(
+                    return BlocBuilder<
+                        FavoritesCubit,
+                        FavoritesState>(
                       builder: (context, favState) {
-                        bool isFavorite = product.isFavorite;
-                        if (favState is FavoritesLoaded) {
-                          isFavorite =
-                              favState.favoriteProductIds.contains(product.id);
+                        var isFavorite =
+                            product.isFavorite;
+
+                        if (favState
+                        is FavoritesLoaded) {
+                          isFavorite = favState
+                              .favoriteProductIds
+                              .contains(product.id);
                         }
 
+                        final imageUrl =
+                        product.images.isNotEmpty
+                            ? product.images.first
+                            : '';
+
                         return CustomerProductCard(
-                          cardKey: ValueKey(product.id),
-                          productId: product.id,
-                          imageUrl: product.images.isNotEmpty
-                              ? product.images.first
-                              : '',
-                          title: product.title,
-                          formattedPrice: product.minPrice.toString(),
-                          rawPrice: double.tryParse(product.minPrice
-                                  .toString()
-                                  .replaceAll(RegExp(r'[^\d.]'), '')) ??
-                              0.0,
-                          currency: 'EGP',
-                          isFavorite: isFavorite,
+                          cardKey:
+                          ValueKey(product.id),
+
+                          productId:
+                          product.id,
+
+                          imageUrl:
+                          imageUrl,
+
+                          title:
+                          product.title,
+
+                          formattedPrice:
+                          product.minPrice.toString(),
+
+                          isFavorite:
+                          isFavorite,
+
                           onFavoriteToggle: () {
-                            context.read<FavoritesCubit>().toggleFavorite(
-                                product.id, FavoriteType.product);
+                            context
+                                .read<FavoritesCubit>()
+                                .toggleFavorite(
+                              product.id,
+                              FavoriteType.product,
+                            );
                           },
+
                           onTap: () {
                             GoRouter.of(context).push(
-                              AppRoutes.productDetails.path,
-                              extra: ProductDetailsArgs(productId: product.id),
+                              AppRoutes
+                                  .productDetails
+                                  .path,
+                              extra:
+                              ProductDetailsArgs(
+                                productId:
+                                product.id,
+                              ),
                             );
                           },
                         );
@@ -230,8 +309,10 @@ class ThriftContent extends StatelessWidget {
                   },
                   childCount: state.items.length,
                 ),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
+                gridDelegate:
+                SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount:
+                  crossAxisCount,
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 12,
                   childAspectRatio: 0.72,
@@ -244,16 +325,24 @@ class ThriftContent extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadingMore(BuildContext context) {
-    return BlocBuilder<ThriftProductsCubit, ThriftProductsState>(
-      buildWhen: (previous, current) =>
-          previous.isLoadingMore != current.isLoadingMore,
+  Widget _buildLoadingMore(
+      BuildContext context,
+      ) {
+    return BlocBuilder<
+        ThriftProductsCubit,
+        ThriftProductsState>(
+      buildWhen: (previous, current) {
+        return previous.isLoadingMore !=
+            current.isLoadingMore;
+      },
       builder: (context, state) {
         if (state.isLoadingMore) {
           return const ThriftLoadingMoreShimmer();
         }
 
-        return const SliverToBoxAdapter(child: SizedBox.shrink());
+        return const SliverToBoxAdapter(
+          child: SizedBox.shrink(),
+        );
       },
     );
   }

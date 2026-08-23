@@ -1,19 +1,23 @@
-import 'package:core/error/result.dart';
+import 'package:core/core.dart';
 
+import '../entities/OrderConfirmation.dart';
 import '../entities/order.dart';
 
 abstract class OrderRepository {
-  Future<Result<void>> createOrder({
-    required List<OrderItem> items,
+  Future<Result<OrderConfirmation>> confirmOrder({
+    String? note,
   });
 
-  Future<Result<List<Order>>> getOrders({
+  Future<Result<List<Order>>> getOrderHistory({
     OrderStatus? status,
-    int page = 1,
-    int limit = 20,
+    int page = 0,
+    int pageSize = 10,
+    List<String> sort = const [
+      'createdAt,DESC',
+    ],
   });
 
-  Future<Result<Order>> getOrderById(String orderId);
-
-  Future<Result<Order>> cancelOrder(String orderId);
+  Future<Result<void>> cancelOrder({
+    required String orderId,
+  });
 }

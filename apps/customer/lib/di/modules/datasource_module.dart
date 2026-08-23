@@ -3,13 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:sellio_mobile/data/datasource/local/search_local_datasource.dart';
 import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
 
-import '../../../data/datasource/local/cart_local_datasource.dart';
 import '../../../data/datasource/remote/category_remote_datasource.dart';
 import '../../../data/datasource/remote/favorites_remote_datasource.dart';
 import '../../../data/datasource/remote/offers_remote_datasource.dart';
 import '../../../data/datasource/remote/order_remote_datasource.dart';
 import '../../../data/datasource/remote/product_remote_datasource.dart';
 import '../../../data/datasource/remote/store_remote_datasource.dart';
+import '../../data/datasource/remote/CartRemoteDataSource.dart';
 import '../../data/datasource/remote/category_details_remote_datasource.dart';
 import '../../data/datasource/remote/category_section_remote_datasource.dart';
 
@@ -31,9 +31,11 @@ class DataSourceModule {
       () => CategoryRemoteDataSourceImpl(sl()),
     );
 
-    sl.registerLazySingleton<CartLocalDataSource>(
-      () => CartLocalDataSourceImpl(sl()),
+
+    sl.registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSourceImpl(sl()),
     );
+
 
     sl.registerLazySingleton<OrderRemoteDataSource>(
       () => OrderRemoteDataSourceImpl(sl()),

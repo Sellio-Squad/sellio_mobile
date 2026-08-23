@@ -10,9 +10,10 @@ import '../constants/cart_constants.dart';
 class CartItemsList extends StatelessWidget {
   final List<CartItem> items;
   final Map<String, int> productCounts;
-  final Function(String) onIncrement;
-  final Function(String) onDecrement;
-  final Function(String) onRemove;
+
+  final void Function(String productId) onIncrement;
+  final void Function(String productId) onDecrement;
+  final void Function(String itemId) onRemove;
 
   const CartItemsList({
     super.key,
@@ -36,32 +37,64 @@ class CartItemsList extends StatelessWidget {
         ),
         child: const DashedDivider(),
       ),
-      itemBuilder: (context, index) => _buildCartItem(context, items[index]),
+      itemBuilder: (context, index) {
+        return _buildCartItem(
+          context,
+          items[index],
+        );
+      },
     );
   }
 
-  Widget _buildCartItem(BuildContext context, CartItem item) {
-    final quantity = productCounts[item.productId] ?? item.quantity;
+  Widget _buildCartItem(
+      BuildContext context,
+      CartItem item,
+      ) {
+    final quantity =
+        productCounts[item.productId] ?? item.quantity;
 
     return SizedBox(
       height: CartConstants.cardHeight,
       child: SellioProductHorizontalCard(
-        onTap: () => _navigateToProductDetails(context, item.productId),
+        onTap: () => _navigateToProductDetails(
+          context,
+          item.productId,
+        ),
+
         imageUrl: item.productImage,
-        title: item.productName,
-        price: '${item.currency} ${item.price}',
+
+        title: item.productTitle,
+
+        price: item.unitPrice.toStringAsFixed(2),
+
         originalPrice: null,
+
         count: quantity,
-        onIncrement: () => onIncrement(item.productId),
-        onDecrement: () => onDecrement(item.productId),
-        onRemove: () => onRemove(item.productId),
+
+        onIncrement: () {
+          onIncrement(item.productId);
+        },
+
+        onDecrement: () {
+          onDecrement(item.productId);
+        },
+
+        onRemove: () {
+          // DELETE /v1/cart/items/{itemId}
+          onRemove(item.id);
+        },
       ),
     );
   }
 
-  void _navigateToProductDetails(BuildContext context, String productId) {
+  void _navigateToProductDetails(
+      BuildContext context,
+      String productId,
+      ) {
     context.navigator.pushProductDetails(
-      ProductDetailsArgs(productId: productId),
+      ProductDetailsArgs(
+        productId: productId,
+      ),
     );
   }
 }
