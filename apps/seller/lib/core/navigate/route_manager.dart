@@ -35,7 +35,7 @@ class RouteGenerator {
   static GoRouter _createRouter() {
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: AppRoutes.dashboard.path,
+      initialLocation: AppRoutes.login.path,
       refreshListenable: GoRouterRefreshListenable([
         sl<AuthenticationCubit>(),
         sl<StoreCubit>(),
