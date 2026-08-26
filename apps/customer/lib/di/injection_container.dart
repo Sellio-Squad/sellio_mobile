@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import 'mock/MockRepositoryModule.dart';
 import 'modules/auth_module.dart';
 import 'modules/bloc_module.dart';
 import 'modules/core_module.dart';
@@ -16,6 +15,5 @@ Future<void> init() async {
   AuthModule.register(sl);
   DataSourceModule.register(sl);
   RepositoryModule.register(sl);
-  MockRepositoryModule.register(sl);
   BlocModule.register(sl);
 }

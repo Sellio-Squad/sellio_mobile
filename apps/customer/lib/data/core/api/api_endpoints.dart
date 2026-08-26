@@ -132,4 +132,13 @@ class ApiEndpoints {
   // Category Sections
   static const String categorySectionsActive =
       '$apiVersion/category-sections/active';
+
+  // Notifications
+  static const String notifications = '$apiVersion/notifications';
+
+  static String notificationRead(String notificationId) =>
+      '$apiVersion/notifications/$notificationId/read';
+
+  static String notificationDelete(String notificationId) =>
+      '$apiVersion/notifications/$notificationId';
 }

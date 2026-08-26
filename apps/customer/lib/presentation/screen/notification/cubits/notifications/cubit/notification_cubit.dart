@@ -12,8 +12,6 @@ class NotificationCubit extends Cubit<NotificationState> {
     emit(const NotificationLoading());
 
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
-
       final notifications =
           NotificationMapper.toUIList(await repository.getNotifications());
       final groupedNotifications = _groupNotificationsByDate(notifications);
@@ -30,7 +28,6 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> refreshNotifications() async {
     if (state is NotificationLoaded) {
       try {
-        await Future.delayed(const Duration(milliseconds: 300));
         final notifications =
             NotificationMapper.toUIList(await repository.getNotifications());
         final groupedNotifications = _groupNotificationsByDate(notifications);

@@ -8,6 +8,7 @@ import '../../data/repository/cart_repository_impl.dart';
 import '../../data/repository/category_details_repository_impl.dart';
 import '../../data/repository/category_repository_impl.dart';
 import '../../data/repository/category_section_repository_impl.dart';
+import '../../data/repository/notification_repository_impl.dart';
 import '../../data/repository/offers_repository_impl.dart';
 import '../../data/repository/order_repository_impl.dart';
 import '../../data/repository/product_repository_impl.dart';
@@ -17,6 +18,7 @@ import '../../domain/repository/category_details_repository.dart';
 import '../../domain/repository/category_repository.dart';
 import '../../domain/repository/category_section_repository.dart';
 import '../../domain/repository/favorites_repository.dart';
+import '../../domain/repository/notification_repository.dart';
 import '../../domain/repository/offers_repository.dart';
 import '../../domain/repository/order_repository.dart';
 import '../../domain/repository/product_repository.dart';
@@ -77,14 +79,8 @@ class RepositoryModule {
       () => CategoryDetailsRepositoryImpl(remoteDataSource: sl()),
     );
 
-    // sl.registerLazySingleton<OffersRepository>(
-    //       () => OffersRepositoryImpl(
-    //     remoteDataSource: sl()
-    //   ),
-    // );
-    //
-    // sl.registerLazySingleton<NotificationRepository>(
-    //       () => NotificationRepositoryImpl()
-    // );
+    sl.registerLazySingleton<NotificationRepository>(
+      () => NotificationRepositoryImpl(remoteDataSource: sl()),
+    );
   }
 }

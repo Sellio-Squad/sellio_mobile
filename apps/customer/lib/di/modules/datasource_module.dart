@@ -12,6 +12,7 @@ import '../../../data/datasource/remote/store_remote_datasource.dart';
 import '../../data/datasource/remote/CartRemoteDataSource.dart';
 import '../../data/datasource/remote/category_details_remote_datasource.dart';
 import '../../data/datasource/remote/category_section_remote_datasource.dart';
+import '../../data/datasource/remote/notification_remote_datasource.dart';
 
 class DataSourceModule {
   static void register(GetIt sl) {
@@ -67,6 +68,10 @@ class DataSourceModule {
 
     sl.registerLazySingleton<CategoryDetailsRemoteDataSource>(
       () => CategoryDetailsRemoteDataSourceImpl(apiClient: sl()),
+    );
+
+    sl.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl(sl()),
     );
   }
 }
