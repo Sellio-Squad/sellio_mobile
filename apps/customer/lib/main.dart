@@ -5,6 +5,9 @@ import 'package:authentication/presentation/cubits/auth/authentication_cubit.dar
 import 'package:authentication/presentation/cubits/auth/authentication_state.dart';
 import 'package:core/core.dart';
 import 'package:design_system/design_system.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,6 +21,7 @@ import 'domain/repository/category_repository.dart';
 import 'domain/repository/favorites_repository.dart';
 import 'domain/repository/product_repository.dart';
 import 'domain/repository/store_repository.dart';
+import 'firebase_options.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
 import 'presentation/screen/order_history/cubit/order_history_cubit.dart';
@@ -25,6 +29,16 @@ import 'presentation/screen/store_details/cubit/store_details_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   final prefs = await SharedPreferences.getInstance();
   await init();
