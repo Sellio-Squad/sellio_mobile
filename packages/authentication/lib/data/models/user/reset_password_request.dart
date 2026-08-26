@@ -4,7 +4,7 @@ part 'reset_password_request.freezed.dart';
 part 'reset_password_request.g.dart';
 
 @freezed
-class ResetPasswordRequest with _$ResetPasswordRequest {
+abstract class ResetPasswordRequest with _$ResetPasswordRequest {
   const factory ResetPasswordRequest({
     required String currentPassword,
     required String newPassword,

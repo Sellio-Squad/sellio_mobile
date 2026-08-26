@@ -19,7 +19,8 @@ plugins {
 
 android {
     namespace = "shanghai.sellio.sellio_mobile"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_secure_storage 11 requires compileSdk 37
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

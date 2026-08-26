@@ -4,7 +4,7 @@ part 'update_address_request.freezed.dart';
 part 'update_address_request.g.dart';
 
 @freezed
-class UpdateAddressRequest with _$UpdateAddressRequest {
+abstract class UpdateAddressRequest with _$UpdateAddressRequest {
   const factory UpdateAddressRequest({
     String? country,
     String? city,

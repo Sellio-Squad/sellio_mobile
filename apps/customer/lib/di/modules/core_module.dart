@@ -14,7 +14,7 @@ class CoreModule {
     final authConfig = CustomerAuthConfiguration();
 
     sl.registerLazySingleton<InternetConnectionChecker>(
-      () => InternetConnectionChecker(),
+      () => InternetConnectionChecker.createInstance(),
     );
 
     sl.registerLazySingleton<ImagePickerService>(

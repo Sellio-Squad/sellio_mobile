@@ -4,7 +4,7 @@ part 'address_model.freezed.dart';
 part 'address_model.g.dart';
 
 @freezed
-class AddressModel with _$AddressModel {
+abstract class AddressModel with _$AddressModel {
   const factory AddressModel({
     String? id,
     required String country,

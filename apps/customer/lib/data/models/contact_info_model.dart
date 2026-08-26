@@ -5,7 +5,7 @@ part 'contact_info_model.freezed.dart';
 part 'contact_info_model.g.dart';
 
 @freezed
-class ContactInfoModel with _$ContactInfoModel {
+abstract class ContactInfoModel with _$ContactInfoModel {
   const factory ContactInfoModel({
     required String provider,
     required ContactType type,

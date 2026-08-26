@@ -5,7 +5,7 @@ part 'category_section_model.freezed.dart';
 part 'category_section_model.g.dart';
 
 @freezed
-class CategorySectionModel with _$CategorySectionModel {
+abstract class CategorySectionModel with _$CategorySectionModel {
   const factory CategorySectionModel({
     required String id,
     required String sectionTitle,
@@ -31,7 +31,7 @@ class CategorySectionModel with _$CategorySectionModel {
 }
 
 @freezed
-class SectionSubCategoryModel with _$SectionSubCategoryModel {
+abstract class SectionSubCategoryModel with _$SectionSubCategoryModel {
   const factory SectionSubCategoryModel({
     required String id,
     required String title,

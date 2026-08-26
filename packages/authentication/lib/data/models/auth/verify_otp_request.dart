@@ -4,7 +4,7 @@ part 'verify_otp_request.freezed.dart';
 part 'verify_otp_request.g.dart';
 
 @freezed
-class VerifyOtpRequest with _$VerifyOtpRequest {
+abstract class VerifyOtpRequest with _$VerifyOtpRequest {
   const factory VerifyOtpRequest({
     required String otp,
     required String sessionId,
