@@ -56,7 +56,28 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
 
 flutter:
   uses-material-design: true
   generate: true
+
+flutter_native_splash:
+  color: "#F8F8F8"
+  image: ../../packages/design_system/assets/images/sellio_splash.png
+  ios_content_mode: center
+
+  android_12:
+    image: ../../packages/design_system/assets/images/sellio_splash.png
+    color: "#F8F8F8"
+
+  web: false
+  fullscreen: false
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "../../packages/design_system/assets/images/sellio_splash.png"
+  adaptive_icon_background: "#F8F8F8"
+  adaptive_icon_foreground: "../../packages/design_system/assets/images/sellio_splash.png"
