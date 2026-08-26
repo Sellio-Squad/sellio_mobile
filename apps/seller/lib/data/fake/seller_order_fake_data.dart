@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import '../../domain/entities/seller_order.dart';
+import '../../domain/entity/seller_order.dart';
 
 class SellerOrderFakeData {
   SellerOrderFakeData._();

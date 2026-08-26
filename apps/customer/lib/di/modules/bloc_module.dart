@@ -1,16 +1,16 @@
 import 'package:get_it/get_it.dart';
-import 'package:sellio_mobile/presentation/screens/account/cubit/account_cubit.dart';
+import 'package:sellio_mobile/presentation/screen/account/cubit/account_cubit.dart';
+
 import '../../../presentation/cubits/cart/cubit/cart_cubit.dart';
 import '../../../presentation/cubits/favorites/cubit/favorites_cubit.dart';
-import '../../../presentation/screens/home/sections/special_offers/cubit/home_special_offers_cubit.dart';
-import '../../../presentation/screens/home/sections/top_stores/cubit/home_top_stores_cubit.dart';
-import '../../../presentation/screens/home/sections/trending_products/cubit/home_trending_products_cubit.dart';
-import '../../../presentation/screens/notification/cubits/notifications/cubit/notification_cubit.dart';
-import '../../../presentation/screens/order_history/cubit/order_history_cubit.dart';
-import '../../presentation/screens/home/sections/categories/cubit/categories_cubit.dart';
-import '../../presentation/screens/product_details/cubit/product_details_cubit.dart';
-
-import '../../../presentation/screens/home/cubit/home_sections_cubit.dart';
+import '../../../presentation/screen/home/cubit/home_sections_cubit.dart';
+import '../../../presentation/screen/home/sections/special_offers/cubit/home_special_offers_cubit.dart';
+import '../../../presentation/screen/home/sections/top_stores/cubit/home_top_stores_cubit.dart';
+import '../../../presentation/screen/home/sections/trending_products/cubit/home_trending_products_cubit.dart';
+import '../../../presentation/screen/notification/cubits/notifications/cubit/notification_cubit.dart';
+import '../../../presentation/screen/order_history/cubit/order_history_cubit.dart';
+import '../../presentation/screen/home/sections/categories/cubit/categories_cubit.dart';
+import '../../presentation/screen/product_details/cubit/product_details_cubit.dart';
 
 class BlocModule {
   static void register(GetIt sl) {

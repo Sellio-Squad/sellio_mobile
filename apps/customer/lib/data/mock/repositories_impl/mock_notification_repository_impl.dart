@@ -1,5 +1,5 @@
 import '../../../domain/entities/notification.dart';
-import '../../../domain/repositories/notification_repository.dart';
+import '../../../domain/repository/notification_repository.dart';
 import '../../mock/mock_data_generator.dart';
 
 class MockNotificationRepositoryImpl implements NotificationRepository {

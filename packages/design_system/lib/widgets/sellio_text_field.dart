@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../themes/sellio_theme_provider.dart';
+
 import '../constants/app_images.dart';
+import '../themes/sellio_theme_provider.dart';
 
 class SellioTextField extends StatefulWidget {
   final bool isParagraph;
@@ -29,8 +30,10 @@ class SellioTextField extends StatefulWidget {
   final bool isError;
   final String? errorMessage;
   final bool readOnly;
+  final bool enabled;
   final VoidCallback? onTap;
   final ValueChanged<String>? onFieldSubmitted;
+  final ValueChanged<String>? onChanged;
 
   const SellioTextField({
     super.key,
@@ -58,8 +61,10 @@ class SellioTextField extends StatefulWidget {
     this.isError = false,
     this.errorMessage,
     this.readOnly = false,
+    this.enabled = true,
     this.onTap,
     this.onFieldSubmitted,
+    this.onChanged,
   });
 
   @override
@@ -105,7 +110,9 @@ class _SellioTextFieldState extends State<SellioTextField> {
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
 
-    final Color borderColor = isError
+    final Color borderColor = !widget.enabled
+        ? context.theme.colors.stroke
+        : isError
         ? context.theme.colors.semanticError
         : isFocused
         ? context.theme.colors.primary
@@ -173,6 +180,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                 onTapOutside: (event) {
                   FocusScope.of(context).unfocus();
                 },
+                enabled: widget.enabled,
                 keyboardType: widget.inputType ?? TextInputType.text,
                 focusNode: _focusNode,
                 controller: _effectiveController,
@@ -193,6 +201,7 @@ class _SellioTextFieldState extends State<SellioTextField> {
                   setState(() {
                     isError = value.isEmpty;
                   });
+                  widget.onChanged?.call(value);
                 },
                 onSubmitted: widget.onFieldSubmitted,
                 obscureText: isObscured,
@@ -262,6 +271,16 @@ class _SellioTextFieldState extends State<SellioTextField> {
                     borderSide: BorderSide(
                       color: context.theme.colors.semanticError,
                     ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        widget.cornerRadius !=
+                            const BorderRadius.all(Radius.circular(8))
+                        ? widget.cornerRadius.resolve(
+                            Directionality.of(context),
+                          )
+                        : BorderRadius.circular(widget.enabledBorderRadius),
+                    borderSide: BorderSide(color: borderColor, width: 0.5),
                   ),
                   errorStyle: errorStyle,
                 ),

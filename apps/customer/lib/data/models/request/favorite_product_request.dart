@@ -4,7 +4,7 @@ part 'favorite_product_request.freezed.dart';
 part 'favorite_product_request.g.dart';
 
 @freezed
-class FavoriteProductToggleRequest with _$FavoriteProductToggleRequest {
+abstract class FavoriteProductToggleRequest with _$FavoriteProductToggleRequest {
   const factory FavoriteProductToggleRequest({
     required String productId,
   }) = _FavoriteProductToggleRequest;

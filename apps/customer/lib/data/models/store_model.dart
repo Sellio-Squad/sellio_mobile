@@ -7,7 +7,7 @@ part 'store_model.freezed.dart';
 part 'store_model.g.dart';
 
 @freezed
-class StoreModel with _$StoreModel {
+abstract class StoreModel with _$StoreModel {
   const factory StoreModel({
     required String id,
     @JsonKey(name: 'title') String? name,

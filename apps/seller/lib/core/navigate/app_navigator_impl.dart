@@ -1,9 +1,10 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+
 import 'app_navigator.dart';
 import 'app_routes.dart';
-import 'route_manager.dart';
 import 'route_args.dart';
+import 'route_manager.dart';
 
 class AppNavigatorImpl implements AppNavigator {
   @override
@@ -40,6 +41,11 @@ class AppNavigatorImpl implements AppNavigator {
   @override
   void pushResetPassword() {
     RouteGenerator.router.pushNamed(AppRoutes.resetPassword.name);
+  }
+
+  @override
+  void goToCreateStore() {
+    RouteGenerator.router.goNamed(AppRoutes.createStore.name);
   }
 
   @override

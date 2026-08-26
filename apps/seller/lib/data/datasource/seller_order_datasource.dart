@@ -1,4 +1,4 @@
-import '../../../domain/entities/seller_order.dart';
+import '../../domain/entity/seller_order.dart';
 
 abstract class SellerOrderDataSource {
   Future<List<SellerOrder>> getOrders({

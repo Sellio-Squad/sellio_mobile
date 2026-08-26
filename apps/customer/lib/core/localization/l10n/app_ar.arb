@@ -205,8 +205,15 @@
   "filter": "فلتر",
   "near_by_you": "القريب لك",
   "high_rating": "الأعلى تقييم",
-
-
+   "order_number": "الطلب رقم #{orderId}",
+   "@order_number": {
+     "description": "Displays the order number",
+     "placeholders": {
+       "orderId": {
+         "type": "String"
+       }
+     }
+   },
   "no_order_history": "لا يوجد سجل طلبات!",
   "start_exploring": "ابدأ الاستكشاف",
   "start_exploring_favorite_items": "ابدأ استكشاف وشراء العناصر المفضلة لديك",
@@ -238,6 +245,8 @@
       "resendCountdown": {}
     }
   },
+   "order_cancelled_successfully": "تم إلغاء الطلب بنجاح",
+     "order_cancel_failed": "حدث خطأ أثناء إلغاء الطلب",
   "enter_the_4_digit_sent_to": "يرجى إدخال الرمز المكون من 4 أرقام المرسل إلى ${phone_number}.",
   "@enter_the_4_digit_sent_to": {
     "description": "تعليمات لإدخال الرمز المكون من 4 أرقام المرسل إلى رقم هاتف المستخدم",
@@ -273,4 +282,5 @@
       }
     }
   }
+
 }

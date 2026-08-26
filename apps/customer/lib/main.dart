@@ -1,5 +1,5 @@
-import 'package:authentication/domain/repositories/auth_repository.dart';
-import 'package:authentication/domain/repositories/user_repository.dart';
+import 'package:authentication/domain/repository/auth_repository.dart';
+import 'package:authentication/domain/repository/user_repository.dart';
 import 'package:authentication/l10n/auth_localizations.dart';
 import 'package:authentication/presentation/cubits/auth/authentication_cubit.dart';
 import 'package:authentication/presentation/cubits/auth/authentication_state.dart';
@@ -10,17 +10,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:sellio_mobile/core/navigate/navigation_extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'core/localization/l10n/app_localizations.dart';
 import 'core/navigate/route_manager.dart';
 import 'di/injection_container.dart';
-import 'domain/repositories/category_repository.dart';
-import 'domain/repositories/favorites_repository.dart';
-import 'domain/repositories/product_repository.dart';
-import 'domain/repositories/store_repository.dart';
+import 'domain/repository/category_repository.dart';
+import 'domain/repository/favorites_repository.dart';
+import 'domain/repository/product_repository.dart';
+import 'domain/repository/store_repository.dart';
 import 'presentation/cubits/cart/cubit/cart_cubit.dart';
 import 'presentation/cubits/favorites/cubit/favorites_cubit.dart';
-import 'presentation/screens/order_history/cubit/order_history_cubit.dart';
-import 'presentation/screens/store_details/cubit/store_details_cubit.dart';
+import 'presentation/screen/order_history/cubit/order_history_cubit.dart';
+import 'presentation/screen/store_details/cubit/store_details_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

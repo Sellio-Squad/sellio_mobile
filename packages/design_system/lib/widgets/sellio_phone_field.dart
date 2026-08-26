@@ -166,9 +166,11 @@ class _SellioPhoneFieldState extends State<SellioPhoneField> {
             const Gap(4),
             CountryFlag.fromCountryCode(
               widget.selectedCountry?.countryCode ?? widget.defaultCountryCode,
-              shape: const Circle(),
-              width: 20,
-              height: 20,
+              theme: const ImageTheme(
+                shape: Circle(),
+                width: 20,
+                height: 20,
+              ),
             ),
             const Gap(4),
             Text(

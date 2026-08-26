@@ -273,7 +273,7 @@ class MockDataGenerator {
       createdAt: DateTime.now().subtract(Duration(days: index)),
       updatedAt: DateTime.now(),
       productName: product.title,
-      quantity: 1 + _random.nextInt(3),
+      quantity: 1 + _random.nextInt(3), productImageUrl: '',
     );
   }
 

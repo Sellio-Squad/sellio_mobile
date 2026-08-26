@@ -4,7 +4,7 @@ part 'store_top_rating_model.freezed.dart';
 part 'store_top_rating_model.g.dart';
 
 @freezed
-class StoreTopRatingModel with _$StoreTopRatingModel {
+abstract class StoreTopRatingModel with _$StoreTopRatingModel {
   const factory StoreTopRatingModel({
     required String id,
     required String title,

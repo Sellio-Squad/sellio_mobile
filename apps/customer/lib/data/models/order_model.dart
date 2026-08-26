@@ -4,7 +4,7 @@ part 'order_model.freezed.dart';
 part 'order_model.g.dart';
 
 @freezed
-class OrderModel with _$OrderModel {
+abstract class OrderModel with _$OrderModel {
   const factory OrderModel({
     required String orderId,
     required DateTime orderDate,
@@ -20,11 +20,12 @@ class OrderModel with _$OrderModel {
 }
 
 @freezed
-class OrderItemModel with _$OrderItemModel {
+abstract class OrderItemModel with _$OrderItemModel {
   const factory OrderItemModel({
     required String id,
     required String productId,
     required String productName,
+    String? productImageUrl,
     required int quantity,
     required double price,
     required DateTime createdAt,
