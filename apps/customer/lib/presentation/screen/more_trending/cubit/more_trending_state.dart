@@ -9,6 +9,7 @@ class MoreTrendingState extends Equatable {
   final bool hasReachedEnd;
   final int currentPage;
   final String? errorMessage;
+  final String? searchQuery;
 
   const MoreTrendingState({
     this.items = const [],
@@ -17,6 +18,7 @@ class MoreTrendingState extends Equatable {
     this.hasReachedEnd = false,
     this.currentPage = 1,
     this.errorMessage,
+    this.searchQuery,
   });
 
   MoreTrendingState copyWith({
@@ -26,6 +28,7 @@ class MoreTrendingState extends Equatable {
     bool? hasReachedEnd,
     int? currentPage,
     String? errorMessage,
+    String? searchQuery,
   }) {
     return MoreTrendingState(
       items: items ?? this.items,
@@ -34,6 +37,7 @@ class MoreTrendingState extends Equatable {
       hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
       currentPage: currentPage ?? this.currentPage,
       errorMessage: errorMessage,
+      searchQuery: searchQuery,
     );
   }
 
@@ -45,5 +49,6 @@ class MoreTrendingState extends Equatable {
         hasReachedEnd,
         currentPage,
         errorMessage,
+        searchQuery,
       ];
 }

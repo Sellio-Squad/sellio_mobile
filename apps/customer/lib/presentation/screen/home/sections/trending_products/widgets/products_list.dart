@@ -42,6 +42,9 @@ class ProductsList extends StatelessWidget {
               height: 20,
               matchTextDirection: true,
             ),
+            onTap: searchQuery == null
+                ? () => navigateToMoreTrending(context)
+                : null,
           ),
         ),
         if (products.isEmpty)

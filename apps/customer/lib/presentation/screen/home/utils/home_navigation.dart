@@ -24,6 +24,10 @@ void navigateToFilterDialog(BuildContext context) {
   // TODO: Implement filter dialog
 }
 
+void navigateToMoreTrending(BuildContext context) {
+  context.navigator.pushMoreTrending();
+}
+
 void navigateToCategoryDetails(
   BuildContext context,
   String categoryId,

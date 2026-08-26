@@ -48,4 +48,6 @@ abstract class AppNavigator implements AuthNavigator {
   void replace(String routeName);
 
   void pushCategoryDetails(CategoryDetailsArgs args);
+
+  void pushMoreTrending();
 }
