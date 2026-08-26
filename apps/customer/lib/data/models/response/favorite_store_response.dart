@@ -4,7 +4,7 @@ part 'favorite_store_response.freezed.dart';
 part 'favorite_store_response.g.dart';
 
 @freezed
-class FavoriteStoreResponse with _$FavoriteStoreResponse {
+abstract class FavoriteStoreResponse with _$FavoriteStoreResponse {
   const factory FavoriteStoreResponse({
     required String id,
     required String storeId,
@@ -17,7 +17,7 @@ class FavoriteStoreResponse with _$FavoriteStoreResponse {
 }
 
 @freezed
-class FavoriteStoresListResponse with _$FavoriteStoresListResponse {
+abstract class FavoriteStoresListResponse with _$FavoriteStoresListResponse {
   const factory FavoriteStoresListResponse({
     required List<FavoriteStoreResponse> data,
     required int totalElements,

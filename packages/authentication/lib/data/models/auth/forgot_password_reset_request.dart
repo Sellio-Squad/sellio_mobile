@@ -4,7 +4,7 @@ part 'forgot_password_reset_request.freezed.dart';
 part 'forgot_password_reset_request.g.dart';
 
 @freezed
-class ForgotPasswordResetRequest with _$ForgotPasswordResetRequest {
+abstract class ForgotPasswordResetRequest with _$ForgotPasswordResetRequest {
   const factory ForgotPasswordResetRequest({
     required String sessionId,
     required String newPassword,

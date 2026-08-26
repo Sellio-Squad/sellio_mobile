@@ -5,7 +5,7 @@ import 'item_model.dart';
 part 'product_model.freezed.dart';
 
 @freezed
-class ProductModel with _$ProductModel {
+abstract class ProductModel with _$ProductModel {
   // Required for custom methods
   const ProductModel._();
 

@@ -5,7 +5,7 @@ import '../../presentation/screen/home/sections/trending_products/models/product
 part 'product_summary_model.freezed.dart';
 
 @freezed
-class ProductSummaryModel with _$ProductSummaryModel {
+abstract class ProductSummaryModel with _$ProductSummaryModel {
   const ProductSummaryModel._();
 
   const factory ProductSummaryModel({

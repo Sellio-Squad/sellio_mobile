@@ -4,7 +4,7 @@ part 'update_cart_quantity_request.freezed.dart';
 part 'update_cart_quantity_request.g.dart';
 
 @freezed
-class UpdateCartQuantityRequest with _$UpdateCartQuantityRequest {
+abstract class UpdateCartQuantityRequest with _$UpdateCartQuantityRequest {
   const factory UpdateCartQuantityRequest({
     required int quantity,
   }) = _UpdateCartQuantityRequest;

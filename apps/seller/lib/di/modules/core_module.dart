@@ -12,7 +12,7 @@ Future<void> initCoreDI(GetIt sl) async {
   final authConfig = SellerAuthConfiguration();
 
   sl.registerLazySingleton<InternetConnectionChecker>(
-    () => InternetConnectionChecker(),
+    () => InternetConnectionChecker.createInstance(),
   );
 
   sl.registerLazySingleton<NetworkInfo>(

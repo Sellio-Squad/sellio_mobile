@@ -4,7 +4,7 @@ part 'forgot_password_request.freezed.dart';
 part 'forgot_password_request.g.dart';
 
 @freezed
-class ForgotPasswordRequest with _$ForgotPasswordRequest {
+abstract class ForgotPasswordRequest with _$ForgotPasswordRequest {
   const factory ForgotPasswordRequest({
     required String phoneNumber,
     required String defaultRegion,

@@ -4,7 +4,7 @@ part 'review_model.freezed.dart';
 part 'review_model.g.dart';
 
 @freezed
-class ReviewModel with _$ReviewModel {
+abstract class ReviewModel with _$ReviewModel {
   const factory ReviewModel({
     required String id,
     required String storeId,

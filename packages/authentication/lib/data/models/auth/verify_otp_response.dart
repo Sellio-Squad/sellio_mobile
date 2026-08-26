@@ -4,7 +4,7 @@ part 'verify_otp_response.freezed.dart';
 part 'verify_otp_response.g.dart';
 
 @freezed
-class VerifyOtpResponse with _$VerifyOtpResponse {
+abstract class VerifyOtpResponse with _$VerifyOtpResponse {
   const factory VerifyOtpResponse({
     required String accessToken,
     required String refreshToken,

@@ -14,7 +14,7 @@ dependencies:
   shared_preferences: ^2.2.3
   dio: ^5.7.0
   pretty_dio_logger: ^1.2.0
-  internet_connection_checker: ^1.0.0+1
+  internet_connection_checker: ^3.0.1
   country_picker: ^2.0.27
   country_detector: ^1.0.2+1
   image_picker: ^1.0.7
@@ -22,7 +22,7 @@ dependencies:
 
   # State Management
   equatable: ^2.0.5
-  flutter_bloc: ^8.1.2
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:

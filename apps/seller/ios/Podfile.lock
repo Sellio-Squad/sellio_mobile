@@ -1,0 +1,22 @@
+PODS:
+  - country_detector (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - country_detector (from `.symlinks/plugins/country_detector/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  country_detector:
+    :path: ".symlinks/plugins/country_detector/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  country_detector: f75966188d30702cf609e0375f01ddbafce1f389
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+
+PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
+
+COCOAPODS: 1.16.2

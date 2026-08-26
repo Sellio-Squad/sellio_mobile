@@ -4,7 +4,7 @@ part 'resend_otp_request.freezed.dart';
 part 'resend_otp_request.g.dart';
 
 @freezed
-class ResendOtpRequest with _$ResendOtpRequest {
+abstract class ResendOtpRequest with _$ResendOtpRequest {
   const factory ResendOtpRequest({
     required String sessionId,
   }) = _ResendOtpRequest;
