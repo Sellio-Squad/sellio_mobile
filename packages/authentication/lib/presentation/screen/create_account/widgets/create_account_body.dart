@@ -10,6 +10,7 @@ import '../../../../core/utils/full_name_input_formatter.dart';
 import '../../../navigation/auth_navigator.dart';
 import '../cubit/registration_cubit.dart';
 import '../cubit/registration_state.dart';
+import 'country_picker_field.dart';
 import 'create_account_footer.dart';
 import 'create_account_header.dart';
 
@@ -108,6 +109,16 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
     });
   }
 
+  void _onCountrySelected(Country country) {
+    final cubit = context.read<RegistrationCubit>();
+    final currentState = cubit.state;
+    if (currentState is RegistrationIdle &&
+        currentState.selectedCountry.countryCode != country.countryCode) {
+      _cityController.clear();
+    }
+    cubit.updateSelectedCountry(country);
+  }
+
   @override
   void dispose() {
     _fullNameController.dispose();
@@ -158,7 +169,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               color: context.theme.colors.surfaceLow,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   offset: const Offset(0, -2),
                   blurRadius: 8,
                 ),
@@ -197,6 +208,8 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
           children: [
             _buildNameFields(colors),
             const SizedBox(height: 12),
+            _buildCountryField(colors),
+            const SizedBox(height: 12),
             SellioPhoneField(
               controller: _phoneController,
               focusNode: _phoneFocusNode,
@@ -204,9 +217,7 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               searchHintText: context.authLocal.search_by_name_or_code,
               selectedCountry: selectedCountry,
               onCountrySelected: (country) {
-                context
-                    .read<RegistrationCubit>()
-                    .updateSelectedCountry(country);
+                _onCountrySelected(country);
               },
             ),
             const SizedBox(height: 12),
@@ -272,6 +283,23 @@ class _CreateAccountBodyState extends State<CreateAccountBody> {
               ),
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCountryField(dynamic colors) {
+    return BlocBuilder<RegistrationCubit, RegistrationState>(
+      builder: (context, state) {
+        if (state is! RegistrationIdle) return const SizedBox();
+
+        return CountryPickerField(
+          hintText: context.authLocal.country,
+          searchHintText: context.authLocal.search_by_name_or_code,
+          selectedCountry: state.selectedCountry,
+          onCountrySelected: (country) {
+            _onCountrySelected(country);
+          },
         );
       },
     );

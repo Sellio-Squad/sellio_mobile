@@ -38,6 +38,7 @@
   "something_went_wrong": "حدث خطأ ما",
   "profile_photo_optional": "صورة الملف الشخصي (اختياري)",
   "full_name": "الاسم الكامل",
+  "country": "الدولة",
   "city": "المدينة",
   "account_created_successfully": "تم انشاء الحساب بنجاح",
   "registration_failed": "فشل التسجيل",
