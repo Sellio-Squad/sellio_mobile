@@ -40,6 +40,7 @@
   "something_went_wrong": "Something went wrong",
   "profile_photo_optional": "Profile photo (optional)",
   "full_name": "Full name",
+  "country": "Country",
   "city": "City",
   "re_send_in_resend_countdown_Sec": "Re-Send in {resendCountdown} Sec",
   "@re_send_in_resend_countdown_Sec": {

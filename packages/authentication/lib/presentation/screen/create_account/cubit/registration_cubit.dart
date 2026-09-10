@@ -46,7 +46,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       onSuccess: (cities) {
         final latestState = state;
         if (latestState is RegistrationIdle &&
-            latestState.selectedCountry.countryCode == iso2) {
+            latestState.selectedCountry.countryCode.toLowerCase() ==
+                iso2.toLowerCase()) {
           emit(latestState.copyWith(cities: cities));
         }
       },
@@ -195,6 +196,10 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     final currentState = state;
     if (currentState is! RegistrationIdle) return;
 
+    final isSameCountry =
+        currentState.selectedCountry.countryCode == country.countryCode;
+    final city = isSameCountry ? currentState.city : '';
+
     final minPhoneLength = country.maxPhoneLength;
     final result = FormValidators.validatePhone(
       currentState.phoneNumber,
@@ -204,16 +209,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(currentState.copyWith(
       selectedCountry: country,
       phoneCode: country.phoneCode,
+      city: city,
+      cityError: isSameCountry ? () => currentState.cityError : () => null,
       phoneError: () => result.error as PhoneValidationError?,
       isFormValid: _isFormValid(
         fullName: currentState.fullName,
         phone: currentState.phoneNumber,
-        city: currentState.city,
+        city: city,
         password: currentState.password,
         confirmPassword: currentState.confirmPassword,
         fullNameError: currentState.fullNameError,
         phoneError: result.error as PhoneValidationError?,
-        cityError: currentState.cityError,
+        cityError: isSameCountry ? currentState.cityError : null,
         passwordError: currentState.passwordError,
         confirmPasswordError: currentState.confirmPasswordError,
       ),
