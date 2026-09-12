@@ -10,6 +10,7 @@ class StoresList extends StatelessWidget {
   final Function(Store store) onLikePressed;
   final Function(Store store) onStorePressed;
   final bool Function(Store store)? isStoreFavorited; // Optional callback
+  final VoidCallback? onViewAllPressed;
 
   const StoresList({
     super.key,
@@ -17,6 +18,7 @@ class StoresList extends StatelessWidget {
     required this.onLikePressed,
     required this.onStorePressed,
     this.isStoreFavorited,
+    this.onViewAllPressed,
   });
 
   @override
@@ -25,6 +27,7 @@ class StoresList extends StatelessWidget {
       children: [
         SectionHeader(
           title: context.local.top_stores,
+          onTap: onViewAllPressed,
           trailing: SvgPicture.asset(
             AppImages.arrowRight,
             width: 20,

@@ -80,6 +80,10 @@ enum AppRoutes {
     name: 'moreTrending',
     path: '/moreTrending',
   ),
+  stores(
+    name: 'stores',
+    path: '/stores',
+  ),
   categoryDetails(name: 'categoryDetails', path: '/categoryDetails'),
   ;
 

@@ -1,4 +1,3 @@
-import 'package:authentication/authentication.dart';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 import 'package:sellio_mobile/core/navigate/route_manager.dart';
 
-import '../../di/injection_container.dart';
 import 'app_navigator.dart';
 import 'app_routes.dart';
 
@@ -113,6 +111,11 @@ class AppNavigatorImpl implements AppNavigator {
   @override
   void pushMyOrders() {
     context.pushNamed(AppRoutes.myOrders.name);
+  }
+
+  @override
+  void pushStores() {
+    context.pushNamed(AppRoutes.stores.name);
   }
 
   @override

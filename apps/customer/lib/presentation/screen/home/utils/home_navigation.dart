@@ -7,6 +7,10 @@ void navigateToStoreDetails(BuildContext context, String storeId) {
   context.navigator.pushStoreDetails(StoreDetailsArgs(storeId: storeId));
 }
 
+void navigateToStores(BuildContext context) {
+  context.navigator.pushStores();
+}
+
 void navigateToProductDetails(BuildContext context, String productId) {
   context.navigator
       .pushProductDetails(ProductDetailsArgs(productId: productId));
