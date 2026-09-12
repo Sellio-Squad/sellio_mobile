@@ -1,4 +1,3 @@
-import 'package:core/error/result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/domain/repository/product_repository.dart';
@@ -43,12 +42,59 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
           productCount: count,
           note: noteController.text,
         ));
+
+        loadProductReviews(productId);
       },
       onFailure: (error) => {
         emit(ProductDetailsError(
           message: error.message,
         )),
       },
+    );
+  }
+
+  Future<void> loadProductReviews(String productId) async {
+    final currentState = state;
+    if (currentState is! ProductDetailsLoaded) return;
+
+    emit(currentState.copyWith(isLoadingReviews: true, reviewsError: null));
+
+    final result = await _repository.getProductReviews(productId: productId);
+
+    result.fold(
+      onSuccess: (reviews) {
+        emit(currentState.copyWith(reviews: reviews, isLoadingReviews: false));
+      },
+      onFailure: (error) {
+        emit(currentState.copyWith(
+          isLoadingReviews: false,
+          reviewsError: error.message,
+        ));
+      },
+    );
+  }
+
+  Future<bool> addReview({
+    required double rating,
+    String? comment,
+  }) async {
+    final currentState = state;
+    if (currentState is! ProductDetailsLoaded) return false;
+
+    final result = await _repository.addProductReview(
+      productId: currentState.product.id,
+      rating: rating,
+      comment: comment,
+    );
+
+    return result.fold(
+      onSuccess: (review) {
+        emit(currentState.copyWith(
+          reviews: [review, ...currentState.reviews],
+        ));
+        return true;
+      },
+      onFailure: (_) => false,
     );
   }
 

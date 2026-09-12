@@ -281,6 +281,19 @@
         "example": "إلكترونيات"
       }
     }
-  }
-
+  },
+  "product_reviews": "التقييمات",
+  "store_reviews": "تقييمات المتجر",
+  "add_review": "إضافة تقييم",
+  "add_product_review": "إضافة تقييم للمنتج",
+  "add_store_review": "إضافة تقييم للمتجر",
+  "your_rating": "تقييمك",
+  "your_review": "مراجعتك",
+  "write_your_review_hint": "شارك رأيك حول هذا المنتج...",
+  "submit_review": "إرسال التقييم",
+  "no_reviews_yet": "لا توجد تقييمات بعد. كن أول من يشارك رأيه!",
+  "review_added_successfully": "تمت إضافة تقييمك بنجاح",
+  "could_not_submit_review": "حدث خطأ أثناء إرسال تقييمك",
+  "rate_before_submit": "يرجى اختيار تقييم قبل الإرسال",
+  "cancel": "إلغاء"
 }

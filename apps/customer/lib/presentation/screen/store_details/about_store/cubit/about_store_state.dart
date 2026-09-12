@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../../domain/entities/review.dart';
 import '../../../../../domain/entities/store.dart';
 import '../../../../../domain/entities/store_rating.dart';
 
@@ -21,24 +22,42 @@ class AboutStoreLoading extends AboutStoreState {
 class AboutStoreLoaded extends AboutStoreState {
   final Store store;
   final StoreRating rating;
+  final List<Review> reviews;
+  final bool isLoadingReviews;
+  final String? reviewsError;
 
   const AboutStoreLoaded({
     required this.store,
     required this.rating,
+    this.reviews = const [],
+    this.isLoadingReviews = false,
+    this.reviewsError,
   });
 
   AboutStoreLoaded copyWith({
     Store? store,
     StoreRating? rating,
+    List<Review>? reviews,
+    bool? isLoadingReviews,
+    String? reviewsError,
   }) {
     return AboutStoreLoaded(
       store: store ?? this.store,
       rating: rating ?? this.rating,
+      reviews: reviews ?? this.reviews,
+      isLoadingReviews: isLoadingReviews ?? this.isLoadingReviews,
+      reviewsError: reviewsError ?? this.reviewsError,
     );
   }
 
   @override
-  List<Object?> get props => [store, rating];
+  List<Object?> get props => [
+        store,
+        rating,
+        reviews,
+        isLoadingReviews,
+        reviewsError,
+      ];
 }
 
 class AboutStoreError extends AboutStoreState {
