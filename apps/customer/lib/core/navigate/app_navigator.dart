@@ -1,5 +1,4 @@
 import 'package:authentication/authentication.dart';
-import 'package:core/core.dart';
 import 'package:sellio_mobile/core/navigate/route_args.dart';
 
 abstract class AppNavigator implements AuthNavigator {
@@ -28,6 +27,8 @@ abstract class AppNavigator implements AuthNavigator {
   void pushMyFavorites();
 
   void pushMyOrders();
+
+  void pushStores();
 
   void goToHome();
 

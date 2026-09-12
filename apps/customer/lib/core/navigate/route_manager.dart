@@ -19,6 +19,7 @@ import '../../presentation/screen/account/myFav/my_favorites.dart';
 import '../../presentation/screen/category_details/category_details_screen.dart';
 import '../../presentation/screen/more_trending/more_trending_screen.dart';
 import '../../presentation/screen/order_history/order_history_screen.dart';
+import '../../presentation/screen/stores/stores_screen.dart';
 import '../../presentation/screen/thrift/thrift_screen.dart';
 import '../localization/l10n/localization_service.dart';
 import 'app_routes.dart';
@@ -304,6 +305,16 @@ class RouteGenerator {
           return MaterialPage(
             key: state.pageKey,
             child: const MoreTrendingScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        name: AppRoutes.stores.name,
+        path: AppRoutes.stores.path,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return MaterialPage(
+            key: state.pageKey,
+            child: const StoresScreen(),
           );
         },
       ),

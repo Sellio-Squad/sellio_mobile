@@ -54,6 +54,8 @@ class TopStoresSection extends StatelessWidget {
                 child: StoresList(
                   stores: storesState.stores,
 
+                  onViewAllPressed: () => navigateToStores(context),
+
                   isStoreFavorited: (store) {
                     if (favState is FavoritesLoaded) {
                       return favState.favoriteStoreIds.contains(store.id);

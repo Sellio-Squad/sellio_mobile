@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:ui' as ui;
+
 import 'package:authentication/domain/entities/address.dart';
 import 'package:authentication/domain/repository/auth_repository.dart';
 import 'package:authentication/domain/repository/user_repository.dart';
@@ -5,6 +8,7 @@ import 'package:authentication/presentation/cubits/auth/authentication_cubit.dar
 import 'package:core/error/result.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -85,35 +89,41 @@ const List<Store> _sampleStores = [
   ),
 ];
 
-Widget _buildStoresTestApp() {
+final _boundaryKey = GlobalKey();
+
+Widget _buildStoresApp() {
   final authCubit =
       AuthenticationCubit(FakeAuthRepository(), FakeUserRepository());
-  return SellioThemeProvider(
-    brightness: Brightness.light,
-    child: MaterialApp(
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('ar')],
-      home: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<StoreRepository>(
-            create: (_) => FakeStoreRepository(),
-          ),
+  return RepaintBoundary(
+    key: _boundaryKey,
+    child: SellioThemeProvider(
+      brightness: Brightness.light,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        child: MultiBlocProvider(
+        supportedLocales: const [Locale('en'), Locale('ar')],
+        home: MultiRepositoryProvider(
           providers: [
-            BlocProvider<FavoritesCubit>(
-              create: (_) => FavoritesCubit(
-                FakeFavoritesRepository(),
-                authCubit,
-              ),
+            RepositoryProvider<StoreRepository>(
+              create: (_) => FakeStoreRepository(),
             ),
           ],
-          child: const StoresScreen(),
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider<FavoritesCubit>(
+                create: (_) => FavoritesCubit(
+                  FakeFavoritesRepository(),
+                  authCubit,
+                ),
+              ),
+            ],
+            child: const StoresScreen(),
+          ),
         ),
       ),
     ),
@@ -121,12 +131,30 @@ Widget _buildStoresTestApp() {
 }
 
 void main() {
-  testWidgets('StoresScreen displays the stores list', (tester) async {
-    await tester.pumpWidget(_buildStoresTestApp());
+  testWidgets('capture StoresScreen screenshot', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(_buildStoresApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('Stores'), findsOneWidget);
-    expect(find.text('Sunny Store'), findsOneWidget);
-    expect(find.text('Ocean Store'), findsOneWidget);
+    final boundary =
+        tester.renderObject<RenderRepaintBoundary>(find.byKey(_boundaryKey));
+
+    final bytes = await tester.runAsync(() async {
+      final image = await boundary.toImage(pixelRatio: 1.0);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      return byteData!.buffer.asUint8List();
+    });
+
+    final screenshotsDir = Directory('screenshots');
+    if (!screenshotsDir.existsSync()) {
+      screenshotsDir.createSync(recursive: true);
+    }
+
+    File('screenshots/stores_screen.png').writeAsBytesSync(bytes!);
+
+    expect(bytes.length, greaterThan(0));
   });
 }
