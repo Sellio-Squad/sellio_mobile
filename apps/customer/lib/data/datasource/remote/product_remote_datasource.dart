@@ -2,12 +2,25 @@ import '../../core/api/api_endpoints.dart';
 import 'package:core/core.dart';
 import '../../models/common/paginated_response.dart';
 import '../../models/product_model.dart';
+import '../../models/product_review_model.dart';
 import '../../models/product_summary_model.dart';
 
 abstract class ProductRemoteDataSource {
   Future<PaginatedResponse<ProductModel>> getProducts({
     int page = 0,
     int pageSize = 20,
+  });
+
+  Future<PaginatedResponse<ProductReviewModel>> getProductReviews({
+    required String productId,
+    int page = 0,
+    int pageSize = 20,
+  });
+
+  Future<ProductReviewModel> addProductReview({
+    required String productId,
+    required double rating,
+    String? comment,
   });
 
   Future<PaginatedResponse<ProductSummaryModel>> getProductsByCategory({
@@ -57,6 +70,44 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       response.data,
       (json) => ProductModel.fromJson(json),
     );
+  }
+
+  @override
+  Future<PaginatedResponse<ProductReviewModel>> getProductReviews({
+    required String productId,
+    int page = 0,
+    int pageSize = 20,
+  }) async {
+    final response = await _httpClient.get(
+      ApiEndpoints.productReviewsByProduct(productId),
+      queryParameters: {
+        'page': page,
+        'size': pageSize,
+      },
+    );
+
+    return PaginatedResponse.fromJson(
+      response.data,
+      (json) => ProductReviewModel.fromJson(json),
+    );
+  }
+
+  @override
+  Future<ProductReviewModel> addProductReview({
+    required String productId,
+    required double rating,
+    String? comment,
+  }) async {
+    final response = await _httpClient.post(
+      ApiEndpoints.productReviews,
+      data: {
+        'productId': productId,
+        'rating': rating,
+        if (comment != null && comment.isNotEmpty) 'comment': comment,
+      },
+    );
+
+    return ProductReviewModel.fromJson(response.data);
   }
 
   @override

@@ -14,6 +14,8 @@ import 'package:sellio_mobile/presentation/screen/product_details/widgets/produc
 import 'package:sellio_mobile/presentation/screen/product_details/widgets/product_price_section.dart';
 import 'package:sellio_mobile/presentation/screen/product_details/widgets/shimmer/Product_details_screen_shimmer.dart';
 import 'package:sellio_mobile/presentation/screen/product_details/widgets/shimmer/product_details_screen_appbar_shimmer.dart';
+import 'package:sellio_mobile/presentation/widgets/reviews/add_review_sheet.dart';
+import 'package:sellio_mobile/presentation/widgets/reviews/reviews_section.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -118,6 +120,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 ),
                               ),
                               _buildNoteTextField(context, state),
+                              _buildReviewsSection(context, state),
                             ],
                           ),
                         ),
@@ -173,5 +176,53 @@ Widget _buildNoteTextField(BuildContext context, ProductDetailsLoaded state) {
       hintText: context.local.note_optional,
       controller: context.read<ProductDetailsCubit>().noteController,
     ),
+  );
+}
+
+Widget _buildReviewsSection(
+    BuildContext context, ProductDetailsLoaded state) {
+  return Padding(
+    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+    child: ReviewsSection(
+      title: context.local.product_reviews,
+      reviews: state.reviews
+          .map((review) => ReviewItemData(
+                userName: review.userName,
+                userImage: review.userImage,
+                rating: review.rating,
+                comment: review.comment,
+                createdAt: review.createdAt,
+              ))
+          .toList(),
+      isLoading: state.isLoadingReviews,
+      errorMessage: state.reviewsError,
+      onRetry: () =>
+          context.read<ProductDetailsCubit>().loadProductReviews(state.product.id),
+      onAddReview: () => _showAddReviewSheet(context),
+    ),
+  );
+}
+
+Future<void> _showAddReviewSheet(BuildContext context) async {
+  final cubit = context.read<ProductDetailsCubit>();
+
+  await AddReviewSheet.show(
+    context: context,
+    title: context.local.add_product_review,
+    onSubmit: (rating, comment) async {
+      final success = await cubit.addReview(
+        rating: rating.toDouble(),
+        comment: comment,
+      );
+      if (success && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(context.local.review_added_successfully),
+            backgroundColor: context.theme.colors.green,
+          ),
+        );
+      }
+      return success;
+    },
   );
 }

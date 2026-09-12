@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sellio_mobile/core/localization/l10n/localization_service.dart';
 import 'package:sellio_mobile/domain/entities/store.dart';
 import 'package:sellio_mobile/domain/repository/store_repository.dart';
+import 'package:sellio_mobile/presentation/widgets/reviews/add_review_sheet.dart';
+import 'package:sellio_mobile/presentation/widgets/reviews/reviews_section.dart';
 
 import 'cubit/about_store_cubit.dart';
 import 'cubit/about_store_state.dart';
@@ -92,6 +94,25 @@ class AboutStore extends StatelessWidget {
               totalReviews: rating.totalReviews,
               ratingCounts: rating.ratingDistribution,
             ),
+            const SizedBox(height: LayoutConstants.paddingLarge),
+            ReviewsSection(
+              title: context.local.store_reviews,
+              reviews: state.reviews
+                  .map((review) => ReviewItemData(
+                        userName: review.userName,
+                        userImage: review.userImage,
+                        rating: review.rating,
+                        comment: review.comment,
+                        createdAt: review.createdAt,
+                      ))
+                  .toList(),
+              isLoading: state.isLoadingReviews,
+              errorMessage: state.reviewsError,
+              onRetry: () => context.read<AboutStoreCubit>().loadReviews(
+                    storeId,
+                  ),
+              onAddReview: () => _showAddReviewSheet(context),
+            ),
             const HorizontalDriver(),
             Text(
               context.local.contact_info,
@@ -111,6 +132,29 @@ class AboutStore extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _showAddReviewSheet(BuildContext context) async {
+    await AddReviewSheet.show(
+      context: context,
+      title: context.local.add_store_review,
+      onSubmit: (rating, comment) async {
+        final cubit = context.read<AboutStoreCubit>();
+        final success = await cubit.addReview(
+          rating: rating.toDouble(),
+          comment: comment,
+        );
+        if (success && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.local.review_added_successfully),
+              backgroundColor: context.theme.colors.green,
+            ),
+          );
+        }
+        return success;
+      },
     );
   }
 

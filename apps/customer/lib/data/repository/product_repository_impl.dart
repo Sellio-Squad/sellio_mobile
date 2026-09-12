@@ -1,8 +1,11 @@
 import 'package:core/error/result.dart';
+import 'package:design_system/design_system.dart';
 import 'package:sellio_mobile/data/datasource/remote/search_remote_datasource.dart';
+import 'package:sellio_mobile/data/mappers/product_review_mapper.dart';
 
 import '../../domain/entities/common/paginated_data.dart';
 import '../../domain/entities/product.dart';
+import '../../domain/entities/product_review.dart';
 import '../../domain/repository/product_repository.dart';
 import 'package:core/core.dart';
 import '../datasource/remote/favorites_remote_datasource.dart';
@@ -238,6 +241,40 @@ class ProductRepositoryImpl implements ProductRepository {
       );
 
       return _mapToPaginatedData(paginatedResponse);
+    });
+  }
+
+  @override
+  Future<Result<List<ProductReview>>> getProductReviews({
+    required String productId,
+    int page = RepositoryConstants.defaultPage,
+    int limit = RepositoryConstants.defaultPageSize,
+  }) async {
+    return RepositoryCallHandler.call<List<ProductReview>>(() async {
+      final paginatedResponse = await _remoteDataSource.getProductReviews(
+        productId: productId,
+        page: page - 1,
+        pageSize: limit,
+      );
+
+      return paginatedResponse.data.map((model) => model.toEntity()).toList();
+    });
+  }
+
+  @override
+  Future<Result<ProductReview>> addProductReview({
+    required String productId,
+    required double rating,
+    String? comment,
+  }) async {
+    return RepositoryCallHandler.call<ProductReview>(() async {
+      final reviewModel = await _remoteDataSource.addProductReview(
+        productId: productId,
+        rating: rating,
+        comment: comment,
+      );
+
+      return reviewModel.toEntity();
     });
   }
 }

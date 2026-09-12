@@ -1,5 +1,6 @@
 import 'package:core/error/result.dart';
 import '../entities/product.dart';
+import '../entities/product_review.dart';
 import '../entities/common/paginated_data.dart';
 
 abstract class ProductRepository {
@@ -62,5 +63,17 @@ abstract class ProductRepository {
     String? categoryId,
     int page = 1,
     int limit = 20,
+  });
+
+  Future<Result<List<ProductReview>>> getProductReviews({
+    required String productId,
+    int page = 1,
+    int limit = 20,
+  });
+
+  Future<Result<ProductReview>> addProductReview({
+    required String productId,
+    required double rating,
+    String? comment,
   });
 }

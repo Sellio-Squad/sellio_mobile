@@ -283,5 +283,19 @@
         "example": "Electronics"
       }
     }
-  }
+  },
+  "product_reviews": "Reviews",
+  "store_reviews": "Store Reviews",
+  "add_review": "Add Review",
+  "add_product_review": "Add Product Review",
+  "add_store_review": "Add Store Review",
+  "your_rating": "Your rating",
+  "your_review": "Your review",
+  "write_your_review_hint": "Share your thoughts about this product...",
+  "submit_review": "Submit Review",
+  "no_reviews_yet": "No reviews yet. Be the first to share your opinion!",
+  "review_added_successfully": "Your review has been added successfully",
+  "could_not_submit_review": "Something went wrong while submitting your review",
+  "rate_before_submit": "Please select a rating before submitting",
+  "cancel": "Cancel"
 }

@@ -129,6 +129,12 @@ class ApiEndpoints {
   static String storeReviewsByStore(String storeId) =>
       '$apiVersion/store-reviews/$storeId';
 
+  // Product Reviews
+  static const String productReviews = '$apiVersion/product-reviews';
+
+  static String productReviewsByProduct(String productId) =>
+      '$apiVersion/product-reviews/$productId';
+
   // Category Sections
   static const String categorySectionsActive =
       '$apiVersion/category-sections/active';
